@@ -1,0 +1,19 @@
+https://brandonwie.medium.com/strategy-to-generate-the-tokens-studio-figma-json-file-converter-for-tailwind-css-and-emotion-735f28240f20
+
+-> 명확하지 않음.. 어려움, build 파일을 직접 만들어서 사용하는 내용인 것 같음
+
+
+
+https://velog.io/@93minki/Figma-design-token-%EC%9D%84-tailwind%EC%97%90%EC%84%9C-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0
+
+-> 한국어 그런데 테일윈드 config가 .js 파일이라 동작하지 않음
+
+
+https://amzn.github.io/style-dictionary/#/version_3
+-> 스타일 딕셔너리 공식 문서
+
+https://github.com/tokens-studio/sd-transforms#readme
+-> 스타일 딕셔너리 디자인 토큰 전용
+
+https://www.npmjs.com/package/sd-tailwindcss-transformer
+-> 테일윈드 전환 전용
