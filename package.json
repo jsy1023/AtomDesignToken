@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:sd": "tokens-studio-tailwind -j tokens/tokens.json -t global,dark",
     "start": "next start",
     "lint": "next lint"
   },

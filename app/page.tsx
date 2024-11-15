@@ -9,6 +9,17 @@ export default function Home() {
       </h1>
       <br />
       <span>현재 디자인 시스템 배포 준비중입니다.</span>
+
+
+      <br />
+
+      {/* // 기본 테마 테스트 */}
+      <div className="bg-fill-wrapper p-spacingMd">
+        <h1 className="text-h1 font-main">
+          기본 테마 테스트
+        </h1>
+      </div>
+
     </div>
   );
 }
