@@ -4,9 +4,9 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "build:sd": "tokens-studio-tailwind -j tokens/tokens.json -t global,dark",
+    "dev": "npm run build:token && next dev",
+    "build": "npm run build:token && next build",
+    "build:token": "node tokens/buildTokenSplit.js && node tokens/buildCss.js && node tokens/buildMergeCss.js",
     "start": "next start",
     "lint": "next lint"
   },

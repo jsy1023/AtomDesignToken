@@ -1,5 +1,15 @@
+
+  /**
+ * Do not edit directly, this file was auto-generated.
+ */
+
+  
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @layer base {
-    /**
+  /**
  * Do not edit directly, this file was auto-generated.
  */
 
@@ -272,10 +282,10 @@
   --invisible: 0;
 }
 
-  }
+}
 
 .theme-dark {
-    /**
+  /**
  * Do not edit directly, this file was auto-generated.
  */
 
@@ -364,10 +374,10 @@
   --card-border: #444444;
 }
 
-  }
+}
 
 .theme-digitalFont {
-    /**
+  /**
  * Do not edit directly, this file was auto-generated.
  */
 
@@ -375,4 +385,4 @@
   --main-title: 'Elice DigitalBaeum OTF';
 }
 
-  }
+}

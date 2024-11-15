@@ -7,26 +7,28 @@ function processCSS() {
   const darkCSS = readFileSync(path.join(process.cwd(), 'build', 'dark.variables.css'), 'utf8');
   const digitalFontCSS = readFileSync(path.join(process.cwd(), 'build', 'digitalFont.variables.css'), 'utf8');
 
-  // global CSS를 @layer base로 래핑
-  const wrappedGlobalCSS = `@layer base {
-    ${globalCSS}
-  }`;
+  // Tailwind 지시어와 함께 CSS 통합
+  const combinedCSS = `
+  /**
+ * Do not edit directly, this file was auto-generated.
+ */
 
-  // dark와 digitalFont CSS를 테마 클래스로 래핑
-  const wrappedDarkCSS = `.theme-dark {
-    ${darkCSS}
-  }`;
+  
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-  const wrappedDigitalFontCSS = `.theme-digitalFont {
-    ${digitalFontCSS}
-  }`;
+@layer base {
+  ${globalCSS}
+}
 
-  // 모든 CSS 통합
-  const combinedCSS = `${wrappedGlobalCSS}
+.theme-dark {
+  ${darkCSS}
+}
 
-${wrappedDarkCSS}
-
-${wrappedDigitalFontCSS}`;
+.theme-digitalFont {
+  ${digitalFontCSS}
+}`;
 
   // 결과를 app/globals.css에 저장
   writeFileSync(path.join(process.cwd(), 'app', 'globals.css'), combinedCSS);
