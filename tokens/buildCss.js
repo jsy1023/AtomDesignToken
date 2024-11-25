@@ -1,7 +1,6 @@
 import StyleDictionary from 'style-dictionary';
 import { register } from '@tokens-studio/sd-transforms';
 import { expandTypesMap } from '@tokens-studio/sd-transforms';
-import { makeSdTailwindConfig } from 'sd-tailwindcss-transformer';
 
 // will register them on StyleDictionary object
 // that is installed as a dependency of this package.
