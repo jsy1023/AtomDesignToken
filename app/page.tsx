@@ -6,7 +6,7 @@ const themes = ['default', 'dark', 'digitalFont']
 
 export default function Home() {
 
-  const [theme, setTheme] = useState<String>(themes[0])
+  const [theme, setTheme] = useState<string>(themes[0])
 
   return (
     <div className={`theme-${theme} transition-all duration-300`}>
