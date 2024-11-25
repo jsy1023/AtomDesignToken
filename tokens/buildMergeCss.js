@@ -3,23 +3,27 @@ import path from 'path';
 
 function processCSS() {
   // CSS 파일들 읽기
-  const globalCSS = readFileSync(path.join(process.cwd(), 'build', 'global.variables.css'), 'utf8');
-  const darkCSS = readFileSync(path.join(process.cwd(), 'build', 'dark.variables.css'), 'utf8');
-  const digitalFontCSS = readFileSync(path.join(process.cwd(), 'build', 'digitalFont.variables.css'), 'utf8');
+  const globalCSS = readFileSync(path.join(process.cwd(), 'build', 'global.variables.css'), 'utf8')
+    .replace(':root {', '')
+    .replace(/}\s*$/, '');  // 마지막 } 제거
+    
+  const darkCSS = readFileSync(path.join(process.cwd(), 'build', 'dark.variables.css'), 'utf8')
+    .replace(':root {', '')
+    .replace(/}\s*$/, '');
+    
+  const digitalFontCSS = readFileSync(path.join(process.cwd(), 'build', 'digitalFont.variables.css'), 'utf8')
+    .replace(':root {', '')
+    .replace(/}\s*$/, '');
 
   // Tailwind 지시어와 함께 CSS 통합
-  const combinedCSS = `
-  /**
- * Do not edit directly, this file was auto-generated.
- */
-
-  
-@tailwind base;
+  const combinedCSS = `@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
-  ${globalCSS}
+  :root {
+    ${globalCSS}
+  }
 }
 
 .theme-dark {

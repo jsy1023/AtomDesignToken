@@ -7,13 +7,41 @@ export default {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
-  darkMode: 'class', // class 기반 다크모드
-  theme: {
-    
+  
+  plugins: [],
+  theme: {  
     extend: {
-      // ...darkTheme.theme!.extend,
-      // ...digitalFontTheme.theme!.extend,
+      colors: {
+        primary: 'var(--brand-primary)',
+        fillWrapper:'var(--fill-wrapper)',
+        textStandard:'var(--text-standard)'
+      },
+      fontSize: {
+        // Desktop
+        h1: ['calc(var(--desktop-h1-fontsize) * 1px)', {
+          lineHeight: 'calc(var(--desktop-h1-line-height) * 1px)',
+          fontWeight: 'var(--desktop-h1-font-weight)',
+        }],
+        h2: ['calc(var(--desktop-h2-fontsize) * 1px)', {
+          lineHeight: 'calc(var(--desktop-h2-line-height) * 1px)',
+          fontWeight: 'var(--desktop-h2-font-weight)',
+        }],
+        
+        // Mobile
+        mobileH1: ['calc(var(--mobile-h1-fontsize) * 1px)', {
+          lineHeight: 'calc(var(--mobile-h1-line-height) * 1px)',
+          fontWeight: 'var(--mobile-h1-font-weight)',
+        }],
+        mobileH2: ['calc(var(--mobile-h2-fontsize) * 1px)', {
+          lineHeight: 'calc(var(--mobile-h2-line-height) * 1px)',
+          fontWeight: 'var(--mobile-h2-font-weight)',
+        }],
+        
+      },
+      fontFamily: {
+        'main': ['var(--main-title)'],
+        'body': ['var(--desktop-body-base-font-family)'],
+      },
     },
   },
-  plugins: [],
 } satisfies Config;
