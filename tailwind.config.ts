@@ -14,6 +14,7 @@ export default {
       colors: {
         primary: 'var(--brand-primary)',
         fillWrapper:'var(--fill-wrapper)',
+        fillCard:'var(--fill-card)',
         textStandard:'var(--text-standard)'
       },
       fontSize: {

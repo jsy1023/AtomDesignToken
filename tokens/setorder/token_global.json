@@ -284,12 +284,12 @@
       "value": "{white.50}",
       "type": "color"
     },
-    "info": {
-      "value": "{white.400}",
-      "type": "color"
-    },
     "border": {
       "value": "{white.900}",
+      "type": "color"
+    },
+    "info": {
+      "value": "{white.300}",
       "type": "color"
     }
   },
@@ -544,16 +544,16 @@
       "value": {
         "fontFamily": "{MainTitle}",
         "fontWeight": "{Bold}",
-        "fontsize": "48",
+        "fontSize": "48",
         "lineHeight": "64"
       },
       "type": "typography"
     },
     "h2": {
       "value": {
-        "fontsize": "40",
         "fontFamily": "{MainTitle}",
         "fontWeight": "{Bold}",
+        "fontSize": "40",
         "lineHeight": "50"
       },
       "type": "typography"
@@ -562,7 +562,7 @@
       "value": {
         "fontFamily": "{MainTitle}",
         "fontWeight": "{Bold}",
-        "fontsize": "32",
+        "fontSize": "32",
         "lineHeight": "48"
       },
       "type": "typography"
@@ -571,7 +571,7 @@
       "value": {
         "fontFamily": "{MainTitle}",
         "fontWeight": "{Bold}",
-        "fontsize": "24",
+        "fontSize": "24",
         "lineHeight": "36"
       },
       "type": "typography"
@@ -580,7 +580,7 @@
       "value": {
         "fontFamily": "{MainTitle}",
         "fontWeight": "{Bold}",
-        "fontsize": "20",
+        "fontSize": "20",
         "lineHeight": "30"
       },
       "type": "typography"
@@ -589,7 +589,7 @@
       "value": {
         "fontFamily": "{MainTitle}",
         "fontWeight": "{Bold}",
-        "fontsize": "18",
+        "fontSize": "18",
         "lineHeight": "24"
       },
       "type": "typography"
@@ -598,7 +598,7 @@
       "value": {
         "fontFamily": "{MainTitle}",
         "fontWeight": "{Normal}",
-        "fontsize": "16",
+        "fontSize": "16",
         "lineHeight": "24"
       },
       "type": "typography"
@@ -607,7 +607,7 @@
       "value": {
         "fontFamily": "{MainTitle}",
         "fontWeight": "{Normal}",
-        "fontsize": "18",
+        "fontSize": "18",
         "lineHeight": "24"
       },
       "type": "typography"
@@ -625,7 +625,7 @@
       "value": {
         "fontFamily": "{MainTitle}",
         "fontWeight": "{Normal}",
-        "fontsize": "12",
+        "fontSize": "12",
         "lineHeight": "18"
       },
       "type": "typography"
@@ -634,7 +634,7 @@
       "value": {
         "fontFamily": "{MainTitle}",
         "fontWeight": "{Normal}",
-        "fontsize": "10",
+        "fontSize": "10",
         "lineHeight": "16"
       },
       "type": "typography"
@@ -645,7 +645,7 @@
       "value": {
         "fontFamily": "{MainTitle}",
         "fontWeight": "{Bold}",
-        "fontsize": "32",
+        "fontSize": "32",
         "lineHeight": "48"
       },
       "type": "typography"
@@ -663,7 +663,7 @@
       "value": {
         "fontFamily": "{MainTitle}",
         "fontWeight": "{Bold}",
-        "fontsize": "24",
+        "fontSize": "24",
         "lineHeight": "32"
       },
       "type": "typography"
@@ -672,7 +672,7 @@
       "value": {
         "fontFamily": "{MainTitle}",
         "fontWeight": "{Bold}",
-        "fontsize": "20",
+        "fontSize": "20",
         "lineHeight": "28"
       },
       "type": "typography"
@@ -681,7 +681,7 @@
       "value": {
         "fontFamily": "{MainTitle}",
         "fontWeight": "{Bold}",
-        "fontsize": "18",
+        "fontSize": "18",
         "lineHeight": "24"
       },
       "type": "typography"
@@ -690,7 +690,7 @@
       "value": {
         "fontFamily": "{MainTitle}",
         "fontWeight": "{Bold}",
-        "fontsize": "16",
+        "fontSize": "16",
         "lineHeight": "24"
       },
       "type": "typography"
@@ -699,7 +699,7 @@
       "value": {
         "fontFamily": "{MainTitle}",
         "fontWeight": "{Normal}",
-        "fontsize": "16",
+        "fontSize": "16",
         "lineHeight": "24"
       },
       "type": "typography"
@@ -839,12 +839,12 @@
     "value": "1",
     "type": "opacity"
   },
-  "opacity-80": {
-    "value": "0.8",
-    "type": "opacity"
-  },
   "opacity-90": {
     "value": "0.9",
+    "type": "opacity"
+  },
+  "opacity-80": {
+    "value": "0.8",
     "type": "opacity"
   },
   "opacity-70": {
@@ -878,5 +878,11 @@
   "invisible": {
     "value": "0",
     "type": "opacity"
+  },
+  "table": {
+    "header": {
+      "value": "{black.600}",
+      "type": "color"
+    }
   }
 }
