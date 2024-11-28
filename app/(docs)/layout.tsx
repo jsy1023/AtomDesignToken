@@ -21,22 +21,38 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
   }, []); // 컴포넌트가 마운트될 때 한 번만 실행
 
   return (
-    <body className={`flex theme-${theme}`}>
+    <body className={`flex theme-${theme} h-full`}>
       <nav className="w-60 bg-fillCard text-textStandard">
         <ul>
-          <span>Getting Started</span>
-          <li>
-            <span>About</span>
+          <li className="px-4 py-2">
+            <p>Getting Started</p>
           </li>
-          <li>
-            <span>Design System</span>
+
+          <li className="px-4 py-2">
+            <p>About</p>
           </li>
-          <li>
-            <span>Design Token</span>
+          <li className="px-4 py-2">
+            <ul>
+              <p className="px-4 py-2">Design System</p>
+              <li className="px-4 py-2">
+                <p>Atomic</p>
+              </li>
+              <li className="px-4 py-2">
+                <p>Molecules</p>
+              </li>
+            </ul>
+          </li>
+          <li className="px-4 py-2">
+            <p>Design Token</p>
+          </li>
+          <li className="px-4 py-2">
+            <p>Version</p>
           </li>
         </ul>
       </nav>
-      <div className="w-full">{children}</div>
+      <div className="w-full bg-fillWrapper text-textStandard flex justify-center">
+        <div className="max-w-[800px] w-full py-24">{children}</div>
+      </div>
     </body>
   );
 };

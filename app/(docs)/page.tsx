@@ -12,7 +12,8 @@ const DocsHome = () => {
 
   return (
     <div className={`transition-all duration-300`}>
-      <div className="text-center h-screen flex flex-col justify-center items-center bg-fillWrapper text-textStandard">
+      {/* bg-fillWrapper text-textStandard */}
+      <div className="">
         <p>
           안녕하세요!
           <br />
