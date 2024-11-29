@@ -4,22 +4,26 @@
 
 @layer base {
   h1 {
-    @apply text-mobileH1 lg:text-h1;
+    @apply text-mobileH1 lg:text-h1 text-textStandard;
   }
   h2 {
-    @apply text-mobileH2 lg:text-h2;
+    @apply text-mobileH2 lg:text-h2 text-textStandard;
   }
   h3 {
-    @apply text-mobileH3 lg:text-h3;
+    @apply text-mobileH3 lg:text-h3 text-textStandard;
   }
   h4 {
-    @apply text-mobileH4 lg:text-h4;
+    @apply text-mobileH4 lg:text-h4 text-textStandard;
   }
   h5 {
-    @apply text-mobileH5 lg:text-h5;
+    @apply text-mobileH5 lg:text-h5 text-textStandard;
   }
   h6 {
-    @apply text-mobileH6 lg:text-h6;
+    @apply text-mobileH6 lg:text-h6 text-textStandard;
+  }
+
+  p {
+    @apply text-base text-textStandard;
   }
 
   hr {

@@ -16,6 +16,11 @@ export default {
         fillCard: "var(--fill-card)",
         fillBoarder: "var(--fill-border)",
         textStandard: "var(--text-standard)",
+        textSub: "var(--text-sub)",
+        textReverse: "var(--text-reverse)",
+        textSubReverse: "var(--text-sub-reverse)",
+        inputBackgroundStandard: "var(--input-background-standard)",
+        inputBorderStandard: "var(--input-border-standard)",
       },
       fontSize: {
         // Desktop
@@ -105,6 +110,15 @@ export default {
             fontWeight: "var(--mobile-h6-font-weight)",
           },
         ],
+      },
+      borderRadius: {
+        common: "var(--rounded-common)",
+        none: "var(--rounded-none)",
+        xs: "var(--rounded-xs)",
+        sm: "var(--rounded-sm)",
+        md: "var(--rounded-md)",
+        lg: "var(--rounded-lg)",
+        full: "var(--rounded-full)",
       },
       fontFamily: {
         main: ["var(--main-title)"],

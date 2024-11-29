@@ -51,8 +51,11 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
           <p className="px-4"></p>
         </div>
         <ul>
-          <li className="px-4 py-2">
-            <p>Getting Started</p>
+          <li>
+            <Link href={"/"} className="px-4 py-2">
+              Getting started
+            </Link>
+            <p></p>
           </li>
 
           <li className="px-4 py-2">
@@ -64,8 +67,11 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
               <li className="px-4 py-2">
                 <p>Atomic</p>
               </li>
-              <li className="px-4 py-2">
-                <p>Molecules | component</p>
+              <li>
+                <Link href={"/component"} className="px-4 py-2">
+                  Molecules | component
+                </Link>
+                <p></p>
               </li>
             </ul>
           </li>
