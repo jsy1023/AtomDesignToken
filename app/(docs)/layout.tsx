@@ -58,14 +58,14 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
           <li className="px-4 py-2">
             <p>About</p>
           </li>
-          <li className="px-4 py-2">
-            <ul>
-              <p className="px-4 py-2">Design System</p>
+          <li className="">
+            <ul className="px-4">
+              <p className="py-2">Design System</p>
               <li className="px-4 py-2">
                 <p>Atomic</p>
               </li>
               <li className="px-4 py-2">
-                <p>Molecules</p>
+                <p>Molecules | component</p>
               </li>
             </ul>
           </li>
