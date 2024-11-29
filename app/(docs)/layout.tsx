@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 
 const DocsLayout = ({ children }: { children: React.ReactNode }) => {
   const [theme, setTheme] = useState<string>(""); // 테마 상태 추가
@@ -21,8 +23,33 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
   }, []); // 컴포넌트가 마운트될 때 한 번만 실행
 
   return (
-    <body className={`flex theme-${theme} h-full`}>
-      <nav className="w-60 bg-fillCard text-textStandard">
+    <div className={`flex theme-${theme} h-full`}>
+      <nav className="w-80 bg-fillCard text-textStandard">
+        <div className="brand">
+          <Image
+            src={"/images/global/logo.png"}
+            alt="Logo"
+            width={180}
+            height={45}
+            draggable="false"
+          ></Image>
+          <Link
+            href={"https://www.atomground.com/"}
+            prefetch={false}
+            target="_blank"
+          >
+            <button className="flex w-full px-4 py-2 justify-between">
+              homepage
+              <span
+                className="material-symbols-outlined"
+                style={{ fontSize: "16px" }}
+              >
+                arrow_outward
+              </span>
+            </button>
+          </Link>
+          <p className="px-4"></p>
+        </div>
         <ul>
           <li className="px-4 py-2">
             <p>Getting Started</p>
@@ -53,7 +80,7 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
       <div className="w-full bg-fillWrapper text-textStandard flex justify-center">
         <div className="max-w-[800px] w-full py-24">{children}</div>
       </div>
-    </body>
+    </div>
   );
 };
 
