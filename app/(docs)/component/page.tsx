@@ -1,3 +1,5 @@
+import Input from "@/app/component/Input/Input";
+
 const ComponentHome = () => {
   return (
     <div>
@@ -9,12 +11,3 @@ const ComponentHome = () => {
 };
 
 export default ComponentHome;
-
-function Input() {
-  return (
-    <input
-      type="text"
-      className="bg-inputBackgroundStandard border-inputBorderStandard border px-4 py-2 rounded-xs"
-    />
-  );
-}
