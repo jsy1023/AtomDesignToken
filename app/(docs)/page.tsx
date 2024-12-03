@@ -17,9 +17,14 @@ const DocsHome = () => {
 
       <br />
       <p>
-        아톰그라운드 오픈 소스 디자인 시스템에 오신걸 환영합니다. 아토믹 디자인
-        시스템에 대한 설명과 디자인방법론, 디자인리소스와 웹페이지와의
-        연결방법까지 모든 디자인 이론과 함께기술합니다.
+        &nbsp;아톰그라운드 오픈 소스 디자인 시스템에 오신걸 환영합니다. 아토믹
+        디자인 시스템에 대한 설명과 디자인방법론, 디자인리소스와 웹페이지와의
+        연결방법까지 모든 디자인 이론과 함께 기술하며 언제든지 복사 붙여넣기를
+        통해 프로젝트에 활용하세요.
+        <br />
+        <br />
+        &nbsp;Beautifully designed components that you can copy and paste into
+        your apps. Made with Tailwind CSS. Open source.
       </p>
 
       <br />
@@ -52,6 +57,11 @@ const DocsHome = () => {
       <ul>
         <li>atomic design systme</li>
         <li>component driven development</li>
+      </ul>
+      <hr className="my-4" />
+      <h6>가장 최근 업데이트 한 일자입니다.</h6>
+      <ul>
+        <li>2024.12.02 02:45</li>
       </ul>
     </div>
   );
