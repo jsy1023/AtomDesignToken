@@ -47,7 +47,7 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
     window.addEventListener("storage", listenStorageChange);
 
     return () => window.removeEventListener("storage", listenStorageChange);
-  }, []);
+  }, [theme]);
 
   return (
     <div className={`flex theme-${theme} h-full`}>
@@ -129,7 +129,7 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
         onClick={() => setToggleMenu(false)}
         className={`fixed bg-black opacity-80 w-full h-full left-0 top-0 z-10 md:select-none md:pointer-events-none md:hidden ${toggleMenu ? "block" : "hidden"}`}
       ></div>
-      <div className="w-full bg-fillWrapper text-textStandard flex justify-center relative">
+      <div className="w-full bg-fillWrapper text-textStandard flex justify-center relative overflow-auto">
         <button
           className={`absolute shadow-md rounded-full bg-fillCard w-12 h-12 top-6 left-6  ${toggleMenu ? "hidden" : "block"} `}
         >
