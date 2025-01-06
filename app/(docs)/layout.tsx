@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 const DocsLayout = ({ children }: { children: React.ReactNode }) => {
   const [windowSize, setWindowSize] = useState<number>(); // 초기값 설정
@@ -52,7 +52,7 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className={`flex theme-${theme} h-full`}>
       <nav
-        className={`w-full max-w-80 h-full bg-fillCard text-textStandard fixed z-20 left-0 top-0 md:relative ${toggleMenu ? "block" : "hidden"}`}
+        className={`w-full max-w-80 h-full bg-fillCard text-textStandard fixed z-20 left-0 top-0 md:relative hidden ${toggleMenu ? "block" : "hidden"}`}
       >
         <div className="brand">
           <div className="flex items-center justify-between">
@@ -76,15 +76,14 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
             </button>
           </div>
         </div>
-        <ul>
+        <ul className="hidden">
           <li>
             <Link href={"/"} className="px-4 py-2">
               Getting started
             </Link>
             <p></p>
           </li>
-
-          {/* <li className="px-4 py-2">
+          <li className="px-4 py-2">
             <p>About</p>
           </li>
           <li className="">
@@ -106,26 +105,22 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
           </li>
           <li className="px-4 py-2">
             <p>Version</p>
-          </li> */}
+          </li>
         </ul>
       </nav>
-      <div
-        onClick={() => setToggleMenu(false)}
-        className={`fixed bg-black opacity-80 w-full h-full left-0 top-0 z-10 md:select-none md:pointer-events-none md:hidden ${toggleMenu ? "block" : "hidden"}`}
-      ></div>
-      <div className="w-full bg-fillWrapper text-textStandard flex justify-center relative">
-        <button
-          className={`absolute shadow-md rounded-full bg-fillCard w-12 h-12 top-6 left-6  ${toggleMenu ? "hidden" : "block"} `}
+      <button
+        className={`fixed shadow-md rounded-full bg-fillCard w-12 h-12 top-6 left-6  ${toggleMenu ? "hidden" : "block"} hidden`}
+      >
+        <span
+          className="material-symbols-outlined"
+          onClick={() => setToggleMenu(true)}
+          style={{ fontSize: "16px" }}
         >
-          <span
-            className="material-symbols-outlined"
-            onClick={() => setToggleMenu(true)}
-            style={{ fontSize: "16px" }}
-          >
-            menu
-          </span>
-        </button>
+          menu
+        </span>
+      </button>
 
+      <div className="w-full bg-fillWrapper text-textStandard flex justify-center relative overflow-auto">
         <div className="max-w-[800px] w-full py-24">{children}</div>
       </div>
     </div>
