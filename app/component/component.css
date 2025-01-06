@@ -29,4 +29,7 @@
   hr {
     @apply border-fillBoarder;
   }
+  *:focus {
+    @apply outline-none;
+  }
 }
