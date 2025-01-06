@@ -75,22 +75,6 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
               </span>
             </button>
           </div>
-          <Link
-            href={"https://www.atomground.com/"}
-            prefetch={false}
-            target="_blank"
-          >
-            <button className="flex w-full px-4 py-2 justify-between">
-              homepage
-              <span
-                className="material-symbols-outlined"
-                style={{ fontSize: "16px" }}
-              >
-                arrow_outward
-              </span>
-            </button>
-          </Link>
-          <hr className="border-fillBoarder my-2" />
         </div>
         <ul>
           <li>
