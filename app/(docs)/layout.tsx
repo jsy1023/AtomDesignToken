@@ -52,7 +52,7 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className={`flex theme-${theme} h-full`}>
       <nav
-        className={`fixed w-full max-w-80 h-full bg-fillCard text-textStandard z-20 left-0 top-0 md:relative ${toggleMenu ? "block" : "hidden"}`}
+        className={`fixed w-full max-w-80 h-full bg-fill-card text-text-standard z-20 left-0 top-0 md:relative ${toggleMenu ? "block" : "hidden"}`}
       >
         <div className="brand">
           <div className="flex items-center justify-between">
@@ -90,7 +90,7 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
         </ul>
       </nav>
       <button
-        className={`fixed shadow-md rounded-full bg-fillCard w-12 h-12 top-6 left-6 z-10 ${toggleMenu ? "hidden" : "block"} `}
+        className={`fixed shadow-md rounded-full bg-fill-card w-12 h-12 top-6 left-6 z-10 ${toggleMenu ? "hidden" : "block"} `}
       >
         <span
           className="material-symbols-outlined"
@@ -101,7 +101,7 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
         </span>
       </button>
 
-      <div className="w-full bg-fillWrapper text-textStandard flex justify-center relative overflow-auto">
+      <div className="w-full bg-fill-wrapper text-text-standard flex justify-center relative overflow-auto">
         <div className="max-w-[800px] w-full px-4 py-12 lg:px-0 lg:py-24">
           {children}
         </div>

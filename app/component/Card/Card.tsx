@@ -1,4 +1,6 @@
-const Card = ({
+import React from "react";
+
+export const Card = ({
   children,
   type = "standard",
   className = "",
@@ -7,13 +9,31 @@ const Card = ({
   className?: string;
   type?: "standard" | "group";
 }) => {
+  // CardHeader와 CardContent의 존재 여부 확인
+  const hasCardContent = React.Children.toArray(children).some(
+    (child) =>
+      React.isValidElement(child) &&
+      (child.type === CardHeader ||
+        child.type === CardContent ||
+        child.type === CardFooter)
+  );
   return (
     <div
-      className={`${type == "standard" ? "bg-fillCard border-fillBoarder" : type == "group" ? "bg-fillGroup border-none" : ""} p-4 rounded  border ${className}`}
+      className={`${type == "standard" ? "bg-fill-card border-fill-border" : type == "group" ? "bg-fill-group border-none" : ""} ${!hasCardContent ? "p-4" : ""} rounded  border ${className} overflow-auto`}
     >
       {children}
     </div>
   );
 };
 
-export default Card;
+export const CardHeader = ({ children }: { children: React.ReactNode }) => {
+  return <>{children}</>;
+};
+
+export const CardContent = ({ children }: { children: React.ReactNode }) => {
+  return <div className="p-4">{children}</div>;
+};
+
+export const CardFooter = ({ children }: { children: React.ReactNode }) => {
+  return <div className="p-4">{children}</div>;
+};

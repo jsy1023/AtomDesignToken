@@ -1,7 +1,8 @@
-import Card from "@/app/component/Card/Card";
+import { Card, CardHeader, CardContent } from "@/app/component/Card/Card";
 import Input from "@/app/component/Input/Input";
 import Link from "next/link";
 import version from "@/versonHistory.json";
+import CodeBlock from "@/app/component/CodeBlock/CodeBlock";
 
 const ComponentHome = () => {
   return (
@@ -15,15 +16,29 @@ const ComponentHome = () => {
       <hr className="my-4" />
       <h2 className="mb-4">입력창의 디자인적 구성요소</h2>
       <p className="mb-4">
-        &nbsp;입력창의 구성요소로는 배경색, 선, 글자, 모서리 를 기본으로 각
+        &nbsp;입력창의 구성요소로는 배경색, 선, 글자, 모서리\를 기본으로 각
         상태변화에 따른 값을 가지고 있습니다. 해당 내용을 변수화하여 다양한
         디자인을 적용할 수 있도록 구성합니다.
       </p>
       <Card>
-        <Card type="group">hello</Card>
-        <h3>입력창</h3>
-        <p className="text-textSub">데이터의 값을 입력합니다.</p>
-        <Input />
+        <CardContent>
+          <p>&nbsp;tailwinds css의 tailwinds.config.ts에 정의된 변수입니다.</p>
+        </CardContent>
+        <CardHeader>
+          <CodeBlock language="typescript">
+            {`theme: {
+  extend: {
+    colors: {
+      "input-background-standard": "var(--input-background-standard)",
+      "input-border-standard": "var(--input-border-standard)",
+    },
+  }
+}`}
+          </CodeBlock>
+        </CardHeader>
+        <CardContent>
+          <Input />
+        </CardContent>
       </Card>
       <hr className="my-4" />
       <hr className="my-4" />
@@ -32,7 +47,7 @@ const ComponentHome = () => {
       <Card className="my-4">
         <ul className="list-disc px-8">
           <li>
-            Brad Frost, Atomic Design,
+            mdn,
             <Link
               href={
                 "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input"
@@ -41,19 +56,6 @@ const ComponentHome = () => {
               className="text-primary"
             >
               &nbsp;https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input
-            </Link>
-          </li>
-          <li>
-            Tom Coleman, Component-Driven Development, Aug 17 2020, chromatic,
-            <Link
-              href={
-                "https://www.chromatic.com/blog/component-driven-development/"
-              }
-              target="_blank"
-              className="text-primary"
-            >
-              &nbsp;
-              https://www.chromatic.com/blog/component-driven-development/
             </Link>
           </li>
         </ul>

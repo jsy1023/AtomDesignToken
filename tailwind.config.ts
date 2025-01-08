@@ -11,17 +11,17 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "var(--brand-primary)",
-        fillWrapper: "var(--fill-wrapper)",
-        fillCard: "var(--fill-card)",
-        fillGroup: "var(--fill-info)",
-        fillBoarder: "var(--fill-border)",
-        textStandard: "var(--text-standard)",
-        textSub: "var(--text-sub)",
-        textReverse: "var(--text-reverse)",
-        textSubReverse: "var(--text-sub-reverse)",
-        inputBackgroundStandard: "var(--input-background-standard)",
-        inputBorderStandard: "var(--input-border-standard)",
+        "primary": "var(--brand-primary)",
+        "fill-wrapper": "var(--fill-wrapper)",
+        "fill-card": "var(--fill-card)",
+        "fill-group": "var(--fill-info)",
+        "fill-border": "var(--fill-border)",
+        "text-standard": "var(--text-standard)",
+        "text-sub": "var(--text-sub)",
+        "text-reverse": "var(--text-reverse)",
+        "text-sub-reverse": "var(--text-sub-reverse)",
+        "input-background-standard": "var(--input-background-standard)",
+        "input-border-standard": "var(--input-border-standard)",
       },
       fontSize: {
         // Desktop

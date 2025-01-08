@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import Card from "../component/Card/Card";
+import { Card } from "../component/Card/Card";
 import Input from "../component/Input/Input";
 import Image from "next/image";
 
@@ -31,7 +31,7 @@ const DocsHome = () => {
         </div>
         <h1>Atomground Design System</h1>
       </div>
-      <p className="text-textSub mb-4">base Atomic Design System</p>
+      <p className="text-text-sub mb-4">base Atomic Design System</p>
       <p>
         &nbsp;아톰그라운드 오픈 소스 디자인 시스템에 오신걸 환영합니다. 아토믹
         디자인 시스템에 대한 설명과 디자인방법론, 디자인리소스와 웹페이지와의
