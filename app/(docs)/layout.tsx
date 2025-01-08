@@ -52,11 +52,11 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className={`flex theme-${theme} h-full`}>
       <nav
-        className={`w-full max-w-80 h-full bg-fillCard text-textStandard fixed z-20 left-0 top-0 md:relative hidden ${toggleMenu ? "block" : "hidden"}`}
+        className={`fixed w-full max-w-80 h-full bg-fillCard text-textStandard z-20 left-0 top-0 md:relative ${toggleMenu ? "block" : "hidden"}`}
       >
         <div className="brand">
           <div className="flex items-center justify-between">
-            <div>
+            <Link href={"/"}>
               <Image
                 src={"/images/global/logo.png"}
                 alt="Logo"
@@ -64,7 +64,7 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
                 height={45}
                 draggable="false"
               ></Image>
-            </div>
+            </Link>
             <button className="p-4">
               <span
                 className="material-symbols-outlined"
@@ -76,40 +76,21 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
             </button>
           </div>
         </div>
-        <ul className="hidden">
+        <ul>
           <li>
-            <Link href={"/"} className="px-4 py-2">
-              Getting started
+            <Link href={"/"} className="px-4 py-2 block">
+              시작하기
             </Link>
-            <p></p>
           </li>
-          <li className="px-4 py-2">
-            <p>About</p>
-          </li>
-          <li className="">
-            <ul className="px-4">
-              <p className="py-2">Design System</p>
-              <li className="px-4 py-2">
-                <p>Atomic</p>
-              </li>
-              <li>
-                <Link href={"/component"} className="px-4 py-2">
-                  Molecules | component
-                </Link>
-                <p></p>
-              </li>
-            </ul>
-          </li>
-          <li className="px-4 py-2">
-            <p>Design Token</p>
-          </li>
-          <li className="px-4 py-2">
-            <p>Version</p>
+          <li>
+            <Link href={"/component/input"} className="px-4 py-2 block">
+              입력창
+            </Link>
           </li>
         </ul>
       </nav>
       <button
-        className={`fixed shadow-md rounded-full bg-fillCard w-12 h-12 top-6 left-6  ${toggleMenu ? "hidden" : "block"} hidden`}
+        className={`fixed shadow-md rounded-full bg-fillCard w-12 h-12 top-6 left-6 z-10 ${toggleMenu ? "hidden" : "block"} `}
       >
         <span
           className="material-symbols-outlined"
@@ -121,7 +102,9 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
       </button>
 
       <div className="w-full bg-fillWrapper text-textStandard flex justify-center relative overflow-auto">
-        <div className="max-w-[800px] w-full py-24">{children}</div>
+        <div className="max-w-[800px] w-full px-4 py-12 lg:px-0 lg:py-24">
+          {children}
+        </div>
       </div>
     </div>
   );

@@ -14,6 +14,7 @@ export default {
         primary: "var(--brand-primary)",
         fillWrapper: "var(--fill-wrapper)",
         fillCard: "var(--fill-card)",
+        fillGroup: "var(--fill-info)",
         fillBoarder: "var(--fill-border)",
         textStandard: "var(--text-standard)",
         textSub: "var(--text-sub)",
