@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Card } from "../component/Card/Card";
-import Input from "../component/Input/Input";
+import { Input } from "../component/Input/Input";
 import Image from "next/image";
 
 import atomicSymbol from "@/public/images/global/logoSymbol.svg";
@@ -12,17 +12,9 @@ import TokensStudioImage from "@/public/images/logos/tokensStudio.png";
 import Styledictionary from "@/public/images/logos/styledictionary.png";
 
 import version from "@/versonHistory.json";
-
-const themes = ["default", "dark"];
+import { ThemeSelector } from "../component/Theme/Theme";
 
 const DocsHome = () => {
-  const handleThemeChange = (theme: string) => {
-    if (typeof window !== "undefined") {
-      localStorage.setItem("theme", theme); // 로컬 스토리지에 새로운 테마 저장
-      window.dispatchEvent(new Event("storage"));
-    }
-  };
-
   return (
     <div className="py-12">
       <div className="flex items-center">
@@ -56,20 +48,7 @@ const DocsHome = () => {
           색상변경뿐만 아니라 폰트와, 전체적인 디자인의 양식 변경까지
           가능합니다.
           <Card className="my-4">
-            <div className="flex gap-8">
-              <p>theme 선택</p>
-              <div className="flex gap-4">
-                {themes.map((theme) => (
-                  <button
-                    className={`cursor-pointer`}
-                    key={theme}
-                    onClick={() => handleThemeChange(theme)}
-                  >
-                    {theme}
-                  </button>
-                ))}
-              </div>
-            </div>
+            <ThemeSelector />
           </Card>
         </li>
         <li>

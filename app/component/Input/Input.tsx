@@ -1,4 +1,4 @@
-const Input = ({
+export const Input = ({
   className,
   placeholder = "값을 입력해주세요",
 }: {
@@ -14,4 +14,21 @@ const Input = ({
   );
 };
 
-export default Input;
+export const Radio = ({
+  name,
+  value,
+  onChange,
+  isChecked,
+}: {
+  name: string;
+  value: string;
+  onChange?: () => void;
+  isChecked?: boolean;
+}) => {
+  return (
+    <label className="flex gap-2">
+      <input type="radio" name={name} onChange={onChange} checked={isChecked} />
+      <span>{value}</span>
+    </label>
+  );
+};

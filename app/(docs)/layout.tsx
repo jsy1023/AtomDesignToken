@@ -3,10 +3,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { ThemeWrapper } from "../component/Theme/Theme";
 
 const DocsLayout = ({ children }: { children: React.ReactNode }) => {
   const [windowSize, setWindowSize] = useState<number>(); // 초기값 설정
-  const [theme, setTheme] = useState<string>(""); // 테마 상태 추가
+
   const [toggleMenu, setToggleMenu] = useState<boolean>(false);
 
   // 윈도우 사이즈 추적
@@ -34,23 +35,8 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
     // );
   }, []);
 
-  // theme setting
-  useEffect(() => {
-    // 로컬 스토리지에서 테마 가져오기
-    const listenStorageChange = () => {
-      if (localStorage.getItem("theme") === null) {
-        setTheme("default");
-      } else {
-        setTheme(localStorage.getItem("theme") || "default");
-      }
-    };
-    window.addEventListener("storage", listenStorageChange);
-
-    return () => window.removeEventListener("storage", listenStorageChange);
-  }, []);
-
   return (
-    <div className={`flex theme-${theme} h-full`}>
+    <ThemeWrapper className={`flex h-full`}>
       <nav
         className={`fixed w-full max-w-80 h-full bg-fill-card text-text-standard z-20 left-0 top-0 md:relative ${toggleMenu ? "block" : "hidden"}`}
       >
@@ -100,13 +86,12 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
           menu
         </span>
       </button>
-
       <div className="w-full bg-fill-wrapper text-text-standard flex justify-center relative overflow-auto">
         <div className="max-w-[800px] w-full px-4 py-12 lg:px-0 lg:py-24">
           {children}
         </div>
       </div>
-    </div>
+    </ThemeWrapper>
   );
 };
 
