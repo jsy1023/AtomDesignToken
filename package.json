@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "npm run build:token && next dev",
     "build": "npm run build:token && next build",
-    "build:token": "node tokens/buildTokenSplit.js && node tokens/buildCss.js && node tokens/buildMergeCss.js",
+    "build:token": "node tokens/buildTokenSplit.js && node tokens/buildMergeCss.js",
     "start": "next start",
     "lint": "next lint"
   },
