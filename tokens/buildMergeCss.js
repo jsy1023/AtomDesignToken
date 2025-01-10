@@ -21,7 +21,10 @@ const processCss = async (tokenSetOrder) => {
     "utf8"
   )
     .replace(":root {", "")
-    .replace(/}\s*$/, ""); // 마지막 } 제거;
+    .replace(/}\s*$/, "") // 마지막 } 제거;
+    .split(";") // 세미콜론 기준으로 나눔
+    .map((item) => item.trim()) // 양 끝 공백 제거
+    .filter(Boolean); //빈 값 제거
 
   tokenSetOrder.forEach((tokenValue) => {
     const filePath = path.join(
@@ -33,13 +36,18 @@ const processCss = async (tokenSetOrder) => {
     try {
       let items = readFileSync(filePath, "utf8")
         .replace(":root {", "")
-        .replace(/}\s*$/, ""); // 마지막 } 제거;
+        .replace(/}\s*$/, "") // 마지막 } 제거;
+        .split(";") // 세미콜론 기준으로 나눔
+        .map((item) => item.trim()) // 양 끝 공백 제거
+        .filter(Boolean); //빈 값 제거
+
+      const uniqueItems = items.filter((item) => !globalItems.includes(item));
 
       // 각 토큰별 css를 구조에 맞게 추가
       globalCSS += `
       
       .${tokenValue} {
-        ${items}
+        ${uniqueItems.join(";")}
       }
       `;
     } catch (error) {
@@ -56,7 +64,7 @@ const processCss = async (tokenSetOrder) => {
     
     @layer base{
         :root{
-          ${globalItems}
+          ${globalItems.join(";")}
         }
       }
 
