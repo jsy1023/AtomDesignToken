@@ -8,7 +8,7 @@ export const Input = ({
   return (
     <input
       type="text"
-      className={`bg-input-background-standard border-input-border-standard border px-4 py-2 rounded-xs ${className}`}
+      className={`bg-input-background-standard border-input-border-standard border px-4 py-2 ${className} rounded-input-border`}
       placeholder={placeholder}
     />
   );
