@@ -4,11 +4,8 @@ import Link from "next/link";
 import version from "@/versonHistory.json";
 import CodeBlock from "@/app/component/CodeBlock/CodeBlock";
 import { ThemeSelector } from "@/app/component/Theme/Theme";
-import tailwindConfig from "@/tailwind.config";
 
 const ComponentHome = () => {
-  console.log(tailwindConfig.theme.extend.borderRadius);
-  console.log(tailwindConfig.theme.extend.colors);
   return (
     <div className="py-12">
       <h1 className="mb-4">입력창</h1>
