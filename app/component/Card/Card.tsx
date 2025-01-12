@@ -31,7 +31,7 @@ export const CardHeader = ({
   noMargin,
 }: {
   children: React.ReactNode;
-  noMargin?: string;
+  noMargin?: boolean;
 }) => {
   return <div className={`${noMargin ? "p-0" : "p-4"}`}>{children}</div>;
 };
@@ -41,7 +41,7 @@ export const CardContent = ({
   noMargin,
 }: {
   children: React.ReactNode;
-  noMargin?: string;
+  noMargin?: boolean;
 }) => {
   return <div className={`${noMargin ? "p-0" : "p-4"}`}>{children}</div>;
 };
@@ -51,7 +51,7 @@ export const CardFooter = ({
   noMargin,
 }: {
   children: React.ReactNode;
-  noMargin?: string;
+  noMargin?: boolean;
 }) => {
   return <div className={`${noMargin ? "p-0" : "p-4"}`}>{children}</div>;
 };
