@@ -26,14 +26,32 @@ export const Card = ({
   );
 };
 
-export const CardHeader = ({ children }: { children: React.ReactNode }) => {
-  return <>{children}</>;
+export const CardHeader = ({
+  children,
+  noMargin,
+}: {
+  children: React.ReactNode;
+  noMargin?: string;
+}) => {
+  return <div className={`${noMargin ? "p-0" : "p-4"}`}>{children}</div>;
 };
 
-export const CardContent = ({ children }: { children: React.ReactNode }) => {
-  return <div className="p-4">{children}</div>;
+export const CardContent = ({
+  children,
+  noMargin,
+}: {
+  children: React.ReactNode;
+  noMargin?: string;
+}) => {
+  return <div className={`${noMargin ? "p-0" : "p-4"}`}>{children}</div>;
 };
 
-export const CardFooter = ({ children }: { children: React.ReactNode }) => {
-  return <div className="p-4">{children}</div>;
+export const CardFooter = ({
+  children,
+  noMargin,
+}: {
+  children: React.ReactNode;
+  noMargin?: string;
+}) => {
+  return <div className={`${noMargin ? "p-0" : "p-4"}`}>{children}</div>;
 };

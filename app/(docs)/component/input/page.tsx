@@ -3,8 +3,12 @@ import { Input } from "@/app/component/Input/Input";
 import Link from "next/link";
 import version from "@/versonHistory.json";
 import CodeBlock from "@/app/component/CodeBlock/CodeBlock";
+import { ThemeSelector } from "@/app/component/Theme/Theme";
+import tailwindConfig from "@/tailwind.config";
 
 const ComponentHome = () => {
+  console.log(tailwindConfig.theme.extend.borderRadius);
+  console.log(tailwindConfig.theme.extend.colors);
   return (
     <div className="py-12">
       <h1 className="mb-4">입력창</h1>
@@ -16,7 +20,7 @@ const ComponentHome = () => {
       <hr className="my-4" />
       <h2 className="mb-4">입력창의 디자인적 구성요소</h2>
       <p className="mb-4">
-        &nbsp;입력창의 구성요소로는 배경색, 선, 글자, 모서리\를 기본으로 각
+        &nbsp;입력창의 구성요소로는 배경색, 선, 글자, 여백, 모서리를 기본으로 각
         상태변화에 따른 값을 가지고 있습니다. 해당 내용을 변수화하여 다양한
         디자인을 적용할 수 있도록 구성합니다.
       </p>
@@ -24,7 +28,7 @@ const ComponentHome = () => {
         <CardContent>
           <p>&nbsp;tailwinds css의 tailwinds.config.ts에 정의된 변수입니다.</p>
         </CardContent>
-        <CardHeader>
+        <CardHeader noMargin>
           <CodeBlock language="typescript">
             {`theme: {
   extend: {
@@ -32,10 +36,16 @@ const ComponentHome = () => {
       "input-background-standard": "var(--input-background-standard)",
       "input-border-standard": "var(--input-border-standard)",
     },
+      borderRadius: {
+        "input-border": "var(--input-rounded)"
+      },
   }
 }`}
           </CodeBlock>
         </CardHeader>
+        <div className="p-4">
+          <ThemeSelector />
+        </div>
         <CardContent>
           <Input />
         </CardContent>
