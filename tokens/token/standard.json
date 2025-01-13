@@ -858,27 +858,35 @@
     }
   },
   "input": {
-    "text": {
-      "value": {
-        "value": "{text.standard}",
-        "type": "color"
-      },
-      "placeholder": {
-        "value": "{text.sub}",
-        "type": "color"
-      }
+    "text-value": {
+      "value": "{text.standard}",
+      "type": "color"
     },
-    "background": {
-      "standard": {
-        "value": "{fill.card}",
-        "type": "color"
-      }
+    "text-placeholder": {
+      "value": "{gray.100}",
+      "type": "color"
+    },
+    "background-standard": {
+      "value": "{fill.card}",
+      "type": "color"
+    },
+    "background-value": {
+      "value": "{white.100}",
+      "type": "color"
+    },
+    "background-disabled": {
+      "value": "{white.500}",
+      "type": "color"
     },
     "border": {
       "standard": {
         "value": "{fill.border}",
         "type": "color"
       }
+    },
+    "border-focus": {
+      "value": "{system.info}",
+      "type": "color"
     }
   }
 }

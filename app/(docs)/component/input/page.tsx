@@ -30,8 +30,13 @@ const ComponentHome = () => {
             {`theme: {
   extend: {
     colors: {
-      "input-background-standard": "var(--input-background-standard)",
-      "input-border-standard": "var(--input-border-standard)",
+        "input-background-standard": "var(--input-background-standard)",
+        "input-background-disabled": "var(--input-background-disabled)",
+        "input-background-value": "var(--input-background-value)",
+        "input-border-standard": "var(--input-border-standard)",
+        "input-border-focus": "var(--input-border-focus)",
+        "input-text-value": "var(--input-text-value)",
+        "input-text-placeholder": "var(--input-text-placeholder)",
     },
       borderRadius: {
         "input-border": "var(--input-rounded)"
@@ -48,6 +53,44 @@ const ComponentHome = () => {
         </CardContent>
       </Card>
       <hr className="my-4" />
+      <h2 className="mb-4">입력창의 다양한 상태구성</h2>
+      <p className="mb-4">
+        &nbsp;입력창은 다양한 상태 값을 가지며 이러한 상태를 디자인적으로
+        직관적으로 표현함으로서 사용자가 입력창의 상태를 바로 파악하고 다음의
+        행위를 유추할 수 있도록 제공해야합니다.
+      </p>
+      <Card>
+        <div className="grid grid-cols-3 gap-4">
+          <div>
+            <Input
+              label="기본(readonly)"
+              uniqueClass="border-input-border-standard focus:border-input-border-standard"
+              readOnly
+            />
+          </div>
+          <div>
+            <Input
+              label="활성화:(focus)"
+              uniqueClass=" border-input-border-focus text-input-text-value "
+            />
+          </div>
+          <div>
+            <Input label="비활성화" disabled />
+          </div>
+          <div>
+            <Input label="값이 있을 때" defaultValue="디자인시스템" />
+          </div>
+          <div>
+            <Input label="필수인 값일 때" required />
+          </div>
+          <div>
+            <Input label="유효한 값일 떄" />
+          </div>
+          <div>
+            <Input label="유효한 값이 아닐 떄" />
+          </div>
+        </div>
+      </Card>
       <hr className="my-4" />
       <h2 className="mb-4">참고자료</h2>
       다음에 이론을 기반으로 아토믹 디자인 시스템 이론을 구성하였습니다.

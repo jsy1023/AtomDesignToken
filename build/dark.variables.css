@@ -259,7 +259,11 @@
   --card-background: #222222;
   --card-border: #444444;
   --table-header: #2a2a2a;
-  --input-text: [object Object];
-  --input-background-standard: #222222;
+  --input-text-value: #999999;
+  --input-text-placeholder: #5a5a5a;
+  --input-background-value: #222222;
+  --input-background-standard: #2a2a2a;
+  --input-background-disabled: #3a3a3a;
   --input-border-standard: #444444;
+  --input-border-focus: #999999;
 }

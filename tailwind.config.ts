@@ -12,6 +12,7 @@ export default {
     extend: {
       colors: {
         "primary": "var(--brand-primary)",
+        "danger": "var(--system-danger)",
         "fill-wrapper": "var(--fill-wrapper)",
         "fill-card": "var(--fill-card)",
         "fill-group": "var(--fill-info)",
@@ -21,7 +22,12 @@ export default {
         "text-reverse": "var(--text-reverse)",
         "text-sub-reverse": "var(--text-sub-reverse)",
         "input-background-standard": "var(--input-background-standard)",
+        "input-background-disabled": "var(--input-background-disabled)",
+        "input-background-value": "var(--input-background-value)",
         "input-border-standard": "var(--input-border-standard)",
+        "input-border-focus": "var(--input-border-focus)",
+        "input-text-value": "var(--input-text-value)",
+        "input-text-placeholder": "var(--input-text-placeholder)",
       },
       fontSize: {
         // Desktop
