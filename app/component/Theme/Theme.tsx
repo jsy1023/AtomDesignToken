@@ -1,12 +1,9 @@
 "use client";
-import tokenSetting from "@/token.json";
+
 import { useEffect, useState } from "react";
 import { Radio } from "../Input/Input";
 
 export const ThemeSelector = () => {
-  const originalThemes = tokenSetting.$metadata.tokenSetOrder;
-  console.log(originalThemes);
-
   const themes = ["standard", "dark"];
   const [slectedTheme, setSelectedTheme] = useState("standard");
   const inputThemes = ["inputStandard", "inputCircle"];
