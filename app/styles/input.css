@@ -1,0 +1,5 @@
+@import url("@/app/globals.css");
+
+.input-focus-custom {
+  border: 1px solid var(--input-border-focus) !important;
+}

@@ -269,9 +269,15 @@
   --table-header: #2a2a2a;
   --input-text-value: #333333;
   --input-text-placeholder: #b3b3b3;
+  --input-text-success: #2855cc;
+  --input-text-error: #d13434;
   --input-background-standard: #fafafa;
   --input-background-value: #f5f5f5;
+  --input-background-success: #f6f8fd;
+  --input-background-error: #fdf7f7;
   --input-background-disabled: #e0e0e0;
   --input-border-standard: #cccccc;
   --input-border-focus: #333333;
+  --input-border-success: #2855cc;
+  --input-border-error: #d13434;
 }

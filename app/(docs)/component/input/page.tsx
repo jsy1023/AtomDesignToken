@@ -23,7 +23,11 @@ const ComponentHome = () => {
       </p>
       <Card>
         <CardContent>
-          <p>&nbsp;tailwinds css의 tailwinds.config.ts에 정의된 변수입니다.</p>
+          <p>
+            &nbsp;tailwinds css의 tailwinds.config.ts에 정의된 변수입니다.
+            <br /> 해당 변수는 디자인에 따라 자유롭게 정의내리고 활용할 수
+            있습니다.
+          </p>
         </CardContent>
         <CardHeader noMargin>
           <CodeBlock language="typescript">
@@ -33,10 +37,16 @@ const ComponentHome = () => {
         "input-background-standard": "var(--input-background-standard)",
         "input-background-disabled": "var(--input-background-disabled)",
         "input-background-value": "var(--input-background-value)",
+        "input-background-success": "var(--input-background-success)",
+        "input-background-error": "var(--input-background-error)",
         "input-border-standard": "var(--input-border-standard)",
         "input-border-focus": "var(--input-border-focus)",
+        "input-border-success": "var(--input-border-success)",
+        "input-border-error": "var(--input-border-error)",
         "input-text-value": "var(--input-text-value)",
         "input-text-placeholder": "var(--input-text-placeholder)",
+        "input-text-success": "var(--input-text-success)",
+        "input-text-error": "var(--input-text-error)",
     },
       borderRadius: {
         "input-border": "var(--input-rounded)"
@@ -62,16 +72,13 @@ const ComponentHome = () => {
       <Card>
         <div className="grid grid-cols-3 gap-4">
           <div>
-            <Input
-              label="기본(readonly)"
-              uniqueClass="border-input-border-standard focus:border-input-border-standard"
-              readOnly
-            />
+            <Input label="기본(readonly)" readOnly />
           </div>
           <div>
             <Input
               label="활성화:(focus)"
-              uniqueClass=" border-input-border-focus text-input-text-value "
+              className="input-focus-custom"
+              readOnly
             />
           </div>
           <div>
@@ -83,11 +90,22 @@ const ComponentHome = () => {
           <div>
             <Input label="필수인 값일 때" required />
           </div>
+          <div></div>
           <div>
-            <Input label="유효한 값일 떄" />
+            <Input
+              label="유효한 값일 떄"
+              defaultValue="정상적인 값"
+              pattern="정상적인 값"
+              required
+            />
           </div>
           <div>
-            <Input label="유효한 값이 아닐 떄" />
+            <Input
+              label="유효한 값이 아닐 떄"
+              defaultValue="비정상적인 값"
+              pattern="정상적인 값"
+              required
+            />
           </div>
         </div>
       </Card>

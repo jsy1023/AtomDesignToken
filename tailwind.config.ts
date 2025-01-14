@@ -24,10 +24,16 @@ export default {
         "input-background-standard": "var(--input-background-standard)",
         "input-background-disabled": "var(--input-background-disabled)",
         "input-background-value": "var(--input-background-value)",
+        "input-background-success": "var(--input-background-success)",
+        "input-background-error": "var(--input-background-error)",
         "input-border-standard": "var(--input-border-standard)",
         "input-border-focus": "var(--input-border-focus)",
+        "input-border-success": "var(--input-border-success)",
+        "input-border-error": "var(--input-border-error)",
         "input-text-value": "var(--input-text-value)",
         "input-text-placeholder": "var(--input-text-placeholder)",
+        "input-text-success": "var(--input-text-success)",
+        "input-text-error": "var(--input-text-error)",
       },
       fontSize: {
         // Desktop

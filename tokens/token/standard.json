@@ -866,12 +866,28 @@
       "value": "{gray.100}",
       "type": "color"
     },
+    "text-success": {
+      "value": "{brand.primary}",
+      "type": "color"
+    },
+    "text-error": {
+      "value": "{system.danger}",
+      "type": "color"
+    },
     "background-standard": {
       "value": "{fill.card}",
       "type": "color"
     },
     "background-value": {
       "value": "{white.100}",
+      "type": "color"
+    },
+    "background-success": {
+      "value": "{blue.50}",
+      "type": "color"
+    },
+    "background-error": {
+      "value": "{red.50}",
       "type": "color"
     },
     "background-disabled": {
@@ -886,6 +902,14 @@
     },
     "border-focus": {
       "value": "{system.info}",
+      "type": "color"
+    },
+    "border-success": {
+      "value": "{brand.primary}",
+      "type": "color"
+    },
+    "border-error": {
+      "value": "{system.danger}",
       "type": "color"
     }
   }
