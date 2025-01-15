@@ -5,21 +5,21 @@ import version from "@/versonHistory.json";
 import CodeBlock from "@/app/component/CodeBlock/CodeBlock";
 import { ThemeSelector } from "@/app/component/Theme/Theme";
 
-const ComponentInput = () => {
+const ComponentCheckbox = () => {
   return (
     <div className="py-12">
-      <h1 className="mb-4">입력창</h1>
+      <h1 className="mb-4">체크박스</h1>
       <p>
-        &nbsp;입력창은 사용자로부터 데이터를 전달받기 위한 대화형
-        컨트롤러입니다. 다양한 종류로 구성되어 있으며 사용자와의 상호작용을 위해
-        입력창의 상태전환을 직관적으로 표현해야합니다.
+        &nbsp;체크박스는 사용자가 여러가지 선택사항 중 한가지 또는 복수의 선택을
+        할 수 있는 컨트롤러입니다. 1개 ~ 10개 사이의 선택사항이 있는 경우
+        체크박스의 사용을 권장합니다.
       </p>
       <hr className="my-4" />
-      <h2 className="mb-4">입력창의 디자인적 구성요소</h2>
+      <h2 className="mb-4">체크박스의 디자인적 구성요소</h2>
       <p className="mb-4">
-        &nbsp;입력창의 구성요소로는 배경색, 선, 글자, 여백, 모서리를 기본으로 각
-        상태변화에 따른 값을 가지고 있습니다. 해당 내용을 변수화하여 다양한
-        디자인을 적용할 수 있도록 구성합니다.
+        &nbsp;체크박스의 구성요소로는 배경색, 선, 여백, 기본으로 각 상태변화에
+        따른 값을 가지고 있습니다. 해당 내용을 변수화하여 다양한 디자인을 적용할
+        수 있도록 구성합니다.
       </p>
       <Card>
         <CardContent>
@@ -56,7 +56,7 @@ const ComponentInput = () => {
           </CodeBlock>
         </CardHeader>
         <div className="p-4">
-          <ThemeSelector type="all" />
+          <ThemeSelector type="theme" />
         </div>
         <CardContent>
           <Card type="group" className="flex justify-center">
@@ -65,7 +65,7 @@ const ComponentInput = () => {
         </CardContent>
       </Card>
       <hr className="my-4" />
-      <h2 className="mb-4">입력창의 다양한 상태구성</h2>
+      <h2 className="mb-4">체크박스의 다양한 상태구성</h2>
       <p className="mb-4">
         &nbsp;입력창은 다양한 상태 값을 가지며 이러한 상태를 디자인적으로
         직관적으로 표현함으로서 사용자가 입력창의 상태를 바로 파악하고 다음의
@@ -120,12 +120,12 @@ const ComponentInput = () => {
             mdn,
             <Link
               href={
-                "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input"
+                "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox"
               }
               target="_blank"
               className="text-primary"
             >
-              &nbsp;https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input
+              &nbsp;https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox
             </Link>
           </li>
         </ul>
@@ -143,4 +143,4 @@ const ComponentInput = () => {
   );
 };
 
-export default ComponentInput;
+export default ComponentCheckbox;

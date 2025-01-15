@@ -3,7 +3,11 @@
 import { useEffect, useState } from "react";
 import { Radio } from "../Input/Input";
 
-export const ThemeSelector = () => {
+export const ThemeSelector = ({
+  type,
+}: {
+  type: "all" | "theme" | "input";
+}) => {
   const themes = ["standard", "dark"];
   const [slectedTheme, setSelectedTheme] = useState("standard");
   const inputThemes = ["inputStandard", "inputCircle"];
@@ -29,28 +33,32 @@ export const ThemeSelector = () => {
     <div className="flex flex-col gap-4">
       <p>theme 선택</p>
       <div className="flex flex-col gap-4">
-        <div className="flex gap-4">
-          {themes.map((theme) => (
-            <Radio
-              name="mainTheme"
-              value={theme}
-              key={theme}
-              onChange={() => handleThemeChange(theme)}
-              isChecked={theme == slectedTheme}
-            />
-          ))}
-        </div>
-        <div className="flex gap-4">
-          {inputThemes.map((inputTheme) => (
-            <Radio
-              name="inputTheme"
-              value={inputTheme}
-              key={inputTheme}
-              onChange={() => handleInputThemeChange(inputTheme)}
-              isChecked={inputTheme == slectedInputTheme}
-            />
-          ))}
-        </div>
+        {type == "all" || type == "theme" ? (
+          <div className="flex gap-4">
+            {themes.map((theme) => (
+              <Radio
+                name="mainTheme"
+                value={theme}
+                key={theme}
+                onChange={() => handleThemeChange(theme)}
+                isChecked={theme == slectedTheme}
+              />
+            ))}
+          </div>
+        ) : null}
+        {type == "all" || type == "input" ? (
+          <div className="flex gap-4">
+            {inputThemes.map((inputTheme) => (
+              <Radio
+                name="inputTheme"
+                value={inputTheme}
+                key={inputTheme}
+                onChange={() => handleInputThemeChange(inputTheme)}
+                isChecked={inputTheme == slectedInputTheme}
+              />
+            ))}
+          </div>
+        ) : null}
       </div>
     </div>
   );

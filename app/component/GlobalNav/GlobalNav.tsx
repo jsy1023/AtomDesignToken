@@ -70,6 +70,11 @@ const GlobalNav = () => {
               입력창
             </Link>
           </li>
+          <li>
+            <Link href={"/component/checkbox"} className="px-4 py-2 block">
+              체크박스
+            </Link>
+          </li>
         </ul>
       </nav>
       <button

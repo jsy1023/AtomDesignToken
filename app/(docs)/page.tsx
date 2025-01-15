@@ -48,7 +48,7 @@ const DocsHome = () => {
           색상변경뿐만 아니라 폰트와, 전체적인 디자인의 양식 변경까지
           가능합니다.
           <Card className="my-4">
-            <ThemeSelector />
+            <ThemeSelector type="all" />
           </Card>
         </li>
         <li>
