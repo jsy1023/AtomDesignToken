@@ -78,9 +78,9 @@ const DocsHome = () => {
       <p>
         &nbsp;Figma에 Autolayout과 Component 기능을통해 디자인 적용단계에서
         프론트엔드와 동일한 컴포넌트 구성을 만들어냅니다. 이 때 Token Studio를
-        통해 각 컴포넌트 구성의 변수화를 진행합니다. 변수화되니 내용은
-        .json파일로 전달되며 해당파일을 StyleDictionary 를 통해 css화 시켜
-        프로젝트에 적용시킵니다.
+        통해 각 컴포넌트 구성의 변수화를 진행합니다. 변수화된 내용은 .json파일로
+        전달되며 해당파일을 StyleDictionary 를 통해 css화 시켜 프로젝트에
+        적용시킵니다.
       </p>
       <Card className="my-4 py-8">
         <ul className="flex">
