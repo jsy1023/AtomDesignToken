@@ -59,7 +59,9 @@ const ComponentHome = () => {
           <ThemeSelector />
         </div>
         <CardContent>
-          <Input />
+          <Card type="group" className="flex justify-center">
+            <Input className="w-full" />
+          </Card>
         </CardContent>
       </Card>
       <hr className="my-4" />
