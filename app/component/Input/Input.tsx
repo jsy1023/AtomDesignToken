@@ -58,7 +58,7 @@ export const Input = ({
       <input
         type="text"
         className={clsx(
-          "transition-all border px-4 py-2 border-input-border-standard text-input-text-value rounded-input-border",
+          "transition-all border px-4 py-2 border-input-border-standard text-input-text-value rounded-input-rounded",
           value ? "bg-input-background-value" : "bg-input-background-standard ",
           { "placeholder:text-input-text-placeholder": true },
           { "focus:border-input-border-focus": true },
@@ -107,6 +107,62 @@ export const Radio = ({
     <label className="flex gap-2">
       <input type="radio" name={name} onChange={onChange} checked={isChecked} />
       <span>{value}</span>
+    </label>
+  );
+};
+
+export const Checkbox = ({
+  label,
+  className,
+  onChange,
+  disabled,
+  required,
+  defaultChecked,
+}: {
+  label?: string;
+  className?: string;
+  onChange?: () => void;
+  disabled?: boolean;
+  required?: boolean;
+  defaultChecked?: boolean;
+}) => {
+  return (
+    <label className="relative flex items-center gap-2">
+      <input
+        type="checkbox"
+        className={clsx(
+          "relative appearance-none peer w-5 h-5 bg-input-background-standard border border-fill-border rounded-common",
+          { "checked:bg-primary": true },
+          { "focus:border-input-border-focus": true },
+          { "disabled:bg-input-background-disabled": true },
+          {
+            "after:content-['*'] after:text-danger after:absolute after:-right-1 after:-top-2":
+              required,
+          },
+          className
+        )}
+        onChange={onChange}
+        disabled={disabled}
+        required={required}
+        defaultChecked={defaultChecked}
+      />
+      <span className="absolute left-0.5 top-1 invisible  peer-checked:visible fill-fill-card ">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-4 w-4"
+          viewBox="0 0 20 20"
+          strokeWidth="1"
+        >
+          <path
+            fillRule="evenodd"
+            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+            clipRule="evenodd"
+          ></path>
+        </svg>
+      </span>
+      {label ? (
+        <span className="text-text-standard select-none">{label}</span>
+      ) : null}
     </label>
   );
 };

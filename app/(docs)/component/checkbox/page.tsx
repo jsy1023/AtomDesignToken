@@ -1,5 +1,5 @@
 import { Card, CardHeader, CardContent } from "@/app/component/Card/Card";
-import { Input } from "@/app/component/Input/Input";
+import { Checkbox } from "@/app/component/Input/Input";
 import Link from "next/link";
 import version from "@/versonHistory.json";
 import CodeBlock from "@/app/component/CodeBlock/CodeBlock";
@@ -10,9 +10,9 @@ const ComponentCheckbox = () => {
     <div className="py-12">
       <h1 className="mb-4">체크박스</h1>
       <p>
-        &nbsp;체크박스는 사용자가 여러가지 선택사항 중 한가지 또는 복수의 선택을
-        할 수 있는 컨트롤러입니다. 1개 ~ 10개 사이의 선택사항이 있는 경우
-        체크박스의 사용을 권장합니다.
+        &nbsp;체크박스는 사용자가 여러가지 선택사항 중 한가지 이상 선택을 할 수
+        있는 컨트롤러입니다. 1개 ~ 10개 사이의 선택사항이 있는 경우 체크박스의
+        사용을 권장합니다.
       </p>
       <hr className="my-4" />
       <h2 className="mb-4">체크박스의 디자인적 구성요소</h2>
@@ -59,59 +59,39 @@ const ComponentCheckbox = () => {
           <ThemeSelector type="theme" />
         </div>
         <CardContent>
-          <Card type="group" className="flex justify-center">
-            <Input className="w-full" />
+          <Card type="group" className="flex flex-wrap gap-4 justify-center">
+            <Checkbox />
+            <Checkbox label="체크박스" />
           </Card>
         </CardContent>
       </Card>
       <hr className="my-4" />
-      <h2 className="mb-4">체크박스의 다양한 상태구성</h2>
+      <h2 className="mb-4">체크박스의 기본상태</h2>
       <p className="mb-4">
-        &nbsp;입력창은 다양한 상태 값을 가지며 이러한 상태를 디자인적으로
-        직관적으로 표현함으로서 사용자가 입력창의 상태를 바로 파악하고 다음의
-        행위를 유추할 수 있도록 제공해야합니다.
+        &nbsp;체크박스의 기본상태 정보입니다. true, false를 표현하기 위해
+        단순하게 구성되어 있습니다.
       </p>
       <Card>
         <div className="grid grid-cols-3 gap-4">
-          <div>
-            <Input label="기본(readonly)" readOnly />
-          </div>
-          <div>
-            <Input
-              label="활성화:(focus)"
-              className="input-focus-custom"
-              readOnly
-            />
-          </div>
-          <div>
-            <Input label="비활성화" disabled />
-          </div>
-          <div>
-            <Input label="값이 있을 때" defaultValue="디자인시스템" />
-          </div>
-          <div>
-            <Input label="필수인 값일 때" required />
-          </div>
-          <div></div>
-          <div>
-            <Input
-              label="유효한 값일 떄"
-              defaultValue="정상적인 값"
-              pattern="정상적인 값"
-              required
-            />
-          </div>
-          <div>
-            <Input
-              label="유효한 값이 아닐 떄"
-              defaultValue="비정상적인 값"
-              pattern="정상적인 값"
-              required
-            />
-          </div>
+          <Checkbox label="기본" defaultChecked />
+          <Checkbox label="활성화:focus" className="input-focus-custom" />
+          <Checkbox label="비활성화" disabled />
         </div>
       </Card>
       <hr className="my-4" />
+      {/* <h2 className="mb-4">체크박스의 활용</h2>
+      <p className="mb-4">
+        &nbsp;체크박스의 기본상태 정보입니다. true, false를 표현하기 위해
+        단순하게 구성되어 있습니다.
+      </p>
+      <Card>
+        <div className="grid grid-cols-3 gap-4">
+          <Checkbox label="기본" defaultChecked />
+          <Checkbox label="활성화:focus" className="input-focus-custom" />
+          <Checkbox label="비활성화" disabled />
+        </div>
+      </Card>
+      <hr className="my-4" /> */}
       <h2 className="mb-4">참고자료</h2>
       다음에 이론을 기반으로 아토믹 디자인 시스템 이론을 구성하였습니다.
       <Card className="my-4">
@@ -134,8 +114,8 @@ const ComponentCheckbox = () => {
       <ul className="list-disc p-8">
         <li>
           <div className="flex gap-4">
-            <p>최종수정일자: {version.page.input.dateTime}</p>
-            <p>version: {version.page.input.version}</p>
+            <p>최종수정일자: {version.page.checkbox.dateTime}</p>
+            <p>version: {version.page.checkbox.version}</p>
           </div>
         </li>
       </ul>
