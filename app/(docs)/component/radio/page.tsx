@@ -61,8 +61,19 @@ const ComponentCheckbox = () => {
         선택사항이 제공되어야 사용될 수 있습니다.
       </p>
       <Card>
-        <div className="grid grid-cols-3 gap-4">
-          <Radio name={""} value={""} />
+        <div className="grid grid-cols-2 gap-y-8">
+          <div className="flex flex-col gap-2">
+            <p className="required">필수 값일 때</p>
+            <Radio name={"example1"} value={"선택사항 1"} defaultChecked />
+            <Radio name={"example1"} value={"선택사항 2"} />
+            <Radio name={"example1"} value={"선택사항 3"} />
+          </div>
+          <div className="flex flex-col gap-2">
+            <p>필수 값이 아닐 때</p>
+            <Radio name={"example2"} value={"선택사항 1"} />
+            <Radio name={"example2"} value={"선택사항 2"} />
+            <Radio name={"example2"} value={"선택사항 3"} />
+          </div>
         </div>
       </Card>
       <hr className="my-4" />
@@ -87,12 +98,12 @@ const ComponentCheckbox = () => {
             mdn,
             <Link
               href={
-                "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox"
+                "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/radio"
               }
               target="_blank"
               className="text-primary"
             >
-              &nbsp;https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox
+              &nbsp;https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/radio
             </Link>
           </li>
         </ul>
@@ -101,8 +112,8 @@ const ComponentCheckbox = () => {
       <ul className="list-disc p-8">
         <li>
           <div className="flex gap-4">
-            <p>최종수정일자: {version.page.checkbox.dateTime}</p>
-            <p>version: {version.page.checkbox.version}</p>
+            <p>최종수정일자: {version.page.radio.dateTime}</p>
+            <p>version: {version.page.radio.version}</p>
           </div>
         </li>
       </ul>
