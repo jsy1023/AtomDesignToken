@@ -95,18 +95,30 @@ export const Input = ({
 export const Radio = ({
   name,
   value,
+  className,
   onChange,
   defaultChecked,
 }: {
   name: string;
   value: string;
+  className?: string;
   onChange?: () => void;
   defaultChecked?: boolean;
 }) => {
   return (
-    <label className="flex gap-2">
+    <label className="flex items-center gap-2">
       <input
         type="radio"
+        className={clsx(
+          "relative appearance-none peer w-5 h-5 bg-input-background-standard border border-fill-border rounded-full",
+          {
+            "checked:bg-primary after:w-2.5 after:h-2.5 after:bg-fill-card after:content-[''] after:absolute after:rounded-full after:left-1 after:top-1":
+              true,
+          },
+          { "focus:border-input-border-focus": true },
+          { "disabled:bg-input-background-disabled": true },
+          className
+        )}
         name={name}
         onChange={onChange}
         defaultChecked={defaultChecked}
