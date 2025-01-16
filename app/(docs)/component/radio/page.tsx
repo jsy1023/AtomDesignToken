@@ -5,7 +5,7 @@ import version from "@/versonHistory.json";
 import CodeBlock from "@/app/component/CodeBlock/CodeBlock";
 import { ThemeSelector } from "@/app/component/Theme/Theme";
 
-const ComponentCheckbox = () => {
+const ComponentRadio = () => {
   return (
     <div className="py-12">
       <h1 className="mb-4">라디오</h1>
@@ -121,4 +121,4 @@ const ComponentCheckbox = () => {
   );
 };
 
-export default ComponentCheckbox;
+export default ComponentRadio;
