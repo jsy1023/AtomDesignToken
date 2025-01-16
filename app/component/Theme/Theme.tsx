@@ -9,9 +9,22 @@ export const ThemeSelector = ({
   type: "all" | "theme" | "input";
 }) => {
   const themes = ["standard", "dark"];
-  const [slectedTheme, setSelectedTheme] = useState("standard");
+  const [selectedTheme, setSelectedTheme] = useState("standard");
   const inputThemes = ["inputStandard", "inputCircle"];
-  const [slectedInputTheme, setSelectedInputTheme] = useState("inputStandard");
+  const [selectedInputTheme, setSelectedInputTheme] = useState("inputStandard");
+
+  useEffect(() => {
+    const chageThemeValue = () => {
+      const storedTheme = localStorage.getItem("theme") || "standard";
+      const storedInputTheme =
+        localStorage.getItem("inputTheme") || "inputStandard";
+
+      setSelectedTheme(storedTheme);
+      setSelectedInputTheme(storedInputTheme);
+    };
+
+    chageThemeValue();
+  }, []);
 
   // main theme
   const handleThemeChange = (theme: string) => {
@@ -41,7 +54,7 @@ export const ThemeSelector = ({
                 value={theme}
                 key={theme}
                 onChange={() => handleThemeChange(theme)}
-                isChecked={theme == slectedTheme}
+                isChecked={theme == selectedTheme}
               />
             ))}
           </div>
@@ -54,7 +67,7 @@ export const ThemeSelector = ({
                 value={inputTheme}
                 key={inputTheme}
                 onChange={() => handleInputThemeChange(inputTheme)}
-                isChecked={inputTheme == slectedInputTheme}
+                isChecked={inputTheme == selectedInputTheme}
               />
             ))}
           </div>
@@ -71,8 +84,8 @@ export const ThemeWrapper = ({
   children: React.ReactNode;
   className: string;
 }) => {
-  const [theme, setTheme] = useState<string>("standard"); // 테마 상태 추가
-  const [inputTheme, setInputTheme] = useState<string>("inputStandard"); // 테마 상태 추가
+  const [theme, setTheme] = useState<string | null>(null); // 테마 상태 추가
+  const [inputTheme, setInputTheme] = useState<string | null>(null); // 테마 상태 추가
   // theme setting
   useEffect(() => {
     // 로컬 스토리지에서 테마 가져오기
@@ -80,6 +93,7 @@ export const ThemeWrapper = ({
       setTheme(localStorage.getItem("theme") || "standard");
       setInputTheme(localStorage.getItem("inputTheme") || "inputStandard");
     };
+    listenStorageChange();
     window.addEventListener("storage", listenStorageChange);
 
     return () => window.removeEventListener("storage", listenStorageChange);
