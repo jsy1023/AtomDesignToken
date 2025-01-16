@@ -75,6 +75,11 @@ const GlobalNav = () => {
               체크박스
             </Link>
           </li>
+          <li>
+            <Link href={"/component/radio"} className="px-4 py-2 block">
+              라디오
+            </Link>
+          </li>
         </ul>
       </nav>
       <button
