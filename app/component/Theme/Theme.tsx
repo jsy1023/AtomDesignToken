@@ -54,7 +54,7 @@ export const ThemeSelector = ({
                 value={theme}
                 key={theme}
                 onChange={() => handleThemeChange(theme)}
-                isChecked={theme == selectedTheme}
+                defaultChecked={theme == selectedTheme}
               />
             ))}
           </div>
@@ -67,7 +67,7 @@ export const ThemeSelector = ({
                 value={inputTheme}
                 key={inputTheme}
                 onChange={() => handleInputThemeChange(inputTheme)}
-                isChecked={inputTheme == selectedInputTheme}
+                defaultChecked={inputTheme == selectedInputTheme}
               />
             ))}
           </div>

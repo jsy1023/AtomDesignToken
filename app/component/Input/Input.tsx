@@ -96,16 +96,21 @@ export const Radio = ({
   name,
   value,
   onChange,
-  isChecked,
+  defaultChecked,
 }: {
   name: string;
   value: string;
   onChange?: () => void;
-  isChecked?: boolean;
+  defaultChecked?: boolean;
 }) => {
   return (
     <label className="flex gap-2">
-      <input type="radio" name={name} onChange={onChange} checked={isChecked} />
+      <input
+        type="radio"
+        name={name}
+        onChange={onChange}
+        defaultChecked={defaultChecked}
+      />
       <span>{value}</span>
     </label>
   );

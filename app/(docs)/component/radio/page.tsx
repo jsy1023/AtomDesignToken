@@ -49,7 +49,7 @@ const ComponentCheckbox = () => {
         </div>
         <CardContent>
           <Card type="group" className="flex flex-wrap gap-4 justify-center">
-            <Radio name={"example"} value={"선택1"} />
+            <Radio name={"example"} value={"선택1"} defaultChecked />
             <Radio name={"example"} value={"선택2"} />
           </Card>
         </CardContent>
