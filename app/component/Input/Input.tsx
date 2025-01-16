@@ -92,6 +92,10 @@ export const Input = ({
   );
 };
 
+export const Select = () => {
+  return <select name="" id=""></select>;
+};
+
 export const Radio = ({
   name,
   value,
