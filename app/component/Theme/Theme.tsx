@@ -113,6 +113,6 @@ export const ThemeWrapper = ({
   }
 
   return (
-    <div className={`${className} ${theme} ${inputTheme}`}>{children}</div>
+    <body className={`${className} ${theme} ${inputTheme}`}>{children}</body>
   );
 };

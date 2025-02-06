@@ -2,12 +2,11 @@
 
 import Link from "next/link";
 
-import { ThemeWrapper } from "../component/Theme/Theme";
 import GlobalNav from "../component/GlobalNav/GlobalNav";
 
 const DocsLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <ThemeWrapper className={`flex h-full`}>
+    <div className={`flex h-full`}>
       <GlobalNav />
       <div className="w-full bg-fill-wrapper text-text-standard flex flex-col items-center relative overflow-auto">
         <div className="max-w-[800px] w-full px-4 py-12 lg:px-0 lg:py-24">
@@ -25,7 +24,7 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
           . MIT License
         </footer>
       </div>
-    </ThemeWrapper>
+    </div>
   );
 };
 
