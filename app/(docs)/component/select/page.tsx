@@ -1,5 +1,5 @@
 import { Card, CardHeader, CardContent } from "@/app/component/Card/Card";
-import { Radio, Select } from "@/app/component/Input/Input";
+import { Select } from "@/app/component/Input/Input";
 import Link from "next/link";
 import version from "@/versonHistory.json";
 import CodeBlock from "@/app/component/CodeBlock/CodeBlock";
