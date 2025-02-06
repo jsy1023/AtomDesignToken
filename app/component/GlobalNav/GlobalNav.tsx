@@ -71,6 +71,11 @@ const GlobalNav = () => {
             </Link>
           </li>
           <li>
+            <Link href={"/component/select"} className="px-4 py-2 block">
+              선택창
+            </Link>
+          </li>
+          <li>
             <Link href={"/component/checkbox"} className="px-4 py-2 block">
               체크박스
             </Link>
@@ -78,11 +83,6 @@ const GlobalNav = () => {
           <li>
             <Link href={"/component/radio"} className="px-4 py-2 block">
               라디오
-            </Link>
-          </li>
-          <li>
-            <Link href={"/component/select"} className="px-4 py-2 block">
-              선택창
             </Link>
           </li>
         </ul>
