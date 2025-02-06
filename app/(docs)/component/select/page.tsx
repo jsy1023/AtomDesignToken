@@ -1,5 +1,5 @@
 import { Card, CardHeader, CardContent } from "@/app/component/Card/Card";
-import { Radio } from "@/app/component/Input/Input";
+import { Radio, Select } from "@/app/component/Input/Input";
 import Link from "next/link";
 import version from "@/versonHistory.json";
 import CodeBlock from "@/app/component/CodeBlock/CodeBlock";
@@ -14,7 +14,7 @@ const ComponentSelect = () => {
         컨트롤러입니다. 10개 이상의 선택지가 있는 경우에 사용을 권장합니다.
       </p>
       <hr className="my-4" />
-      <h2 className="mb-4">라디오의 디자인적 구성요소</h2>
+      <h2 className="mb-4">선책창의 디자인적 구성요소</h2>
       <p className="mb-4">
         &nbsp;선택창의 디자인 구성요소로는 배경색, 선, 여백을 기본으로 각
         상태변화에 따른 값을 가지고 있습니다.
@@ -34,50 +34,34 @@ const ComponentSelect = () => {
     colors: {
         "input-background-standard": "var(--input-background-standard)",
         "input-background-disabled": "var(--input-background-disabled)",
+        "input-background-value": "var(--input-background-value)",
         "input-border-standard": "var(--input-border-standard)",
         "input-border-focus": "var(--input-border-focus)",
+        "input-text-value": "var(--input-text-value)",
+        "input-text-placeholder": "var(--input-text-placeholder)",
     },
       borderRadius: {
-        "input-rounded": "var(--input-rounded)"
+        "input-border": "var(--input-rounded)"
       },
   }
 }`}
           </CodeBlock>
         </CardHeader>
         <div className="p-4">
-          <ThemeSelector type="theme" />
+          <ThemeSelector type="all" />
         </div>
         <CardContent>
-          <Card type="group" className="flex flex-wrap gap-4 justify-center">
-            <select name="" id="">
-              <option value="">1</option>
-              <option value="">2</option>
-              <option value="">3</option>
-            </select>
+          <Card
+            type="group"
+            className="flex flex-col flex-wrap gap-4 justify-center"
+          >
+            <Select options={["대한민국", "일본", "미국", "대만", "중국"]} />
+            <p className="mb-4">
+              &nbsp;선택창의 경우 7개 이상의 선택요소가 있을 경우에 사용하므로
+              리스트 내 검색기능을 제공합니다.
+            </p>
           </Card>
         </CardContent>
-      </Card>
-      <hr className="my-4" />
-      <h2 className="mb-4">라디오의 기본상태</h2>
-      <p className="mb-4">
-        &nbsp;라디오의 경우 단일한 요소로 존재할 수 없으며 기본 2개 이상의
-        선택사항이 제공되어야 사용될 수 있습니다.
-      </p>
-      <Card>
-        <div className="grid grid-cols-2 gap-y-8">
-          <div className="flex flex-col gap-2">
-            <p className="required">필수 값일 때</p>
-            <Radio name={"example1"} value={"선택사항 1"} defaultChecked />
-            <Radio name={"example1"} value={"선택사항 2"} />
-            <Radio name={"example1"} value={"선택사항 3"} />
-          </div>
-          <div className="flex flex-col gap-2">
-            <p>필수 값이 아닐 때</p>
-            <Radio name={"example2"} value={"선택사항 1"} />
-            <Radio name={"example2"} value={"선택사항 2"} />
-            <Radio name={"example2"} value={"선택사항 3"} />
-          </div>
-        </div>
       </Card>
       <hr className="my-4" />
       {/* <h2 className="mb-4">체크박스의 활용</h2>
@@ -101,12 +85,12 @@ const ComponentSelect = () => {
             mdn,
             <Link
               href={
-                "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/radio"
+                "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select"
               }
               target="_blank"
               className="text-primary"
             >
-              &nbsp;https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/radio
+              &nbsp;https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select
             </Link>
           </li>
         </ul>
@@ -115,8 +99,8 @@ const ComponentSelect = () => {
       <ul className="list-disc p-8">
         <li>
           <div className="flex gap-4">
-            <p>최종수정일자: {version.page.radio.dateTime}</p>
-            <p>version: {version.page.radio.version}</p>
+            <p>최종수정일자: {version.page.select.version["0.0.1"].dateTime}</p>
+            <p>version: {version.page.select.version["0.0.1"].version}</p>
           </div>
         </li>
       </ul>
