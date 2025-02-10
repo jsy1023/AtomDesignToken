@@ -3,6 +3,7 @@ import "./globals.css";
 import "@/app/component/component.css";
 import "@/app/styles/input.css";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { ThemeWrapper } from "./component/Theme/Theme";
 
 export const metadata: Metadata = {
   title: "Design System",
@@ -22,7 +23,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="w-full h-full">{children}</body>
+      <ThemeWrapper className="w-full h-full">{children}</ThemeWrapper>
       <GoogleAnalytics gaId="G-TB8EG3XKBV" />
     </html>
   );

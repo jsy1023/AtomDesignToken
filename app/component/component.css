@@ -33,3 +33,10 @@
     @apply outline-none;
   }
 }
+
+@layer components {
+  .required::after {
+    content: "*";
+    @apply ml-1 text-danger;
+  }
+}

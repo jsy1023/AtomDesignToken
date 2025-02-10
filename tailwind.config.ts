@@ -132,7 +132,7 @@ export default {
         "md": "var(--rounded-md)",
         "lg": "var(--rounded-lg)",
         "full": "var(--rounded-full)",
-        "input-border": "var(--input-rounded)"
+        "input-rounded": "var(--input-rounded)"
         
       },
       fontFamily: {

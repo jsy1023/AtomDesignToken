@@ -3,11 +3,32 @@
 import { useEffect, useState } from "react";
 import { Radio } from "../Input/Input";
 
-export const ThemeSelector = () => {
+export const ThemeSelector = ({
+  type,
+}: {
+  type: "all" | "theme" | "input";
+}) => {
   const themes = ["standard", "dark"];
-  const [slectedTheme, setSelectedTheme] = useState("standard");
+  const [selectedTheme, setSelectedTheme] = useState<string | null>(null);
   const inputThemes = ["inputStandard", "inputCircle"];
-  const [slectedInputTheme, setSelectedInputTheme] = useState("inputStandard");
+  const [selectedInputTheme, setSelectedInputTheme] = useState<string | null>(
+    null
+  );
+  const [isThemeLoading, setThemeLoading] = useState(false);
+
+  useEffect(() => {
+    const chageThemeValue = () => {
+      const storedTheme = localStorage.getItem("theme") || "standard";
+      const storedInputTheme =
+        localStorage.getItem("inputTheme") || "inputStandard";
+
+      setSelectedTheme(storedTheme);
+      setSelectedInputTheme(storedInputTheme);
+    };
+
+    chageThemeValue();
+    setThemeLoading(true);
+  }, []);
 
   // main theme
   const handleThemeChange = (theme: string) => {
@@ -25,32 +46,40 @@ export const ThemeSelector = () => {
       setSelectedInputTheme(theme);
     }
   };
+  if (isThemeLoading == false) {
+    return null;
+  }
+
   return (
     <div className="flex flex-col gap-4">
       <p>theme 선택</p>
       <div className="flex flex-col gap-4">
-        <div className="flex gap-4">
-          {themes.map((theme) => (
-            <Radio
-              name="mainTheme"
-              value={theme}
-              key={theme}
-              onChange={() => handleThemeChange(theme)}
-              isChecked={theme == slectedTheme}
-            />
-          ))}
-        </div>
-        <div className="flex gap-4">
-          {inputThemes.map((inputTheme) => (
-            <Radio
-              name="inputTheme"
-              value={inputTheme}
-              key={inputTheme}
-              onChange={() => handleInputThemeChange(inputTheme)}
-              isChecked={inputTheme == slectedInputTheme}
-            />
-          ))}
-        </div>
+        {type == "all" || type == "theme" ? (
+          <div className="flex gap-4">
+            {themes.map((theme) => (
+              <Radio
+                name="mainTheme"
+                value={theme}
+                key={theme}
+                onChange={() => handleThemeChange(theme)}
+                defaultChecked={theme == selectedTheme}
+              />
+            ))}
+          </div>
+        ) : null}
+        {type == "all" || type == "input" ? (
+          <div className="flex gap-4">
+            {inputThemes.map((inputTheme) => (
+              <Radio
+                name="inputTheme"
+                value={inputTheme}
+                key={inputTheme}
+                onChange={() => handleInputThemeChange(inputTheme)}
+                defaultChecked={inputTheme == selectedInputTheme}
+              />
+            ))}
+          </div>
+        ) : null}
       </div>
     </div>
   );
@@ -63,8 +92,9 @@ export const ThemeWrapper = ({
   children: React.ReactNode;
   className: string;
 }) => {
-  const [theme, setTheme] = useState<string>("standard"); // 테마 상태 추가
-  const [inputTheme, setInputTheme] = useState<string>("inputStandard"); // 테마 상태 추가
+  const [theme, setTheme] = useState<string | null>(null); // 테마 상태 추가
+  const [inputTheme, setInputTheme] = useState<string | null>(null); // 테마 상태 추가
+  const [isThemeLoading, setThemeLoading] = useState(false);
   // theme setting
   useEffect(() => {
     // 로컬 스토리지에서 테마 가져오기
@@ -72,12 +102,17 @@ export const ThemeWrapper = ({
       setTheme(localStorage.getItem("theme") || "standard");
       setInputTheme(localStorage.getItem("inputTheme") || "inputStandard");
     };
+    listenStorageChange();
     window.addEventListener("storage", listenStorageChange);
-
+    setThemeLoading(true);
     return () => window.removeEventListener("storage", listenStorageChange);
   }, [theme]);
 
+  if (isThemeLoading == false) {
+    return null;
+  }
+
   return (
-    <div className={`${className} ${theme} ${inputTheme}`}>{children}</div>
+    <body className={`${className} ${theme} ${inputTheme}`}>{children}</body>
   );
 };

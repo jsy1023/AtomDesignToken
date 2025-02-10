@@ -5,14 +5,14 @@ import version from "@/versonHistory.json";
 import CodeBlock from "@/app/component/CodeBlock/CodeBlock";
 import { ThemeSelector } from "@/app/component/Theme/Theme";
 
-const ComponentHome = () => {
+const ComponentInput = () => {
   return (
     <div className="py-12">
       <h1 className="mb-4">입력창</h1>
       <p>
         &nbsp;입력창은 사용자로부터 데이터를 전달받기 위한 대화형
         컨트롤러입니다. 다양한 종류로 구성되어 있으며 사용자와의 상호작용을 위해
-        입력창의 상태전화를 직관적으로 표현해야합니다.
+        입력창의 상태전환을 직관적으로 표현해야합니다.
       </p>
       <hr className="my-4" />
       <h2 className="mb-4">입력창의 디자인적 구성요소</h2>
@@ -56,10 +56,12 @@ const ComponentHome = () => {
           </CodeBlock>
         </CardHeader>
         <div className="p-4">
-          <ThemeSelector />
+          <ThemeSelector type="all" />
         </div>
         <CardContent>
-          <Input />
+          <Card type="group" className="flex justify-center">
+            <Input className="w-full" />
+          </Card>
         </CardContent>
       </Card>
       <hr className="my-4" />
@@ -141,4 +143,4 @@ const ComponentHome = () => {
   );
 };
 
-export default ComponentHome;
+export default ComponentInput;
