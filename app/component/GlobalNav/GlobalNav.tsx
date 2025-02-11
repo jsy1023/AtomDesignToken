@@ -85,6 +85,11 @@ const GlobalNav = () => {
               라디오
             </Link>
           </li>
+          <li>
+            <Link href={"/component/button"} className="px-4 py-2 block">
+              버튼
+            </Link>
+          </li>
         </ul>
       </nav>
       <button
