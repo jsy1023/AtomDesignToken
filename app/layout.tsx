@@ -6,8 +6,30 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import { ThemeWrapper } from "./component/Theme/Theme";
 
 export const metadata: Metadata = {
-  title: "Design System",
+  title: { template: `%s | Atomic Design`, default: "Atom Design System" },
   description: "Design System for atomground",
+  keywords: [
+    "AtomicDesign",
+    "Design System",
+    "Design Token",
+    "tailwinds",
+    "UI/UX",
+    "React",
+    "Component",
+  ],
+  robots: {
+    index: true,
+    follow: true,
+    nocache: false,
+    googleBot: {
+      index: true,
+      follow: true,
+      noimageindex: false,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 };
 
 export default function RootLayout({

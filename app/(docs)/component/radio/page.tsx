@@ -1,9 +1,18 @@
+import type { Metadata } from "next";
+
 import { Card, CardHeader, CardContent } from "@/app/component/Card/Card";
 import { Radio } from "@/app/component/Input/Input";
 import Link from "next/link";
 import version from "@/versonHistory.json";
 import CodeBlock from "@/app/component/CodeBlock/CodeBlock";
 import { ThemeSelector } from "@/app/component/Theme/Theme";
+
+export const metadata: Metadata = {
+  title: "Radio",
+  description:
+    "라디오는 사용자가 여러가지 선택사항 중 한가지 옵션을 선택 할 수 있는 컨트롤러입니다.",
+  keywords: ["Button"],
+};
 
 const ComponentRadio = () => {
   return (

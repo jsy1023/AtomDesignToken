@@ -1,9 +1,18 @@
+import type { Metadata } from "next";
+
 import { Card, CardHeader, CardContent } from "@/app/component/Card/Card";
 import { Select } from "@/app/component/Input/Input";
 import Link from "next/link";
 import version from "@/versonHistory.json";
 import CodeBlock from "@/app/component/CodeBlock/CodeBlock";
 import { ThemeSelector } from "@/app/component/Theme/Theme";
+
+export const metadata: Metadata = {
+  title: "Select",
+  description:
+    "선택창은 여러가지 항목중 단일의 내용을 선택할 수 있는 컨트롤러입니다. 10개 이상의 선택지가 있는 경우에 사용을 권장합니다.",
+  keywords: ["Select"],
+};
 
 const ComponentSelect = () => {
   return (

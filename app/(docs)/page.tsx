@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import { Card } from "../component/Card/Card";
 import { Input } from "../component/Input/Input";

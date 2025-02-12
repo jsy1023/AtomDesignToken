@@ -1,9 +1,18 @@
+import type { Metadata } from "next";
+
 import { Button } from "@/app/component/Button/Button";
 import { Card, CardContent, CardHeader } from "@/app/component/Card/Card";
 import CodeBlock from "@/app/component/CodeBlock/CodeBlock";
 import { ThemeSelector } from "@/app/component/Theme/Theme";
 import Link from "next/link";
 import version from "@/versonHistory.json";
+
+export const metadata: Metadata = {
+  title: "Button",
+  description:
+    "버튼은 데이터를 전송하거나 상호작용하는 요소로 목적에 따라 다양한 종류의 버튼과 상태정보를 가집니다",
+  keywords: ["Button"],
+};
 
 const ComponentButton = () => {
   return (

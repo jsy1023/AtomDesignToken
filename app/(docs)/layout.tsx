@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 
 import GlobalNav from "../component/GlobalNav/GlobalNav";

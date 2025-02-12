@@ -1,9 +1,18 @@
+import type { Metadata } from "next";
+
 import { Card, CardHeader, CardContent } from "@/app/component/Card/Card";
 import { Input } from "@/app/component/Input/Input";
 import Link from "next/link";
 import version from "@/versonHistory.json";
 import CodeBlock from "@/app/component/CodeBlock/CodeBlock";
 import { ThemeSelector } from "@/app/component/Theme/Theme";
+
+export const metadata: Metadata = {
+  title: "Input",
+  description:
+    "입력창은 사용자로부터 데이터를 전달받기 위한 대화형 컨트롤러입니다. 다양한 종류로 구성되어 있으며 사용자와의 상호작용을 위해 입력창의 상태전환을 직관적으로 표현해야합니다.",
+  keywords: ["Inptu"],
+};
 
 const ComponentInput = () => {
   return (
