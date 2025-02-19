@@ -1,8 +1,18 @@
 {
-  "name": "atomdesignsystem",
-  "version": "0.1.0",
+  "name": "atomsystem",
+  "version": "0.1.10",
   "type": "module",
-  "private": true,
+  "bin": {
+    "atomsystem-init": "cli/init.js",
+    "atomsystem-add": "cli/add.js"
+  },
+  "files": [
+    "token.json",
+    "tokens",
+    "build",
+    "app/component",
+    "tailwind.config.ts"
+  ],
   "scripts": {
     "dev": "npm run build:token && next dev",
     "build": "npm run build:token && next build",
@@ -10,14 +20,22 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "peerDependencies": {
+    "@tokens-studio/sd-transforms": "^1.2.8",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "sd-tailwindcss-transformer": "^2.0.0",
+    "style-dictionary": "^4.2.0"
+  },
   "dependencies": {
     "@next/third-parties": "^15.0.3",
     "@tokens-studio/sd-transforms": "^1.2.8",
     "clsx": "^2.1.1",
     "highlight.js": "^11.11.1",
+    "inquirer": "^12.4.2",
     "next": "15.0.3",
-    "react": "19.0.0-rc-66855b96-20241106",
-    "react-dom": "19.0.0-rc-66855b96-20241106",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
     "sd-tailwindcss-transformer": "^2.0.0",
     "style-dictionary": "^4.2.0"
   },

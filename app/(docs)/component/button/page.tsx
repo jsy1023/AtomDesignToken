@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
-import { Button } from "@/app/component/Button/Button";
-import { Card, CardContent, CardHeader } from "@/app/component/Card/Card";
-import CodeBlock from "@/app/component/CodeBlock/CodeBlock";
-import { ThemeSelector } from "@/app/component/Theme/Theme";
+import { Button } from "@/cli/template/Button/Button";
+import { Card, CardContent, CardHeader } from "@/cli/template/Card/Card";
+import CodeBlock from "@/cli/template/CodeBlock/CodeBlock";
+import { ThemeSelector } from "@/cli/template/Theme/Theme";
 import Link from "next/link";
 import version from "@/versonHistory.json";
 

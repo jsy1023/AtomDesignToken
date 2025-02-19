@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 
-import { Card, CardHeader, CardContent } from "@/app/component/Card/Card";
-import { Radio } from "@/app/component/Input/Input";
+import { Card, CardHeader, CardContent } from "@/cli/template/Card/Card";
+import { Radio } from "@/cli/template/Input/Input";
+import CodeBlock from "@/cli/template/CodeBlock/CodeBlock";
+import { ThemeSelector } from "@/cli/template/Theme/Theme";
 import Link from "next/link";
 import version from "@/versonHistory.json";
-import CodeBlock from "@/app/component/CodeBlock/CodeBlock";
-import { ThemeSelector } from "@/app/component/Theme/Theme";
 
 export const metadata: Metadata = {
   title: "Radio",

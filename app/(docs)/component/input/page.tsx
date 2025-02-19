@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 
-import { Card, CardHeader, CardContent } from "@/app/component/Card/Card";
-import { Input } from "@/app/component/Input/Input";
+import { Card, CardHeader, CardContent } from "@/cli/template/Card/Card";
+import { Input } from "@/cli/template/Input/Input";
+import { ThemeSelector } from "@/cli/template/Theme/Theme";
+import CodeBlock from "@/cli/template/CodeBlock/CodeBlock";
 import Link from "next/link";
 import version from "@/versonHistory.json";
-import CodeBlock from "@/app/component/CodeBlock/CodeBlock";
-import { ThemeSelector } from "@/app/component/Theme/Theme";
 
 export const metadata: Metadata = {
   title: "Input",
