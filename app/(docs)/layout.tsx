@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import GlobalNav from "../component/GlobalNav/GlobalNav";
+import GlobalNav from "@/app/templates/GlobalNav/GlobalNav";
 
 const DocsLayout = ({ children }: { children: React.ReactNode }) => {
   return (

@@ -67,6 +67,11 @@ const GlobalNav = () => {
             </Link>
           </li>
           <li>
+            <Link href={"/install"} className="px-4 py-2 block">
+              설치하기
+            </Link>
+          </li>
+          <li>
             <Link href={"/component/input"} className="px-4 py-2 block">
               입력창
             </Link>

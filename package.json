@@ -11,7 +11,7 @@
     "tokens",
     "build",
     "tailwind.config.ts",
-    "cli/templates"
+    "app/templates"
   ],
   "scripts": {
     "dev": "npm run build:token && next dev",

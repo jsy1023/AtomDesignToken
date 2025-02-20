@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import "@/app/component/component.css";
 import "@/app/styles/input.css";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { ThemeWrapper } from "@/app/templates/Theme/Theme";

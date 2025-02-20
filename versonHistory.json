@@ -1,5 +1,14 @@
 {
   "page": {
+    "install": {
+      "version": {
+        "0.0.1": {
+          "version": "0.0.1",
+          "content": "npm 명령어 생성",
+          "dateTime": "2025.02.20 18:02"
+        }
+      }
+    },
     "index": {
       "content": "기본 레이아웃 및 아톰그라운드 디자인 시스템 최초 공개",
       "dateTime": "2024.01.06 09:52",

@@ -11,7 +11,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // 컴포넌트 템플릿이 위치한 디렉토리
-const templateDir = path.join(__dirname, "templates");
+const templateDir = path.join(__dirname, "..", "app", "templates");
 
 // 사용할 수 있는 컴포넌트 목록
 const components = [
