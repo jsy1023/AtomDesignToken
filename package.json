@@ -1,6 +1,6 @@
 {
   "name": "atomsystem",
-  "version": "0.1.10",
+  "version": "0.1.13",
   "type": "module",
   "bin": {
     "atomsystem-init": "cli/init.js",
@@ -10,8 +10,8 @@
     "token.json",
     "tokens",
     "build",
-    "app/component",
-    "tailwind.config.ts"
+    "tailwind.config.ts",
+    "cli/templates"
   ],
   "scripts": {
     "dev": "npm run build:token && next dev",
