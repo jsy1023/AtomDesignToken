@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Card, CardContent, CardHeader } from "@/app/templates/Card/Card";
+import { Card, CardContent } from "@/app/templates/Card/Card";
 import CodeBlock from "@/app/templates/CodeBlock/CodeBlock";
 import version from "@/versonHistory.json";
 
