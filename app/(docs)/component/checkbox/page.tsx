@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
-import { Card, CardHeader, CardContent } from "@/cli/templates/Card/Card";
-import { Checkbox } from "@/cli/templates/Input/Input";
-import { ThemeSelector } from "@/cli/templates/Theme/Theme";
-import CodeBlock from "@/cli/templates/CodeBlock/CodeBlock";
+import { Card, CardHeader, CardContent } from "@/app/templates/Card/Card";
+import { Checkbox } from "@/app/templates/Input/Input";
+import { ThemeSelector } from "@/app/templates/Theme/Theme";
+import CodeBlock from "@/app/templates/CodeBlock/CodeBlock";
 import Link from "next/link";
 import version from "@/versonHistory.json";
 

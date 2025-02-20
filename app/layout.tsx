@@ -3,7 +3,7 @@ import "./globals.css";
 import "@/app/component/component.css";
 import "@/app/styles/input.css";
 import { GoogleAnalytics } from "@next/third-parties/google";
-import { ThemeWrapper } from "@/cli/templates/Theme/Theme";
+import { ThemeWrapper } from "@/app/templates/Theme/Theme";
 
 export const metadata: Metadata = {
   title: { template: `%s | Atomic Design`, default: "Atom Design System" },

@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { Card } from "@/cli/templates/Card/Card";
-import { Input } from "@/cli/templates/Input/Input";
+import { Card } from "@/app/templates/Card/Card";
+import { Input } from "@/app/templates/Input/Input";
 import Image from "next/image";
 
 import atomicSymbol from "@/public/images/global/logoSymbol.svg";
@@ -10,7 +10,7 @@ import TokensStudioImage from "@/public/images/logos/tokensStudio.png";
 import Styledictionary from "@/public/images/logos/styledictionary.png";
 
 import version from "@/versonHistory.json";
-import { ThemeSelector } from "@/cli/templates/Theme/Theme";
+import { ThemeSelector } from "@/app/templates/Theme/Theme";
 
 const DocsHome = () => {
   return (

@@ -59,7 +59,7 @@ export const Input = ({
       <input
         type="text"
         className={clsx(
-          "transition-all border px-4 py-2 border-input-border-standard text-input-text-value rounded-input-rounded",
+          "transition-all border px-4 py-2 border-input-border-standard text-input-text-value rounded-input-rounded bg-input-background-standard",
           value ? "bg-input-background-value" : "bg-input-background-standard ",
           { "placeholder:text-input-text-placeholder": true },
           { "focus:border-input-border-focus": true },

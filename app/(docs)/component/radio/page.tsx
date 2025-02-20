@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
-import { Card, CardHeader, CardContent } from "@/cli/templates/Card/Card";
-import { Radio } from "@/cli/templates/Input/Input";
-import CodeBlock from "@/cli/templates/CodeBlock/CodeBlock";
-import { ThemeSelector } from "@/cli/templates/Theme/Theme";
+import { Card, CardHeader, CardContent } from "@/app/templates/Card/Card";
+import { Radio } from "@/app/templates/Input/Input";
+import CodeBlock from "@/app/templates/CodeBlock/CodeBlock";
+import { ThemeSelector } from "@/app/templates/Theme/Theme";
 import Link from "next/link";
 import version from "@/versonHistory.json";
 
