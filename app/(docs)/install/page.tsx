@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { Card, CardContent, CardHeader } from "@/app/templates/Card/Card";
 import CodeBlock from "@/app/templates/CodeBlock/CodeBlock";
-import { Input } from "@/app/templates/Input/Input";
-import { ThemeSelector } from "@/app/templates/Theme/Theme";
 import version from "@/versonHistory.json";
 
 export const metadata: Metadata = {
