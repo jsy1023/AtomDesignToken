@@ -1,6 +1,6 @@
 {
   "name": "atomsystem",
-  "version": "0.1.13",
+  "version": "0.1.17",
   "type": "module",
   "bin": {
     "atomsystem-init": "cli/init.js",
@@ -9,7 +9,6 @@
   "files": [
     "token.json",
     "tokens",
-    "build",
     "tailwind.config.ts",
     "app/templates"
   ],

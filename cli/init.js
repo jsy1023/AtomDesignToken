@@ -1,10 +1,28 @@
 #!/usr/bin/env node
 import inquirer from "inquirer";
 import { exec } from "child_process";
-import fs from "fs"; // 파일 시스템 작업을 위한 모듈
-import path from "path"; // 경로 작업을 위한 모듈
+import fs, { copyFileSync, mkdirSync, readdirSync } from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+import { promisify } from "util";
 
-// 사용자에게 질문을 던져서 Next.js와 React를 설치할지 물어봅니다.
+const execPromise = promisify(exec);
+
+// 현재 실행중인 CLI 파일의 디렉토리 찾기
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// 패키지 내부 경로 설정
+const packageRoot = path.join(__dirname, "..");
+const tokenFile = path.join(packageRoot, "token.json");
+const tokenDir = path.join(packageRoot, "tokens");
+
+// 프로젝트 루트 경로 (사용자가 실행한 곳)
+const projectRoot = process.cwd();
+const targetTokenFile = path.join(projectRoot, "token.json");
+const targetTokensDir = path.join(projectRoot, "tokens");
+
+// 사용자에게 Next.js 설치 여부 질문
 inquirer
   .prompt([
     {
@@ -14,105 +32,94 @@ inquirer
       default: true,
     },
   ])
-  .then((answers) => {
+  .then(async (answers) => {
     if (answers.installPackages) {
       console.log("Installing Next.js and React...");
 
-      // 두 패키지를 동시에 설치하는 명령어
-      exec(
-        "npm install next@latest react@latest react-dom@latest",
-        (err, stdout, stderr) => {
-          if (err) {
-            console.error(`Error: ${stderr}`);
-          } else {
-            console.log(stdout);
-            console.log("Installation complete!");
+      try {
+        await execPromise(
+          "npm install next@latest react@latest react-dom@latest tailwindcss"
+        );
+        console.log("✅ Installation complete!");
+      } catch (err) {
+        console.error("❌ Error during installation:", err);
+        return;
+      }
 
-            // package.json에 scripts 추가
-            const packageJsonPath = path.join(process.cwd(), "package.json");
-            fs.readFile(packageJsonPath, "utf8", (err, data) => {
-              if (err) {
-                console.error("Error reading package.json:", err);
-                return;
-              }
+      // package.json 업데이트
+      const packageJsonPath = path.join(projectRoot, "package.json");
+      try {
+        const packageJson = JSON.parse(
+          fs.readFileSync(packageJsonPath, "utf8")
+        );
 
-              const packageJson = JSON.parse(data);
+        packageJson.scripts = {
+          ...packageJson.scripts,
+          dev: "npm run build:token && next dev",
+          build: "next build",
+          build_token:
+            "node tokens/buildTokenSplit.js && node tokens/buildMergeCss.js",
+          start: "next start",
+          lint: "next lint",
+        };
 
-              // scripts 항목 추가
-              packageJson.scripts = packageJson.scripts || {};
-              packageJson.scripts.dev = "next dev";
-              packageJson.scripts.build = "next build";
-              packageJson.scripts.start = "next start";
-              packageJson.scripts.lint = "next lint";
+        fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
+        console.log("✅ Updated package.json with scripts.");
+      } catch (err) {
+        console.error("❌ Error updating package.json:", err);
+        return;
+      }
 
-              // 수정된 package.json을 덮어씁니다.
-              fs.writeFile(
-                packageJsonPath,
-                JSON.stringify(packageJson, null, 2),
-                (err) => {
-                  if (err) {
-                    console.error("Error updating package.json:", err);
-                  } else {
-                    console.log("Updated package.json with scripts.");
-                  }
-                }
-              );
-            });
+      // app 디렉토리 생성 및 파일 추가
+      const appDir = path.join(projectRoot, "app");
+      if (!fs.existsSync(appDir)) mkdirSync(appDir);
 
-            // app 디렉토리 생성 및 layout.tsx, page.tsx 파일 추가
-            const appDir = path.join(process.cwd(), "app");
-            const layoutPath = path.join(appDir, "layout.tsx");
-            const pagePath = path.join(appDir, "page.tsx");
-
-            // app 디렉토리가 없으면 생성
-            if (!fs.existsSync(appDir)) {
-              fs.mkdirSync(appDir);
-            }
-
-            // layout.tsx 파일 내용
-            const layoutContent = `export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+      const files = [
+        {
+          path: path.join(appDir, "layout.tsx"),
+          content: `export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body>{children}</body>
     </html>
   )
-}
-`;
-
-            // page.tsx 파일 내용
-            const pageContent = `export default function Page() {
+}`,
+        },
+        {
+          path: path.join(appDir, "page.tsx"),
+          content: `export default function Page() {
   return <h1>Hello, Next.js!</h1>
-}
-`;
+}`,
+        },
+      ];
 
-            // layout.tsx 파일 생성
-            fs.writeFile(layoutPath, layoutContent, (err) => {
-              if (err) {
-                console.error("Error creating layout.tsx:", err);
-              } else {
-                console.log("Created layout.tsx.");
-              }
-            });
-
-            // page.tsx 파일 생성
-            fs.writeFile(pagePath, pageContent, (err) => {
-              if (err) {
-                console.error("Error creating page.tsx:", err);
-              } else {
-                console.log("Created page.tsx.");
-              }
-            });
-          }
-        }
-      );
+      files.forEach(({ path, content }) => {
+        fs.writeFileSync(path, content);
+        console.log(`✅ Created ${path}`);
+      });
     } else {
-      console.log("Installation skipped.");
+      console.log("🚀 Installation skipped.");
     }
+
+    // ✅ 토큰 파일 복사 (Next.js 설치 여부와 관계없이 실행)
+    copyFileSync(tokenFile, targetTokenFile);
+    console.log(`✅ Copied: token.json -> ${targetTokenFile}`);
+
+    if (!fs.existsSync(targetTokensDir))
+      mkdirSync(targetTokensDir, { recursive: true });
+
+    const tokenFiles = readdirSync(tokenDir).filter((file) =>
+      file.endsWith(".js")
+    );
+    tokenFiles.forEach((file) => {
+      const sourcePath = path.join(tokenDir, file);
+      const targetPath = path.join(targetTokensDir, file);
+      copyFileSync(sourcePath, targetPath);
+      console.log(`✅ Copied: ${file} -> ${targetPath}`);
+    });
+
+    console.log("🚀 Token setup complete!");
   })
   .catch((error) => {
-    console.error("Error:", error);
+    console.error("❌ Error:", error);
   });
