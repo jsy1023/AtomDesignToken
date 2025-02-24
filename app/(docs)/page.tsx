@@ -28,7 +28,7 @@ const DocsHome = () => {
         연결방법까지 모든 디자인 이론과 함께 기술하며 언제든지 복사 붙여넣기를
         통해 프로젝트에 활용하세요.
       </p>
-      <hr className="my-4" />
+      <hr className="my-4 border-fill-border" />
       <h2 className="mb-4">디자인 시스템에 관하여</h2>
       &nbsp;아톰그라운드 디자인 시스템은 아토믹 디자인을 기반으로 디자인부터
       프론트엔드 개발까지 효율적이고 체계적으로 구현하기 위한 방법론입니다.
@@ -58,7 +58,7 @@ const DocsHome = () => {
           시스템의 가이드를 따라 세밀하게 정의내릴 수 있습니다.
         </li>
       </ul>
-      <hr className="my-4" />
+      <hr className="my-4 border-fill-border" />
       <div className="hidden">
         <h2>디자인 시스템 개요</h2>
         <p>
@@ -70,7 +70,7 @@ const DocsHome = () => {
         <Card className="my-4">
           <Input className="w-full"></Input>
         </Card>
-        <hr className="my-4" />
+        <hr className="my-4 border-fill-border" />
       </div>
       <h2 className="mb-4">아래의 기술을 사용합니다.</h2>
       <p>
@@ -144,7 +144,7 @@ const DocsHome = () => {
           </li>
         </ul>
       </Card>
-      <hr className="my-4" />
+      <hr className="my-4 border-fill-border" />
       <h2 className="mb-4">참고자료</h2>
       다음에 이론을 기반으로 아토믹 디자인 시스템 이론을 구성하였습니다.
       <Card className="my-4">
@@ -174,7 +174,7 @@ const DocsHome = () => {
           </li>
         </ul>
       </Card>
-      <hr className="my-4" />
+      <hr className="my-4 border-fill-border" />
       <ul className="list-disc p-8">
         <li>
           <div className="flex gap-4">

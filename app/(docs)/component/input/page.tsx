@@ -23,7 +23,7 @@ const ComponentInput = () => {
         컨트롤러입니다. 다양한 종류로 구성되어 있으며 사용자와의 상호작용을 위해
         입력창의 상태전환을 직관적으로 표현해야합니다.
       </p>
-      <hr className="my-4" />
+      <hr className="my-4 border-fill-border" />
       <h2 className="mb-4">입력창의 디자인적 구성요소</h2>
       <p className="mb-4">
         &nbsp;입력창의 구성요소로는 배경색, 선, 글자, 여백, 모서리를 기본으로 각
@@ -73,7 +73,7 @@ const ComponentInput = () => {
           </Card>
         </CardContent>
       </Card>
-      <hr className="my-4" />
+      <hr className="my-4 border-fill-border" />
       <h2 className="mb-4">입력창의 다양한 상태구성</h2>
       <p className="mb-4">
         &nbsp;입력창은 다양한 상태 값을 가지며 이러한 상태를 디자인적으로
@@ -120,7 +120,7 @@ const ComponentInput = () => {
           </div>
         </div>
       </Card>
-      <hr className="my-4" />
+      <hr className="my-4 border-fill-border" />
       <h2 className="mb-4">참고자료</h2>
       다음에 이론을 기반으로 아토믹 디자인 시스템 이론을 구성하였습니다.
       <Card className="my-4">
@@ -139,7 +139,7 @@ const ComponentInput = () => {
           </li>
         </ul>
       </Card>
-      <hr className="my-4" />
+      <hr className="my-4 border-fill-border" />
       <ul className="list-disc p-8">
         <li>
           <div className="flex gap-4">

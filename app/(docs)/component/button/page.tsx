@@ -22,7 +22,7 @@ const ComponentButton = () => {
         &nbsp;버튼은 데이터를 전송하거나 상호작용하는 요소로 목적에 따라 다양한
         종류의 버튼과 상태정보를 가집니다.
       </p>
-      <hr className="my-4" />
+      <hr className="my-4 border-fill-border" />
       <h2 className="mb-4">버튼의 디자인적 구성요소</h2>
       <p className="mb-4">
         &nbsp;버튼의 구성요소로는 배경색, 선, 여백을 기본으로 각 상태변화에 따른
@@ -68,7 +68,7 @@ const ComponentButton = () => {
           </Card>
         </CardContent>
       </Card>
-      <hr className="my-4" />
+      <hr className="my-4 border-fill-border" />
       <h2 className="mb-4">버튼의 기본상태</h2>
       <p className="mb-4">
         &nbsp;버튼의 경우 브랜드의 색상을 표현해주는 primary, secondary와 색상을
@@ -194,7 +194,7 @@ const ComponentButton = () => {
           </tbody>
         </table>
       </Card>
-      <hr className="my-4" />
+      <hr className="my-4 border-fill-border" />
       <h2 className="mb-4">참고자료</h2>
       다음에 이론을 기반으로 아토믹 디자인 시스템 이론을 구성하였습니다.
       <Card className="my-4">
@@ -213,7 +213,7 @@ const ComponentButton = () => {
           </li>
         </ul>
       </Card>
-      <hr className="my-4" />
+      <hr className="my-4 border-fill-border" />
       <ul className="list-disc p-8">
         <li>
           <div className="flex gap-4">

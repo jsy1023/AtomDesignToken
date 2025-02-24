@@ -22,7 +22,7 @@ const ComponentSelect = () => {
         &nbsp;선택창은 여러가지 항목중 단일의 내용을 선택할 수 있는
         컨트롤러입니다. 10개 이상의 선택지가 있는 경우에 사용을 권장합니다.
       </p>
-      <hr className="my-4" />
+      <hr className="my-4 border-fill-border" />
       <h2 className="mb-4">선책창의 디자인적 구성요소</h2>
       <p className="mb-4">
         &nbsp;선택창의 디자인 구성요소로는 배경색, 선, 여백을 기본으로 각
@@ -72,7 +72,7 @@ const ComponentSelect = () => {
           </Card>
         </CardContent>
       </Card>
-      <hr className="my-4" />
+      <hr className="my-4 border-fill-border" />
       {/* <h2 className="mb-4">체크박스의 활용</h2>
       <p className="mb-4">
         &nbsp;체크박스의 기본상태 정보입니다. true, false를 표현하기 위해
@@ -85,7 +85,7 @@ const ComponentSelect = () => {
           <Checkbox label="비활성화" disabled />
         </div>
       </Card>
-      <hr className="my-4" /> */}
+      <hr className="my-4 border-fill-border" /> */}
       <h2 className="mb-4">참고자료</h2>
       다음에 이론을 기반으로 아토믹 디자인 시스템 이론을 구성하였습니다.
       <Card className="my-4">
@@ -104,7 +104,7 @@ const ComponentSelect = () => {
           </li>
         </ul>
       </Card>
-      <hr className="my-4" />
+      <hr className="my-4 border-fill-border" />
       <ul className="list-disc p-8">
         <li>
           <div className="flex gap-4">
