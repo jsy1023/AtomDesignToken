@@ -2,11 +2,24 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import clsx from "clsx";
 
 const GlobalNav = () => {
   const [windowSize, setWindowSize] = useState<number>(); // 초기값 설정
 
   const [toggleMenu, setToggleMenu] = useState<boolean>(false);
+
+  const pathname = usePathname();
+  const navMenu = [
+    { name: "시작하기", path: "/" },
+    { name: "설치하기", path: "/install" },
+    { name: "입력창", path: "/component/input" },
+    { name: "선택창", path: "/component/select" },
+    { name: "체크박스", path: "/component/checkbox" },
+    { name: "라디오", path: "/component/radio" },
+    { name: "버튼", path: "/component/button" },
+  ];
 
   // 윈도우 사이즈 추적
   useEffect(() => {
@@ -60,42 +73,22 @@ const GlobalNav = () => {
             </button>
           </div>
         </div>
+
         <ul>
-          <li>
-            <Link href={"/"} className="px-4 py-2 block">
-              시작하기
-            </Link>
-          </li>
-          <li>
-            <Link href={"/install"} className="px-4 py-2 block">
-              설치하기
-            </Link>
-          </li>
-          <li>
-            <Link href={"/component/input"} className="px-4 py-2 block">
-              입력창
-            </Link>
-          </li>
-          <li>
-            <Link href={"/component/select"} className="px-4 py-2 block">
-              선택창
-            </Link>
-          </li>
-          <li>
-            <Link href={"/component/checkbox"} className="px-4 py-2 block">
-              체크박스
-            </Link>
-          </li>
-          <li>
-            <Link href={"/component/radio"} className="px-4 py-2 block">
-              라디오
-            </Link>
-          </li>
-          <li>
-            <Link href={"/component/button"} className="px-4 py-2 block">
-              버튼
-            </Link>
-          </li>
+          {navMenu.map((menu) => {
+            return (
+              <li key={menu.name}>
+                <Link
+                  href={menu.path}
+                  className={clsx("px-4 py-2 block", {
+                    "text-primary": menu.path == pathname,
+                  })}
+                >
+                  {menu.name}
+                </Link>
+              </li>
+            );
+          })}
         </ul>
       </nav>
       <button
