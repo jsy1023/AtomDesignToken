@@ -17,13 +17,13 @@ export const metadata: Metadata = {
 const ComponentButton = () => {
   return (
     <div className="py-12">
-      <h1 className="mb-4">버튼</h1>
+      <h1 className="mb-4 text-h1">버튼</h1>
       <p>
         &nbsp;버튼은 데이터를 전송하거나 상호작용하는 요소로 목적에 따라 다양한
         종류의 버튼과 상태정보를 가집니다.
       </p>
       <hr className="my-4 border-fill-border" />
-      <h2 className="mb-4">버튼의 디자인적 구성요소</h2>
+      <h2 className="mb-4 text-h2">버튼의 디자인적 구성요소</h2>
       <p className="mb-4">
         &nbsp;버튼의 구성요소로는 배경색, 선, 여백을 기본으로 각 상태변화에 따른
         값을 가지고 있습니다.
@@ -69,7 +69,7 @@ const ComponentButton = () => {
         </CardContent>
       </Card>
       <hr className="my-4 border-fill-border" />
-      <h2 className="mb-4">버튼의 기본상태</h2>
+      <h2 className="mb-4 text-h2">버튼의 기본상태</h2>
       <p className="mb-4">
         &nbsp;버튼의 경우 브랜드의 색상을 표현해주는 primary, secondary와 색상을
         통해 사용자가 행동을 유추할 수 있는 success, danger, warning, gray 등이
@@ -195,7 +195,7 @@ const ComponentButton = () => {
         </table>
       </Card>
       <hr className="my-4 border-fill-border" />
-      <h2 className="mb-4">참고자료</h2>
+      <h2 className="mb-4 text-h2">참고자료</h2>
       다음에 이론을 기반으로 아토믹 디자인 시스템 이론을 구성하였습니다.
       <Card className="my-4">
         <ul className="list-disc px-8">

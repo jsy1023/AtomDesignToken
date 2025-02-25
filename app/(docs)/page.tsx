@@ -19,7 +19,7 @@ const DocsHome = () => {
         <div className="w-16">
           <Image src={atomicSymbol} alt={"atomground"}></Image>
         </div>
-        <h1>Atomground Design System</h1>
+        <h1 className="text-h1">Atomground Design System</h1>
       </div>
       <p className="text-text-sub mb-4">base Atomic Design System</p>
       <p>
@@ -29,7 +29,7 @@ const DocsHome = () => {
         통해 프로젝트에 활용하세요.
       </p>
       <hr className="my-4 border-fill-border" />
-      <h2 className="mb-4">디자인 시스템에 관하여</h2>
+      <h2 className="mb-4 text-h2">디자인 시스템에 관하여</h2>
       &nbsp;아톰그라운드 디자인 시스템은 아토믹 디자인을 기반으로 디자인부터
       프론트엔드 개발까지 효율적이고 체계적으로 구현하기 위한 방법론입니다.
       시스템 구성을 위해 다양한 서비스와 라이브러리에 의존성을 가지고 있습니다.
@@ -60,7 +60,7 @@ const DocsHome = () => {
       </ul>
       <hr className="my-4 border-fill-border" />
       <div className="hidden">
-        <h2>디자인 시스템 개요</h2>
+        <h2 className="text-h2">디자인 시스템 개요</h2>
         <p>
           &nbsp;아톰그라운드에 디자인 시스템은 간단한 아이디어에서
           시작되었습니다. 디자인 요소 정의하고 요소에 들어가는 여백, 타이포,
@@ -72,7 +72,7 @@ const DocsHome = () => {
         </Card>
         <hr className="my-4 border-fill-border" />
       </div>
-      <h2 className="mb-4">아래의 기술을 사용합니다.</h2>
+      <h2 className="mb-4 text-h2">아래의 기술을 사용합니다.</h2>
       <p>
         &nbsp;Figma에 Autolayout과 Component 기능을통해 디자인 적용단계에서
         프론트엔드와 동일한 컴포넌트 구성을 만들어냅니다. 이 때 Token Studio를
@@ -145,7 +145,7 @@ const DocsHome = () => {
         </ul>
       </Card>
       <hr className="my-4 border-fill-border" />
-      <h2 className="mb-4">참고자료</h2>
+      <h2 className="mb-4 text-h2">참고자료</h2>
       다음에 이론을 기반으로 아토믹 디자인 시스템 이론을 구성하였습니다.
       <Card className="my-4">
         <ul className="list-disc px-8">

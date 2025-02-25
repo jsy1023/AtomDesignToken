@@ -17,13 +17,13 @@ export const metadata: Metadata = {
 const ComponentRadio = () => {
   return (
     <div className="py-12">
-      <h1 className="mb-4">라디오</h1>
+      <h1 className="mb-4 text-h1">라디오</h1>
       <p>
         &nbsp;라디오는 사용자가 여러가지 선택사항 중 한가지 옵션을 선택 할 수
         있는 컨트롤러입니다.
       </p>
       <hr className="my-4 border-fill-border" />
-      <h2 className="mb-4">라디오의 디자인적 구성요소</h2>
+      <h2 className="mb-4 text-h2">라디오의 디자인적 구성요소</h2>
       <p className="mb-4">
         &nbsp;라디오의 구성요소로는 배경색, 선, 여백을 기본으로 각 상태변화에
         따른 값을 가지고 있습니다.
@@ -64,7 +64,7 @@ const ComponentRadio = () => {
         </CardContent>
       </Card>
       <hr className="my-4 border-fill-border" />
-      <h2 className="mb-4">라디오의 기본상태</h2>
+      <h2 className="mb-4 text-h2">라디오의 기본상태</h2>
       <p className="mb-4">
         &nbsp;라디오의 경우 단일한 요소로 존재할 수 없으며 기본 2개 이상의
         선택사항이 제공되어야 사용될 수 있습니다.
@@ -99,7 +99,7 @@ const ComponentRadio = () => {
         </div>
       </Card>
       <hr className="my-4 border-fill-border" /> */}
-      <h2 className="mb-4">참고자료</h2>
+      <h2 className="mb-4 text-h2">참고자료</h2>
       다음에 이론을 기반으로 아토믹 디자인 시스템 이론을 구성하였습니다.
       <Card className="my-4">
         <ul className="list-disc px-8">

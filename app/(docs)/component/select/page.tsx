@@ -17,13 +17,13 @@ export const metadata: Metadata = {
 const ComponentSelect = () => {
   return (
     <div className="py-12">
-      <h1 className="mb-4">선택창</h1>
+      <h1 className="mb-4 text-h1">선택창</h1>
       <p>
         &nbsp;선택창은 여러가지 항목중 단일의 내용을 선택할 수 있는
         컨트롤러입니다. 10개 이상의 선택지가 있는 경우에 사용을 권장합니다.
       </p>
       <hr className="my-4 border-fill-border" />
-      <h2 className="mb-4">선책창의 디자인적 구성요소</h2>
+      <h2 className="mb-4 text-h2">선책창의 디자인적 구성요소</h2>
       <p className="mb-4">
         &nbsp;선택창의 디자인 구성요소로는 배경색, 선, 여백을 기본으로 각
         상태변화에 따른 값을 가지고 있습니다.
@@ -86,7 +86,7 @@ const ComponentSelect = () => {
         </div>
       </Card>
       <hr className="my-4 border-fill-border" /> */}
-      <h2 className="mb-4">참고자료</h2>
+      <h2 className="mb-4 text-h2">참고자료</h2>
       다음에 이론을 기반으로 아토믹 디자인 시스템 이론을 구성하였습니다.
       <Card className="my-4">
         <ul className="list-disc px-8">

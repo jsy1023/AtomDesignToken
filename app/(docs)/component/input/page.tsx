@@ -17,14 +17,14 @@ export const metadata: Metadata = {
 const ComponentInput = () => {
   return (
     <div className="py-12">
-      <h1 className="mb-4">입력창</h1>
+      <h1 className="mb-4 text-h1">입력창</h1>
       <p>
         &nbsp;입력창은 사용자로부터 데이터를 전달받기 위한 대화형
         컨트롤러입니다. 다양한 종류로 구성되어 있으며 사용자와의 상호작용을 위해
         입력창의 상태전환을 직관적으로 표현해야합니다.
       </p>
       <hr className="my-4 border-fill-border" />
-      <h2 className="mb-4">입력창의 디자인적 구성요소</h2>
+      <h2 className="mb-4 text-h2">입력창의 디자인적 구성요소</h2>
       <p className="mb-4">
         &nbsp;입력창의 구성요소로는 배경색, 선, 글자, 여백, 모서리를 기본으로 각
         상태변화에 따른 값을 가지고 있습니다. 해당 내용을 변수화하여 다양한
@@ -74,7 +74,7 @@ const ComponentInput = () => {
         </CardContent>
       </Card>
       <hr className="my-4 border-fill-border" />
-      <h2 className="mb-4">입력창의 다양한 상태구성</h2>
+      <h2 className="mb-4 text-h2">입력창의 다양한 상태구성</h2>
       <p className="mb-4">
         &nbsp;입력창은 다양한 상태 값을 가지며 이러한 상태를 디자인적으로
         직관적으로 표현함으로서 사용자가 입력창의 상태를 바로 파악하고 다음의

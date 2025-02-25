@@ -17,14 +17,14 @@ export const metadata: Metadata = {
 const ComponentCheckbox = () => {
   return (
     <div className="py-12">
-      <h1 className="mb-4">체크박스</h1>
+      <h1 className="mb-4 text-h1">체크박스</h1>
       <p>
         &nbsp;체크박스는 사용자가 여러가지 선택사항 중 한가지 이상 선택을 할 수
         있는 컨트롤러입니다. 1개 ~ 10개 사이의 선택사항이 있는 경우 체크박스의
         사용을 권장합니다.
       </p>
       <hr className="my-4 border-fill-border" />
-      <h2 className="mb-4">체크박스의 디자인적 구성요소</h2>
+      <h2 className="mb-4 text-h2">체크박스의 디자인적 구성요소</h2>
       <p className="mb-4">
         &nbsp;체크박스의 구성요소로는 배경색, 선, 여백, 기본으로 각 상태변화에
         따른 값을 가지고 있습니다. 해당 내용을 변수화하여 다양한 디자인을 적용할
@@ -66,7 +66,7 @@ const ComponentCheckbox = () => {
         </CardContent>
       </Card>
       <hr className="my-4 border-fill-border" />
-      <h2 className="mb-4">체크박스의 기본상태</h2>
+      <h2 className="mb-4 text-h2">체크박스의 기본상태</h2>
       <p className="mb-4">
         &nbsp;체크박스의 기본상태 정보입니다. true, false를 표현하기 위해
         단순하게 구성되어 있습니다.
@@ -92,7 +92,7 @@ const ComponentCheckbox = () => {
         </div>
       </Card>
       <hr className="my-4 border-fill-border" /> */}
-      <h2 className="mb-4">참고자료</h2>
+      <h2 className="mb-4 text-h2">참고자료</h2>
       다음에 이론을 기반으로 아토믹 디자인 시스템 이론을 구성하였습니다.
       <Card className="my-4">
         <ul className="list-disc px-8">
