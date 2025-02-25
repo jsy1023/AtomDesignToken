@@ -22,6 +22,16 @@ const ComponentButton = () => {
         &nbsp;버튼은 데이터를 전송하거나 상호작용하는 요소로 목적에 따라 다양한
         종류의 버튼과 상태정보를 가집니다.
       </p>
+      <Card className="my-4">
+        <CardContent noMargin>
+          <CodeBlock language="npm">{`npx atomsystem-add Button`}</CodeBlock>
+        </CardContent>
+      </Card>
+      <Card className="my-4">
+        <CardContent noMargin>
+          <CodeBlock language="javascript">{`import { Button } from "@/app/templates/Button/Button";`}</CodeBlock>
+        </CardContent>
+      </Card>
       <hr className="my-4 border-fill-border" />
       <h2 className="mb-4 text-h2">버튼의 디자인적 구성요소</h2>
       <p className="mb-4">

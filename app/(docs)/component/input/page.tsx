@@ -23,6 +23,16 @@ const ComponentInput = () => {
         컨트롤러입니다. 다양한 종류로 구성되어 있으며 사용자와의 상호작용을 위해
         입력창의 상태전환을 직관적으로 표현해야합니다.
       </p>
+      <Card className="my-4">
+        <CardContent noMargin>
+          <CodeBlock language="npm">{`npx atomsystem-add Input`}</CodeBlock>
+        </CardContent>
+      </Card>
+      <Card className="my-4">
+        <CardContent noMargin>
+          <CodeBlock language="javascript">{`import { Input } from "@/app/templates/Input/Input";`}</CodeBlock>
+        </CardContent>
+      </Card>
       <hr className="my-4 border-fill-border" />
       <h2 className="mb-4 text-h2">입력창의 디자인적 구성요소</h2>
       <p className="mb-4">

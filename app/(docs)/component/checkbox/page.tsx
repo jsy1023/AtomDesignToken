@@ -23,6 +23,16 @@ const ComponentCheckbox = () => {
         있는 컨트롤러입니다. 1개 ~ 10개 사이의 선택사항이 있는 경우 체크박스의
         사용을 권장합니다.
       </p>
+      <Card className="my-4">
+        <CardContent noMargin>
+          <CodeBlock language="npm">{`npx atomsystem-add Input`}</CodeBlock>
+        </CardContent>
+      </Card>
+      <Card className="my-4">
+        <CardContent noMargin>
+          <CodeBlock language="javascript">{`import { Checkbox } from "@/app/templates/Input/Input";`}</CodeBlock>
+        </CardContent>
+      </Card>
       <hr className="my-4 border-fill-border" />
       <h2 className="mb-4 text-h2">체크박스의 디자인적 구성요소</h2>
       <p className="mb-4">

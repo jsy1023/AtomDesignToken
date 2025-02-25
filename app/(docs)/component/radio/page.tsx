@@ -22,6 +22,16 @@ const ComponentRadio = () => {
         &nbsp;라디오는 사용자가 여러가지 선택사항 중 한가지 옵션을 선택 할 수
         있는 컨트롤러입니다.
       </p>
+      <Card className="my-4">
+        <CardContent noMargin>
+          <CodeBlock language="npm">{`npx atomsystem-add Input`}</CodeBlock>
+        </CardContent>
+      </Card>
+      <Card className="my-4">
+        <CardContent noMargin>
+          <CodeBlock language="javascript">{`import { Radio } from "@/app/templates/Input/Input";`}</CodeBlock>
+        </CardContent>
+      </Card>
       <hr className="my-4 border-fill-border" />
       <h2 className="mb-4 text-h2">라디오의 디자인적 구성요소</h2>
       <p className="mb-4">

@@ -33,7 +33,6 @@ const GlobalNav = () => {
   }, [windowSize]);
 
   // 초기 토글 값 설정
-
   useEffect(() => {
     if (window.innerWidth > 768) {
       setToggleMenu(true);

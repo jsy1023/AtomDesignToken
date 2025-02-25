@@ -22,6 +22,16 @@ const ComponentSelect = () => {
         &nbsp;선택창은 여러가지 항목중 단일의 내용을 선택할 수 있는
         컨트롤러입니다. 10개 이상의 선택지가 있는 경우에 사용을 권장합니다.
       </p>
+      <Card className="my-4">
+        <CardContent noMargin>
+          <CodeBlock language="npm">{`npx atomsystem-add Input`}</CodeBlock>
+        </CardContent>
+      </Card>
+      <Card className="my-4">
+        <CardContent noMargin>
+          <CodeBlock language="javascript">{`import { Select } from "@/app/templates/Input/Input";`}</CodeBlock>
+        </CardContent>
+      </Card>
       <hr className="my-4 border-fill-border" />
       <h2 className="mb-4 text-h2">선책창의 디자인적 구성요소</h2>
       <p className="mb-4">
