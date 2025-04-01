@@ -13,9 +13,8 @@
     "app/templates"
   ],
   "scripts": {
-    "dev": "npm run build:token && next dev",
-    "build": "npm run build:token && next build",
-    "build:token": "node tokens/buildTokenSplit.js && node tokens/buildMergeCss.js",
+    "dev": "next dev",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
