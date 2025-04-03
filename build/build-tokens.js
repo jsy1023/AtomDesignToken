@@ -1,5 +1,9 @@
 import StyleDictionary from "style-dictionary";
 
+const valueWithUnit = (val) => {
+  return typeof val === "number" ? `${val}px` : val;
+};
+
 // register it with register method
 StyleDictionary.registerFormat({
   name: "css/variables-multi-context",
@@ -10,24 +14,25 @@ StyleDictionary.registerFormat({
 
     dictionary.allTokens.map((token) => {
       const name = `--${token.name}`;
+      const val = token.value;
       if (
         typeof token.value === "object" &&
         (token.value.light || token.value.dark)
       ) {
         if (token.value.light) {
-          light.push(`${name}: ${token.value.light};`);
+          light.push(`${name}: ${valueWithUnit(val.light)};`);
         }
         if (token.value.dark) {
-          dark.push(`${name}: ${token.value.dark};`);
+          dark.push(`${name}: ${valueWithUnit(val.dark)};`);
         }
       } else {
-        root.push(`${name}: ${token.value};`);
+        root.push(`${name}: ${valueWithUnit(val)};`);
       }
     });
     return `
     @import "tailwindcss";
 
-    :root{
+    @theme {
         ${root.join("\n")}
     }
     .light {

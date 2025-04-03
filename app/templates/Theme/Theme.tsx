@@ -8,7 +8,7 @@ export const ThemeSelector = ({
 }: {
   type: "all" | "theme" | "input";
 }) => {
-  const themes = ["standard", "dark"];
+  const themes = ["light", "dark"];
   const [selectedTheme, setSelectedTheme] = useState<string | null>(null);
   const inputThemes = ["inputStandard", "inputCircle"];
   const [selectedInputTheme, setSelectedInputTheme] = useState<string | null>(
@@ -18,7 +18,7 @@ export const ThemeSelector = ({
 
   useEffect(() => {
     const chageThemeValue = () => {
-      const storedTheme = localStorage.getItem("theme") || "standard";
+      const storedTheme = localStorage.getItem("theme") || "light";
       const storedInputTheme =
         localStorage.getItem("inputTheme") || "inputStandard";
 
@@ -67,7 +67,7 @@ export const ThemeSelector = ({
             ))}
           </div>
         ) : null}
-        {type == "all" || type == "input" ? (
+        {/* {type == "all" || type == "input" ? (
           <div className="flex gap-4">
             {inputThemes.map((inputTheme) => (
               <Radio
@@ -79,7 +79,7 @@ export const ThemeSelector = ({
               />
             ))}
           </div>
-        ) : null}
+        ) : null} */}
       </div>
     </div>
   );
@@ -99,7 +99,7 @@ export const ThemeWrapper = ({
   useEffect(() => {
     // 로컬 스토리지에서 테마 가져오기
     const listenStorageChange = () => {
-      setTheme(localStorage.getItem("theme") || "standard");
+      setTheme(localStorage.getItem("theme") || "light");
       setInputTheme(localStorage.getItem("inputTheme") || "inputStandard");
     };
     listenStorageChange();

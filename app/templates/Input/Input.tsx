@@ -3,11 +3,7 @@ import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
-import token from "@/token.json";
-
 export const Input = ({
-  className,
-  defaultValue = "",
   placeholder = "값을 입력해주세요",
   label,
   readOnly,
@@ -24,29 +20,6 @@ export const Input = ({
   pattern?: string;
   required?: boolean;
 }) => {
-  const [value, setValue] = useState(defaultValue);
-  const [isValue, setIsValue] = useState(false);
-  const [guide, setGuide] = useState("");
-
-  useEffect(() => {});
-  const handleValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value;
-    if (defaultValue) {
-      setValue(defaultValue);
-    }
-    setValue(inputValue);
-
-    if (e.target.checkValidity()) {
-      setGuide("유효한 값입니다.");
-      setIsValue(true);
-    } else {
-      setGuide("유효하지 않은 값입니다.");
-      setIsValue(false);
-    }
-  };
-
-  console.log(token);
-
   return (
     <>
       {label ? (
@@ -62,21 +35,22 @@ export const Input = ({
       ) : null}
       <input
         type="text"
-        value={value}
-        onChange={handleValue}
+        className="border rounded focus:outline-none focus:ring-0 border-[var(--input-border-standard)] focus:border-[var(--input-border-focus)] "
+        style={{
+          color: "var(--input-text-standard)",
+          backgroundColor: "var(--input-background-standard)",
+          paddingLeft: "var(--global-padding-x)",
+          paddingRight: "var(--global-padding-x)",
+          paddingTop: "var(--global-padding-y)",
+          paddingBottom: "var(--global-padding-y)",
+          borderRadius: "var(--input-rounded)",
+        }}
         placeholder={placeholder}
         readOnly={readOnly}
         disabled={disabled}
         pattern={pattern}
         required={required}
       />
-      {guide && required && pattern ? (
-        <p
-          className={`text-sm ${isValue ? "text-input-text-success" : "text-input-text-error"} ml-1 mt-2`}
-        >
-          {guide}
-        </p>
-      ) : null}
     </>
   );
 };
