@@ -19,7 +19,7 @@ export const Card = ({
   );
   return (
     <div
-      className={`${type == "standard" ? "bg-fill-card border-fill-border" : type == "group" ? "bg-fill-group border-none" : ""} ${!hasCardContent ? "p-4" : ""} rounded  border ${className} overflow-auto`}
+      className={`${type == "standard" ? "bg-[var(--background-card)] border-[var(--color-border)]" : type == "group" ? "bg-fill-group border-none" : ""} ${!hasCardContent ? "p-4" : ""} rounded  border ${className} overflow-auto`}
     >
       {children}
     </div>
