@@ -3,6 +3,8 @@ import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
+import token from "@/token.json";
+
 export const Input = ({
   className,
   defaultValue = "",
@@ -43,6 +45,8 @@ export const Input = ({
     }
   };
 
+  console.log(token);
+
   return (
     <>
       {label ? (
@@ -58,22 +62,6 @@ export const Input = ({
       ) : null}
       <input
         type="text"
-        className={clsx(
-          "transition-all border px-4 py-2 border-input-border-standard text-input-text-value rounded-input-rounded bg-input-background-standard",
-          value ? "bg-input-background-value" : "bg-input-background-standard ",
-          { "placeholder:text-input-text-placeholder": true },
-          { "focus:border-input-border-focus": true },
-          { "disabled:bg-input-background-disabled": true },
-          {
-            "invalid:border-input-border-error invalid:bg-input-background-error invalid:text-input-text-error":
-              required && pattern,
-          },
-          {
-            "valid:border-input-border-success valid:bg-input-background-success valid:text-input-text-success":
-              required && pattern,
-          },
-          className
-        )}
         value={value}
         onChange={handleValue}
         placeholder={placeholder}

@@ -1,48 +1,18 @@
+@import "tailwindcss";
 
-    @tailwind base;
-    @tailwind components;
-    @tailwind utilities;
-    
-    @layer base{
-        :root{
-          /**
- * Do not edit directly, this file was auto-generated.
- */
-
-
-  --black-50: #5a5a5a;--black-100: #555555;--black-200: #4a4a4a;--black-300: #444444;--black-400: #3a3a3a;--black-500: #333333;--black-600: #2a2a2a;--black-700: #222222;--black-800: #1a1a1a;--black-900: #111111;--gray-50: #bbbbbb;--gray-100: #b3b3b3;--gray-200: #9e9e9e;--gray-300: #999999;--gray-400: #8e8e8e;--gray-500: #888888;--gray-600: #7e7e7e;--gray-700: #777777;--gray-800: #6e6e6e;--gray-900: #666666;--white-50: #fafafa;--white-100: #f5f5f5;--white-200: #f0f0f0;--white-300: #ebebeb;--white-400: #e6e6e6;--white-500: #e0e0e0;--white-600: #dbdbdb;--white-700: #d6d6d6;--white-800: #d1d1d1;--white-900: #cccccc;--blue-50: #f6f8fd;--blue-100: #ccd7f5;--blue-200: #a1b6ed;--blue-300: #7795e4;--blue-400: #4c73dc;--blue-500: #2855cc;--blue-600: #2044a2;--blue-700: #183277;--blue-800: #0f204d;--blue-900: #070e22;--green-50: #f7fdf7;--green-100: #cef3ce;--green-200: #a5e8a5;--green-300: #7dde7d;--green-400: #54d454;--green-500: #31c331;--green-600: #279b27;--green-700: #1d721d;--green-800: #124912;--green-900: #08210a;--red-50: #fdf7f7;--red-100: #f6dada;--red-200: #edb0b0;--red-300: #e48787;--red-400: #da5d5d;--red-500: #d13434;--red-600: #af2828;--red-700: #891f1f;--red-800: #641717;--red-900: #3e0e0e;--brand-primary: #2855cc;--brand-secondary: #0f204d;--system-success: #31c331;--system-danger: #d13434;--system-info: #333333;--fill-wrapper: #f0f0f0;--fill-card: #fafafa;--fill-border: #cccccc;--fill-info: #ebebeb;--button-text: #fafafa;--button-primary-standard-background: #2855cc;--button-primary-hover-background: #2044a2;--button-primary-disabled-background: #ccd7f5;--button-secondary-standard-background: #0f204d;--button-secondary-hover-background: #070e22;--button-secondary-disabled-background: #a1b6ed;--button-success-standard-background: #31c331;--button-success-hover-background: #279b27;--button-success-disabled-background: #a5e8a5;--button-danger-standard-background: #d13434;--button-danger-hover-background: #af2828;--button-danger-disabled-background: #f6dada;--button-gray-standard-background: #333333;--button-gray-hover-background: #2a2a2a;--button-gray-disabled-background: #555555;--icon-xs: 16px;--icon-sm: 24px;--icon-md: 32px;--icon-lg: 48px;--icon-xl: 80px;--element-xxs: 160px;--element-xs: 240px;--element-sm: 320px;--element-md: 480px;--element-lg: 640px;--element-xl: 960px;--element-2xl: 1280px;--element-3xl: 1920px;--element-4xl: 2560px;--element-5xl: 3840px;--spacing-nogap: 0;--spacing-xs: 4px;--spacing-sm: 8px;--spacing-md: 16px;--spacing-lg: 24px;--spacing-xl: 48px;--spacing-2xl: 120px;--spacing-3xl: 240px;--spacing-4xl: 320px;--main-title: 'Spoqa Han Sans Neo';--thin: 100;--extra-light: 200;--light: 300;--normal: 400;--bold: 700;--medium: 500;--semi-bold: 600;--extra-bold: 800;--black: 900;--desktop-h1-font-family: 'Spoqa Han Sans Neo';--desktop-h1-font-weight: 700;--desktop-h1-font-size: 48px;--desktop-h1-line-height: 64;--desktop-h2-font-family: 'Spoqa Han Sans Neo';--desktop-h2-font-weight: 700;--desktop-h2-font-size: 40px;--desktop-h2-line-height: 50;--desktop-h3-font-family: 'Spoqa Han Sans Neo';--desktop-h3-font-weight: 700;--desktop-h3-font-size: 32px;--desktop-h3-line-height: 48;--desktop-h4-font-family: 'Spoqa Han Sans Neo';--desktop-h4-font-weight: 700;--desktop-h4-font-size: 24px;--desktop-h4-line-height: 36;--desktop-h5-font-family: 'Spoqa Han Sans Neo';--desktop-h5-font-weight: 700;--desktop-h5-font-size: 20px;--desktop-h5-line-height: 30;--desktop-h6-font-family: 'Spoqa Han Sans Neo';--desktop-h6-font-weight: 700;--desktop-h6-font-size: 18px;--desktop-h6-line-height: 24;--desktop-body-base-font-family: 'Spoqa Han Sans Neo';--desktop-body-base-font-weight: 400;--desktop-body-base-font-size: 16px;--desktop-body-base-line-height: 24;--desktop-body-lg-font-family: 'Spoqa Han Sans Neo';--desktop-body-lg-font-weight: 400;--desktop-body-lg-font-size: 18px;--desktop-body-lg-line-height: 24;--desktop-body-sm-font-family: 'Spoqa Han Sans Neo';--desktop-body-sm-font-weight: 400;--desktop-body-sm-font-size: 14px;--desktop-body-sm-line-height: 20;--desktop-small-font-family: 'Spoqa Han Sans Neo';--desktop-small-font-weight: 400;--desktop-small-font-size: 12px;--desktop-small-line-height: 18;--desktop-small-extra-font-family: 'Spoqa Han Sans Neo';--desktop-small-extra-font-weight: 400;--desktop-small-extra-font-size: 10px;--desktop-small-extra-line-height: 16;--mobile-h1-font-family: 'Spoqa Han Sans Neo';--mobile-h1-font-weight: 700;--mobile-h1-font-size: 32px;--mobile-h1-line-height: 48;--mobile-h2-font-size: 28px;--mobile-h2-font-family: 'Spoqa Han Sans Neo';--mobile-h2-font-weight: 700;--mobile-h2-line-height: 40;--mobile-h3-font-family: 'Spoqa Han Sans Neo';--mobile-h3-font-weight: 700;--mobile-h3-font-size: 24px;--mobile-h3-line-height: 32;--mobile-h4-font-family: 'Spoqa Han Sans Neo';--mobile-h4-font-weight: 700;--mobile-h4-font-size: 20px;--mobile-h4-line-height: 28;--mobile-h5-font-family: 'Spoqa Han Sans Neo';--mobile-h5-font-weight: 700;--mobile-h5-font-size: 18px;--mobile-h5-line-height: 24;--mobile-h6-font-family: 'Spoqa Han Sans Neo';--mobile-h6-font-weight: 700;--mobile-h6-font-size: 16px;--mobile-h6-line-height: 24;--mobile-body-lg-font-family: 'Spoqa Han Sans Neo';--mobile-body-lg-font-weight: 400;--mobile-body-lg-font-size: 16px;--mobile-body-lg-line-height: 24;--mobile-body-base-font-family: 'Spoqa Han Sans Neo';--mobile-body-base-font-weight: 400;--mobile-body-base-font-size: 14px;--mobile-body-base-line-height: 20;--mobile-body-sm-font-family: 'Spoqa Han Sans Neo';--mobile-body-sm-font-weight: 400;--mobile-body-sm-font-size: 12px;--mobile-body-sm-line-height: 18;--mobile-small-font-family: 'Spoqa Han Sans Neo';--mobile-small-font-weight: 400;--mobile-small-font-size: 10px;--mobile-small-line-height: 16;--mobile-small-extra-font-family: 'Spoqa Han Sans Neo';--mobile-small-extra-font-weight: 400;--mobile-small-extra-font-size: 8px;--mobile-small-extra-line-height: 14;--rounded-common: 4px;--rounded-none: 0;--rounded-xs: 4px;--rounded-sm: 8px;--rounded-md: 16px;--rounded-lg: 24px;--rounded-full: 1000px;--shadow-none-blur: 0;--shadow-none-spread: 0;--shadow-none-color: #000000;--shadow-none-type: dropShadow;--shadow-none-offset-x: 0;--shadow-none-offset-y: 0;--shadow-xs-blur: 8px;--shadow-xs-spread: 0;--shadow-xs-color: rgba(0, 0, 0, 0.16);--shadow-xs-type: dropShadow;--shadow-xs-offset-x: 2px;--shadow-xs-offset-y: 2px;--shadow-sm-blur: 16px;--shadow-sm-spread: 0;--shadow-sm-color: rgba(0, 0, 0, 0.16);--shadow-sm-type: dropShadow;--shadow-sm-offset-x: 4px;--shadow-sm-offset-y: 4px;--shadow-md-blur: 32px;--shadow-md-spread: 0;--shadow-md-color: rgba(0, 0, 0, 0.16);--shadow-md-type: dropShadow;--shadow-md-offset-x: 8px;--shadow-md-offset-y: 8px;--shadow-lg-blur: 64px;--shadow-lg-spread: 0;--shadow-lg-color: rgba(0, 0, 0, 0.16);--shadow-lg-type: dropShadow;--shadow-lg-offset-x: 16px;--shadow-lg-offset-y: 16px;--shadow-xl-blur: 120px;--shadow-xl-spread: 0;--shadow-xl-color: rgba(0, 0, 0, 0.16);--shadow-xl-type: dropShadow;--shadow-xl-offset-x: 24px;--shadow-xl-offset-y: 24px;--visible: 1;--opacity-90: 0.9;--opacity-80: 0.8;--opacity-70: 0.7;--opacity-60: 0.6;--opacity-50: 0.5;--opacity-40: 0.4;--opacity-30: 0.3;--opacity-20: 0.2;--opacity-10: 0.1;--invisible: 0
-        }
-      }
-
-    
-      
-      .global {
-        
-      }
-      
-      
-      .standard {
-        --text-standard: #333333;--text-sub: #666666;--text-reverse: #f0f0f0;--text-sub-reverse: #e0e0e0;--card-background: #fafafa;--card-border: #cccccc;--card-shadow-blur: 8;--card-shadow-spread: 0;--card-shadow-color: rgba(0, 0, 0, 0.16);--card-shadow-type: dropShadow;--card-shadow-offset-x: 2;--card-shadow-offset-y: 2;--table-header: #2a2a2a;--input-text-value: #333333;--input-text-placeholder: #b3b3b3;--input-text-success: #2855cc;--input-text-error: #d13434;--input-background-standard: #fafafa;--input-background-value: #f5f5f5;--input-background-success: #f6f8fd;--input-background-error: #fdf7f7;--input-background-disabled: #e0e0e0;--input-border-standard: #cccccc;--input-border-focus: #333333;--input-border-success: #2855cc;--input-border-error: #d13434
-      }
-      
-      
-      .dark {
-        --fill-wrapper: #111111;--fill-card: #222222;--fill-info: #333333;--fill-border: #444444;--button-info-standard-background: #333333;--text-standard: #999999;--text-sub: #666666;--card-background: #222222;--card-border: #444444;--table-header: #2a2a2a;--input-text-value: #999999;--input-text-placeholder: #5a5a5a;--input-text-success: #2855cc;--input-text-error: #d13434;--input-background-value: #222222;--input-background-standard: #2a2a2a;--input-background-success: #070e22;--input-background-error: #3e0e0e;--input-background-disabled: #3a3a3a;--input-border-standard: #444444;--input-border-focus: #999999;--input-border-success: #2855cc;--input-border-error: #d13434
-      }
-      
-      
-      .digitalFont {
-        --main-title: 'Elice DigitalBaeum OTF';--desktop-h1-font-family: 'Elice DigitalBaeum OTF';--desktop-h2-font-family: 'Elice DigitalBaeum OTF';--desktop-h3-font-family: 'Elice DigitalBaeum OTF';--desktop-h4-font-family: 'Elice DigitalBaeum OTF';--desktop-h5-font-family: 'Elice DigitalBaeum OTF';--desktop-h6-font-family: 'Elice DigitalBaeum OTF';--desktop-body-base-font-family: 'Elice DigitalBaeum OTF';--desktop-body-lg-font-family: 'Elice DigitalBaeum OTF';--desktop-body-sm-font-family: 'Elice DigitalBaeum OTF';--desktop-small-font-family: 'Elice DigitalBaeum OTF';--desktop-small-extra-font-family: 'Elice DigitalBaeum OTF';--mobile-h1-font-family: 'Elice DigitalBaeum OTF';--mobile-h2-font-family: 'Elice DigitalBaeum OTF';--mobile-h3-font-family: 'Elice DigitalBaeum OTF';--mobile-h4-font-family: 'Elice DigitalBaeum OTF';--mobile-h5-font-family: 'Elice DigitalBaeum OTF';--mobile-h6-font-family: 'Elice DigitalBaeum OTF';--mobile-body-lg-font-family: 'Elice DigitalBaeum OTF';--mobile-body-base-font-family: 'Elice DigitalBaeum OTF';--mobile-body-sm-font-family: 'Elice DigitalBaeum OTF';--mobile-small-font-family: 'Elice DigitalBaeum OTF';--mobile-small-extra-font-family: 'Elice DigitalBaeum OTF'
-      }
-      
-      
-      .inputStandard {
-        --input-rounded: 4px
-      }
-      
-      
-      .inputCircle {
-        --input-rounded: 1000px
-      }
-      
-    
+:root {
+  --color-primary: #2196f3;
+  --global-rounded: 0;
+  --global-padding-x: 12;
+  --global-padding-y: 8;
+}
+.light {
+  --input-background-standard: #fff;
+  --input-background-hover: #f5f5f5;
+  --input-border: #ccc;
+}
+.dark {
+  --input-background-standard: #333;
+  --input-background-hover: #444;
+  --input-border: #666;
+}

@@ -13,10 +13,11 @@
     "app/templates"
   ],
   "scripts": {
-    "dev": "next dev",
+    "dev": "node build/build-tokens.js && next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "token-build": "node build/build-tokens.js"
   },
   "peerDependencies": {
     "@tokens-studio/sd-transforms": "^1.2.8",
