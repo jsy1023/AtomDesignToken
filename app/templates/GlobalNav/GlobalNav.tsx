@@ -48,7 +48,7 @@ const GlobalNav = () => {
   return (
     <>
       <nav
-        className={`fixed w-full max-w-80 h-full bg-[var(--color-fill-card)] text-text-standard z-20 left-0 top-0 md:relative ${toggleMenu ? "block" : "hidden"}`}
+        className={`fixed w-full max-w-80 h-full bg-[var(--background-card)] text-text-standard z-20 left-0 top-0 md:relative ${toggleMenu ? "block" : "hidden"}`}
       >
         <div className="brand">
           <div className="flex items-center justify-between">
