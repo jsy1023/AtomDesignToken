@@ -8,16 +8,13 @@ export const Input = ({
   label,
   readOnly,
   disabled,
-  pattern,
   required,
 }: {
   className?: string;
-  defaultValue?: string;
   placeholder?: string;
   label?: string;
   readOnly?: boolean;
   disabled?: boolean;
-  pattern?: string;
   required?: boolean;
 }) => {
   return (
@@ -48,7 +45,6 @@ export const Input = ({
         placeholder={placeholder}
         readOnly={readOnly}
         disabled={disabled}
-        pattern={pattern}
         required={required}
       />
     </>
