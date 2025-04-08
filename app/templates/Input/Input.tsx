@@ -32,10 +32,9 @@ export const Input = ({
       ) : null}
       <input
         type="text"
-        className="border rounded focus:outline-none focus:ring-0 border-[var(--input-border-standard)] focus:border-[var(--input-border-focus)] "
+        className="border rounded focus:outline-none focus:ring-0 bg-[var(--input-background-standard)] disabled:bg-[var(--input-background-disabled)] disabled:cursor-not-allowed border-[var(--input-border-standard)] focus:border-[var(--input-border-focus)] "
         style={{
           color: "var(--input-text-standard)",
-          backgroundColor: "var(--input-background-standard)",
           paddingLeft: "var(--global-padding-x)",
           paddingRight: "var(--global-padding-x)",
           paddingTop: "var(--global-padding-y)",

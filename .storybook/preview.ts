@@ -1,6 +1,7 @@
 import type { Preview } from "@storybook/react";
 import { withThemeByClassName } from "@storybook/addon-themes";
 import { Renderer } from "storybook/internal/types";
+import { themes } from "@storybook/theming";
 
 const preview: Preview = {
   decorators: [
@@ -20,6 +21,7 @@ const preview: Preview = {
       },
     },
     backgrounds: { disabled: true },
+    docs: themes.dark,
   },
 };
 
