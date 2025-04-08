@@ -1,4 +1,3 @@
-import "../app/globals.css";
 import type { Preview } from "@storybook/react";
 import { withThemeByClassName } from "@storybook/addon-themes";
 import { Renderer } from "storybook/internal/types";

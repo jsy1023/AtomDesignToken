@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@import url("@/app/globals.css");
+@import url("../globals.css");
 
 div,
 li,
@@ -10,7 +10,8 @@ h3,
 h4,
 h5,
 h6,
-p {
+p,
+span {
   color: var(--text-standard);
 }
 
