@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 
-import { Card, CardHeader, CardContent } from "@/app/templates/Card/Card";
+import { Card, CardContent } from "@/app/templates/Card/Card";
 import { Input } from "@/app/templates/Input/Input";
 import CodeBlock from "@/app/templates/CodeBlock/CodeBlock";
+import Tab from "@/app/templates/Tab/Tab";
 
 export const metadata: Metadata = {
   title: "Input",
@@ -31,55 +32,69 @@ const ComponentInput = () => {
         </CardContent>
       </Card>
       <hr className="my-4 border-fill-border" />
-      <h2 className="mb-4 text-h2">입력창의 디자인적 구성요소</h2>
-      <p className="mb-4">
-        &nbsp;입력창의 구성요소로는 배경색, 선, 글자, 여백, 모서리를 기본으로 각
-        상태변화에 따른 값을 가지고 있습니다. 해당 내용을 변수화하여 다양한
-        디자인을 적용할 수 있도록 구성합니다.
-      </p>
-      <Card>
-        {/* <CardContent>
-          <p>
-            &nbsp;tailwinds css의 tailwinds.config.ts에 정의된 변수입니다.
-            <br /> 해당 변수는 디자인에 따라 자유롭게 정의내리고 활용할 수
-            있습니다.
-          </p>
-        </CardContent> */}
-        {/* <CardHeader noMargin>
-          <CodeBlock language="typescript">
-            {`theme: {
-  extend: {
-    colors: {
-        "input-background-standard": "var(--input-background-standard)",
-        "input-background-disabled": "var(--input-background-disabled)",
-        "input-background-value": "var(--input-background-value)",
-        "input-background-success": "var(--input-background-success)",
-        "input-background-error": "var(--input-background-error)",
-        "input-border-standard": "var(--input-border-standard)",
-        "input-border-focus": "var(--input-border-focus)",
-        "input-border-success": "var(--input-border-success)",
-        "input-border-error": "var(--input-border-error)",
-        "input-text-value": "var(--input-text-value)",
-        "input-text-placeholder": "var(--input-text-placeholder)",
-        "input-text-success": "var(--input-text-success)",
-        "input-text-error": "var(--input-text-error)",
-    },
-      borderRadius: {
-        "input-border": "var(--input-rounded)"
-      },
-  }
-}`}
-          </CodeBlock>
-        </CardHeader> */}
-        {/* <div className="p-4">
-          <ThemeSelector type="all" />
-        </div> */}
-        <CardContent>
-          <Card type="group" className="flex justify-center">
-            <Input className="w-full" />
-          </Card>
-        </CardContent>
-      </Card>
+      <Tab
+        tabs={[
+          { id: "preview", target: ["preview"], tabItem: "preview" },
+          { id: "code", target: ["code"], tabItem: "code" },
+        ]}
+        tabClass={"w-full border-[var(--color-border)] border-b"}
+        tabNavItemClass={
+          "px-[var(--global-padding-x)] py-[var(--global-padding-y)] font-bold "
+        }
+        tabNavItemActiveClass="border-b border-primary"
+        tabContentClass={"py-4"}
+        tabContents={[
+          {
+            id: "previewContent",
+            tag: "preview",
+            content: (
+              <Card>
+                {/* <CardContent>
+              <p>
+                &nbsp;tailwinds css의 tailwinds.config.ts에 정의된 변수입니다.
+                <br /> 해당 변수는 디자인에 따라 자유롭게 정의내리고 활용할 수
+                있습니다.
+              </p>
+            </CardContent> */}
+                {/* <CardHeader noMargin>
+              <CodeBlock language="typescript">
+                {`theme: {
+      extend: {
+        colors: {
+            "input-background-standard": "var(--input-background-standard)",
+            "input-background-disabled": "var(--input-background-disabled)",
+            "input-background-value": "var(--input-background-value)",
+            "input-background-success": "var(--input-background-success)",
+            "input-background-error": "var(--input-background-error)",
+            "input-border-standard": "var(--input-border-standard)",
+            "input-border-focus": "var(--input-border-focus)",
+            "input-border-success": "var(--input-border-success)",
+            "input-border-error": "var(--input-border-error)",
+            "input-text-value": "var(--input-text-value)",
+            "input-text-placeholder": "var(--input-text-placeholder)",
+            "input-text-success": "var(--input-text-success)",
+            "input-text-error": "var(--input-text-error)",
+        },
+          borderRadius: {
+            "input-border": "var(--input-rounded)"
+          },
+      }
+    }`}
+              </CodeBlock>
+            </CardHeader> */}
+                {/* <div className="p-4">
+              <ThemeSelector type="all" />
+            </div> */}
+                <CardContent>
+                  <Card type="group" className="flex justify-center">
+                    <Input className="w-full" />
+                  </Card>
+                </CardContent>
+              </Card>
+            ),
+          },
+        ]}
+      />
     </>
   );
 };

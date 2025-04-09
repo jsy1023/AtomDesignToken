@@ -5,8 +5,21 @@
 --global-rounded: 4px;
 --global-padding-x: 12px;
 --global-padding-y: 8px;
+--text-h1: 32px;
+--text-h1-line-height: 48px;
+--text-h1-weight: bold;
 --input-rounded: 4px;
     }
+    :root{
+          --color-primary: #2196f3;
+--global-rounded: 4px;
+--global-padding-x: 12px;
+--global-padding-y: 8px;
+--text-h1: 32px;
+--text-h1-line-height: 48px;
+--text-h1-weight: bold;
+--input-rounded: 4px;
+    }    
     .light {
         --color-border: #ccc;
 --text-standard: #333;
@@ -20,7 +33,7 @@
 --input-border-focus: #333;
     }
     .dark {
-        --color-border: #666;
+        --color-border: #444;
 --text-standard: #ccc;
 --background-card: #222222;
 --background-wrapper: #111111;
@@ -28,6 +41,6 @@
 --input-background-hover: #444;
 --input-background-disabled: #555;
 --input-text-standard: #e6e6e6;
---input-border-standard: #666;
+--input-border-standard: #555;
 --input-border-focus: #ccc;
     }

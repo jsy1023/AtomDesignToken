@@ -27,10 +27,12 @@
     "style-dictionary": "^4.2.0"
   },
   "dependencies": {
+    "@gsap/react": "^2.1.2",
     "@next/third-parties": "^15.0.3",
     "@tailwindcss/postcss": "^4.0.17",
     "@tokens-studio/sd-transforms": "^1.2.8",
     "clsx": "^2.1.1",
+    "gsap": "^3.12.7",
     "highlight.js": "^11.11.1",
     "inquirer": "^12.4.2",
     "next": "^15.2.4",

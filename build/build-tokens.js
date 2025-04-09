@@ -35,6 +35,9 @@ StyleDictionary.registerFormat({
     @theme {
         ${root.join("\n")}
     }
+    :root{
+          ${root.join("\n")}
+    }    
     .light {
         ${light.join("\n")}
     }
