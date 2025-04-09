@@ -17,9 +17,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "token-build": "node build/build-tokens.js",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "token-build": "node build/build-tokens.js"
   },
   "peerDependencies": {
     "@tokens-studio/sd-transforms": "^1.2.8",
@@ -30,7 +28,6 @@
   },
   "dependencies": {
     "@next/third-parties": "^15.0.3",
-    "@storybook/addon-themes": "^8.6.12",
     "@tailwindcss/postcss": "^4.0.17",
     "@tokens-studio/sd-transforms": "^1.2.8",
     "clsx": "^2.1.1",
@@ -43,15 +40,6 @@
     "style-dictionary": "^4.2.0"
   },
   "devDependencies": {
-    "@chromatic-com/storybook": "^3.2.6",
-    "@storybook/addon-essentials": "^8.6.12",
-    "@storybook/addon-onboarding": "^8.6.12",
-    "@storybook/addon-styling-webpack": "^1.0.1",
-    "@storybook/blocks": "^8.6.12",
-    "@storybook/experimental-addon-test": "^8.6.12",
-    "@storybook/experimental-nextjs-vite": "^8.6.12",
-    "@storybook/react": "^8.6.12",
-    "@storybook/test": "^8.6.12",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
@@ -59,10 +47,8 @@
     "@vitest/coverage-v8": "^3.1.1",
     "eslint": "^8",
     "eslint-config-next": "15.0.3",
-    "eslint-plugin-storybook": "^0.12.0",
     "playwright": "^1.51.1",
     "postcss": "^8.5.3",
-    "storybook": "^8.6.12",
     "tailwindcss": "^4.0.17",
     "typescript": "^5",
     "vitest": "^3.1.1"

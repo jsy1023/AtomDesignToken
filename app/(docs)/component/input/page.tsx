@@ -41,14 +41,14 @@ const ComponentInput = () => {
         디자인을 적용할 수 있도록 구성합니다.
       </p>
       <Card>
-        <CardContent>
+        {/* <CardContent>
           <p>
             &nbsp;tailwinds css의 tailwinds.config.ts에 정의된 변수입니다.
             <br /> 해당 변수는 디자인에 따라 자유롭게 정의내리고 활용할 수
             있습니다.
           </p>
-        </CardContent>
-        <CardHeader noMargin>
+        </CardContent> */}
+        {/* <CardHeader noMargin>
           <CodeBlock language="typescript">
             {`theme: {
   extend: {
@@ -73,10 +73,10 @@ const ComponentInput = () => {
   }
 }`}
           </CodeBlock>
-        </CardHeader>
-        <div className="p-4">
+        </CardHeader> */}
+        {/* <div className="p-4">
           <ThemeSelector type="all" />
-        </div>
+        </div> */}
         <CardContent>
           <Card type="group" className="flex justify-center">
             <Input className="w-full" />
