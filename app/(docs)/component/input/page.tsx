@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 const ComponentInput = () => {
   return (
-    <div className="py-12">
+    <>
       <h1 className="mb-4 text-h1">입력창</h1>
       <p>
         &nbsp;입력창은 사용자로부터 데이터를 전달받기 위한 대화형
@@ -80,7 +80,7 @@ const ComponentInput = () => {
           </Card>
         </CardContent>
       </Card>
-    </div>
+    </>
   );
 };
 

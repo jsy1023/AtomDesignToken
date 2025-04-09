@@ -48,7 +48,7 @@ const GlobalNav = () => {
   return (
     <>
       <nav
-        className={`fixed w-full max-w-80 h-full bg-[var(--background-card)] text-text-standard z-20 left-0 top-0 md:relative ${toggleMenu ? "block" : "hidden"}`}
+        className={`fixed top-0 md:relative w-full max-w-80 h-full bg-[var(--background-card)] text-text-standard z-20 left-0 ${toggleMenu ? "block" : "hidden"}`}
       >
         <div className="brand">
           <div className="flex items-center justify-between">
@@ -91,7 +91,7 @@ const GlobalNav = () => {
         </ul>
       </nav>
       <button
-        className={`fixed shadow-md rounded-full bg-fill-card w-12 h-12 top-6 left-6 z-10 ${toggleMenu ? "hidden" : "block"} `}
+        className={`fixed shadow-md rounded-full bg-[var(--background-card)] w-12 h-12 top-6 left-6 z-10 ${toggleMenu ? "hidden" : "block"} `}
       >
         <span
           className="material-symbols-outlined"
