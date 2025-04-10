@@ -7,7 +7,11 @@
 --global-padding-y: 8px;
 --text-h1: 32px;
 --text-h1-line-height: 48px;
---text-h1-weight: bold;
+--text-h-weight: bold;
+--text-h2: 24px;
+--text-h2-line-height: 36px;
+--text-h3: 16px;
+--text-h3-line-height: 24px;
 --input-rounded: 4px;
     }
     :root{
@@ -17,7 +21,11 @@
 --global-padding-y: 8px;
 --text-h1: 32px;
 --text-h1-line-height: 48px;
---text-h1-weight: bold;
+--text-h-weight: bold;
+--text-h2: 24px;
+--text-h2-line-height: 36px;
+--text-h3: 16px;
+--text-h3-line-height: 24px;
 --input-rounded: 4px;
     }    
     .light {

@@ -21,17 +21,7 @@ const ComponentInput = () => {
         컨트롤러입니다. 다양한 종류로 구성되어 있으며 사용자와의 상호작용을 위해
         입력창의 상태전환을 직관적으로 표현해야합니다.
       </p>
-      <Card className="my-4">
-        <CardContent noMargin>
-          <CodeBlock language="npm">{`npx atomsystem-add Input`}</CodeBlock>
-        </CardContent>
-      </Card>
-      <Card className="my-4">
-        <CardContent noMargin>
-          <CodeBlock language="javascript">{`import { Input } from "@/app/templates/Input/Input";`}</CodeBlock>
-        </CardContent>
-      </Card>
-      <hr className="my-4 border-fill-border" />
+      <hr className="my-4" />
       <Tab
         tabs={[
           { id: "preview", target: ["preview"], tabItem: "preview" },
@@ -49,46 +39,210 @@ const ComponentInput = () => {
             tag: "preview",
             content: (
               <Card>
-                {/* <CardContent>
-              <p>
-                &nbsp;tailwinds css의 tailwinds.config.ts에 정의된 변수입니다.
-                <br /> 해당 변수는 디자인에 따라 자유롭게 정의내리고 활용할 수
-                있습니다.
-              </p>
-            </CardContent> */}
-                {/* <CardHeader noMargin>
-              <CodeBlock language="typescript">
-                {`theme: {
-      extend: {
-        colors: {
-            "input-background-standard": "var(--input-background-standard)",
-            "input-background-disabled": "var(--input-background-disabled)",
-            "input-background-value": "var(--input-background-value)",
-            "input-background-success": "var(--input-background-success)",
-            "input-background-error": "var(--input-background-error)",
-            "input-border-standard": "var(--input-border-standard)",
-            "input-border-focus": "var(--input-border-focus)",
-            "input-border-success": "var(--input-border-success)",
-            "input-border-error": "var(--input-border-error)",
-            "input-text-value": "var(--input-text-value)",
-            "input-text-placeholder": "var(--input-text-placeholder)",
-            "input-text-success": "var(--input-text-success)",
-            "input-text-error": "var(--input-text-error)",
-        },
-          borderRadius: {
-            "input-border": "var(--input-rounded)"
-          },
-      }
-    }`}
-              </CodeBlock>
-            </CardHeader> */}
-                {/* <div className="p-4">
-              <ThemeSelector type="all" />
-            </div> */}
                 <CardContent>
                   <Card type="group" className="flex justify-center">
                     <Input className="w-full" />
                   </Card>
+                </CardContent>
+              </Card>
+            ),
+          },
+          {
+            id: "codeContent",
+            tag: "code",
+            content: (
+              <Card className="my-4">
+                <CardContent noMargin>
+                  <CodeBlock language="typescript">
+                    {`import { Input } from "@/app/components/Input/Input" 
+
+<Input />`}
+                  </CodeBlock>
+                </CardContent>
+              </Card>
+            ),
+          },
+        ]}
+      />
+
+      <hr className="my-4" />
+      <h2>Installation</h2>
+      <Card className="my-4">
+        <CardContent noMargin>
+          <CodeBlock language="npm">{`npx atomsystem-add Input`}</CodeBlock>
+        </CardContent>
+      </Card>
+
+      <hr className="my-4" />
+
+      <h2>Usage</h2>
+
+      <Card className="my-4">
+        <CardContent noMargin>
+          <CodeBlock language="typescript">
+            {`import { Input } from "@/app/components/Input/Input" `}
+          </CodeBlock>
+        </CardContent>
+      </Card>
+      <Card className="my-4">
+        <CardContent noMargin>
+          <CodeBlock language="typescript">{`<Input /> `}</CodeBlock>
+        </CardContent>
+      </Card>
+
+      <hr className="my-4" />
+
+      <h2>Example</h2>
+
+      <h3 className="mt-4">Default</h3>
+      <Tab
+        tabs={[
+          {
+            id: "previewDefault",
+            target: ["previewDefault"],
+            tabItem: "preview",
+          },
+          {
+            id: "codeDefault",
+            target: ["codeDefault"],
+            tabItem: "code",
+          },
+        ]}
+        tabClass={"w-full border-[var(--color-border)] border-b"}
+        tabNavItemClass={
+          "px-[var(--global-padding-x)] py-[var(--global-padding-y)] font-bold "
+        }
+        tabNavItemActiveClass="border-b border-primary"
+        tabContentClass={"py-4"}
+        tabContents={[
+          {
+            id: "previewContentDefault",
+            tag: "previewDefault",
+            content: (
+              <Card>
+                <CardContent>
+                  <Card type="group" className="flex justify-center">
+                    <Input className="w-full" />
+                  </Card>
+                </CardContent>
+              </Card>
+            ),
+          },
+          {
+            id: "codeContentDefault",
+            tag: "codeDefault",
+            content: (
+              <Card className="my-4">
+                <CardContent noMargin>
+                  <CodeBlock language="typescript">
+                    {`import { Input } from "@/app/components/Input/Input" 
+
+<Input />`}
+                  </CodeBlock>
+                </CardContent>
+              </Card>
+            ),
+          },
+        ]}
+      />
+
+      <h3 className="mt-4">Disabled</h3>
+      <Tab
+        tabs={[
+          {
+            id: "previewDisabled",
+            target: ["previewDisabled"],
+            tabItem: "preview",
+          },
+          {
+            id: "codeDisabled",
+            target: ["codeDisabled"],
+            tabItem: "code",
+          },
+        ]}
+        tabClass={"w-full border-[var(--color-border)] border-b"}
+        tabNavItemClass={
+          "px-[var(--global-padding-x)] py-[var(--global-padding-y)] font-bold "
+        }
+        tabNavItemActiveClass="border-b border-primary"
+        tabContentClass={"py-4"}
+        tabContents={[
+          {
+            id: "previewContentDisabled",
+            tag: "previewDisabled",
+            content: (
+              <Card>
+                <CardContent>
+                  <Card type="group" className="flex justify-center">
+                    <Input disabled />
+                  </Card>
+                </CardContent>
+              </Card>
+            ),
+          },
+          {
+            id: "codeContentDisabled",
+            tag: "codeDisabled",
+            content: (
+              <Card className="my-4">
+                <CardContent noMargin>
+                  <CodeBlock language="typescript">
+                    {`import { Input } from "@/app/components/Input/Input" 
+
+<Input disabled />`}
+                  </CodeBlock>
+                </CardContent>
+              </Card>
+            ),
+          },
+        ]}
+      />
+
+      <h3 className="mt-4">With Label</h3>
+      <Tab
+        tabs={[
+          {
+            id: "previewWithLabel",
+            target: ["previewWithLabel"],
+            tabItem: "preview",
+          },
+          {
+            id: "codeWithLabel",
+            target: ["codeWithLabel"],
+            tabItem: "code",
+          },
+        ]}
+        tabClass={"w-full border-[var(--color-border)] border-b"}
+        tabNavItemClass={
+          "px-[var(--global-padding-x)] py-[var(--global-padding-y)] font-bold "
+        }
+        tabNavItemActiveClass="border-b border-primary"
+        tabContentClass={"py-4"}
+        tabContents={[
+          {
+            id: "previewContentWithLabel",
+            tag: "previewWithLabel",
+            content: (
+              <Card>
+                <CardContent>
+                  <Card type="group">
+                    <Input label="Email" />
+                  </Card>
+                </CardContent>
+              </Card>
+            ),
+          },
+          {
+            id: "codeContentWithLabel",
+            tag: "codeWithLabel",
+            content: (
+              <Card className="my-4">
+                <CardContent noMargin>
+                  <CodeBlock language="typescript">
+                    {`import { Input } from "@/app/components/Input/Input" 
+
+<Input label="Email" />`}
+                  </CodeBlock>
                 </CardContent>
               </Card>
             ),

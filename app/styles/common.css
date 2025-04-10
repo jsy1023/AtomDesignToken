@@ -16,11 +16,23 @@ span {
 }
 
 hr {
-  border: var(--color-border);
+  border-color: var(--color-border);
 }
 
 h1 {
   font-size: var(--text-h1);
   line-height: var(--text-h1-line-height);
-  font-weight: var(--text-h1-weight);
+  font-weight: var(--text-h-weight);
+}
+
+h2 {
+  font-size: var(--text-h2);
+  line-height: var(--text-h2-line-height);
+  font-weight: var(--text-h-weight);
+}
+
+h3 {
+  font-size: var(--text-h3);
+  line-height: var(--text-h3-line-height);
+  font-weight: var(--text-h-weight);
 }

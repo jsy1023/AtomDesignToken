@@ -4,12 +4,14 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 export const Input = ({
+  type = "text",
   placeholder = "값을 입력해주세요",
   label,
   readOnly,
   disabled,
   required,
 }: {
+  type?: string;
   className?: string;
   placeholder?: string;
   label?: string;
@@ -31,7 +33,7 @@ export const Input = ({
         </p>
       ) : null}
       <input
-        type="text"
+        type={type}
         className="border rounded focus:outline-none focus:ring-0 bg-[var(--input-background-standard)] disabled:bg-[var(--input-background-disabled)] disabled:cursor-not-allowed border-[var(--input-border-standard)] focus:border-[var(--input-border-focus)] "
         style={{
           color: "var(--input-text-standard)",

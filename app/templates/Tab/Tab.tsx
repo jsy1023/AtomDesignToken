@@ -35,7 +35,7 @@ const Tab = ({
   };
 
   // 👇 activeContent가 변경된 이후에 실행
-  useEffect(() => {
+  useGSAP(() => {
     if (tabContentRef.current) {
       gsap.fromTo(
         tabContentRef.current.children,
