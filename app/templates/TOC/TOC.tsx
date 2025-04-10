@@ -1,4 +1,5 @@
 "use client";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 type Heading = {
@@ -10,37 +11,43 @@ type Heading = {
 export default function TOC() {
   const [headings, setHeadings] = useState<Heading[]>([]);
 
+  const pathname = usePathname(); // ✅ 페이지 경로 추적
+
   useEffect(() => {
-    const headingElements = Array.from(
-      document.querySelectorAll("h1, h2, h3")
-    ) as HTMLHeadingElement[];
+    const timer = setTimeout(() => {
+      const headingElements = Array.from(
+        document.querySelectorAll("h1, h2, h3")
+      ) as HTMLHeadingElement[];
 
-    const generatedHeadings: Heading[] = headingElements.map((heading) => {
-      // id가 없으면 자동 생성
-      if (!heading.id) {
-        heading.id =
-          heading.textContent
-            ?.toLowerCase()
-            .replace(/\s+/g, "-")
-            .replace(/[^\w\-]+/g, "") ?? "";
-      }
+      const generatedHeadings: Heading[] = headingElements.map((heading) => {
+        // id가 없으면 자동 생성
+        if (!heading.id) {
+          heading.id =
+            heading.textContent
+              ?.toLowerCase()
+              .replace(/\s+/g, "-")
+              .replace(/[^\w\-]+/g, "") ?? "";
+        }
 
-      return {
-        id: heading.id,
-        text: heading.textContent || "",
-        level: parseInt(heading.tagName.replace("H", "")),
-      };
-    });
+        return {
+          id: heading.id,
+          text: heading.textContent || "",
+          level: parseInt(heading.tagName.replace("H", "")),
+        };
+      });
 
-    setHeadings(generatedHeadings);
-  }, []);
+      setHeadings(generatedHeadings);
+    }, 50);
+
+    return () => clearTimeout(timer);
+  }, [pathname]);
 
   return (
     <nav className="space-y-2 flex flex-col">
-      {headings.map((heading) => {
+      {headings.map((heading, idx) => {
         return (
           <a
-            key={heading.id}
+            key={`${heading.id}-${idx}`}
             href={`#${heading.id}`}
             style={{ marginLeft: `${(heading.level - 1) * 8}px` }}
           >
