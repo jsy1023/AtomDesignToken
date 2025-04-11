@@ -32,19 +32,61 @@ const ComponentInput = () => {
           "px-[var(--global-padding-x)] py-[var(--global-padding-y)] font-bold "
         }
         tabNavItemActiveClass="border-b border-primary"
-        tabContentClass={"py-4"}
         tabContents={[
           {
             id: "previewContent",
             tag: "preview",
             content: (
-              <Card>
-                <CardContent>
-                  <Card type="group" className="flex justify-center">
-                    <Input className="w-full" />
-                  </Card>
-                </CardContent>
-              </Card>
+              <>
+                <Card className="my-4">
+                  <CardContent>
+                    <Card type="group" className="flex justify-center">
+                      <Input className="w-full" />
+                    </Card>
+                  </CardContent>
+                </Card>
+
+                <Card className="my-4">
+                  <CardContent>
+                    <table className="w-full">
+                      <thead>
+                        <tr>
+                          <th className="py-2">Prop</th>
+                          <th className="py-2">Type</th>
+                          <th className="py-2">Default</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td className="py-2">type</td>
+                          <td className="py-2">string</td>
+                          <td className="py-2">text</td>
+                        </tr>
+                        <tr>
+                          <td className="py-2">placeholder</td>
+                          <td className="py-2">string</td>
+                          <td className="py-2">값을 입력해주세요</td>
+                        </tr>
+                        <tr>
+                          <td className="py-2">label</td>
+                          <td className="py-2">string</td>
+                          <td className="py-2">-</td>
+                        </tr>
+                        <tr>
+                          <td className="py-2">disabled</td>
+                          <td className="py-2">boolean</td>
+                          <td className="py-2">false</td>
+                        </tr>
+                        <tr>
+                          <td className="py-2">required</td>
+                          <td className="py-2">boolean</td>
+                          <td className="py-2">false</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </CardContent>
+                </Card>
+              </>
             ),
           },
           {
