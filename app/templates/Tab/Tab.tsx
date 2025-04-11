@@ -16,11 +16,11 @@ const Tab = ({
   expectionLayout,
 }: {
   tabs: Array<{ id: string; target: string[]; tabItem: React.ReactNode }>;
-  tabClass: string;
+  tabClass?: string;
   tabNavItemClass?: string;
   tabNavItemActiveClass?: string;
   tabContents: Array<{ id: string; tag: string; content: React.ReactNode }>;
-  tabContentClass: string;
+  tabContentClass?: string;
   tabContentItem?: string;
   expectionValue?: string;
   expectionLayout?: string;
