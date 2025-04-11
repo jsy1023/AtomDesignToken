@@ -101,6 +101,8 @@ export const ThemeWrapper = ({
     const listenStorageChange = () => {
       setTheme(localStorage.getItem("theme") || "light");
       setInputTheme(localStorage.getItem("inputTheme") || "inputStandard");
+
+      document.body.className = `${className} ${theme} ${inputTheme}`;
     };
     listenStorageChange();
     window.addEventListener("storage", listenStorageChange);
@@ -112,7 +114,5 @@ export const ThemeWrapper = ({
     return null;
   }
 
-  return (
-    <div className={`${className} ${theme} ${inputTheme}`}>{children}</div>
-  );
+  return <>{children}</>;
 };
