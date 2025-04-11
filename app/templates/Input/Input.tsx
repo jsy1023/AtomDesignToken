@@ -130,7 +130,10 @@ export const Select = ({
             "transition-all bg-[var(--input-background-standard)] border px-4 py-2 border-[var(--color-border)] text-[var(--text-standard)] rounded-[var(--input-rounded)]",
             { "placeholder:text[var(--input-text-placeholder)]": true },
             { "focus:border-[var(--input-border-focus)]": true },
-            { "disabled:bg-[var(input-background-disabled)]": true }
+            {
+              "disabled:bg-[var(--input-background-disabled)] disabled:cursor-not-allowed":
+                disabled,
+            }
           )}
           disabled={disabled}
         />
