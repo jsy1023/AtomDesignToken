@@ -52,7 +52,17 @@ export const Input = ({
   );
 };
 
-export const Select = ({ options }: { options: string[] }) => {
+export const Select = ({
+  options,
+  label,
+  required,
+  disabled,
+}: {
+  options: string[];
+  label?: string;
+  required?: boolean;
+  disabled?: boolean;
+}) => {
   const [filterValue, setFilterValue] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [menuPosition, setMenuPosition] = useState({
@@ -95,6 +105,17 @@ export const Select = ({ options }: { options: string[] }) => {
 
   return (
     <div className="relative">
+      {label ? (
+        <p className={clsx("mb-1 text-text-standard", {})}>
+          <span
+            className={clsx("", {
+              "after:content-['*'] after:ml-1 after:text-danger": required,
+            })}
+          >
+            {label}
+          </span>
+        </p>
+      ) : null}
       <label className="relative w-fit hidden md:block">
         <input
           ref={inputRef}
@@ -106,11 +127,12 @@ export const Select = ({ options }: { options: string[] }) => {
           }}
           onFocus={() => setIsOpen(true)}
           className={clsx(
-            "transition-all bg-input-background-standard border px-4 py-2 border-input-border-standard text-input-text-value rounded-input-rounded",
-            { "placeholder:text-input-text-placeholder": true },
-            { "focus:border-input-border-focus": true },
-            { "disabled:bg-input-background-disabled": true }
+            "transition-all bg-[var(--input-background-standard)] border px-4 py-2 border-[var(--color-border)] text-[var(--text-standard)] rounded-[var(--input-rounded)]",
+            { "placeholder:text[var(--input-text-placeholder)]": true },
+            { "focus:border-[var(--input-border-focus)]": true },
+            { "disabled:bg-[var(input-background-disabled)]": true }
           )}
+          disabled={disabled}
         />
         <div
           className="absolute flex items-center right-0 top-0 h-full px-2"
@@ -125,7 +147,7 @@ export const Select = ({ options }: { options: string[] }) => {
         createPortal(
           <ul
             ref={dropdownRef}
-            className="absolute w-full border rounded bg-input-background-standard border-input-border-standard shadow-md mt-1"
+            className="absolute w-full border rounded bg-[var(--input-background-standard)] border-[var(--input-border-standard)] shadow-md mt-1"
             style={{
               top: menuPosition.top,
               left: menuPosition.left,
@@ -136,7 +158,7 @@ export const Select = ({ options }: { options: string[] }) => {
               filteredOptions.map((option, index) => (
                 <li
                   key={index}
-                  className="px-4 py-2 text-input-text-value hover:bg-input-background-value cursor-pointer"
+                  className="px-4 py-2 text-[var(--text-standard)] hover:bg-primary/10 cursor-pointer"
                   onClick={() => {
                     setFilterValue(option);
                     setIsOpen(false);
@@ -153,10 +175,10 @@ export const Select = ({ options }: { options: string[] }) => {
         )}
       <select
         className={clsx(
-          " block transition-all bg-input-background-standard border px-4 py-2 border-input-border-standard text-input-text-value rounded-input-rounded",
+          " block transition-all bg-[(--input-background-standard)] border px-4 py-2 border-[var(--color-border)] text-[var(--text-standard)] rounded-input-rounded",
           { "placeholder:text-input-text-placeholder": true },
-          { "focus:border-input-border-focus": true },
-          { "disabled:bg-input-background-disabled": true },
+          { "focus:border-[var(--input-border-focus)]": true },
+          { "disabled:bg-[var(--input-background-disabled)]": true },
           { "md:hidden": true }
         )}
       >

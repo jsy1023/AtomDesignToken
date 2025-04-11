@@ -1,6 +1,10 @@
 @import "tailwindcss";
 @import url("../globals.css");
 
+*:focus {
+  outline: none;
+}
+
 div,
 li,
 label,

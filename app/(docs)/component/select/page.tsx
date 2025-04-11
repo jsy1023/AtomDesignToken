@@ -3,9 +3,7 @@ import type { Metadata } from "next";
 import { Card, CardHeader, CardContent } from "@/app/templates/Card/Card";
 import { Select } from "@/app/templates/Input/Input";
 import CodeBlock from "@/app/templates/CodeBlock/CodeBlock";
-import { ThemeSelector } from "@/app/templates/Theme/Theme";
-import Link from "next/link";
-import version from "@/versonHistory.json";
+import Tab from "@/app/templates/Tab/Tab";
 
 export const metadata: Metadata = {
   title: "Select",
@@ -16,114 +14,288 @@ export const metadata: Metadata = {
 
 const ComponentSelect = () => {
   return (
-    <div className="py-12">
+    <>
       <h1 className="mb-4 text-h1">선택창</h1>
       <p>
         &nbsp;선택창은 여러가지 항목중 단일의 내용을 선택할 수 있는
         컨트롤러입니다. 10개 이상의 선택지가 있는 경우에 사용을 권장합니다.
       </p>
+      <hr className="my-4" />
+      <Tab
+        tabs={[
+          { id: "preview", target: ["preview"], tabItem: "preview" },
+          { id: "code", target: ["code"], tabItem: "code" },
+        ]}
+        tabClass={"w-full border-[var(--color-border)] border-b"}
+        tabNavItemClass={
+          "px-[var(--global-padding-x)] py-[var(--global-padding-y)] font-bold "
+        }
+        tabNavItemActiveClass="border-b border-primary"
+        tabContentClass={"py-4"}
+        tabContents={[
+          {
+            id: "previewContent",
+            tag: "preview",
+            content: (
+              <>
+                <Card>
+                  <CardContent>
+                    <Card type="group" className="flex justify-center">
+                      <Select
+                        options={["대한민국", "유럽", "일본", "미국", "중국"]}
+                      />
+                    </Card>
+                  </CardContent>
+                </Card>
+                <Card className="my-4">
+                  <CardContent>
+                    <table className="w-full">
+                      <thead>
+                        <tr>
+                          <th className="py-2">Prop</th>
+                          <th className="py-2">Type</th>
+                          <th className="py-2">Default</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td className="py-2">option</td>
+                          <td className="py-2">string[]</td>
+                          <td className="py-2">-</td>
+                        </tr>
+                        <tr>
+                          <td className="py-2">label</td>
+                          <td className="py-2">string</td>
+                          <td className="py-2">-</td>
+                        </tr>
+                        <tr>
+                          <td className="py-2">disabled</td>
+                          <td className="py-2">boolean</td>
+                          <td className="py-2">false</td>
+                        </tr>
+                        <tr>
+                          <td className="py-2">required</td>
+                          <td className="py-2">boolean</td>
+                          <td className="py-2">false</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </CardContent>
+                </Card>
+              </>
+            ),
+          },
+          {
+            id: "codeContent",
+            tag: "code",
+            content: (
+              <Card className="my-4">
+                <CardContent noMargin>
+                  <CodeBlock language="typescript">
+                    {`import { Select } from "@/app/components/Select/Select" 
+
+<Select />`}
+                  </CodeBlock>
+                </CardContent>
+              </Card>
+            ),
+          },
+        ]}
+      />
+
+      <hr className="my-4" />
+      <h2>Installation</h2>
       <Card className="my-4">
         <CardContent noMargin>
-          <CodeBlock language="npm">{`npx atomsystem-add Input`}</CodeBlock>
+          <CodeBlock language="npm">{`npx atomsystem-add Select`}</CodeBlock>
         </CardContent>
       </Card>
+
+      <hr className="my-4" />
+
+      <h2>Usage</h2>
+
       <Card className="my-4">
         <CardContent noMargin>
-          <CodeBlock language="javascript">{`import { Select } from "@/app/templates/Input/Input";`}</CodeBlock>
-        </CardContent>
-      </Card>
-      <hr className="my-4 border-fill-border" />
-      <h2 className="mb-4 text-h2">선책창의 디자인적 구성요소</h2>
-      <p className="mb-4">
-        &nbsp;선택창의 디자인 구성요소로는 배경색, 선, 여백을 기본으로 각
-        상태변화에 따른 값을 가지고 있습니다.
-      </p>
-      <Card>
-        <CardContent>
-          <p>
-            &nbsp;tailwinds css의 tailwinds.config.ts에 정의된 변수입니다.
-            <br /> 해당 변수는 디자인에 따라 자유롭게 정의내리고 활용할 수
-            있습니다.
-          </p>
-        </CardContent>
-        <CardHeader noMargin>
           <CodeBlock language="typescript">
-            {`theme: {
-  extend: {
-    colors: {
-        "input-background-standard": "var(--input-background-standard)",
-        "input-background-disabled": "var(--input-background-disabled)",
-        "input-background-value": "var(--input-background-value)",
-        "input-border-standard": "var(--input-border-standard)",
-        "input-border-focus": "var(--input-border-focus)",
-        "input-text-value": "var(--input-text-value)",
-        "input-text-placeholder": "var(--input-text-placeholder)",
-    },
-      borderRadius: {
-        "input-border": "var(--input-rounded)"
-      },
-  }
-}`}
+            {`import { Select } from "@/app/components/Select/Select" `}
           </CodeBlock>
-        </CardHeader>
-        <div className="p-4">
-          <ThemeSelector type="all" />
-        </div>
-        <CardContent>
-          <Card
-            type="group"
-            className="flex flex-col flex-wrap gap-4 justify-center"
-          >
-            <Select options={["대한민국", "일본", "미국", "대만", "중국"]} />
-            <p className="mb-4">
-              &nbsp;선택창의 경우 7개 이상의 선택요소가 있을 경우에 사용하므로
-              리스트 내 검색기능을 제공합니다.
-            </p>
-          </Card>
         </CardContent>
       </Card>
-      <hr className="my-4 border-fill-border" />
-      {/* <h2 className="mb-4">체크박스의 활용</h2>
-      <p className="mb-4">
-        &nbsp;체크박스의 기본상태 정보입니다. true, false를 표현하기 위해
-        단순하게 구성되어 있습니다.
-      </p>
-      <Card>
-        <div className="grid grid-cols-3 gap-4">
-          <Checkbox label="기본" defaultChecked />
-          <Checkbox label="활성화:focus" className="input-focus-custom" />
-          <Checkbox label="비활성화" disabled />
-        </div>
-      </Card>
-      <hr className="my-4 border-fill-border" /> */}
-      <h2 className="mb-4 text-h2">참고자료</h2>
-      다음에 이론을 기반으로 아토믹 디자인 시스템 이론을 구성하였습니다.
       <Card className="my-4">
-        <ul className="list-disc px-8">
-          <li>
-            mdn,
-            <Link
-              href={
-                "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select"
-              }
-              target="_blank"
-              className="text-primary"
-            >
-              &nbsp;https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select
-            </Link>
-          </li>
-        </ul>
+        <CardContent noMargin>
+          <CodeBlock language="typescript">{`<Select /> `}</CodeBlock>
+        </CardContent>
       </Card>
-      <hr className="my-4 border-fill-border" />
-      <ul className="list-disc p-8">
-        <li>
-          <div className="flex gap-4">
-            <p>최종수정일자: {version.page.select.version["0.0.1"].dateTime}</p>
-            <p>version: {version.page.select.version["0.0.1"].version}</p>
-          </div>
-        </li>
-      </ul>
-    </div>
+
+      <hr className="my-4" />
+
+      <h2>Example</h2>
+
+      <h3 className="mt-4">Default</h3>
+      <Tab
+        tabs={[
+          {
+            id: "previewDefault",
+            target: ["previewDefault"],
+            tabItem: "preview",
+          },
+          {
+            id: "codeDefault",
+            target: ["codeDefault"],
+            tabItem: "code",
+          },
+        ]}
+        tabClass={"w-full border-[var(--color-border)] border-b"}
+        tabNavItemClass={
+          "px-[var(--global-padding-x)] py-[var(--global-padding-y)] font-bold "
+        }
+        tabNavItemActiveClass="border-b border-primary"
+        tabContentClass={"py-4"}
+        tabContents={[
+          {
+            id: "previewContentDefault",
+            tag: "previewDefault",
+            content: (
+              <Card>
+                <CardContent>
+                  <Card type="group" className="flex justify-center">
+                    <Select
+                      options={["대한민국", "유럽", "일본", "미국", "중국"]}
+                    />
+                  </Card>
+                </CardContent>
+              </Card>
+            ),
+          },
+          {
+            id: "codeContentDefault",
+            tag: "codeDefault",
+            content: (
+              <Card className="my-4">
+                <CardContent noMargin>
+                  <CodeBlock language="typescript">
+                    {`import { Select } from "@/app/components/Select/Select" 
+
+<Select />`}
+                  </CodeBlock>
+                </CardContent>
+              </Card>
+            ),
+          },
+        ]}
+      />
+
+      <h3 className="mt-4">Disabled</h3>
+      <Tab
+        tabs={[
+          {
+            id: "previewDisabled",
+            target: ["previewDisabled"],
+            tabItem: "preview",
+          },
+          {
+            id: "codeDisabled",
+            target: ["codeDisabled"],
+            tabItem: "code",
+          },
+        ]}
+        tabClass={"w-full border-[var(--color-border)] border-b"}
+        tabNavItemClass={
+          "px-[var(--global-padding-x)] py-[var(--global-padding-y)] font-bold "
+        }
+        tabNavItemActiveClass="border-b border-primary"
+        tabContentClass={"py-4"}
+        tabContents={[
+          {
+            id: "previewContentDisabled",
+            tag: "previewDisabled",
+            content: (
+              <Card>
+                <CardContent>
+                  <Card type="group" className="flex justify-center">
+                    <Select
+                      disabled
+                      options={["대한민국", "유럽", "일본", "미국", "중국"]}
+                    />
+                  </Card>
+                </CardContent>
+              </Card>
+            ),
+          },
+          {
+            id: "codeContentDisabled",
+            tag: "codeDisabled",
+            content: (
+              <Card className="my-4">
+                <CardContent noMargin>
+                  <CodeBlock language="typescript">
+                    {`import { Select } from "@/app/components/Select/Select" 
+
+<Select disabled />`}
+                  </CodeBlock>
+                </CardContent>
+              </Card>
+            ),
+          },
+        ]}
+      />
+
+      <h3 className="mt-4">With Label</h3>
+      <Tab
+        tabs={[
+          {
+            id: "previewWithLabel",
+            target: ["previewWithLabel"],
+            tabItem: "preview",
+          },
+          {
+            id: "codeWithLabel",
+            target: ["codeWithLabel"],
+            tabItem: "code",
+          },
+        ]}
+        tabClass={"w-full border-[var(--color-border)] border-b"}
+        tabNavItemClass={
+          "px-[var(--global-padding-x)] py-[var(--global-padding-y)] font-bold "
+        }
+        tabNavItemActiveClass="border-b border-primary"
+        tabContentClass={"py-4"}
+        tabContents={[
+          {
+            id: "previewContentWithLabel",
+            tag: "previewWithLabel",
+            content: (
+              <Card className="my-4">
+                <CardContent>
+                  <Card type="group" className="flex justify-center">
+                    <Select
+                      label="국가선택"
+                      options={["대한민국", "유럽", "일본", "미국", "중국"]}
+                    />
+                  </Card>
+                </CardContent>
+              </Card>
+            ),
+          },
+          {
+            id: "codeContentWithLabel",
+            tag: "codeWithLabel",
+            content: (
+              <Card className="my-4">
+                <CardContent noMargin>
+                  <CodeBlock language="typescript">
+                    {`import { Select } from "@/app/components/Select/Select" 
+
+<Select label="국가선택" />`}
+                  </CodeBlock>
+                </CardContent>
+              </Card>
+            ),
+          },
+        ]}
+      />
+    </>
   );
 };
 
