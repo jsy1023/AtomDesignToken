@@ -37,6 +37,7 @@
 --input-background-hover: #f5f5f5;
 --input-background-disabled: #e6e6e6;
 --input-text-standard: #333333;
+--input-text-disabled: #999999;
 --input-border-standard: #ccc;
 --input-border-focus: #333;
     }
@@ -49,6 +50,7 @@
 --input-background-hover: #444;
 --input-background-disabled: #555;
 --input-text-standard: #e6e6e6;
+--input-text-disabled: #666666;
 --input-border-standard: #555;
 --input-border-focus: #ccc;
     }

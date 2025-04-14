@@ -2,10 +2,8 @@ import type { Metadata } from "next";
 
 import { Card, CardHeader, CardContent } from "@/app/templates/Card/Card";
 import { Checkbox } from "@/app/templates/Input/Input";
-import { ThemeSelector } from "@/app/templates/Theme/Theme";
 import CodeBlock from "@/app/templates/CodeBlock/CodeBlock";
-import Link from "next/link";
-import version from "@/versonHistory.json";
+import Tab from "@/app/templates/Tab/Tab";
 
 export const metadata: Metadata = {
   title: "Checkbox",
@@ -16,120 +14,288 @@ export const metadata: Metadata = {
 
 const ComponentCheckbox = () => {
   return (
-    <div className="py-12">
+    <>
       <h1 className="mb-4 text-h1">체크박스</h1>
       <p>
         &nbsp;체크박스는 사용자가 여러가지 선택사항 중 한가지 이상 선택을 할 수
         있는 컨트롤러입니다. 1개 ~ 10개 사이의 선택사항이 있는 경우 체크박스의
         사용을 권장합니다.
       </p>
+      <hr className="my-4" />
+      <Tab
+        tabs={[
+          { id: "preview", target: ["preview"], tabItem: "preview" },
+          { id: "code", target: ["code"], tabItem: "code" },
+        ]}
+        tabClass={"w-full border-[var(--color-border)] border-b"}
+        tabNavItemClass={
+          "px-[var(--global-padding-x)] py-[var(--global-padding-y)] font-bold "
+        }
+        tabNavItemActiveClass="border-b border-primary"
+        tabContents={[
+          {
+            id: "previewContent",
+            tag: "preview",
+            content: (
+              <>
+                <Card className="my-4">
+                  <CardContent>
+                    <Card type="group" className="flex justify-center">
+                      <Checkbox defaultChecked />
+                    </Card>
+                  </CardContent>
+                </Card>
+
+                <Card className="my-4">
+                  <CardContent>
+                    <table className="w-full">
+                      <thead>
+                        <tr>
+                          <th className="py-2">Prop</th>
+                          <th className="py-2">Type</th>
+                          <th className="py-2">Default</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td className="py-2">label</td>
+                          <td className="py-2">string</td>
+                          <td className="py-2">-</td>
+                        </tr>
+                        <tr>
+                          <td className="py-2">onChange</td>
+                          <td className="py-2">() =&gt; void</td>
+                          <td className="py-2">-</td>
+                        </tr>
+                        <tr>
+                          <td className="py-2">label</td>
+                          <td className="py-2">string</td>
+                          <td className="py-2">-</td>
+                        </tr>
+                        <tr>
+                          <td className="py-2">disabled</td>
+                          <td className="py-2">boolean</td>
+                          <td className="py-2">false</td>
+                        </tr>
+                        <tr>
+                          <td className="py-2">required</td>
+                          <td className="py-2">boolean</td>
+                          <td className="py-2">false</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </CardContent>
+                </Card>
+              </>
+            ),
+          },
+          {
+            id: "codeContent",
+            tag: "code",
+            content: (
+              <Card className="my-4">
+                <CardContent noMargin>
+                  <CodeBlock language="typescript">
+                    {`import { Checkbox } from "@/app/components/Input/Input" 
+
+<Checkbox />`}
+                  </CodeBlock>
+                </CardContent>
+              </Card>
+            ),
+          },
+        ]}
+      />
+
+      <hr className="my-4" />
+      <h2>Installation</h2>
       <Card className="my-4">
         <CardContent noMargin>
-          <CodeBlock language="npm">{`npx atomsystem-add Input`}</CodeBlock>
+          <CodeBlock language="npm">{`npx atomsystem-add Checkbox`}</CodeBlock>
         </CardContent>
       </Card>
+
+      <hr className="my-4" />
+
+      <h2>Usage</h2>
+
       <Card className="my-4">
         <CardContent noMargin>
-          <CodeBlock language="javascript">{`import { Checkbox } from "@/app/templates/Input/Input";`}</CodeBlock>
-        </CardContent>
-      </Card>
-      <hr className="my-4 border-fill-border" />
-      <h2 className="mb-4 text-h2">체크박스의 디자인적 구성요소</h2>
-      <p className="mb-4">
-        &nbsp;체크박스의 구성요소로는 배경색, 선, 여백, 기본으로 각 상태변화에
-        따른 값을 가지고 있습니다. 해당 내용을 변수화하여 다양한 디자인을 적용할
-        수 있도록 구성합니다.
-      </p>
-      <Card>
-        <CardContent>
-          <p>
-            &nbsp;tailwinds css의 tailwinds.config.ts에 정의된 변수입니다.
-            <br /> 해당 변수는 디자인에 따라 자유롭게 정의내리고 활용할 수
-            있습니다.
-          </p>
-        </CardContent>
-        <CardHeader noMargin>
           <CodeBlock language="typescript">
-            {`theme: {
-  extend: {
-    colors: {
-        "input-background-standard": "var(--input-background-standard)",
-        "input-background-disabled": "var(--input-background-disabled)",
-        "input-border-standard": "var(--input-border-standard)",
-        "input-border-focus": "var(--input-border-focus)",
-    },
-      borderRadius: {
-        "input-rounded": "var(--input-rounded)"
-      },
-  }
-}`}
+            {`import { Checkbox } from "@/app/components/Input/Input" `}
           </CodeBlock>
-        </CardHeader>
-        <div className="p-4">
-          <ThemeSelector type="theme" />
-        </div>
-        <CardContent>
-          <Card type="group" className="flex flex-wrap gap-4 justify-center">
-            <Checkbox />
-            <Checkbox label="체크박스" />
-          </Card>
         </CardContent>
       </Card>
-      <hr className="my-4 border-fill-border" />
-      <h2 className="mb-4 text-h2">체크박스의 기본상태</h2>
-      <p className="mb-4">
-        &nbsp;체크박스의 기본상태 정보입니다. true, false를 표현하기 위해
-        단순하게 구성되어 있습니다.
-      </p>
-      <Card>
-        <div className="grid grid-cols-3 gap-4">
-          <Checkbox label="기본" defaultChecked />
-          <Checkbox label="활성화:focus" className="input-focus-custom" />
-          <Checkbox label="비활성화" disabled />
-        </div>
-      </Card>
-      <hr className="my-4 border-fill-border" />
-      {/* <h2 className="mb-4">체크박스의 활용</h2>
-      <p className="mb-4">
-        &nbsp;체크박스의 기본상태 정보입니다. true, false를 표현하기 위해
-        단순하게 구성되어 있습니다.
-      </p>
-      <Card>
-        <div className="grid grid-cols-3 gap-4">
-          <Checkbox label="기본" defaultChecked />
-          <Checkbox label="활성화:focus" className="input-focus-custom" />
-          <Checkbox label="비활성화" disabled />
-        </div>
-      </Card>
-      <hr className="my-4 border-fill-border" /> */}
-      <h2 className="mb-4 text-h2">참고자료</h2>
-      다음에 이론을 기반으로 아토믹 디자인 시스템 이론을 구성하였습니다.
       <Card className="my-4">
-        <ul className="list-disc px-8">
-          <li>
-            mdn,
-            <Link
-              href={
-                "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox"
-              }
-              target="_blank"
-              className="text-primary"
-            >
-              &nbsp;https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox
-            </Link>
-          </li>
-        </ul>
+        <CardContent noMargin>
+          <CodeBlock language="typescript">{`<Checkbox /> `}</CodeBlock>
+        </CardContent>
       </Card>
-      <hr className="my-4 border-fill-border" />
-      <ul className="list-disc p-8">
-        <li>
-          <div className="flex gap-4">
-            <p>최종수정일자: {version.page.checkbox.dateTime}</p>
-            <p>version: {version.page.checkbox.version}</p>
-          </div>
-        </li>
-      </ul>
-    </div>
+
+      <hr className="my-4" />
+
+      <h2>Example</h2>
+
+      <h3 className="mt-4">WithText</h3>
+      <Tab
+        tabs={[
+          {
+            id: "previewDefault",
+            target: ["previewWithText"],
+            tabItem: "preview",
+          },
+          {
+            id: "codeDefault",
+            target: ["codeWithText"],
+            tabItem: "code",
+          },
+        ]}
+        tabClass={"w-full border-[var(--color-border)] border-b"}
+        tabNavItemClass={
+          "px-[var(--global-padding-x)] py-[var(--global-padding-y)] font-bold "
+        }
+        tabNavItemActiveClass="border-b border-primary"
+        tabContentClass={"py-4"}
+        tabContents={[
+          {
+            id: "previewContentDefault",
+            tag: "previewWithText",
+            content: (
+              <Card>
+                <CardContent>
+                  <Card type="group" className="flex justify-center">
+                    <Checkbox text="정책 및 조건동의" />
+                  </Card>
+                </CardContent>
+              </Card>
+            ),
+          },
+          {
+            id: "codeContentDefault",
+            tag: "codeWithText",
+            content: (
+              <Card className="my-4">
+                <CardContent noMargin>
+                  <CodeBlock language="typescript">
+                    {`import { Checkbox } from "@/app/components/Input/Input" 
+
+<Checkbox text="정책 및 조건동의" />`}
+                  </CodeBlock>
+                </CardContent>
+              </Card>
+            ),
+          },
+        ]}
+      />
+
+      <h3 className="mt-4">Disabled</h3>
+      <Tab
+        tabs={[
+          {
+            id: "previewDisabled",
+            target: ["previewDisabled"],
+            tabItem: "preview",
+          },
+          {
+            id: "codeDisabled",
+            target: ["codeDisabled"],
+            tabItem: "code",
+          },
+        ]}
+        tabClass={"w-full border-[var(--color-border)] border-b"}
+        tabNavItemClass={
+          "px-[var(--global-padding-x)] py-[var(--global-padding-y)] font-bold "
+        }
+        tabNavItemActiveClass="border-b border-primary"
+        tabContentClass={"py-4"}
+        tabContents={[
+          {
+            id: "previewContentDisabled",
+            tag: "previewDisabled",
+            content: (
+              <Card>
+                <CardContent>
+                  <Card type="group" className="flex justify-center">
+                    <Checkbox text="정책 및 조건동의" disabled />
+                  </Card>
+                </CardContent>
+              </Card>
+            ),
+          },
+          {
+            id: "codeContentDisabled",
+            tag: "codeDisabled",
+            content: (
+              <Card className="my-4">
+                <CardContent noMargin>
+                  <CodeBlock language="typescript">
+                    {`import { Checkbox } from "@/app/components/Input/Input" 
+
+<Checkbox text="정책 및 조건동의" disabled />`}
+                  </CodeBlock>
+                </CardContent>
+              </Card>
+            ),
+          },
+        ]}
+      />
+
+      <h3 className="mt-4">With Label</h3>
+      <Tab
+        tabs={[
+          {
+            id: "previewWithLabel",
+            target: ["previewWithLabel"],
+            tabItem: "preview",
+          },
+          {
+            id: "codeWithLabel",
+            target: ["codeWithLabel"],
+            tabItem: "code",
+          },
+        ]}
+        tabClass={"w-full border-[var(--color-border)] border-b"}
+        tabNavItemClass={
+          "px-[var(--global-padding-x)] py-[var(--global-padding-y)] font-bold "
+        }
+        tabNavItemActiveClass="border-b border-primary"
+        tabContentClass={"py-4"}
+        tabContents={[
+          {
+            id: "previewContentWithLabel",
+            tag: "previewWithLabel",
+            content: (
+              <Card>
+                <CardContent>
+                  <Card type="group" className="flex flex-col items-center">
+                    <Checkbox
+                      label="개인정보 조회를 위한 조건 저장 필요"
+                      text="정책 및 조건동의"
+                    />
+                  </Card>
+                </CardContent>
+              </Card>
+            ),
+          },
+          {
+            id: "codeContentWithLabel",
+            tag: "codeWithLabel",
+            content: (
+              <Card className="my-4">
+                <CardContent noMargin>
+                  <CodeBlock language="typescript">
+                    {`import { Checkbox } from "@/app/components/Input/Input" 
+
+<Checkbox label="개인정보 조회를 위한 조건 저장 필요" text="정책 및 조건동의"
+                    />`}
+                  </CodeBlock>
+                </CardContent>
+              </Card>
+            ),
+          },
+        ]}
+      />
+    </>
   );
 };
 

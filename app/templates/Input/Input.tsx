@@ -234,6 +234,7 @@ export const Radio = ({
 };
 
 export const Checkbox = ({
+  text,
   label,
   className,
   onChange,
@@ -241,6 +242,7 @@ export const Checkbox = ({
   required,
   defaultChecked,
 }: {
+  text?: string;
   label?: string;
   className?: string;
   onChange?: () => void;
@@ -249,42 +251,55 @@ export const Checkbox = ({
   defaultChecked?: boolean;
 }) => {
   return (
-    <label className="relative flex items-center gap-2">
-      <input
-        type="checkbox"
-        className={clsx(
-          "relative appearance-none peer w-5 h-5 bg-input-background-standard border border-fill-border rounded-common",
-          { "checked:bg-primary": true },
-          { "focus:border-input-border-focus": true },
-          { "disabled:bg-input-background-disabled": true },
-          {
-            "after:content-['*'] after:text-danger after:absolute after:-right-1 after:-top-2":
-              required,
-          },
-          className
-        )}
-        onChange={onChange}
-        disabled={disabled}
-        required={required}
-        defaultChecked={defaultChecked}
-      />
-      <span className="absolute left-0.5 top-1 invisible  peer-checked:visible fill-fill-card ">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-4 w-4"
-          viewBox="0 0 20 20"
-          strokeWidth="1"
-        >
-          <path
-            fillRule="evenodd"
-            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-            clipRule="evenodd"
-          ></path>
-        </svg>
-      </span>
-      {label ? (
-        <span className="text-text-standard select-none">{label}</span>
-      ) : null}
-    </label>
+    <>
+      {label ? <p>{label}</p> : null}
+      <label className="relative flex flex-nowrap items-center gap-1">
+        <input
+          type="checkbox"
+          className={clsx(
+            "relative appearance-none peer min-w-5 min-h-5 bg-[var(--input-background-standard)] border border-[var(--color-border)] rounded-common",
+            { "checked:bg-primary": true },
+            { "focus:border-[var(--input-border-focus)]": true },
+            {
+              "disabled:bg-[var(--input-background-disabled)] disabled:cursor-not-allowed":
+                true,
+            },
+            {
+              "after:content-['*'] after:text-danger after:absolute after:-right-1 after:-top-2":
+                required,
+            },
+            className
+          )}
+          onChange={onChange}
+          disabled={disabled}
+          required={required}
+          defaultChecked={defaultChecked}
+        />
+        <span className="absolute left-0.5 top-1 invisible  peer-checked:visible fill-[var(--input-background-standard)] ">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-4 w-4"
+            viewBox="0 0 20 20"
+            strokeWidth="1"
+          >
+            <path
+              fillRule="evenodd"
+              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+              clipRule="evenodd"
+            ></path>
+          </svg>
+        </span>
+        {text ? (
+          <span
+            className={clsx(
+              "text-[var(--text-standard)] text-nowrap select-none",
+              { "!text-[var(--input-text-disabled)]": disabled }
+            )}
+          >
+            {text}
+          </span>
+        ) : null}
+      </label>
+    </>
   );
 };
