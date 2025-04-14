@@ -94,7 +94,7 @@ const ComponentSelect = () => {
                   <CodeBlock language="typescript">
                     {`import { Select } from "@/app/components/Select/Select" 
 
-<Select />`}
+<Select options={["대한민국", "유럽", "일본", "미국", "중국"]}/>`}
                   </CodeBlock>
                 </CardContent>
               </Card>
@@ -124,7 +124,7 @@ const ComponentSelect = () => {
       </Card>
       <Card className="my-4">
         <CardContent noMargin>
-          <CodeBlock language="typescript">{`<Select /> `}</CodeBlock>
+          <CodeBlock language="typescript">{`<Select option={[]}/> `}</CodeBlock>
         </CardContent>
       </Card>
 
