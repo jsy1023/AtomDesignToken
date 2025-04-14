@@ -268,10 +268,9 @@ const ComponentCheckbox = () => {
               <Card>
                 <CardContent>
                   <Card type="group" className="flex flex-col items-center">
-                    <Checkbox
-                      label="개인정보 조회를 위한 조건 저장 필요"
-                      text="정책 및 조건동의"
-                    />
+                    <div className="flex flex-col">
+                      <Checkbox label="정책" text="정책 및 조건동의" />
+                    </div>
                   </Card>
                 </CardContent>
               </Card>
@@ -286,8 +285,9 @@ const ComponentCheckbox = () => {
                   <CodeBlock language="typescript">
                     {`import { Checkbox } from "@/app/components/Input/Input" 
 
-<Checkbox label="개인정보 조회를 위한 조건 저장 필요" text="정책 및 조건동의"
-                    />`}
+<div className="flex flex-col">
+  <Checkbox label="정책" text="정책 및 조건동의" />
+</div>`}
                   </CodeBlock>
                 </CardContent>
               </Card>
