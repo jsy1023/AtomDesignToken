@@ -13,6 +13,21 @@
 --text-h3: 16px;
 --text-h3-line-height: 24px;
 --input-rounded: 4px;
+--button-main-primary-standard: #2196f3;
+--button-main-primary-hover: #44acfe;
+--button-main-primary-active: #1781d4;
+--button-main-secondary-standard: #162c4e;
+--button-main-secondary-hover: #1d3e72;
+--button-main-secondary-active: #1b2637;
+--button-main-success-standard: #2196f3;
+--button-main-success-hover: #44acfe;
+--button-main-success-active: #1781d4;
+--button-main-danger-standard: #ff4a4a;
+--button-main-danger-hover: #ff7373;
+--button-main-danger-active: #c22f2f;
+--button-main-gray-standard: #333333;
+--button-main-gray-hover: #444444;
+--button-main-gray-active: #222222;
     }
     :root{
           --color-primary: #2196f3;
@@ -27,6 +42,21 @@
 --text-h3: 16px;
 --text-h3-line-height: 24px;
 --input-rounded: 4px;
+--button-main-primary-standard: #2196f3;
+--button-main-primary-hover: #44acfe;
+--button-main-primary-active: #1781d4;
+--button-main-secondary-standard: #162c4e;
+--button-main-secondary-hover: #1d3e72;
+--button-main-secondary-active: #1b2637;
+--button-main-success-standard: #2196f3;
+--button-main-success-hover: #44acfe;
+--button-main-success-active: #1781d4;
+--button-main-danger-standard: #ff4a4a;
+--button-main-danger-hover: #ff7373;
+--button-main-danger-active: #c22f2f;
+--button-main-gray-standard: #333333;
+--button-main-gray-hover: #444444;
+--button-main-gray-active: #222222;
     }    
     .light {
         --color-border: #ccc;

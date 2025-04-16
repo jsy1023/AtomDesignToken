@@ -3,9 +3,7 @@ import type { Metadata } from "next";
 import { Button } from "@/app/templates/Button/Button";
 import { Card, CardContent, CardHeader } from "@/app/templates/Card/Card";
 import CodeBlock from "@/app/templates/CodeBlock/CodeBlock";
-import { ThemeSelector } from "@/app/templates/Theme/Theme";
-import Link from "next/link";
-import version from "@/versonHistory.json";
+import Tab from "@/app/templates/Tab/Tab";
 
 export const metadata: Metadata = {
   title: "Button",
@@ -16,223 +14,172 @@ export const metadata: Metadata = {
 
 const ComponentButton = () => {
   return (
-    <div className="py-12">
+    <>
       <h1 className="mb-4 text-h1">버튼</h1>
       <p>
         &nbsp;버튼은 데이터를 전송하거나 상호작용하는 요소로 목적에 따라 다양한
-        종류의 버튼과 상태정보를 가집니다.
+        종류의 버튼과 상태정보를 가집니다
       </p>
+      <hr className="my-4" />
+      <Tab
+        tabs={[
+          { id: "preview", target: ["preview"], tabItem: "preview" },
+          { id: "code", target: ["code"], tabItem: "code" },
+        ]}
+        tabClass={"w-full border-[var(--color-border)] border-b"}
+        tabNavItemClass={
+          "px-[var(--global-padding-x)] py-[var(--global-padding-y)] font-bold "
+        }
+        tabNavItemActiveClass="border-b border-primary"
+        tabContents={[
+          {
+            id: "previewContent",
+            tag: "preview",
+            content: (
+              <>
+                <Card className="my-4">
+                  <CardContent>
+                    <Card type="group" className="flex justify-center gap-4">
+                      <Button type={"primary"}>버튼</Button>
+                      <Button type={"secondary"}>버튼</Button>
+                      <Button type={"success"}>버튼</Button>
+                      <Button type={"danger"}>버튼</Button>
+                      <Button type={"gray"}>버튼</Button>
+                    </Card>
+                  </CardContent>
+                </Card>
+
+                <Card className="my-4">
+                  <CardContent>
+                    <table className="w-full">
+                      <thead>
+                        <tr>
+                          <th className="py-2">Prop</th>
+                          <th className="py-2">Type</th>
+                          <th className="py-2">Default</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td className="py-2">type</td>
+                          <td className="py-2">
+                            "primary" | "secondary" | "success" | "danger" |
+                            "gray"
+                          </td>
+                          <td className="py-2">-</td>
+                        </tr>
+                        <tr>
+                          <td className="py-2">disabled</td>
+                          <td className="py-2">boolean</td>
+                          <td className="py-2">false</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </CardContent>
+                </Card>
+              </>
+            ),
+          },
+          {
+            id: "codeContent",
+            tag: "code",
+            content: (
+              <Card className="my-4">
+                <CardContent noMargin>
+                  <CodeBlock language="typescript">
+                    {`import { Button } from "@/app/components/Button/Button"
+
+<Button type={"primary"}>버튼</Button>
+<Button type={"secondary"}>버튼</Button>
+<Button type={"success"}>버튼</Button>
+<Button type={"danger"}>버튼</Button>
+<Button type={"gray"}>버튼</Button>`}
+                  </CodeBlock>
+                </CardContent>
+              </Card>
+            ),
+          },
+        ]}
+      />
+
+      <hr className="my-4" />
+      <h2>Installation</h2>
       <Card className="my-4">
         <CardContent noMargin>
           <CodeBlock language="npm">{`npx atomsystem-add Button`}</CodeBlock>
         </CardContent>
       </Card>
+
+      <hr className="my-4" />
+
+      <h2>Usage</h2>
+
       <Card className="my-4">
         <CardContent noMargin>
-          <CodeBlock language="javascript">{`import { Button } from "@/app/templates/Button/Button";`}</CodeBlock>
-        </CardContent>
-      </Card>
-      <hr className="my-4 border-fill-border" />
-      <h2 className="mb-4 text-h2">버튼의 디자인적 구성요소</h2>
-      <p className="mb-4">
-        &nbsp;버튼의 구성요소로는 배경색, 선, 여백을 기본으로 각 상태변화에 따른
-        값을 가지고 있습니다.
-      </p>
-      <Card>
-        <CardContent>
-          <p>
-            &nbsp;tailwinds css의 tailwinds.config.ts에 정의된 변수입니다.
-            <br /> 해당 변수는 디자인에 따라 자유롭게 정의내리고 활용할 수
-            있습니다.
-          </p>
-        </CardContent>
-        <CardHeader noMargin>
           <CodeBlock language="typescript">
-            {`theme: {
-  extend: {
-    colors: {
-        "button-primary-standard":"var(--button-primary-standard-background)",
-        "button-primary-hover":"var(--button-primary-hover-background)",
-        "button-secondary-standard":"var(--button-secondary-standard-background)",
-        "button-secondary-hover":"var(--button-secondary-hover-background)",
-        "button-success-standard":"var(--button-success-standard-background)",
-        "button-success-hover":"var(--button-success-hover-background)",
-        "button-danger-standard":"var(--button-danger-standard-background)",
-        "button-danger-hover":"var(--button-danger-hover-background)",
-        "button-gray-standard":"var(--button-gray-standard-background)",
-        "button-gray-hover":"var(--button-gray-hover-background)",
-    },
-      borderRadius: {
-        "common": "var(--rounded-common)",
-      },
-  }
-}`}
+            {`import { Radio } from "@/app/components/Button/Button" `}
           </CodeBlock>
-        </CardHeader>
-        <div className="p-4">
-          <ThemeSelector type="theme" />
-        </div>
-        <CardContent>
-          <Card type="group" className="flex flex-wrap gap-4 justify-center">
-            <Button type={"primary"}>버튼</Button>
-          </Card>
         </CardContent>
       </Card>
-      <hr className="my-4 border-fill-border" />
-      <h2 className="mb-4 text-h2">버튼의 기본상태</h2>
-      <p className="mb-4">
-        &nbsp;버튼의 경우 브랜드의 색상을 표현해주는 primary, secondary와 색상을
-        통해 사용자가 행동을 유추할 수 있는 success, danger, warning, gray 등이
-        존재합니다.
-      </p>
-      <Card>
-        <table className="w-full">
-          <thead>
-            <tr>
-              <th>구분</th>
-              <th>enabled</th>
-              <th>hover</th>
-              <th>disabled</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>primary</td>
-              <td>
-                <Button type={"primary"}>버튼</Button>
-              </td>
-              <td>
-                <Button
-                  type={"primary"}
-                  style={{
-                    background: "var(--button-primary-hover-background)",
-                  }}
-                >
-                  버튼
-                </Button>
-              </td>
-              <td>
-                <Button type={"primary"} disabled>
-                  버튼
-                </Button>
-              </td>
-            </tr>
-            <tr>
-              <td>secondary</td>
-              <td>
-                <Button type={"secondary"}>버튼</Button>
-              </td>
-              <td>
-                <Button
-                  type={"secondary"}
-                  style={{
-                    background: "var(--button-secondary-hover-background)",
-                  }}
-                >
-                  버튼
-                </Button>
-              </td>
-              <td>
-                <Button type={"secondary"} disabled>
-                  버튼
-                </Button>
-              </td>
-            </tr>
-            <tr>
-              <td>success</td>
-              <td>
-                <Button type={"success"}>버튼</Button>
-              </td>
-              <td>
-                <Button
-                  type={"success"}
-                  style={{
-                    background: "var(--button-success-hover-background)",
-                  }}
-                >
-                  버튼
-                </Button>
-              </td>
-              <td>
-                <Button type={"success"} disabled>
-                  버튼
-                </Button>
-              </td>
-            </tr>
-            <tr>
-              <td>danger</td>
-              <td>
-                <Button type={"danger"}>버튼</Button>
-              </td>
-              <td>
-                <Button
-                  type={"danger"}
-                  style={{
-                    background: "var(--button-danger-hover-background)",
-                  }}
-                >
-                  버튼
-                </Button>
-              </td>
-              <td>
-                <Button type={"danger"} disabled>
-                  버튼
-                </Button>
-              </td>
-            </tr>
-            <tr>
-              <td>gray</td>
-              <td>
-                <Button type={"gray"}>버튼</Button>
-              </td>
-              <td>
-                <Button
-                  type={"gray"}
-                  style={{
-                    background: "var(--button-gray-hover-background)",
-                  }}
-                >
-                  버튼
-                </Button>
-              </td>
-              <td>
-                <Button type={"gray"} disabled>
-                  버튼
-                </Button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </Card>
-      <hr className="my-4 border-fill-border" />
-      <h2 className="mb-4 text-h2">참고자료</h2>
-      다음에 이론을 기반으로 아토믹 디자인 시스템 이론을 구성하였습니다.
       <Card className="my-4">
-        <ul className="list-disc px-8">
-          <li>
-            mdn,
-            <Link
-              href={
-                "https://developer.mozilla.org/ko/docs/Web/HTML/Element/button"
-              }
-              target="_blank"
-              className="text-primary"
-            >
-              &nbsp;https://developer.mozilla.org/ko/docs/Web/HTML/Element/button
-            </Link>
-          </li>
-        </ul>
+        <CardContent noMargin>
+          <CodeBlock language="typescript">{`<Button type={"primary"}>버튼</Button> `}</CodeBlock>
+        </CardContent>
       </Card>
-      <hr className="my-4 border-fill-border" />
-      <ul className="list-disc p-8">
-        <li>
-          <div className="flex gap-4">
-            <p>최종수정일자: {version.page.button.version["0.0.1"].dateTime}</p>
-            <p>version: {version.page.button.version["0.0.1"].version}</p>
-          </div>
-        </li>
-      </ul>
-    </div>
+
+      <hr className="my-4" />
+
+      <h2>Example</h2>
+      <h3 className="mt-4">main</h3>
+      <Tab
+        tabs={[
+          {
+            id: "previewWithLabel",
+            target: ["previewWithLabel"],
+            tabItem: "preview",
+          },
+          {
+            id: "codeWithLabel",
+            target: ["codeWithLabel"],
+            tabItem: "code",
+          },
+        ]}
+        tabClass={"w-full border-[var(--color-border)] border-b"}
+        tabNavItemClass={
+          "px-[var(--global-padding-x)] py-[var(--global-padding-y)] font-bold "
+        }
+        tabNavItemActiveClass="border-b border-primary"
+        tabContentClass={"py-4"}
+        tabContents={[
+          {
+            id: "previewContentWithLabel",
+            tag: "previewWithLabel",
+            content: (
+              <Card>
+                <CardContent>
+                  <Card type="group" className="flex flex-col items-center">
+                    <Button type={"primary"}>버튼</Button>
+                  </Card>
+                </CardContent>
+              </Card>
+            ),
+          },
+          {
+            id: "codeContentWithLabel",
+            tag: "codeWithLabel",
+            content: (
+              <Card className="my-4">
+                <CardContent noMargin>
+                  <CodeBlock language="typescript">
+                    {`<Button type={"primary"}>버튼</Button>`}
+                  </CodeBlock>
+                </CardContent>
+              </Card>
+            ),
+          },
+        ]}
+      />
+    </>
   );
 };
 

@@ -15,25 +15,25 @@ export const Button = ({
   return (
     <button
       className={clsx(
-        "px-4 py-2 rounded-common text-button-text transition-all",
+        "px-4 py-2 rounded-common text-white transition-all cursor-pointer rounded-[var(--global-rounded)]",
         {
-          "bg-button-primary-standard hover:bg-button-primary-hover disabled:bg-button-primary-disabled":
+          "bg-[var(--button-main-primary-standard)] hover:bg-[var(--button-main-primary-hover)] active:bg-[var(--button-main-primary-active)] standard:bg-[var(--buttion-main-primary-standard)]/20":
             type == "primary",
         },
         {
-          "bg-button-secondary-standard hover:bg-button-secondary-hover disabled:bg-button-secondary-disabled ":
+          "bg-[var(--button-main-secondary-standard)] hover:bg-[var(--button-main-secondary-hover)] active:bg-[var(--button-main-secondary-active)] standard:bg-[var(--buttion-main-secondary-standard)]/20 ":
             type == "secondary",
         },
         {
-          "bg-button-success-standard hover:bg-button-success-hover disabled:bg-button-success-disabled":
+          "bg-[var(--button-main-success-standard)] hover:bg-[var(--button-main-success-hover)] active:bg-[var(--button-main-success-active)] standard:bg-[var(--buttion-main-success-standard)]/20":
             type == "success",
         },
         {
-          "bg-button-danger-standard hover:bg-button-danger-hover disabled:bg-button-danger-disabled":
+          "bg-[var(--button-main-danger-standard)] hover:bg-[var(--button-main-danger-hover)] active:bg-[var(--button-main-danger-active)] standard:bg-[var(--buttion-main-danger-standard)]/20":
             type == "danger",
         },
         {
-          "bg-button-gray-standard hover:bg-button-gray-hover disabled:bg-button-gray-disabled":
+          "bg-[var(--button-main-gray-standard)] hover:bg-[var(--button-main-gray-hover)] active:bg-[var(--button-main-gray-active)] standard:bg-[var(--buttion-main-gray-standard)]/20":
             type == "gray",
         }
       )}
