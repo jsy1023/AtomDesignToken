@@ -144,45 +144,6 @@ const DocsHome = () => {
           </li>
         </ul>
       </Card>
-      <hr className="my-4 border-fill-border" />
-      <h2 className="mb-4 text-h2">참고자료</h2>
-      다음에 이론을 기반으로 아토믹 디자인 시스템 이론을 구성하였습니다.
-      <Card className="my-4">
-        <ul className="list-disc px-8">
-          <li>
-            Brad Frost, Atomic Design,
-            <Link
-              href={"https://bradfrost.com/blog/post/atomic-design-book/"}
-              target="_blank"
-              className="text-primary"
-            >
-              &nbsp;https://bradfrost.com/blog/post/atomic-design-book/
-            </Link>
-          </li>
-          <li>
-            Tom Coleman, Component-Driven Development, Aug 17 2020, chromatic,
-            <Link
-              href={
-                "https://www.chromatic.com/blog/component-driven-development/"
-              }
-              target="_blank"
-              className="text-primary"
-            >
-              &nbsp;
-              https://www.chromatic.com/blog/component-driven-development/
-            </Link>
-          </li>
-        </ul>
-      </Card>
-      <hr className="my-4 border-fill-border" />
-      <ul className="list-disc p-8">
-        <li>
-          <div className="flex gap-4">
-            <p>최종수정일자: {version.page.index.dateTime}</p>
-            <p>version: {version.page.index.version}</p>
-          </div>
-        </li>
-      </ul>
     </div>
   );
 };
