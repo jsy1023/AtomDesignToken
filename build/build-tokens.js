@@ -35,6 +35,7 @@ StyleDictionary.registerFormat({
     @theme {
         ${root.join("\n")}
     }
+        
     :root{
           ${root.join("\n")}
     }    
