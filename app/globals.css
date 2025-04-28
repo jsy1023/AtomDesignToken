@@ -62,6 +62,7 @@
     .light {
         --color-border: #ccc;
 --text-standard: #333;
+--text-sub: #666;
 --background-card: #fafafa;
 --background-wrapper: #e6e6e6;
 --input-background-standard: #fff;
@@ -75,6 +76,7 @@
     .dark {
         --color-border: #444;
 --text-standard: #ccc;
+--text-sub: #999;
 --background-card: #222222;
 --background-wrapper: #111111;
 --input-background-standard: #333;

@@ -40,3 +40,11 @@ h3 {
   line-height: var(--text-h3-line-height);
   font-weight: var(--text-h-weight);
 }
+
+.text-sub {
+  color: var(--text-sub);
+}
+
+.text-primary {
+  color: var(--color-primary);
+}
