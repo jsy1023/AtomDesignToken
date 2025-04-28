@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Card, CardContent, CardHeader } from "@/app/templates/Card/Card";
 import CodeBlock from "@/app/templates/CodeBlock/CodeBlock";
-import version from "@/versonHistory.json";
 
 export const metadata: Metadata = {
   title: "Install",

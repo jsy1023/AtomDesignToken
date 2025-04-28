@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import { Button } from "@/app/templates/Button/Button";
-import { Card, CardContent, CardHeader } from "@/app/templates/Card/Card";
+import { Card, CardContent } from "@/app/templates/Card/Card";
 import CodeBlock from "@/app/templates/CodeBlock/CodeBlock";
 import Tab from "@/app/templates/Tab/Tab";
 
@@ -63,8 +63,9 @@ const ComponentButton = () => {
                         <tr>
                           <td className="py-2">type</td>
                           <td className="py-2">
-                            "primary" | "secondary" | "success" | "danger" |
-                            "gray"
+                            &quot;primary&quot; | &quot;secondary&quot; |
+                            &quot;success&quot; | &quot;danger&quot; |
+                            &quot;gray&quot;
                           </td>
                           <td className="py-2">-</td>
                         </tr>

@@ -10,20 +10,20 @@ export const ThemeSelector = ({
 }) => {
   const themes = ["light", "dark"];
   const [selectedTheme, setSelectedTheme] = useState<string | null>(null);
-  const inputThemes = ["inputStandard", "inputCircle"];
-  const [selectedInputTheme, setSelectedInputTheme] = useState<string | null>(
-    null
-  );
+  // const inputThemes = ["inputStandard", "inputCircle"];
+  // const [selectedInputTheme, setSelectedInputTheme] = useState<string | null>(
+  //   null
+  // );
   const [isThemeLoading, setThemeLoading] = useState(false);
 
   useEffect(() => {
     const chageThemeValue = () => {
       const storedTheme = localStorage.getItem("theme") || "light";
-      const storedInputTheme =
-        localStorage.getItem("inputTheme") || "inputStandard";
+      // const storedInputTheme =
+      //   localStorage.getItem("inputTheme") || "inputStandard";
 
       setSelectedTheme(storedTheme);
-      setSelectedInputTheme(storedInputTheme);
+      // setSelectedInputTheme(storedInputTheme);
     };
 
     chageThemeValue();
@@ -39,13 +39,13 @@ export const ThemeSelector = ({
     }
   };
   // input theme
-  const handleInputThemeChange = (theme: string) => {
-    if (typeof window !== "undefined") {
-      localStorage.setItem("inputTheme", theme);
-      window.dispatchEvent(new Event("storage"));
-      setSelectedInputTheme(theme);
-    }
-  };
+  // const handleInputThemeChange = (theme: string) => {
+  //   if (typeof window !== "undefined") {
+  //     localStorage.setItem("inputTheme", theme);
+  //     window.dispatchEvent(new Event("storage"));
+  //     setSelectedInputTheme(theme);
+  //   }
+  // };
   if (isThemeLoading == false) {
     return null;
   }
