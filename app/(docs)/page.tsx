@@ -3,26 +3,18 @@ import { Card } from "@/app/templates/Card/Card";
 import { Input } from "@/app/templates/Input/Input";
 import Image from "next/image";
 
-import atomicSymbol from "@/public/images/global/logoSymbol.svg";
-
 import FigmaImage from "@/public/images/logos/figma.svg";
 import TokensStudioImage from "@/public/images/logos/tokensStudio.png";
 import Styledictionary from "@/public/images/logos/styledictionary.png";
-
-import version from "@/versonHistory.json";
-import { ThemeSelector } from "@/app/templates/Theme/Theme";
 
 const DocsHome = () => {
   return (
     <div className="py-12">
       <div className="flex items-center">
-        <div className="w-16">
-          <Image src={atomicSymbol} alt={"atomground"}></Image>
-        </div>
-        <h1 className="text-h1">Atomground Design System</h1>
+        <h1 className="text-h1">Atom System</h1>
       </div>
-      <p className="text-text-sub mb-4">base Atomic Design System</p>
-      <p>
+      <p className="text-text-sub mb-4">base Atomic design</p>
+      <p className="text-sub">
         &nbsp;아톰그라운드 오픈 소스 디자인 시스템에 오신걸 환영합니다. 아토믹
         디자인 시스템에 대한 설명과 디자인방법론, 디자인리소스와 웹페이지와의
         연결방법까지 모든 디자인 이론과 함께 기술하며 언제든지 복사 붙여넣기를
@@ -30,10 +22,11 @@ const DocsHome = () => {
       </p>
       <hr className="my-4 border-fill-border" />
       <h2 className="mb-4 text-h2">디자인 시스템에 관하여</h2>
-      <p className="mb-3">
-        &nbsp;아톰그라운드 디자인 시스템은 아토믹 디자인을 기반으로 .json 파일
-        하나로 디자인 부터 프론트엔드 연동까지 간편하게 디자인 및 구현하기 위한
-        디자인 시스템 입니다. <br /> &nbsp;시스템 구성을 위해 다양한 서비스와
+      <p className="mb-3 text-sub">
+        &nbsp;아톰그라운드 디자인 시스템은 아토믹 디자인 이론을 기반으로
+        <span className="text-primary">.json</span>
+        파일 하나로 디자인 부터 프론트엔드 연동까지 간편하게 디자인 및 구현하기
+        위한 디자인 시스템 입니다.&nbsp;시스템 구성을 위해 다양한 서비스와
         라이브러리에 의존성을 가지고 있습니다. 아래의 사항을 고민하고 있다면
         아토믹 디자인 시스템의 도입을 고민해보세요
       </p>
@@ -72,8 +65,34 @@ const DocsHome = () => {
         </Card>
         <hr className="my-4 border-fill-border" />
       </div>
+
+      <h2 className="mb-4 text-h2">오픈 소스입니다.</h2>
+      <div>
+        <span className="text-sub">
+          &nbsp;atomsystem은 실제 컴포넌트 코드를 제공합니다. 필요에 따라
+          컴포넌트를 사용자 정의하고 확장할 수 있는 모든 권한이 있습니다. 이는
+          다음을 의미합니다:
+        </span>
+        <ul className="list-disc ml-8">
+          <li className="py-2">
+            완전한 투명성: 각 컴포넌트가 어떻게 빌드되는지 정확히 볼 수
+            있습니다.
+          </li>
+          <li className="py-2">
+            간편한 사용자 지정: 디자인 및 기능 요구 사항에 맞게 컴포넌트의 모든
+            부분을 수정할 수 있습니다.
+          </li>
+          <li className="py-2">
+            AI 통합: 코드에 액세스하면 LLM이 컴포넌트를 쉽게 읽고, 이해하고,
+            심지어 개선할 수 있습니다. 일반적인 라이브러리에서는 버튼의 동작을
+            변경해야 하는 경우 스타일을 재정의하거나 컴포넌트를 래핑해야 합니다.
+            atomsystem을 사용하면 버튼 코드를 직접 편집하기만 하면 됩니다.
+          </li>
+        </ul>
+      </div>
+      <hr className="my-4 border-fill-border" />
       <h2 className="mb-4 text-h2">아래의 기술을 사용합니다.</h2>
-      <p>
+      <p className="text-sub">
         &nbsp;Figma에 Autolayout과 Component 기능을통해 디자인 적용단계에서
         프론트엔드와 동일한 컴포넌트 구성을 만들어냅니다. 이 때 Token Studio를
         통해 각 컴포넌트 구성의 변수화를 진행합니다. 변수화된 내용은 .json파일로
