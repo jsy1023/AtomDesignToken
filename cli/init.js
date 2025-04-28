@@ -15,12 +15,10 @@ const __dirname = path.dirname(__filename);
 // 패키지 내부 경로 설정
 const packageRoot = path.join(__dirname, "..");
 const tokenFile = path.join(packageRoot, "token.json");
-const tokenDir = path.join(packageRoot, "tokens");
 
 // 프로젝트 루트 경로 (사용자가 실행한 곳)
 const projectRoot = process.cwd();
 const targetTokenFile = path.join(projectRoot, "token.json");
-const targetTokensDir = path.join(projectRoot, "tokens");
 
 // 사용자에게 Next.js 설치 여부 질문
 inquirer
@@ -104,19 +102,6 @@ inquirer
     // ✅ 토큰 파일 복사 (Next.js 설치 여부와 관계없이 실행)
     copyFileSync(tokenFile, targetTokenFile);
     console.log(`✅ Copied: token.json -> ${targetTokenFile}`);
-
-    if (!fs.existsSync(targetTokensDir))
-      mkdirSync(targetTokensDir, { recursive: true });
-
-    const tokenFiles = readdirSync(tokenDir).filter((file) =>
-      file.endsWith(".js")
-    );
-    tokenFiles.forEach((file) => {
-      const sourcePath = path.join(tokenDir, file);
-      const targetPath = path.join(targetTokensDir, file);
-      copyFileSync(sourcePath, targetPath);
-      console.log(`✅ Copied: ${file} -> ${targetPath}`);
-    });
 
     console.log("🚀 Token setup complete!");
   })
