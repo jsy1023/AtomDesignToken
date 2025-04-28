@@ -19,6 +19,10 @@ span {
   color: var(--text-standard);
 }
 
+code span {
+  color: inherit;
+}
+
 hr {
   border-color: var(--color-border);
 }
