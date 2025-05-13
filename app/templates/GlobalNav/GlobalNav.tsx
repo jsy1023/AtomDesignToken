@@ -5,21 +5,21 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
 
-const GlobalNav = () => {
+const GlobalNav = ({
+  type = "sidebar",
+  navMenu,
+}: {
+  type?: "sidebar" | "topmenu" | "mobile";
+  navMenu: {
+    name: string;
+    path: string;
+    subItems?: { name: string; path: string }[];
+  }[];
+}) => {
   const [windowSize, setWindowSize] = useState<number>(); // 초기값 설정
-
-  const [toggleMenu, setToggleMenu] = useState<boolean>(false);
-
+  const [toggleMenu, setToggleMenu] = useState<boolean>(true);
   const pathname = usePathname();
-  const navMenu = [
-    { name: "시작하기", path: "/" },
-    { name: "설치하기", path: "/install" },
-    { name: "입력창", path: "/component/input" },
-    { name: "선택창", path: "/component/select" },
-    { name: "체크박스", path: "/component/checkbox" },
-    { name: "라디오", path: "/component/radio" },
-    { name: "버튼", path: "/component/button" },
-  ];
+  const [openSubMenu, setOpenSubMenu] = useState<Record<string, boolean>>({});
 
   // 윈도우 사이즈 추적
   useEffect(() => {
@@ -35,21 +35,28 @@ const GlobalNav = () => {
   // 초기 토글 값 설정
   useEffect(() => {
     if (window.innerWidth > 768) {
-      setToggleMenu(true);
     } else {
       setToggleMenu(false);
     }
-
-    // console.log(
-    //   `one Time Work!: ${toggleMenu}, windowSize:${window.innerWidth}`
-    // );
   }, []);
+
+  const toggleSubMenu = (menuName: string) => {
+    setOpenSubMenu((prev) => ({
+      ...prev,
+      [menuName]: !prev[menuName],
+    }));
+  };
 
   return (
     <>
       <nav
-        className={`fixed top-0 md:relative w-full max-w-80 h-full bg-[var(--background-card)] text-text-standard z-20 left-0 ${toggleMenu ? "block" : "hidden"}`}
+        className={clsx(
+          `fixed top-0 md:relative w-full  bg-[var(--background-card)] text-text-standard z-20 left-0 ${toggleMenu ? "block" : "hidden"}`,
+          { "h-full max-w-80": type == "sidebar" },
+          { "h-auto flex flex-row items-center": type == "topmenu" }
+        )}
       >
+        {/* brand */}
         <div className="brand">
           <div className="flex items-center justify-between">
             <Link href={"/"}>
@@ -61,41 +68,106 @@ const GlobalNav = () => {
                 draggable="false"
               ></Image>
             </Link>
-            <button className="p-4">
-              <span
-                className="material-symbols-outlined"
-                onClick={() => setToggleMenu(false)}
-                style={{ fontSize: "16px" }}
-              >
-                close
-              </span>
-            </button>
+            {type == "sidebar" ? (
+              <button className="p-4 cursor-pointer">
+                <span
+                  className="material-symbols-outlined text-[var(--text-standard)]"
+                  onClick={() => setToggleMenu(false)}
+                  style={{ fontSize: "16px" }}
+                >
+                  close
+                </span>
+              </button>
+            ) : null}
           </div>
         </div>
 
-        <ul>
+        {/* List */}
+        <ul
+          className={clsx("", {
+            "flex flex-row": type == "topmenu",
+          })}
+        >
           {navMenu.map((menu) => {
             return (
-              <li key={menu.name}>
-                <Link
-                  href={menu.path}
-                  className={clsx("px-4 py-2 block", {
-                    "text-primary": menu.path == pathname,
-                  })}
-                >
-                  {menu.name}
-                </Link>
+              <li className="relative group" key={menu.name}>
+                <div className={clsx("flex justify-between items-center pr-4")}>
+                  <Link
+                    href={menu.path}
+                    className={clsx(
+                      "px-4 py-2 block text-[var(--text-standard)]",
+                      {
+                        "text-primary":
+                          menu.path == pathname ||
+                          menu.subItems?.some((sub) => sub.path === pathname),
+                      }
+                    )}
+                  >
+                    {menu.name}
+                  </Link>
+                  {menu.subItems && type == "sidebar" ? (
+                    <button
+                      className="cursor-pointer"
+                      onClick={() => toggleSubMenu(menu.name)}
+                    >
+                      <span
+                        className={clsx(
+                          "material-symbols-outlined text-[var(--text-sub)] transition-transform",
+                          {
+                            "rotate-90": openSubMenu[menu.name],
+                          }
+                        )}
+                        style={{ fontSize: "16px" }}
+                      >
+                        keyboard_arrow_right
+                      </span>
+                    </button>
+                  ) : null}
+                </div>
+                {menu.subItems ? (
+                  <ul
+                    className={clsx(
+                      "block",
+                      {
+                        "hidden absolute top-[42px] group-hover:block hover:block bg-[var(--background-card)]":
+                          type == "topmenu",
+                      },
+                      {
+                        hidden: !openSubMenu[menu.name] && type == "sidebar",
+                      }
+                    )}
+                  >
+                    {menu.subItems.map((submenu) => {
+                      return (
+                        <li key={submenu.name}>
+                          <Link
+                            className={clsx(
+                              "px-4 py-2 block text-[var(--text-standard)]",
+                              {
+                                "text-primary": submenu.path == pathname,
+                              },
+                              { "pl-12 ": type == "sidebar" }
+                            )}
+                            href={submenu.path}
+                          >
+                            {submenu.name}
+                          </Link>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                ) : null}
               </li>
             );
           })}
         </ul>
       </nav>
       <button
-        className={`fixed shadow-md rounded-full bg-[var(--background-card)] w-12 h-12 top-6 left-6 z-10 ${toggleMenu ? "hidden" : "block"} `}
+        className={`fixed shadow-md rounded-full bg-[var(--background-card)] w-12 h-12 top-6 left-6 z-10 cursor-pointer ${toggleMenu ? "hidden" : "block"} `}
+        onClick={() => setToggleMenu(true)}
       >
         <span
-          className="material-symbols-outlined"
-          onClick={() => setToggleMenu(true)}
+          className="material-symbols-outlined text-[var(--text-standard)]"
           style={{ fontSize: "16px" }}
         >
           menu
