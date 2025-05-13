@@ -184,13 +184,47 @@ const ComponentGlobalNav = () => {
       <Card className="my-4">
         <CardContent noMargin>
           <CodeBlock language="typescript">
-            {`import { Radio } from "@/app/components/Button/Button" `}
+            {`import GlobalNav from "@/app/templates/GlobalNav/GlobalNav" `}
           </CodeBlock>
         </CardContent>
       </Card>
       <Card className="my-4">
         <CardContent noMargin>
-          <CodeBlock language="typescript">{`<Button type={"primary"}>버튼</Button> `}</CodeBlock>
+          <CodeBlock language="typescript">{`
+<GlobalNav
+  type="topmenu"
+  navMenu={[
+    {
+      name: "Root Navigation",
+      path: "#",
+      subItems: [
+        {
+          name: "Navigation 1",
+          path: "/component/global-nav",
+        },
+        {
+          name: "Navigation 2",
+          path: "#",
+        },
+      ],
+    },
+    {
+      name: "Root Navigation 2",
+      path: "#",
+      subItems: [
+        {
+          name: "Navigation 1",
+          path: "#",
+        },
+        {
+          name: "Navigation 2",
+          path: "#",
+        },
+      ],
+    },
+    { name: "Navigation 3", path: "#" },
+  ]}
+/>`}</CodeBlock>
         </CardContent>
       </Card>
 
