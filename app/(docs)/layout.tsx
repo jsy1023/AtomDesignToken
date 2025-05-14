@@ -23,6 +23,7 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
             ],
           },
           { name: "네비게이션", path: "/component/global-nav" },
+          { name: "탭", path: "/component/tab" },
           { name: "버튼", path: "/component/button" },
         ]}
       />

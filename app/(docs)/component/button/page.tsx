@@ -31,6 +31,7 @@ const ComponentButton = () => {
           "px-[var(--global-padding-x)] py-[var(--global-padding-y)] font-bold "
         }
         tabNavItemActiveClass="border-b border-primary"
+        tabContentClass="p-0 border-0 mt-0"
         tabContents={[
           {
             id: "previewContent",
