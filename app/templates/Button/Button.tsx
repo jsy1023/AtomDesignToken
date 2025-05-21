@@ -6,11 +6,13 @@ export const Button = ({
   type,
   style,
   disabled,
+  onClick,
 }: {
   children: React.ReactNode;
   type: "primary" | "secondary" | "success" | "danger" | "gray";
   style?: React.CSSProperties;
   disabled?: boolean;
+  onClick?: () => void;
 }) => {
   return (
     <button
@@ -39,6 +41,7 @@ export const Button = ({
       )}
       style={style}
       disabled={disabled}
+      onClick={onClick}
     >
       {children}
     </button>

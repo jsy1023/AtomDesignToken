@@ -15,10 +15,10 @@ export const metadata: Metadata = {
 const ComponentRadio = () => {
   return (
     <>
-      <h1 className="mb-4 text-h1">체크박스</h1>
+      <h1 className="mb-4 text-h1">라디오</h1>
       <p>
-        &nbsp;체크박스는 사용자가 여러가지 선택사항 중 한가지 이상 선택을 할 수
-        있는 컨트롤러입니다. 1개 ~ 10개 사이의 선택사항이 있는 경우 체크박스의
+        &nbsp;라디오는 사용자가 여러가지 선택사항 중 한가지 선택을 할 수
+        있는 컨트롤러입니다. 1개 ~ 10개 사이의 선택사항이 있는 경우 라디오의
         사용을 권장합니다.
       </p>
       <hr className="my-4" />

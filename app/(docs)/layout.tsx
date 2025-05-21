@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import GlobalNav from "@/app/templates/GlobalNav/GlobalNav";
+import { Toast } from "@/app/templates/Toast/Toast";
 import { ThemeSelector } from "../templates/Theme/Theme";
 import { Card } from "../templates/Card/Card";
 import TOC from "../templates/TOC/TOC";
@@ -23,6 +24,7 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
             ],
           },
           { name: "네비게이션", path: "/component/global-nav" },
+          { name: "토스트 알림", path: "/component/toast-message" },
           { name: "탭", path: "/component/tab" },
           { name: "버튼", path: "/component/button" },
         ]}
@@ -51,6 +53,7 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
           </div>
         </div>
       </div>
+      <Toast />
     </>
   );
 };

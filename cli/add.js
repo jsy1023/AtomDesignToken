@@ -22,6 +22,7 @@ const components = [
   "Input",
   "Theme",
   "Tab",
+  "Toast",
   "Pagination",
 ]; // 여기 추가할 컴포넌트 목록
 

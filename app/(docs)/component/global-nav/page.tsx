@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 const ComponentGlobalNav = () => {
   return (
     <>
-      <h1 className="mb-4 text-h1">Global Navigation</h1>
+      <h1 className="mb-4 text-h1">네비게이션</h1>
       <p>
         &nbsp;웹사이트, 어플리케이션의 전체 구조에서 주요 영역으로 이동할 수
         있도록 하는 상위 내비게이션 메뉴입니다.

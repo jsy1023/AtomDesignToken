@@ -97,7 +97,7 @@ const ToastItem = ({
   return (
     <div
       ref={elRef}
-      className="bg-white/20 border border-primary rounded text-white p-4 shadow-md min-w-[250px]"
+      className="bg-[var(--background-card)] border border-[var(--color-border)] rounded text-white p-4 shadow-md min-w-[250px]"
     >
       <p>{message.message}</p>
       {message.desc ? <p className="text-sm">{message.desc}</p> : null}
