@@ -4,6 +4,7 @@ import { Button } from "@/app/templates/Button/Button";
 import { Card, CardContent } from "@/app/templates/Card/Card";
 import CodeBlock from "@/app/templates/CodeBlock/CodeBlock";
 import Tab from "@/app/templates/Tab/Tab";
+import Table from "@/app/templates/Table/Table";
 
 export const metadata: Metadata = {
   title: "Button",
@@ -52,31 +53,20 @@ const ComponentButton = () => {
 
                 <Card className="my-4">
                   <CardContent>
-                    <table className="w-full">
-                      <thead>
-                        <tr>
-                          <th className="py-2">Prop</th>
-                          <th className="py-2">Type</th>
-                          <th className="py-2">Default</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td className="py-2">type</td>
-                          <td className="py-2">
-                            &quot;primary&quot; | &quot;secondary&quot; |
-                            &quot;success&quot; | &quot;danger&quot; |
-                            &quot;gray&quot;
-                          </td>
-                          <td className="py-2">-</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2">disabled</td>
-                          <td className="py-2">boolean</td>
-                          <td className="py-2">false</td>
-                        </tr>
-                      </tbody>
-                    </table>
+                    <Table
+                      tableData={[
+                        {
+                          Prop: "type",
+                          Type: "primary | secondary | success | danger | gray",
+                          Default: "-",
+                        },
+                        {
+                          Prop: "disabled",
+                          Type: "boolean",
+                          Default: "false",
+                        },
+                      ]}
+                    />
                   </CardContent>
                 </Card>
               </>

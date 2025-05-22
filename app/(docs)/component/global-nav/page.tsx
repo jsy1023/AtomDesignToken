@@ -2,6 +2,7 @@ import { Card, CardContent } from "@/app/templates/Card/Card";
 import CodeBlock from "@/app/templates/CodeBlock/CodeBlock";
 import GlobalNav from "@/app/templates/GlobalNav/GlobalNav";
 import Tab from "@/app/templates/Tab/Tab";
+import Table from "@/app/templates/Table/Table";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -87,28 +88,15 @@ const ComponentGlobalNav = () => {
 
                 <Card className="my-4">
                   <CardContent>
-                    <table className="w-full">
-                      <thead>
-                        <tr>
-                          <th className="py-2">Prop</th>
-                          <th className="py-2">Type</th>
-                          <th className="py-2">Default</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td className="py-2">navMenu</td>
-                          <td className="py-2">
-                            navMenu: {"{"} <br />
-                            name: string; path:string <br />
-                            subItems?: {"{"} name: string; path: string{"}"}[];{" "}
-                            <br />
-                            {"}"}
-                          </td>
-                          <td className="py-2">-</td>
-                        </tr>
-                      </tbody>
-                    </table>
+                    <Table
+                      tableData={[
+                        {
+                          Prop: "navMenu",
+                          Type: "object",
+                          Default: "-",
+                        },
+                      ]}
+                    />
                   </CardContent>
                 </Card>
               </>

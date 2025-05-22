@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/app/templates/Card/Card";
 import { Input } from "@/app/templates/Input/Input";
 import CodeBlock from "@/app/templates/CodeBlock/CodeBlock";
 import Tab from "@/app/templates/Tab/Tab";
+import Table from "@/app/templates/Table/Table";
 
 export const metadata: Metadata = {
   title: "Input",
@@ -49,42 +50,35 @@ const ComponentInput = () => {
 
                 <Card className="my-4">
                   <CardContent>
-                    <table className="w-full">
-                      <thead>
-                        <tr>
-                          <th className="py-2">Prop</th>
-                          <th className="py-2">Type</th>
-                          <th className="py-2">Default</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td className="py-2">type</td>
-                          <td className="py-2">string</td>
-                          <td className="py-2">text</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2">placeholder</td>
-                          <td className="py-2">string</td>
-                          <td className="py-2">값을 입력해주세요</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2">label</td>
-                          <td className="py-2">string</td>
-                          <td className="py-2">-</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2">disabled</td>
-                          <td className="py-2">boolean</td>
-                          <td className="py-2">false</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2">required</td>
-                          <td className="py-2">boolean</td>
-                          <td className="py-2">false</td>
-                        </tr>
-                      </tbody>
-                    </table>
+                    <Table
+                      tableData={[
+                        {
+                          Prop: "type",
+                          Type: "string",
+                          Default: "text",
+                        },
+                        {
+                          Prop: "placeholder",
+                          Type: "string",
+                          Default: "값을 입력해주세요",
+                        },
+                        {
+                          Prop: "label",
+                          Type: "string",
+                          Default: "-",
+                        },
+                        {
+                          Prop: "disabled",
+                          Type: "boolean",
+                          Default: "false",
+                        },
+                        {
+                          Prop: "required",
+                          Type: "boolean",
+                          Default: "false",
+                        },
+                      ]}
+                    />
                   </CardContent>
                 </Card>
               </>

@@ -4,6 +4,7 @@ import { Button } from "@/app/templates/Button/Button";
 import { Card, CardContent } from "@/app/templates/Card/Card";
 import CodeBlock from "@/app/templates/CodeBlock/CodeBlock";
 import Tab from "@/app/templates/Tab/Tab";
+import Table from "@/app/templates/Table/Table";
 
 import { useToast } from "@/app/templates/Toast/Toast";
 
@@ -56,30 +57,25 @@ const ToastContent = () => {
 
                 <Card className="my-4">
                   <CardContent>
-                    <table className="w-full">
-                      <thead>
-                        <tr>
-                          <th className="py-2 min-w-24">Prop</th>
-                          <th className="py-2">Type</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td className="py-2 min-w-24">status</td>
-                          <td className="py-2">
-                            &quot;success&quot; | &quot;error&quot;
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="py-2 min-w-24">message</td>
-                          <td className="py-2">message: string;</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2 min-w-24">decs</td>
-                          <td className="py-2">string</td>
-                        </tr>
-                      </tbody>
-                    </table>
+                    <Table
+                      tableData={[
+                        {
+                          Prop: "status",
+                          Type: "string",
+                          Default: "success | error",
+                        },
+                        {
+                          Prop: "message",
+                          Type: "string",
+                          Default: "string;",
+                        },
+                        {
+                          Prop: "desc",
+                          Type: "string",
+                          Default: "string",
+                        },
+                      ]}
+                    />
                   </CardContent>
                 </Card>
               </>

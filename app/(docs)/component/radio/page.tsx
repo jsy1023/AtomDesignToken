@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/app/templates/Card/Card";
 import { Radio } from "@/app/templates/Input/Input";
 import CodeBlock from "@/app/templates/CodeBlock/CodeBlock";
 import Tab from "@/app/templates/Tab/Tab";
+import Table from "@/app/templates/Table/Table";
 
 export const metadata: Metadata = {
   title: "Radio",
@@ -17,9 +18,9 @@ const ComponentRadio = () => {
     <>
       <h1 className="mb-4 text-h1">라디오</h1>
       <p>
-        &nbsp;라디오는 사용자가 여러가지 선택사항 중 한가지 선택을 할 수
-        있는 컨트롤러입니다. 1개 ~ 10개 사이의 선택사항이 있는 경우 라디오의
-        사용을 권장합니다.
+        &nbsp;라디오는 사용자가 여러가지 선택사항 중 한가지 선택을 할 수 있는
+        컨트롤러입니다. 1개 ~ 10개 사이의 선택사항이 있는 경우 라디오의 사용을
+        권장합니다.
       </p>
       <hr className="my-4" />
       <Tab
@@ -50,47 +51,40 @@ const ComponentRadio = () => {
 
                 <Card className="my-4">
                   <CardContent>
-                    <table className="w-full">
-                      <thead>
-                        <tr>
-                          <th className="py-2">Prop</th>
-                          <th className="py-2">Type</th>
-                          <th className="py-2">Default</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td className="py-2">label</td>
-                          <td className="py-2">string</td>
-                          <td className="py-2">-</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2">onChange</td>
-                          <td className="py-2">() =&gt; void</td>
-                          <td className="py-2">-</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2">value</td>
-                          <td className="py-2">string</td>
-                          <td className="py-2">-</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2">defaultChecked</td>
-                          <td className="py-2">boolean</td>
-                          <td className="py-2">false</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2">disabled</td>
-                          <td className="py-2">boolean</td>
-                          <td className="py-2">false</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2">required</td>
-                          <td className="py-2">boolean</td>
-                          <td className="py-2">false</td>
-                        </tr>
-                      </tbody>
-                    </table>
+                    <Table
+                      tableData={[
+                        {
+                          Prop: "label",
+                          Type: "string",
+                          Default: "-",
+                        },
+                        {
+                          Prop: "onChange",
+                          Type: "() => void",
+                          Default: "-",
+                        },
+                        {
+                          Prop: "value",
+                          Type: "string",
+                          Default: "-",
+                        },
+                        {
+                          Prop: "defaultChecked",
+                          Type: "boolean",
+                          Default: "false",
+                        },
+                        {
+                          Prop: "disabled",
+                          Type: "boolean",
+                          Default: "false",
+                        },
+                        {
+                          Prop: "required",
+                          Type: "boolean",
+                          Default: "false",
+                        },
+                      ]}
+                    />
                   </CardContent>
                 </Card>
               </>

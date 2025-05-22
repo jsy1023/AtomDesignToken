@@ -1,6 +1,7 @@
 import { Card, CardContent } from "@/app/templates/Card/Card";
 import CodeBlock from "@/app/templates/CodeBlock/CodeBlock";
 import Tab from "@/app/templates/Tab/Tab";
+import Table from "@/app/templates/Table/Table";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -100,63 +101,42 @@ const ComponentGlobalNav = () => {
 
                 <Card className="my-4">
                   <CardContent>
-                    <table className="w-full">
-                      <thead>
-                        <tr>
-                          <th className="py-2 min-w-24">Prop</th>
-                          <th className="py-2">Type</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td className="py-2 min-w-24">tabs</td>
-                          <td className="py-2">
-                            tabs: Array{"<{"}
-                            id: string; target: string[]; tabItem:
-                            React.ReactNode;
-                            {"}>"};
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="py-2 min-w-24">tabClass</td>
-                          <td className="py-2">string</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2 min-w-24">tabNavItemClass</td>
-                          <td className="py-2">string</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2 min-w-24">
-                            tabNavItemActiveClass
-                          </td>
-                          <td className="py-2">string</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2 min-w-24">tabContents</td>
-                          <td className="py-2">
-                            tabContents: Array{"<{"}
-                            id: string; tag: string; content: React.ReactNode;
-                            {"}>"};
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="py-2 min-w-24">tabContentClass</td>
-                          <td className="py-2">string</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2 min-w-24">tabContentItem</td>
-                          <td className="py-2">string</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2 min-w-24">expectionValue</td>
-                          <td className="py-2">string</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2 min-w-24">expectionLayout</td>
-                          <td className="py-2">string</td>
-                        </tr>
-                      </tbody>
-                    </table>
+                    <Table
+                      tableData={[
+                        {
+                          Prop: "tabs",
+                          Type: "Array<{id: string; target: string[]; tabItem: React.ReactNode;}>",
+                        },
+                        {
+                          Prop: "tabClass",
+                          Type: "string",
+                        },
+                        {
+                          Prop: "tabNavItemClass",
+                          Type: "string",
+                        },
+                        {
+                          Prop: "tabContents",
+                          Type: "Array<{id: string; tag: string; content: React.ReactNode;}>",
+                        },
+                        {
+                          Prop: "tabContentClass",
+                          Type: "string",
+                        },
+                        {
+                          Prop: "tabContentItem",
+                          Type: "string",
+                        },
+                        {
+                          Prop: "expectionValue",
+                          Type: "string",
+                        },
+                        {
+                          Prop: "expectionLayout",
+                          Type: "string",
+                        },
+                      ]}
+                    />
                   </CardContent>
                 </Card>
               </>
