@@ -1,6 +1,7 @@
 /** 테이블에 표시할 데이터 배열. 각 객체는 하나의 행을 나타냅니다.
  * 객체의 키는 테이블 헤더가 되고, 값은 해당 셀의 내용이 됩니다.
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Table = ({ tableData }: { tableData: Record<string, any>[] }) => {
   // tableData가 제공되지 않았거나 비어있는 경우, 데이터 없음 메시지를 표시합니다.
   if (!tableData || tableData.length === 0) {

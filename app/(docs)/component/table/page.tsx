@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 
 import { Card, CardContent } from "@/app/templates/Card/Card";
-import { Select } from "@/app/templates/Input/Input";
 import CodeBlock from "@/app/templates/CodeBlock/CodeBlock";
 import Tab from "@/app/templates/Tab/Tab";
 import Table from "@/app/templates/Table/Table";
