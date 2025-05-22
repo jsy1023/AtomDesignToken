@@ -23,6 +23,7 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
               { name: "라디오", path: "/component/radio" },
             ],
           },
+          { name: "테이블", path: "/component/table" },
           { name: "네비게이션", path: "/component/global-nav" },
           { name: "토스트 알림", path: "/component/toast-message" },
           { name: "탭", path: "/component/tab" },

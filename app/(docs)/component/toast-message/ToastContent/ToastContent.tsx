@@ -66,7 +66,9 @@ const ToastContent = () => {
                       <tbody>
                         <tr>
                           <td className="py-2 min-w-24">status</td>
-                          <td className="py-2">"success" | "error"</td>
+                          <td className="py-2">
+                            &quot;success&quot; | &quot;error&quot;
+                          </td>
                         </tr>
                         <tr>
                           <td className="py-2 min-w-24">message</td>

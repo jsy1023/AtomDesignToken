@@ -72,6 +72,11 @@
 --input-text-disabled: #999999;
 --input-border-standard: #ccc;
 --input-border-focus: #333;
+--table-header-background: #444;
+--table-header-text: #e6e6e6;
+--table-body-background: #fafafa;
+--table-body-background-even: #e6e6e6;
+--table-body-text: #333;
     }
     .dark {
         --color-border: #444;
@@ -86,4 +91,9 @@
 --input-text-disabled: #666666;
 --input-border-standard: #555;
 --input-border-focus: #ccc;
+--table-header-background: #444;
+--table-header-text: #e6e6e6;
+--table-body-background: #111;
+--table-body-background-even: #222;
+--table-body-text: #e6e6e6;
     }
