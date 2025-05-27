@@ -9,6 +9,14 @@ import TOC from "../templates/TOC/TOC";
 const DocsLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
+      {/**
+       * ✅ 네비게이션 라벨 타입 추가? = 예외 처리로 하기에는....?
+       * ✅ 아코디언 컴포넌트 추가
+       * ✅ 모달 창 컴포넌트 추가
+       * ✅ design token의 대한 내용 작성 필요
+       * ✅ Animations.tsx에 대한 내용 작성 필요
+       * ✅ 가나다 순으로 으로 네비게이션 정리하기
+       *   */}
       <GlobalNav
         navMenu={[
           { name: "시작하기", path: "/" },
