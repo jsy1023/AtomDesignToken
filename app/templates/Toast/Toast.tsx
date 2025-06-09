@@ -19,7 +19,7 @@ let messages: ToastMessage[] = [];
 let listener: ((messages: ToastMessage[]) => void) | null = null;
 
 export const addToast = (msg: Omit<ToastMessage, "id">) => {
-  const id = crypto.randomUUID();
+  const id = Math.random().toString(36).substring(2) + Date.now().toString(36);
   messages = [...messages, { id, ...msg }];
   //   messages 값 listener에 반영
   listener?.(messages);
