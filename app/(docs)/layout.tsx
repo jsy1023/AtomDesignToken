@@ -5,14 +5,16 @@ import { Toast } from "@/app/templates/Toast/Toast";
 import { ThemeSelector } from "../templates/Theme/Theme";
 import { Card } from "../templates/Card/Card";
 import TOC from "../templates/TOC/TOC";
+import { Modal } from "../templates/Modal/Modal";
 
 const DocsLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       {/**
+       * ✅ 모달 창 컴포넌트 추가
+       * ✅ 태그 컴포넌트 추가
        * ✅ 네비게이션 라벨 타입 추가? = 예외 처리로 하기에는....?
        * ✅ 아코디언 컴포넌트 추가
-       * ✅ 모달 창 컴포넌트 추가
        * ✅ design token의 대한 내용 작성 필요
        * ✅ Animations.tsx에 대한 내용 작성 필요
        * ✅ 가나다 순으로 으로 네비게이션 정리하기
@@ -21,6 +23,7 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
         navMenu={[
           { name: "시작하기", path: "/" },
           { name: "설치하기", path: "/install" },
+          { name: "모달창", path: "/component/modal" },
           {
             name: "입력 양식",
             path: "/component/input",
@@ -63,6 +66,7 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
         </div>
       </div>
       <Toast />
+      <Modal />
     </>
   );
 };

@@ -34,7 +34,7 @@ export const Input = ({
       ) : null}
       <input
         type={type}
-        className="border rounded focus:outline-none focus:ring-0 bg-[var(--input-background-standard)] disabled:bg-[var(--input-background-disabled)] disabled:cursor-not-allowed border-[var(--input-border-standard)] focus:border-[var(--input-border-focus)] "
+        className="border rounded focus:outline-none focus:ring-0 bg-[var(--input-background-standard)] disabled:bg-[var(--input-background-disabled)] disabled:cursor-not-allowed border-[var(--input-border-standard)] focus:border-[var(--input-border-focus)] w-full"
         style={{
           color: "var(--input-text-standard)",
           paddingLeft: "var(--global-padding-x)",

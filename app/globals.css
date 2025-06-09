@@ -5,13 +5,19 @@
 --global-rounded: 4px;
 --global-padding-x: 12px;
 --global-padding-y: 8px;
---text-h1: 32px;
+--text-h1: 38px;
 --text-h1-line-height: 48px;
 --text-h-weight: bold;
---text-h2: 24px;
---text-h2-line-height: 36px;
---text-h3: 16px;
---text-h3-line-height: 24px;
+--text-h2: 32px;
+--text-h2-line-height: 42px;
+--text-h3: 30px;
+--text-h3-line-height: 38px;
+--text-h4: 24px;
+--text-h4-line-height: 38px;
+--text-h5: 20px;
+--text-h5-line-height: 32px;
+--text-h6: 16px;
+--text-h6-line-height: 24px;
 --input-rounded: 4px;
 --button-main-primary-standard: #2196f3;
 --button-main-primary-hover: #44acfe;
@@ -35,13 +41,19 @@
 --global-rounded: 4px;
 --global-padding-x: 12px;
 --global-padding-y: 8px;
---text-h1: 32px;
+--text-h1: 38px;
 --text-h1-line-height: 48px;
 --text-h-weight: bold;
---text-h2: 24px;
---text-h2-line-height: 36px;
---text-h3: 16px;
---text-h3-line-height: 24px;
+--text-h2: 32px;
+--text-h2-line-height: 42px;
+--text-h3: 30px;
+--text-h3-line-height: 38px;
+--text-h4: 24px;
+--text-h4-line-height: 38px;
+--text-h5: 20px;
+--text-h5-line-height: 32px;
+--text-h6: 16px;
+--text-h6-line-height: 24px;
 --input-rounded: 4px;
 --button-main-primary-standard: #2196f3;
 --button-main-primary-hover: #44acfe;
@@ -77,6 +89,7 @@
 --table-body-background: #fafafa;
 --table-body-background-even: #e6e6e6;
 --table-body-text: #333;
+--modal-background: #fafafa;
     }
     .dark {
         --color-border: #444;
@@ -96,4 +109,5 @@
 --table-body-background: #111;
 --table-body-background-even: #222;
 --table-body-text: #e6e6e6;
+--modal-background: #333333;
     }
