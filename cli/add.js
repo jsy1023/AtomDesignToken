@@ -16,6 +16,7 @@ const templateDir = path.join(__dirname, "..", "app", "templates");
 // 사용할 수 있는 컴포넌트 목록
 const components = [
   "Button",
+  "Badge",
   "Card",
   "CodeBlock",
   "GlobalNav",

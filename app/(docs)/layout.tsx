@@ -11,8 +11,8 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       {/**
-       * ✅ 모달 창 컴포넌트 추가
-       * ✅ 태그 컴포넌트 추가
+       * ✅ 모달 창 컴포넌트 추가 [완료: 2025/06/09]
+       * ✅ 태그 컴포넌트 추가 [완료: 2025/06/10]
        * ✅ 네비게이션 라벨 타입 추가? = 예외 처리로 하기에는....?
        * ✅ 아코디언 컴포넌트 추가
        * ✅ design token의 대한 내용 작성 필요
@@ -23,6 +23,7 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
         navMenu={[
           { name: "시작하기", path: "/" },
           { name: "설치하기", path: "/install" },
+          { name: "네비게이션", path: "/component/global-nav" },
           { name: "모달창", path: "/component/modal" },
           {
             name: "입력 양식",
@@ -34,11 +35,11 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
               { name: "라디오", path: "/component/radio" },
             ],
           },
+          { name: "배지", path: "/component/badge" },
+          { name: "버튼", path: "/component/button" },
           { name: "테이블", path: "/component/table" },
-          { name: "네비게이션", path: "/component/global-nav" },
           { name: "토스트 알림", path: "/component/toast-message" },
           { name: "탭", path: "/component/tab" },
-          { name: "버튼", path: "/component/button" },
         ]}
       />
       <div className="w-full bg-[var(--background-wrapper)] grid grid-cols-1 md:grid-cols-4 overflow-auto scroll-smooth">
