@@ -9,7 +9,7 @@ export const ThemeSelector = ({
   type: "all" | "theme" | "input";
 }) => {
   const themes = ["light", "dark"];
-  const [selectedTheme, setSelectedTheme] = useState<string | null>(null);
+  const [selectedTheme, setSelectedTheme] = useState<string | null>("light");
   // const inputThemes = ["inputStandard", "inputCircle"];
   // const [selectedInputTheme, setSelectedInputTheme] = useState<string | null>(
   //   null
