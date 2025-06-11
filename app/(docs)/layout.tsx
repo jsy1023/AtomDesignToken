@@ -13,16 +13,23 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
       {/**
        * ✅ 모달 창 컴포넌트 추가 [완료: 2025/06/09]
        * ✅ 태그 컴포넌트 추가 [완료: 2025/06/10]
-       * ✅ 네비게이션 라벨 타입 추가? = 예외 처리로 하기에는....?
+       * ✅ 네비게이션 라벨 타입 추가? = 예외 처리로 하기에는....? [완료: 2025/06/11]
        * ✅ 아코디언 컴포넌트 추가
+       * ✅ TOC 컴포넌트 추가
        * ✅ design token의 대한 내용 작성 필요
        * ✅ Animations.tsx에 대한 내용 작성 필요
        * ✅ 가나다 순으로 으로 네비게이션 정리하기
        *   */}
       <GlobalNav
         navMenu={[
-          { name: "시작하기", path: "/" },
+          { name: "시작하기", label: true },
+          { name: "소개", path: "/" },
           { name: "설치하기", path: "/install" },
+          { name: "테마", path: "#" },
+          { name: "디자인 토큰", label: true },
+          { name: "이론", path: "#" },
+          { name: "컬러", path: "#" },
+          { name: "텍스트", path: "#" },
           { name: "component", label: true },
           { name: "네비게이션", path: "/component/global-nav" },
           { name: "모달창", path: "/component/modal" },

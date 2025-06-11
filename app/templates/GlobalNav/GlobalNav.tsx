@@ -53,7 +53,7 @@ const GlobalNav = ({
       <nav
         className={clsx(
           `fixed top-0 md:relative w-full  bg-[var(--background-card)] text-text-standard z-20 left-0 ${toggleMenu ? "block" : "hidden"}`,
-          { "h-full max-w-80": type == "sidebar" },
+          { "h-full max-w-80 overflow-auto": type == "sidebar" },
           { "h-auto flex flex-row items-center": type == "topmenu" }
         )}
       >
