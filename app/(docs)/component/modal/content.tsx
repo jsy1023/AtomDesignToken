@@ -7,7 +7,6 @@ import Table from "@/app/templates/Table/Table";
 import { Button } from "@/app/templates/Button/Button";
 import { useState } from "react";
 import { ModalContent } from "@/app/templates/Modal/Modal";
-import { describe } from "node:test";
 export default function ComponentModalContent() {
   const [isOpen, setIsOpen] = useState(false);
   return (

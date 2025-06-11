@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 
-import { Button } from "@/app/templates/Button/Button";
 import { Card, CardContent } from "@/app/templates/Card/Card";
 import CodeBlock from "@/app/templates/CodeBlock/CodeBlock";
 import Tab from "@/app/templates/Tab/Tab";
