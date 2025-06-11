@@ -23,6 +23,7 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
         navMenu={[
           { name: "시작하기", path: "/" },
           { name: "설치하기", path: "/install" },
+          { name: "component", label: true },
           { name: "네비게이션", path: "/component/global-nav" },
           { name: "모달창", path: "/component/modal" },
           {

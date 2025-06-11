@@ -12,8 +12,9 @@ const GlobalNav = ({
   type?: "sidebar" | "topmenu" | "mobile";
   navMenu: {
     name: string;
-    path: string;
+    path?: string;
     subItems?: { name: string; path: string }[];
+    label?: boolean;
   }[];
 }) => {
   const [windowSize, setWindowSize] = useState<number>(); // 초기값 설정
@@ -88,77 +89,95 @@ const GlobalNav = ({
             "flex flex-row": type == "topmenu",
           })}
         >
-          {navMenu.map((menu) => {
-            return (
-              <li className="relative group" key={menu.name}>
-                <div className={clsx("flex justify-between items-center pr-4")}>
-                  <Link
-                    href={menu.path}
-                    className={clsx(
-                      "px-4 py-2 block text-[var(--text-standard)]",
-                      {
-                        "text-primary":
-                          menu.path == pathname ||
-                          menu.subItems?.some((sub) => sub.path === pathname),
-                      }
-                    )}
+          {navMenu.map((menu, idx) => {
+            switch (true) {
+              case menu.label === true && type == "sidebar":
+                return (
+                  <p
+                    key={menu.name + idx}
+                    className="px-4 text-sm text-sub mt-2 mb-0"
                   >
                     {menu.name}
-                  </Link>
-                  {menu.subItems && type == "sidebar" ? (
-                    <button
-                      className="cursor-pointer"
-                      onClick={() => toggleSubMenu(menu.name)}
+                  </p>
+                );
+              default:
+                if (!menu.path) return null;
+                return (
+                  <li className="relative group" key={menu.name}>
+                    <div
+                      className={clsx("flex justify-between items-center pr-4")}
                     >
-                      <span
+                      <Link
+                        href={menu.path}
                         className={clsx(
-                          "material-symbols-outlined text-[var(--text-sub)] transition-transform",
+                          "px-4 py-2 block text-[var(--text-standard)]",
                           {
-                            "rotate-90": openSubMenu[menu.name],
+                            "text-primary":
+                              menu.path == pathname ||
+                              menu.subItems?.some(
+                                (sub) => sub.path === pathname
+                              ),
                           }
                         )}
-                        style={{ fontSize: "16px" }}
                       >
-                        keyboard_arrow_right
-                      </span>
-                    </button>
-                  ) : null}
-                </div>
-                {menu.subItems ? (
-                  <ul
-                    className={clsx(
-                      "block",
-                      {
-                        "hidden absolute top-[42px] group-hover:block hover:block bg-[var(--background-card)]":
-                          type == "topmenu",
-                      },
-                      {
-                        hidden: !openSubMenu[menu.name] && type == "sidebar",
-                      }
-                    )}
-                  >
-                    {menu.subItems.map((submenu) => {
-                      return (
-                        <li key={submenu.name}>
-                          <Link
+                        {menu.name}
+                      </Link>
+                      {menu.subItems && type == "sidebar" ? (
+                        <button
+                          className="cursor-pointer"
+                          onClick={() => toggleSubMenu(menu.name)}
+                        >
+                          <span
                             className={clsx(
-                              "px-4 py-2 block text-[var(--text-standard)]",
+                              "material-symbols-outlined text-[var(--text-sub)] transition-transform",
                               {
-                                "text-primary": submenu.path == pathname,
-                              },
-                              { "pl-12 ": type == "sidebar" }
+                                "rotate-90": openSubMenu[menu.name],
+                              }
                             )}
-                            href={submenu.path}
+                            style={{ fontSize: "16px" }}
                           >
-                            {submenu.name}
-                          </Link>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                ) : null}
-              </li>
-            );
+                            keyboard_arrow_right
+                          </span>
+                        </button>
+                      ) : null}
+                    </div>
+                    {menu.subItems ? (
+                      <ul
+                        className={clsx(
+                          "block",
+                          {
+                            "hidden absolute top-[42px] group-hover:block hover:block bg-[var(--background-card)]":
+                              type == "topmenu",
+                          },
+                          {
+                            hidden:
+                              !openSubMenu[menu.name] && type == "sidebar",
+                          }
+                        )}
+                      >
+                        {menu.subItems.map((submenu) => {
+                          return (
+                            <li key={submenu.name}>
+                              <Link
+                                className={clsx(
+                                  "px-4 py-2 block text-[var(--text-standard)]",
+                                  {
+                                    "text-primary": submenu.path == pathname,
+                                  },
+                                  { "pl-12 ": type == "sidebar" }
+                                )}
+                                href={submenu.path}
+                              >
+                                {submenu.name}
+                              </Link>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    ) : null}
+                  </li>
+                );
+            }
           })}
         </ul>
       </nav>

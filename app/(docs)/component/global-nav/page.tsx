@@ -458,6 +458,121 @@ const ComponentGlobalNav = () => {
           },
         ]}
       />
+
+      <h3 className="mt-4">menuWithLabel</h3>
+      <Tab
+        tabs={[
+          { id: "preview", target: ["mainNav"], tabItem: "preview" },
+          { id: "code", target: ["code"], tabItem: "code" },
+        ]}
+        tabClass={"w-full border-[var(--color-border)] border-b"}
+        tabNavItemClass={
+          "px-[var(--global-padding-x)] py-[var(--global-padding-y)] font-bold "
+        }
+        tabNavItemActiveClass="border-b border-primary"
+        tabContentClass="p-0 border-0 mt-0"
+        tabContents={[
+          {
+            id: "mainContent",
+            tag: "mainNav",
+            content: (
+              <>
+                <Card className="my-4">
+                  <CardContent>
+                    <Card type="group" className="!p-0 min-h-40">
+                      <GlobalNav
+                        type="sidebar"
+                        navMenu={[
+                          {
+                            name: "Root Navigation",
+                            path: "#",
+                            subItems: [
+                              {
+                                name: "Navigation 1",
+                                path: "/component/global-nav",
+                              },
+                              {
+                                name: "Navigation 2",
+                                path: "#",
+                              },
+                            ],
+                          },
+                          {
+                            name: "Root Navigation 2",
+                            path: "#",
+                            subItems: [
+                              {
+                                name: "Navigation 1",
+                                path: "#",
+                              },
+                              {
+                                name: "Navigation 2",
+                                path: "#",
+                              },
+                            ],
+                          },
+                          { name: "label", label: true },
+                          { name: "Navigation 3", path: "#" },
+                        ]}
+                      />
+                    </Card>
+                  </CardContent>
+                </Card>
+              </>
+            ),
+          },
+          {
+            id: "codeContent",
+            tag: "code",
+            content: (
+              <Card className="my-4">
+                <CardContent noMargin>
+                  <CodeBlock language="typescript">
+                    {`import GlobalNav from "@/app/templates/GlobalNav/GlobalNav";
+                    
+<GlobalNav
+  type="topmenu"
+  navMenu={[
+    {
+      name: "Root Navigation",
+      path: "#",
+      subItems: [
+        {
+          name: "Navigation 1",
+          path: "/component/global-nav",
+        },
+        {
+          name: "Navigation 2",
+          path: "#",
+        },
+      ],
+    },
+    {
+      name: "Root Navigation 2",
+      path: "#",
+      subItems: [
+        {
+          name: "Navigation 1",
+          path: "#",
+        },
+        {
+          name: "Navigation 2",
+          path: "#",
+        },
+      ],
+    },
+    { name: "label", label: true },
+    { name: "Navigation 3", path: "#" },
+  ]}
+/>
+`}
+                  </CodeBlock>
+                </CardContent>
+              </Card>
+            ),
+          },
+        ]}
+      />
     </>
   );
 };
