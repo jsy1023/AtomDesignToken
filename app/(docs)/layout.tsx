@@ -28,7 +28,7 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
           { name: "소개", path: "/" },
           { name: "설치하기", path: "/install" },
           // { name: "테마", path: "#" },
-          { name: "디자인 토큰", label: true },
+          // { name: "디자인 토큰", label: true },
           // { name: "이론", path: "#" },
           // { name: "컬러", path: "#" },
           // { name: "텍스트", path: "#" },
