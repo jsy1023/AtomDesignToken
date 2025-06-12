@@ -17,15 +17,15 @@ const Pagination = ({
   /**  페이지네이션을 보여줄 최대 개수정보를 받습니다. */
   pageRange: number;
   /** totlaCount로 받아 계산하거나 전체 페이지네이션의 토탈 정보를 받습니다. */
-  totalCount: number;
+  totalCount?: number;
   /** totlaCount로 받아 계산하거나 전체 페이지네이션의 토탈 정보를 받습니다. */
   pageTotal?: number;
 }) => {
   const totalPages = pageTotal
     ? pageTotal
     : totalCount
-    ? Math.ceil(totalCount / pageViewRange)
-    : 0;
+      ? Math.ceil(totalCount / pageViewRange)
+      : 0;
   const [pageStart, setPageStart] = useState(1);
   const scrollTop = () => {
     setTimeout(() => {
@@ -34,7 +34,7 @@ const Pagination = ({
   };
 
   return (
-    <div className="text-[#999] flex border-[#666] border-b">
+    <div className="text-[#999] flex">
       <button
         disabled={pageStart === 1}
         onClick={() => {
@@ -47,7 +47,7 @@ const Pagination = ({
       >
         <span className="material-symbols-outlined">keyboard_arrow_left</span>
       </button>
-      <ul className="grid grid-cols-5 w-full">
+      <ul className="flex w-full">
         {[...Array(pageRange)].map((_, i) => {
           const page = pageStart + i;
 
@@ -74,7 +74,7 @@ const Pagination = ({
                 }
                 scrollTop();
               }}
-              className={` w-full text-center py-8 cursor-pointer ${
+              className={` w-full text-center py-8 cursor-pointer px-2 ${
                 currentPage === page ? "text-primary" : ""
               }`}
             >
