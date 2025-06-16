@@ -16,9 +16,9 @@ const Pagination = ({
   pageViewRange: number;
   /**  페이지네이션을 보여줄 최대 개수정보를 받습니다. */
   pageRange: number;
-  /** totlaCount로 받아 계산하거나 전체 페이지네이션의 토탈 정보를 받습니다. */
+  /** 데이터의 총 개수를 받아 페이지당 데이터 개수로 나누어 총 페이지네이션 정보를 계산합니다. */
   totalCount?: number;
-  /** totlaCount로 받아 계산하거나 전체 페이지네이션의 토탈 정보를 받습니다. */
+  /** 전체 페이지네이션의 토탈 정보를 받습니다. */
   pageTotal?: number;
 }) => {
   const totalPages = pageTotal

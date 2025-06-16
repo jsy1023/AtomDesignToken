@@ -15,12 +15,14 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
        * ✅ 태그 컴포넌트 추가 [완료: 2025/06/10]
        * ✅ 네비게이션 라벨 타입 추가? = 예외 처리로 하기에는....? [완료: 2025/06/11]
        * ✅ 페이지네이션 컴포넌트 추가 [완료: 2025/06/12]
-       * ✅ 아코디언 컴포넌트 추가
-       * ✅ TOC 컴포넌트 추가
-       * ✅ design token의 대한 내용 작성 필요
-       * ✅ Animations.tsx에 대한 내용 작성 필요
-       * ✅ 가나다 순으로 으로 네비게이션 정리하기
-       * ✅ 연락처 추가 / 언제든 개선 피드백 주세요. 함께 라이브러리를 발전 시키는 것도 환영합니다. 메일주세요
+       * ✅ version 0.1.21 배포 [완료: 2025/06/12]
+       * ✅ 콜랩스 컴포넌트 추가 [완료: 2025/06/16]
+       * TOC 컴포넌트 추가
+       * design token의 대한 내용 작성 필요 (color, typography)
+       * Animations.tsx에 대한 내용 작성 필요
+       * 연락처 추가 / 언제든 개선 피드백 주세요. 함께 라이브러리를 발전 시키는 것도 환영합니다. 메일주세요
+       * chart 라이브러리 구현
+       * Calendar 라이브러리 구현
        *   */}
       <GlobalNav
         navMenu={[
@@ -49,6 +51,7 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
           { name: "버튼", path: "/component/button" },
           { name: "테이블", path: "/component/table" },
           { name: "페이지네이션", path: "/component/pagination" },
+          { name: "콜랩스", path: "/component/collapse" },
           { name: "토스트 알림", path: "/component/toast-message" },
           { name: "탭", path: "/component/tab" },
         ]}

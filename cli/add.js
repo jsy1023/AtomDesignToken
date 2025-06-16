@@ -18,6 +18,7 @@ const components = [
   "Button",
   "Badge",
   "Card",
+  "Collapse",
   "CodeBlock",
   "GlobalNav",
   "Input",
