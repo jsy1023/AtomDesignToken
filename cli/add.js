@@ -28,6 +28,7 @@ const components = [
   "Pagination",
   "Table",
   "Modal",
+  "TOC",
 ]; // 여기 추가할 컴포넌트 목록
 
 // 명령어에서 컴포넌트 이름 가져오기
