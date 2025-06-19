@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 
 import { Card, CardContent } from "@/app/templates/Card/Card";
-import { Radio } from "@/app/templates/Input/Input";
 import CodeBlock from "@/app/templates/CodeBlock/CodeBlock";
 import Tab from "@/app/templates/Tab/Tab";
 import TOC from "@/app/templates/TOC/TOC";
