@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/app/templates/Card/Card";
 import CodeBlock from "@/app/templates/CodeBlock/CodeBlock";
-import Collapse from "@/app/templates/Collapse/Collapse";
+import { Collapse } from "@/app/templates/Collapse/Collapse";
 import Tab from "@/app/templates/Tab/Tab";
 import Table from "@/app/templates/Table/Table";
 import { Metadata } from "next";
