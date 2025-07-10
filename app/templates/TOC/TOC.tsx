@@ -22,8 +22,6 @@ export default function TOC() {
         document.querySelectorAll("h1, h2, h3")
       ) as HTMLHeadingElement[];
 
-      console.log(headingElements);
-
       const generatedHeadings: Heading[] = headingElements.map((heading) => {
         // id가 없으면 자동 생성
         if (!heading.id) {
@@ -33,9 +31,6 @@ export default function TOC() {
               .replace(/\s+/g, "-")
               .replace(/[^\w\-가-힣]+/g, "") ?? "";
         }
-
-        console.log(heading.id);
-        console.log(heading.textContent);
 
         return {
           id: heading.id,
@@ -53,7 +48,6 @@ export default function TOC() {
   return (
     <nav className="space-y-2 flex flex-col">
       {headings.map((heading, idx) => {
-        console.log(heading);
         return (
           <a
             key={`${heading.id}-${idx}`}
