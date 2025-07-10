@@ -18,7 +18,7 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
        * ✅ version 0.1.21 배포 [완료: 2025/06/12]
        * ✅ 콜랩스 컴포넌트 추가 [완료: 2025/06/16]
        * ✅ TOC 컴포넌트 추가 [완료: 2025/06/18]
-       * design token의 대한 내용 작성 필요 (theory✅, color, typography)
+       * design token의 대한 내용 작성 필요 (theory✅, color✅, spacing, rounded, typography, theme)
        * card 컴포넌트 추가
        * 연락처 추가 / 언제든 개선 피드백 주세요. 함께 라이브러리를 발전 시키는 것도 환영합니다. 메일주세요
        * Animations.tsx에 대한 내용 작성 필요
@@ -33,7 +33,7 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
           { name: "설치하기", path: "/install" },
           { name: "아토믹 디자인", path: "/atomicdesign" },
           { name: "디자인 토큰", label: true },
-          { name: "컬러", path: "#" },
+          { name: "컬러", path: "/token/color" },
           { name: "간격", path: "#" },
           { name: "텍스트", path: "#" },
           { name: "테마", path: "#" },
