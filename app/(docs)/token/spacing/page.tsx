@@ -12,7 +12,6 @@ export const metadata: Metadata = {
 };
 
 const TokenColor = () => {
-  const tokenSpacing = Object.entries(token.spacing);
   const tokenOriginSpacing = token.spacing;
 
   return (
