@@ -40,7 +40,7 @@ const TokenColor = () => {
         ]}
         tabClass="sticky w-full top-0 bg-[var(--background-wrapper)] border-b border-[var(--color-border)] z-10"
         tabNavItemClass={
-          "px-[var(--global-padding-x)] py-[var(--global-padding-y)] font-bold "
+          "px-[var(--spacing-global-x)] py-[var(--spacing-global-y)] font-bold "
         }
         tabNavItemActiveClass="border-b border-primary"
         tabContentClass="p-0 border-0 mt-0"
@@ -555,7 +555,7 @@ const TokenColor = () => {
         ]}
         tabClass={"w-full border-[var(--color-border)] border-b"}
         tabNavItemClass={
-          "px-[var(--global-padding-x)] py-[var(--global-padding-y)] font-bold "
+          "px-[var(--spacing-global-x)] py-[var(--spacing-global-y)] font-bold "
         }
         tabNavItemActiveClass="border-b border-primary"
         tabContentClass="p-0 border-0 mt-0"

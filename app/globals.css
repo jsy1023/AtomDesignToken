@@ -196,8 +196,6 @@
 --spacing-global-x: 16px;
 --spacing-global-y: 12px;
 --global-rounded: 4px;
---global-padding-x: 12px;
---global-padding-y: 8px;
 --text-h1: 38px;
 --text-h1-line-height: 48px;
 --text-h-weight: bold;
@@ -425,8 +423,6 @@
 --spacing-global-x: 16px;
 --spacing-global-y: 12px;
 --global-rounded: 4px;
---global-padding-x: 12px;
---global-padding-y: 8px;
 --text-h1: 38px;
 --text-h1-line-height: 48px;
 --text-h-weight: bold;
