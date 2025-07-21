@@ -19,6 +19,7 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
        * ✅ 콜랩스 컴포넌트 추가 [완료: 2025/06/16]
        * ✅ TOC 컴포넌트 추가 [완료: 2025/06/18]
        * ✅ design token의 대한 내용 작성 필요 (theory✅, color✅, spacing✅, typography✅) [완료: 2025/06/18]
+       * npx download test 및 수정
        * contact 페이지 추가
        * code block 수정
        * Animations.tsx에 대한 내용 작성 필요
