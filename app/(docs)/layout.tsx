@@ -18,12 +18,13 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
        * ✅ version 0.1.21 배포 [완료: 2025/06/12]
        * ✅ 콜랩스 컴포넌트 추가 [완료: 2025/06/16]
        * ✅ TOC 컴포넌트 추가 [완료: 2025/06/18]
-       * design token의 대한 내용 작성 필요 (theory✅, color✅, spacing✅, rounded, typography, theme)
-       * 연락처 추가 / 언제든 개선 피드백 주세요. 함께 라이브러리를 발전 시키는 것도 환영합니다. 메일주세요
-       * card 컴포넌트 추가
+       * ✅ design token의 대한 내용 작성 필요 (theory✅, color✅, spacing✅, typography✅) [완료: 2025/06/18]
+       * contact 페이지 추가
+       * code block 수정
        * Animations.tsx에 대한 내용 작성 필요
-       * chart 라이브러리 구현
        * Calendar 라이브러리 구현
+       * chart 라이브러리 구현
+       * card 컴포넌트 추가
        * table 컴포넌트 (정렬, 그리드, 간격조정 기능 추가)
        *   */}
       <GlobalNav
@@ -35,8 +36,7 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
           { name: "디자인 토큰", label: true },
           { name: "컬러", path: "/token/color" },
           { name: "간격", path: "/token/spacing" },
-          { name: "텍스트", path: "#" },
-          { name: "테마", path: "#" },
+          { name: "텍스트", path: "/token/typo" },
           { name: "component", label: true },
           { name: "네비게이션", path: "/component/global-nav" },
           { name: "모달창", path: "/component/modal" },
