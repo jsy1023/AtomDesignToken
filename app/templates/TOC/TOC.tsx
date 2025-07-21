@@ -15,6 +15,9 @@ export default function TOC() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
+      /**
+       * Document에서 읽히는 h1, h2, h3 태그를 array 형태로 정의
+       * */
       const headingElements = Array.from(
         document.querySelectorAll("h1, h2, h3")
       ) as HTMLHeadingElement[];
@@ -26,7 +29,7 @@ export default function TOC() {
             heading.textContent
               ?.toLowerCase()
               .replace(/\s+/g, "-")
-              .replace(/[^\w\-]+/g, "") ?? "";
+              .replace(/[^\w\-가-힣]+/g, "") ?? "";
         }
 
         return {
@@ -40,7 +43,7 @@ export default function TOC() {
     }, 50);
 
     return () => clearTimeout(timer);
-  }, [pathname]);
+  }, [pathname]); // 페이지 변경사항이 있다면 목차 재정의
 
   return (
     <nav className="space-y-2 flex flex-col">

@@ -30,7 +30,7 @@ const ComponentCheckbox = () => {
         ]}
         tabClass={"w-full border-[var(--color-border)] border-b"}
         tabNavItemClass={
-          "px-[var(--global-padding-x)] py-[var(--global-padding-y)] font-bold "
+          "px-[var(--spacing-global-x)] py-[var(--spacing-global-y)] font-bold "
         }
         tabNavItemActiveClass="border-b border-primary"
         tabContentClass="p-0 border-0 mt-0"
@@ -142,7 +142,7 @@ const ComponentCheckbox = () => {
         ]}
         tabClass={"w-full border-[var(--color-border)] border-b"}
         tabNavItemClass={
-          "px-[var(--global-padding-x)] py-[var(--global-padding-y)] font-bold "
+          "px-[var(--spacing-global-x)] py-[var(--spacing-global-y)] font-bold "
         }
         tabNavItemActiveClass="border-b border-primary"
         tabContentClass={"py-4"}
@@ -194,7 +194,7 @@ const ComponentCheckbox = () => {
         ]}
         tabClass={"w-full border-[var(--color-border)] border-b"}
         tabNavItemClass={
-          "px-[var(--global-padding-x)] py-[var(--global-padding-y)] font-bold "
+          "px-[var(--spacing-global-x)] py-[var(--spacing-global-y)] font-bold "
         }
         tabNavItemActiveClass="border-b border-primary"
         tabContentClass={"py-4"}
@@ -246,7 +246,7 @@ const ComponentCheckbox = () => {
         ]}
         tabClass={"w-full border-[var(--color-border)] border-b"}
         tabNavItemClass={
-          "px-[var(--global-padding-x)] py-[var(--global-padding-y)] font-bold "
+          "px-[var(--spacing-global-x)] py-[var(--spacing-global-y)] font-bold "
         }
         tabNavItemActiveClass="border-b border-primary"
         tabContentClass={"py-4"}

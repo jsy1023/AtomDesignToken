@@ -1,25 +1,25 @@
 import type { Metadata } from "next";
 
-import { Button } from "@/app/templates/Button/Button";
 import { Card, CardContent } from "@/app/templates/Card/Card";
 import CodeBlock from "@/app/templates/CodeBlock/CodeBlock";
 import Tab from "@/app/templates/Tab/Tab";
-import Table from "@/app/templates/Table/Table";
+import TOC from "@/app/templates/TOC/TOC";
 
 export const metadata: Metadata = {
-  title: "Button",
+  title: "TOC",
   description:
-    "버튼은 데이터를 전송하거나 상호작용하는 요소로 목적에 따라 다양한 종류의 버튼과 상태정보를 가집니다",
-  keywords: ["Button"],
+    "웹페이지의 전체 구조를 한눈에 보여주는 목록으로, 페이지의 제목과 위치(페이지 번호 또는 링크)를 정리해 독자가 원하는 내용을 빠르게 찾을 수 있도록 도와줍니다.",
+  keywords: ["TOC"],
 };
 
-const ComponentButton = () => {
+const ComponentToc = () => {
   return (
     <>
-      <h1 className="mb-4 text-h1">버튼</h1>
+      <h1 className="mb-4 text-h1">TOC</h1>
       <p>
-        &nbsp;버튼은 데이터를 전송하거나 상호작용하는 요소로 목적에 따라 다양한
-        종류의 버튼과 상태정보를 가집니다
+        &nbsp;웹페이지의 전체 구조를 한눈에 보여주는 목록으로, 페이지의 제목과
+        위치(페이지 번호 또는 링크)를 정리해 원하는 내용을 빠르게 찾을 수 있도록
+        도와줍니다.
       </p>
       <hr className="my-4" />
       <Tab
@@ -39,36 +39,48 @@ const ComponentButton = () => {
             tag: "preview",
             content: (
               <>
-                <Card className="my-4">
-                  <CardContent>
-                    <Card type="group" className="flex justify-center gap-4">
-                      <Button type={"primary"}>버튼</Button>
-                      <Button type={"secondary"}>버튼</Button>
-                      <Button type={"success"}>버튼</Button>
-                      <Button type={"danger"}>버튼</Button>
-                      <Button type={"gray"}>버튼</Button>
-                    </Card>
-                  </CardContent>
+                <Card className="my-4 ">
+                  <TOC />
                 </Card>
 
-                <Card className="my-4">
+                {/* <Card className="my-4">
                   <CardContent>
                     <Table
                       tableData={[
                         {
-                          Prop: "type",
-                          Type: "primary | secondary | success | danger | gray",
+                          Prop: "label",
+                          Type: "string",
                           Default: "-",
+                        },
+                        {
+                          Prop: "onChange",
+                          Type: "() => void",
+                          Default: "-",
+                        },
+                        {
+                          Prop: "value",
+                          Type: "string",
+                          Default: "-",
+                        },
+                        {
+                          Prop: "defaultChecked",
+                          Type: "boolean",
+                          Default: "false",
                         },
                         {
                           Prop: "disabled",
                           Type: "boolean",
                           Default: "false",
                         },
+                        {
+                          Prop: "required",
+                          Type: "boolean",
+                          Default: "false",
+                        },
                       ]}
                     />
                   </CardContent>
-                </Card>
+                </Card> */}
               </>
             ),
           },
@@ -79,13 +91,9 @@ const ComponentButton = () => {
               <Card className="my-4">
                 <CardContent noMargin>
                   <CodeBlock language="typescript">
-                    {`import { Button } from "@/app/components/Button/Button"
+                    {`import { TOC } from "@/app/components/TOC/TOC" 
 
-<Button type={"primary"}>버튼</Button>
-<Button type={"secondary"}>버튼</Button>
-<Button type={"success"}>버튼</Button>
-<Button type={"danger"}>버튼</Button>
-<Button type={"gray"}>버튼</Button>`}
+<TOC />`}
                   </CodeBlock>
                 </CardContent>
               </Card>
@@ -98,7 +106,7 @@ const ComponentButton = () => {
       <h2>Installation</h2>
       <Card className="my-4">
         <CardContent noMargin>
-          <CodeBlock language="npm">{`npx atomsystem-add Button`}</CodeBlock>
+          <CodeBlock language="npm">{`npx atomsystem-add TOC`}</CodeBlock>
         </CardContent>
       </Card>
 
@@ -109,20 +117,20 @@ const ComponentButton = () => {
       <Card className="my-4">
         <CardContent noMargin>
           <CodeBlock language="typescript">
-            {`import { Radio } from "@/app/components/Button/Button" `}
+            {`import { TOC } from "@/app/components/TOC/TOC" `}
           </CodeBlock>
         </CardContent>
       </Card>
       <Card className="my-4">
         <CardContent noMargin>
-          <CodeBlock language="typescript">{`<Button type={"primary"}>버튼</Button> `}</CodeBlock>
+          <CodeBlock language="typescript">{`<TOC />`}</CodeBlock>
         </CardContent>
       </Card>
 
       <hr className="my-4" />
 
       <h2>Example</h2>
-      <h3 className="mt-4">main</h3>
+      <h3 className="mt-4">With Label</h3>
       <Tab
         tabs={[
           {
@@ -148,11 +156,7 @@ const ComponentButton = () => {
             tag: "previewWithLabel",
             content: (
               <Card>
-                <CardContent>
-                  <Card type="group" className="flex flex-col items-center">
-                    <Button type={"primary"}>버튼</Button>
-                  </Card>
-                </CardContent>
+                <TOC />
               </Card>
             ),
           },
@@ -163,7 +167,9 @@ const ComponentButton = () => {
               <Card className="my-4">
                 <CardContent noMargin>
                   <CodeBlock language="typescript">
-                    {`<Button type={"primary"}>버튼</Button>`}
+                    {`import { TOC } from "@/app/components/TOC/TOC" 
+
+<TOC />`}
                   </CodeBlock>
                 </CardContent>
               </Card>
@@ -175,4 +181,4 @@ const ComponentButton = () => {
   );
 };
 
-export default ComponentButton;
+export default ComponentToc;

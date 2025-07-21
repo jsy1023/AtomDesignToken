@@ -37,10 +37,10 @@ export const Input = ({
         className="border rounded focus:outline-none focus:ring-0 bg-[var(--input-background-standard)] disabled:bg-[var(--input-background-disabled)] disabled:cursor-not-allowed border-[var(--input-border-standard)] focus:border-[var(--input-border-focus)] w-full"
         style={{
           color: "var(--input-text-standard)",
-          paddingLeft: "var(--global-padding-x)",
-          paddingRight: "var(--global-padding-x)",
-          paddingTop: "var(--global-padding-y)",
-          paddingBottom: "var(--global-padding-y)",
+          paddingLeft: "var(--spacing-global-x)",
+          paddingRight: "var(--spacing-global-x)",
+          paddingTop: "var(--spacing-global-y)",
+          paddingBottom: "var(--spacing-global-y)",
           borderRadius: "var(--input-rounded)",
         }}
         placeholder={placeholder}
