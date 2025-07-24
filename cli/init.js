@@ -15,10 +15,13 @@ const __dirname = path.dirname(__filename);
 // 패키지 내부 경로 설정
 const packageRoot = path.join(__dirname, "..");
 const tokenFile = path.join(packageRoot, "token.json");
+const buildFile = path.join(packageRoot, "/build/build-tokens.js");
 
 // 프로젝트 루트 경로 (사용자가 실행한 곳)
 const projectRoot = process.cwd();
 const targetTokenFile = path.join(projectRoot, "token.json");
+const targetBuildDir = path.join(projectRoot, "build");
+const targetBuildFile = path.join(projectRoot, "/build/build-tokens.js");
 
 // 사용자에게 Next.js 설치 여부 질문
 inquirer
@@ -53,12 +56,7 @@ inquirer
 
         packageJson.scripts = {
           ...packageJson.scripts,
-          dev: "npm run build:token && next dev",
-          build: "next build",
-          build_token:
-            "node tokens/buildTokenSplit.js && node tokens/buildMergeCss.js",
-          start: "next start",
-          lint: "next lint",
+          "token-build": "node build/build-tokens.js",
         };
 
         fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
@@ -102,6 +100,10 @@ inquirer
     // ✅ 토큰 파일 복사 (Next.js 설치 여부와 관계없이 실행)
     copyFileSync(tokenFile, targetTokenFile);
     console.log(`✅ Copied: token.json -> ${targetTokenFile}`);
+
+    if (!fs.existsSync(targetBuildDir)) mkdirSync(targetBuildDir);
+    copyFileSync(buildFile, targetBuildFile);
+    console.log(`✅ Copied: build-token.json -> ${targetTokenFile}`);
 
     console.log("🚀 Token setup complete!");
   })

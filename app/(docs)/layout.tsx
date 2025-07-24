@@ -18,14 +18,14 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
        * ✅ version 0.1.21 배포 [완료: 2025/06/12]
        * ✅ 콜랩스 컴포넌트 추가 [완료: 2025/06/16]
        * ✅ TOC 컴포넌트 추가 [완료: 2025/06/18]
-       * ✅ design token의 대한 내용 작성 필요 (theory✅, color✅, spacing✅, typography✅) [완료: 2025/06/18]
-       * npx download test 및 수정
+       * ✅ design token의 대한 내용 작성 필요 (theory✅, color✅, spacing✅, typography✅) [완료: 2025/07/21]
+       * ✅ npx download test 및 수정 [완료: 2025/07/24]
        * contact 페이지 추가
        * code block 수정
+       * card 컴포넌트 추가
        * Animations.tsx에 대한 내용 작성 필요
        * Calendar 라이브러리 구현
        * chart 라이브러리 구현
-       * card 컴포넌트 추가
        * table 컴포넌트 (정렬, 그리드, 간격조정 기능 추가)
        *   */}
       <GlobalNav

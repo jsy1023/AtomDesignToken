@@ -1,6 +1,6 @@
 {
   "name": "atomsystem",
-  "version": "0.1.22",
+  "version": "0.1.25",
   "type": "module",
   "homepage": "https://system.atomground.com",
   "bin": {
@@ -11,6 +11,7 @@
     "token.json",
     "tokens",
     "tailwind.config.ts",
+    "build",
     "app/templates"
   ],
   "scripts": {
