@@ -110,7 +110,7 @@ const Sidebar = ({ navMenu }: NavItemsAttr) => {
       <ul>
         {navMenu.map((menu, idx) => {
           return (
-            <li className="relative group" key={menu.name}>
+            <li className="relative group" key={menu.name + idx}>
               <div className={clsx("flex justify-between items-center pr-4")}>
                 {menu.path ? (
                   <Link
