@@ -19,7 +19,7 @@ const components = [
   "Card",
   "Collapse",
   "CodeBlock",
-  "GlobalNav",
+  "Navigation",
   "Input",
   "Theme",
   "Tab",

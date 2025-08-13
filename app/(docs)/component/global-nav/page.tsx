@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/app/templates/Card/Card";
 import CodeBlock from "@/app/templates/CodeBlock/CodeBlock";
-import GlobalNav from "@/app/templates/GlobalNav/GlobalNav";
+import { GlobalNav } from "@/app/templates/Navigation/Navigation";
 import Tab from "@/app/templates/Tab/Tab";
 import Table from "@/app/templates/Table/Table";
 import { Metadata } from "next";

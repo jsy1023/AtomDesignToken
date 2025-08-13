@@ -70,3 +70,18 @@ h6 {
 .text-primary {
   color: var(--color-primary);
 }
+
+body,
+html {
+  scrollbar-color: var(--background-wrapper) var(--background-card);
+  scrollbar-width: thin;
+}
+
+/* Webkit 기반 브라우저용 스크롤바 스타일 */
+::-webkit-scrollbar {
+  background: var(--background-card);
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background-card);
+}
