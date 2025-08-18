@@ -115,8 +115,8 @@ const DocsLayout = async ({ children }: { children: React.ReactNode }) => {
                     { name: "네비게이션", path: "/component/global-nav" },
                     { name: "모달창", path: "/component/modal" },
                     { name: "목차", path: "/component/toc" },
-                    { name: "입력창", path: "/component/input" },
-                    { name: "선택창", path: "/component/select" },
+                    { name: "입력창", path: "/input" },
+                    { name: "선택창", path: "/select" },
                     { name: "체크박스", path: "/component/checkbox" },
                     { name: "라디오", path: "/component/radio" },
                     { name: "배지", path: "/component/badge" },
@@ -133,7 +133,9 @@ const DocsLayout = async ({ children }: { children: React.ReactNode }) => {
           </Navigation>
           <div className="relative w-full h-full bg-[var(--background-wrapper)] grid grid-cols-1 md:grid-cols-4 overflow-auto scroll-smooth">
             <div className="col-span-3 flex flex-col items-center order-2 md:order-1">
-              <div className="max-w-[800px] min-w-0 h-full p-4">{children}</div>
+              <div className="max-w-[800px] min-w-0 h-full p-4 py-12">
+                {children}
+              </div>
               <footer className="w-full py-4 px-8 ">
                 Built by
                 <Link

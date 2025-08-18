@@ -1,0 +1,67 @@
+import PreviewLayout from "@/app/components/mdx-layout";
+import { CodeLayout } from "@/app/components/mdx-layout";
+import { Select } from "@/app/templates/Input/Input";
+
+# 선택창
+
+선택창은 여러가지 항목중 단일의 내용을 선택할 수 있는 컨트롤러입니다.  
+10개 이상의 선택지가 있는 경우에 사용을 권장합니다.
+
+---
+
+<PreviewLayout
+  preview={<Select
+    options={["대한민국", "유럽", "일본", "미국", "중국"]}
+  />}
+  code={`import { Select } from "@/app/components/Select/Select"
+
+<Select options={["대한민국", "유럽", "일본", "미국", "중국"]} />
+`} />
+
+## Installation
+
+<CodeLayout code={`npx atomsystem-add Select`} />
+
+## Usage
+
+<CodeLayout code={`import { Select } from "@/app/components/Select/Select" `} />
+<CodeLayout code={`<Select option={[]}/> `} />
+
+---
+
+## Example
+
+### Default
+
+<PreviewLayout
+  preview={<Select
+    options={["대한민국", "유럽", "일본", "미국", "중국"]}
+  />}
+  code={`import { Select } from "@/app/components/Select/Select"
+
+<Select />
+`} />
+
+### Disabled
+
+<PreviewLayout
+  preview={<Select
+    disabled
+    options={["대한민국", "유럽", "일본", "미국", "중국"]}
+  />}
+  code={`import { Select } from "@/app/components/Select/Select"
+
+<Select disabled />
+`} />
+
+### With Label
+
+<PreviewLayout
+  preview={<Select
+    label="국가선택"
+    options={["대한민국", "유럽", "일본", "미국", "중국"]}
+  />}
+  code={`import { Select } from "@/app/components/Select/Select"
+
+<Select label="국가선택" />
+`} />

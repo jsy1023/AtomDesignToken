@@ -1,0 +1,59 @@
+import PreviewLayout from "@/app/components/mdx-layout";
+import { CodeLayout } from "@/app/components/mdx-layout";
+import { Input } from "@/app/templates/Input/Input";
+
+# 입력창
+
+입력창은 사용자로부터 데이터를 전달받기 위한 대화형 컨트롤러입니다. 다양한 종류로 구성되어 있으며  
+사용자와의 상호작용을 위해 입력창의 상태전환을 직관적으로 표현해야합니다.
+
+---
+
+<PreviewLayout
+  preview={<Input className="w-full" />}
+  code={`import { Input } from "@/app/components/Input/Input"
+
+<Input />
+`} />
+
+## Installation
+
+<CodeLayout code={`npx atomsystem-add Select`} />
+
+## Usage
+
+<CodeLayout code={`import { Input } from "@/app/components/Input/Input"`} />
+<CodeLayout code={`<Input/>`} />
+
+---
+
+## Example
+
+### Default
+
+<PreviewLayout
+  preview={<Input className="w-full" />}
+  code={`import { Input } from "@/app/components/Input/Input"
+
+<Input />
+`} />
+
+### Disabled
+
+<PreviewLayout
+  preview={<Input disabled />}
+  code={`import { Input } from "@/app/components/Input/Input"
+
+<Input disabled />
+`} />
+
+### With Label
+
+<PreviewLayout
+  preview={<div className="flex flex-col w-full"><Input label="Email" /></div>}
+  code={`import { Input } from "@/app/components/Input/Input"
+
+<div className="flex flex-col w-full">
+  <Input label="Email" />
+</div>
+`} />

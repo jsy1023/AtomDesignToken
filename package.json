@@ -30,9 +30,13 @@
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
+    "@mdx-js/loader": "^3.1.0",
+    "@mdx-js/react": "^3.1.0",
+    "@next/mdx": "^15.4.6",
     "@next/third-parties": "^15.0.3",
     "@tailwindcss/postcss": "^4.0.17",
     "@tokens-studio/sd-transforms": "^1.2.8",
+    "@types/mdx": "^2.0.13",
     "clsx": "^2.1.1",
     "gsap": "^3.12.7",
     "highlight.js": "^11.11.1",
