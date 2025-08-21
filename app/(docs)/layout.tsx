@@ -112,20 +112,20 @@ const DocsLayout = async ({ children }: { children: React.ReactNode }) => {
               <div className="px-4">
                 <NavItems
                   navMenu={[
-                    { name: "네비게이션", path: "/component/global-nav" },
-                    { name: "모달창", path: "/component/modal" },
-                    { name: "목차", path: "/component/toc" },
-                    { name: "입력창", path: "/input" },
-                    { name: "선택창", path: "/select" },
-                    { name: "체크박스", path: "/component/checkbox" },
-                    { name: "라디오", path: "/component/radio" },
-                    { name: "배지", path: "/component/badge" },
-                    { name: "버튼", path: "/component/button" },
-                    { name: "테이블", path: "/component/table" },
-                    { name: "페이지네이션", path: "/component/pagination" },
-                    { name: "콜랩스", path: "/component/collapse" },
-                    { name: "토스트 알림", path: "/component/toast-message" },
-                    { name: "탭", path: "/component/tab" },
+                    { name: "네비게이션", path: "/components/global-nav" },
+                    { name: "모달창", path: "/components/modal" },
+                    { name: "목차", path: "/components/toc" },
+                    { name: "입력창", path: "/components/input" },
+                    { name: "선택창", path: "/components/select" },
+                    { name: "체크박스", path: "/components/checkbox" },
+                    { name: "라디오", path: "/components/radio" },
+                    { name: "배지", path: "/components/badge" },
+                    { name: "버튼", path: "/components/button" },
+                    { name: "테이블", path: "/components/table" },
+                    { name: "페이지네이션", path: "/components/pagination" },
+                    { name: "콜랩스", path: "/components/collapse" },
+                    { name: "토스트 알림", path: "/components/toast-message" },
+                    { name: "탭", path: "/components/tab" },
                   ]}
                 />
               </div>

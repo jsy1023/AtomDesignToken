@@ -1,0 +1,166 @@
+import PreviewLayout from "@/app/components/mdx-layout";
+import { CodeLayout } from "@/app/components/mdx-layout";
+import { Badge } from "@/app/templates/Badge/Badge";
+
+# 배지
+
+배지는 상태나 수량, 라벨, 알림 등의 정보를 간결하게 전달하는
+컴포넌트 입니다.
+
+---
+
+<PreviewLayout
+  preview={
+    <div className="my-4 flex flex-col items-center gap-4">
+        <div className="flex gap-2">
+            <Badge color="primary">배지</Badge>
+            <Badge color="secondary">배지</Badge>
+            <Badge color="warning">배지</Badge>
+            <Badge color="danger">배지</Badge>
+        </div>
+        <div className="flex gap-2">
+            <Badge color="primary" type="tint">
+                배지
+            </Badge>
+            <Badge color="secondary" type="tint">
+                배지
+            </Badge>
+            <Badge color="warning" type="tint">
+                배지
+            </Badge>
+            <Badge color="danger" type="tint">
+                배지
+            </Badge>
+        </div>
+        <div className="flex gap-2">
+            <Badge color="secondary">
+                <span className="material-symbols-outlined !text-sm !text-white mr-1">
+                check
+                </span>
+                완료
+            </Badge>
+            <Badge
+                className="h-5 rounded-full flex justify-center items-center"
+                color="danger"
+            >
+                99
+                <span className="material-symbols-outlined !text-sm !text-white mr-1">
+                add
+                </span>
+            </Badge>
+        </div>
+    </div>
+    }
+  code={`import { Badge } from "@/app/components/Badge/Badge"
+
+<Card className="my-4 flex flex-col items-center gap-4">
+  <div className="flex gap-2">
+    <Badge color="primary">배지</Badge>
+    <Badge color="secondary">배지</Badge>
+    <Badge color="warning">배지</Badge>
+    <Badge color="danger">배지</Badge>
+  </div>
+  <div className="flex gap-2">
+    <Badge color="primary" type="tint">
+      배지
+    </Badge>
+    <Badge color="secondary" type="tint">
+      배지
+    </Badge>
+    <Badge color="warning" type="tint">
+      배지
+    </Badge>
+    <Badge color="danger" type="tint">
+      배지
+    </Badge>
+  </div>
+  <div className="flex gap-2">
+    <Badge color="secondary">
+      <span className="material-symbols-outlined !text-sm !text-white mr-1">
+        check
+      </span>
+      완료
+    </Badge>
+    <Badge
+      className="h-5 rounded-full flex justify-center items-center"
+      color="danger"
+    >
+      99
+      <span className="material-symbols-outlined !text-sm !text-white mr-1">
+        add
+      </span>
+    </Badge>
+  </div>
+</Card>
+`} />
+
+---
+
+## Installation
+
+<CodeLayout code={`npx atomsystem-add Badge`} />
+
+---
+
+## Usage
+
+<CodeLayout code={`import { Badge } from "@/app/components/Badge/Badge"`} />
+<CodeLayout code={`<Badge color="primary">배지</Badge>`} />
+
+---
+
+## Example
+
+### main
+
+<PreviewLayout
+  preview={
+    <div className="flex gap-2 justify-center">
+        <Badge color="primary">배지</Badge>
+        <Badge color="secondary">배지</Badge>
+        <Badge color="warning">배지</Badge>
+        <Badge color="danger">배지</Badge>
+    </div>
+    }
+  code={`import { Badge } from "@/app/components/Badge/Badge"
+
+<Badge color="primary">배지</Badge>
+<Badge color="secondary">배지</Badge>
+<Badge color="warning">배지</Badge>
+<Badge color="danger">배지</Badge>
+`} />
+
+### tint
+
+<PreviewLayout
+  preview={
+    <div className="flex gap-2 justify-center">
+        <Badge type="tint" color="primary">
+            배지
+        </Badge>
+        <Badge type="tint" color="secondary">
+            배지
+        </Badge>
+        <Badge type="tint" color="warning">
+            배지
+        </Badge>
+        <Badge type="tint" color="danger">
+            배지
+        </Badge>
+    </div>
+    }
+  code={`import { Badge } from "@/app/components/Badge/Badge"
+
+<Badge type="tint" color="primary">
+  배지
+</Badge>
+<Badge type="tint" color="secondary">
+  배지
+</Badge>
+<Badge type="tint" color="warning">
+  배지
+</Badge>
+<Badge type="tint" color="danger">
+  배지
+</Badge>
+`} />

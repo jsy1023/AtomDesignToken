@@ -54,11 +54,17 @@ export default function PreviewLayout({
   );
 }
 
-export function CodeLayout({ code }: { code?: string }) {
+export function CodeLayout({
+  code,
+  language = "typescript",
+}: {
+  code?: string;
+  language?: string;
+}) {
   return (
     <Card className="my-4">
       <CardContent noMargin>
-        <CodeBlock language="typescript">{`${code}`}</CodeBlock>
+        <CodeBlock language="language">{`${code}`}</CodeBlock>
       </CardContent>
     </Card>
   );
