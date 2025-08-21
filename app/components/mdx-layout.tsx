@@ -64,7 +64,7 @@ export function CodeLayout({
   return (
     <Card className="my-4">
       <CardContent noMargin>
-        <CodeBlock language="language">{`${code}`}</CodeBlock>
+        <CodeBlock language={language}>{`${code}`}</CodeBlock>
       </CardContent>
     </Card>
   );
