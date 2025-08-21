@@ -8,8 +8,8 @@ const components = {
   h3: ({ children }) => <h3 className="text-h3 mb-2 mt-8">{children}</h3>,
   p: ({ children }) => <p className="text-standard">{children}</p>,
   hr: ({ children }) => <hr className="my-4">{children}</hr>,
-  ul: ({ children }) => <ul className="list-disc pl-6"></ul>,
-  ol: ({ children }) => <ol className="list-decimal pl-6"></ol>,
+  ul: ({ children }) => <ul className="list-disc pl-6">{children}</ul>,
+  ol: ({ children }) => <ol className="list-decimal pl-6">{children}</ol>,
   img: (props) => (
     <Image
       sizes="100vw"
