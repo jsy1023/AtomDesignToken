@@ -28,9 +28,9 @@ export default function PreviewLayout({
           tag: "preview",
           content: (
             <>
-              <Card className="my-4">
+              <Card className="my-4 w-full">
                 <CardContent>
-                  <Card type="group" className="flex justify-center">
+                  <Card type="group" className="flex justify-center w-full">
                     {preview}
                   </Card>
                 </CardContent>

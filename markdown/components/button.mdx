@@ -1,0 +1,55 @@
+import PreviewLayout from "@/app/components/mdx-layout";
+import { CodeLayout } from "@/app/components/mdx-layout";
+import { Button } from "@/app/templates/Button/Button";
+import { Card, CardContent } from "@/app/templates/Card/Card";
+
+# 버튼
+
+버튼은 데이터를 전송하거나 상호작용하는 요소로 목적에 따라 다양한
+종류의 버튼과 상태정보를 가집니다
+
+---
+
+<PreviewLayout
+  preview={<Card type="group" className="flex justify-center gap-4">
+                      <Button type={"primary"}>버튼</Button>
+                      <Button type={"secondary"}>버튼</Button>
+                      <Button type={"success"}>버튼</Button>
+                      <Button type={"danger"}>버튼</Button>
+                      <Button type={"gray"}>버튼</Button>
+                    </Card>}
+  code={`import { Button } from "@/app/components/Button/Button"
+
+<Button type={"primary"}>버튼</Button>
+<Button type={"secondary"}>버튼</Button>
+<Button type={"success"}>버튼</Button>
+<Button type={"danger"}>버튼</Button>
+<Button type={"gray"}>버튼</Button>`} />
+
+---
+
+## Installation
+
+<CodeLayout code={`npx atomsystem-add Button`} />
+
+---
+
+## Usage
+
+<CodeLayout code={`import { Radio } from "@/app/components/Button/Button"`} />
+<CodeLayout code={`<Button type={"primary"}>버튼</Button>`} />
+
+---
+
+## Example
+
+### main
+
+<PreviewLayout
+  preview={
+    <Card type="group" className="flex flex-col items-center">
+      <Button type={"primary"}>버튼</Button>
+    </Card>
+  }
+  code={`<Button type={"primary"}>버튼</Button>`}
+/>

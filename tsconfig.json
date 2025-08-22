@@ -29,7 +29,12 @@
     ".next/types/**/*.ts",
     "app/(docs)/install/page.old",
     "app/(docs)/atomicdesign/page",
-    "app/(docs)/components/badge/page.tsx.old"
+    "app/(docs)/components/badge/page.tsx.old",
+    "app/(docs)/components/button/page.tsx.old",
+    "app/(docs)/components/[slug]/page.tsx",
+    "app/(docs)/components/checkbox/page.tsx.old",
+    "app/(docs)/components/collapse/page.tsx.old",
+    "app/(docs)/components/radio/page.tsx.old"
   ],
   "exclude": ["node_modules"]
 }

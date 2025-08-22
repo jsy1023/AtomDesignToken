@@ -1,0 +1,69 @@
+import PreviewLayout from "@/app/components/mdx-layout";
+import { CodeLayout } from "@/app/components/mdx-layout";
+import { Card, CardContent } from "@/app/templates/Card/Card";
+import { Radio } from "@/app/templates/Input/Input";
+
+# 라디오
+
+라디오는 사용자가 여러가지 선택사항 중 한가지 선택을 할 수 있는
+컨트롤러입니다. 1개 ~ 10개 사이의 선택사항이 있는 경우 라디오의 사용을
+권장합니다.
+
+---
+
+<PreviewLayout
+  preview={
+    <div className="flex gap-4">
+        <Radio defaultChecked name={"food"} value={"김밥"} />
+        <Radio name={"food"} value={"삼겹살"} />
+    </div>
+    }
+  code={`import { Radio } from "@/app/components/Input/Input"
+
+<Radio defaultChecked name={"food"} value={"김밥"} />
+<Radio name={"food"} value={"삼겹살"} />
+`} />
+
+---
+
+## Installation
+
+<CodeLayout code={`npx atomsystem-add Radio`} />
+
+---
+
+## Usage
+
+<CodeLayout code={`import { Radio } from "@/app/components/Input/Input" `} />
+<CodeLayout code={`<Radio name={} value={} /> `} />
+
+---
+
+## Example
+
+### With Label
+
+<PreviewLayout
+  preview={
+    <div className="flex flex-col">
+      <Radio
+        label="저녁메뉴"
+        value="떡볶이"
+        name={"condition"}
+        defaultChecked
+      />
+      <Radio value="라면" name={"condition"} />
+      <Radio value="햄버거" name={"condition"} />
+    </div>
+  }
+  code={`import { Radio } from "@/app/components/Input/Input" 
+<div className="flex flex-col">
+  <Radio
+    label="저녁메뉴"
+    value="떡볶이"
+    name={"condition"}
+  />
+  <Radio value="라면" name={"condition"} />
+  <Radio value="햄버거" name={"condition"} />
+</div>`}
+/>

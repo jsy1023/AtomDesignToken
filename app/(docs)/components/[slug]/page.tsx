@@ -10,7 +10,17 @@ export default async function ComponentsPage({
 }
 
 export function generateStaticParams() {
-  return [{ slug: "input" }, { slug: "select" }, { slug: "badge" }];
+  return [
+    { slug: "input" },
+    { slug: "select" },
+    { slug: "badge" },
+    { slug: "button" },
+    { slug: "checkbox" },
+    { slug: "radio" },
+    { slug: "collapse" },
+    { slug: "pagination" },
+    { slug: "tab" },
+  ];
 }
 
 export const dynamicParams = false;

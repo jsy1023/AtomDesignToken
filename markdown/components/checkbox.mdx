@@ -1,0 +1,75 @@
+import PreviewLayout from "@/app/components/mdx-layout";
+import { CodeLayout } from "@/app/components/mdx-layout";
+import { Card } from "@/app/templates/Card/Card";
+import { Checkbox } from "@/app/templates/Input/Input";
+
+# 체크박스
+
+체크박스는 사용자가 여러가지 선택사항 중 한가지 이상 선택을 할 수
+있는 컨트롤러입니다. 1개 ~ 10개 사이의 선택사항이 있는 경우 체크박스의
+사용을 권장합니다.
+
+---
+
+<PreviewLayout
+  preview={<Card type="group" className="flex justify-center">
+                      <Checkbox defaultChecked />
+                    </Card>}
+  code={`import { Checkbox } from "@/app/components/Input/Input"
+
+<Checkbox />
+`} />
+
+---
+
+## Installation
+
+<CodeLayout code={`npx atomsystem-add Checkbox`} />
+
+---
+
+## Usage
+
+<CodeLayout code={`import { Checkbox } from "@/app/components/Input/Input"`} />
+<CodeLayout code={`<Checkbox />`} />
+
+---
+
+## Example
+
+### WithText
+
+<PreviewLayout
+  preview={<Card type="group" className="flex justify-center">
+                    <Checkbox text="정책 및 조건동의" disabled/>
+                  </Card>}
+  code={`import { Checkbox } from "@/app/components/Input/Input"
+
+<Checkbox text="정책 및 조건동의" />
+`} />
+
+### With Label
+
+<PreviewLayout
+  preview={<Card type="group" className="flex flex-col items-center">
+                    <div className="flex flex-col">
+                      <Checkbox label="정책" text="정책 및 조건동의" />
+                    </div>
+                  </Card>}
+  code={`import { Checkbox } from "@/app/components/Input/Input"
+
+<div className="flex flex-col">
+  <Checkbox label="정책" text="정책 및 조건동의" />
+</div>
+`} />
+
+### Disabled
+
+<PreviewLayout
+  preview={<Card type="group" className="flex justify-center">
+                    <Checkbox text="정책 및 조건동의" disabled />
+                  </Card>}
+  code={`import { Checkbox } from "@/app/components/Input/Input"
+
+<Checkbox text="정책 및 조건동의" />
+`} />
