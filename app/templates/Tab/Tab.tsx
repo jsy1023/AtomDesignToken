@@ -10,7 +10,7 @@ const Tab = ({
   tabNavItemClass = "p-4",
   tabNavItemActiveClass = "bg-[var(--background-card)] border border-[var(--color-border)] border-b-[var(--background-card)] relative z-10",
   tabContents,
-  tabContentClass = "p-4 border border-t-0  border-[var(--color-border)] -mt-[1px]",
+  tabContentClass = "bg-[var(--background-card)] p-4 border border-t-0  border-[var(--color-border)] -mt-[1px]",
   tabContentItem = "text-[var(--text-standard)]",
   expectionValue,
   expectionLayout,
@@ -76,7 +76,7 @@ const Tab = ({
   }, [activeContent]);
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col w-full">
       <div className={tabClass}>
         {tabs.map((tab) => {
           return (

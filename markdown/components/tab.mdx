@@ -1,0 +1,338 @@
+import PreviewLayout from "@/app/components/mdx-layout";
+import { CodeLayout } from "@/app/components/mdx-layout";
+import Tab from "@/app/templates/Tab/Tab";
+
+# Tab
+
+여러 개의 콘텐츠 영역을 하나의 영역에서 전환하며 보여주는 UI 요소입니다. 사용자가 클릭하거나 탭을 선택하면 해당 탭에 연결된 콘텐츠만
+보여주고 나머지는 숨깁니다.
+
+---
+
+<PreviewLayout
+  preview={
+    <Tab
+      tabs={[
+        { id: "trip", target: ["trip"], tabItem: "여행" },
+        { id: "science", target: ["science"], tabItem: "과학" },
+        {
+          id: "business",
+          target: ["business"],
+          tabItem: "비즈니스",
+        },
+        { id: "design", target: ["design"], tabItem: "디자인" },
+      ]}
+      tabContents={[
+        {
+          id: "tripContent",
+          tag: "trip",
+          content: (
+            <p>
+              여행은 편견, 편협함, 그리고 좁은 마음을 치유한다. - 마크 트웨인
+              (Mark Twain)
+            </p>
+          ),
+        },
+        {
+          id: "scienceContent",
+          tag: "science",
+          content: (
+            <p>
+              우리가 별을 바라보지 않고 발밑만 본다면, 우리는 결코 앞으로 나아갈
+              수 없다. - 스티븐 호킹 (Stephen Hawking)
+            </p>
+          ),
+        },
+        {
+          id: "businessContent",
+          tag: "business",
+          content: (
+            <p>
+              만족한 고객이야말로 최고이 비즈니스 전략이다. - 마이클 르보 (Steve
+              Jobs)
+            </p>
+          ),
+        },
+        {
+          id: "designContent",
+          tag: "design",
+          content: (
+            <p>
+              디자인은 단지 어떻게 보이고, 어떻게 느껴지는지가 아니다. 디자인은
+              어떻게 작동하는가이다. - 스티브 잡스 (Steve Jobs)
+            </p>
+          ),
+        },
+      ]}
+    ></Tab>
+  }
+  code={`import Tab from "@/app/component/Tab/Tab";
+                    
+<Card className="my-4 overflow-hidden ">
+    <CardContent noMargin>
+      <Tab
+        tabs={[
+          { id: "trip", target: ["trip"], tabItem: "여행" },
+          { id: "science", target: ["science"], tabItem: "과학" },
+          {
+            id: "business",
+            target: ["business"],
+            tabItem: "비즈니스",
+          },
+          { id: "design", target: ["design"], tabItem: "디자인" },
+        ]}
+        tabContents={[
+          {
+            id: "tripContent",
+            tag: "trip",
+            content: (
+              <p>
+                여행은 편견, 편협함, 그리고 좁은 마음을 치유한다.
+                - 마크 트웨인 (Mark Twain)
+              </p>
+            ),
+          },
+          {
+            id: "scienceContent",
+            tag: "science",
+            content: (
+              <p>
+                우리가 별을 바라보지 않고 발밑만 본다면, 우리는
+                결코 앞으로 나아갈 수 없다. - 스티븐 호킹 (Stephen
+                Hawking)
+              </p>
+            ),
+          },
+          {
+            id: "businessContent",
+            tag: "business",
+            content: (
+              <p>
+                만족한 고객이야말로 최고이 비즈니스 전략이다. -
+                마이클 르보 (Steve Jobs)
+              </p>
+            ),
+          },
+          {
+            id: "designContent",
+            tag: "design",
+            content: (
+              <p>
+                디자인은 단지 어떻게 보이고, 어떻게 느껴지는지가
+                아니다. 디자인은 어떻게 작동하는가이다. - 스티브
+                잡스 (Steve Jobs)
+              </p>
+            ),
+          },
+        ]}
+        tabContentClass="p-4 border border-t-0  border-[var(--color-border)] -mt-[1px]"
+      />
+    </CardContent>
+  </Card>
+`}
+/>
+
+---
+
+## Installation
+
+<CodeLayout language="npm" code={`npx atomsystem-add Tab`} />
+
+---
+
+## Usage
+
+<CodeLayout
+  language="npm"
+  code={`import Tab from "@/app/component/Tab/Tab";`}
+/>
+<CodeLayout
+  language="npm"
+  code={`
+<Tab
+  tabs={[
+    { id: "trip", target: ["trip"], tabItem: "여행" },
+    { id: "science", target: ["science"], tabItem: "과학" },
+    {
+      id: "business",
+      target: ["business"],
+      tabItem: "비즈니스",
+    },
+    { id: "design", target: ["design"], tabItem: "디자인" },
+  ]}
+  tabContents={[
+    {
+      id: "tripContent",
+      tag: "trip",
+      content: (
+        <p>
+          여행은 편견, 편협함, 그리고 좁은 마음을 치유한다.
+          - 마크 트웨인 (Mark Twain)
+        </p>
+      ),
+    },
+    {
+      id: "scienceContent",
+      tag: "science",
+      content: (
+        <p>
+          우리가 별을 바라보지 않고 발밑만 본다면, 우리는
+          결코 앞으로 나아갈 수 없다. - 스티븐 호킹 (Stephen
+          Hawking)
+        </p>
+      ),
+    },
+    {
+      id: "businessContent",
+      tag: "business",
+      content: (
+        <p>
+          만족한 고객이야말로 최고이 비즈니스 전략이다. -
+          마이클 르보 (Steve Jobs)
+        </p>
+      ),
+    },
+    {
+      id: "designContent",
+      tag: "design",
+      content: (
+        <p>
+          디자인은 단지 어떻게 보이고, 어떻게 느껴지는지가
+          아니다. 디자인은 어떻게 작동하는가이다. - 스티브
+          잡스 (Steve Jobs)
+        </p>
+      ),
+    },
+  ]}
+  tabContentClass="p-4 border border-t-0  border-[var(--color-border)] -mt-[1px]"
+/>`}
+/>
+
+---
+
+## Example
+
+### default
+
+<PreviewLayout
+  preview={
+    <Tab
+      tabs={[
+        { id: "trip", target: ["trip"], tabItem: "여행" },
+        { id: "science", target: ["science"], tabItem: "과학" },
+        {
+          id: "business",
+          target: ["business"],
+          tabItem: "비즈니스",
+        },
+        { id: "design", target: ["design"], tabItem: "디자인" },
+      ]}
+      tabContents={[
+        {
+          id: "tripContent",
+          tag: "trip",
+          content: (
+            <p>
+              여행은 편견, 편협함, 그리고 좁은 마음을 치유한다. - 마크 트웨인
+              (Mark Twain)
+            </p>
+          ),
+        },
+        {
+          id: "scienceContent",
+          tag: "science",
+          content: (
+            <p>
+              우리가 별을 바라보지 않고 발밑만 본다면, 우리는 결코 앞으로 나아갈
+              수 없다. - 스티븐 호킹 (Stephen Hawking)
+            </p>
+          ),
+        },
+        {
+          id: "businessContent",
+          tag: "business",
+          content: (
+            <p>
+              만족한 고객이야말로 최고이 비즈니스 전략이다. - 마이클 르보 (Steve
+              Jobs)
+            </p>
+          ),
+        },
+        {
+          id: "designContent",
+          tag: "design",
+          content: (
+            <p>
+              디자인은 단지 어떻게 보이고, 어떻게 느껴지는지가 아니다. 디자인은
+              어떻게 작동하는가이다. - 스티브 잡스 (Steve Jobs)
+            </p>
+          ),
+        },
+      ]}
+    ></Tab>
+  }
+  code={`import Tab from "@/app/component/Tab/Tab";
+                    
+<Card className="my-4 overflow-hidden ">
+    <CardContent noMargin>
+      <Tab
+        tabs={[
+          { id: "trip", target: ["trip"], tabItem: "여행" },
+          { id: "science", target: ["science"], tabItem: "과학" },
+          {
+            id: "business",
+            target: ["business"],
+            tabItem: "비즈니스",
+          },
+          { id: "design", target: ["design"], tabItem: "디자인" },
+        ]}
+        tabContents={[
+          {
+            id: "tripContent",
+            tag: "trip",
+            content: (
+              <p>
+                여행은 편견, 편협함, 그리고 좁은 마음을 치유한다.
+                - 마크 트웨인 (Mark Twain)
+              </p>
+            ),
+          },
+          {
+            id: "scienceContent",
+            tag: "science",
+            content: (
+              <p>
+                우리가 별을 바라보지 않고 발밑만 본다면, 우리는
+                결코 앞으로 나아갈 수 없다. - 스티븐 호킹 (Stephen
+                Hawking)
+              </p>
+            ),
+          },
+          {
+            id: "businessContent",
+            tag: "business",
+            content: (
+              <p>
+                만족한 고객이야말로 최고이 비즈니스 전략이다. -
+                마이클 르보 (Steve Jobs)
+              </p>
+            ),
+          },
+          {
+            id: "designContent",
+            tag: "design",
+            content: (
+              <p>
+                디자인은 단지 어떻게 보이고, 어떻게 느껴지는지가
+                아니다. 디자인은 어떻게 작동하는가이다. - 스티브
+                잡스 (Steve Jobs)
+              </p>
+            ),
+          },
+        ]}
+        tabContentClass="p-4 border border-t-0  border-[var(--color-border)] -mt-[1px]"
+      />
+    </CardContent>
+  </Card>
+`}
+/>
