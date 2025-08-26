@@ -20,6 +20,8 @@ export function generateStaticParams() {
     { slug: "collapse" },
     { slug: "pagination" },
     { slug: "tab" },
+    { slug: "table" },
+    { slug: "toc" },
   ];
 }
 

@@ -1,0 +1,48 @@
+import PreviewLayout from "@/app/components/mdx-layout";
+import { CodeLayout } from "@/app/components/mdx-layout";
+import TOC from "@/app/templates/TOC/TOC";
+
+# TOC
+
+웹페이지의 전체 구조를 한눈에 보여주는 목록으로, 페이지의 제목과
+위치(페이지 번호 또는 링크)를 정리해 원하는 내용을 빠르게 찾을 수 있도록
+도와줍니다.
+
+---
+
+<PreviewLayout
+  preview={
+    <TOC />
+  }
+  code={`import { TOC } from "@/app/components/TOC/TOC"
+
+<TOC />
+`} />
+
+---
+
+## Installation
+
+<CodeLayout language="npm" code={`npx atomsystem-add Toc`} />
+
+---
+
+## Usage
+
+<CodeLayout code={`import { TOC } from "@/app/components/TOC/TOC" `} />
+<CodeLayout code={`<TOC /> `} />
+
+---
+
+## Example
+
+### Default
+
+<PreviewLayout
+  preview={
+    <TOC />
+  }
+  code={`import { TOC } from "@/app/components/TOC/TOC"
+
+<TOC />
+`} />
