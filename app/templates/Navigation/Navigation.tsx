@@ -16,7 +16,7 @@ interface NavItemsAttr {
 const navStandardStyle =
   "bg-[var(--background-card)] text-text-standard border-[var(--color-border)]";
 
-const navToggle = (targetId: string) => {
+const handleNavToggle = (targetId: string) => {
   const el = document.getElementById(targetId);
   if (el) {
     const isHidden = el.style.display === "none" || el.style.display === "";
@@ -39,7 +39,7 @@ const Navigation = ({
     if (isMobile) {
       e.preventDefault();
       if (id) {
-        navToggle(id);
+        handleNavToggle(id);
       }
     }
   };
@@ -94,7 +94,7 @@ const NavToggleButton = ({
   className?: string;
 }) => {
   return (
-    <button className={className} onClick={() => navToggle(targetId)}>
+    <button className={className} onClick={() => handleNavToggle(targetId)}>
       {children}
     </button>
   );

@@ -1,0 +1,128 @@
+import PreviewLayout from "@/app/components/mdx-layout";
+import { CodeLayout } from "@/app/components/mdx-layout";
+import Navigation, {
+  NavItems,
+  NavToggleButton,
+} from "@/app/templates/Navigation/Navigation";
+
+# 네비게이션
+
+웹사이트, 어플리케이션의 전체 구조에서 주요 영역으로 이동할 수 있도록 하는 상위 네비게이션 메뉴입니다.
+
+---
+
+<PreviewLayout
+  preview={
+    <Navigation
+      className="min-h-0 
+             w-full h-[calc(100dvh-64px)] overflow-auto
+             w-[320px] md:h-full border-r"
+    >
+      <NavItems
+        navMenu={[
+          { name: "네비게이션1", path: "/components/global-nav" },
+          { name: "네비게이션2" },
+          { name: "네비게이션3" },
+          { name: "네비게이션4" },
+        ]}
+      />
+    </Navigation>
+  }
+  code={`import Navigation, {
+  NavItems,
+  NavToggleButton,
+} from "@/app/components/Navigation/Navigation";
+    <Navigation
+      className="min-h-0
+             w-full h-[calc(100dvh-64px)] overflow-auto
+             w-[320px] md:h-full border-r"
+    >
+      <NavItems
+        navMenu={[
+          { name: "네비게이션1", path: "/components/global-nav" },
+          { name: "네비게이션2" },
+          { name: "네비게이션3" },
+          { name: "네비게이션4" },
+        ]}
+      />
+    </Navigation>`}
+
+/>
+
+---
+
+## Installation
+
+<CodeLayout language="npm" code={`npx atomsystem-add Navigation`} />
+
+---
+
+## Usage
+
+<CodeLayout
+  code={`import Navigation, {
+  NavItems,
+  NavToggleButton,
+} from "@/app/components/Navigation/Navigation";
+
+<Navigation
+  className="min-h-0
+             w-full h-[calc(100dvh-64px)] overflow-auto
+             w-[320px] md:h-full border-r"
+>
+  <NavItems
+    navMenu={[
+      { name: "네비게이션1", path: "/components/global-nav" },
+      { name: "네비게이션2" },
+      { name: "네비게이션3" },
+      { name: "네비게이션4" },
+    ]}
+  />
+</Navigation>
+
+`}
+/>
+
+---
+
+## Example
+
+### Default
+
+<PreviewLayout
+  preview={
+    <Navigation
+      className="min-h-0 
+             w-full h-[calc(100dvh-64px)] overflow-auto
+             w-[320px] md:h-full border-r"
+    >
+      <NavItems
+        navMenu={[
+          { name: "네비게이션1", path: "/components/global-nav" },
+          { name: "네비게이션2" },
+          { name: "네비게이션3" },
+          { name: "네비게이션4" },
+        ]}
+      />
+    </Navigation>
+  }
+  code={`import Navigation, {
+  NavItems,
+  NavToggleButton,
+} from "@/app/components/Navigation/Navigation";
+    <Navigation
+      className="min-h-0
+             w-full h-[calc(100dvh-64px)] overflow-auto
+             w-[320px] md:h-full border-r"
+    >
+      <NavItems
+        navMenu={[
+          { name: "네비게이션1", path: "/components/global-nav" },
+          { name: "네비게이션2" },
+          { name: "네비게이션3" },
+          { name: "네비게이션4" },
+        ]}
+      />
+    </Navigation>`}
+
+/>

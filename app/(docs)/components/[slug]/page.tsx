@@ -18,7 +18,7 @@ export function generateStaticParams() {
     { slug: "checkbox" },
     { slug: "radio" },
     { slug: "collapse" },
-    { slug: "pagination" },
+    { slug: "global-nav" },
     { slug: "tab" },
     { slug: "table" },
     { slug: "toc" },

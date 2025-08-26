@@ -36,7 +36,8 @@
     "app/(docs)/components/collapse/page.tsx.old",
     "app/(docs)/components/radio/page.tsx.old",
     "app/(docs)/components/tab/page.tsx.old",
-    "app/(docs)/components/toc/page.tsx.old"
+    "app/(docs)/components/toc/page.tsx.old",
+    "app/(docs)/components/global-nav/page.tsx.old"
   ],
   "exclude": ["node_modules"]
 }
