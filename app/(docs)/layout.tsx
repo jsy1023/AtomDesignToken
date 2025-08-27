@@ -115,7 +115,7 @@ const DocsLayout = async ({ children }: { children: React.ReactNode }) => {
                     { name: "네비게이션", path: "/components/global-nav" },
                     { name: "모달창", path: "/components/modal" },
                     { name: "목차", path: "/components/toc" },
-                    { name: "입력창", path: "/co mponents/input" },
+                    { name: "입력창", path: "/components/input" },
                     { name: "선택창", path: "/components/select" },
                     { name: "체크박스", path: "/components/checkbox" },
                     { name: "라디오", path: "/components/radio" },
