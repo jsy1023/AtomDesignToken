@@ -48,7 +48,7 @@ export default function RootLayout({
       <body className="w-full h-full">
         <ThemeWrapper className="w-full h-full flex">{children}</ThemeWrapper>
       </body>
-      <GoogleAnalytics gaId="G-TB8EG3XKBV" />
+      <GoogleAnalytics gaId="G-6GGTDRQ47W" />
     </html>
   );
 }
