@@ -15,6 +15,7 @@ export function generateStaticParams() {
     { slug: "select" },
     { slug: "badge" },
     { slug: "button" },
+    { slug: "card" },
     { slug: "checkbox" },
     { slug: "radio" },
     { slug: "collapse" },

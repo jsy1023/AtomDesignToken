@@ -1,0 +1,90 @@
+import PreviewLayout from "@/app/components/mdx-layout";
+import { CodeLayout } from "@/app/components/mdx-layout";
+import {
+  Card,
+  CardHeader,
+  CardContent,
+  CardFooter,
+} from "@/app/templates/Card/Card";
+
+# 카드
+
+카드는 정보 그룹을 묶어주어 하나의 객체로 생각되게 구분지어주는 요소입니다.
+
+---
+
+<PreviewLayout
+  preview={
+    <Card className="w-full">
+        <CardHeader>카드 헤더: 정보를 구분짓는 제목등을 제공합니다.</CardHeader>
+        <CardContent>카드 바디: 이미지 등, 정보에 메인내용을 제공합니다.</CardContent>
+        <CardFooter>카드 푸터: 정보의 서브정보를 제공합니다.</CardFooter>
+    </Card>
+}
+code={`import {
+  Card,
+  CardHeader,
+  CardContent,
+  CardFooter,
+} from "@/app/templates/Card/Card";
+
+<Card className="w-full">
+  <CardHeader>카드 헤더: 정보를 구분짓는 제목등을 제공합니다.</CardHeader>
+  <CardContent>카드 바디: 이미지 등, 정보에 메인내용을 제공합니다.</CardContent>
+  <CardFooter>카드 푸터: 정보의 서브정보를 제공합니다.</CardFooter>
+</Card>
+`} />
+
+---
+
+## Installation
+
+<CodeLayout code={`npx atomsystem-add Card`} />
+
+---
+
+## Usage
+
+<CodeLayout
+  code={`import {
+  Card,
+  CardHeader,
+  CardContent,
+  CardFooter,
+} from "@/app/templates/Card/Card";`}
+/>
+<CodeLayout
+  code={`<Card className="w-full">
+  <CardHeader>카드 헤더: 정보를 구분짓는 제목등을 제공합니다.</CardHeader>
+  <CardContent>카드 바디: 이미지 등, 정보에 메인내용을 제공합니다.</CardContent>
+  <CardFooter>카드 푸터: 정보의 서브정보를 제공합니다.</CardFooter>
+</Card>`}
+/>
+
+---
+
+## Example
+
+### Default
+
+<PreviewLayout
+  preview={
+    <Card className="w-full">
+        <CardHeader>카드 헤더: 정보를 구분짓는 제목등을 제공합니다.</CardHeader>
+        <CardContent>카드 바디: 이미지 등, 정보에 메인내용을 제공합니다.</CardContent>
+        <CardFooter>카드 푸터: 정보의 서브정보를 제공합니다.</CardFooter>
+    </Card>
+}
+code={`import {
+  Card,
+  CardHeader,
+  CardContent,
+  CardFooter,
+} from "@/app/templates/Card/Card";
+
+<Card className="w-full">
+  <CardHeader>카드 헤더: 정보를 구분짓는 제목등을 제공합니다.</CardHeader>
+  <CardContent>카드 바디: 이미지 등, 정보에 메인내용을 제공합니다.</CardContent>
+  <CardFooter>카드 푸터: 정보의 서브정보를 제공합니다.</CardFooter>
+</Card>
+`} />
