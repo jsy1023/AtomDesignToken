@@ -19,7 +19,7 @@ const CodeBlock = ({
     if (codeRef.current) {
       hljs.highlightElement(codeRef.current); // 코드 블록 하이라이트
 
-      if (codeRef.current.offsetHeight >= 600) {
+      if (codeRef.current.offsetHeight >= 300) {
         setHeightCheck(true);
       }
     }
