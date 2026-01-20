@@ -21,7 +21,7 @@ export const Card = ({
   );
   return (
     <div
-      className={`${type == "standard" ? "bg-[var(--background-card)] border-[var(--color-border)]" : type == "group" ? "bg-[var(--background-wrapper)] border-none" : ""} ${!hasCardContent ? "p-4" : ""} rounded  border ${className} ${overflow === "overflow-auto" ? `overflow-auto` : overflow === "overflow-hidden" ? "overflow-hidden" : overflow === "overflow-none" ? "" : ""}`}
+      className={`bg-card rounded-common`}
     >
       {children}
     </div>

@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import "@/app/styles/input.css";
-import "@/app/styles/common.css";
 import { GoogleAnalytics } from "@next/third-parties/google";
-import { ThemeWrapper } from "@/app/templates/Theme/Theme";
 
 export const metadata: Metadata = {
   title: { template: `%s | Atomic Design`, default: "Atom Design System" },
@@ -38,15 +35,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko" className="w-full h-full">
+    <html lang="ko" className="w-full h-full white">
       <head>
         <link
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
           rel="stylesheet"
         />
       </head>
-      <body className="w-full h-full">
-        <ThemeWrapper className="w-full h-full flex">{children}</ThemeWrapper>
+      <body className="w-full h-full bg-background ">
+        {children}
       </body>
       <GoogleAnalytics gaId="G-6GGTDRQ47W" />
     </html>

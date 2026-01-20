@@ -1,5 +1,5 @@
 "use client";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import hljs from "highlight.js";
 import "highlight.js/styles/atom-one-dark.css"; // 스타일 파일
 
@@ -15,7 +15,7 @@ const CodeBlock = ({
   const [isHeightCheck, setHeightCheck] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (codeRef.current) {
       hljs.highlightElement(codeRef.current); // 코드 블록 하이라이트
 
