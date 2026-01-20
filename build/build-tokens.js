@@ -1,5 +1,6 @@
 import StyleDictionary from "style-dictionary";
 
+
 // 1. Style Dictionary 인스턴스 초기화
 const myStyleDictionary = new StyleDictionary({
   source: ["tokens/tokens.json"],
@@ -14,6 +15,16 @@ const myStyleDictionary = new StyleDictionary({
           options: {
             outputReferences: true, // CSS 변수 참조 활성화 (var(--name))
           },
+        },
+      ],
+    },
+    typescript: {
+      transformGroup: "js",
+      buildPath: "build/typescript/",
+      files: [
+        {
+          destination: "theme.ts",
+          format: "theme",
         },
       ],
     },
@@ -138,6 +149,25 @@ myStyleDictionary.registerFormat({
         return `${selector} {\n${cssVariables}\n${selector === "@theme" ? `\n${semanticCss}\n` : ""}} `;
       })
       .join("\n\n");
+  },
+});
+
+// 3. theme와 관련된 커스텀 포맷 등록
+// theme.ts 파일을 위한 포맷 등록
+myStyleDictionary.registerFormat({
+  name: "theme",
+  format: function ({ dictionary }) {
+    const themes = dictionary.allTokens.reduce((acc, token) => {
+      const category = token.attributes.category;
+      if (category === "palette") return acc;
+
+      if (!acc.includes(category)) {
+        acc.push(category);
+      }
+      return acc;
+    }, []);
+
+    return `export const themes = ${JSON.stringify(themes)};`;
   },
 });
 
