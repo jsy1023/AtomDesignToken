@@ -152,7 +152,7 @@ const DocsLayout = async ({ children }: { children: React.ReactNode }) => {
             <div className="relative col-span-1 p-4 order-1 md:order-2 ">
               <div className="sticky top-[16px]">
                 <Card className="mb-4">
-                  <ThemeSelector type="all" />
+                  <ThemeSelector />
                 </Card>
                 <TOC />
               </div>

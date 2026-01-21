@@ -4,6 +4,22 @@ import StyleDictionary from "style-dictionary";
 // 1. Style Dictionary 인스턴스 초기화
 const myStyleDictionary = new StyleDictionary({
   source: ["tokens/tokens.json"],
+  preprocessors: ['flatten-global'],
+  hooks: {
+      preprocessors: {
+        'flatten-global': (dictionary) => {
+          // 1. global 객체를 찾습니다.
+          const { global, ...rest } = dictionary;
+          
+          // 2. global 내부의 내용을 루트로 끌어올려 병합합니다.
+          // 이렇게 하면 {palette.white} 참조가 루트 레벨에서 해석 가능해집니다.
+          return {
+            ...global,
+            ...rest
+          };
+        }
+      }
+    },
   platforms: {
     css: {
       transformGroup: "css", // CSS 기본 변환 적용 (예: size/rem, color/hex 등)
@@ -28,6 +44,9 @@ const myStyleDictionary = new StyleDictionary({
         },
       ],
     },
+  },
+  log: {
+    verbosity: 'verbose', // 어떤 reference를 못 찾는지 정확히 찍어줍니다.
   },
 });
 
@@ -103,7 +122,19 @@ myStyleDictionary.registerFormat({
         // - 나머지(white, dark)는 클래스 선택자(예: .white)로 변환
         const selector = category === "palette" ? "@theme" : `.${category}`;
 
+
+        // 정렬
+        const typeOrder = ["color", "fontSizes", "fontWeights", "fontFamily", "borderRadius"];
+
         const cssVariables = tokens
+          .sort((a, b) => {
+            const indexA = typeOrder.indexOf(a.$type);
+            const indexB = typeOrder.indexOf(b.$type);
+            if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+            if (indexA !== -1) return -1;
+            if (indexB !== -1) return 1;
+            return 0;
+          })
           .map((token) => {
             const name = getName(token);
             // 기본 값. 참조가 있다면 원본 값("{global.palette...}")을 가져옴
