@@ -14,7 +14,7 @@ interface NavItemsAttr {
 }
 
 const navStandardStyle =
-  "bg-[var(--background-card)] text-text-standard border-[var(--color-border)]";
+  "bg-[var(--background-card)] text-text-standard border-border";
 
 const handleNavToggle = (targetId: string) => {
   const el = document.getElementById(targetId);

@@ -127,7 +127,7 @@ export const Select = ({
           }}
           onFocus={() => setIsOpen(true)}
           className={clsx(
-            "transition-all bg-[var(--input-background-standard)] border px-4 py-2 border-[var(--color-border)] text-[var(--text-standard)] rounded-[var(--input-rounded)]",
+            "transition-all bg-[var(--input-background-standard)] border px-4 py-2 border-border text-[var(--text-standard)] rounded-[var(--input-rounded)]",
             { "placeholder:text[var(--input-text-placeholder)]": true },
             { "focus:border-[var(--input-border-focus)]": true },
             {
@@ -178,7 +178,7 @@ export const Select = ({
         )}
       <select
         className={clsx(
-          " block transition-all bg-[(--input-background-standard)] border px-4 py-2 border-[var(--color-border)] text-[var(--text-standard)] rounded-input-rounded",
+          " block transition-all bg-[(--input-background-standard)] border px-4 py-2 border-border text-[var(--text-standard)] rounded-input-rounded",
           { "placeholder:text-input-text-placeholder": true },
           { "focus:border-[var(--input-border-focus)]": true },
           { "disabled:bg-[var(--input-background-disabled)]": true },
@@ -219,7 +219,7 @@ export const Radio = ({
         <input
           type="radio"
           className={clsx(
-            "relative appearance-none peer w-5 h-5 bg-[var(--input-background-standard)] border border-[var(--color-border)] rounded-full",
+            "relative appearance-none peer w-5 h-5 bg-[var(--input-background-standard)] border border-border rounded-full",
             {
               "checked:bg-primary after:w-2.5 after:h-2.5 after:bg-[var(--input-background-standard)] after:content-[''] after:absolute after:rounded-full after:left-1 after:top-1":
                 true,
@@ -262,7 +262,7 @@ export const Checkbox = ({
         <input
           type="checkbox"
           className={clsx(
-            "relative appearance-none peer min-w-5 min-h-5 bg-[var(--input-background-standard)] border border-[var(--color-border)] rounded-common",
+            "relative appearance-none peer min-w-5 min-h-5 bg-[var(--input-background-standard)] border border-border rounded-common",
             { "checked:bg-primary": true },
             { "focus:border-[var(--input-border-focus)]": true },
             {

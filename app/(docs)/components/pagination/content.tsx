@@ -18,13 +18,13 @@ export default function PaginationContent() {
         컴포넌트 입니다. 한 번에 모든 데이터를 보여주지 않고, 일정 수만큼 끊어
         사용자에게 점진적으로 제공합니다.
       </p>
-      <hr className="my-4" />
+      <hr className="my-4 border-border" />
       <Tab
         tabs={[
           { id: "preview", target: ["preview"], tabItem: "preview" },
           { id: "code", target: ["code"], tabItem: "code" },
         ]}
-        tabClass={"w-full border-[var(--color-border)] border-b"}
+        tabClass={"w-full border-border border-b"}
         tabNavItemClass={
           "px-[var(--spacing-global-x)] py-[var(--spacing-global-y)] font-bold "
         }
@@ -119,7 +119,7 @@ export default function PaginationContent() {
         ]}
       />
 
-      <hr className="my-4" />
+      <hr className="my-4 border-border" />
       <h2>Installation</h2>
       <Card className="my-4">
         <CardContent noMargin>
@@ -127,7 +127,7 @@ export default function PaginationContent() {
         </CardContent>
       </Card>
 
-      <hr className="my-4" />
+      <hr className="my-4 border-border" />
 
       <h2>Usage</h2>
 
@@ -150,7 +150,7 @@ export default function PaginationContent() {
         </CardContent>
       </Card>
 
-      <hr className="my-4" />
+      <hr className="my-4 border-border" />
 
       <h2>Example</h2>
 
@@ -168,7 +168,7 @@ export default function PaginationContent() {
             tabItem: "code",
           },
         ]}
-        tabClass={"w-full border-[var(--color-border)] border-b"}
+        tabClass={"w-full border-border border-b"}
         tabNavItemClass={
           "px-[var(--spacing-global-x)] py-[var(--spacing-global-y)] font-bold "
         }

@@ -18,13 +18,13 @@ const ToastContent = () => {
         요소입니다. 사용자가 클릭하거나 탭을 선택하면 해당 탭에 연결된 콘텐츠만
         보여주고 나머지는 숨깁니다.
       </p>
-      <hr className="my-4" />
+      <hr className="my-4 border-border" />
       <Tab
         tabs={[
           { id: "preview", target: ["preview"], tabItem: "preview" },
           { id: "code", target: ["code"], tabItem: "code" },
         ]}
-        tabClass={"w-full border-[var(--color-border)] border-b"}
+        tabClass={"w-full border-border border-b"}
         tabNavItemClass={
           "px-[var(--spacing-global-x)] py-[var(--spacing-global-y)] font-bold"
         }
@@ -116,7 +116,7 @@ const ToastContent = () => {
           },
         ]}
       />
-      <hr className="my-4" />
+      <hr className="my-4 border-border" />
       <h2>Installation</h2>
       <Card className="my-4">
         <CardContent noMargin>
@@ -124,7 +124,7 @@ const ToastContent = () => {
         </CardContent>
       </Card>
 
-      <hr className="my-4" />
+      <hr className="my-4 border-border" />
       <h2>Usage</h2>
       <Card className="my-4">
         <CardContent noMargin>
@@ -160,7 +160,7 @@ const ToastContent = () => {
         </CardContent>
       </Card>
 
-      <hr className="my-4" />
+      <hr className="my-4 border-border" />
 
       <h2>Example</h2>
       <h3 className="mt-4">Default</h3>
@@ -169,7 +169,7 @@ const ToastContent = () => {
           { id: "preview", target: ["preview"], tabItem: "preview" },
           { id: "code", target: ["code"], tabItem: "code" },
         ]}
-        tabClass={"w-full border-[var(--color-border)] border-b"}
+        tabClass={"w-full border-border border-b"}
         tabNavItemClass={
           "px-[var(--spacing-global-x)] py-[var(--spacing-global-y)] font-bold"
         }

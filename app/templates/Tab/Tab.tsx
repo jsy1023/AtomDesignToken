@@ -6,11 +6,11 @@ import { useGSAP } from "@gsap/react";
 
 const Tab = ({
   tabs,
-  tabClass = "w-full bg-[var(--background-wrapper)] border-b border-[var(--color-border)] relative z-0 h-[57px]",
+  tabClass = "w-full bg-[var(--background-wrapper)] border-b border-border relative z-0 h-[57px]",
   tabNavItemClass = "p-4",
-  tabNavItemActiveClass = "bg-[var(--background-card)] border border-[var(--color-border)] border-b-[var(--background-card)] relative z-10",
+  tabNavItemActiveClass = "bg-[var(--background-card)] border border-border border-b-[var(--background-card)] relative z-10",
   tabContents,
-  tabContentClass = "bg-[var(--background-card)] p-4 border border-t-0  border-[var(--color-border)] -mt-[1px]",
+  tabContentClass = "bg-[var(--background-card)] p-4 border border-t-0  border-border -mt-[1px]",
   tabContentItem = "text-[var(--text-standard)]",
   expectionValue,
   expectionLayout,

@@ -25,7 +25,7 @@ const TokenColor = () => {
         이미지를 형성합니다. 제품의 계층 구조, 상태, 브랜드를 효과적으로 보여줄
         수 있도록, 접근성이 뛰어나고 개인화된 색상 체계를 구축해 보세요.
       </p>
-      <hr className="my-4" />
+      <hr className="my-4 border-border" />
       <h2>색상 팔레트</h2>
       <p className="mb-4">
         &nbsp;색상 팔레트는 웹사이트에서 사용되는 색상의 집합을 의미합니다. 색상
@@ -38,7 +38,7 @@ const TokenColor = () => {
           { id: "token", target: ["token"], tabItem: "TOKEN" },
           { id: "color", target: ["color"], tabItem: "COLOR" },
         ]}
-        tabClass="sticky w-full top-0 bg-[var(--background-wrapper)] border-b border-[var(--color-border)] z-10"
+        tabClass="sticky w-full top-0 bg-[var(--background-wrapper)] border-b border-border z-10"
         tabNavItemClass={
           "px-[var(--spacing-global-x)] py-[var(--spacing-global-y)] font-bold "
         }
@@ -536,7 +536,7 @@ const TokenColor = () => {
         권장합니다.
       </p>
 
-      <hr className="my-4" />
+      <hr className="my-4 border-border" />
 
       <h2>팔레트의 적용</h2>
       <p>
@@ -553,7 +553,7 @@ const TokenColor = () => {
           { id: "code", target: ["code"], tabItem: "code" },
           { id: "json", target: ["json"], tabItem: "json" },
         ]}
-        tabClass={"w-full border-[var(--color-border)] border-b"}
+        tabClass={"w-full border-border border-b"}
         tabNavItemClass={
           "px-[var(--spacing-global-x)] py-[var(--spacing-global-y)] font-bold "
         }

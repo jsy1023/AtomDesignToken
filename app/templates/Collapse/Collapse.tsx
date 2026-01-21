@@ -36,7 +36,7 @@ export const Collapse = ({
     <>
       {collapses.map((collapse, idx) => (
         <div key={idx}>
-          <label className="flex justify-between cursor-pointer p-4 border-t border-[var(--color-border)]">
+          <label className="flex justify-between cursor-pointer p-4 border-t border-border">
             {collapse.title}
             <button
               onClick={() => toggleContent(idx)}
@@ -92,7 +92,7 @@ export const NodeCollapse = ({
     <>
       {collapses.map((collapse, idx) => (
         <div key={idx}>
-          <label className="flex justify-between cursor-pointer p-4 border-t border-[var(--color-border)]">
+          <label className="flex justify-between cursor-pointer p-4 border-t border-border">
             {collapse.title}
             <button
               onClick={() => toggleContent(idx)}

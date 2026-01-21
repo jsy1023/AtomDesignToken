@@ -16,7 +16,7 @@ const Table = ({ tableData }: { tableData: Record<string, any>[] }) => {
 
   return (
     <div className="overflow-auto w-full">
-      <table className="min-w-full border border-[var(--color-border)] rounded]">
+      <table className="min-w-full border border-border rounded]">
         <thead className="bg-[var(--table-header-background)]">
           <tr>
             {/* 헤더 배열을 순회하며 각 헤더에 대한 <th>태그를 생성합니다. */}
@@ -24,7 +24,7 @@ const Table = ({ tableData }: { tableData: Record<string, any>[] }) => {
               return (
                 <th
                   key={index}
-                  className="px-6 py-3 text-center text-[var(--table-header-text)] tracking-wider border-b border-[var(--color-border)]"
+                  className="px-6 py-3 text-center text-[var(--table-header-text)] tracking-wider border-b border-border"
                 >
                   {header}
                 </th>
@@ -45,7 +45,7 @@ const Table = ({ tableData }: { tableData: Record<string, any>[] }) => {
                 {headers.map((header, colIndex) => (
                   <td
                     key={colIndex} // 고유한 키를 제공합니다.
-                    className={`px-4 py-2 text-[var(--text-body-text)] border-b border-[var(--color-border)]`}
+                    className={`px-4 py-2 text-[var(--text-body-text)] border-b border-border`}
                   >
                     {/* 현재 행 객체(row)에서 해당 헤더(키)에 해당하는 값을 가져와 셀에 표시합니다. */}
                     {row[header]}

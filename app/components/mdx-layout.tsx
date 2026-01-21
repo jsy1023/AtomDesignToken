@@ -16,7 +16,7 @@ export default function PreviewLayout({
         { id: "preview", target: ["preview"], tabItem: "preview" },
         { id: "code", target: ["code"], tabItem: "code" },
       ]}
-      tabClass={"w-full border-[var(--color-border)] border-b"}
+      tabClass={"w-full border-border border-b"}
       tabNavItemClass={
         "px-[var(--spacing-global-x)] py-[var(--spacing-global-y)] font-bold "
       }

@@ -16,13 +16,13 @@ export default function ComponentModalContent() {
         &nbsp;모달(Modal)은 사용자의 작업 흐름을 중단시키고, 특정 작업이나
         확인을 요구하는 UI 요소입니다.
       </p>
-      <hr className="my-4" />
+      <hr className="my-4 border-border" />
       <Tab
         tabs={[
           { id: "preview", target: ["preview"], tabItem: "preview" },
           { id: "code", target: ["code"], tabItem: "code" },
         ]}
-        tabClass={"w-full border-[var(--color-border)] border-b"}
+        tabClass={"w-full border-border border-b"}
         tabNavItemClass={
           "px-[var(--spacing-global-x)] py-[var(--spacing-global-y)] font-bold "
         }
@@ -141,7 +141,7 @@ export default function ComponentModalContent() {
         ]}
       />
 
-      <hr className="my-4" />
+      <hr className="my-4 border-border" />
       <h2>Installation</h2>
       <Card className="my-4">
         <CardContent noMargin>
@@ -149,7 +149,7 @@ export default function ComponentModalContent() {
         </CardContent>
       </Card>
 
-      <hr className="my-4" />
+      <hr className="my-4 border-border" />
 
       <h2>Usage</h2>
 
@@ -199,7 +199,7 @@ export default function ComponentModalContent() {
         </CardContent>
       </Card>
 
-      <hr className="my-4" />
+      <hr className="my-4 border-border" />
 
       <h2>Example</h2>
 
@@ -209,7 +209,7 @@ export default function ComponentModalContent() {
           { id: "previewDefault", target: ["preview"], tabItem: "preview" },
           { id: "codeDefault", target: ["code"], tabItem: "code" },
         ]}
-        tabClass={"w-full border-[var(--color-border)] border-b"}
+        tabClass={"w-full border-border border-b"}
         tabNavItemClass={
           "px-[var(--spacing-global-x)] py-[var(--spacing-global-y)] font-bold "
         }

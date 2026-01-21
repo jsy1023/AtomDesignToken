@@ -29,7 +29,7 @@ const TokenColor = () => {
           { id: "token", target: ["token"], tabItem: "TOKEN" },
           { id: "space", target: ["space"], tabItem: "SPACE" },
         ]}
-        tabClass="sticky w-full top-0 bg-[var(--background-wrapper)] border-b border-[var(--color-border)] z-10"
+        tabClass="sticky w-full top-0 bg-[var(--background-wrapper)] border-b border-border z-10"
         tabNavItemClass={
           "px-[var(--spacing-global-x)] py-[var(--spacing-global-y)] font-bold "
         }
@@ -113,7 +113,7 @@ const TokenColor = () => {
         ]}
       />
 
-      <hr className="my-4" />
+      <hr className="my-4 border-border" />
 
       <h2>space 사용</h2>
       <p>

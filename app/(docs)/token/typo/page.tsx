@@ -29,7 +29,7 @@ const TokenColor = () => {
           { id: "token", target: ["token"], tabItem: "TOKEN" },
           { id: "css", target: ["css"], tabItem: "CSS" },
         ]}
-        tabClass="sticky w-full top-0 bg-[var(--background-wrapper)] border-b border-[var(--color-border)] z-10"
+        tabClass="sticky w-full top-0 bg-[var(--background-wrapper)] border-b border-border z-10"
         tabNavItemClass={
           "px-[var(--spacing-global-x)] py-[var(--spacing-global-y)] font-bold "
         }
@@ -45,24 +45,24 @@ const TokenColor = () => {
                 <Card className="my-4 w-full">
                   <CardContent>
                     <h1>보이지 않는 규칙이, 감동을 만듭니다.</h1>
-                    <hr className="my-4" />
+                    <hr className="my-4 border-border" />
                     <h2>보이지 않는 규칙이, 감동을 만듭니다.</h2>
-                    <hr className="my-4" />
+                    <hr className="my-4 border-border" />
                     <h3>보이지 않는 규칙이, 감동을 만듭니다.</h3>
-                    <hr className="my-4" />
+                    <hr className="my-4 border-border" />
                     <h4>보이지 않는 규칙이, 감동을 만듭니다.</h4>
-                    <hr className="my-4" />
+                    <hr className="my-4 border-border" />
                     <h5>보이지 않는 규칙이, 감동을 만듭니다.</h5>
-                    <hr className="my-4" />
+                    <hr className="my-4 border-border" />
                     <h6>보이지 않는 규칙이, 감동을 만듭니다.</h6>
-                    <hr className="my-4" />
+                    <hr className="my-4 border-border" />
                     <p>
                       사용자는 디자인의 구조를 인식하지 못한 채 자연스럽게
                       몰입합니다. 그 배경에는 타이포, 간격, 색상, 구성 등 보이지
                       않는 수많은 원칙들이 조용히 작동하며, 일관된 경험 속에
                       감동을 만들어냅니다.
                     </p>
-                    <hr className="my-4" />
+                    <hr className="my-4 border-border" />
                     <small>
                       *플랫폼마다의 규칙과 경험들로 일관된 사용자 경험을
                       제공합니다.

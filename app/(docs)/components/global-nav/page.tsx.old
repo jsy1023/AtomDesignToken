@@ -20,13 +20,13 @@ const ComponentGlobalNav = () => {
         &nbsp;웹사이트, 어플리케이션의 전체 구조에서 주요 영역으로 이동할 수
         있도록 하는 상위 내비게이션 메뉴입니다.
       </p>
-      <hr className="my-4" />
+      <hr className="my-4 border-border" />
       <Tab
         tabs={[
           { id: "preview", target: ["preview"], tabItem: "preview" },
           { id: "code", target: ["code"], tabItem: "code" },
         ]}
-        tabClass={"w-full border-[var(--color-border)] border-b"}
+        tabClass={"w-full border-border border-b"}
         tabNavItemClass={
           "px-[var(--spacing-global-x)] py-[var(--spacing-global-y)] font-bold "
         }
@@ -160,7 +160,7 @@ const ComponentGlobalNav = () => {
           },
         ]}
       />
-      <hr className="my-4" />
+      <hr className="my-4 border-border" />
       <h2>Installation</h2>
       <Card className="my-4">
         <CardContent noMargin>
@@ -168,7 +168,7 @@ const ComponentGlobalNav = () => {
         </CardContent>
       </Card>
 
-      <hr className="my-4" />
+      <hr className="my-4 border-border" />
       <h2>Usage</h2>
       <Card className="my-4">
         <CardContent noMargin>
@@ -217,7 +217,7 @@ const ComponentGlobalNav = () => {
         </CardContent>
       </Card>
 
-      <hr className="my-4" />
+      <hr className="my-4 border-border" />
 
       <h2>Example</h2>
       <h3 className="mt-4">sidemenu</h3>
@@ -226,7 +226,7 @@ const ComponentGlobalNav = () => {
           { id: "preview", target: ["mainNav"], tabItem: "preview" },
           { id: "code", target: ["code"], tabItem: "code" },
         ]}
-        tabClass={"w-full border-[var(--color-border)] border-b"}
+        tabClass={"w-full border-border border-b"}
         tabNavItemClass={
           "px-[var(--spacing-global-x)] py-[var(--spacing-global-y)] font-bold "
         }
@@ -352,7 +352,7 @@ const ComponentGlobalNav = () => {
           { id: "preview", target: ["mainNav"], tabItem: "preview" },
           { id: "code", target: ["code"], tabItem: "code" },
         ]}
-        tabClass={"w-full border-[var(--color-border)] border-b"}
+        tabClass={"w-full border-border border-b"}
         tabNavItemClass={
           "px-[var(--spacing-global-x)] py-[var(--spacing-global-y)] font-bold "
         }
@@ -465,7 +465,7 @@ const ComponentGlobalNav = () => {
           { id: "preview", target: ["mainNav"], tabItem: "preview" },
           { id: "code", target: ["code"], tabItem: "code" },
         ]}
-        tabClass={"w-full border-[var(--color-border)] border-b"}
+        tabClass={"w-full border-border border-b"}
         tabNavItemClass={
           "px-[var(--spacing-global-x)] py-[var(--spacing-global-y)] font-bold "
         }
