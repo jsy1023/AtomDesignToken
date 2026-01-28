@@ -83,3 +83,10 @@ p{
 .select-menu .select-menu-item:hover {
     background: var(--bg-input-hover);
 }
+
+.select-menu .select-menu-item:active,
+.select-menu .select-menu-item:focus  {
+    background: var(--color-primary);
+    border: 1px solid var(--color-primary);   
+    color: var(--text-active);
+}
