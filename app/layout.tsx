@@ -43,7 +43,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="w-full h-full bg-background ">
+      <body className="w-full h-full bg-bg-wrapper">
         {children}
       </body>
       <GoogleAnalytics gaId="G-6GGTDRQ47W" />

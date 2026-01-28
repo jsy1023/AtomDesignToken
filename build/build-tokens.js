@@ -68,7 +68,7 @@ myStyleDictionary.registerFormat({
     //    이름 규칙: $type(color)-attributes.type(card) -> color-card
     const getSemanticName = (token) => {
       if (token.$type === "color") {
-        return [token.$type, token.attributes.type]
+        return [token.$type, token.attributes.type, token.attributes.item]
           .filter(Boolean)
           .join("-");
       } else {
@@ -112,6 +112,7 @@ myStyleDictionary.registerFormat({
     const semanticCss = Array.from(semanticMap.entries())
         .map(([name, val]) => `  --${name}: var(--${val});`)
         .join('\n');
+
 
     // [최종 CSS 생성]
     // 그룹별로 순회하며 CSS 블록 생성
@@ -159,7 +160,7 @@ myStyleDictionary.registerFormat({
 
             if (category === "palette") {
               // $type을 확인하여 borderRadius나 dimension이면 px 추가
-              if(token.$type === "borderRadius" | token.$type === "fontSizes" || token.$type === "dimension") {
+              if(token.$type === "borderRadius" | token.$type === "fontSizes" | token.$type === "spacing" | token.$type === "dimension") {
                  if (!String(value).endsWith("px")) {
                      return `--${name}: ${value}px;`;
                  }

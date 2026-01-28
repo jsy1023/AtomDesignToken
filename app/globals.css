@@ -2,7 +2,7 @@
 @import "../build/css/_variables.css";
 
 body{
-    @apply text-text
+    @apply text-text-standard
 }
 
 h1{
@@ -26,4 +26,25 @@ h6{
 p{
     @apply text-body
 }
-    
+
+.input{
+    background: var(--bg-input-standard);
+    border: 1px solid var(--border-standard);   
+    color: var(--text-standard);
+    padding: var(--spacing-common-y) var(--spacing-common-x);
+    border-radius: var(--radius-common);
+}
+
+.input::placeholder{
+    color: var(--text-placeholder);
+}
+
+.input:focus{
+    border: 1px solid var(--border-active);   
+}
+
+.input:disabled{
+    background: var(--bg-input-disabled);
+    border: 1px solid var(--border-standard);   
+    color: var(--text-disabled);
+}
