@@ -1,12 +1,31 @@
 "use client";
 import clsx from "clsx";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+
+export const Label = ({
+    label,
+    required,
+}: {
+    label: string;
+    required?: boolean;
+}) => {
+    return (
+        <p className={"mb-1 text-text-standard"}>  
+            <span
+                className={clsx("", {
+                    "after:content-['*'] after:ml-1 after:text-danger": required,
+                })}
+            >
+                {label}
+            </span>
+        </p>
+    );
+};
 
 export const Input = ({
   type = "text",
   placeholder = "값을 입력해주세요",
-  label,
   readOnly,
   disabled,
   required,
@@ -14,44 +33,28 @@ export const Input = ({
   type?: string;
   className?: string;
   placeholder?: string;
-  label?: string;
   readOnly?: boolean;
   disabled?: boolean;
   required?: boolean;
 }) => {
   return (
-    <>
-      {label ? (
-        <p className={clsx("mb-1 text-text-standard", {})}>
-          <span
-            className={clsx("", {
-              "after:content-['*'] after:ml-1 after:text-danger": required,
-            })}
-          >
-            {label}
-          </span>
-        </p>
-      ) : null}
       <input
-        className="w-full input flex"
+        className="input"
         type={type}
         placeholder={placeholder}
         readOnly={readOnly}
         disabled={disabled}
         required={required}
       />
-    </>
   );
 };
 
 export const Select = ({
   options,
-  label,
   required,
   disabled,
 }: {
   options: string[];
-  label?: string;
   required?: boolean;
   disabled?: boolean;
 }) => {
@@ -68,16 +71,41 @@ export const Select = ({
     option.toLowerCase().includes(filterValue.toLowerCase())
   );
 
-  useEffect(() => {
-    if (isOpen && inputRef.current) {
+  useLayoutEffect(() => {
+    if (isOpen && inputRef.current && dropdownRef.current) {
       const rect = inputRef.current.getBoundingClientRect();
-      setMenuPosition({
-        top: rect.bottom + window.scrollY,
-        left: rect.left,
-        width: rect.width,
+      const dropdownRect = dropdownRef.current.getBoundingClientRect();
+
+      if (Math.abs(menuPosition.width - rect.width) > 0.5) {
+        setMenuPosition({
+          top: rect.bottom + window.scrollY,
+          left: rect.left,
+          width: rect.width,
+        });
+        return;
+      }
+
+      let top = rect.bottom + window.scrollY;
+
+      if (rect.bottom + dropdownRect.height > window.innerHeight) {
+        top = rect.top + window.scrollY - dropdownRect.height;
+      }
+
+      setMenuPosition((prev) => {
+        if (
+          Math.abs(prev.top - top) < 0.5 &&
+          Math.abs(prev.left - rect.left) < 0.5
+        ) {
+          return prev;
+        }
+        return {
+          top,
+          left: rect.left,
+          width: rect.width,
+        };
       });
     }
-  }, [isOpen]);
+  }, [isOpen, filterValue, menuPosition.width]);
 
   useEffect(() => {
     // 마우스 벗어난 영역 클릭 시 드롭다운 닫기
@@ -97,17 +125,6 @@ export const Select = ({
 
   return (
     <div className="relative">
-      {label ? (
-        <p className={clsx("mb-1 text-text-standard", {})}>
-          <span
-            className={clsx("", {
-              "after:content-['*'] after:ml-1 after:text-danger": required,
-            })}
-          >
-            {label}
-          </span>
-        </p>
-      ) : null}
       <label className="relative w-fit hidden md:block">
         <input
           ref={inputRef}
@@ -118,15 +135,7 @@ export const Select = ({
             setFilterValue(e.target.value);
           }}
           onFocus={() => setIsOpen(true)}
-          className={clsx(
-            "transition-all bg-[var(--input-background-standard)] border px-4 py-2 border-border text-[var(--text-standard)] rounded-[var(--input-rounded)]",
-            { "placeholder:text[var(--input-text-placeholder)]": true },
-            { "focus:border-[var(--input-border-focus)]": true },
-            {
-              "disabled:bg-[var(--input-background-disabled)] disabled:cursor-not-allowed":
-                disabled,
-            }
-          )}
+          className="select hidden sm:block"
           disabled={disabled}
         />
         <div
@@ -142,7 +151,7 @@ export const Select = ({
         createPortal(
           <ul
             ref={dropdownRef}
-            className="absolute w-full border rounded bg-[var(--input-background-standard)] border-[var(--input-border-standard)] shadow-md mt-1"
+            className="absolute w-full select-menu"
             style={{
               top: menuPosition.top,
               left: menuPosition.left,
@@ -153,7 +162,7 @@ export const Select = ({
               filteredOptions.map((option, index) => (
                 <li
                   key={index}
-                  className="px-4 py-2 text-[var(--text-standard)] hover:bg-primary/10 cursor-pointer"
+                  className="select-menu-item"
                   onClick={() => {
                     setFilterValue(option);
                     setIsOpen(false);
@@ -163,19 +172,13 @@ export const Select = ({
                 </li>
               ))
             ) : (
-              <li className="px-4 py-2 text-gray-500">No results</li>
+              <li className="select-menu-item">No results</li>
             )}
           </ul>,
           document.body
         )}
       <select
-        className={clsx(
-          " block transition-all bg-[(--input-background-standard)] border px-4 py-2 border-border text-[var(--text-standard)] rounded-input-rounded",
-          { "placeholder:text-input-text-placeholder": true },
-          { "focus:border-[var(--input-border-focus)]": true },
-          { "disabled:bg-[var(--input-background-disabled)]": true },
-          { "md:hidden": true }
-        )}
+        className="select block sm:hidden"
       >
         {options.map((option, index) => {
           return (
