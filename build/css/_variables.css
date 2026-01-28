@@ -1,15 +1,17 @@
 @theme {
---gray-100: #f5f5f5;
---gray-200: #e6e6e6;
---gray-500: #cccccc;
---gray-900: #999999;
---gray-950: #707070;
---dark-100: #111111;
---dark-200: #222222;
---dark-300: #333333;
---dark-400: #444444;
---black: #111111;
---white: #fafafa;
+--color-gray-100: #f5f5f5;
+--color-gray-200: #e6e6e6;
+--color-gray-500: #cccccc;
+--color-gray-900: #999999;
+--color-gray-950: #707070;
+--color-dark-100: #111111;
+--color-dark-200: #222222;
+--color-dark-300: #333333;
+--color-dark-400: #444444;
+--color-black: #111111;
+--color-white: #fafafa;
+--color-primary: var(--color-blue-500);
+--color-blue-500: #2196f3;
 --text-h5: 20px;
 --text-h4: 24px;
 --text-h1: 40px;
@@ -19,7 +21,7 @@
 --text-h3: 28px;
 --font-weight-header: 700;
 --radius-common: 4px;
---spoqaNeo: Spoqa Han Sans Neo;
+--font-spoqaNeo: Spoqa Han Sans Neo;
 --spacing-common-y: 12px;
 --spacing-common-x: 16px;
 
@@ -27,6 +29,7 @@
   --color-bg-wrapper: var(--bg-wrapper);
   --color-bg-input: var(--bg-input-standard);
   --color-text-standard: var(--text-standard);
+  --color-text-active: var(--text-active);
   --color-text-placeholder: var(--text-placeholder);
   --color-text-disabled: var(--text-disabled);
   --color-border-standard: var(--border-standard);
@@ -34,25 +37,29 @@
 } 
 
 .white {
---bg-card: var(--white);
---bg-wrapper: var(--gray-200);
---bg-input-standard: var(--gray-100);
---bg-input-disabled: var(--gray-500);
---text-standard: var(--dark-300);
---text-placeholder: var(--gray-950);
---text-disabled: var(--gray-950);
---border-standard: var(--gray-500);
---border-active: var(--dark-400);
+--bg-card: var(--color-white);
+--bg-wrapper: var(--color-gray-200);
+--bg-input-standard: var(--color-gray-100);
+--bg-input-hover: var(--color-gray-200);
+--bg-input-disabled: var(--color-gray-500);
+--text-standard: var(--color-dark-300);
+--text-active: var(--color-gray-100);
+--text-placeholder: var(--color-gray-950);
+--text-disabled: var(--color-gray-950);
+--border-standard: var(--color-gray-500);
+--border-active: var(--color-dark-400);
 } 
 
 .dark {
---bg-card: var(--dark-200);
---bg-wrapper: var(--black);
---bg-input-standard: var(--dark-300);
---bg-input-disabled: var(--dark-200);
---text-standard: var(--white);
---text-placeholder: var(--gray-950);
---text-disabled: var(--dark-400);
---border-standard: var(--dark-400);
---border-active: var(--gray-500);
+--bg-card: var(--color-dark-200);
+--bg-wrapper: var(--color-black);
+--bg-input-standard: var(--color-dark-300);
+--bg-input-hover: var(--color-dark-400);
+--bg-input-disabled: var(--color-dark-200);
+--text-standard: var(--color-white);
+--text-active: var(--color-white);
+--text-placeholder: var(--color-gray-950);
+--text-disabled: var(--color-dark-400);
+--border-standard: var(--color-dark-400);
+--border-active: var(--color-gray-500);
 } 

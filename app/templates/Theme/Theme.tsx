@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Radio } from "../Input/Input";
+import { Radio } from "../Form/Form";
 import { themes } from "@/build/typescript/theme";
 
 export const ThemeSelector = () => {

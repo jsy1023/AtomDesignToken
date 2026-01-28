@@ -1,6 +1,6 @@
 "use client";
 import { Card, CardContent, CardHeader } from "@/app/templates/Card/Card";
-import { Input } from "@/app/templates/Input/Input";
+import { Input } from "@/app/templates/Form/Input";
 import CodeBlock from "@/app/templates/CodeBlock/CodeBlock";
 import Tab from "@/app/templates/Tab/Tab";
 import Table from "@/app/templates/Table/Table";
