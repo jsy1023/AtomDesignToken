@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader } from "@/app/templates/Card/Card";
 import CodeBlock from "@/app/templates/CodeBlock/CodeBlock";
 import { NodeCollapse } from "@/app/templates/Collapse/Collapse";
-import { Input } from "@/app/templates/Form/Input";
+import { Input } from "@/app/templates/Form/Form";
 import Tab from "@/app/templates/Tab/Tab";
 import token from "@/token.json";
 import type { Metadata } from "next";
