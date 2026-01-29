@@ -89,3 +89,27 @@
     color: var(--text-active);
     fill: var(--text-active);
 }
+
+.radio{
+    position: relative;
+    width: var(--spacing-small);
+    height: var(--spacing-small);  
+    border: 1px solid var(--border-standard);
+    background: var(--bg-input-standard);
+    color: var(--bg-input-standard);
+}
+
+.radio::after{
+    content:'';
+    position:absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: var(--spacing-common-y);
+    height: var(--spacing-common-y);  
+    border-radius: var(--radius-circle);
+}
+
+.radio:checked::after{
+    background: var(--color-primary);
+}

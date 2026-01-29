@@ -210,11 +210,11 @@ export const Radio = ({
   return (
     <>
       {label ? <p>{label}</p> : null}
-      <label className="flex items-center gap-2">
+      <label className="flex items-center gap-1">
         <input
           type="radio"
           className={clsx(
-            "relative appearance-none peer w-5 h-5 bg-[var(--input-background-standard)] border border-border rounded-full",
+            "relative appearance-none radio rounded-full ",
             {
               "checked:bg-primary after:w-2.5 after:h-2.5 after:bg-[var(--input-background-standard)] after:content-[''] after:absolute after:rounded-full after:left-1 after:top-1":
                 true,
@@ -249,7 +249,7 @@ export const Checkbox = ({
 }) => {
   return (
     <>
-      <label className="checkbox gap-2">
+      <label className="checkbox gap-1.5">
         <input
           type="checkbox"
           className="appearance-none hidden"

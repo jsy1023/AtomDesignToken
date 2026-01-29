@@ -1,6 +1,6 @@
 "use client";
 import { Card, CardContent, CardHeader } from "@/app/templates/Card/Card";
-import { Input } from "@/app/templates/Form/Input";
+import { Input } from "@/app/templates/Form/Form";
 import CodeBlock from "@/app/templates/CodeBlock/CodeBlock";
 import Tab from "@/app/templates/Tab/Tab";
 import Table from "@/app/templates/Table/Table";
@@ -53,7 +53,7 @@ export default function ComponentModalContent() {
                           </Button>
                         }
                       >
-                        <Input label="이름" />
+                        <Input />
                       </ModalContent>
                     </Card>
                   </CardContent>
@@ -240,7 +240,7 @@ export default function ComponentModalContent() {
                           </Button>
                         }
                       >
-                        <Input label="이름" />
+                        <Input />
                       </ModalContent>
                     </Card>
                   </CardContent>
