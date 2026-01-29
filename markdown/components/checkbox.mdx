@@ -41,27 +41,13 @@ import { Checkbox } from "@/app/templates/Form/Form";
 
 <PreviewLayout
   preview={<Card type="group" className="flex justify-center">
-                    <Checkbox text="정책 및 조건동의" disabled/>
+                    <Checkbox text="정책 및 조건동의"/>
                   </Card>}
   code={`import { Checkbox } from "@/app/components/Input/Input"
 
 <Checkbox text="정책 및 조건동의" />
 `} />
 
-### With Label
-
-<PreviewLayout
-  preview={<Card type="group" className="flex flex-col items-center">
-                    <div className="flex flex-col">
-                      <Checkbox label="정책" text="정책 및 조건동의" />
-                    </div>
-                  </Card>}
-  code={`import { Checkbox } from "@/app/components/Input/Input"
-
-<div className="flex flex-col">
-  <Checkbox label="정책" text="정책 및 조건동의" />
-</div>
-`} />
 
 ### Disabled
 

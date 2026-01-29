@@ -1,0 +1,93 @@
+
+.input{
+    background: var(--bg-input-standard);
+    border: 1px solid var(--border-standard);   
+    color: var(--text-standard);
+    padding: var(--spacing-common-y) var(--spacing-common-x);
+    border-radius: var(--radius-common);
+}
+
+.input::placeholder{
+    color: var(--text-placeholder);
+}
+
+.input:focus{
+    border: 1px solid var(--border-active);   
+}
+
+.input:disabled{
+    background: var(--bg-input-disabled);
+    border: 1px solid var(--border-standard);   
+    color: var(--text-disabled);
+}
+
+.select{
+    background: var(--bg-input-standard);
+    border: 1px solid var(--border-standard);   
+    color: var(--text-standard);
+    padding: var(--spacing-common-y) var(--spacing-common-x);
+    border-radius: var(--radius-common);
+}
+.select:focus{
+    border: 1px solid var(--border-active);   
+}
+
+.select:disabled{
+    background: var(--bg-input-disabled);
+    border: 1px solid var(--border-standard);   
+    color: var(--text-disabled);
+}
+
+.select-menu {
+    border: 1px solid var(--border-active);   
+    border-radius: var(--radius-common);
+    overflow:hidden;
+}
+
+.select-menu .select-menu-item {
+    background: var(--bg-input-standard);
+    border: 1px solid var(--border-standard);   
+    color: var(--text-standard);
+    padding: var(--spacing-common-y) var(--spacing-common-x);
+    cursor:pointer
+}
+
+.select-menu .select-menu-item:hover {
+    background: var(--bg-input-hover);
+}
+
+.select-menu .select-menu-item:active,
+.select-menu .select-menu-item:focus  {
+    background: var(--color-primary);
+    border: 1px solid var(--color-primary);   
+    color: var(--text-active);
+}
+
+.checkbox{
+  display: flex;
+  gap: var(--spacing-gap-small);
+  align-items: center;
+  position: relative;
+  width: var(--spacing-common-x);
+  height: var(--spacing-common-x);  
+  border: 1px solid var(--border-standard);
+  border-radius: var(--radius-common);
+  background: var(--bg-input-standard);
+  color: var(--bg-input-standard);
+}
+
+.checkbox span svg{
+    margin-left: -1px;
+    color: var(--bg-input-standard);
+    fill: var(--bg-input-standard);
+}
+
+.checkbox:has(input:checked){
+    background: var(--color-primary);
+    border: 1px solid var(--color-primary);
+}
+
+.checkbox:has(input:checked) span svg{
+    color: var(--text-active);
+    fill: var(--text-active);
+}

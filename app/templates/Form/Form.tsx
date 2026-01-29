@@ -235,15 +235,12 @@ export const Radio = ({
 
 export const Checkbox = ({
   text,
-  label,
-  className,
   onChange,
   disabled,
   required,
   defaultChecked,
 }: {
   text?: string;
-  label?: string;
   className?: string;
   onChange?: () => void;
   disabled?: boolean;
@@ -252,30 +249,16 @@ export const Checkbox = ({
 }) => {
   return (
     <>
-      {label ? <p>{label}</p> : null}
-      <label className="relative flex flex-nowrap items-center gap-1">
+      <label className="checkbox">
         <input
           type="checkbox"
-          className={clsx(
-            "relative appearance-none peer min-w-5 min-h-5 bg-[var(--input-background-standard)] border border-border rounded-common",
-            { "checked:bg-primary": true },
-            { "focus:border-[var(--input-border-focus)]": true },
-            {
-              "disabled:bg-[var(--input-background-disabled)] disabled:cursor-not-allowed":
-                true,
-            },
-            {
-              "after:content-['*'] after:text-danger after:absolute after:-right-1 after:-top-2":
-                required,
-            },
-            className
-          )}
+          className="appearance-none hidden"
           onChange={onChange}
           disabled={disabled}
           required={required}
           defaultChecked={defaultChecked}
         />
-        <span className="absolute left-0.5 top-1 invisible  peer-checked:visible fill-[var(--input-background-standard)] ">
+        <span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-4 w-4"
@@ -292,8 +275,8 @@ export const Checkbox = ({
         {text ? (
           <span
             className={clsx(
-              "text-[var(--text-standard)] text-nowrap select-none",
-              { "!text-[var(--input-text-disabled)]": disabled }
+              "text-text-standard text-nowrap select-none",
+              { "!text-text-disabled": disabled }
             )}
           >
             {text}
