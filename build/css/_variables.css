@@ -24,8 +24,8 @@
 --font-spoqaNeo: Spoqa Han Sans Neo;
 --spacing-common-y: 12px;
 --spacing-common-x: 16px;
---spacing-common-small: 20px;
 --spacing-gap-small: 4px;
+--spacing-small: 20px;
 
   --color-bg-card: var(--bg-card);
   --color-bg-wrapper: var(--bg-wrapper);

@@ -249,7 +249,7 @@ export const Checkbox = ({
 }) => {
   return (
     <>
-      <label className="checkbox">
+      <label className="checkbox gap-2">
         <input
           type="checkbox"
           className="appearance-none hidden"

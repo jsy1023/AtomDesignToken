@@ -65,11 +65,10 @@
 
 .checkbox{
   display: flex;
-  gap: var(--spacing-gap-small);
   align-items: center;
   position: relative;
-  width: var(--spacing-common-x);
-  height: var(--spacing-common-x);  
+  width: var(--spacing-small);
+  height: var(--spacing-small);  
   border: 1px solid var(--border-standard);
   border-radius: var(--radius-common);
   background: var(--bg-input-standard);
@@ -77,7 +76,6 @@
 }
 
 .checkbox span svg{
-    margin-left: -1px;
     color: var(--bg-input-standard);
     fill: var(--bg-input-standard);
 }

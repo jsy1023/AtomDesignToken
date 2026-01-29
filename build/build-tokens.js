@@ -160,7 +160,7 @@ myStyleDictionary.registerFormat({
 
             if (category === "palette") {
               // $type을 확인하여 borderRadius나 dimension이면 px 추가
-              if(token.$type === "borderRadius" | token.$type === "fontSizes" | token.$type === "spacing" | token.$type === "dimension") {
+              if(token.$type === "borderRadius" | token.$type === "fontSizes" | token.$type === "spacing" | token.$type === "sizing" | token.$type === "dimension") {
                  if (!String(value).endsWith("px")) {
                      return `--${name}: ${value}px;`;
                  }
