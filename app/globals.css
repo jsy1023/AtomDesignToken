@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "../build/css/_variables.css";
 @import "../css/form.css";
+@import "../css/badge.css";
 
 body{
     @apply text-text-standard
