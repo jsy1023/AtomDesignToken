@@ -59,12 +59,23 @@
 --color-yellow-800: #ff6f00;
 --color-yellow-900: #e65100;
 --color-yellow-950: #9e3600;
+--color-green-100: #e8f5e9;
+--color-green-200: #c8e6c9;
+--color-green-300: #a5d6a7;
+--color-green-400: #81c784;
+--color-green-500: #4caf50;
+--color-green-600: #43a047;
+--color-green-700: #388e3c;
+--color-green-800: #2e7d32;
+--color-green-900: #1b5e20;
+--color-green-950: #104015;
 --color-black: #111111;
 --color-white: #fafafa;
 --color-primary: var(--color-blue-500);
 --color-secondary: var(--color-indigo-500);
 --color-danger: var(--color-red-500);
 --color-warning: var(--color-yellow-500);
+--color-success: var(--color-green-500);
 --text-h5: 20px;
 --text-h4: 24px;
 --text-h1: 40px;
@@ -84,13 +95,30 @@
 
   --color-bg-card: var(--bg-card);
   --color-bg-wrapper: var(--bg-wrapper);
-  --color-bg-input: var(--bg-input-standard);
+  --color-bg-input-standard: var(--bg-input-standard);
+  --color-bg-input-hover: var(--bg-input-hover);
+  --color-bg-input-disabled: var(--bg-input-disabled);
   --color-text-standard: var(--text-standard);
   --color-text-active: var(--text-active);
   --color-text-placeholder: var(--text-placeholder);
   --color-text-disabled: var(--text-disabled);
   --color-border-standard: var(--border-standard);
   --color-border-active: var(--border-active);
+  --color-button-primary-bg-disabled: var(--button-primary-bg-disabled);
+  --color-button-primary-text-disabled: var(--button-primary-text-disabled);
+  --color-button-primary-border-disabled: var(--button-primary-border-disabled);
+  --color-button-secondary-bg-disabled: var(--button-secondary-bg-disabled);
+  --color-button-secondary-text-disabled: var(--button-secondary-text-disabled);
+  --color-button-secondary-border-disabled: var(--button-secondary-border-disabled);
+  --color-button-success-bg-disabled: var(--button-success-bg-disabled);
+  --color-button-success-text-disabled: var(--button-success-text-disabled);
+  --color-button-success-border-disabled: var(--button-success-border-disabled);
+  --color-button-danger-bg-disabled: var(--button-danger-bg-disabled);
+  --color-button-danger-text-disabled: var(--button-danger-text-disabled);
+  --color-button-danger-border-disabled: var(--button-danger-border-disabled);
+  --color-button-gray-bg-disabled: var(--button-gray-bg-disabled);
+  --color-button-gray-text-disabled: var(--button-gray-text-disabled);
+  --color-button-gray-border-disabled: var(--button-gray-border-disabled);
 } 
 
 .white {
@@ -105,6 +133,21 @@
 --text-disabled: var(--color-gray-950);
 --border-standard: var(--color-gray-500);
 --border-active: var(--color-dark-400);
+--button-primary-bg-disabled: var(--color-blue-200);
+--button-primary-text-disabled: var(--color-blue-400);
+--button-primary-border-disabled: var(--color-blue-200);
+--button-secondary-bg-disabled: var(--color-indigo-200);
+--button-secondary-text-disabled: var(--color-indigo-400);
+--button-secondary-border-disabled: var(--color-indigo-200);
+--button-success-bg-disabled: var(--color-green-200);
+--button-success-text-disabled: var(--color-green-400);
+--button-success-border-disabled: var(--color-green-200);
+--button-danger-bg-disabled: var(--color-red-200);
+--button-danger-text-disabled: var(--color-red-400);
+--button-danger-border-disabled: var(--color-red-200);
+--button-gray-bg-disabled: var(--color-gray-200);
+--button-gray-text-disabled: var(--color-gray-500);
+--button-gray-border-disabled: var(--color-gray-300);
 } 
 
 .dark {
@@ -119,4 +162,19 @@
 --text-disabled: var(--color-dark-400);
 --border-standard: var(--color-dark-400);
 --border-active: var(--color-gray-500);
+--button-primary-bg-disabled: var(--color-blue-900);
+--button-primary-text-disabled: var(--color-blue-700);
+--button-primary-border-disabled: var(--color-blue-800);
+--button-secondary-bg-disabled: var(--color-indigo-900);
+--button-secondary-text-disabled: var(--color-indigo-700);
+--button-secondary-border-disabled: var(--color-indigo-800);
+--button-success-bg-disabled: var(--color-green-900);
+--button-success-text-disabled: var(--color-green-700);
+--button-success-border-disabled: var(--color-green-800);
+--button-danger-bg-disabled: var(--color-red-900);
+--button-danger-text-disabled: var(--color-red-700);
+--button-danger-border-disabled: var(--color-red-800);
+--button-gray-bg-disabled: var(--color-gray-800);
+--button-gray-text-disabled: var(--color-gray-600);
+--button-gray-border-disabled: var(--color-gray-700);
 } 

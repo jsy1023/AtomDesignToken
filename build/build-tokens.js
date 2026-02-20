@@ -60,17 +60,13 @@ myStyleDictionary.registerFormat({
     // [헬퍼 함수]
     // 1. getName: 토큰의 계층(type, item, subitem)을 하이픈(-)으로 연결하여 CSS 변수명 생성
     //    예: palette.gray.500 -> palette-gray-500
-    const getName = (token) => [token.attributes.type, token.attributes.item, token.attributes.subitem]
-          .filter(Boolean)
-          .join("-");
+    const getName = (token) => token.path.slice(1).join("-");
 
     // 2. getSemanticName: 시멘틱 토큰명을 생성 (예: color-card)
-    //    이름 규칙: $type(color)-attributes.type(card) -> color-card
+    //    이름 규칙: $type(color)-...path -> color-bg-card
     const getSemanticName = (token) => {
       if (token.$type === "color") {
-        return [token.$type, token.attributes.type, token.attributes.item]
-          .filter(Boolean)
-          .join("-");
+        return [token.$type, ...token.path.slice(1)].join("-");
       } else {
         return null;
       }

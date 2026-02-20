@@ -1,7 +1,6 @@
+import { Button } from "@/app/templates/Button/Button";
 import PreviewLayout from "@/app/components/mdx-layout";
 import { CodeLayout } from "@/app/components/mdx-layout";
-import { Button } from "@/app/templates/Button/Button";
-import { Card, CardContent } from "@/app/templates/Card/Card";
 
 # 버튼
 
@@ -11,20 +10,42 @@ import { Card, CardContent } from "@/app/templates/Card/Card";
 ---
 
 <PreviewLayout
-  preview={<Card type="group" className="flex justify-center gap-4">
-                      <Button type={"primary"}>버튼</Button>
-                      <Button type={"secondary"}>버튼</Button>
-                      <Button type={"success"}>버튼</Button>
-                      <Button type={"danger"}>버튼</Button>
-                      <Button type={"gray"}>버튼</Button>
-                    </Card>}
+  preview={
+    <div className="my-4 flex flex-col items-center gap-4">
+        <div className="flex gap-2">
+            <Button type="primary">버튼</Button>
+            <Button type="secondary">버튼</Button>
+            <Button type="success">버튼</Button>
+            <Button type="danger">버튼</Button>
+            <Button type="gray">버튼</Button>
+        </div>
+        <div className="flex gap-2">
+            <Button type="primary" disabled>버튼</Button>
+            <Button type="secondary" disabled>버튼</Button>
+            <Button type="success" disabled>버튼</Button>
+            <Button type="danger" disabled>버튼</Button>
+            <Button type="gray" disabled>버튼</Button>
+        </div>
+    </div>
+  }
   code={`import { Button } from "@/app/components/Button/Button"
 
-<Button type={"primary"}>버튼</Button>
-<Button type={"secondary"}>버튼</Button>
-<Button type={"success"}>버튼</Button>
-<Button type={"danger"}>버튼</Button>
-<Button type={"gray"}>버튼</Button>`} />
+<div className="flex flex-col items-center gap-4">
+  <div className="flex gap-2">
+    <Button type="primary">버튼</Button>
+    <Button type="secondary">버튼</Button>
+    <Button type="success">버튼</Button>
+    <Button type="danger">버튼</Button>
+    <Button type="gray">버튼</Button>
+  </div>
+  <div className="flex gap-2">
+    <Button type="primary" disabled>버튼</Button>
+    <Button type="secondary" disabled>버튼</Button>
+    <Button type="success" disabled>버튼</Button>
+    <Button type="danger" disabled>버튼</Button>
+    <Button type="gray" disabled>버튼</Button>
+  </div>
+</div>`} />
 
 ---
 
@@ -36,8 +57,8 @@ import { Card, CardContent } from "@/app/templates/Card/Card";
 
 ## Usage
 
-<CodeLayout code={`import { Radio } from "@/app/components/Button/Button"`} />
-<CodeLayout code={`<Button type={"primary"}>버튼</Button>`} />
+<CodeLayout code={`import { Button } from "@/app/components/Button/Button"`} />
+<CodeLayout code={`<Button type="primary">버튼</Button>`} />
 
 ---
 
@@ -47,9 +68,40 @@ import { Card, CardContent } from "@/app/templates/Card/Card";
 
 <PreviewLayout
   preview={
-    <Card type="group" className="flex flex-col items-center">
-      <Button type={"primary"}>버튼</Button>
-    </Card>
+    <div className="flex gap-2 justify-center">
+        <Button type="primary">버튼</Button>
+        <Button type="secondary">버튼</Button>
+        <Button type="success">버튼</Button>
+        <Button type="danger">버튼</Button>
+        <Button type="gray">버튼</Button>
+    </div>
   }
-  code={`<Button type={"primary"}>버튼</Button>`}
-/>
+  code={`import { Button } from "@/app/components/Button/Button"
+
+<Button type="primary">버튼</Button>
+<Button type="secondary">버튼</Button>
+<Button type="success">버튼</Button>
+<Button type="danger">버튼</Button>
+<Button type="gray">버튼</Button>
+`} />
+
+### disabled
+
+<PreviewLayout
+  preview={
+    <div className="flex gap-2 justify-center">
+        <Button type="primary" disabled>버튼</Button>
+        <Button type="secondary" disabled>버튼</Button>
+        <Button type="success" disabled>버튼</Button>
+        <Button type="danger" disabled>버튼</Button>
+        <Button type="gray" disabled>버튼</Button>
+    </div>
+  }
+  code={`import { Button } from "@/app/components/Button/Button"
+
+<Button type="primary" disabled>버튼</Button>
+<Button type="secondary" disabled>버튼</Button>
+<Button type="success" disabled>버튼</Button>
+<Button type="danger" disabled>버튼</Button>
+<Button type="gray" disabled>버튼</Button>
+`} />
