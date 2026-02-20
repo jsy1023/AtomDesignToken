@@ -9,7 +9,7 @@ export const Button = ({
   onClick,
 }: {
   children: React.ReactNode;
-  type: "primary" | "secondary" | "success" | "danger" | "gray";
+  type: "primary" | "secondary" | "success" | "warning" | "danger" | "gray";
   style?: React.CSSProperties;
   disabled?: boolean;
   onClick?: () => void;
