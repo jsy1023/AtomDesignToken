@@ -34,7 +34,7 @@ const Pagination = ({
   };
 
   return (
-    <div className="text-[#999] flex">
+    <div className="pagination">
       <button
         disabled={pageStart === 1}
         onClick={() => {
@@ -43,11 +43,11 @@ const Pagination = ({
           setPageStart(newStart);
           onPageChange(newStart);
         }}
-        className="px-2 py-8 cursor-pointer disabled:opacity-40"
+        className="pagination-btn"
       >
         <span className="material-symbols-outlined">keyboard_arrow_left</span>
       </button>
-      <ul className="flex w-full">
+      <ul className="pagination-list">
         {[...Array(pageRange)].map((_, i) => {
           const page = pageStart + i;
 
@@ -74,8 +74,8 @@ const Pagination = ({
                 }
                 scrollTop();
               }}
-              className={` w-full text-center py-8 cursor-pointer px-2 ${
-                currentPage === page ? "text-primary" : ""
+              className={`pagination-item ${
+                currentPage === page ? "pagination-item-active" : ""
               }`}
             >
               {page}
@@ -93,7 +93,7 @@ const Pagination = ({
             onPageChange(newStart);
           }
         }}
-        className="px-2 py-8 cursor-pointer disabled:opacity-40"
+        className="pagination-btn"
       >
         <span className="material-symbols-outlined">keyboard_arrow_right</span>
       </button>

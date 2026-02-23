@@ -131,6 +131,7 @@
   --color-table-body-bgEven: var(--table-body-bgEven);
   --color-table-body-text: var(--table-body-text);
   --color-table-body-border: var(--table-body-border);
+  --color-pagination-bg-hover: var(--pagination-bg-hover);
 } 
 
 .white {
@@ -170,6 +171,7 @@
 --table-body-bgEven: var(--color-gray-100);
 --table-body-text: var(--color-dark-300);
 --table-body-border: var(--color-gray-300);
+--pagination-bg-hover: var(--color-gray-100);
 } 
 
 .dark {
@@ -209,4 +211,5 @@
 --table-body-bgEven: var(--color-dark-300);
 --table-body-text: var(--color-gray-200);
 --table-body-border: var(--color-dark-400);
+--pagination-bg-hover: var(--color-dark-300);
 } 

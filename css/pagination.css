@@ -1,0 +1,66 @@
+.pagination {
+  display: flex;
+  align-items: center;
+  color: var(--color-text-standard);
+}
+
+.pagination-btn {
+  padding: var(--spacing-common-y) var(--spacing-common-x);
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-common);
+  color: inherit;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background-color: var(--color-pagination-bg-hover);
+  color: var(--color-primary);
+}
+
+.pagination-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  color: var(--color-text-disabled);
+}
+
+.pagination-list {
+  display: flex;
+  width: 100%;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.pagination-item {
+  flex: 1; /* w-full behavior mapped */
+  text-align: center;
+  padding: var(--spacing-common-y) var(--spacing-common-x);
+  cursor: pointer;
+  color: inherit;
+  border-radius: var(--radius-common);
+  transition: all 0.2s ease;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagination-item:hover {
+  background-color: var(--color-pagination-bg-hover);
+  color: var(--color-primary);
+}
+
+.pagination-item-active {
+  color: var(--color-primary);
+  font-weight: var(--font-weight-header);
+}
+
+.pagination-item-active:hover {
+  background-color: transparent; /* Reset hover if it's the active one */
+  cursor: default;
+}
