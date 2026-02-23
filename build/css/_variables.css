@@ -92,6 +92,7 @@
 --spacing-common-y: 12px;
 --spacing-common-x: 16px;
 --spacing-gap-small: 4px;
+--spacing-sm-y: 8px;
 --spacing-small: 20px;
 
   --color-bg-card: var(--bg-card);
@@ -123,6 +124,13 @@
   --color-button-gray-bg-disabled: var(--button-gray-bg-disabled);
   --color-button-gray-text-disabled: var(--button-gray-text-disabled);
   --color-button-gray-border-disabled: var(--button-gray-border-disabled);
+  --color-table-header-bg: var(--table-header-bg);
+  --color-table-header-text: var(--table-header-text);
+  --color-table-header-border: var(--table-header-border);
+  --color-table-body-bg: var(--table-body-bg);
+  --color-table-body-bgEven: var(--table-body-bgEven);
+  --color-table-body-text: var(--table-body-text);
+  --color-table-body-border: var(--table-body-border);
 } 
 
 .white {
@@ -155,6 +163,13 @@
 --button-gray-bg-disabled: var(--color-gray-200);
 --button-gray-text-disabled: var(--color-gray-500);
 --button-gray-border-disabled: var(--color-gray-300);
+--table-header-bg: var(--color-gray-400);
+--table-header-text: var(--color-dark-500);
+--table-header-border: var(--color-gray-500);
+--table-body-bg: var(--color-white);
+--table-body-bgEven: var(--color-gray-100);
+--table-body-text: var(--color-dark-300);
+--table-body-border: var(--color-gray-300);
 } 
 
 .dark {
@@ -187,4 +202,11 @@
 --button-gray-bg-disabled: var(--color-gray-800);
 --button-gray-text-disabled: var(--color-gray-600);
 --button-gray-border-disabled: var(--color-gray-700);
+--table-header-bg: var(--color-dark-400);
+--table-header-text: var(--color-gray-200);
+--table-header-border: var(--color-dark-600);
+--table-body-bg: var(--color-dark-200);
+--table-body-bgEven: var(--color-dark-300);
+--table-body-text: var(--color-gray-200);
+--table-body-border: var(--color-dark-400);
 } 
