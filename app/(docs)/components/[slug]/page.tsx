@@ -23,6 +23,7 @@ export function generateStaticParams() {
     { slug: "tab" },
     { slug: "table" },
     { slug: "toc" },
+    { slug: "pagination" },
   ];
 }
 

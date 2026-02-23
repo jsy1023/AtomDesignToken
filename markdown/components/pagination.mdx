@@ -1,0 +1,84 @@
+import PreviewLayout from "@/app/components/mdx-layout";
+import { CodeLayout } from "@/app/components/mdx-layout";
+import Table from "@/app/templates/Table/Table";
+import PaginationDemo from "@/app/components/PaginationDemo";
+
+# 페이지네이션
+
+페이지네이션은 많은 양의 데이터를 여러 페이지로 나누어 보여주는 컴포넌트 입니다. 한 번에 모든 데이터를 보여주지 않고, 일정 수만큼 끊어 사용자에게 점진적으로 제공합니다.
+
+---
+
+<PreviewLayout
+  preview={<PaginationDemo />}
+  code={`import Pagination from "@/app/components/Pagination/Pagination"
+import { useState } from "react";
+
+export default function MyPagination() {
+  const [active, setActive] = useState(1);
+  return (
+    <div className="flex justify-center w-full">
+      <Pagination
+        currentPage={active}
+        onPageChange={(page) => setActive(page)}
+        pageViewRange={10}
+        pageRange={5}
+        totalCount={80}
+      />
+    </div>
+  );
+}`}
+/>
+
+
+---
+
+## Installation
+
+<CodeLayout language="npm" code={`npx atomsystem-add Pagination`} />
+
+---
+
+## Usage
+
+<CodeLayout
+  language="npm"
+  code={`import Pagination from "@/app/components/Pagination/Pagination"`}
+/>
+<CodeLayout
+  language="npm"
+  code={`<Pagination
+  currentPage={active}
+  onPageChange={(page) => setActive(page)}
+  pageViewRange={10}
+  pageRange={5}
+  totalCount={80}
+/>`}
+/>
+
+---
+
+## Example
+
+### Default
+
+<PreviewLayout
+  preview={<PaginationDemo />}
+  code={`import Pagination from "@/app/components/Pagination/Pagination"
+import { useState } from "react";
+
+export default function MyPagination() {
+  const [active, setActive] = useState(1);
+  return (
+    <div className="flex justify-center w-full">
+      <Pagination
+        currentPage={active}
+        onPageChange={(page) => setActive(page)}
+        pageViewRange={10}
+        pageRange={5}
+        totalCount={80}
+      />
+    </div>
+  );
+}`}
+/>
