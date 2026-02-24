@@ -35,20 +35,20 @@ export const Collapse = ({
   return (
     <>
       {collapses.map((collapse, idx) => (
-        <div key={idx}>
-          <label className="flex justify-between cursor-pointer p-4 border-t border-border">
+        <div key={idx} className="collapse-item">
+          <label className="collapse-header">
             {collapse.title}
             <button
               onClick={() => toggleContent(idx)}
-              className={`material-symbols-outlined cursor-pointer transition-all duration-300 ${
-                isActive(idx) ? "rotate-90" : "rotate-0"
+              className={`material-symbols-outlined collapse-icon ${
+                isActive(idx) ? "open" : "closed"
               }`}
             >
               keyboard_arrow_right
             </button>
           </label>
           {isActive(idx) && (
-            <div className="p-4 bg-[var(--background-wrapper)] border-rounded">
+            <div className="collapse-content">
               {collapse.content}
             </div>
           )}
@@ -91,20 +91,20 @@ export const NodeCollapse = ({
   return (
     <>
       {collapses.map((collapse, idx) => (
-        <div key={idx}>
-          <label className="flex justify-between cursor-pointer p-4 border-t border-border">
+        <div key={idx} className="collapse-item">
+          <label className="collapse-header">
             {collapse.title}
             <button
               onClick={() => toggleContent(idx)}
-              className={`material-symbols-outlined cursor-pointer transition-all duration-300 ${
-                isActive(idx) ? "rotate-90" : "rotate-0"
+              className={`material-symbols-outlined collapse-icon ${
+                isActive(idx) ? "open" : "closed"
               }`}
             >
               keyboard_arrow_right
             </button>
           </label>
           {isActive(idx) && (
-            <div className="p-4 bg-[var(--background-wrapper)] border-rounded">
+            <div className="collapse-content">
               {collapse.content}
             </div>
           )}

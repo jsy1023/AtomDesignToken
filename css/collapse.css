@@ -1,0 +1,33 @@
+.collapse-item {
+  border-top: 1px solid var(--border-standard);
+  background-color: var(--color-bg-card);
+}
+
+.collapse-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  padding: var(--spacing-common-x);
+  color: var(--text-standard);
+  font-size: var(--text-body);
+}
+
+.collapse-icon {
+  transition: transform 0.3s ease;
+  color: var(--text-standard);
+}
+
+.collapse-icon.open {
+  transform: rotate(90deg);
+}
+
+.collapse-icon.closed {
+  transform: rotate(0deg);
+}
+
+.collapse-content {
+  padding: var(--spacing-common-x);
+  color: var(--text-standard);
+  font-size: var(--text-body);
+}
