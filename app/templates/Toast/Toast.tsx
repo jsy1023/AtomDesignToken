@@ -9,7 +9,7 @@ gsap.registerPlugin(useGSAP);
 // ✅ Toast Message 타입 정의
 export type ToastMessage = {
   id: string;
-  status: "success" | "error";
+  status?: "standard" | "primary" | "secondary" | "success" | "danger" | "warning" | "info" | "error";
   message: string;
   desc?: string;
 };
@@ -55,7 +55,7 @@ export const Toast = () => {
   }, []);
 
   return (
-    <div className="fixed flex flex-col gap-2 bottom-[24px] right-[24px] z-50">
+    <div className="toast-container">
       {messages.map((message) => (
         <ToastItem
           key={message.id}
@@ -97,10 +97,10 @@ const ToastItem = ({
   return (
     <div
       ref={elRef}
-      className="bg-[var(--background-card)] border border-border rounded text-white p-4 shadow-md min-w-[250px]"
+      className={`toast-item ${message.status || "standard"}`}
     >
       <p>{message.message}</p>
-      {message.desc ? <p className="text-sm">{message.desc}</p> : null}
+      {message.desc ? <p className="toast-desc">{message.desc}</p> : null}
     </div>
   );
 };
