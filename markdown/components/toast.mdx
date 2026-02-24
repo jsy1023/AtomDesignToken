@@ -1,0 +1,104 @@
+import PreviewLayout from "@/app/components/mdx-layout";
+import { CodeLayout } from "@/app/components/mdx-layout";
+import { ToastDemo } from "@/app/components/ToastDemo";
+
+# 토스트 알림
+
+사용자에게 시스템의 상태나 작업의 결과를 간략하게 알려주는 피드백 요소입니다. 화면 우측 하단 등 지정된 위치에 일시적으로 나타났다가 사라집니다.
+
+---
+
+<PreviewLayout
+  preview={<ToastDemo />}
+  code={`import { useToast } from "@/app/templates/Toast/Toast";
+import { Button } from "@/app/templates/Button/Button";
+
+const Demo = () => {
+  const toast = useToast();
+  return (
+    <div className="flex flex-wrap gap-2 justify-center w-full">
+      <Button
+        type="primary"
+        onClick={() => {
+          toast({
+            status: "primary",
+            message: "Primary 토스트 알림입니다.",
+            desc: "우측 하단에 메시지가 나타납니다.",
+          });
+        }}
+      >
+        Primary
+      </Button>
+    </div>
+  );
+};`}
+/>
+
+---
+
+## Installation
+
+<CodeLayout language="npm" code={`npx atomsystem-add Toast`} />
+
+---
+
+## Usage
+
+<CodeLayout
+  language="typescript"
+  code={`import { useToast } from "@/app/templates/Toast/Toast";`}
+/>
+<CodeLayout
+  language="typescript"
+  code={`const toast = useToast();
+
+toast({
+  status: "primary",
+  message: "알림 제목입니다.",
+  desc: "상세 알림 내용을 적습니다.",
+});`}
+/>
+
+---
+
+## Example
+
+### Default
+
+<PreviewLayout
+  preview={<ToastDemo />}
+  code={`import { useToast } from "@/app/templates/Toast/Toast";
+import { Button } from "@/app/templates/Button/Button";
+
+const Demo = () => {
+  const toast = useToast();
+  return (
+    <div className="flex flex-wrap gap-2 justify-center w-full">
+      <Button
+        type="gray"
+        onClick={() => toast({ status: "standard", message: "기본 알림입니다." })}
+      >
+        Standard
+      </Button>
+      <Button
+        type="primary"
+        onClick={() => toast({ status: "primary", message: "Primary 토스트 알림입니다.", desc: "우측 하단에 메시지가 나타납니다." })}
+      >
+        Primary
+      </Button>
+      <Button
+        type="success"
+        onClick={() => toast({ status: "success", message: "성공적으로 처리되었습니다." })}
+      >
+        Success
+      </Button>
+      <Button
+        type="danger"
+        onClick={() => toast({ status: "danger", message: "에러가 발생했습니다." })}
+      >
+        Danger
+      </Button>
+    </div>
+  );
+};`}
+/>

@@ -125,7 +125,7 @@ const DocsLayout = async ({ children }: { children: React.ReactNode }) => {
                     { name: "페이지네이션", path: "/components/pagination" },
                     { name: "콜랩스", path: "/components/collapse" },
                     { name: "카드", path: "/components/card" },
-                    { name: "토스트 알림", path: "/components/toast-message" },
+                    { name: "토스트 알림", path: "/components/toast" },
                     { name: "탭", path: "/components/tab" },
                   ]}
                 />
