@@ -21,7 +21,7 @@ export const Card = ({
   );
   return (
     <div
-      className={`bg-card rounded-common`}
+      className={`card ${className} ${overflow}`}
     >
       {children}
     </div>
@@ -35,7 +35,7 @@ export const CardHeader = ({
   children: React.ReactNode;
   noMargin?: boolean;
 }) => {
-  return <div className={`${noMargin ? "p-0" : "p-4"}`}>{children}</div>;
+  return <div className={`card-header ${noMargin ? "no-margin" : ""}`}>{children}</div>;
 };
 
 export const CardContent = ({
@@ -45,7 +45,7 @@ export const CardContent = ({
   children: React.ReactNode;
   noMargin?: boolean;
 }) => {
-  return <div className={`${noMargin ? "p-0" : "p-4"}`}>{children}</div>;
+  return <div className={`card-content ${noMargin ? "no-margin" : ""}`}>{children}</div>;
 };
 
 export const CardFooter = ({
@@ -55,5 +55,5 @@ export const CardFooter = ({
   children: React.ReactNode;
   noMargin?: boolean;
 }) => {
-  return <div className={`${noMargin ? "p-0" : "p-4"}`}>{children}</div>;
+  return <div className={`card-footer ${noMargin ? "no-margin" : ""}`}>{children}</div>;
 };

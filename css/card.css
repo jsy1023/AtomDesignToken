@@ -1,0 +1,17 @@
+.card {
+  background-color: var(--color-bg-card);
+  border-radius: var(--radius-common);
+  border: 1px solid var(--border-standard);
+}
+
+.card-header,
+.card-content,
+.card-footer {
+  padding: var(--spacing-common-x);
+}
+
+.card-header.no-margin,
+.card-content.no-margin,
+.card-footer.no-margin {
+  padding: 0;
+}
