@@ -12,9 +12,9 @@ import { Checkbox } from "@/app/templates/Form/Form";
 ---
 
 <PreviewLayout
-  preview={<Card type="group" className="flex justify-center">
-                      <Checkbox defaultChecked />
-                    </Card>}
+  preview={<div className="flex justify-center w-full">
+            <Checkbox defaultChecked />
+          </div>}
   code={`import { Checkbox } from "@/app/components/Input/Input"
 
 <Checkbox />
@@ -40,9 +40,9 @@ import { Checkbox } from "@/app/templates/Form/Form";
 ### WithText
 
 <PreviewLayout
-  preview={<Card type="group" className="flex justify-center">
-                    <Checkbox text="정책 및 조건동의"/>
-                  </Card>}
+  preview={<div className="flex justify-center w-full">
+            <Checkbox text="정책 및 조건동의"/>
+          </div>}
   code={`import { Checkbox } from "@/app/components/Input/Input"
 
 <Checkbox text="정책 및 조건동의" />
@@ -52,9 +52,9 @@ import { Checkbox } from "@/app/templates/Form/Form";
 ### Disabled
 
 <PreviewLayout
-  preview={<Card type="group" className="flex justify-center">
-                    <Checkbox text="정책 및 조건동의" disabled />
-                  </Card>}
+  preview={<div className="flex justify-center w-full">
+            <Checkbox text="정책 및 조건동의" disabled />
+          </div>}
   code={`import { Checkbox } from "@/app/components/Input/Input"
 
 <Checkbox text="정책 및 조건동의" />

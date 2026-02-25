@@ -21,15 +21,9 @@ export default function PreviewLayout({
           id: "previewContent",
           tag: "preview",
           content: (
-            <>
-              <Card className="my-4 w-full">
-                <CardContent>
-                  <Card type="group" className="flex justify-center w-full">
-                    {preview}
-                  </Card>
-                </CardContent>
-              </Card>
-            </>
+            <div className="flex justify-center w-full my-4">
+              {preview}
+            </div>
           ),
         },
         {

@@ -11,7 +11,7 @@ import { Collapse } from "@/app/templates/Collapse/Collapse";
 
 <PreviewLayout
   preview={
-    <Card className="my-4 overflow-hidden w-full ">
+    <div className="w-full">
       <Collapse
         // type="accordion"
         collapses={[
@@ -37,13 +37,11 @@ import { Collapse } from "@/app/templates/Collapse/Collapse";
           },
         ]}
       />
-    </Card>
+    </div>
   }
   code={`import Collapse from "@/app/component/Collapse/Collapse";
                     
-    <Card className="my-4 overflow-hidden ">
-    <CardContent noMargin>
-        <Collapse
+      <Collapse
         // type="accordion"
         collapses={[
             {
@@ -67,9 +65,7 @@ import { Collapse } from "@/app/templates/Collapse/Collapse";
                 "Notion, Slack, Figma 같은 협업 도구는 정보 공유와 팀 커뮤니케이션의 효율을 크게 향상시킵니다.",
             },
         ]}
-        />
-    </CardContent>
-    </Card>`}
+        />`}
 />
 
 ---
@@ -121,41 +117,37 @@ import { Collapse } from "@/app/templates/Collapse/Collapse";
 
 <PreviewLayout
   preview={
-    <Card className="my-4 overflow-hidden w-full">
-      <CardContent>
-        <Collapse
-          // type="accordion"
-          collapses={[
-            {
-              title: "디자인 시스템의 중요성",
-              content:
-                "디자인 시스템은 일관된 사용자 경험을 제공하고, 협업 생산성을 극대화하는 핵심 도구입니다.",
-            },
-            {
-              title: "웹 접근성 가이드라인",
-              content:
-                "모든 사용자가 동등하게 콘텐츠에 접근할 수 있도록, WCAG 기준을 준수하는 것이 중요합니다.",
-            },
-            {
-              title: "시간 관리 전략",
-              content:
-                "업무 우선순위를 설정하고, 타임블록 기법을 활용하면 집중력과 생산성이 높아집니다.",
-            },
-            {
-              title: "협업 도구의 활용",
-              content:
-                "Notion, Slack, Figma 같은 협업 도구는 정보 공유와 팀 커뮤니케이션의 효율을 크게 향상시킵니다.",
-            },
-          ]}
-        />
-      </CardContent>
-    </Card>
+    <div className="w-full">
+      <Collapse
+        // type="accordion"
+        collapses={[
+          {
+            title: "디자인 시스템의 중요성",
+            content:
+              "디자인 시스템은 일관된 사용자 경험을 제공하고, 협업 생산성을 극대화하는 핵심 도구입니다.",
+          },
+          {
+            title: "웹 접근성 가이드라인",
+            content:
+              "모든 사용자가 동등하게 콘텐츠에 접근할 수 있도록, WCAG 기준을 준수하는 것이 중요합니다.",
+          },
+          {
+            title: "시간 관리 전략",
+            content:
+              "업무 우선순위를 설정하고, 타임블록 기법을 활용하면 집중력과 생산성이 높아집니다.",
+          },
+          {
+            title: "협업 도구의 활용",
+            content:
+              "Notion, Slack, Figma 같은 협업 도구는 정보 공유와 팀 커뮤니케이션의 효율을 크게 향상시킵니다.",
+          },
+        ]}
+      />
+    </div>
   }
   code={`import Collapse from "@/app/component/Collapse/Collapse";
                     
-    <Card className="my-4 overflow-hidden w-full">
-    <CardContent noMargin>
-        <Collapse
+      <Collapse
         // type="accordion"
         collapses={[
             {
@@ -179,49 +171,43 @@ import { Collapse } from "@/app/templates/Collapse/Collapse";
                 "Notion, Slack, Figma 같은 협업 도구는 정보 공유와 팀 커뮤니케이션의 효율을 크게 향상시킵니다.",
             },
         ]}
-        />
-    </CardContent>
-    </Card>`}
+        />`}
 />
 
 ### Accordion
 
 <PreviewLayout
   preview={
-    <Card className="my-4 overflow-hidden w-full">
-      <CardContent>
-        <Collapse
-          type="accordion"
-          collapses={[
-            {
-              title: "디자인 시스템의 중요성",
-              content:
-                "디자인 시스템은 일관된 사용자 경험을 제공하고, 협업 생산성을 극대화하는 핵심 도구입니다.",
-            },
-            {
-              title: "웹 접근성 가이드라인",
-              content:
-                "모든 사용자가 동등하게 콘텐츠에 접근할 수 있도록, WCAG 기준을 준수하는 것이 중요합니다.",
-            },
-            {
-              title: "시간 관리 전략",
-              content:
-                "업무 우선순위를 설정하고, 타임블록 기법을 활용하면 집중력과 생산성이 높아집니다.",
-            },
-            {
-              title: "협업 도구의 활용",
-              content:
-                "Notion, Slack, Figma 같은 협업 도구는 정보 공유와 팀 커뮤니케이션의 효율을 크게 향상시킵니다.",
-            },
-          ]}
-        />
-      </CardContent>
-    </Card>
+    <div className="w-full">
+      <Collapse
+        type="accordion"
+        collapses={[
+          {
+            title: "디자인 시스템의 중요성",
+            content:
+              "디자인 시스템은 일관된 사용자 경험을 제공하고, 협업 생산성을 극대화하는 핵심 도구입니다.",
+          },
+          {
+            title: "웹 접근성 가이드라인",
+            content:
+              "모든 사용자가 동등하게 콘텐츠에 접근할 수 있도록, WCAG 기준을 준수하는 것이 중요합니다.",
+          },
+          {
+            title: "시간 관리 전략",
+            content:
+              "업무 우선순위를 설정하고, 타임블록 기법을 활용하면 집중력과 생산성이 높아집니다.",
+          },
+          {
+            title: "협업 도구의 활용",
+            content:
+              "Notion, Slack, Figma 같은 협업 도구는 정보 공유와 팀 커뮤니케이션의 효율을 크게 향상시킵니다.",
+          },
+        ]}
+      />
+    </div>
   }
   code={`import Collapse from "@/app/component/Collapse/Collapse";
                     
-<Card className="my-4 overflow-hidden ">
-  <CardContent noMargin>
     <Collapse
       type="accordion"
       collapses={[
@@ -246,7 +232,5 @@ import { Collapse } from "@/app/templates/Collapse/Collapse";
             "Notion, Slack, Figma 같은 협업 도구는 정보 공유와 팀 커뮤니케이션의 효율을 크게 향상시킵니다.",
         },
       ]}
-    />
-  </CardContent>
-</Card>`}
+    />`}
 />

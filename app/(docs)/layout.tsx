@@ -133,8 +133,8 @@ const DocsLayout = async ({ children }: { children: React.ReactNode }) => {
             </div>
           </Navigation>
           <div className="relative w-full h-full bg-[var(--background-wrapper)] grid grid-cols-1 md:grid-cols-4 overflow-auto scroll-smooth">
-            <div className="col-span-3 flex flex-col items-center order-2 md:order-1">
-              <div className="max-w-[800px] min-w-0 h-full p-4 py-12">
+            <div className="col-span-3 flex flex-1 px-4 flex-col items-center order-2 md:order-1">
+              <div className="w-full max-w-[800px] min-w-0 h-full p-4 py-12">
                 {children}
               </div>
               <footer className="w-full py-4 px-8 ">
@@ -151,7 +151,7 @@ const DocsLayout = async ({ children }: { children: React.ReactNode }) => {
             </div>
             <div className="relative col-span-1 p-4 order-1 md:order-2 ">
               <div className="sticky top-[16px]">
-                <Card className="mb-4">
+                <Card className="mb-4 p-4">
                   <ThemeSelector />
                 </Card>
                 <TOC />
