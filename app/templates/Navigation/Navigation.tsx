@@ -7,14 +7,34 @@ import clsx from "clsx";
 import { useMediaQuery } from "react-responsive";
 
 interface NavItemsAttr {
+  type?: "topnav" | "sidenav";
   navMenu: {
     name: string;
     path?: string;
   }[];
 }
 
-const navStandardStyle =
-  "bg-[var(--background-card)] text-text-standard border-border";
+export const navThemeClasses = {
+  topnav: {
+    bg: "bg-[var(--bg-topnav)]",
+    textStandard: "text-[var(--text-topnav-standard)]",
+    textActive: "text-[var(--text-topnav-active)]",
+    textSub: "text-[var(--text-topnav-sub)]",
+    border: "border-[var(--border-topnav)]"
+  },
+  sidenav: {
+    bg: "bg-[var(--bg-sidenav)]",
+    textStandard: "text-[var(--text-sidenav-standard)]",
+    textActive: "text-[var(--text-sidenav-active)]",
+    textSub: "text-[var(--text-sidenav-sub)]",
+    border: "border-[var(--border-sidenav)]"
+  }
+};
+
+const navStandardStyle = (type: "topnav" | "sidenav" = "topnav") => {
+  const t = navThemeClasses[type];
+  return `${t.bg} ${t.textStandard} ${t.border}`;
+};
 
 const handleNavToggle = (targetId: string) => {
   const el = document.getElementById(targetId);
@@ -28,16 +48,17 @@ const Navigation = ({
   children,
   id,
   className,
+  type = "topnav",
 }: {
   children: React.ReactNode;
   id?: string;
   className?: string;
+  type?: "topnav" | "sidenav";
 }) => {
   const isMobile = useMediaQuery({ maxWidth: 767 });
 
   const mobileClose = (e: React.MouseEvent) => {
     if (isMobile) {
-      e.preventDefault();
       if (id) {
         handleNavToggle(id);
       }
@@ -47,7 +68,7 @@ const Navigation = ({
   return (
     <nav
       id={id ? id : undefined}
-      className={`${navStandardStyle} ${className} overflow-auto`}
+      className={`${navStandardStyle(type)} ${className} overflow-auto`}
       onClick={mobileClose}
     >
       {children}
@@ -55,27 +76,21 @@ const Navigation = ({
   );
 };
 
-const NavItems = ({ navMenu }: NavItemsAttr) => {
+const NavItems = ({ navMenu, type = "sidenav" }: NavItemsAttr) => {
   const pathname = usePathname();
 
   return (
-    <ul>
+    <ul className={clsx({ "flex flex-row items-center gap-4": type === "topnav" })}>
       {navMenu.map((menu) => {
         return (
           <li className="relative group" key={menu.name}>
             <div className={clsx("flex justify-between items-center pr-4")}>
-              {menu.path ? (
-                <Link
-                  href={menu.path}
-                  className={`${pathname === menu.path ? `text-primary` : `text-[var(--text-standard)]`} px-4 py-2 block `}
-                >
-                  {menu.name}
-                </Link>
-              ) : (
-                <p className={`px-4 py-2 block text-[var(--text-standard)]`}>
-                  {menu.name}
-                </p>
-              )}
+              <Link
+                href={menu.path || "#"}
+                className={`${pathname === menu.path ? navThemeClasses[type].textActive : navThemeClasses[type].textStandard} px-4 py-2 block hover:opacity-80 transition-opacity`}
+              >
+                {menu.name}
+              </Link>
             </div>
           </li>
         );
@@ -100,11 +115,11 @@ const NavToggleButton = ({
   );
 };
 
-const Sidebar = ({ navMenu }: NavItemsAttr) => {
+const Sidebar = ({ navMenu, type = "sidenav" }: NavItemsAttr) => {
   return (
     <nav
       className={clsx(
-        `relative ${navStandardStyle} w-full md:w-[320px] h-full z-20 left-0 overflow-auto`
+        `relative ${navStandardStyle(type)} w-full md:w-[320px] h-full z-20 left-0 overflow-auto`
       )}
     >
       <ul>
@@ -112,18 +127,14 @@ const Sidebar = ({ navMenu }: NavItemsAttr) => {
           return (
             <li className="relative group" key={menu.name + idx}>
               <div className={clsx("flex justify-between items-center pr-4")}>
-                {menu.path ? (
-                  <Link
-                    href={menu.path}
-                    className={clsx(
-                      "px-4 py-2 block text-[var(--text-standard)]"
-                    )}
-                  >
-                    {menu.name}
-                  </Link>
-                ) : (
-                  <p></p>
-                )}
+                <Link
+                  href={menu.path || "#"}
+                  className={clsx(
+                    `px-4 py-2 block ${navThemeClasses[type].textStandard} hover:opacity-80 transition-opacity`
+                  )}
+                >
+                  {menu.name}
+                </Link>
               </div>
             </li>
           );
@@ -178,12 +189,15 @@ const GlobalNav = ({
     }));
   };
 
+  const navType = type === "sidebar" ? "sidenav" : "topnav";
+  const t = navThemeClasses[navType];
+
   return (
     <nav
       className={clsx(
-        `fixed top-0 md:relative w-full  bg-[var(--background-card)] text-text-standard z-20 left-0 ${toggleMenu ? "block" : "hidden"}`,
-        { "h-full max-w-80 overflow-auto": type == "sidebar" },
-        { "h-auto flex flex-row items-center": type == "topmenu" }
+        `fixed top-0 md:relative w-full ${t.bg} ${t.textStandard} z-20 left-0 ${toggleMenu ? "block" : "hidden"}`,
+        { [`h-full max-w-80 overflow-auto border-r ${t.border}`]: type == "sidebar" },
+        { [`h-auto flex flex-row items-center border-b ${t.border}`]: type == "topmenu" }
       )}
     >
       {/* brand */}
@@ -200,11 +214,11 @@ const GlobalNav = ({
               ></Image>
             </Link>
             <button
-              className={`fixed shadow-md rounded-full bg-[var(--background-card)] w-12 h-12 top-6 left-6 cursor-pointer z-50`}
+              className={`fixed shadow-md rounded-full ${t.bg} border ${t.border} w-12 h-12 top-6 left-6 cursor-pointer z-50`}
               onClick={() => setToggleMenu(!toggleMenu)}
             >
               <span
-                className="material-symbols-outlined text-[var(--text-standard)]"
+                className={`material-symbols-outlined ${t.textStandard}`}
                 style={{ fontSize: "16px" }}
               >
                 menu
@@ -225,25 +239,24 @@ const GlobalNav = ({
               return (
                 <p
                   key={menu.name + idx}
-                  className="px-4 text-sm text-sub mt-2 mb-0"
+                  className={`px-4 text-sm ${t.textSub} mt-2 mb-0`}
                 >
                   {menu.name}
                 </p>
               );
             default:
-              if (!menu.path) return null;
               return (
                 <li className="relative group" key={menu.name}>
                   <div
                     className={clsx("flex justify-between items-center pr-4")}
                   >
                     <Link
-                      href={menu.path}
+                      href={menu.path || "#"}
                       className={clsx(
-                        "px-4 py-2 block text-[var(--text-standard)]",
+                        `px-4 py-2 block ${t.textStandard}`,
                         {
-                          "text-primary":
-                            menu.path == pathname ||
+                          [t.textActive]:
+                            (menu.path && menu.path == pathname) ||
                             menu.subItems?.some((sub) => sub.path === pathname),
                         }
                       )}
@@ -257,7 +270,7 @@ const GlobalNav = ({
                       >
                         <span
                           className={clsx(
-                            "material-symbols-outlined text-[var(--text-sub)] transition-transform",
+                            `material-symbols-outlined ${t.textSub} transition-transform`,
                             {
                               "rotate-90": openSubMenu[menu.name],
                             }
@@ -274,7 +287,7 @@ const GlobalNav = ({
                       className={clsx(
                         "block",
                         {
-                          "hidden absolute top-[42px] group-hover:block hover:block bg-[var(--background-card)]":
+                          [`hidden absolute top-[42px] group-hover:block hover:block ${t.bg} border ${t.border}`]:
                             type == "topmenu",
                         },
                         {
@@ -287,9 +300,9 @@ const GlobalNav = ({
                           <li key={submenu.name}>
                             <Link
                               className={clsx(
-                                "px-4 py-2 block text-[var(--text-standard)]",
+                                `px-4 py-2 block ${t.textStandard}`,
                                 {
-                                  "text-primary": submenu.path == pathname,
+                                  [t.textActive]: submenu.path == pathname,
                                 },
                                 { "pl-12 ": type == "sidebar" }
                               )}

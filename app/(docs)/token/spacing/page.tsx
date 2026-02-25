@@ -2,7 +2,6 @@ import { Card, CardContent, CardHeader } from "@/app/templates/Card/Card";
 import CodeBlock from "@/app/templates/CodeBlock/CodeBlock";
 import { NodeCollapse } from "@/app/templates/Collapse/Collapse";
 import Tab from "@/app/templates/Tab/Tab";
-import token from "@/token.json";
 import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Spacing",
@@ -12,7 +11,6 @@ export const metadata: Metadata = {
 };
 
 const TokenColor = () => {
-  const tokenOriginSpacing = token.spacing;
 
   return (
     <>
@@ -40,14 +38,7 @@ const TokenColor = () => {
             id: "tokenContent",
             tag: "token",
             content: (
-              <Card className="my-4">
-                <CardHeader>token.json</CardHeader>
-                <CardContent noMargin>
-                  <CodeBlock language="json">
-                    {JSON.stringify(tokenOriginSpacing, null, 2)}
-                  </CodeBlock>
-                </CardContent>
-              </Card>
+              <></>
             ),
           },
           {

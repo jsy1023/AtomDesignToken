@@ -185,17 +185,26 @@ myStyleDictionary.registerFormat({
 myStyleDictionary.registerFormat({
   name: "theme",
   format: function ({ dictionary }) {
-    const themes = dictionary.allTokens.reduce((acc, token) => {
+    const groupedThemes = dictionary.allTokens.reduce((acc, token) => {
       const category = token.attributes.category;
       if (category === "palette") return acc;
 
-      if (!acc.includes(category)) {
-        acc.push(category);
+      if (category.includes("-")) {
+        const prefix = category.split("-")[0];
+        if (!acc[prefix]) acc[prefix] = [];
+        if (!acc[prefix].includes(category)) {
+          acc[prefix].push(category);
+        }
+      } else {
+        if (!acc.global) acc.global = [];
+        if (!acc.global.includes(category)) {
+          acc.global.push(category);
+        }
       }
       return acc;
-    }, []);
+    }, { global: [] });
 
-    return `export const themes = ${JSON.stringify(themes)};`;
+    return `export const themes: Record<string, string[]> = ${JSON.stringify(groupedThemes, null, 2)};`;
   },
 });
 

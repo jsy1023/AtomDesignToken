@@ -132,6 +132,16 @@
   --color-table-body-text: var(--table-body-text);
   --color-table-body-border: var(--table-body-border);
   --color-pagination-bg-hover: var(--pagination-bg-hover);
+  --color-bg-topnav: var(--bg-topnav);
+  --color-text-topnav-standard: var(--text-topnav-standard);
+  --color-text-topnav-active: var(--text-topnav-active);
+  --color-text-topnav-sub: var(--text-topnav-sub);
+  --color-border-topnav: var(--border-topnav);
+  --color-bg-sidenav: var(--bg-sidenav);
+  --color-text-sidenav-standard: var(--text-sidenav-standard);
+  --color-text-sidenav-active: var(--text-sidenav-active);
+  --color-text-sidenav-sub: var(--text-sidenav-sub);
+  --color-border-sidenav: var(--border-sidenav);
 } 
 
 .white {
@@ -212,4 +222,36 @@
 --table-body-text: var(--color-gray-200);
 --table-body-border: var(--color-dark-400);
 --pagination-bg-hover: var(--color-dark-300);
+} 
+
+.topnav-standard {
+--bg-topnav: var(--color-white);
+--text-topnav-standard: var(--color-dark-300);
+--text-topnav-active: var(--color-blue-500);
+--text-topnav-sub: var(--color-gray-600);
+--border-topnav: var(--color-gray-300);
+} 
+
+.topnav-dark {
+--bg-topnav: var(--color-dark-200);
+--text-topnav-standard: var(--color-white);
+--text-topnav-active: var(--color-blue-400);
+--text-topnav-sub: var(--color-dark-600);
+--border-topnav: var(--color-dark-400);
+} 
+
+.sidenav-standard {
+--bg-sidenav: var(--color-white);
+--text-sidenav-standard: var(--color-dark-300);
+--text-sidenav-active: var(--color-blue-500);
+--text-sidenav-sub: var(--color-gray-600);
+--border-sidenav: var(--color-gray-300);
+} 
+
+.sidenav-dark {
+--bg-sidenav: var(--color-dark-200);
+--text-sidenav-standard: var(--color-white);
+--text-sidenav-active: var(--color-blue-400);
+--text-sidenav-sub: var(--color-dark-600);
+--border-sidenav: var(--color-dark-400);
 } 

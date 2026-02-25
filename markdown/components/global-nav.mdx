@@ -7,46 +7,122 @@ import Navigation, {
 
 # 네비게이션
 
-웹사이트, 어플리케이션의 전체 구조에서 주요 영역으로 이동할 수 있도록 하는 상위 네비게이션 메뉴입니다.
+웹사이트, 어플리케이션의 전체 구조에서 주요 영역으로 이동할 수 있도록 하는 네비게이션 메뉴입니다. 상단 네비게이션과 사이드 네비게이션으로 구분하여 사용할 수 있습니다.
 
 ---
 
+## Example
+
+### Top Navigation
+
+상단에 위치하는 네비게이션 메뉴입니다. `type="topnav"` 속성을 사용합니다.
+
 <PreviewLayout
   preview={
-    <Navigation
-      className="min-h-0 
-             w-full h-[calc(100dvh-64px)] overflow-auto
-             w-[320px] md:h-full border-r"
-    >
-      <NavItems
-        navMenu={[
-          { name: "네비게이션1", path: "/components/global-nav" },
-          { name: "네비게이션2" },
-          { name: "네비게이션3" },
-          { name: "네비게이션4" },
-        ]}
-      />
-    </Navigation>
+    <div className="w-full relative min-h-[100px] border border-[var(--border-topnav)] flex bg-[var(--background-wrapper)]">
+      <Navigation
+        type="topnav"
+        className="flex items-center w-full py-2 px-4 shadow-sm h-[64px]"
+      >
+        <div className="flex items-center gap-6 w-full">
+          <span className="font-bold text-[var(--text-topnav-standard)]">Logo</span>
+          <div className="flex flex-row md:flex">
+            <NavItems
+              type="topnav"
+              navMenu={[
+                { name: "소개", path: "/components/global-nav" },
+                { name: "컴포넌트" },
+                { name: "지원" },
+              ]}
+            />
+          </div>
+        </div>
+      </Navigation>
+    </div>
   }
-  code={`import Navigation, {
-  NavItems,
-  NavToggleButton,
-} from "@/app/components/Navigation/Navigation";
-    <Navigation
-      className="min-h-0
-             w-full h-[calc(100dvh-64px)] overflow-auto
-             w-[320px] md:h-full border-r"
-    >
-      <NavItems
-        navMenu={[
-          { name: "네비게이션1", path: "/components/global-nav" },
-          { name: "네비게이션2" },
-          { name: "네비게이션3" },
-          { name: "네비게이션4" },
-        ]}
-      />
-    </Navigation>`}
+  code={`import Navigation, { NavItems } from "@/app/templates/Navigation/Navigation";
 
+export default function TopnavExample() {
+  return (
+    <Navigation
+      type="topnav"
+      className="flex items-center w-full py-2 px-4 shadow-sm h-[64px]"
+    >
+      <div className="flex items-center gap-6 w-full">
+        <span className="font-bold text-[var(--text-topnav-standard)]">Logo</span>
+        <div className="flex flex-row md:flex">
+          <NavItems
+            type="topnav"
+            navMenu={[
+              { name: "소개", path: "/components/global-nav" },
+              { name: "컴포넌트" },
+              { name: "지원" },
+            ]}
+          />
+        </div>
+      </div>
+    </Navigation>
+  );
+}`}
+/>
+
+### Side Navigation
+
+좌측에 위치하는 사이드 네비게이션 메뉴입니다. `type="sidenav"` 속성을 사용합니다.
+
+<PreviewLayout
+  preview={
+    <div className="w-full relative min-h-[400px] flex bg-[var(--background-wrapper)] justify-center border border-[var(--border-sidenav)] rounded-md overflow-hidden p-4">
+      <Navigation
+        type="sidenav"
+        className="min-h-0 relative
+               w-full h-[400px] overflow-auto
+               md:w-[280px] border border-[var(--border-sidenav)] rounded-md shadow-sm"
+      >
+        <div className="flex flex-col h-full w-full overflow-auto py-2">
+          <p className="px-4 py-2 text-[var(--text-sidenav-standard)] font-bold m-0 border-b border-[var(--border-sidenav)]">카테고리</p>
+          <div className="px-2 py-2">
+            <NavItems
+              type="sidenav"
+              navMenu={[
+                { name: "네비게이션1", path: "/components/global-nav" },
+                { name: "네비게이션2" },
+                { name: "네비게이션3" },
+                { name: "네비게이션4" },
+              ]}
+            />
+          </div>
+        </div>
+      </Navigation>
+    </div>
+  }
+  code={`import Navigation, { NavItems } from "@/app/templates/Navigation/Navigation";
+
+export default function SidenavExample() {
+  return (
+    <Navigation
+      type="sidenav"
+      className="min-h-0 relative
+              w-full h-full overflow-auto
+              md:w-[280px] border border-[var(--border-sidenav)] rounded-md shadow-sm"
+    >
+      <div className="flex flex-col h-full w-full overflow-auto py-2">
+        <p className="px-4 py-2 text-[var(--text-sidenav-standard)] font-bold m-0 border-b border-[var(--border-sidenav)]">카테고리</p>
+        <div className="px-2 py-2">
+          <NavItems
+            type="sidenav"
+            navMenu={[
+              { name: "네비게이션1", path: "/components/global-nav" },
+              { name: "네비게이션2" },
+              { name: "네비게이션3" },
+              { name: "네비게이션4" },
+            ]}
+          />
+        </div>
+      </div>
+    </Navigation>
+  );
+}`}
 />
 
 ---
@@ -63,66 +139,16 @@ import Navigation, {
   code={`import Navigation, {
   NavItems,
   NavToggleButton,
-} from "@/app/components/Navigation/Navigation";
+} from "@/app/templates/Navigation/Navigation";
 
-<Navigation
-  className="min-h-0
-             w-full h-[calc(100dvh-64px)] overflow-auto
-             w-[320px] md:h-full border-r"
->
-  <NavItems
-    navMenu={[
-      { name: "네비게이션1", path: "/components/global-nav" },
-      { name: "네비게이션2" },
-      { name: "네비게이션3" },
-      { name: "네비게이션4" },
-    ]}
-  />
+// Top Navigation
+<Navigation type="topnav">
+  <NavItems type="topnav" navMenu={...} />
 </Navigation>
 
+// Side Navigation
+<Navigation type="sidenav">
+  <NavItems type="sidenav" navMenu={...} />
+</Navigation>
 `}
-/>
-
----
-
-## Example
-
-### Default
-
-<PreviewLayout
-  preview={
-    <Navigation
-      className="min-h-0 
-             w-full h-[calc(100dvh-64px)] overflow-auto
-             w-[320px] md:h-full border-r"
-    >
-      <NavItems
-        navMenu={[
-          { name: "네비게이션1", path: "/components/global-nav" },
-          { name: "네비게이션2" },
-          { name: "네비게이션3" },
-          { name: "네비게이션4" },
-        ]}
-      />
-    </Navigation>
-  }
-  code={`import Navigation, {
-  NavItems,
-  NavToggleButton,
-} from "@/app/components/Navigation/Navigation";
-    <Navigation
-      className="min-h-0
-             w-full h-[calc(100dvh-64px)] overflow-auto
-             w-[320px] md:h-full border-r"
-    >
-      <NavItems
-        navMenu={[
-          { name: "네비게이션1", path: "/components/global-nav" },
-          { name: "네비게이션2" },
-          { name: "네비게이션3" },
-          { name: "네비게이션4" },
-        ]}
-      />
-    </Navigation>`}
-
 />

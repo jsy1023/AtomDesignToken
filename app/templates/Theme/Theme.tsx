@@ -5,73 +5,84 @@ import { Radio } from "../Form/Form";
 import { themes } from "@/build/typescript/theme";
 
 export const ThemeSelector = () => {
-  const [selectedTheme, setSelectedTheme] = useState<string | null>(themes[0]);
-
+  const [selectedThemes, setSelectedThemes] = useState<Record<string, string>>({});
   const [isThemeLoading, setThemeLoading] = useState(false);
 
   useEffect(() => {
     const chageThemeValue = () => {
-      const storedTheme = localStorage.getItem("theme") || themes[0];
-      setSelectedTheme(storedTheme);;
+      const newThemes: Record<string, string> = {};
+      Object.entries(themes).forEach(([group, groupThemes]) => {
+        const storedKey = group === "global" ? "theme" : `theme-${group}`;
+        const storedTheme = localStorage.getItem(storedKey) || groupThemes[0];
+        newThemes[group] = storedTheme;
+      });
+      setSelectedThemes(newThemes);
     };
 
     chageThemeValue();
     setThemeLoading(true);
   }, []);
 
-  // main theme
-  const handleThemeChange = (theme: string) => {
+  const handleThemeChange = (group: string, theme: string) => {
     if (typeof window !== "undefined") {
-      localStorage.setItem("theme", theme);
+      const storedKey = group === "global" ? "theme" : `theme-${group}`;
+      localStorage.setItem(storedKey, theme);
       window.dispatchEvent(new Event("storage"));
-      setSelectedTheme(theme);
+      setSelectedThemes((prev) => ({ ...prev, [group]: theme }));
     }
   };
-  if (isThemeLoading == false) {
+
+  if (isThemeLoading === false) {
     return null;
   }
 
   return (
     <div className="flex flex-col gap-4">
-      <p>theme 선택</p>
-      <div className="flex flex-col gap-4">
-        
-          <div className="flex gap-4">
-            {themes.map((theme) => (
+      {Object.entries(themes).map(([group, groupThemes]) => (
+        <div key={group} className="flex flex-col gap-2">
+          <p className="font-bold capitalize">{group} Theme</p>
+          <div className="flex gap-4 flex-wrap">
+            {groupThemes.map((theme) => (
               <Radio
-                name="mainTheme"
+                name={`theme-${group}`}
                 value={theme}
                 key={theme}
-                onChange={() => handleThemeChange(theme)}
-                defaultChecked={theme == selectedTheme}
+                onChange={() => handleThemeChange(group, theme)}
+                defaultChecked={theme === selectedThemes[group]}
               />
             ))}
           </div>
-        
-      </div>
+        </div>
+      ))}
     </div>
   );
 };
 
 export const ThemeProvider = () => {
-  const [theme, setTheme] = useState<string | null>(null); // 테마 상태 추가
+  const [theme, setTheme] = useState<Record<string, string>>({});
   const [isThemeLoading, setThemeLoading] = useState(false);
-  // theme setting
+
   useEffect(() => {
-    // 로컬 스토리지에서 테마 가져오기
     const listenStorageChange = () => {
-      const currentTheme = localStorage.getItem("theme") || themes[0];
-      setTheme(currentTheme);
-      document.documentElement.classList.remove(...themes);
-      document.documentElement.classList.add(currentTheme);
+      const newThemes: Record<string, string> = {};
+      Object.entries(themes).forEach(([group, groupThemes]) => {
+        const storedKey = group === "global" ? "theme" : `theme-${group}`;
+        const currentTheme = localStorage.getItem(storedKey) || groupThemes[0];
+        newThemes[group] = currentTheme;
+        
+        document.documentElement.classList.remove(...groupThemes);
+        document.documentElement.classList.add(currentTheme);
+      });
+      setTheme(newThemes);
     };
+
     listenStorageChange();
     window.addEventListener("storage", listenStorageChange);
     setThemeLoading(true);
     return () => window.removeEventListener("storage", listenStorageChange);
-  }, [theme]);
+  }, []);
 
-  if (isThemeLoading == false) {
+  if (isThemeLoading === false) {
     return null;
   }
 };
