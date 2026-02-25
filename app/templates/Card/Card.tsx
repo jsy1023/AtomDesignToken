@@ -2,7 +2,6 @@ import React from "react";
 
 export const Card = ({
   children,
-  type = "standard",
   className = "",
   overflow = "overflow-auto",
 }: {

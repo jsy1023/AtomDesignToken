@@ -12,6 +12,9 @@ export default function PreviewLayout({
 }) {
   return (
     <Tab
+      tabContentClass="tab-content has-[.code-block-content]:!p-0 border-t-0"
+      expectionValue="code"
+      expectionLayout="code-block-content"
       tabs={[
         { id: "preview", target: ["preview"], tabItem: "preview" },
         { id: "code", target: ["code"], tabItem: "code" },
@@ -30,11 +33,9 @@ export default function PreviewLayout({
           id: "codeContent",
           tag: "code",
           content: (
-            <Card className="my-4">
-              <CardContent noMargin>
-                <CodeBlock language="typescript">{`${code}`}</CodeBlock>
-              </CardContent>
-            </Card>
+            <div className="w-full">
+              <CodeBlock language="typescript">{`${code}`}</CodeBlock>
+            </div>
           ),
         },
       ]}
@@ -50,10 +51,8 @@ export function CodeLayout({
   language?: string;
 }) {
   return (
-    <Card className="my-4">
-      <CardContent noMargin>
-        <CodeBlock language={language}>{`${code}`}</CodeBlock>
-      </CardContent>
+    <Card className="my-4 overflow-hidden !p-0">
+      <CodeBlock language={language}>{`${code}`}</CodeBlock>
     </Card>
   );
 }
