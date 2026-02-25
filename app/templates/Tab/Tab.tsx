@@ -6,12 +6,12 @@ import { useGSAP } from "@gsap/react";
 
 const Tab = ({
   tabs,
-  tabClass = "w-full bg-[var(--background-wrapper)] border-b border-border relative z-0 h-[57px]",
-  tabNavItemClass = "p-4",
-  tabNavItemActiveClass = "bg-[var(--background-card)] border border-border border-b-[var(--background-card)] relative z-10",
+  tabClass = "tab",
+  tabNavItemClass = "tab-nav-item",
+  tabNavItemActiveClass = "tab-nav-item-active",
   tabContents,
-  tabContentClass = "bg-[var(--background-card)] p-4 border border-t-0  border-border -mt-[1px]",
-  tabContentItem = "text-[var(--text-standard)]",
+  tabContentClass = "tab-content",
+  tabContentItem = "tab-content-item",
   expectionValue,
   expectionLayout,
 }: {
@@ -84,9 +84,9 @@ const Tab = ({
               key={tab.id}
               id={tab.id}
               onClick={() => handleTabActive(tab.target, tab.id)}
-              className={`cursor-pointer ${tabNavItemClass} ${
+              className={`${tabNavItemClass} ${
                 activeTab == tab.id
-                  ? `text-primary ${tabNavItemActiveClass}`
+                  ? tabNavItemActiveClass
                   : ""
               }`}
             >
@@ -101,8 +101,8 @@ const Tab = ({
             <div
               key={tabContent.id}
               id={tabContent.tag}
-              className={`w-full sm:w-auto ${tabContentItem} ${
-                activeTab == expectionValue ? expectionLayout : null
+              className={`${tabContentItem} ${
+                activeTab == expectionValue ? expectionLayout : ""
               }`}
             >
               {tabContent.content}
