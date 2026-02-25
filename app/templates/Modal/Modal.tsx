@@ -29,11 +29,11 @@ export const ModalContent = ({
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       shouldCloseOnEsc={true}
-      overlayClassName="fixed inset-0 bg-black/40 flex justify-center items-center z-50"
-      className={`bg-[var(--modal-background)] p-0 rounded shadow-md w-full flex flex-col ${size === "normal" ? "max-w-md" : size === "middle" ? "max-w-xl" : size === "large" ? "max-w-5xl" : size === "xl" ? "max-w-6xl" : size === "full" ? "max-w-screen" : size === "full-screen" ? "w-screen h-screen" : null}`}
+      overlayClassName="modal-overlay"
+      className={`modal modal-${size}`}
     >
       <ModalTitle onRequestClose={onRequestClose} title={modalTitle} />
-      <div className="p-4 w-full h-full">{children}</div>
+      <div className="modal-content">{children}</div>
       <ModalFooter modalFooter={modalFooter} />
     </ReactModal>
   );
@@ -50,11 +50,11 @@ type ModalTitleProps = {
 
 export const ModalTitle = ({ title, onRequestClose }: ModalTitleProps) => {
   return (
-    <div className="flex justify-between py-3 px-4">
-      <h6>{title}</h6>
+    <div className="modal-header">
+      <h6 className="modal-title">{title}</h6>
       <button
         onClick={onRequestClose}
-        className="material-symbols-outlined cursor-pointer"
+        className="material-symbols-outlined modal-close"
       >
         close
       </button>
@@ -67,5 +67,5 @@ export const ModalFooter = ({
 }: {
   modalFooter: React.ReactNode;
 }) => {
-  return <div className="flex justify-end py-3 px-4">{modalFooter}</div>;
+  return <div className="modal-footer">{modalFooter}</div>;
 };
