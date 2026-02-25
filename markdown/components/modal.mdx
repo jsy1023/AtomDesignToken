@@ -1,0 +1,100 @@
+import PreviewLayout from "@/app/components/mdx-layout";
+import { CodeLayout } from "@/app/components/mdx-layout";
+import { ModalContent } from "@/app/templates/Modal/Modal";
+import { Button } from "@/app/templates/Button/Button";
+import { Input } from "@/app/templates/Form/Form";
+import Table from "@/app/templates/Table/Table";
+import { Card, CardContent, CardHeader } from "@/app/templates/Card/Card";
+
+import ModalPreview from "@/app/components/ModalPreview";
+
+# 모달창
+
+모달(Modal)은 사용자의 작업 흐름을 중단시키고, 특정 작업이나 확인을 요구하는 UI 요소입니다.
+
+---
+
+<PreviewLayout
+  preview={<ModalPreview />}
+  code={`import { ModalContent } from "@/app/components/Modal/Modal"
+import { Button } from "@/app/components/Button/Button"
+import { Input } from "@/app/components/Form/Form"
+import { useState } from "react"
+
+export default function App() {
+  const [isOpen, setIsOpen] = useState(false)
+  
+  return (
+    <>
+      <Button onClick={() => setIsOpen(true)} type="primary">
+        모달 열기
+      </Button>
+      <ModalContent
+        isOpen={isOpen}
+        onRequestClose={() => setIsOpen(false)}
+        modalTitle="모달제목"
+        modalFooter={
+          <Button onClick={() => setIsOpen(false)} type="primary">
+            닫기
+          </Button>
+        }
+      >
+        <Input label="이름" />
+      </ModalContent>
+    </>
+  )
+}
+`}
+/>
+
+## Attributes
+
+<Table
+  tableData={[
+    { Prop: "isOpen", Type: "boolean", Describe: "모달 Open/Close 상태 값" },
+    { Prop: "onRequestClose", Type: "()=>void", Describe: "모달 닫기 버튼" },
+    { Prop: "children", Type: "React.ReactNode", Describe: "모달 콘텐츠 내용" },
+    { Prop: "modalTitle", Type: "string", Describe: "모달 제목 정보" },
+    { Prop: "modalFooter", Type: "React.ReactNode", Describe: "모달 하단 컴포넌트 정보" },
+    { Prop: "size", Type: "normal | middle | large | xl | full | full-screen", Describe: "모달 크기 정보" },
+  ]}
+/>
+
+---
+
+## Installation
+
+<CodeLayout language="bash" code={`npx atomsystem-add Modal`} />
+
+---
+
+## Usage
+
+<CodeLayout language="tsx" code={`import { ModalContent } from "@/app/components/Modal/Modal"`} />
+
+### layout.tsx 설정
+
+모달을 렌더링할 포털 요소를 최상위 레이아웃에 추가해야 합니다.
+<CodeLayout language="tsx" code={`import { Modal } from "../components/Modal/Modal";
+//**
+// * 상위 공간에 모달 호출할 공간을 적용해줍니다.
+// */ 
+<Modal />`} />
+
+### 컴포넌트 적용
+
+<CodeLayout language="tsx" code={`<Button onClick={() => setIsOpen(true)} type="primary">
+  모달 열기
+</Button>
+<ModalContent
+  isOpen={isOpen}
+  onRequestClose={() => setIsOpen(false)}
+  modalTitle="모달제목"
+  modalFooter={
+    <Button onClick={() => setIsOpen(false)} type="primary">
+      닫기
+    </Button>
+  }
+>
+  <Input label="이름" />
+</ModalContent>`} />

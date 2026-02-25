@@ -25,6 +25,7 @@ export function generateStaticParams() {
     { slug: "toc" },
     { slug: "pagination" },
     { slug: "toast" },
+    { slug: "modal" },
   ];
 }
 
