@@ -1,0 +1,41 @@
+.nav-topnav {
+    --nav-bg: var(--bg-topnav);
+    --nav-text-standard: var(--text-topnav-standard);
+    --nav-text-active: var(--text-topnav-active);
+    --nav-text-sub: var(--text-topnav-sub);
+    --nav-border: var(--border-topnav);
+}
+
+.nav-sidenav {
+    --nav-bg: var(--bg-sidenav);
+    --nav-text-standard: var(--text-sidenav-standard);
+    --nav-text-active: var(--text-sidenav-active);
+    --nav-text-sub: var(--text-sidenav-sub);
+    --nav-border: var(--border-sidenav);
+}
+
+.nav-container {
+    background-color: var(--nav-bg);
+    color: var(--nav-text-standard);
+    border-color: var(--nav-border);
+}
+
+.nav-bg {
+    background-color: var(--nav-bg);
+}
+
+.nav-border {
+    border-color: var(--nav-border);
+}
+
+.nav-text-standard {
+    color: var(--nav-text-standard);
+}
+
+.nav-text-active {
+    color: var(--nav-text-active);
+}
+
+.nav-text-sub {
+    color: var(--nav-text-sub);
+}

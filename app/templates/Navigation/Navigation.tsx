@@ -14,27 +14,7 @@ interface NavItemsAttr {
   }[];
 }
 
-export const navThemeClasses = {
-  topnav: {
-    bg: "bg-[var(--bg-topnav)]",
-    textStandard: "text-[var(--text-topnav-standard)]",
-    textActive: "text-[var(--text-topnav-active)]",
-    textSub: "text-[var(--text-topnav-sub)]",
-    border: "border-[var(--border-topnav)]"
-  },
-  sidenav: {
-    bg: "bg-[var(--bg-sidenav)]",
-    textStandard: "text-[var(--text-sidenav-standard)]",
-    textActive: "text-[var(--text-sidenav-active)]",
-    textSub: "text-[var(--text-sidenav-sub)]",
-    border: "border-[var(--border-sidenav)]"
-  }
-};
-
-const navStandardStyle = (type: "topnav" | "sidenav" = "topnav") => {
-  const t = navThemeClasses[type];
-  return `${t.bg} ${t.textStandard} ${t.border}`;
-};
+// Custom CSS classes are now used via css/navigation.css
 
 const handleNavToggle = (targetId: string) => {
   const el = document.getElementById(targetId);
@@ -68,7 +48,7 @@ const Navigation = ({
   return (
     <nav
       id={id ? id : undefined}
-      className={`${navStandardStyle(type)} ${className} overflow-auto`}
+      className={`nav-container nav-${type} ${className} overflow-auto`}
       onClick={mobileClose}
     >
       {children}
@@ -87,7 +67,7 @@ const NavItems = ({ navMenu, type = "sidenav" }: NavItemsAttr) => {
             <div className={clsx("flex justify-between items-center pr-4")}>
               <Link
                 href={menu.path || "#"}
-                className={`${pathname === menu.path ? navThemeClasses[type].textActive : navThemeClasses[type].textStandard} px-4 py-2 block hover:opacity-80 transition-opacity`}
+                className={`${pathname === menu.path ? "nav-text-active" : "nav-text-standard"} px-4 py-2 block hover:opacity-80 transition-opacity`}
               >
                 {menu.name}
               </Link>
@@ -119,7 +99,7 @@ const Sidebar = ({ navMenu, type = "sidenav" }: NavItemsAttr) => {
   return (
     <nav
       className={clsx(
-        `relative ${navStandardStyle(type)} w-full md:w-[320px] h-full z-20 left-0 overflow-auto`
+        `relative nav-container nav-${type} w-full md:w-[320px] h-full z-20 left-0 overflow-auto`
       )}
     >
       <ul>
@@ -130,7 +110,7 @@ const Sidebar = ({ navMenu, type = "sidenav" }: NavItemsAttr) => {
                 <Link
                   href={menu.path || "#"}
                   className={clsx(
-                    `px-4 py-2 block ${navThemeClasses[type].textStandard} hover:opacity-80 transition-opacity`
+                    `px-4 py-2 block nav-text-standard hover:opacity-80 transition-opacity`
                   )}
                 >
                   {menu.name}
@@ -190,14 +170,13 @@ const GlobalNav = ({
   };
 
   const navType = type === "sidebar" ? "sidenav" : "topnav";
-  const t = navThemeClasses[navType];
 
   return (
     <nav
       className={clsx(
-        `fixed top-0 md:relative w-full ${t.bg} ${t.textStandard} z-20 left-0 ${toggleMenu ? "block" : "hidden"}`,
-        { [`h-full max-w-80 overflow-auto border-r ${t.border}`]: type == "sidebar" },
-        { [`h-auto flex flex-row items-center border-b ${t.border}`]: type == "topmenu" }
+        `fixed top-0 md:relative w-full nav-container nav-${navType} z-20 left-0 ${toggleMenu ? "block" : "hidden"}`,
+        { [`h-full max-w-80 overflow-auto border-r nav-border`]: type == "sidebar" },
+        { [`h-auto flex flex-row items-center border-b nav-border`]: type == "topmenu" }
       )}
     >
       {/* brand */}
@@ -214,11 +193,11 @@ const GlobalNav = ({
               ></Image>
             </Link>
             <button
-              className={`fixed shadow-md rounded-full ${t.bg} border ${t.border} w-12 h-12 top-6 left-6 cursor-pointer z-50`}
+              className={`fixed shadow-md rounded-full nav-bg border nav-border w-12 h-12 top-6 left-6 cursor-pointer z-50`}
               onClick={() => setToggleMenu(!toggleMenu)}
             >
               <span
-                className={`material-symbols-outlined ${t.textStandard}`}
+                className={`material-symbols-outlined nav-text-standard`}
                 style={{ fontSize: "16px" }}
               >
                 menu
@@ -239,7 +218,7 @@ const GlobalNav = ({
               return (
                 <p
                   key={menu.name + idx}
-                  className={`px-4 text-sm ${t.textSub} mt-2 mb-0`}
+                  className={`px-4 text-sm nav-text-sub mt-2 mb-0`}
                 >
                   {menu.name}
                 </p>
@@ -253,9 +232,9 @@ const GlobalNav = ({
                     <Link
                       href={menu.path || "#"}
                       className={clsx(
-                        `px-4 py-2 block ${t.textStandard}`,
+                        `px-4 py-2 block nav-text-standard`,
                         {
-                          [t.textActive]:
+                          "nav-text-active":
                             (menu.path && menu.path == pathname) ||
                             menu.subItems?.some((sub) => sub.path === pathname),
                         }
@@ -270,7 +249,7 @@ const GlobalNav = ({
                       >
                         <span
                           className={clsx(
-                            `material-symbols-outlined ${t.textSub} transition-transform`,
+                            `material-symbols-outlined nav-text-sub transition-transform`,
                             {
                               "rotate-90": openSubMenu[menu.name],
                             }
@@ -287,7 +266,7 @@ const GlobalNav = ({
                       className={clsx(
                         "block",
                         {
-                          [`hidden absolute top-[42px] group-hover:block hover:block ${t.bg} border ${t.border}`]:
+                          [`hidden absolute top-[42px] group-hover:block hover:block nav-bg border nav-border`]:
                             type == "topmenu",
                         },
                         {
@@ -300,9 +279,9 @@ const GlobalNav = ({
                           <li key={submenu.name}>
                             <Link
                               className={clsx(
-                                `px-4 py-2 block ${t.textStandard}`,
+                                `px-4 py-2 block nav-text-standard`,
                                 {
-                                  [t.textActive]: submenu.path == pathname,
+                                  "nav-text-active": submenu.path == pathname,
                                 },
                                 { "pl-12 ": type == "sidebar" }
                               )}
