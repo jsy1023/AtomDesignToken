@@ -199,6 +199,7 @@ export const Radio = ({
   className,
   onChange,
   defaultChecked,
+  checked,
 }: {
   name: string;
   value: string;
@@ -206,6 +207,7 @@ export const Radio = ({
   className?: string;
   onChange?: () => void;
   defaultChecked?: boolean;
+  checked?: boolean;
 }) => {
   return (
     <>
@@ -226,6 +228,7 @@ export const Radio = ({
           name={name}
           onChange={onChange}
           defaultChecked={defaultChecked}
+          checked={checked}
         />
         <span>{value}</span>
       </label>
