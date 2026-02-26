@@ -60,14 +60,14 @@ const NavItems = ({ navMenu, type = "sidenav" }: NavItemsAttr) => {
   const pathname = usePathname();
 
   return (
-    <ul className={clsx({ "flex flex-row items-center gap-4": type === "topnav" })}>
+    <ul className={clsx(`nav-${type}`, { "flex flex-row items-center nav-gap": type === "topnav" })}>
       {navMenu.map((menu) => {
         return (
           <li className="relative group" key={menu.name}>
             <div className={clsx("flex justify-between items-center pr-4")}>
               <Link
                 href={menu.path || "#"}
-                className={`${pathname === menu.path ? "nav-text-active" : "nav-text-standard"} px-4 py-2 block hover:opacity-80 transition-opacity`}
+                className={`${pathname === menu.path ? "nav-text-active" : "nav-text-standard"} nav-${type} block hover:opacity-80 transition-opacity nav-padding`}
               >
                 {menu.name}
               </Link>
@@ -110,7 +110,7 @@ const Sidebar = ({ navMenu, type = "sidenav" }: NavItemsAttr) => {
                 <Link
                   href={menu.path || "#"}
                   className={clsx(
-                    `px-4 py-2 block nav-text-standard hover:opacity-80 transition-opacity`
+                    `block nav-text-standard nav-${type} hover:opacity-80 transition-opacity nav-padding`
                   )}
                 >
                   {menu.name}
@@ -176,7 +176,7 @@ const GlobalNav = ({
       className={clsx(
         `fixed top-0 md:relative w-full nav-container nav-${navType} z-20 left-0 ${toggleMenu ? "block" : "hidden"}`,
         { [`h-full max-w-80 overflow-auto border-r nav-border`]: type == "sidebar" },
-        { [`h-auto flex flex-row items-center border-b nav-border`]: type == "topmenu" }
+        { [`h-auto flex flex-row items-center border-b nav-border nav-${navType}`]: type == "topmenu" }
       )}
     >
       {/* brand */}
@@ -193,11 +193,11 @@ const GlobalNav = ({
               ></Image>
             </Link>
             <button
-              className={`fixed shadow-md rounded-full nav-bg border nav-border w-12 h-12 top-6 left-6 cursor-pointer z-50`}
+              className={`fixed shadow-md rounded-full nav-bg nav-${navType} border nav-border w-12 h-12 top-6 left-6 cursor-pointer z-50`}
               onClick={() => setToggleMenu(!toggleMenu)}
             >
               <span
-                className={`material-symbols-outlined nav-text-standard`}
+                className={`material-symbols-outlined nav-text-standard nav-${navType}`}
                 style={{ fontSize: "16px" }}
               >
                 menu
@@ -218,7 +218,7 @@ const GlobalNav = ({
               return (
                 <p
                   key={menu.name + idx}
-                  className={`px-4 text-sm nav-text-sub mt-2 mb-0`}
+                  className={`nav-text-sub nav-${navType} mt-2 mb-0 nav-padding`}
                 >
                   {menu.name}
                 </p>
@@ -232,7 +232,7 @@ const GlobalNav = ({
                     <Link
                       href={menu.path || "#"}
                       className={clsx(
-                        `px-4 py-2 block nav-text-standard`,
+                        `block nav-text-standard nav-${navType} nav-padding`,
                         {
                           "nav-text-active":
                             (menu.path && menu.path == pathname) ||
@@ -249,7 +249,7 @@ const GlobalNav = ({
                       >
                         <span
                           className={clsx(
-                            `material-symbols-outlined nav-text-sub transition-transform`,
+                            `material-symbols-outlined nav-text-sub nav-${navType} transition-transform`,
                             {
                               "rotate-90": openSubMenu[menu.name],
                             }
@@ -266,7 +266,7 @@ const GlobalNav = ({
                       className={clsx(
                         "block",
                         {
-                          [`hidden absolute top-[42px] group-hover:block hover:block nav-bg border nav-border`]:
+                          [`hidden absolute top-[42px] group-hover:block hover:block nav-bg nav-${navType} border nav-border`]:
                             type == "topmenu",
                         },
                         {
@@ -279,7 +279,7 @@ const GlobalNav = ({
                           <li key={submenu.name}>
                             <Link
                               className={clsx(
-                                `px-4 py-2 block nav-text-standard`,
+                                `block nav-text-standard nav-${navType} nav-padding`,
                                 {
                                   "nav-text-active": submenu.path == pathname,
                                 },

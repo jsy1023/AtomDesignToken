@@ -163,9 +163,15 @@ myStyleDictionary.registerFormat({
               }
               return `--${name}: ${value};`;
             }
-            // 그 외 카테고리(테마)에서는 type이 color인 것만 허용하며, --color- 접두사 사용
+            // 그 외 카테고리(테마)
             if (token.$type === "color") {
               return `--${name}: ${value};`;
+            }
+            if (token.$type === "spacing" || token.$type === "sizing") {
+               if (!String(value).endsWith("px") && !String(value).includes("var(")) {
+                   return `--${name}: ${value}px;`;
+               }
+               return `--${name}: ${value};`;
             }
             
             return null;

@@ -1,41 +1,69 @@
-.nav-topnav {
-    --nav-bg: var(--bg-topnav);
-    --nav-text-standard: var(--text-topnav-standard);
-    --nav-text-active: var(--text-topnav-active);
-    --nav-text-sub: var(--text-topnav-sub);
-    --nav-border: var(--border-topnav);
+
+
+.nav-container.nav-topnav {
+    background-color: var(--bg-topnav);
+    color: var(--text-topnav-standard);
+    border-color: var(--border-topnav);
 }
 
-.nav-sidenav {
-    --nav-bg: var(--bg-sidenav);
-    --nav-text-standard: var(--text-sidenav-standard);
-    --nav-text-active: var(--text-sidenav-active);
-    --nav-text-sub: var(--text-sidenav-sub);
-    --nav-border: var(--border-sidenav);
+.nav-container.nav-sidenav {
+    background-color: var(--bg-sidenav);
+    color: var(--text-sidenav-standard);
+    border-color: var(--border-sidenav);
 }
 
-.nav-container {
-    background-color: var(--nav-bg);
-    color: var(--nav-text-standard);
-    border-color: var(--nav-border);
+.nav-bg.nav-topnav {
+    background-color: var(--bg-topnav);
 }
 
-.nav-bg {
-    background-color: var(--nav-bg);
+.nav-bg.nav-sidenav {
+    background-color: var(--bg-sidenav);
 }
 
-.nav-border {
-    border-color: var(--nav-border);
+.nav-border.nav-topnav {
+    border-color: var(--border-topnav);
 }
 
-.nav-text-standard {
-    color: var(--nav-text-standard);
+.nav-border.nav-sidenav {
+    border-color: var(--border-sidenav);
 }
 
-.nav-text-active {
-    color: var(--nav-text-active);
+.nav-text-standard.nav-topnav {
+    color: var(--text-topnav-standard);
 }
 
-.nav-text-sub {
-    color: var(--nav-text-sub);
+.nav-text-standard.nav-sidenav {
+    color: var(--text-sidenav-standard);
+}
+
+.nav-text-active.nav-topnav {
+    color: var(--text-topnav-active);
+}
+
+.nav-text-active.nav-sidenav {
+    color: var(--text-sidenav-active);
+}
+
+.nav-text-sub.nav-topnav {
+    color: var(--text-topnav-sub);
+}
+
+.nav-text-sub.nav-sidenav {
+    color: var(--text-sidenav-sub);
+}
+
+.nav-padding.nav-topnav {
+    padding: var(--spacing-topnav-y) var(--spacing-topnav-x);
+}
+
+.nav-padding.nav-sidenav {
+    padding: var(--spacing-sidenav-y) var(--spacing-sidenav-x);
+}
+
+.nav-gap.nav-topnav {
+    gap: var(--spacing-topnav-gap);
+}
+
+.nav-gap.nav-sidenav {
+    gap: var(--spacing-sidenav-gap);
 }
