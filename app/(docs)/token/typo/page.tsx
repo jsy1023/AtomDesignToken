@@ -1,7 +1,6 @@
 import { Card, CardContent, CardHeader } from "@/app/templates/Card/Card";
 import CodeBlock from "@/app/templates/CodeBlock/CodeBlock";
 import Tab from "@/app/templates/Tab/Tab";
-import token from "@/token.json";
 import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Typography",
@@ -11,7 +10,6 @@ export const metadata: Metadata = {
 };
 
 const TokenColor = () => {
-  const tokenOriginTypo = token.text;
 
   return (
     <>
@@ -78,10 +76,7 @@ const TokenColor = () => {
             content: (
               <Card className="my-4">
                 <CardHeader>token.json</CardHeader>
-                <CardContent noMargin>
-                  <CodeBlock language="json">
-                    {JSON.stringify(tokenOriginTypo, null, 2)}
-                  </CodeBlock>
+                <CardContent noMargin><></>
                 </CardContent>
               </Card>
             ),
