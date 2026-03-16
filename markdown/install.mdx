@@ -2,155 +2,80 @@ import { CodeLayout } from "@/app/components/mdx-layout";
 
 # 설치하기
 
-npm 명령어를 통해 atomsystem을 다운로드 할 수 있습니다.
+atomsystem은 Figma 디자인 토큰을 기반으로 React, Next.js 환경에서 일관된 디자인 시스템을 구축할 수 있도록 돕는 도구입니다.
 
-<CodeLayout code={`npx i atomsystem`} />
+## 0. Figma 디자인 환경 준비
+
+디자인 시스템을 사용하기 전, 공식 Figma UI Kit을 복제하여 디자인 토큰을 정의해야 합니다.
+
+1. **Figma Community**: 아래 링크에서 atomsystem UI Kit을 **Duplicate** 하세요.
+   - [atomsystem Figma Community Link](https://www.figma.com/community/file/1608771371741525154/atomsystem)
+2. **Tokens Studio**: Figma에서 **Tokens Studio (Figma Tokens)** 플러그인을 사용하여 디자인 토큰을 관리합니다.
+3. **JSON Export**: 플러그인을 통해 구성된 토큰을 `tokens.json` 파일로 추출하여 프로젝트의 `tokens/` 폴더에 배치합니다.
 
 ---
 
-atomsystem은 react, next.js, tailwinds css를 의존하는 library
-입니다. 설치 뒤 다운로드해도 되며 npx 명령어를 통해 라이브러리를
-생성할 수 있습니다.
+## 1. 프로젝트 초기화 (Init)
+
+새로운 Next.js 프로젝트에서 atomsystem 환경을 자동으로 구축합니다.
 
 <CodeLayout language="npm" code={`npx atomsystem-init`} />
-npm init을 통해 token.json 파일과 build 로직을 설치합니다.
+
+이 명령어는 다음과 같은 작업을 자동으로 수행합니다:
+- `next`, `react`, `react-dom`, `tailwindcss`, `style-dictionary` 설치
+- 토큰 빌드 로직 (`build/build-tokens.js`) 및 샘플 토큰 (`tokens/tokens.json`) 생성
+- `package.json`에 `token-build` 스크립트 및 `"type": "module"` 설정 추가
+- 토큰 클래스 제어를 위한 전역 `ThemeProvider` 및 기본 `layout.tsx` 구성
 
 ---
 
-컴포넌트는 기본적으로 app/components 폴더에 일괄적으로
-다운로드합니다. 해당 명령어를 입력하면 라이브러리에 모든 컴포넌트를
-다운로드합니다.
+## 2. 컴포넌트 추가 (Add)
 
-<CodeLayout language="npm" code={`npx atomsystem-add`} />
+필요한 UI 컴포넌트와 스타일을 프로젝트로 가져옵니다.
 
-각 페이지에서 컴포넌트를 개별적으로
-다운로드 받을 수 있습니다.
+<CodeLayout language="npm" code={`npx atomsystem-add Theme`} />
 
----
-
-## json 파일구성
-
-컴포넌트 별로 json 변수를 지정합니다. 최초 디자인 후 컴포넌트
-정의를 끝냈다면 다음 유지보수 단계에서 부터는 단순히 json 데이터를
-수정함으로써 유지할 수 있습니다. global token 값에 따라 Component의
-영향을 받도록 구성하면서 디자인의 일관성 또한 유지하도록 설계하였습니다.
-
-<CodeLayout
-  language="css"
-  code={`{
-  "color": {
-    "primary": { "value": "#2196f3", "type": "color" },
-    "border": {
-      "value": {
-        "light": "#ccc",
-        "dark": "#444"
-      },
-      "type": "color"
-    }
-  }
-}
-\\ 생략 
-`}
-/>
+**주요 특징:**
+- **일괄 추가**: `npx atomsystem-add` 만 입력하면 모든 컴포넌트를 가져옵니다.
+- **스타일 동시 복사**: 컴포넌트 (`.tsx`) 뿐만 아니라 대응하는 전용 스타일 (`.css`)도 함께 복사됩니다.
+- **의존성 자동 해결**: `Theme` 컴포넌트처럼 다른 컴포넌트(`Button`, `Modal` 등)를 사용하는 경우, 필요한 의존 컴포넌트들을 자동으로 함께 설치합니다.
 
 ---
 
-## css 파일구성
+## 3. 디자인 토큰 빌드 (Build)
 
-추가적인 커스텀 클래스를 위해 이용합니다.
+`tokens.json` 파일의 변경사항을 CSS 변수와 TypeScript 테마 파일로 변환합니다.
 
-<CodeLayout
-  code={`
-:root{
-  --color-primary: #2196f3;
-} 
-  
-.light {
-    --color-border: #ccc;
-}
+<CodeLayout language="npm" code={`npm run token-build`} />
 
-.dark {
---color-border: #444;
-}
-`}
-/>
+빌드가 완료되면 다음 파일들이 생성됩니다:
+- `build/css/_variables.css`: Tailwind CSS v4 `@theme`과 동기화된 CSS 변수 파일
+- `build/typescript/theme.ts`: 테마 목록 및 그룹화 정보가 담긴 타입스크립트 파일
 
 ---
 
-## Build 파일 구성
+## 4. 빌드 로직 구성 (참고용)
 
-StyleDictionary 라이브러리 커스텀을 통해 json파일을 여러 테마의
-css variables로 변환합니다.
+atomsystem은 `StyleDictionary`를 사용하여 복잡한 토큰 참조를 해석하고 테마별 클래스를 생성합니다. (초기화 시 자동 생성되는 코드의 핵심 요약입니다.)
 
 <CodeLayout
   code={`
 import StyleDictionary from "style-dictionary";
 
-const valueWithUnit = (val) => {
-return typeof val === "number" ? \`\${val}px\` : val;
-};
-
-// register it with register method
-StyleDictionary.registerFormat({
-name: "css/variables-multi-context",
-format: ({ dictionary }) => {
-const root = []; // root variables
-const light = []; // light variables
-const dark = []; // dark variables
-// 필요에 따라 테마 추가 작업 필요
-
-    dictionary.allTokens.map((token) => {
-      const name = \`--\${token.name}\`;
-      const val = token.value;
-      if (
-        typeof token.value === "object" &&
-        (token.value.light || token.value.dark)
-      ) {
-        if (token.value.light) {
-          light.push(\`\${name}: \${valueWithUnit(val.light)};\`);
-        }
-        if (token.value.dark) {
-          dark.push(\`\${name}: \${valueWithUnit(val.dark)};\`);
-        }
-      } else {
-        root.push(\`\${name}: \${valueWithUnit(val)};\`);
-      }
-    });
-    //css 반환
-    return \`
-    @import "tailwindcss";
-
-    @theme {
-        \${root.join("\\n")}
-    }
-
-    :root{
-          \${root.join("\\n")}
-    }
-    .light {
-        \${light.join("\\n")}
-    }
-    .dark {
-        \${dark.join("\\n")}
-    }\`.trim();
-
-},
-});
-
 const sd = new StyleDictionary({
-source: ["token.json"], //경로 설정
-platforms: {
-css: {
-transformGroup: "css",
-buildPath: "app/",
-files: [
-{
-destination: "globals.css",
-format: "css/variables-multi-context",
-},
-],
-},
-},
+  source: ["tokens/tokens.json"],
+  platforms: {
+    css: {
+      transformGroup: "css",
+      buildPath: "build/css/",
+      files: [{ destination: "_variables.css", format: "myCustomFormat" }]
+    },
+    typescript: {
+      transformGroup: "js",
+      buildPath: "build/typescript/",
+      files: [{ destination: "theme.ts", format: "theme" }]
+    }
+  }
 });
 
 await sd.buildAllPlatforms();

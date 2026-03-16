@@ -8,11 +8,11 @@
     "atomsystem-add": "cli/add.js"
   },
   "files": [
-    "token.json",
     "tokens",
     "tailwind.config.ts",
     "build",
-    "app/templates"
+    "app/templates",
+    "css"
   ],
   "scripts": {
     "dev": "node build/build-tokens.js && next dev",
