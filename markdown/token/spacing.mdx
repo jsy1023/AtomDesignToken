@@ -1,0 +1,103 @@
+import { Card, CardContent, CardHeader } from "@/app/templates/Card/Card";
+import CodeBlock from "@/app/templates/CodeBlock/CodeBlock";
+import { NodeCollapse } from "@/app/templates/Collapse/Collapse";
+import Tab from "@/app/templates/Tab/Tab";
+import tokens from "@/tokens/tokens.json";
+
+# Spacing
+
+간격은 화면의 요소들 사이 여백을 의미합니다. 이를 통해 시각적 정보 구조를 명확하게 만들고, 가독성을 향상시키며, 여백을 통해 고급스러운 이미지를 전달할 수 있습니다. 마지막으로, 간격은 사용자의 시각 흐름을 설계하는 데 중요한 역할을 합니다.
+
+---
+
+## 이론
+
+간격은 화면의 요소들 사이 여백을 의미합니다. 이를 통해 시각적 정보 구조를 명확하게 만들고, 가독성을 향상시키며, 여백을 통해 고급스러운 이미지를 전달할 수 있습니다. 마지막으로, 간격은 사용자의 시각 흐름을 설계하는 데 중요한 역할을 합니다.
+
+<Tab
+  tabClass="tab"
+  tabNavItemClass="tab-nav-item uppercase"
+  tabNavItemActiveClass="tab-nav-item-active"
+  tabContentClass="tab-content border-t-0"
+  tabContentItem="tab-content-item !w-full"
+  tabs={[
+    { id: "token", target: ["token"], tabItem: "token" },
+    { id: "space", target: ["space"], tabItem: "space" },
+  ]}
+  tabContents={[
+    {
+      id: "tokenContent",
+      tag: "token",
+      content: (
+        <div className="w-full">
+            <CardHeader>global.palette.spacing (token.json)</CardHeader>
+            <CodeBlock language="json">{JSON.stringify(tokens.global.palette.spacing, null, 2)}</CodeBlock>
+        </div>
+      ),
+    },
+    {
+      id: "spaceContent",
+      tag: "space",
+      content: (
+        <div className="flex flex-col w-full">
+            <NodeCollapse
+              type="accordion"
+              collapses={Object.entries(tokens.global.palette.spacing).map(([key, value]) => {
+                 const isGroup = typeof value === "object" && !value.$value;
+                 return {
+                   title: <b className="mb-2 uppercase text-sm">{key} Space</b>,
+                   content: (
+                     <div className="p-6 flex flex-col gap-6 text-black bg-white">
+                       {isGroup ? (
+                         Object.entries(value).map(([vKey, vVal]) => (
+                           <div key={vKey} className="flex flex-col gap-2">
+                             <div className="flex justify-between items-center text-sm">
+                               <span className="font-bold text-gray-700">{vKey}</span>
+                               <span className="text-primary font-mono">{vVal.$value}px</span>
+                             </div>
+                             <div className="flex items-center gap-3">
+                               <div 
+                                 className="bg-danger opacity-40 rounded-sm" 
+                                 style={{ 
+                                   width: vVal.$value + 'px', 
+                                   height: '24px' 
+                                 }}
+                               ></div>
+                               <span className="text-[10px] text-gray-400 font-mono italic">var(--spacing-{key}-{vKey})</span>
+                             </div>
+                           </div>
+                         ))
+                       ) : (
+                         <div className="flex flex-col gap-2">
+                           <div className="flex justify-between items-center text-sm">
+                             <span className="font-bold text-gray-700">{key}</span>
+                             <span className="text-primary font-mono">{value.$value}px</span>
+                           </div>
+                           <div className="flex items-center gap-3">
+                                <div 
+                                    className="bg-danger opacity-40 rounded-sm" 
+                                    style={{ 
+                                    width: value.$value + 'px', 
+                                    height: '24px' 
+                                    }}
+                                ></div>
+                                <span className="text-[10px] text-gray-400 font-mono italic">var(--spacing-{key})</span>
+                           </div>
+                         </div>
+                       )}
+                     </div>
+                   )
+                 };
+              })}
+            />
+        </div>
+      ),
+    },
+  ]}
+/>
+
+---
+
+## space 사용
+
+각 컴포넌트별로 커스텀 스페이스를 설정해 주세요. 단순히 Tailwind CSS의 padding, margin 기능을 이용해도 되지만, 공통된 변수로 정의되어 관리된다면 디자인 스타일에 따라 요소의 크기를 일괄적으로 변동하여 규칙적인 시각적 변화를 제공해 줄 수 있습니다.

@@ -1,0 +1,98 @@
+import { Card, CardContent, CardHeader } from "@/app/templates/Card/Card";
+import CodeBlock from "@/app/templates/CodeBlock/CodeBlock";
+import Tab from "@/app/templates/Tab/Tab";
+import tokens from "@/tokens/tokens.json";
+
+# Typography
+
+타이포그래피는 문자와 글자를 시각적으로 배열하는 기술이자 예술입니다. 글꼴(font), 크기(size), 자간(letter-spacing), 행간(line-height), 정렬(alignment) 등 텍스트의 형태와 구조를 조정하여 가독성과 심미성을 높이는 역할을 합니다.
+
+---
+
+## 이론
+
+타이포그래피는 문자와 글자를 시각적으로 배열하는 기술이자 예술입니다. 글꼴(font), 크기(size), 자간(letter-spacing), 행간(line-height), 정렬(alignment) 등 텍스트의 형태와 구조를 조정하여 가독성과 심미성을 높이는 역할을 합니다.
+
+<Tab
+  tabClass="tab"
+  tabNavItemClass="tab-nav-item uppercase"
+  tabNavItemActiveClass="tab-nav-item-active"
+  tabContentClass="tab-content border-t-0"
+  tabContentItem="tab-content-item !w-full"
+  tabs={[
+    { id: "typo", target: ["typo"], tabItem: "typo" },
+    { id: "token", target: ["token"], tabItem: "token" },
+    { id: "css", target: ["css"], tabItem: "css" },
+  ]}
+  tabContents={[
+    {
+      id: "typoContent",
+      tag: "typo",
+      content: (
+        <div className="flex flex-col w-full">
+            <CardContent className="bg-white p-8 w-full">
+              {Object.entries(tokens.global.palette.text).map(([key, value]) => (
+                <div key={key}>
+                  <div className="flex justify-between items-baseline mb-4">
+                    <span 
+                      style={{ 
+                        fontSize: value.$value + 'px',
+                        fontWeight: tokens.global.palette.font.weight.header.$value,
+                        fontFamily: tokens.global.palette.font.spoqaNeo.$value,
+                        lineHeight: 1.2
+                      }}
+                    >
+                      {key.toUpperCase()} Header ({value.$value}px)
+                    </span>
+                    <span className="text-xs text-gray-400 font-mono">palette.text.{key}</span>
+                  </div>
+                  <hr className="mb-6 border-border" />
+                </div>
+              ))}
+              <div className="mt-12 p-4 bg-gray-50 rounded-lg">
+                <p className="mb-4 text-xs text-gray-400 uppercase font-bold">Font Configuration</p>
+                <div className="grid grid-cols-2 gap-4 text-sm">
+                    <div>
+                        <p className="text-xs text-gray-500 mb-1">Family</p>
+                        <p className="font-bold" style={{ fontFamily: tokens.global.palette.font.spoqaNeo.$value }}>{tokens.global.palette.font.spoqaNeo.$value}</p>
+                    </div>
+                    <div>
+                        <p className="text-xs text-gray-500 mb-1">Weight (Header)</p>
+                        <p className="font-bold">{tokens.global.palette.font.weight.header.$value}</p>
+                    </div>
+                </div>
+              </div>
+            </CardContent>
+        </div>
+      ),
+    },
+    {
+      id: "tokenContent",
+      tag: "token",
+      content: (
+        <div className="w-full">
+            <CardHeader>global.palette (text & font)</CardHeader>
+            <CodeBlock language="json">{JSON.stringify({ 
+              text: tokens.global.palette.text, 
+              font: tokens.global.palette.font 
+            }, null, 2)}</CodeBlock>
+        </div>
+      ),
+    },
+    {
+      id: "cssContent",
+      tag: "css",
+      content: (
+        <div className="w-full">
+            <CodeBlock language="css">
+{`:root {
+${Object.entries(tokens.global.palette.text).map(([key, value]) => `  --text-${key}: ${value.$value}px;`).join('\n')}
+  --font-weight-header: ${tokens.global.palette.font.weight.header.$value};
+  --font-family-spoqaNeo: "${tokens.global.palette.font.spoqaNeo.$value}";
+}`}
+            </CodeBlock>
+        </div>
+      ),
+    },
+  ]}
+/>
