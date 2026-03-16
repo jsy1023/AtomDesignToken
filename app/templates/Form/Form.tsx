@@ -51,11 +51,9 @@ export const Input = ({
 
 export const Select = ({
   options,
-  required,
   disabled,
 }: {
   options: string[];
-  required?: boolean;
   disabled?: boolean;
 }) => {
   const [filterValue, setFilterValue] = useState("");

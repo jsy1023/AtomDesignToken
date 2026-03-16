@@ -10,14 +10,6 @@ export const Card = ({
   type?: "standard" | "group";
   overflow?: "overflow-auto" | "overflow-hidden" | "overflow-none";
 }) => {
-  // CardHeader와 CardContent의 존재 여부 확인
-  const hasCardContent = React.Children.toArray(children).some(
-    (child) =>
-      React.isValidElement(child) &&
-      (child.type === CardHeader ||
-        child.type === CardContent ||
-        child.type === CardFooter)
-  );
   return (
     <div
       className={`card ${className} ${overflow}`}

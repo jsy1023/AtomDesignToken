@@ -37,7 +37,7 @@ const Navigation = ({
 }) => {
   const isMobile = useMediaQuery({ maxWidth: 767 });
 
-  const mobileClose = (e: React.MouseEvent) => {
+  const mobileClose = () => {
     if (isMobile) {
       if (id) {
         handleNavToggle(id);

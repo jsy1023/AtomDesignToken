@@ -96,21 +96,17 @@ export const ThemeSelector = () => {
 };
 
 export const ThemeProvider = () => {
-  const [theme, setTheme] = useState<Record<string, string>>({});
   const [isThemeLoading, setThemeLoading] = useState(false);
 
   useEffect(() => {
     const listenStorageChange = () => {
-      const newThemes: Record<string, string> = {};
       Object.entries(themes).forEach(([group, groupThemes]) => {
         const storedKey = group === "global" ? "theme" : `theme-${group}`;
         const currentTheme = localStorage.getItem(storedKey) || groupThemes[0];
-        newThemes[group] = currentTheme;
         
         document.documentElement.classList.remove(...groupThemes);
         document.documentElement.classList.add(currentTheme);
       });
-      setTheme(newThemes);
     };
 
     listenStorageChange();
