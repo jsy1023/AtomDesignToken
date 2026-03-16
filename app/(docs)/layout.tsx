@@ -133,7 +133,7 @@ const DocsLayout = async ({ children }: { children: React.ReactNode }) => {
               </div>
             </div>
           </Navigation>
-          <div className="relative w-full h-full bg-[var(--background-wrapper)] grid grid-cols-1 md:grid-cols-4 overflow-auto scroll-smooth">
+          <div className="relative w-full h-full bg-bg-wrapper grid grid-cols-1 md:grid-cols-4 overflow-auto scroll-smooth">
             <div className="col-span-3 flex flex-1 px-4 flex-col items-center order-2 md:order-1">
               <div className="w-full max-w-[800px] min-w-0 h-full p-4 py-12">
                 {children}

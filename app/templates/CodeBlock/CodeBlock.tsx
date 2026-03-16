@@ -47,7 +47,7 @@ const CodeBlock = ({
 
       <button
         onClick={handleCopy}
-        className="absolute top-2 right-2 bg-[var(--background-card)] hover:bg-[var(--background-wrapper)] text-[var(--text-standard)] text-xs px-2 py-1 rounded cursor-pointer "
+        className="absolute top-2 right-2 bg-[var(--color-bg-card)] hover:bg-[var(--color-bg-wrapper)] text-[var(--text-standard)] text-xs px-2 py-1 rounded cursor-pointer "
       >
         {copied ? "Copied!" : "Copy"}
       </button>
@@ -56,7 +56,7 @@ const CodeBlock = ({
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="
-         w-full cursor-pointer hover:bg-[var(--background-wrapper)] text-center py-2 px-8"
+         w-full cursor-pointer hover:bg-[var(--color-bg-wrapper)] text-center py-2 px-8"
         >
           {isOpen ? "Close" : "Open"}
         </button>
