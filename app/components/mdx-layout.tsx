@@ -1,5 +1,5 @@
 import Tab from "@/app/templates/Tab/Tab";
-import { Card, CardContent } from "@/app/templates/Card/Card";
+import { Card } from "@/app/templates/Card/Card";
 import React from "react";
 import CodeBlock from "@/app/templates/CodeBlock/CodeBlock";
 
