@@ -2,8 +2,6 @@ import Navigation, {
   NavItems,
 } from "../templates/Navigation/Navigation";
 import Link from "next/link";
-import { Card } from "../templates/Card/Card";
-import { ThemeSelector } from "../templates/Theme/Theme";
 import TOC from "../templates/TOC/TOC";
 
 const DocsLayout = ({ children }: { children: React.ReactNode }) => {
