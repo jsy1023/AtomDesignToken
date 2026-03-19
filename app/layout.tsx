@@ -45,6 +45,7 @@ export default function RootLayout({
       </head>
       <body className="w-full h-full bg-bg-wrapper">
         {children}
+        <div id="modal-root"></div>
       </body>
       <GoogleAnalytics gaId="G-6GGTDRQ47W" />
       <ThemeProvider/>

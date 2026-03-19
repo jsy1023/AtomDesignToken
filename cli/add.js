@@ -51,7 +51,7 @@ function addComponent(comp) {
 
   // 컴포넌트의 CSS 파일 복제 지원
   const cssFileName = `${comp}.css`.toLowerCase();
-  const sourceCssPath = path.join(__dirname, "..", "css", cssFileName);
+  const sourceCssPath = path.join(templateDir, comp, cssFileName);
   const targetCssPath = path.join(targetDir, cssFileName);
 
   if (fs.existsSync(componentPath)) {
@@ -65,10 +65,54 @@ function addComponent(comp) {
     copyFileSync(componentPath, targetPath);
     console.log(`✅ ${comp} component typescript has been added to ${targetPath}`);
 
-    // 2) CSS 복사
+    // 2) CSS 복사 + globals.css에 @import 자동 추가
     if (fs.existsSync(sourceCssPath)) {
       copyFileSync(sourceCssPath, targetCssPath);
       console.log(`✅ ${comp} component stylesheet has been added to ${targetCssPath}`);
+
+      // globals.css에 @import 추가
+      const globalsPath = path.join(process.cwd(), "app", "globals.css");
+      const importLine = `@import "./components/${comp}/${cssFileName}";`;
+
+      if (fs.existsSync(globalsPath)) {
+        const globalsContent = fs.readFileSync(globalsPath, "utf8");
+
+        if (!globalsContent.includes(importLine)) {
+          // "/* Component Styles */" 섹션 이후에 추가, 없으면 파일 끝에 추가
+          let updatedContent;
+          const componentSectionMarker = "/* Component Styles */";
+
+          if (globalsContent.includes(componentSectionMarker)) {
+            // 마커 이후의 마지막 @import 뒤에 추가
+            const markerIndex = globalsContent.indexOf(componentSectionMarker);
+            const afterMarker = globalsContent.slice(markerIndex);
+            const lastImportInSection = afterMarker.lastIndexOf("@import");
+            
+            if (lastImportInSection !== -1) {
+              const endOfLastImport = markerIndex + lastImportInSection + afterMarker.slice(lastImportInSection).indexOf("\n") + 1;
+              updatedContent =
+                globalsContent.slice(0, endOfLastImport) +
+                importLine + "\n" +
+                globalsContent.slice(endOfLastImport);
+            } else {
+              updatedContent =
+                globalsContent.slice(0, markerIndex + componentSectionMarker.length) +
+                "\n" + importLine + "\n" +
+                globalsContent.slice(markerIndex + componentSectionMarker.length);
+            }
+          } else {
+            // 마커가 없으면 "/* Component Styles */" 섹션과 함께 파일 끝에 추가
+            updatedContent = globalsContent.trimEnd() + "\n\n/* Component Styles */\n" + importLine + "\n";
+          }
+
+          fs.writeFileSync(globalsPath, updatedContent, "utf8");
+          console.log(`✅ Added @import for ${comp} to globals.css`);
+        } else {
+          console.log(`ℹ️  ${comp} is already imported in globals.css`);
+        }
+      } else {
+        console.log(`⚠️  globals.css not found at ${globalsPath}. Please add manually:\n   ${importLine}`);
+      }
     }
     // 3) 의존성 컴포넌트 자동 복사 (Recursive Copy)
     if (dependenciesMap[comp]) {

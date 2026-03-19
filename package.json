@@ -1,6 +1,6 @@
 {
   "name": "atomsystem",
-  "version": "0.1.28",
+  "version": "0.1.38",
   "type": "module",
   "homepage": "https://system.atomground.com",
   "bin": {
@@ -41,6 +41,7 @@
     "highlight.js": "^11.11.1",
     "inquirer": "^12.4.2",
     "next": "15.2.8",
+    "ora": "^9.3.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-modal": "^3.16.3",

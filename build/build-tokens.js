@@ -180,7 +180,12 @@ myStyleDictionary.registerFormat({
           .join("\n");
 
         // global(@theme)인 경우에만 수집해둔 시멘틱 변수(semanticCss)를 추가
-        return `${selector} {\n${cssVariables}\n${selector === "@theme" ? `\n${semanticCss}\n` : ""}} `;
+        // @theme: Tailwind 유틸리티 클래스 생성에 필요 (bg-primary, text-secondary 등)
+        // Tailwind CSS v4의 @theme은 빌드 시 자동으로 :root에도 등록되므로 별도 :root 선언 불필요
+        if (selector === "@theme") {
+          return `@theme {\n${cssVariables}\n\n${semanticCss}\n}`;
+        }
+        return `${selector} {\n${cssVariables}\n} `;
       })
       .join("\n\n");
   },
