@@ -4,19 +4,21 @@ import clsx from "clsx";
 export const Button = ({
   children,
   type,
+  className,
   style,
   disabled,
   onClick,
 }: {
   children: React.ReactNode;
   type: "primary" | "secondary" | "success" | "warning" | "danger" | "gray";
+  className?: string;
   style?: React.CSSProperties;
   disabled?: boolean;
   onClick?: () => void;
 }) => {
   return (
     <button
-      className={clsx("btn", type)}
+      className={clsx("btn", type, className)}
       style={style}
       disabled={disabled}
       onClick={onClick}
