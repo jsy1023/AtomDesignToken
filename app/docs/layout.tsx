@@ -13,10 +13,10 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
           type="sidenav"
           className={`min-h-0 fixed top-[64px] left-0 z-40
              w-full h-[calc(100dvh-64px)] overflow-auto
-             md:relative md:top-0 md:w-[320px] md:h-full border-r bg-white`}
+             md:relative md:top-0 md:w-[320px] md:h-full border-r border-border-standard bg-bg-sidenav`}
         >
           <div className="flex flex-col h-full w-full overflow-auto">
-            <p className="px-4 py-2 text-[var(--text-sidenav-standard)] font-bold">
+            <p className="px-4 py-2 text-text-sidenav-standard font-bold">
               시작하기
             </p>
             <div className="px-4">
@@ -28,7 +28,7 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
                 ]}
               />
             </div>
-            <p className="px-4 py-2 text-[var(--text-sidenav-standard)] font-bold">
+            <p className="px-4 py-2 text-text-sidenav-standard font-bold">
               디자인 토큰
             </p>
             <div className="px-4">
@@ -40,7 +40,7 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
                 ]}
               />
             </div>
-            <p className="px-4 py-2 text-[var(--text-sidenav-standard)] font-bold">
+            <p className="px-4 py-2 text-text-sidenav-standard font-bold">
               component
             </p>
             <div className="px-4">
@@ -71,12 +71,12 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
             <div className="w-full max-w-[800px] min-w-0 h-full p-4 py-12">
               {children}
             </div>
-            <footer className="w-full py-4 px-8 ">
+            <footer className="w-full py-4 px-8 text-text-sub text-sm">
               Built by
               <Link
                 href={"https://www.atomground.com"}
                 target="_blank"
-                className="text-primary"
+                className="text-primary ml-1 mr-1"
               >
                 atomground
               </Link>

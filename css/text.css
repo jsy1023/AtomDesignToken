@@ -2,24 +2,17 @@ body{
     @apply text-text-standard
 }
 
-h1{
-    @apply text-h1 font-header
+h1, h2, h3, h4, h5, h6 {
+    @apply text-text-title font-header
 }
-h2{
-    @apply text-h2 font-header
-}
-h3{
-    @apply text-h3 font-header
-}
-h4{
-    @apply text-h4 font-header
-}
-h5{
-    @apply text-h5 font-header
-}
-h6{
-    @apply text-h6 font-header
-}
+
+h1{ @apply text-h1 }
+h2{ @apply text-h2 }
+h3{ @apply text-h3 }
+h4{ @apply text-h4 }
+h5{ @apply text-h5 }
+h6{ @apply text-h6 }
+
 p{
-    @apply text-body
+    @apply text-text-body text-body
 }

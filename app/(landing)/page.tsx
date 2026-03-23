@@ -37,15 +37,15 @@ export default function LandingPage() {
   ];
 
   return (
-    <div className="flex flex-col w-full bg-bg-wrapper text-text-standard">
+    <div className="flex flex-col w-full bg-bg-wrapper">
       {/* Hero Section */}
       <section className="relative overflow-hidden py-24 px-6 border-b border-border-standard">
         <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6">
+          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-text-title mb-6">
             Atomic Design to <br />
             <span className="text-primary bg-clip-text">Production Code</span>
           </h1>
-          <p className="text-xl opacity-70 max-w-3xl mx-auto mb-10 leading-relaxed font-light">
+          <p className="text-xl text-text-body max-w-3xl mx-auto mb-10 leading-relaxed font-light">
             아톰시스템은 디자인과 엔지니어링의 간극을 좁히는 꼼꼼한 디자인 시스템 예제입니다. 
             단 한 줄의 JSON으로 디자인부터 구현까지 일관된 워크플로우를 경험하세요.
           </p>
@@ -68,8 +68,8 @@ export default function LandingPage() {
       <section className="py-24 px-6 bg-bg-card">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold mb-4">Why Atom System?</h2>
-            <p className="opacity-60">디자인 시스템을 만드는 가장 꼼꼼하고 효율적인 방법들을 담았습니다.</p>
+            <h2 className="text-3xl font-bold mb-4 text-text-title">Why Atom System?</h2>
+            <p className="text-text-sub">디자인 시스템을 만드는 가장 꼼꼼하고 효율적인 방법들을 담았습니다.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {advantages.map((adv, index) => (
@@ -77,8 +77,8 @@ export default function LandingPage() {
                 <span className="material-symbols-outlined text-primary text-4xl mb-6 block">
                   {adv.icon}
                 </span>
-                <h3 className="text-xl font-bold mb-3">{adv.title}</h3>
-                <p className="opacity-70 leading-relaxed text-sm">
+                <h3 className="text-xl font-bold mb-3 text-text-title">{adv.title}</h3>
+                <p className="text-text-sub leading-relaxed text-sm">
                   {adv.description}
                 </p>
               </Card>
@@ -90,8 +90,8 @@ export default function LandingPage() {
       {/* CTA Section */}
       <section className="py-24 px-6 bg-primary text-white text-center">
         <div className="max-w-3xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">지금 바로 시작해보세요</h2>
-          <p className="text-white/80 mb-10 text-lg">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white!">지금 바로 시작해보세요</h2>
+          <p className="text-white/80! mb-10 text-lg">
             단 한 줄의 명령어면 디자인 시스템 구축 환경이 완성됩니다.
           </p>
           <div className="bg-black/20 p-4 rounded-lg font-mono text-sm mb-10 inline-block border border-white/20 text-white">

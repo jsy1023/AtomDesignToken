@@ -100,6 +100,9 @@
   --color-bg-input-standard: var(--bg-input-standard);
   --color-bg-input-hover: var(--bg-input-hover);
   --color-bg-input-disabled: var(--bg-input-disabled);
+  --color-text-title: var(--text-title);
+  --color-text-body: var(--text-body);
+  --color-text-sub: var(--text-sub);
   --color-text-standard: var(--text-standard);
   --color-text-active: var(--text-active);
   --color-text-placeholder: var(--text-placeholder);
@@ -150,6 +153,9 @@
 --bg-input-standard: var(--color-gray-100);
 --bg-input-hover: var(--color-gray-200);
 --bg-input-disabled: var(--color-gray-500);
+--text-title: var(--color-dark-100);
+--text-body: var(--color-dark-400);
+--text-sub: var(--color-gray-950);
 --text-standard: var(--color-dark-300);
 --text-active: var(--color-gray-100);
 --text-placeholder: var(--color-gray-950);
@@ -190,6 +196,9 @@
 --bg-input-standard: var(--color-dark-300);
 --bg-input-hover: var(--color-dark-400);
 --bg-input-disabled: var(--color-dark-200);
+--text-title: var(--color-white);
+--text-body: var(--color-gray-200);
+--text-sub: var(--color-gray-600);
 --text-standard: var(--color-white);
 --text-active: var(--color-white);
 --text-placeholder: var(--color-gray-950);
