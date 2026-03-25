@@ -1,0 +1,4 @@
+.nav-side{
+    background-color: var(--bg-card);
+    border-right: 1px solid var(--border-standard);
+}
