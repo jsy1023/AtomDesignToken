@@ -13,7 +13,44 @@ import Pagination from "@/app/templates/Pagination/Pagination";
 import { Collapse } from "@/app/templates/Collapse/Collapse";
 import TOC from "@/app/templates/TOC/TOC";
 
+// ── Demo 예제 파일 (shadcn/ui 패턴) ──────────────────────────────
+import ButtonDemo from "@/app/examples/button/button-demo";
+import ButtonVariants from "@/app/examples/button/button-variants";
+import ButtonSizes from "@/app/examples/button/button-sizes";
+import ButtonDisabled from "@/app/examples/button/button-disabled";
+
+import BadgeDemo from "@/app/examples/badge/badge-demo";
+import BadgeTinted from "@/app/examples/badge/badge-tinted";
+
+import CardDemo from "@/app/examples/card/card-demo";
+
+import CheckboxDemo from "@/app/examples/checkbox/checkbox-demo";
+
+import CollapseDemo from "@/app/examples/collapse/collapse-demo";
+import CollapseAccordion from "@/app/examples/collapse/collapse-accordion";
+
+import InputDemo from "@/app/examples/input/input-demo";
+
+import SelectDemo from "@/app/examples/select/select-demo";
+
+import RadioDemo from "@/app/examples/radio/radio-demo";
+
+import ModalDemo from "@/app/examples/modal/modal-demo";
+
+import ToastDemo from "@/app/examples/toast/toast-demo";
+
+import PaginationDemo from "@/app/examples/pagination/pagination-demo";
+
+import TabDemo from "@/app/examples/tab/tab-demo";
+
+import TableDemo from "@/app/examples/table/table-demo";
+
+import TocDemo from "@/app/examples/toc/toc-demo";
+
+import GlobalNavDemo from "@/app/examples/global-nav/global-nav-demo";
+
 export const componentRegistry: Record<string, React.ElementType> = {
+  // ── 원본 컴포넌트 ────────────────────────────────────────────────
   Button,
   Badge,
   Card,
@@ -37,6 +74,42 @@ export const componentRegistry: Record<string, React.ElementType> = {
   Pagination,
   Collapse,
   TOC,
+
+  // ── Demo 예제 컴포넌트 ────────────────────────────────────────────
+  "button-demo": ButtonDemo,
+  "button-variants": ButtonVariants,
+  "button-sizes": ButtonSizes,
+  "button-disabled": ButtonDisabled,
+
+  "badge-demo": BadgeDemo,
+  "badge-tinted": BadgeTinted,
+
+  "card-demo": CardDemo,
+
+  "checkbox-demo": CheckboxDemo,
+
+  "collapse-demo": CollapseDemo,
+  "collapse-accordion": CollapseAccordion,
+
+  "input-demo": InputDemo,
+
+  "select-demo": SelectDemo,
+
+  "radio-demo": RadioDemo,
+
+  "modal-demo": ModalDemo,
+
+  "toast-demo": ToastDemo,
+
+  "pagination-demo": PaginationDemo,
+
+  "tab-demo": TabDemo,
+
+  "table-demo": TableDemo,
+
+  "toc-demo": TocDemo,
+
+  "global-nav-demo": GlobalNavDemo,
 };
 
 export function getRegistryComponent(name: string) {

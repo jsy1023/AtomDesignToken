@@ -8,13 +8,12 @@ interface ComponentPreviewProps {
   className?: string;
   previewClassName?: string;
   children?: React.ReactNode;
-  // props to pass to the previewed component
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 /**
  * MDX에서 사용하는 메인 컴포넌트 프리뷰어입니다. (Server Component)
- * 이름을 기반으로 실제 컴포넌트와 소스 코드를 연결합니다.
+ * Shadcn/UI 패턴: name으로 레지스트리에서 Demo 컴포넌트를 찾아 렌더링합니다.
  */
 export default async function ComponentPreview({
   name,
@@ -39,7 +38,7 @@ export default async function ComponentPreview({
       previewClassName={previewClassName}
       source={<ComponentSource name={name} />}
     >
-      {children ? children : <Component {...props} />}
+      <Component {...props}>{children}</Component>
     </ComponentPreviewClient>
   );
 }

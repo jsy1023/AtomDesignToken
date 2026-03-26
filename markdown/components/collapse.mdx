@@ -12,22 +12,7 @@
 
 여러 개의 항목을 동시에 펼칠 수 있는 기본 콜랩스 형태입니다.
 
-<ComponentPreview name="Collapse">
-  <div className="w-full">
-    <Collapse
-      collapses={[
-        {
-          title: "디자인 시스템이란?",
-          content: "디자인 원칙, 가이드라인, 그리고 재사용 가능한 컴포넌트들의 집합입니다.",
-        },
-        {
-          title: "아톰 시스템의 장점",
-          content: "일관된 디자인 토큰을 사용하여 유지보수가 쉽고 개발 속도가 빠릅니다.",
-        },
-      ]}
-    />
-  </div>
-</ComponentPreview>
+<ComponentPreview name="collapse-demo" />
 
 ---
 
@@ -57,23 +42,7 @@ npx atomsystem-add Collapse
 
 `type="accordion"` 속성을 사용하면 한 번에 하나의 항목만 펼쳐지도록 제한할 수 있습니다.
 
-<ComponentPreview name="Collapse">
-  <div className="w-full">
-    <Collapse
-      type="accordion"
-      collapses={[
-        {
-          title: "Q: 배송은 얼마나 걸리나요?",
-          content: "평균 1~3일 이내에 배송이 완료됩니다.",
-        },
-        {
-          title: "Q: 환불 정책은 어떻게 되나요?",
-          content: "수령 후 7일 이내에 고객센터를 통해 신청 가능합니다.",
-        },
-      ]}
-    />
-  </div>
-</ComponentPreview>
+<ComponentPreview name="collapse-accordion" />
 
 ---
 

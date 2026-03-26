@@ -10,23 +10,9 @@
 
 ## 기본 사용법 (Basics)
 
-다양한 색상의 배지를 생성할 수 있습니다. `color` 속성을 사용하여 의미를 부여합니다.
+다양한 색상의 배지를 생성할 수 있습니다.
 
-<ComponentPreview name="Badge" color="primary">
-  Primary
-</ComponentPreview>
-
-<ComponentPreview name="Badge" color="secondary">
-  Secondary
-</ComponentPreview>
-
-<ComponentPreview name="Badge" color="success">
-  Success
-</ComponentPreview>
-
-<ComponentPreview name="Badge" color="danger">
-  Danger
-</ComponentPreview>
+<ComponentPreview name="badge-demo" />
 
 ---
 
@@ -35,14 +21,12 @@
 <Steps>
 
 ### 패키지 추가
-터미널에서 아래 명령어를 실행합니다.
 
 ```bash
 npx atomsystem-add Badge
 ```
 
 ### 소스 코드 확인
-`app/templates/Badge` 경로에서 실제 구현 코드를 확인할 수 있습니다.
 
 <ComponentSource name="Badge" />
 
@@ -56,13 +40,7 @@ npx atomsystem-add Badge
 
 `type="tint"` 속성을 사용하면 배경색을 은은하게 강조할 수 있습니다.
 
-<ComponentPreview name="Badge" color="primary" type="tint">
-  Tinted Primary
-</ComponentPreview>
-
-<ComponentPreview name="Badge" color="success" type="tint">
-  Tinted Success
-</ComponentPreview>
+<ComponentPreview name="badge-tinted" />
 
 ---
 
@@ -70,5 +48,5 @@ npx atomsystem-add Badge
 
 | 속성 | 타입 | 기본값 | 설명 |
 | :--- | :--- | :--- | :--- |
-| `color` | `primary` \| `secondary` \| `success` \| `warning` \| `danger` | `primary` | 배지의 색상 스타일 |
-| `type` | `solid` \| `tint` | `solid` | 배지의 채우기 스타일 |
+| `color` | `primary` \| `secondary` \| `warning` \| `danger` | `primary` | 배지의 색상 스타일 |
+| `type` | `default` \| `tint` | `default` | 배지의 채우기 스타일 |

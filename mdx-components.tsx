@@ -30,7 +30,7 @@ import Pagination from "@/app/templates/Pagination/Pagination";
 import { Collapse } from "@/app/templates/Collapse/Collapse";
 import TOC from "@/app/templates/TOC/TOC";
 
-const components = {
+const customComponents = {
   // --- 전문가급 HTML 요소 스타일링 (Shadcn/UI 스타일) ---
   h1: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h1
@@ -194,6 +194,9 @@ const components = {
   Image,
 } satisfies MDXComponents;
 
-export function useMDXComponents(): MDXComponents {
-  return components;
+export function useMDXComponents(components: MDXComponents): MDXComponents {
+  return {
+    ...components,
+    ...customComponents,
+  };
 }

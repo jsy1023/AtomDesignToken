@@ -12,50 +12,7 @@
 
 라디오 버튼은 같은 `name` 속성을 공유하여 하나의 그룹으로 동작합니다.
 
-<ComponentPreview name="Radio">
-  <div className="flex gap-4">
-    <Radio name="fruit" value="사과" defaultChecked />
-    <Radio name="fruit" value="오렌지" />
-    <Radio name="fruit" value="포도" />
-  </div>
-</ComponentPreview>
-
----
-
-## 설치 (Installation)
-
-<Steps>
-
-### 패키지 추가
-터미널에서 폼(Form) 컴포넌트 시스템을 추가합니다.
-
-```bash
-npx atomsystem-add Form
-```
-
-### 소스 코드 확인
-`app/templates/Form/Form.tsx` 파일 내에서 `Radio` 구현 코드를 확인할 수 있습니다.
-
-<ComponentSource name="Radio" />
-
-</Steps>
-
----
-
-## 다양한 예시 (Examples)
-
-### 라벨과 그룹화 (With Group Label)
-
-여러 라디오 버튼을 그룹으로 묶어 설명을 추가할 수 있습니다.
-
-<ComponentPreview name="Radio">
-  <div className="flex flex-col space-y-2">
-    <Label label="배송 방법 선택" required />
-    <Radio name="shipping" value="일반 배송" defaultChecked />
-    <Radio name="shipping" value="새벽 배송" />
-    <Radio name="shipping" value="당일 수령" />
-  </div>
-</ComponentPreview>
+<ComponentPreview name="radio-demo" />
 
 ---
 

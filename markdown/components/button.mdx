@@ -10,11 +10,58 @@
 
 ## 기본 사용법 (Basics)
 
-가장 기본적인 버튼 사용 예시입니다. `name` 속성만으로 컴포넌트와 소스 코드를 자동으로 불러옵니다.
+<ComponentPreview name="button-demo" />
 
-<ComponentPreview name="Button">
-  기본 버튼
-</ComponentPreview>
+---
+
+## 설치 (Installation)
+
+<Steps>
+
+### 패키지 추가
+
+```bash
+npx atomsystem-add Button
+```
+
+### 소스 코드 확인
+
+<ComponentSource name="Button" />
+
+</Steps>
+
+---
+
+## 스타일 변형 (Variants)
+
+### 타입 (Types)
+
+`type` 속성을 통해 버튼의 시각적 강조점을 변경할 수 있습니다.
+
+<ComponentPreview name="button-variants" />
+
+### 크기 (Sizes)
+
+`size` 속성을 통해 버튼의 크기를 조절할 수 있습니다.
+
+<ComponentPreview name="button-sizes" />
+
+### 비활성화 (Disabled)
+
+`disabled` 속성으로 버튼을 비활성화합니다.
+
+<ComponentPreview name="button-disabled" />
+
+---
+
+## 속성 (Properties)
+
+| 속성 | 타입 | 기본값 | 설명 |
+| :--- | :--- | :--- | :--- |
+| `type` | `primary` \| `secondary` \| `outline` \| `success` \| `warning` \| `danger` \| `gray` | `primary` | 버튼의 시각적 스타일 |
+| `size` | `sm` \| `md` \| `lg` | `md` | 버튼의 크기 |
+| `disabled` | `boolean` | `false` | 버튼 비활성화 여부 |
+| `onClick` | `() => void` | - | 클릭 핸들러 |
 
 ---
 
@@ -44,32 +91,40 @@ npx atomsystem-add Button
 
 `type` 속성을 통해 버튼의 시각적 강조점을 변경할 수 있습니다.
 
-<ComponentPreview name="Button" type="primary">
-  Primary
-</ComponentPreview>
-
-<ComponentPreview name="Button" type="secondary">
-  Secondary
-</ComponentPreview>
-
-<ComponentPreview name="Button" type="outline">
-  Outline
+<ComponentPreview name="Button">
+  <div className="flex gap-3 flex-wrap items-center justify-center">
+    <Button type="primary">Primary</Button>
+    <Button type="secondary">Secondary</Button>
+    <Button type="outline">Outline</Button>
+    <Button type="success">Success</Button>
+    <Button type="warning">Warning</Button>
+    <Button type="danger">Danger</Button>
+    <Button type="gray">Gray</Button>
+  </div>
 </ComponentPreview>
 
 ### 크기 (Sizes)
 
 `size` 속성을 통해 버튼의 크기를 조절할 수 있습니다.
 
-<ComponentPreview name="Button" size="sm">
-  Small
+<ComponentPreview name="Button">
+  <div className="flex gap-3 items-center justify-center">
+    <Button size="sm">Small</Button>
+    <Button size="md">Medium</Button>
+    <Button size="lg">Large</Button>
+  </div>
 </ComponentPreview>
 
-<ComponentPreview name="Button" size="md">
-  Medium
-</ComponentPreview>
+### 비활성화 (Disabled)
 
-<ComponentPreview name="Button" size="lg">
-  Large
+`disabled` 속성으로 버튼을 비활성화합니다.
+
+<ComponentPreview name="Button">
+  <div className="flex gap-3 flex-wrap items-center justify-center">
+    <Button type="primary" disabled>Primary</Button>
+    <Button type="secondary" disabled>Secondary</Button>
+    <Button type="outline" disabled>Outline</Button>
+  </div>
 </ComponentPreview>
 
 ---
@@ -78,7 +133,7 @@ npx atomsystem-add Button
 
 | 속성 | 타입 | 기본값 | 설명 |
 | :--- | :--- | :--- | :--- |
-| `type` | `primary` \| `secondary` \| `outline` | `primary` | 버튼의 시각적 스타일 |
+| `type` | `primary` \| `secondary` \| `outline` \| `success` \| `warning` \| `danger` \| `gray` | `primary` | 버튼의 시각적 스타일 |
 | `size` | `sm` \| `md` \| `lg` | `md` | 버튼의 크기 |
 | `disabled` | `boolean` | `false` | 버튼 활성화 여부 |
-| `loading` | `boolean` | `false` | 로딩 상태 표시 |
+| `onClick` | `() => void` | - | 클릭 핸들러 |

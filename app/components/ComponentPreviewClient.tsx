@@ -58,7 +58,7 @@ export function ComponentPreviewClient({
         {tab === "preview" ? (
           <div
             className={cn(
-              "preview flex min-h-[350px] w-full items-center justify-center rounded-lg border border-[var(--color-border-standard)] bg-[var(--color-bg-card)] p-10",
+              "preview white flex min-h-[350px] w-full items-center justify-center rounded-lg border border-[var(--color-border-standard)] bg-[var(--color-bg-card)] p-10",
               previewClassName
             )}
           >

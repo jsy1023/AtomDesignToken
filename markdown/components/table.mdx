@@ -12,47 +12,7 @@
 
 객체 배열 형태의 데이터를 `tableData` 속성으로 전달하면 자동으로 헤더와 행이 생성됩니다.
 
-<ComponentPreview name="Table">
-  <Table
-    tableData={[
-      { "아이디": "user01", "이름": "홍길동", "상태": "활성" },
-      { "아이디": "user02", "이름": "김철수", "상태": "대기" },
-      { "아이디": "user03", "이름": "이영희", "상태": "활성" },
-    ]}
-  />
-</ComponentPreview>
-
----
-
-## 설치 (Installation)
-
-<Steps>
-
-### 패키지 추가
-터미널에서 아래 명령어를 실행합니다.
-
-```bash
-npx atomsystem-add Table
-```
-
-### 소스 코드 확인
-`app/templates/Table/Table.tsx`에서 테이블 스타일 정의를 확인하세요.
-
-<ComponentSource name="Table" />
-
-</Steps>
-
----
-
-## 다양한 예시 (Examples)
-
-### 데이터가 없을 때 (Empty State)
-
-데이터가 비어있는 경우 정해진 안내 문구를 표시합니다.
-
-<ComponentPreview name="Table">
-  <Table tableData={[]} />
-</ComponentPreview>
+<ComponentPreview name="table-demo" />
 
 ---
 
