@@ -1,100 +1,67 @@
-import PreviewLayout from "@/app/components/mdx-layout";
-import { CodeLayout } from "@/app/components/mdx-layout";
-import { ModalContent } from "@/app/templates/Modal/Modal";
-import { Button } from "@/app/templates/Button/Button";
-import { Input } from "@/app/templates/Form/Form";
-import Table from "@/app/templates/Table/Table";
-import { Card, CardContent, CardHeader } from "@/app/templates/Card/Card";
+# 모달 (Modal)
 
-import ModalPreview from "@/app/components/ModalPreview";
+사용자의 작업 흐름을 일시 정지시키고, 중요한 정보 전달이나 특정 작업 수행을 요구하는 오버레이 창입니다.
 
-# 모달창
-
-모달(Modal)은 사용자의 작업 흐름을 중단시키고, 특정 작업이나 확인을 요구하는 UI 요소입니다.
+<Callout type="warning" title="주의 사항">
+  모달은 사용자의 흐름을 강제로 중단시키므로, 꼭 필요한 경우에만 절제하여 사용하는 것이 좋습니다.
+</Callout>
 
 ---
 
-<PreviewLayout
-  preview={<ModalPreview />}
-  code={`import { ModalContent } from "@/app/components/Modal/Modal"
-import { Button } from "@/app/components/Button/Button"
-import { Input } from "@/app/components/Form/Form"
-import { useState } from "react"
+## 기본 사용법 (Basics)
 
-export default function App() {
-  const [isOpen, setIsOpen] = useState(false)
-  
+모달의 기본적인 구성과 동작 예시입니다.
+
+<ComponentPreview name="Modal">
+  <ModalPreview />
+</ComponentPreview>
+
+---
+
+## 설치 (Installation)
+
+<Steps>
+
+### 컴포넌트 추가
+터미널에서 아래 명령어를 실행합니다.
+
+```bash
+npx atomsystem-add Modal
+```
+
+### 상위 레이아웃 설정
+모달이 올바르게 렌더링되도록 `layout.tsx` 파일 최상위에 `Modal` 컨테이너를 추가해야 합니다.
+
+```tsx
+import { Modal } from "@/app/templates/Modal/Modal";
+
+export default function RootLayout({ children }) {
   return (
-    <>
-      <Button onClick={() => setIsOpen(true)} type="primary">
-        모달 열기
-      </Button>
-      <ModalContent
-        isOpen={isOpen}
-        onRequestClose={() => setIsOpen(false)}
-        modalTitle="모달제목"
-        modalFooter={
-          <Button onClick={() => setIsOpen(false)} type="primary">
-            닫기
-          </Button>
-        }
-      >
-        <Input label="이름" />
-      </ModalContent>
-    </>
-  )
+    <html>
+      <body>
+        {children}
+        <Modal /> {/* 모달 포털 포인트 */}
+      </body>
+    </html>
+  );
 }
-`}
-/>
+```
 
-## Attributes
+### 소스 코드 확인
+모달의 내부 구현 및 스타일을 확인해 보세요.
 
-<Table
-  tableData={[
-    { Prop: "isOpen", Type: "boolean", Describe: "모달 Open/Close 상태 값" },
-    { Prop: "onRequestClose", Type: "()=>void", Describe: "모달 닫기 버튼" },
-    { Prop: "children", Type: "React.ReactNode", Describe: "모달 콘텐츠 내용" },
-    { Prop: "modalTitle", Type: "string", Describe: "모달 제목 정보" },
-    { Prop: "modalFooter", Type: "React.ReactNode", Describe: "모달 하단 컴포넌트 정보" },
-    { Prop: "size", Type: "normal | middle | large | xl | full | full-screen", Describe: "모달 크기 정보" },
-  ]}
-/>
+<ComponentSource name="Modal" />
+
+</Steps>
 
 ---
 
-## Installation
+## 속성 (Properties)
 
-<CodeLayout language="bash" code={`npx atomsystem-add Modal`} />
-
----
-
-## Usage
-
-<CodeLayout language="tsx" code={`import { ModalContent } from "@/app/components/Modal/Modal"`} />
-
-### layout.tsx 설정
-
-모달을 렌더링할 포털 요소를 최상위 레이아웃에 추가해야 합니다.
-<CodeLayout language="tsx" code={`import { Modal } from "../components/Modal/Modal";
-//**
-// * 상위 공간에 모달 호출할 공간을 적용해줍니다.
-// */ 
-<Modal />`} />
-
-### 컴포넌트 적용
-
-<CodeLayout language="tsx" code={`<Button onClick={() => setIsOpen(true)} type="primary">
-  모달 열기
-</Button>
-<ModalContent
-  isOpen={isOpen}
-  onRequestClose={() => setIsOpen(false)}
-  modalTitle="모달제목"
-  modalFooter={
-    <Button onClick={() => setIsOpen(false)} type="primary">
-      닫기
-    </Button>
-  }
->
-  <Input label="이름" />
-</ModalContent>`} />
+| 속성 | 타입 | 기본값 | 설명 |
+| :--- | :--- | :--- | :--- |
+| `isOpen` | `boolean` | `false` | 모달의 활성화 상태 |
+| `onRequestClose` | `() => void` | `-` | 닫기 요청 시 호출되는 핸들러 |
+| `modalTitle` | `string` | `-` | 상단에 표시될 제목 |
+| `modalFooter` | `ReactNode` | `-` | 하단에 배치할 컴포넌트(주로 버튼) |
+| `size` | `normal` \| `large` \| `full` | `normal` | 모달의 너비 크기 |

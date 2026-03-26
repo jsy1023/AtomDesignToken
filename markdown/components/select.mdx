@@ -1,67 +1,68 @@
-import PreviewLayout from "@/app/components/mdx-layout";
-import { CodeLayout } from "@/app/components/mdx-layout";
-import { Select } from "@/app/templates/Form/Form";
+# 선택창 (Select)
 
-# 선택창
+여러 개의 선택지 중 하나를 골라야 할 때 사용되는 드롭다운 형태의 컨트롤 요소입니다.
 
-선택창은 여러가지 항목중 단일의 내용을 선택할 수 있는 컨트롤러입니다.  
-10개 이상의 선택지가 있는 경우에 사용을 권장합니다.
-
----
-
-<PreviewLayout
-  preview={<Select
-    options={["대한민국", "유럽", "일본", "미국", "중국"]}
-  />}
-  code={`import { Select } from "@/app/components/Select/Select"
-
-<Select options={["대한민국", "유럽", "일본", "미국", "중국"]} />
-`} />
-
-## Installation
-
-<CodeLayout code={`npx atomsystem-add Select`} />
-
-## Usage
-
-<CodeLayout code={`import { Select } from "@/app/components/Select/Select" `} />
-<CodeLayout code={`<Select option={[]}/> `} />
+<Callout type="tip">
+  선택지가 10개 이상으로 많아 화면에 모두 나열하기 어려울 때 사용을 권장합니다.
+</Callout>
 
 ---
 
-## Example
+## 기본 사용법 (Basics)
 
-### Default
+항목 배열을 `options` 속성으로 전달하여 드롭다운 메뉴를 구성합니다.
 
-<PreviewLayout
-  preview={<Select
-    options={["대한민국", "유럽", "일본", "미국", "중국"]}
-  />}
-  code={`import { Select } from "@/app/components/Select/Select"
+<ComponentPreview name="Select">
+  <Select options={["대한민국", "유럽", "일본", "미국", "중국"]} />
+</ComponentPreview>
 
-<Select />
-`} />
+---
 
-### Disabled
+## 설치 (Installation)
 
-<PreviewLayout
-  preview={<Select
-    disabled
-    options={["대한민국", "유럽", "일본", "미국", "중국"]}
-  />}
-  code={`import { Select } from "@/app/components/Select/Select"
+<Steps>
 
-<Select disabled />
-`} />
+### 패키지 추가
+터미널에서 폼(Form) 컴포넌트 시스템을 추가합니다.
 
-### With Label
+```bash
+npx atomsystem-add Form
+```
 
-<PreviewLayout
-  preview={<Select
-    label="국가선택"
-    options={["대한민국", "유럽", "일본", "미국", "중국"]}
-  />}
-  code={`import { Select } from "@/app/components/Select/Select"
+### 소스 코드 확인
+`app/templates/Form/Form.tsx` 파일 내에서 `Select` 구현 코드를 확인할 수 있습니다.
 
-<Select label="국가선택" />
-`} />
+<ComponentSource name="Select" />
+
+</Steps>
+
+---
+
+## 다양한 예시 (Examples)
+
+### 라벨과 함께 사용 (With Label)
+
+`Label` 컴포넌트와 조합하여 선택 항목의 의미를 구성할 수 있습니다.
+
+<ComponentPreview name="Select">
+  <div className="flex flex-col space-y-2 w-full">
+    <Label label="국가 선택" required />
+    <Select options={["서울", "도쿄", "베이징", "런던", "뉴욕"]} />
+  </div>
+</ComponentPreview>
+
+### 비활성화 상태 (Disabled)
+
+`disabled` 속성을 사용하여 상호작용을 차단할 수 있습니다.
+
+<ComponentPreview name="Select" disabled options={[]} />
+
+---
+
+## 속성 (Properties)
+
+| 속성 | 타입 | 기본값 | 설명 |
+| :--- | :--- | :--- | :--- |
+| `options` | `string[]` | `[]` | 드롭다운에 표시할 항목 리스트 |
+| `disabled` | `boolean` | `false` | 선택창 비활성화 여부 |
+| `label` | `string` | `-` | (옵션) 상단에 표시될 설명 텍스트 |

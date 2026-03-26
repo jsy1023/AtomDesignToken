@@ -1,149 +1,74 @@
-import PreviewLayout from "@/app/components/mdx-layout";
-import { CodeLayout } from "@/app/components/mdx-layout";
-import { Badge } from "@/app/templates/Badge/Badge";
+# 배지 (Badge)
 
-# 배지
+상태, 수량, 라벨 등 짧은 텍스트 정보를 시각적으로 강조하여 전달하는 컴포넌트입니다.
 
-배지는 상태나 수량, 라벨, 알림 등의 정보를 간결하게 전달하는
-컴포넌트 입니다.
-
----
-
-<PreviewLayout
-  preview={
-    <div className="my-4 flex flex-col items-center gap-4">
-        <div className="flex gap-2">
-            <Badge color="primary">배지</Badge>
-            <Badge color="secondary">배지</Badge>
-            <Badge color="warning">배지</Badge>
-            <Badge color="danger">배지</Badge>
-        </div>
-        <div className="flex gap-2">
-            <Badge color="primary" type="tint">
-                배지
-            </Badge>
-            <Badge color="secondary" type="tint">
-                배지
-            </Badge>
-            <Badge color="warning" type="tint">
-                배지
-            </Badge>
-            <Badge color="danger" type="tint">
-                배지
-            </Badge>
-        </div>
-    </div>
-    }
-code={`import { Badge } from "@/app/components/Badge/Badge"
-
-<div className="my-4 flex flex-col items-center gap-4">
-  <div className="flex gap-2">
-    <Badge color="primary">배지</Badge>
-    <Badge color="secondary">배지</Badge>
-    <Badge color="warning">배지</Badge>
-    <Badge color="danger">배지</Badge>
-  </div>
-  <div className="flex gap-2">
-    <Badge color="primary" type="tint">
-      배지
-    </Badge>
-    <Badge color="secondary" type="tint">
-      배지
-    </Badge>
-    <Badge color="warning" type="tint">
-      배지
-    </Badge>
-    <Badge color="danger" type="tint">
-      배지
-    </Badge>
-  </div>
-  <div className="flex gap-2">
-    <Badge color="secondary">
-      <span className="material-symbols-outlined !text-sm !text-white mr-1">
-        check
-      </span>
-      완료
-    </Badge>
-    <Badge
-      className="h-5 rounded-full flex justify-center items-center"
-      color="danger"
-    >
-      99
-      <span className="material-symbols-outlined !text-sm !text-white mr-1">
-        add
-      </span>
-    </Badge>
-  </div>
-</div>
-`} />
+<Callout type="tip">
+  배지는 읽기 전용 요소입니다. 클릭 가능한 액션이 필요한 경우 버튼 컴포넌트 사용을 고려하세요.
+</Callout>
 
 ---
 
-## Installation
+## 기본 사용법 (Basics)
 
-<CodeLayout code={`npx atomsystem-add Badge`} />
+다양한 색상의 배지를 생성할 수 있습니다. `color` 속성을 사용하여 의미를 부여합니다.
+
+<ComponentPreview name="Badge" color="primary">
+  Primary
+</ComponentPreview>
+
+<ComponentPreview name="Badge" color="secondary">
+  Secondary
+</ComponentPreview>
+
+<ComponentPreview name="Badge" color="success">
+  Success
+</ComponentPreview>
+
+<ComponentPreview name="Badge" color="danger">
+  Danger
+</ComponentPreview>
 
 ---
 
-## Usage
+## 설치 (Installation)
 
-<CodeLayout code={`import { Badge } from "@/app/components/Badge/Badge"`} />
-<CodeLayout code={`<Badge color="primary">배지</Badge>`} />
+<Steps>
+
+### 패키지 추가
+터미널에서 아래 명령어를 실행합니다.
+
+```bash
+npx atomsystem-add Badge
+```
+
+### 소스 코드 확인
+`app/templates/Badge` 경로에서 실제 구현 코드를 확인할 수 있습니다.
+
+<ComponentSource name="Badge" />
+
+</Steps>
 
 ---
 
-## Example
+## 스타일 변형 (Variants)
 
-### main
+### 틴트 타입 (Tinted)
 
-<PreviewLayout
-  preview={
-    <div className="flex gap-2 justify-center">
-        <Badge color="primary">배지</Badge>
-        <Badge color="secondary">배지</Badge>
-        <Badge color="warning">배지</Badge>
-        <Badge color="danger">배지</Badge>
-    </div>
-    }
-  code={`import { Badge } from "@/app/components/Badge/Badge"
+`type="tint"` 속성을 사용하면 배경색을 은은하게 강조할 수 있습니다.
 
-<Badge color="primary">배지</Badge>
-<Badge color="secondary">배지</Badge>
-<Badge color="warning">배지</Badge>
-<Badge color="danger">배지</Badge>
-`} />
+<ComponentPreview name="Badge" color="primary" type="tint">
+  Tinted Primary
+</ComponentPreview>
 
-### tint
+<ComponentPreview name="Badge" color="success" type="tint">
+  Tinted Success
+</ComponentPreview>
 
-<PreviewLayout
-  preview={
-    <div className="flex gap-2 justify-center">
-        <Badge type="tint" color="primary">
-            배지
-        </Badge>
-        <Badge type="tint" color="secondary">
-            배지
-        </Badge>
-        <Badge type="tint" color="warning">
-            배지
-        </Badge>
-        <Badge type="tint" color="danger">
-            배지
-        </Badge>
-    </div>
-    }
-  code={`import { Badge } from "@/app/components/Badge/Badge"
+---
 
-<Badge type="tint" color="primary">
-  배지
-</Badge>
-<Badge type="tint" color="secondary">
-  배지
-</Badge>
-<Badge type="tint" color="warning">
-  배지
-</Badge>
-<Badge type="tint" color="danger">
-  배지
-</Badge>
-`} />
+## 속성 (Properties)
+
+| 속성 | 타입 | 기본값 | 설명 |
+| :--- | :--- | :--- | :--- |
+| `color` | `primary` \| `secondary` \| `success` \| `warning` \| `danger` | `primary` | 배지의 색상 스타일 |
+| `type` | `solid` \| `tint` | `solid` | 배지의 채우기 스타일 |

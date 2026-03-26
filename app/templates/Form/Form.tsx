@@ -50,7 +50,7 @@ export const Input = ({
 };
 
 export const Select = ({
-  options,
+  options = [],
   disabled,
 }: {
   options: string[];

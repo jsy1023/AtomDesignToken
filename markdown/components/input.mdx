@@ -1,59 +1,66 @@
-import PreviewLayout from "@/app/components/mdx-layout";
-import { CodeLayout } from "@/app/components/mdx-layout";
-import { Input } from "@/app/templates/Form/Form";
+# 입력창 (Input)
 
-# 입력창
+사용자로부터 데이터를 입력받기 위한 기본적인 대화형 컨트롤 요소입니다.
 
-입력창은 사용자로부터 데이터를 전달받기 위한 대화형 컨트롤러입니다. 다양한 종류로 구성되어 있으며  
-사용자와의 상호작용을 위해 입력창의 상태전환을 직관적으로 표현해야합니다.
-
----
-
-<PreviewLayout
-  preview={<Input className="w-full" />}
-  code={`import { Input } from "@/app/components/Input/Input"
-
-<Input />
-`} />
-
-## Installation
-
-<CodeLayout code={`npx atomsystem-add Select`} />
-
-## Usage
-
-<CodeLayout code={`import { Input } from "@/app/components/Input/Input"`} />
-<CodeLayout code={`<Input/>`} />
+<Callout type="note">
+  입력창은 포커스, 에러, 비활성 등 다양한 상태를 직관적으로 표현하여 사용자와 원활하게 상호작용해야 합니다.
+</Callout>
 
 ---
 
-## Example
+## 기본 사용법 (Basics)
 
-### Default
+가장 기본적인 형태의 입력창입니다.
 
-<PreviewLayout
-  preview={<Input className="w-full" />}
-  code={`import { Input } from "@/app/components/Input/Input"
+<ComponentPreview name="Input" placeholder="이름을 입력하세요" />
 
-<Input />
-`} />
+---
 
-### Disabled
+## 설치 (Installation)
 
-<PreviewLayout
-  preview={<Input disabled />}
-  code={`import { Input } from "@/app/components/Input/Input"
+<Steps>
 
-<Input disabled />
-`} />
+### 패키지 추가
+터미널에서 폼(Form) 컴포넌트 시스템을 추가합니다.
 
-### With Label
+```bash
+npx atomsystem-add Form
+```
 
-<PreviewLayout
-  preview={<div className="flex flex-col w-full"><Input label="Email" /></div>}
-  code={`import { Input } from "@/app/components/Input/Input"
+### 소스 코드 확인
+`app/templates/Form/Form.tsx` 파일 내에서 `Input` 구현 코드를 확인할 수 있습니다.
 
-<div className="flex flex-col w-full">
-  <Input label="Email" />
-</div>
-`} />
+<ComponentSource name="Input" />
+
+</Steps>
+
+---
+
+## 다양한 예시 (Examples)
+
+### 라벨과 함께 사용 (With Label)
+
+`Label` 컴포넌트와 조합하여 입력 항목의 의미를 명확히 전달할 수 있습니다.
+
+<ComponentPreview name="Input">
+  <Label label="이메일 주소" required />
+  <Input type="email" placeholder="example@email.com" />
+</ComponentPreview>
+
+### 비활성화 상태 (Disabled)
+
+`disabled` 속성을 사용하여 입력을 막을 수 있습니다.
+
+<ComponentPreview name="Input" disabled placeholder="입력할 수 없습니다." />
+
+---
+
+## 속성 (Properties)
+
+| 속성 | 타입 | 기본값 | 설명 |
+| :--- | :--- | :--- | :--- |
+| `type` | `string` | `text` | 입력 타입 (text, password, email 등) |
+| `placeholder` | `string` | `-` | 입력 도움말 텍스트 |
+| `disabled` | `boolean` | `false` | 비활성화 여부 |
+| `required` | `boolean` | `false` | 필수 입력 여부 |
+| `readOnly` | `boolean` | `false` | 읽기 전용 여부 |

@@ -1,69 +1,70 @@
-import PreviewLayout from "@/app/components/mdx-layout";
-import { CodeLayout } from "@/app/components/mdx-layout";
-import { Card, CardContent } from "@/app/templates/Card/Card";
-import { Radio } from "@/app/templates/Form/Form";
+# 라디오 (Radio)
 
-# 라디오
+여러 선택지 중 단 하나만 선택할 수 있는 배타적 선택 컨트롤 요소입니다.
 
-라디오는 사용자가 여러가지 선택사항 중 한가지 선택을 할 수 있는
-컨트롤러입니다. 1개 ~ 10개 사이의 선택사항이 있는 경우 라디오의 사용을
-권장합니다.
+<Callout type="tip">
+  사용자가 선택지를 한 눈에 비교하고 하나만 결정해야 할 때 사용합니다. 여러 개를 중복 선택해야 하는 경우에는 체크박스(Checkbox)를 사용하세요.
+</Callout>
 
 ---
 
-<PreviewLayout
-  preview={
-    <div className="flex gap-4">
-        <Radio defaultChecked name={"food"} value={"김밥"} />
-        <Radio name={"food"} value={"삼겹살"} />
-    </div>
-    }
-  code={`import { Radio } from "@/app/components/Input/Input"
+## 기본 사용법 (Basics)
 
-<Radio defaultChecked name={"food"} value={"김밥"} />
-<Radio name={"food"} value={"삼겹살"} />
-`} />
+라디오 버튼은 같은 `name` 속성을 공유하여 하나의 그룹으로 동작합니다.
 
----
-
-## Installation
-
-<CodeLayout code={`npx atomsystem-add Radio`} />
+<ComponentPreview name="Radio">
+  <div className="flex gap-4">
+    <Radio name="fruit" value="사과" defaultChecked />
+    <Radio name="fruit" value="오렌지" />
+    <Radio name="fruit" value="포도" />
+  </div>
+</ComponentPreview>
 
 ---
 
-## Usage
+## 설치 (Installation)
 
-<CodeLayout code={`import { Radio } from "@/app/components/Input/Input" `} />
-<CodeLayout code={`<Radio name={} value={} /> `} />
+<Steps>
+
+### 패키지 추가
+터미널에서 폼(Form) 컴포넌트 시스템을 추가합니다.
+
+```bash
+npx atomsystem-add Form
+```
+
+### 소스 코드 확인
+`app/templates/Form/Form.tsx` 파일 내에서 `Radio` 구현 코드를 확인할 수 있습니다.
+
+<ComponentSource name="Radio" />
+
+</Steps>
 
 ---
 
-## Example
+## 다양한 예시 (Examples)
 
-### With Label
+### 라벨과 그룹화 (With Group Label)
 
-<PreviewLayout
-  preview={
-    <div className="flex flex-col">
-      <Radio
-        label="저녁메뉴"
-        value="떡볶이"
-        name={"condition"}
-        defaultChecked
-      />
-      <Radio value="라면" name={"condition"} />
-      <Radio value="햄버거" name={"condition"} />
-    </div>
-  }
-  code={`import { Radio } from "@/app/components/Input/Input" 
-<div className="flex flex-col">
-  <Radio
-    label="저녁메뉴"
-    value="떡볶이"
-    name={"condition"}
-  />
-  <Radio value="라면" name={"condition"} />
-  <Radio value="햄버거" name={"condition"} />
-</div>`}
-/>
+여러 라디오 버튼을 그룹으로 묶어 설명을 추가할 수 있습니다.
+
+<ComponentPreview name="Radio">
+  <div className="flex flex-col space-y-2">
+    <Label label="배송 방법 선택" required />
+    <Radio name="shipping" value="일반 배송" defaultChecked />
+    <Radio name="shipping" value="새벽 배송" />
+    <Radio name="shipping" value="당일 수령" />
+  </div>
+</ComponentPreview>
+
+---
+
+## 속성 (Properties)
+
+| 속성 | 타입 | 기본값 | 설명 |
+| :--- | :--- | :--- | :--- |
+| `name` | `string` | `-` | 라디오 그룹을 식별하는 고유 이름 |
+| `value` | `string` | `-` | 라디오 버튼의 값 |
+| `label` | `string` | `-` | (옵션) 상단에 표시될 설명 텍스트 |
+| `defaultChecked` | `boolean` | `false` | 초기 선택 상태 여부 |
+| `disabled` | `boolean` | `false` | 비활성화 여부 |

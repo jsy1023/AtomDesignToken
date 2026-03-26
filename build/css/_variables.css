@@ -136,6 +136,14 @@
   --color-table-body-text: var(--table-body-text);
   --color-table-body-border: var(--table-body-border);
   --color-pagination-bg-hover: var(--pagination-bg-hover);
+  --color-callout-note-bg: var(--callout-note-bg);
+  --color-callout-note-text: var(--callout-note-text);
+  --color-callout-tip-bg: var(--callout-tip-bg);
+  --color-callout-tip-text: var(--callout-tip-text);
+  --color-callout-danger-bg: var(--callout-danger-bg);
+  --color-callout-danger-text: var(--callout-danger-text);
+  --color-callout-warning-bg: var(--callout-warning-bg);
+  --color-callout-warning-text: var(--callout-warning-text);
 }
 
 .white {
@@ -180,6 +188,14 @@
 --table-body-text: var(--color-dark-300);
 --table-body-border: var(--color-gray-300);
 --pagination-bg-hover: var(--color-gray-100);
+--callout-note-bg: var(--color-gray-100);
+--callout-note-text: var(--color-gray-900);
+--callout-tip-bg: var(--color-green-100);
+--callout-tip-text: var(--color-green-900);
+--callout-danger-bg: var(--color-red-100);
+--callout-danger-text: var(--color-red-900);
+--callout-warning-bg: var(--color-yellow-100);
+--callout-warning-text: var(--color-yellow-900);
 } 
 
 .dark {
@@ -224,4 +240,12 @@
 --table-body-text: var(--color-gray-200);
 --table-body-border: var(--color-dark-400);
 --pagination-bg-hover: var(--color-dark-300);
+--callout-note-bg: var(--color-dark-300);
+--callout-note-text: var(--color-white);
+--callout-tip-bg: var(--color-green-950);
+--callout-tip-text: var(--color-green-200);
+--callout-danger-bg: var(--color-red-950);
+--callout-danger-text: var(--color-red-200);
+--callout-warning-bg: var(--color-yellow-950);
+--callout-warning-text: var(--color-yellow-200);
 } 

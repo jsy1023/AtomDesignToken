@@ -1,236 +1,85 @@
-import PreviewLayout from "@/app/components/mdx-layout";
-import { CodeLayout } from "@/app/components/mdx-layout";
-import { Card, CardContent } from "@/app/templates/Card/Card";
-import { Collapse } from "@/app/templates/Collapse/Collapse";
+# 콜랩스 (Collapse)
 
-# Collapse
+많은 양의 콘텐츠를 제목 아래 숨겨두었다가 클릭 시 펼쳐서 보여주는 아코디언 스타일의 컴포넌트입니다.
 
-여러 개의 콘텐츠 영역을 하나의 영역에서 전환하며 보여주는 UI요소입니다. 사용자가 클릭하거나 탭을 선택하면 해당 탭에 연결된 콘텐츠만 보여주고 나머지는 숨깁니다.
-
----
-
-<PreviewLayout
-  preview={
-    <div className="w-full">
-      <Collapse
-        // type="accordion"
-        collapses={[
-          {
-            title: "디자인 시스템의 중요성",
-            content:
-              "디자인 시스템은 일관된 사용자 경험을 제공하고, 협업 생산성을 극대화하는 핵심 도구입니다.",
-          },
-          {
-            title: "웹 접근성 가이드라인",
-            content:
-              "모든 사용자가 동등하게 콘텐츠에 접근할 수 있도록, WCAG 기준을 준수하는 것이 중요합니다.",
-          },
-          {
-            title: "시간 관리 전략",
-            content:
-              "업무 우선순위를 설정하고, 타임블록 기법을 활용하면 집중력과 생산성이 높아집니다.",
-          },
-          {
-            title: "협업 도구의 활용",
-            content:
-              "Notion, Slack, Figma 같은 협업 도구는 정보 공유와 팀 커뮤니케이션의 효율을 크게 향상시킵니다.",
-          },
-        ]}
-      />
-    </div>
-  }
-  code={`import Collapse from "@/app/component/Collapse/Collapse";
-                    
-      <Collapse
-        // type="accordion"
-        collapses={[
-            {
-            title: "디자인 시스템의 중요성",
-            content:
-                "디자인 시스템은 일관된 사용자 경험을 제공하고, 협업 생산성을 극대화하는 핵심 도구입니다.",
-            },
-            {
-            title: "웹 접근성 가이드라인",
-            content:
-                "모든 사용자가 동등하게 콘텐츠에 접근할 수 있도록, WCAG 기준을 준수하는 것이 중요합니다.",
-            },
-            {
-            title: "시간 관리 전략",
-            content:
-                "업무 우선순위를 설정하고, 타임블록 기법을 활용하면 집중력과 생산성이 높아집니다.",
-            },
-            {
-            title: "협업 도구의 활용",
-            content:
-                "Notion, Slack, Figma 같은 협업 도구는 정보 공유와 팀 커뮤니케이션의 효율을 크게 향상시킵니다.",
-            },
-        ]}
-        />`}
-/>
+<Callout type="note">
+  정보의 위계를 정리하고 화면 공간을 효율적으로 사용하고 싶을 때 유용합니다.
+</Callout>
 
 ---
 
-## Installation
+## 기본 사용법 (Basics)
 
-<CodeLayout code={`npx atomsystem-add Collapse`} />
+여러 개의 항목을 동시에 펼칠 수 있는 기본 콜랩스 형태입니다.
 
----
-
-## Usage
-
-<CodeLayout
-  code={`import Collapse from "@/app/component/Collapse/Collapse";`}
-/>
-<CodeLayout
-  code={`<Collapse
-  // type="accordion"
-  collapses={[
-    {
-      title: "디자인 시스템의 중요성",
-      content:
-        "디자인 시스템은 일관된 사용자 경험을 제공하고, 협업 생산성을 극대화하는 핵심 도구입니다.",
-    },
-    {
-      title: "웹 접근성 가이드라인",
-      content:
-        "모든 사용자가 동등하게 콘텐츠에 접근할 수 있도록, WCAG 기준을 준수하는 것이 중요합니다.",
-    },
-    {
-      title: "시간 관리 전략",
-      content:
-        "업무 우선순위를 설정하고, 타임블록 기법을 활용하면 집중력과 생산성이 높아집니다.",
-    },
-    {
-      title: "협업 도구의 활용",
-      content:
-        "Notion, Slack, Figma 같은 협업 도구는 정보 공유와 팀 커뮤니케이션의 효율을 크게 향상시킵니다.",
-    },
-  ]}
-/>`}
-/>
+<ComponentPreview name="Collapse">
+  <div className="w-full">
+    <Collapse
+      collapses={[
+        {
+          title: "디자인 시스템이란?",
+          content: "디자인 원칙, 가이드라인, 그리고 재사용 가능한 컴포넌트들의 집합입니다.",
+        },
+        {
+          title: "아톰 시스템의 장점",
+          content: "일관된 디자인 토큰을 사용하여 유지보수가 쉽고 개발 속도가 빠릅니다.",
+        },
+      ]}
+    />
+  </div>
+</ComponentPreview>
 
 ---
 
-## Example
+## 설치 (Installation)
 
-### Default
+<Steps>
 
-<PreviewLayout
-  preview={
-    <div className="w-full">
-      <Collapse
-        // type="accordion"
-        collapses={[
-          {
-            title: "디자인 시스템의 중요성",
-            content:
-              "디자인 시스템은 일관된 사용자 경험을 제공하고, 협업 생산성을 극대화하는 핵심 도구입니다.",
-          },
-          {
-            title: "웹 접근성 가이드라인",
-            content:
-              "모든 사용자가 동등하게 콘텐츠에 접근할 수 있도록, WCAG 기준을 준수하는 것이 중요합니다.",
-          },
-          {
-            title: "시간 관리 전략",
-            content:
-              "업무 우선순위를 설정하고, 타임블록 기법을 활용하면 집중력과 생산성이 높아집니다.",
-          },
-          {
-            title: "협업 도구의 활용",
-            content:
-              "Notion, Slack, Figma 같은 협업 도구는 정보 공유와 팀 커뮤니케이션의 효율을 크게 향상시킵니다.",
-          },
-        ]}
-      />
-    </div>
-  }
-  code={`import Collapse from "@/app/component/Collapse/Collapse";
-                    
-      <Collapse
-        // type="accordion"
-        collapses={[
-            {
-            title: "디자인 시스템의 중요성",
-            content:
-                "디자인 시스템은 일관된 사용자 경험을 제공하고, 협업 생산성을 극대화하는 핵심 도구입니다.",
-            },
-            {
-            title: "웹 접근성 가이드라인",
-            content:
-                "모든 사용자가 동등하게 콘텐츠에 접근할 수 있도록, WCAG 기준을 준수하는 것이 중요합니다.",
-            },
-            {
-            title: "시간 관리 전략",
-            content:
-                "업무 우선순위를 설정하고, 타임블록 기법을 활용하면 집중력과 생산성이 높아집니다.",
-            },
-            {
-            title: "협업 도구의 활용",
-            content:
-                "Notion, Slack, Figma 같은 협업 도구는 정보 공유와 팀 커뮤니케이션의 효율을 크게 향상시킵니다.",
-            },
-        ]}
-        />`}
-/>
+### 패키지 추가
+터미널에서 아래 명령어를 실행합니다.
 
-### Accordion
+```bash
+npx atomsystem-add Collapse
+```
 
-<PreviewLayout
-  preview={
-    <div className="w-full">
-      <Collapse
-        type="accordion"
-        collapses={[
-          {
-            title: "디자인 시스템의 중요성",
-            content:
-              "디자인 시스템은 일관된 사용자 경험을 제공하고, 협업 생산성을 극대화하는 핵심 도구입니다.",
-          },
-          {
-            title: "웹 접근성 가이드라인",
-            content:
-              "모든 사용자가 동등하게 콘텐츠에 접근할 수 있도록, WCAG 기준을 준수하는 것이 중요합니다.",
-          },
-          {
-            title: "시간 관리 전략",
-            content:
-              "업무 우선순위를 설정하고, 타임블록 기법을 활용하면 집중력과 생산성이 높아집니다.",
-          },
-          {
-            title: "협업 도구의 활용",
-            content:
-              "Notion, Slack, Figma 같은 협업 도구는 정보 공유와 팀 커뮤니케이션의 효율을 크게 향상시킵니다.",
-          },
-        ]}
-      />
-    </div>
-  }
-  code={`import Collapse from "@/app/component/Collapse/Collapse";
-                    
+### 소스 코드 확인
+`app/templates/Collapse/Collapse.tsx`에서 애니메이션과 레이아웃 로직을 확인하세요.
+
+<ComponentSource name="Collapse" />
+
+</Steps>
+
+---
+
+## 스타일 변형 (Variants)
+
+### 아코디언 모드 (Accordion)
+
+`type="accordion"` 속성을 사용하면 한 번에 하나의 항목만 펼쳐지도록 제한할 수 있습니다.
+
+<ComponentPreview name="Collapse">
+  <div className="w-full">
     <Collapse
       type="accordion"
       collapses={[
         {
-          title: "디자인 시스템의 중요성",
-          content:
-            "디자인 시스템은 일관된 사용자 경험을 제공하고, 협업 생산성을 극대화하는 핵심 도구입니다.",
+          title: "Q: 배송은 얼마나 걸리나요?",
+          content: "평균 1~3일 이내에 배송이 완료됩니다.",
         },
         {
-          title: "웹 접근성 가이드라인",
-          content:
-            "모든 사용자가 동등하게 콘텐츠에 접근할 수 있도록, WCAG 기준을 준수하는 것이 중요합니다.",
-        },
-        {
-          title: "시간 관리 전략",
-          content:
-            "업무 우선순위를 설정하고, 타임블록 기법을 활용하면 집중력과 생산성이 높아집니다.",
-        },
-        {
-          title: "협업 도구의 활용",
-          content:
-            "Notion, Slack, Figma 같은 협업 도구는 정보 공유와 팀 커뮤니케이션의 효율을 크게 향상시킵니다.",
+          title: "Q: 환불 정책은 어떻게 되나요?",
+          content: "수령 후 7일 이내에 고객센터를 통해 신청 가능합니다.",
         },
       ]}
-    />`}
-/>
+    />
+  </div>
+</ComponentPreview>
+
+---
+
+## 속성 (Properties)
+
+| 속성 | 타입 | 기본값 | 설명 |
+| :--- | :--- | :--- | :--- |
+| `collapses` | `Array<{title, content}>` | `[]` | 표시할 제목과 내용의 배열 |
+| `type` | `default` \| `accordion` | `default` | 펼쳐지는 동작 방식 제어 |

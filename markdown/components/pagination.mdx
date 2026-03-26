@@ -1,84 +1,66 @@
-import PreviewLayout from "@/app/components/mdx-layout";
-import { CodeLayout } from "@/app/components/mdx-layout";
-import Table from "@/app/templates/Table/Table";
-import PaginationDemo from "@/app/components/PaginationDemo";
+# 페이지네이션 (Pagination)
 
-# 페이지네이션
+많은 양의 데이터를 여러 페이지로 나누어 효율적으로 탐색할 수 있게 해주는 컴포넌트입니다.
 
-페이지네이션은 많은 양의 데이터를 여러 페이지로 나누어 보여주는 컴포넌트 입니다. 한 번에 모든 데이터를 보여주지 않고, 일정 수만큼 끊어 사용자에게 점진적으로 제공합니다.
-
----
-
-<PreviewLayout
-  preview={<PaginationDemo />}
-  code={`import Pagination from "@/app/components/Pagination/Pagination"
-import { useState } from "react";
-
-export default function MyPagination() {
-  const [active, setActive] = useState(1);
-  return (
-    <div className="flex justify-center w-full">
-      <Pagination
-        currentPage={active}
-        onPageChange={(page) => setActive(page)}
-        pageViewRange={10}
-        pageRange={5}
-        totalCount={80}
-      />
-    </div>
-  );
-}`}
-/>
-
+<Callout type="note">
+  사용자가 현재 위치를 쉽게 파악하고 원하는 페이지로 빠르게 이동할 수 있도록 직관적인 링크와 내비게이션 버튼을 제공합니다.
+</Callout>
 
 ---
 
-## Installation
+## 기본 사용법 (Basics)
 
-<CodeLayout language="npm" code={`npx atomsystem-add Pagination`} />
+가장 일반적인 형태의 페이지 네비게이션입니다.
 
----
-
-## Usage
-
-<CodeLayout
-  language="npm"
-  code={`import Pagination from "@/app/components/Pagination/Pagination"`}
-/>
-<CodeLayout
-  language="npm"
-  code={`<Pagination
-  currentPage={active}
-  onPageChange={(page) => setActive(page)}
-  pageViewRange={10}
-  pageRange={5}
-  totalCount={80}
-/>`}
-/>
+<ComponentPreview name="Pagination">
+  <PaginationDemo />
+</ComponentPreview>
 
 ---
 
-## Example
+## 설치 (Installation)
 
-### Default
+<Steps>
 
-<PreviewLayout
-  preview={<PaginationDemo />}
-  code={`import Pagination from "@/app/components/Pagination/Pagination"
-import { useState } from "react";
+### 패키지 추가
+터미널에서 아래 명령어를 실행합니다.
 
-export default function MyPagination() {
-  const [active, setActive] = useState(1);
-  return (
-    <div className="flex justify-center w-full">
-      <Pagination
-        currentPage={active}
-        onPageChange={(page) => setActive(page)}
-        pageViewRange={10}
-        pageRange={5}
-        totalCount={80}
-      />
-    </div>
-  );
-}`}
+```bash
+npx atomsystem-add Pagination
+```
+
+### 소스 코드 확인
+`app/templates/Pagination/Pagination.tsx` 파일에서 로직과 스타일을 확인해 보세요.
+
+<ComponentSource name="Pagination" />
+
+</Steps>
+
+---
+
+## 활용 가이드 (Usage)
+
+### 필수 데이터
+페이지네이션이 정상적으로 동작하려면 현재 페이지, 총 개수, 페이지당 항목 수 등의 정보가 필요합니다.
+
+```tsx
+<Pagination
+  currentPage={currentPage}
+  onPageChange={handlePageChange}
+  totalCount={100}      // 전체 아이템 수
+  pageViewRange={10}    // 한 페이지에 보여줄 아이템 수
+  pageRange={5}         // 하단에 노출할 페이지 번호 개수
 />
+```
+
+---
+
+## 속성 (Properties)
+
+| 속성 | 타입 | 기본값 | 설명 |
+| :--- | :--- | :--- | :--- |
+| `currentPage` | `number` | `1` | 현재 활성화된 페이지 번호 |
+| `totalCount` | `number` | `-` | 전체 아이템의 총 개수 |
+| `pageViewRange` | `number` | `10` | 한 페이지당 노출할 아이템 수 |
+| `pageRange` | `number` | `5` | 하단 내비게이션에 노출할 페이지 번호 최대 개수 |
+| `onPageChange` | `(page: number) => void` | `-` | 페이지 변경 시 호출되는 콜백 함수 |
