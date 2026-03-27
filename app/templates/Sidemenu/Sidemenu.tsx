@@ -1,4 +1,7 @@
+"use client"
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 // Navigation을 베이스 interface로 정의
 export interface Sidemenu {
@@ -35,8 +38,11 @@ const NavList = ({children}: Sidemenu) => {
 
 
 const NavItem = ({children, href}: NavLink) => {
+  const pathname = usePathname();
+  const active = pathname === href;
+
   return (
-    <Link href={href} className="nav-item text-nowrap">{children}</Link>
+    <Link href={href} className={`nav-item text-nowrap ${active ? "text-primary!" : ""}`}>{children}</Link>
   )
 }
 

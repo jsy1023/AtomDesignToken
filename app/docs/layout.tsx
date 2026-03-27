@@ -21,7 +21,8 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
           </NavList>
           <NavList>
             <p>component</p>
-            <NavItem href="/docs/components/global-nav">네비게이션</NavItem>
+            <NavItem href="/docs/components/navigation">네비게이션</NavItem>
+            <NavItem href="/docs/components/sidemenu">사이드메뉴</NavItem>
             <NavItem href="/docs/components/modal">모달창</NavItem>
             <NavItem href="/docs/components/toc">목차</NavItem>
             <NavItem href="/docs/components/input">입력창</NavItem>

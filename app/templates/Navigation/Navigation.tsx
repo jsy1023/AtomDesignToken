@@ -1,4 +1,7 @@
+"use client"
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 // Navigation을 베이스 interface로 정의
 export interface Navigation {
@@ -33,8 +36,11 @@ const NavList = ({children}: Navigation) => {
 
 
 const NavItem = ({children, href}: NavLink) => {
+  const pathname = usePathname();
+  const active = pathname === href;
+
   return (
-    <Link href={href} className="nav-item">{children}</Link>
+    <Link href={href} className={`nav-item ${active ? "text-primary!" : ""}`}>{children}</Link>
   )
 }
 

@@ -20,6 +20,7 @@ const components = [
   "Collapse",
   "CodeBlock",
   "Navigation",
+  "Sidemenu",
   "Input",
   "Theme",
   "Tab",
@@ -30,6 +31,7 @@ const components = [
   "TOC",
   "Dropdown",
 ]; // 여기 추가할 컴포넌트 목록
+
 
 // 명령어에서 컴포넌트 이름 가져오기
 const args = process.argv.slice(2); // 'npx atomsystem-add Button -> [Button]'

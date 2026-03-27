@@ -1,0 +1,76 @@
+# 네비게이션 (Navigation)
+
+웹사이트나 애플리케이션의 구조를 탐색하고 주요 영역으로 이동할 수 있게 해주는 상단(Top) 네비게이션 컴포넌트입니다.
+
+<Callout type="note">
+  `Navigation`, `NavBrand`, `NavList`, `NavItem`의 모듈형 구조로 설계되어 자유로운 커스터마이징이 가능합니다. 현재 경로에 해당하는 `NavItem`은 자동으로 활성화 스타일이 적용됩니다.
+</Callout>
+
+---
+
+## 기본 사용법 (Basics)
+
+페이지 상단에 고정되거나 배치되는 일반적인 네비게이션 형태입니다.
+
+<ComponentPreview name="global-nav-demo" />
+
+---
+
+## 설치 (Installation)
+
+<Steps>
+
+### 컴포넌트 추가
+터미널에서 아래 명령어를 실행합니다.
+
+```bash
+npx atomsystem-add Navigation
+```
+
+### 소스 코드 확인
+생성된 `Navigation.tsx`의 내부 구현을 확인해 보세요.
+
+<ComponentSource name="Navigation" />
+
+</Steps>
+
+---
+
+## 사용 가이드 (Usage)
+
+### 기본 구조
+`Navigation`, `NavBrand`, `NavList`, `NavItem`의 조합으로 구성됩니다.
+
+```tsx
+<Navigation>
+  <NavBrand href="/">Brand</NavBrand>
+  <NavList>
+    <NavItem href="/home">Home</NavItem>
+    <NavItem href="/about">About</NavItem>
+  </NavList>
+</Navigation>
+```
+
+---
+
+## 속성 (Properties)
+
+### Navigation
+
+| 속성 | 타입 | 기본값 | 설명 |
+| :--- | :--- | :--- | :--- |
+| `children` | `React.ReactNode` | — | 내부에 배치할 콘텐츠 (`NavBrand`, `NavList` 등) |
+
+### NavBrand
+
+| 속성 | 타입 | 기본값 | 설명 |
+| :--- | :--- | :--- | :--- |
+| `href` | `string` | — | 브랜드 로고 클릭 시 이동할 경로 |
+| `children` | `React.ReactNode` | — | 로고 이미지 또는 텍스트 |
+
+### NavItem
+
+| 속성 | 타입 | 기본값 | 설명 |
+| :--- | :--- | :--- | :--- |
+| `href` | `string` | — | 이동할 경로. 현재 경로와 일치하면 활성화 스타일 적용 |
+| `children` | `React.ReactNode` | — | 메뉴 텍스트 |
