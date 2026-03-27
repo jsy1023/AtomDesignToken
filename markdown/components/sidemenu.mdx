@@ -52,6 +52,34 @@ npx atomsystem-add Sidemenu
 </Sidemenu>
 ```
 
+### 레이아웃 구성 (Next.js)
+
+일반적으로 사이드메뉴는 메인 콘텐츠 영역과 Flex 또는 Grid 형태로 결합됩니다. Next.js의 `layout.tsx`에 배치하여 중첩 라우팅에서의 공통 UI로 활용할 수 있습니다.
+
+```tsx
+import { Sidemenu, NavList, NavItem } from "@/app/components/Sidemenu";
+
+export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="flex h-screen w-full overflow-hidden">
+      {/* 1. 사이드메뉴 (좌측 고정) */}
+      <Sidemenu minWidth={250}>
+        <NavList>
+          <p className="px-4 py-2 text-sm opacity-50">Menu</p>
+          <NavItem href="/dashboard">Overview</NavItem>
+          <NavItem href="/dashboard/analytics">Analytics</NavItem>
+        </NavList>
+      </Sidemenu>
+
+      {/* 2. 메인 콘텐츠 영역 */}
+      <main className="flex-1 overflow-auto bg-[var(--bg-document)]">
+        {children}
+      </main>
+    </div>
+  );
+}
+```
+
 ---
 
 ## 속성 (Properties)

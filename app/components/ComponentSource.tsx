@@ -1,8 +1,9 @@
 import React from "react";
 import hljs from "highlight.js";
-import "highlight.js/styles/github-dark.css";
+import "highlight.js/styles/atom-one-dark.css";
 import { getFileSource, getComponentSource } from "@/lib/registry-utils";
 import { cn } from "@/lib/utils";
+import { CodeBlockClient } from "./CodeBlockClient";
 
 interface ComponentSourceProps {
   name?: string;
@@ -32,18 +33,22 @@ export default async function ComponentSource({
   const highlighted = hljs.highlight(code, { language }).value;
 
   return (
-    <div className={cn("relative my-6 overflow-hidden rounded-lg border bg-zinc-950 text-zinc-50", className)}>
-      <div className="flex items-center justify-between border-b border-zinc-800 bg-zinc-900/50 px-4 py-2">
-        <div className="text-xs font-medium text-zinc-400">
-          {name || src || "Source"}
+    <CodeBlockClient rawCode={code} className={cn("my-6", className)}>
+      <div className="overflow-hidden rounded-lg border border-zinc-800 bg-zinc-950">
+        {/* 파일명 헤더 */}
+        <div className="flex items-center border-b border-zinc-800 bg-zinc-900/70 px-4 py-2">
+          <span className="text-xs font-medium text-zinc-400">
+            {name ? `${name}.tsx` : src || "Source"}
+          </span>
         </div>
+        {/* 코드 본문 */}
+        <pre className="no-scrollbar overflow-x-auto p-4 text-sm leading-relaxed">
+          <code
+            className={`hljs language-${language}`}
+            dangerouslySetInnerHTML={{ __html: highlighted }}
+          />
+        </pre>
       </div>
-      <pre className="no-scrollbar overflow-x-auto p-4 text-sm leading-relaxed">
-        <code 
-          className={`hljs language-${language}`}
-          dangerouslySetInnerHTML={{ __html: highlighted }} 
-        />
-      </pre>
-    </div>
+    </CodeBlockClient>
   );
 }

@@ -51,6 +51,35 @@ npx atomsystem-add Navigation
 </Navigation>
 ```
 
+### 전역 레이아웃 적용 (Next.js)
+
+Next.js의 App Router를 사용할 경우, `app/layout.tsx`에 이 컴포넌트를 배치하여 모든 페이지 상단에 렌더링되도록 구성하는 것이 일반적입니다.
+
+```tsx
+import { Navigation, NavBrand, NavList, NavItem } from "@/app/components/Navigation";
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="ko">
+      <body>
+        {/* 모든 페이지에 공통 적용되는 GNB */}
+        <Navigation>
+          <NavBrand href="/">My App</NavBrand>
+          <NavList>
+            <NavItem href="/dashboard">Dashboard</NavItem>
+            <NavItem href="/settings">Settings</NavItem>
+          </NavList>
+        </Navigation>
+
+        <main className="flex-1">
+          {children}
+        </main>
+      </body>
+    </html>
+  );
+}
+```
+
 ---
 
 ## 속성 (Properties)

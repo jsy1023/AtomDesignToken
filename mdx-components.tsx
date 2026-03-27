@@ -12,6 +12,7 @@ import { Steps, Step } from "@/app/components/Steps";
 import ModalPreview from "@/app/components/ModalPreview";
 import PaginationDemo from "@/app/components/PaginationDemo";
 import { ToastDemo } from "@/app/components/ToastDemo";
+import MdxCodeBlock from "@/app/components/MdxCodeBlock";
 
 // 디자인 시스템 컴포넌트 (레지스트리 활용 권장되지만, 직접 매핑도 유지)
 import { Button } from "@/app/templates/Button/Button";
@@ -129,15 +130,9 @@ const customComponents = {
       {...(props as ImageProps)}
     />
   ),
-  pre: ({ className, ...props }: React.HTMLAttributes<HTMLPreElement>) => (
-    <pre
-      className={cn(
-        "mb-4 mt-6 overflow-x-auto rounded-lg border border-[var(--color-border-standard)] bg-zinc-950 p-4",
-        className
-      )}
-      {...props}
-    />
-  ),
+  // MDX 마크다운 코드블록(```tsx 등) — hljs 서버사이드 하이라이팅 + Collapse
+  pre: (props) => <MdxCodeBlock {...props} />,
+  // 인라인 코드 (`code`) 스타일
   code: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => (
     <code
       className={cn(
@@ -147,6 +142,7 @@ const customComponents = {
       {...props}
     />
   ),
+
 
   // --- 문서화 전역 컴포넌트 ---
   ComponentPreview,
