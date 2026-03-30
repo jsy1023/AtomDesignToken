@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { ThemeProvider } from "./templates/Theme/Theme";
-import { getStarCount } from "@/lib/github";
 import { Toast } from "./templates/Toast/Toast";
 import { Modal } from "./templates/Modal/Modal";
 import { Navigation, NavBrand, NavItem, NavList } from "./templates/Navigation/Navigation";
