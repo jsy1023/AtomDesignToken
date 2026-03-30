@@ -6,7 +6,6 @@ import { getStarCount } from "@/lib/github";
 import { Toast } from "./templates/Toast/Toast";
 import { Modal } from "./templates/Modal/Modal";
 import { Navigation, NavBrand, NavItem, NavList } from "./templates/Navigation/Navigation";
-import Link from "next/link";
 import Image from "next/image";
 import FloatingThemeSelector from "./components/floating-theme-selector";
 
@@ -42,7 +41,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const stars = await getStarCount();
   return (
     <html lang="ko" className="w-full h-full">
       <head>

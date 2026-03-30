@@ -1,6 +1,6 @@
 import React from "react";
 import { cn } from "@/lib/utils";
-import { Info, AlertTriangle, AlertCircle, Lightbulb, CheckCircle2 } from "lucide-react";
+import { Info, AlertTriangle, AlertCircle, Lightbulb } from "lucide-react";
 
 interface CalloutProps {
   icon?: React.ReactNode;

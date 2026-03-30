@@ -1,4 +1,4 @@
-import { useMDXComponents } from "../../../../mdx-components";
+import { useMDXComponents as getMDXComponents } from "../../../../mdx-components";
 
 export default async function ComponentsPage({
   params,
@@ -7,7 +7,7 @@ export default async function ComponentsPage({
 }) {
   const { slug } = await params;
   const { default: Post } = await import(`@/markdown/components/${slug}.mdx`);
-  const components = useMDXComponents({});
+  const components = getMDXComponents({});
 
   return <Post components={components} />;
 }
