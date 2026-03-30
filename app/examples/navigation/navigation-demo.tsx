@@ -1,6 +1,6 @@
 import { Navigation, NavBrand, NavList, NavItem } from "@/app/templates/Navigation/Navigation";
 
-export default function GlobalNavDemo() {
+export default function NavigationDemo() {
   return (
     <div className="w-full border border-[var(--color-border-standard)] rounded overflow-hidden">
       <Navigation>

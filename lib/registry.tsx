@@ -47,8 +47,8 @@ import TableDemo from "@/app/examples/table/table-demo";
 
 import TocDemo from "@/app/examples/toc/toc-demo";
 
-import GlobalNavDemo from "@/app/examples/global-nav/global-nav-demo";
 import SidemenuDemo from "@/app/examples/sidemenu/sidemenu-demo";
+import NavigationDemo from "@/app/examples/navigation/navigation-demo";
 
 export const componentRegistry: Record<string, React.ElementType> = {
   // ── 원본 컴포넌트 ────────────────────────────────────────────────
@@ -110,7 +110,7 @@ export const componentRegistry: Record<string, React.ElementType> = {
 
   "toc-demo": TocDemo,
 
-  "global-nav-demo": GlobalNavDemo,
+  "navigation-demo": NavigationDemo,
 
   "sidemenu-demo": SidemenuDemo,
 };
