@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { cn } from "@/lib/utils";
-import { Copy, Check, Eye, Code2 } from "lucide-react";
+import { Eye, Code2 } from "lucide-react";
+import Tab from "@/app/templates/Tab/Tab";
 
 interface ComponentPreviewClientProps {
   children: React.ReactNode; // The live component preview
@@ -21,55 +22,57 @@ export function ComponentPreviewClient({
   className,
   previewClassName,
 }: ComponentPreviewClientProps) {
-  const [tab, setTab] = useState<"preview" | "code">("preview");
+  const tabs = [
+    {
+      id: "preview",
+      target: ["preview-content"],
+      tabItem: (
+        <div className="flex items-center space-x-2">
+          <Eye className="h-4 w-4" />
+          <span>Preview</span>
+        </div>
+      ),
+    },
+    {
+      id: "code",
+      target: ["code-content"],
+      tabItem: (
+        <div className="flex items-center space-x-2">
+          <Code2 className="h-4 w-4" />
+          <span>Code</span>
+        </div>
+      ),
+    },
+  ];
+
+  const tabContents = [
+    {
+      id: "preview-content",
+      tag: "preview-content",
+      content: (
+        <div
+          className={cn(
+            "preview white flex min-h-[350px] w-full items-center justify-center rounded-lg border border-[var(--color-border-standard)] bg-[var(--color-bg-card)] p-10 mt-4",
+            previewClassName
+          )}
+        >
+          {children}
+        </div>
+      ),
+    },
+    {
+      id: "code-content",
+      tag: "code-content",
+      content: <div className="source w-full pt-4">{source}</div>,
+    },
+  ];
 
   return (
-    <div className={cn("relative my-6 flex flex-col space-y-4", className)}>
-      <div className="flex items-center justify-between border-b pb-1">
-        <div className="flex space-x-4">
-          <button
-            onClick={() => setTab("preview")}
-            className={cn(
-              "flex items-center space-x-2 border-b-2 py-2 text-sm font-medium transition-colors hover:text-[var(--color-primary)]",
-              tab === "preview" 
-                ? "border-[var(--color-primary)] text-[var(--color-primary)]" 
-                : "border-transparent text-[var(--color-text-sub)]"
-            )}
-          >
-            <Eye className="h-4 w-4" />
-            <span>Preview</span>
-          </button>
-          <button
-            onClick={() => setTab("code")}
-            className={cn(
-              "flex items-center space-x-2 border-b-2 py-2 text-sm font-medium transition-colors hover:text-[var(--color-primary)]",
-              tab === "code" 
-                ? "border-[var(--color-primary)] text-[var(--color-primary)]" 
-                : "border-transparent text-[var(--color-text-sub)]"
-            )}
-          >
-            <Code2 className="h-4 w-4" />
-            <span>Code</span>
-          </button>
-        </div>
-      </div>
-
-      <div className="relative">
-        {tab === "preview" ? (
-          <div
-            className={cn(
-              "preview white flex min-h-[350px] w-full items-center justify-center rounded-lg border border-[var(--color-border-standard)] bg-[var(--color-bg-card)] p-10",
-              previewClassName
-            )}
-          >
-            {children}
-          </div>
-        ) : (
-          <div className="source animate-in fade-in duration-300">
-            {source}
-          </div>
-        )}
-      </div>
+    <div className={cn("relative my-6 flex flex-col", className)}>
+      <Tab
+        tabs={tabs}
+        tabContents={tabContents}
+      />
     </div>
   );
 }

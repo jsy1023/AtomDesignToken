@@ -9,9 +9,6 @@ import ComponentPreview from "@/app/components/ComponentPreview";
 import ComponentSource from "@/app/components/ComponentSource";
 import { Callout } from "@/app/components/Callout";
 import { Steps, Step } from "@/app/components/Steps";
-import ModalPreview from "@/app/components/ModalPreview";
-import PaginationDemo from "@/app/components/PaginationDemo";
-import { ToastDemo } from "@/app/components/ToastDemo";
 import MdxCodeBlock from "@/app/components/MdxCodeBlock";
 
 // 디자인 시스템 컴포넌트 (레지스트리 활용 권장되지만, 직접 매핑도 유지)
@@ -150,9 +147,6 @@ const customComponents = {
   Callout,
   Steps,
   Step,
-  ModalPreview,
-  PaginationDemo,
-  ToastDemo,
 
   // --- 디자인 시스템 컴포넌트 ---
   Button,

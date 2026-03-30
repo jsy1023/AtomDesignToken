@@ -27,17 +27,42 @@ export const componentRegistry: Record<string, { path: string; componentName: st
  * 서버 사이드에서 컴포넌트의 소스 코드를 읽어옵니다.
  */
 export async function getComponentSource(name: string): Promise<string | null> {
+  // 1. Static Registry Lookup
   const item = componentRegistry[name];
-  if (!item) return null;
-
-  try {
-    const fullPath = path.join(process.cwd(), item.path);
-    const source = await fs.promises.readFile(fullPath, "utf8");
-    return source;
-  } catch (error) {
-    console.error(`Failed to read source for ${name}:`, error);
-    return null;
+  if (item) {
+    try {
+      const fullPath = path.join(process.cwd(), item.path);
+      const source = await fs.promises.readFile(fullPath, "utf8");
+      return source;
+    } catch (error) {
+      console.error(`Failed to read source for ${name}:`, error);
+      return null;
+    }
   }
+
+  // 2. Dynamic Example Lookup (e.g. name="button-demo")
+  try {
+    const examplesPath = path.join(process.cwd(), "app/examples");
+    if (fs.existsSync(examplesPath)) {
+      const folders = await fs.promises.readdir(examplesPath);
+      // 가장 긴 디렉터리 이름부터 매칭되도록 정렬 (e.g. global-nav 우선 매칭)
+      folders.sort((a, b) => b.length - a.length);
+
+      for (const folder of folders) {
+        if (name.startsWith(folder)) {
+          const fullPath = path.join(examplesPath, folder, `${name}.tsx`);
+          if (fs.existsSync(fullPath)) {
+            const source = await fs.promises.readFile(fullPath, "utf8");
+            return source;
+          }
+        }
+      }
+    }
+  } catch (error) {
+    console.error(`Failed to read dynamic source for ${name}:`, error);
+  }
+
+  return null;
 }
 
 /**

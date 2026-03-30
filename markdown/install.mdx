@@ -1,5 +1,3 @@
-import { CodeLayout } from "@/app/components/mdx-layout";
-
 # 설치하기
 
 atomsystem은 Figma 디자인 토큰을 기반으로 React, Next.js 환경에서 일관된 디자인 시스템을 구축할 수 있도록 돕는 도구입니다.
@@ -19,7 +17,9 @@ atomsystem은 Figma 디자인 토큰을 기반으로 React, Next.js 환경에서
 
 새로운 Next.js 프로젝트에서 atomsystem 환경을 자동으로 구축합니다.
 
-<CodeLayout language="npm" code={`npx atomsystem-init`} />
+```bash
+npx atomsystem-init
+```
 
 이 명령어는 다음과 같은 작업을 자동으로 수행합니다:
 - `next`, `react`, `react-dom`, `tailwindcss`, `style-dictionary` 설치
@@ -33,7 +33,9 @@ atomsystem은 Figma 디자인 토큰을 기반으로 React, Next.js 환경에서
 
 필요한 UI 컴포넌트와 스타일을 프로젝트로 가져옵니다.
 
-<CodeLayout language="npm" code={`npx atomsystem-add Theme`} />
+```bash
+npx atomsystem-add Theme
+```
 
 **주요 특징:**
 - **일괄 추가**: `npx atomsystem-add` 만 입력하면 모든 컴포넌트를 가져옵니다.
@@ -46,7 +48,9 @@ atomsystem은 Figma 디자인 토큰을 기반으로 React, Next.js 환경에서
 
 `tokens.json` 파일의 변경사항을 CSS 변수와 TypeScript 테마 파일로 변환합니다.
 
-<CodeLayout language="npm" code={`npm run token-build`} />
+```bash
+npm run token-build
+```
 
 빌드가 완료되면 다음 파일들이 생성됩니다:
 - `build/css/_variables.css`: Tailwind CSS v4 `@theme`과 동기화된 CSS 변수 파일
@@ -58,8 +62,7 @@ atomsystem은 Figma 디자인 토큰을 기반으로 React, Next.js 환경에서
 
 atomsystem은 `StyleDictionary`를 사용하여 복잡한 토큰 참조를 해석하고 테마별 클래스를 생성합니다. (초기화 시 자동 생성되는 코드의 핵심 요약입니다.)
 
-<CodeLayout
-  code={`
+```typescript
 import StyleDictionary from "style-dictionary";
 
 const sd = new StyleDictionary({
@@ -79,5 +82,4 @@ const sd = new StyleDictionary({
 });
 
 await sd.buildAllPlatforms();
-`}
-/>
+```
