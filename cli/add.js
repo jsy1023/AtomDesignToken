@@ -20,7 +20,7 @@ const components = [
   "Collapse",
   "CodeBlock",
   "Navigation",
-  "Sidemenu",
+  "Sidebar",
   "Input",
   "Theme",
   "Tab",

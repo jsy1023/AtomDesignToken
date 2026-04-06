@@ -23,7 +23,7 @@ export function generateStaticParams() {
     { slug: "radio" },
     { slug: "collapse" },
     { slug: "navigation" },
-    { slug: "sidemenu" },
+    { slug: "sidebar" },
     { slug: "tab" },
     { slug: "table" },
     { slug: "toc" },

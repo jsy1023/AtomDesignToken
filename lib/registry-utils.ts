@@ -7,7 +7,7 @@ export const componentRegistry: Record<string, { path: string; componentName: st
   Badge: { path: "app/templates/Badge/Badge.tsx", componentName: "Badge" },
   Card: { path: "app/templates/Card/Card.tsx", componentName: "Card" },
   Navigation: { path: "app/templates/Navigation/Navigation.tsx", componentName: "Navigation" },
-  Sidemenu: { path: "app/templates/Sidemenu/Sidemenu.tsx", componentName: "Sidemenu" },
+  Sidebar: { path: "app/templates/Sidebar/Sidebar.tsx", componentName: "Sidebar" },
   Modal: { path: "app/templates/Modal/Modal.tsx", componentName: "Modal" },
   Toast: { path: "app/templates/Toast/Toast.tsx", componentName: "Toast" },
   Tab: { path: "app/templates/Tab/Tab.tsx", componentName: "Tab" },

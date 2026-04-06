@@ -15,7 +15,7 @@ export interface NavLink {
 }
 
 
-const Sidemenu = ({ children, minWidth }: Sidemenu) => {
+const Sidebar = ({ children, minWidth }: Sidemenu) => {
   return (
         <aside className={`nav-side flex flex-col overflow-auto h-full`} style={{minWidth: `${minWidth}px`}}>
             {children}
@@ -24,20 +24,20 @@ const Sidemenu = ({ children, minWidth }: Sidemenu) => {
 }
 
 
-const NavBrand = ({children, href}: NavLink) => {
+const SideNavBrand = ({children, href}: NavLink) => {
   return (
     <Link href={href} className="flex items-center">{children}</Link>
   )
 }
 
-const NavList = ({children}: Sidemenu) => {
+const SideNavList = ({children}: Sidemenu) => {
   return (
     <ul className="nav-list flex flex-col">{children}</ul>
   )
 }
 
 
-const NavItem = ({children, href}: NavLink) => {
+const SideNavItem = ({children, href}: NavLink) => {
   const pathname = usePathname();
   const active = pathname === href;
 
@@ -48,8 +48,8 @@ const NavItem = ({children, href}: NavLink) => {
 
 
 export {
-  Sidemenu,
-  NavBrand,
-  NavList,
-  NavItem
+  Sidebar,
+  SideNavBrand,
+  SideNavList,
+  SideNavItem
 }

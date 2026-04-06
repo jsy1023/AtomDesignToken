@@ -3,7 +3,7 @@ import { Button } from "@/app/templates/Button/Button";
 import { Badge } from "@/app/templates/Badge/Badge";
 import { Card, CardHeader, CardContent, CardFooter } from "@/app/templates/Card/Card";
 import { Navigation, NavBrand, NavList, NavItem } from "@/app/templates/Navigation/Navigation";
-import { Sidemenu } from "@/app/templates/Sidemenu/Sidemenu";
+import { Sidebar, SideNavList, SideNavItem } from "@/app/templates/Sidebar/Sidebar";
 import { Modal } from "@/app/templates/Modal/Modal";
 import { Toast } from "@/app/templates/Toast/Toast";
 import Tab from "@/app/templates/Tab/Tab";
@@ -47,7 +47,7 @@ import TableDemo from "@/app/examples/table/table-demo";
 
 import TocDemo from "@/app/examples/toc/toc-demo";
 
-import SidemenuDemo from "@/app/examples/sidemenu/sidemenu-demo";
+import SidebarDemo from "@/app/examples/sidebar/sidebar-demo";
 import NavigationDemo from "@/app/examples/navigation/navigation-demo";
 
 export const componentRegistry: Record<string, React.ElementType> = {
@@ -62,7 +62,9 @@ export const componentRegistry: Record<string, React.ElementType> = {
   NavBrand,
   NavList,
   NavItem,
-  Sidemenu,
+  Sidebar,
+  SideNavList,
+  SideNavItem,
   Modal,
   Toast,
   Tab,
@@ -112,7 +114,7 @@ export const componentRegistry: Record<string, React.ElementType> = {
 
   "navigation-demo": NavigationDemo,
 
-  "sidemenu-demo": SidemenuDemo,
+  "sidebar-demo": SidebarDemo,
 };
 
 export function getRegistryComponent(name: string) {

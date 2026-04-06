@@ -17,7 +17,7 @@ import { Button } from "@/app/templates/Button/Button";
 import { Badge } from "@/app/templates/Badge/Badge";
 import { Card, CardHeader, CardContent, CardFooter } from "@/app/templates/Card/Card";
 import { Navigation, NavBrand, NavList, NavItem } from "@/app/templates/Navigation/Navigation";
-import { Sidemenu } from "@/app/templates/Sidemenu/Sidemenu";
+import { Sidebar, SideNavList, SideNavItem } from "@/app/templates/Sidebar/Sidebar";
 import { Modal, ModalContent } from "@/app/templates/Modal/Modal";
 import { Toast } from "@/app/templates/Toast/Toast";
 import Tab from "@/app/templates/Tab/Tab";
@@ -161,7 +161,9 @@ const customComponents = {
   NavBrand,
   NavList,
   NavItem,
-  Sidemenu,
+  Sidebar,
+  SideNavList,
+  SideNavItem,
   Modal,
   ModalContent,
   Toast,
