@@ -4,7 +4,7 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import { ThemeProvider } from "./templates/Theme/Theme";
 import { Toast } from "./templates/Toast/Toast";
 import { Modal } from "./templates/Modal/Modal";
-import { Navigation, NavBrand, NavItem, NavList } from "./templates/Navigation/Navigation";
+import { Navigation, NavBrand, NavItem, NavList, NavLink } from "./templates/Navigation/Navigation";
 import Image from "next/image";
 import FloatingThemeSelector from "./components/floating-theme-selector";
 
@@ -59,8 +59,12 @@ export default async function RootLayout({
               />
             </NavBrand>
             <NavList>
-              <NavItem href="/">Home</NavItem>
-              <NavItem href="/docs">Docs</NavItem>
+              <NavItem>
+                <NavLink href="/">Home</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href="/docs">Docs</NavLink>
+              </NavItem>
             </NavList>
         </Navigation>
         {children}
