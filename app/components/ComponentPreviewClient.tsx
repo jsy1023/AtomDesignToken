@@ -50,12 +50,7 @@ export function ComponentPreviewClient({
       id: "preview-content",
       tag: "preview-content",
       content: (
-        <div
-          className={cn(
-            "preview white flex min-h-[350px] w-full items-center justify-center rounded-lg border border-[var(--color-border-standard)] bg-[var(--color-bg-card)] p-10 mt-4",
-            previewClassName
-          )}
-        >
+        <div>
           {children}
         </div>
       ),
@@ -63,7 +58,7 @@ export function ComponentPreviewClient({
     {
       id: "code-content",
       tag: "code-content",
-      content: <div className="source w-full pt-4">{source}</div>,
+      content: <div>{source}</div>,
     },
   ];
 
