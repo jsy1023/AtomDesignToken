@@ -41,65 +41,10 @@ npx atomsystem-add Navigation
 ### 기본 구조
 `Navigation`, `NavBrand`, `NavList`, `NavItem`의 조합으로 구성됩니다.
 
-```tsx
-<Navigation>
-  <NavBrand href="/">Brand</NavBrand>
-  <NavList>
-    <NavItem href="/home">Home</NavItem>
-    <NavItem href="/about">About</NavItem>
-  </NavList>
-</Navigation>
-```
-
-### 전역 레이아웃 적용 (Next.js)
-
-Next.js의 App Router를 사용할 경우, `app/layout.tsx`에 이 컴포넌트를 배치하여 모든 페이지 상단에 렌더링되도록 구성하는 것이 일반적입니다.
-
-```tsx
-import { Navigation, NavBrand, NavList, NavItem } from "@/app/components/Navigation";
-
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="ko">
-      <body>
-        {/* 모든 페이지에 공통 적용되는 GNB */}
-        <Navigation>
-          <NavBrand href="/">My App</NavBrand>
-          <NavList>
-            <NavItem href="/dashboard">Dashboard</NavItem>
-            <NavItem href="/settings">Settings</NavItem>
-          </NavList>
-        </Navigation>
-
-        <main className="flex-1">
-          {children}
-        </main>
-      </body>
-    </html>
-  );
-}
-```
+<ComponentSource name="navigation-demo" />
 
 ---
 
 ## 속성 (Properties)
 
-### Navigation
-
-| 속성 | 타입 | 기본값 | 설명 |
-| :--- | :--- | :--- | :--- |
-| `children` | `React.ReactNode` | — | 내부에 배치할 콘텐츠 (`NavBrand`, `NavList` 등) |
-
-### NavBrand
-
-| 속성 | 타입 | 기본값 | 설명 |
-| :--- | :--- | :--- | :--- |
-| `href` | `string` | — | 브랜드 로고 클릭 시 이동할 경로 |
-| `children` | `React.ReactNode` | — | 로고 이미지 또는 텍스트 |
-
-### NavItem
-
-| 속성 | 타입 | 기본값 | 설명 |
-| :--- | :--- | :--- | :--- |
-| `href` | `string` | — | 이동할 경로. 현재 경로와 일치하면 활성화 스타일 적용 |
-| `children` | `React.ReactNode` | — | 메뉴 텍스트 |
+<ComponentProps name="Navigation" />
