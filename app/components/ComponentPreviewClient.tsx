@@ -20,7 +20,6 @@ export function ComponentPreviewClient({
   children,
   source,
   className,
-  previewClassName,
 }: ComponentPreviewClientProps) {
   const tabs = [
     {

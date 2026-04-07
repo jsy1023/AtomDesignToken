@@ -1,5 +1,4 @@
-import fs from "fs";
-import path from "path";
+
 
 export interface PropInfo {
   name: string;
@@ -42,8 +41,8 @@ export async function parsePropsFromSource(source: string, componentName: string
   const componentPattern = new RegExp(`(?:const|function)\\s+${componentName}\\s*(?:=\\s*)?\\(\\s*{([^}]*)}\\s*:\\s*(\\w+)`, 'm');
   const match = source.match(componentPattern);
   
-  let interfaceName = match ? match[2] : componentName;
-  let destructuringContent = match ? match[1] : '';
+  const interfaceName = match ? match[2] : componentName;
+  const destructuringContent = match ? match[1] : '';
 
   // 기본값 맵 생성
   const defaultValues: Record<string, string> = {};
