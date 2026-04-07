@@ -3,14 +3,14 @@
 좌측 또는 우측에 배치되어 상세 메뉴 구조를 보여주는 사이드 네비게이션 컴포넌트입니다.
 
 <Callout type="note">
-  `Sidebar`, `NavList`, `NavItem`의 모듈형 구조로 구성됩니다. 현재 경로에 해당하는 `NavItem`은 자동으로 활성화 스타일이 적용됩니다.
+  `SidebarProvider`, `Sidebar`, `SidebarToggle`, `SideNavList`, `SideNavLink`의 모듈형 구조로 설계되어 자유로운 커스터마이징이 가능합니다. GSAP을 활용한 부드러운 슬라이딩 애니메이션과 상태 관리 기능이 포함되어 있습니다.
 </Callout>
 
 ---
 
 ## 기본 사용법 (Basics)
 
-카테고리 레이블과 메뉴 항목을 조합하여 계층형 사이드 메뉴를 구성합니다.
+카테고리 레이블과 메뉴 항목을 조합하여 계층형 사이드 메뉴를 구성합니다. 상단 헤더나 네비게이션바에 토글 버튼을 배치하여 열고 닫을 수 있습니다.
 
 <ComponentPreview name="sidebar-demo" />
 
@@ -28,7 +28,7 @@ npx atomsystem-add Sidebar
 ```
 
 ### 소스 코드 확인
-생성된 `Sidebar.tsx`의 내부 구현을 확인해 보세요.
+생성된 `Sidebar.tsx`의 내부 구현을 확인해 보세요. 애니메이션 로직(`useGSAP`)과 상태 관리(`SidebarProvider`)가 포함되어 있습니다.
 
 <ComponentSource name="Sidebar" />
 
@@ -39,43 +39,45 @@ npx atomsystem-add Sidebar
 ## 사용 가이드 (Usage)
 
 ### 기본 구조
-`Sidebar`와 `NavList`, `NavItem`의 조합으로 구성됩니다.
+사이드바를 사용하려는 모든 컴포넌트는 반드시 `SidebarProvider`의 하위 요소여야 합니다. 일반적으로 `layout.tsx`에서 전체를 감싸는 방식을 권장합니다.
 
-```tsx
-<Sidebar minWidth={240}>
-  <NavList>
-    <p className="px-4 py-2 text-sm font-bold opacity-50">카테고리</p>
-    <NavItem href="/dashboard">대시보드</NavItem>
-    <NavItem href="/users">사용자 관리</NavItem>
-    <NavItem href="/settings">설정</NavItem>
-  </NavList>
-</Sidebar>
-```
+<ComponentSource name="sidebar-demo" />
+
+---
 
 ### 레이아웃 구성 (Next.js)
 
-일반적으로 사이드메뉴는 메인 콘텐츠 영역과 Flex 또는 Grid 형태로 결합됩니다. Next.js의 `layout.tsx`에 배치하여 중첩 라우팅에서의 공통 UI로 활용할 수 있습니다.
+일반적으로 사이드메뉴는 메인 콘텐츠 영역과 Flex 형태로 결합됩니다. Next.js의 `layout.tsx`에 `SidebarProvider`를 배치하여 공통 UI로 활용할 수 있습니다.
 
 ```tsx
-import { Sidebar, NavList, NavItem } from "@/app/components/Sidebar";
+import { Sidebar, SidebarProvider, SidebarToggle, SideNavList, SideNavLink, SideNavItem } from "@/app/templates/Sidebar/Sidebar";
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex h-screen w-full overflow-hidden">
-      {/* 1. 사이드메뉴 (좌측 고정) */}
-      <Sidebar minWidth={250}>
-        <NavList>
-          <p className="px-4 py-2 text-sm opacity-50">Menu</p>
-          <NavItem href="/dashboard">Overview</NavItem>
-          <NavItem href="/dashboard/analytics">Analytics</NavItem>
-        </NavList>
-      </Sidebar>
+    <SidebarProvider>
+      <div className="flex h-screen w-full overflow-hidden">
+        {/* 1. 사이드메뉴 (좌측 고정) */}
+        <Sidebar minWidth={250}>
+          <SideNavList>
+            <p className="px-4 py-2 text-sm opacity-50 uppercase">Menu</p>
+            <SideNavItem>
+              <SideNavLink href="/dashboard">Overview</SideNavLink>
+            </SideNavItem>
+            <SideNavItem>
+              <SideNavLink href="/dashboard/analytics">Analytics</SideNavLink>
+            </SideNavItem>
+          </SideNavList>
+        </Sidebar>
 
-      {/* 2. 메인 콘텐츠 영역 */}
-      <main className="flex-1 overflow-auto bg-[var(--bg-document)]">
-        {children}
-      </main>
-    </div>
+        {/* 2. 메인 콘텐츠 영역 */}
+        <main className="flex-1 overflow-auto bg-[var(--bg-document)]">
+          <header className="h-12 border-b flex items-center px-4">
+             <SidebarToggle /> {/* 어디서든 토글 가능 */}
+          </header>
+          {children}
+        </main>
+      </div>
+    </SidebarProvider>
   );
 }
 ```
@@ -84,4 +86,5 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
 ## 속성 (Properties)
 
+### Sidebar
 <ComponentProps name="Sidebar" />

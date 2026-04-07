@@ -1,42 +1,92 @@
 
 import Link from "next/link";
 import TOC from "../templates/TOC/TOC";
-import { Sidebar, SideNavItem, SideNavList } from "../templates/Sidebar/Sidebar";
+import { Sidebar, SideNavItem, SideNavLink, SideNavList } from "../templates/Sidebar/Sidebar";
 
 const DocsLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <main className="flex flex-1 w-full h-full overflow-hidden">
         <Sidebar minWidth={240}>
           <SideNavList>
-            <p>시작하기</p>
-            <SideNavItem href="/docs">소개</SideNavItem>
-            <SideNavItem href="/docs/install">설치하기</SideNavItem>
-            <SideNavItem href="/docs/atomicdesign">아토믹 디자인</SideNavItem>
+            <SideNavItem>
+              <p className="pl-2 pt-2">시작하기</p>
+            </SideNavItem>
+            <SideNavItem>
+              <SideNavLink href="/docs">소개</SideNavLink>
+            </SideNavItem>
+            <SideNavItem>
+              <SideNavLink href="/docs/install">설치하기</SideNavLink>
+            </SideNavItem>
+            <SideNavItem>
+              <SideNavLink href="/docs/atomicdesign">아토믹 디자인</SideNavLink>
+            </SideNavItem>
           </SideNavList>
           <SideNavList>
-            <p>디자인 토큰</p>
-            <SideNavItem href="/docs/token/color">컬러</SideNavItem>
-            <SideNavItem href="/docs/token/spacing">간격</SideNavItem>
-            <SideNavItem href="/docs/token/typo">텍스트</SideNavItem>
+            <SideNavItem>
+              <p className="pl-2 pt-2">디자인 토큰</p>
+            </SideNavItem>
+            <SideNavItem>
+              <SideNavLink href="/docs/token/color">컬러</SideNavLink>
+            </SideNavItem>
+            <SideNavItem>
+              <SideNavLink href="/docs/token/spacing">간격</SideNavLink>
+            </SideNavItem>
+            <SideNavItem>
+              <SideNavLink href="/docs/token/typo">텍스트</SideNavLink>
+            </SideNavItem>
           </SideNavList>
           <SideNavList>
-            <p>component</p>
-            <SideNavItem href="/docs/components/navigation">네비게이션</SideNavItem>
-            <SideNavItem href="/docs/components/sidebar">사이드메뉴</SideNavItem>
-            <SideNavItem href="/docs/components/modal">모달창</SideNavItem>
-            <SideNavItem href="/docs/components/toc">목차</SideNavItem>
-            <SideNavItem href="/docs/components/input">입력창</SideNavItem>
-            <SideNavItem href="/docs/components/select">선택창</SideNavItem>
-            <SideNavItem href="/docs/components/checkbox">체크박스</SideNavItem>
-            <SideNavItem href="/docs/components/radio">라디오</SideNavItem>
-            <SideNavItem href="/docs/components/badge">배지</SideNavItem>
-            <SideNavItem href="/docs/components/button">버튼</SideNavItem>
-            <SideNavItem href="/docs/components/table">테이블</SideNavItem>
-            <SideNavItem href="/docs/components/pagination">페이지네이션</SideNavItem>
-            <SideNavItem href="/docs/components/collapse">콜랩스</SideNavItem>
-            <SideNavItem href="/docs/components/card">카드</SideNavItem>
-            <SideNavItem href="/docs/components/toast">토스트 알림</SideNavItem>
-            <SideNavItem href="/docs/components/tab">탭</SideNavItem>
+            <SideNavItem>
+              <p className="pl-2 pt-2">component</p>
+            </SideNavItem>
+            <SideNavItem>
+              <SideNavLink href="/docs/components/navigation">네비게이션</SideNavLink>
+            </SideNavItem>
+            <SideNavItem>
+              <SideNavLink href="/docs/components/sidebar">사이드메뉴</SideNavLink>
+            </SideNavItem>
+            <SideNavItem>
+              <SideNavLink href="/docs/components/modal">모달창</SideNavLink>
+            </SideNavItem>
+            <SideNavItem>
+              <SideNavLink href="/docs/components/toc">목차</SideNavLink>
+            </SideNavItem>
+            <SideNavItem>
+              <SideNavLink href="/docs/components/input">입력창</SideNavLink>
+            </SideNavItem>
+            <SideNavItem>
+              <SideNavLink href="/docs/components/select">선택창</SideNavLink>
+            </SideNavItem>
+            <SideNavItem>
+              <SideNavLink href="/docs/components/checkbox">체크박스</SideNavLink>
+            </SideNavItem>
+            <SideNavItem>
+              <SideNavLink href="/docs/components/radio">라디오</SideNavLink>
+            </SideNavItem>
+            <SideNavItem>
+              <SideNavLink href="/docs/components/badge">배지</SideNavLink>
+            </SideNavItem>
+            <SideNavItem>
+              <SideNavLink href="/docs/components/button">버튼</SideNavLink>
+            </SideNavItem>
+            <SideNavItem>
+              <SideNavLink href="/docs/components/table">테이블</SideNavLink>
+            </SideNavItem>
+            <SideNavItem>
+              <SideNavLink href="/docs/components/pagination">페이지네이션</SideNavLink>
+            </SideNavItem>
+            <SideNavItem>
+              <SideNavLink href="/docs/components/collapse">콜랩스</SideNavLink>
+            </SideNavItem>
+            <SideNavItem>
+              <SideNavLink href="/docs/components/card">카드</SideNavLink>
+            </SideNavItem>
+            <SideNavItem>
+              <SideNavLink href="/docs/components/toast">토스트 알림</SideNavLink>
+            </SideNavItem>
+            <SideNavItem>
+              <SideNavLink href="/docs/components/tab">탭</SideNavLink>
+            </SideNavItem>
           </SideNavList>
         </Sidebar>
         <div className="relative w-full h-full bg-bg-wrapper grid grid-cols-1 md:grid-cols-4 overflow-auto scroll-smooth">

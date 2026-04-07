@@ -4,10 +4,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
+import { useRef, createContext, useContext, useState } from "react";
 
 // Icons
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { useRef, createContext, useContext, useState } from "react";
 
 
 gsap.registerPlugin(useGSAP); // register the hook to avoid React version discrepancies
