@@ -5,7 +5,7 @@ import { Sidebar, SideNavItem, SideNavLink, SideNavList } from "../templates/Sid
 
 const DocsLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <main className="flex flex-1 w-full h-full overflow-hidden">
+    <main className="flex flex-1 w-full min-h-0 overflow-hidden">
         <Sidebar minWidth={240}>
           <SideNavList>
             <SideNavItem>

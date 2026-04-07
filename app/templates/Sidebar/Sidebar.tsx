@@ -91,7 +91,7 @@ const Sidebar = ({ children, minWidth }: Sidebar) => {
 
 
   return (
-      <aside ref={sidebarRef} className={`nav-side flex-col overflow-hidden h-full`} style={{ width: isOpen ? minWidth : 0, minWidth: isOpen ? minWidth : 0 }}>
+      <aside ref={sidebarRef} className={`nav-side flex flex-col overflow-auto h-full`} style={{ width: isOpen ? minWidth : 0, minWidth: isOpen ? minWidth : 0 }}>
           {children}
       </aside>
     )
