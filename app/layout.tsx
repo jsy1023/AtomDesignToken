@@ -4,10 +4,8 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import { ThemeProvider } from "./templates/Theme/Theme";
 import { Toast } from "./templates/Toast/Toast";
 import { Modal } from "./templates/Modal/Modal";
-import { Navigation, NavBrand, NavItem, NavList, NavLink } from "./templates/Navigation/Navigation";
-import Image from "next/image";
 import FloatingThemeSelector from "./components/floating-theme-selector";
-import { SidebarProvider, SidebarToggle } from "./templates/Sidebar/Sidebar";
+import { GNV } from "./GNV";
 
 export const metadata: Metadata = {
   title: { template: `%s | Atomic Design`, default: "Atom Design System" },
@@ -50,33 +48,13 @@ export default async function RootLayout({
         />
       </head>
       <body className="w-full h-full bg-bg-wrapper flex flex-col">        
-        <SidebarProvider>
-          <Navigation>
-            <div className="flex items-center">
-              <NavBrand href="/"><Image
-                  src="/images/global/logoSymbol.svg"
-                  alt="Logo"
-                  width={32}
-                  height={32}
-                  draggable="false"
-                />
-              </NavBrand>
-              <SidebarToggle/>
-            </div>
-              <NavList>
-                <NavItem>
-                  <NavLink href="/">Home</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink href="/docs">Docs</NavLink>
-                </NavItem>
-              </NavList>
-          </Navigation>
-          {children}
-        </SidebarProvider>
+        
         <div id="modal-root"></div>
         <Toast />
         <Modal />
+        <GNV>
+          {children}
+        </GNV>
         <FloatingThemeSelector />
       </body>
       <GoogleAnalytics gaId="G-6GGTDRQ47W" />
