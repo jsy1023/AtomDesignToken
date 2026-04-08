@@ -1,27 +1,31 @@
-export default function Loading() {
+export default function DocsLoading() {
   return (
-    <div className="absolute z-10 bg-black/60 top-0 left-0 w-full h-full flex justify-center items-center">
-      <svg
-        className="mr-3 -ml-1 size-5 animate-spin text-white"
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-      >
-        <circle
-          className="opacity-25"
-          cx="12"
-          cy="12"
-          r="10"
-          stroke="currentColor"
-          strokeWidth="4"
-        ></circle>
-        <path
-          className="opacity-75"
-          fill="currentColor"
-          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-        ></path>
-      </svg>
-      <p className="!text-white">Loading...</p>
+    <div className="w-full bg-[var(--color-bg-wrapper)] min-h-screen animate-pulse">
+      <div className="max-w-4xl mx-auto p-8 md:p-12 space-y-10">
+        {/* Path Label */}
+        <div className="h-5 w-40 bg-[var(--color-bg-input-standard)] rounded opacity-60" />
+
+        {/* Main Title */}
+        <div className="h-14 w-3/4 bg-[var(--color-bg-input-standard)] rounded-xl opacity-80" />
+        
+        {/* Paragraph Blocks */}
+        <div className="space-y-5">
+          <div className="h-4 w-full bg-[var(--color-bg-input-standard)] rounded opacity-50" />
+          <div className="h-4 w-full bg-[var(--color-bg-input-standard)] rounded opacity-50" />
+          <div className="h-4 w-11/12 bg-[var(--color-bg-input-standard)] rounded opacity-50" />
+        </div>
+
+        {/* Visualization Block */}
+        <div className="h-72 w-full bg-[var(--color-bg-input-standard)] rounded-3xl border-2 border-dashed border-[var(--color-border-standard)] flex items-center justify-center opacity-40">
+            <div className="text-[var(--color-text-sub)] font-bold tracking-widest text-sm">LOADING...</div>
+        </div>
+
+        {/* Secondary Paragraph Blocks */}
+        <div className="space-y-5">
+          <div className="h-4 w-full bg-[var(--color-bg-input-standard)] rounded opacity-50" />
+          <div className="h-4 w-4/5 bg-[var(--color-bg-input-standard)] rounded opacity-50" />
+        </div>
+      </div>
     </div>
   );
 }
