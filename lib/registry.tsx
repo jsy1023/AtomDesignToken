@@ -10,7 +10,13 @@ import Tab from "@/app/templates/Tab/Tab";
 import { Input, Select, Radio, Checkbox, Label } from "@/app/templates/Form/Form";
 import Table from "@/app/templates/Table/Table";
 import Pagination from "@/app/templates/Pagination/Pagination";
-import { Collapse } from "@/app/templates/Collapse/Collapse";
+import { 
+  Collapse, 
+  CollapseProvider, 
+  CollapseItem, 
+  CollapseHeader, 
+  CollapseContent 
+} from "@/app/templates/Collapse/Collapse";
 import TOC from "@/app/templates/TOC/TOC";
 
 // ── Demo 예제 파일 (shadcn/ui 패턴) ──────────────────────────────
@@ -76,6 +82,10 @@ export const componentRegistry: Record<string, React.ElementType> = {
   Table,
   Pagination,
   Collapse,
+  CollapseProvider,
+  CollapseItem,
+  CollapseHeader,
+  CollapseContent,
   TOC,
 
   // ── Demo 예제 컴포넌트 ────────────────────────────────────────────

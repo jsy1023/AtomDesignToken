@@ -14,20 +14,11 @@
 }
 
 .collapse-icon {
-  transition: transform 0.3s ease;
   color: var(--text-standard);
-}
-
-.collapse-icon.open {
-  transform: rotate(90deg);
-}
-
-.collapse-icon.closed {
-  transform: rotate(0deg);
+  display: inline-block; /* 회전 중심을 위해 적용 */
 }
 
 .collapse-content {
-  padding: var(--spacing-common-x);
   color: var(--text-standard);
   font-size: var(--text-body);
 }

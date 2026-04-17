@@ -10,9 +10,32 @@
 
 ## 기본 사용법 (Basics)
 
-여러 개의 항목을 동시에 펼칠 수 있는 기본 콜랩스 형태입니다.
+`CollapseProvider`, `Collapse`, `CollapseItem`, `CollapseHeader`, `CollapseContent`를 조합하여 자유롭게 구성할 수 있는 모듈형 구조입니다.
 
 <ComponentPreview name="collapse-demo" />
+
+```tsx
+import { 
+  Collapse, 
+  CollapseProvider, 
+  CollapseItem, 
+  CollapseHeader, 
+  CollapseContent 
+} from "@/app/templates/Collapse/Collapse";
+
+export default function Demo() {
+  return (
+    <CollapseProvider>
+      <Collapse>
+        <CollapseItem value="1">
+          <CollapseHeader>첫 번째 항목</CollapseHeader>
+          <CollapseContent>콘텐츠 내용입니다.</CollapseContent>
+        </CollapseItem>
+      </Collapse>
+    </CollapseProvider>
+  );
+}
+```
 
 ---
 
@@ -28,7 +51,7 @@ npx atomsystem-add Collapse
 ```
 
 ### 소스 코드 확인
-`app/templates/Collapse/Collapse.tsx`에서 애니메이션과 레이아웃 로직을 확인하세요.
+`app/templates/Collapse/Collapse.tsx`에서 모듈화된 컴포넌트 구조를 확인하세요.
 
 <ComponentSource name="Collapse" />
 
@@ -40,7 +63,7 @@ npx atomsystem-add Collapse
 
 ### 아코디언 모드 (Accordion)
 
-`type="accordion"` 속성을 사용하면 한 번에 하나의 항목만 펼쳐지도록 제한할 수 있습니다.
+`CollapseProvider`에 `type="accordion"` 속성을 사용하면 한 번에 하나의 항목만 펼쳐지도록 제한할 수 있습니다.
 
 <ComponentPreview name="collapse-accordion" />
 
@@ -48,4 +71,15 @@ npx atomsystem-add Collapse
 
 ## 속성 (Properties)
 
-<ComponentProps name="Collapse" />
+### CollapseProvider
+| 속성 | 타입 | 기본값 | 설명 |
+| :--- | :--- | :--- | :--- |
+| type | `"accordion" \| "collapse"` | `"collapse"` | 펼침 동작 모드 |
+| defaultActiveKeys | `(string \| number)[]` | `[]` | 초기 활성화된 항목들의 키 |
+
+### CollapseItem
+| 속성 | 타입 | 기본값 | 설명 |
+| :--- | :--- | :--- | :--- |
+| value | `string \| number` | - | 항목의 고유 식별자 (필수) |
+| className | `string` | - | 추가 스타일 클래스 |
+

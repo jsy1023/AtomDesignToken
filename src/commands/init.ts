@@ -70,6 +70,16 @@ export const init = new Command()
           return
         }
 
+        const gsSpinner = ora("gsap Animation 설치 중...").start()
+        try {
+          await execPromise("npm install gsap", { cwd: projectRoot })
+          gsSpinner.succeed("gsap Animation 설치 완료!")
+        } catch (err) {
+          gsSpinner.fail("gsap Animation 설치 중 오류 발생")
+          logger.error(err)
+          return
+        }
+
         // package.json 업데이트
         try {
           const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"))
