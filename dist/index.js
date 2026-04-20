@@ -1,106 +1,76 @@
 #!/usr/bin/env node
+var __defProp = Object.defineProperty;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __esm = (fn, res) => function __init() {
+  return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
+};
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
 
 // node_modules/tsup/assets/esm_shims.js
 import path from "path";
 import { fileURLToPath } from "url";
-var getFilename = () => fileURLToPath(import.meta.url);
-var getDirname = () => path.dirname(getFilename());
-var __dirname = /* @__PURE__ */ getDirname();
-
-// src/index.ts
-import { Command as Command3 } from "commander";
-
-// src/commands/add.ts
-import { Command } from "commander";
-import fs from "fs";
-import path2 from "path";
-import prompts from "prompts";
-import { z } from "zod";
+var init_esm_shims = __esm({
+  "node_modules/tsup/assets/esm_shims.js"() {
+    "use strict";
+  }
+});
 
 // src/utils/logger.ts
 import chalk from "chalk";
-var logger = {
-  error(...args) {
-    console.error(chalk.red(...args));
-  },
-  warn(...args) {
-    console.warn(chalk.yellow(...args));
-  },
-  info(...args) {
-    console.info(chalk.cyan(...args));
-  },
-  success(...args) {
-    console.log(chalk.green(...args));
-  },
-  log(...args) {
-    console.log(...args);
-  },
-  break() {
-    console.log("");
+var logger;
+var init_logger = __esm({
+  "src/utils/logger.ts"() {
+    "use strict";
+    init_esm_shims();
+    logger = {
+      error(...args) {
+        console.error(chalk.red(...args));
+      },
+      warn(...args) {
+        console.warn(chalk.yellow(...args));
+      },
+      info(...args) {
+        console.info(chalk.cyan(...args));
+      },
+      success(...args) {
+        console.log(chalk.green(...args));
+      },
+      log(...args) {
+        console.log(...args);
+      },
+      break() {
+        console.log("");
+      }
+    };
   }
-};
+});
 
-// src/commands/add.ts
-var templateDir = path2.join(process.cwd(), "app", "templates");
-var components = [
-  "Button",
-  "Badge",
-  "Card",
-  "Collapse",
-  "CodeBlock",
-  "Navigation",
-  "Sidebar",
-  "Input",
-  "Theme",
-  "Tab",
-  "Toast",
-  "Pagination",
-  "Table",
-  "Modal",
-  "TOC",
-  "Dropdown"
-];
-var dependenciesMap = {
-  Theme: ["Button", "Form", "Modal"]
-};
-var addOptionsSchema = z.object({
-  components: z.array(z.string()).optional(),
-  all: z.boolean(),
-  cwd: z.string()
+// src/utils/component.ts
+var component_exports = {};
+__export(component_exports, {
+  addComponent: () => addComponent,
+  baseDir: () => baseDir,
+  components: () => components,
+  dependenciesMap: () => dependenciesMap,
+  templateDir: () => templateDir,
+  updateGlobalsCss: () => updateGlobalsCss
 });
-var add = new Command().name("add").description("\uD504\uB85C\uC81D\uD2B8\uC5D0 \uCEF4\uD3EC\uB10C\uD2B8\uB97C \uCD94\uAC00\uD569\uB2C8\uB2E4.").argument("[components...]", "\uCD94\uAC00\uD560 \uCEF4\uD3EC\uB10C\uD2B8 \uC774\uB984 \uBAA9\uB85D").option("-a, --all", "\uC0AC\uC6A9 \uAC00\uB2A5\uD55C \uBAA8\uB4E0 \uCEF4\uD3EC\uB10C\uD2B8\uB97C \uCD94\uAC00\uD569\uB2C8\uB2E4.", false).option("-c, --cwd <cwd>", "\uC791\uC5C5 \uB514\uB809\uD1A0\uB9AC \uACBD\uB85C", process.cwd()).action(async (componentsArg, opts) => {
-  try {
-    const options = addOptionsSchema.parse({
-      components: componentsArg,
-      ...opts,
-      cwd: path2.resolve(opts.cwd)
-    });
-    let selectedComponents = options.components || [];
-    if (options.all) {
-      selectedComponents = components;
-    }
-    if (selectedComponents.length === 0) {
-      const { components: promptedComponents } = await prompts({
-        type: "multiselect",
-        name: "components",
-        message: "\uCD94\uAC00\uD560 \uCEF4\uD3EC\uB10C\uD2B8\uB97C \uC120\uD0DD\uD558\uC138\uC694:",
-        choices: components.map((comp) => ({ title: comp, value: comp }))
-      });
-      selectedComponents = promptedComponents;
-    }
-    if (!selectedComponents || selectedComponents.length === 0) {
-      logger.warn("\uC120\uD0DD\uB41C \uCEF4\uD3EC\uB10C\uD2B8\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4.");
-      return;
-    }
-    const addedComponents = /* @__PURE__ */ new Set();
-    for (const comp of selectedComponents) {
-      addComponent(comp, options.cwd, addedComponents);
-    }
-  } catch (error) {
-    logger.error("\uCEF4\uD3EC\uB10C\uD2B8 \uCD94\uAC00 \uC911 \uC624\uB958\uAC00 \uBC1C\uC0DD\uD588\uC2B5\uB2C8\uB2E4.");
-    logger.error(error);
+import fs from "fs";
+import path2 from "path";
+import { fileURLToPath as fileURLToPath2 } from "url";
+function getBaseDir() {
+  const isBuilt = path2.basename(__dirname2) === "dist" || fs.existsSync(path2.join(__dirname2, "index.js"));
+  if (isBuilt) {
+    return path2.join(__dirname2, "..");
   }
-});
+  if (path2.basename(__dirname2) === "utils" || path2.basename(__dirname2) === "commands") {
+    return path2.join(__dirname2, "..", "..");
+  }
+  return path2.join(__dirname2, "..", "..");
+}
 function addComponent(comp, cwd, addedComponents) {
   if (addedComponents.has(comp)) return;
   addedComponents.add(comp);
@@ -130,7 +100,7 @@ function addComponent(comp, cwd, addedComponents) {
       }
     }
   } else {
-    logger.error(`\u274C ${comp} \uCEF4\uD3EC\uB10C\uD2B8\uAC00 atomsystem\uC5D0 \uC874\uC7AC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4.`);
+    logger.error(`\u274C ${comp} \uCEF4\uD3EC\uB10C\uD2B8\uAC00 atomsystem\uC5D0 \uC874\uC7AC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4: ${comp}`);
   }
 }
 function updateGlobalsCss(comp, cssFileName, cwd) {
@@ -161,16 +131,108 @@ function updateGlobalsCss(comp, cssFileName, cwd) {
    ${importLine}`);
   }
 }
+var __filename2, __dirname2, baseDir, templateDir, components, dependenciesMap;
+var init_component = __esm({
+  "src/utils/component.ts"() {
+    "use strict";
+    init_esm_shims();
+    init_logger();
+    __filename2 = fileURLToPath2(import.meta.url);
+    __dirname2 = path2.dirname(__filename2);
+    baseDir = getBaseDir();
+    templateDir = path2.join(baseDir, "app", "templates");
+    logger.info(`\u{1F50D} Debug: baseDir=${baseDir}`);
+    logger.info(`\u{1F50D} Debug: templateDir=${templateDir}`);
+    components = [
+      "Button",
+      "Badge",
+      "Card",
+      "Collapse",
+      "CodeBlock",
+      "Navigation",
+      "Sidebar",
+      "Input",
+      "Theme",
+      "Tab",
+      "Toast",
+      "Pagination",
+      "Table",
+      "Modal",
+      "TOC",
+      "Dropdown"
+    ];
+    dependenciesMap = {
+      Theme: ["Button", "Form", "Modal"]
+    };
+  }
+});
+
+// src/index.ts
+init_esm_shims();
+import { Command as Command3 } from "commander";
+
+// src/commands/add.ts
+init_esm_shims();
+init_logger();
+init_component();
+import { Command } from "commander";
+import path3 from "path";
+import prompts from "prompts";
+import { z } from "zod";
+var addOptionsSchema = z.object({
+  components: z.array(z.string()).optional(),
+  all: z.boolean(),
+  cwd: z.string()
+});
+var add = new Command().name("add").description("\uD504\uB85C\uC81D\uD2B8\uC5D0 \uCEF4\uD3EC\uB10C\uD2B8\uB97C \uCD94\uAC00\uD569\uB2C8\uB2E4.").argument("[components...]", "\uCD94\uAC00\uD560 \uCEF4\uD3EC\uB10C\uD2B8 \uC774\uB984 \uBAA9\uB85D").option("-a, --all", "\uC0AC\uC6A9 \uAC00\uB2A5\uD55C \uBAA8\uB4E0 \uCEF4\uD3EC\uB10C\uD2B8\uB97C \uCD94\uAC00\uD569\uB2C8\uB2E4.", false).option("-c, --cwd <cwd>", "\uC791\uC5C5 \uB514\uB809\uD1A0\uB9AC \uACBD\uB85C", process.cwd()).action(async (componentsArg, opts) => {
+  try {
+    const options = addOptionsSchema.parse({
+      components: componentsArg,
+      ...opts,
+      cwd: path3.resolve(opts.cwd)
+    });
+    let selectedComponents = options.components || [];
+    if (options.all) {
+      selectedComponents = components;
+    }
+    if (selectedComponents.length === 0) {
+      const { components: promptedComponents } = await prompts({
+        type: "multiselect",
+        name: "components",
+        message: "\uCD94\uAC00\uD560 \uCEF4\uD3EC\uB10C\uD2B8\uB97C \uC120\uD0DD\uD558\uC138\uC694:",
+        choices: components.map((comp) => ({ title: comp, value: comp }))
+      });
+      selectedComponents = promptedComponents;
+    }
+    if (!selectedComponents || selectedComponents.length === 0) {
+      logger.warn("\uC120\uD0DD\uB41C \uCEF4\uD3EC\uB10C\uD2B8\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4.");
+      return;
+    }
+    const addedComponents = /* @__PURE__ */ new Set();
+    for (const comp of selectedComponents) {
+      addComponent(comp, options.cwd, addedComponents);
+    }
+  } catch (error) {
+    logger.error("\uCEF4\uD3EC\uB10C\uD2B8 \uCD94\uAC00 \uC911 \uC624\uB958\uAC00 \uBC1C\uC0DD\uD588\uC2B5\uB2C8\uB2E4.");
+    logger.error(error);
+  }
+});
 
 // src/commands/init.ts
+init_esm_shims();
+init_logger();
+init_component();
 import { Command as Command2 } from "commander";
 import fs2 from "fs";
-import path3 from "path";
+import path4 from "path";
 import { exec } from "child_process";
 import { promisify } from "util";
 import ora from "ora";
 import prompts2 from "prompts";
+import { fileURLToPath as fileURLToPath3 } from "url";
 import { z as z2 } from "zod";
+var __filename3 = fileURLToPath3(import.meta.url);
+var __dirname3 = path4.dirname(__filename3);
 var execPromise = promisify(exec);
 var initOptionsSchema = z2.object({
   cwd: z2.string(),
@@ -180,10 +242,10 @@ var init = new Command2().name("init").description("\uD504\uB85C\uC81D\uD2B8\uB9
   try {
     const options = initOptionsSchema.parse({
       ...opts,
-      cwd: path3.resolve(opts.cwd)
+      cwd: path4.resolve(opts.cwd)
     });
     const projectRoot = options.cwd;
-    const packageJsonPath = path3.join(projectRoot, "package.json");
+    const packageJsonPath = path4.join(projectRoot, "package.json");
     if (!fs2.existsSync(packageJsonPath)) {
       logger.error("\u274C \uC624\uB958: \uD604\uC7AC \uB514\uB809\uD1A0\uB9AC\uC5D0\uC11C package.json\uC744 \uCC3E\uC744 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4.");
       logger.info("'npm init'\uC744 \uBA3C\uC800 \uC2E4\uD589\uD55C \uD6C4 \uB2E4\uC2DC \uC2DC\uB3C4\uD574 \uC8FC\uC138\uC694.");
@@ -199,7 +261,7 @@ var init = new Command2().name("init").description("\uD504\uB85C\uC81D\uD2B8\uB9
       const pkgSpinner = ora("Next.js\uC640 React \uC124\uCE58 \uC911...").start();
       try {
         await execPromise(
-          "npm install next@latest react@latest react-dom@latest tailwindcss @tailwindcss/postcss postcss clsx react-modal typescript @types/react @types/node @types/react-dom @types/react-modal",
+          "npm install next@latest react@latest react-dom@latest tailwindcss @tailwindcss/postcss postcss clsx react-modal typescript @types/react @types/node @types/react-dom @types/react-modal --legacy-peer-deps",
           { cwd: projectRoot }
         );
         pkgSpinner.succeed("Next.js\uC640 React \uC124\uCE58 \uC644\uB8CC!");
@@ -210,10 +272,19 @@ var init = new Command2().name("init").description("\uD504\uB85C\uC81D\uD2B8\uB9
       }
       const sdSpinner = ora("style-dictionary \uC124\uCE58 \uC911...").start();
       try {
-        await execPromise("npm install style-dictionary -D", { cwd: projectRoot });
+        await execPromise("npm install style-dictionary -D --legacy-peer-deps", { cwd: projectRoot });
         sdSpinner.succeed("style-dictionary \uC124\uCE58 \uC644\uB8CC!");
       } catch (err) {
         sdSpinner.fail("style-dictionary \uC124\uCE58 \uC911 \uC624\uB958 \uBC1C\uC0DD");
+        logger.error(err);
+        return;
+      }
+      const gsSpinner = ora("gsap Animation \uC124\uCE58 \uC911...").start();
+      try {
+        await execPromise("npm install gsap --legacy-peer-deps", { cwd: projectRoot });
+        gsSpinner.succeed("gsap Animation \uC124\uCE58 \uC644\uB8CC!");
+      } catch (err) {
+        gsSpinner.fail("gsap Animation \uC124\uCE58 \uC911 \uC624\uB958 \uBC1C\uC0DD");
         logger.error(err);
         return;
       }
@@ -234,11 +305,11 @@ var init = new Command2().name("init").description("\uD504\uB85C\uC81D\uD2B8\uB9
         logger.error("\u274C package.json \uC5C5\uB370\uC774\uD2B8 \uC624\uB958:", err);
         return;
       }
-      const appDir = path3.join(projectRoot, "app");
+      const appDir = path4.join(projectRoot, "app");
       if (!fs2.existsSync(appDir)) fs2.mkdirSync(appDir, { recursive: true });
       const files = [
         {
-          path: path3.join(appDir, "layout.tsx"),
+          path: path4.join(appDir, "layout.tsx"),
           content: `import { ThemeProvider } from "./components/Theme/Theme";
 import "./globals.css";
 
@@ -255,13 +326,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 }`
         },
         {
-          path: path3.join(appDir, "globals.css"),
+          path: path4.join(appDir, "globals.css"),
           content: `@import "tailwindcss";
 @import "../build/css/_variables.css";
 @import "../css/text.css";`
         },
         {
-          path: path3.join(appDir, "page.tsx"),
+          path: path4.join(appDir, "page.tsx"),
           content: `import { ThemeSelector } from "./components/Theme/Theme";
 import { Button } from "./components/Button/Button";
 import { Card, CardHeader, CardContent, CardFooter } from "./components/Card/Card";
@@ -301,7 +372,7 @@ export default function Page() {
 }`
         },
         {
-          path: path3.join(projectRoot, "tsconfig.json"),
+          path: path4.join(projectRoot, "tsconfig.json"),
           content: JSON.stringify({
             compilerOptions: {
               target: "ES2017",
@@ -327,14 +398,14 @@ export default function Page() {
           }, null, 2)
         },
         {
-          path: path3.join(projectRoot, "next.config.ts"),
+          path: path4.join(projectRoot, "next.config.ts"),
           content: `import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = { reactStrictMode: false };
 export default nextConfig;`
         },
         {
-          path: path3.join(projectRoot, "postcss.config.mjs"),
+          path: path4.join(projectRoot, "postcss.config.mjs"),
           content: `/** @type {import('postcss-load-config').Config} */
 const config = { plugins: { "@tailwindcss/postcss": {} } };
 export default config;`
@@ -344,7 +415,7 @@ export default config;`
         fs2.writeFileSync(file.path, file.content);
         logger.info(`\u2705 \uD30C\uC77C \uC0DD\uC131: ${file.path}`);
       }
-      const buildTokensPath = path3.join(projectRoot, "build", "build-tokens.js");
+      const buildTokensPath = path4.join(projectRoot, "build", "build-tokens.js");
       if (fs2.existsSync(buildTokensPath)) {
         const spin = ora("\uB514\uC790\uC778 \uD1A0\uD070 \uBE4C\uB4DC \uC911...").start();
         try {
@@ -356,12 +427,19 @@ export default config;`
         }
       }
     }
-    const tokenFile = path3.join(__dirname, "..", "..", "tokens", "tokens.json");
-    const buildFile = path3.join(__dirname, "..", "..", "build", "build-tokens.js");
-    const textCssFile = path3.join(__dirname, "..", "..", "css", "text.css");
-    copyFile(tokenFile, path3.join(projectRoot, "tokens", "tokens.json"));
-    copyFile(buildFile, path3.join(projectRoot, "build", "build-tokens.js"));
-    copyFile(textCssFile, path3.join(projectRoot, "css", "text.css"));
+    const { baseDir: pkgRoot } = await Promise.resolve().then(() => (init_component(), component_exports));
+    logger.info(`\u{1F50D} Debug: pkgRoot=${pkgRoot}`);
+    const tokenFile = path4.join(pkgRoot, "tokens", "tokens.json");
+    const buildFile = path4.join(pkgRoot, "build", "build-tokens.js");
+    const textCssFile = path4.join(pkgRoot, "css", "text.css");
+    copyFile(tokenFile, path4.join(projectRoot, "tokens", "tokens.json"));
+    copyFile(buildFile, path4.join(projectRoot, "build", "build-tokens.js"));
+    copyFile(textCssFile, path4.join(projectRoot, "css", "text.css"));
+    const addedComponents = /* @__PURE__ */ new Set();
+    logger.info("\u23F3 \uAE30\uBCF8 \uB370\uBAA8 \uCEF4\uD3EC\uB10C\uD2B8 \uC124\uCE58 \uC911...");
+    addComponent("Button", projectRoot, addedComponents);
+    addComponent("Theme", projectRoot, addedComponents);
+    addComponent("Card", projectRoot, addedComponents);
     logger.success("\u{1F680} Atomsystem \uCD08\uAE30 \uC124\uC815 \uC644\uB8CC!");
   } catch (error) {
     logger.error("\uCD08\uAE30\uD654 \uC911 \uC624\uB958 \uBC1C\uC0DD:");
@@ -369,7 +447,7 @@ export default config;`
   }
 });
 function copyFile(src, dest) {
-  const dir = path3.dirname(dest);
+  const dir = path4.dirname(dest);
   if (!fs2.existsSync(dir)) fs2.mkdirSync(dir, { recursive: true });
   if (fs2.existsSync(src)) {
     fs2.copyFileSync(src, dest);
@@ -382,8 +460,12 @@ function copyFile(src, dest) {
 // src/index.ts
 import { readFileSync } from "fs";
 import { join } from "path";
+import { fileURLToPath as fileURLToPath4 } from "url";
+import { dirname } from "path";
+var __filename4 = fileURLToPath4(import.meta.url);
+var __dirname4 = dirname(__filename4);
 async function main() {
-  const packageJsonPath = join(__dirname, "../package.json");
+  const packageJsonPath = join(__dirname4, "..", "package.json");
   const packageJson = JSON.parse(readFileSync(packageJsonPath, "utf8"));
   const program = new Command3().name("atomsystem").description("Atom Ground Design System CLI").version(packageJson.version);
   program.addCommand(add);

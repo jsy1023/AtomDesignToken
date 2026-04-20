@@ -5,8 +5,13 @@ import { exec } from "child_process"
 import { promisify } from "util"
 import ora from "ora"
 import prompts from "prompts"
+import { fileURLToPath } from "url"
 import { z } from "zod"
 import { logger } from "../utils/logger"
+import { addComponent } from "../utils/component"
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 const execPromise = promisify(exec)
 
@@ -50,7 +55,7 @@ export const init = new Command()
         const pkgSpinner = ora("Next.js와 React 설치 중...").start()
         try {
           await execPromise(
-            "npm install next@latest react@latest react-dom@latest tailwindcss @tailwindcss/postcss postcss clsx react-modal typescript @types/react @types/node @types/react-dom @types/react-modal",
+            "npm install next@latest react@latest react-dom@latest tailwindcss @tailwindcss/postcss postcss clsx react-modal typescript @types/react @types/node @types/react-dom @types/react-modal --legacy-peer-deps",
             { cwd: projectRoot }
           )
           pkgSpinner.succeed("Next.js와 React 설치 완료!")
@@ -62,7 +67,7 @@ export const init = new Command()
 
         const sdSpinner = ora("style-dictionary 설치 중...").start()
         try {
-          await execPromise("npm install style-dictionary -D", { cwd: projectRoot })
+          await execPromise("npm install style-dictionary -D --legacy-peer-deps", { cwd: projectRoot })
           sdSpinner.succeed("style-dictionary 설치 완료!")
         } catch (err) {
           sdSpinner.fail("style-dictionary 설치 중 오류 발생")
@@ -72,7 +77,7 @@ export const init = new Command()
 
         const gsSpinner = ora("gsap Animation 설치 중...").start()
         try {
-          await execPromise("npm install gsap", { cwd: projectRoot })
+          await execPromise("npm install gsap --legacy-peer-deps", { cwd: projectRoot })
           gsSpinner.succeed("gsap Animation 설치 완료!")
         } catch (err) {
           gsSpinner.fail("gsap Animation 설치 중 오류 발생")
@@ -172,14 +177,26 @@ export const init = new Command()
       }
 
       // 필수 파일 복사 (tokens/tokens.json, build/build-tokens.js, css/text.css)
-      // Note: __dirname is provided by tsup --shims
-      const tokenFile = path.join(__dirname, "..", "..", "tokens", "tokens.json")
-      const buildFile = path.join(__dirname, "..", "..", "build", "build-tokens.js")
-      const textCssFile = path.join(__dirname, "..", "..", "css", "text.css")
+      // Note: baseDir is already calculated in ../utils/component
+      const { baseDir: pkgRoot } = await import("../utils/component")
+      
+      logger.info(`🔍 Debug: pkgRoot=${pkgRoot}`)
+
+      const tokenFile = path.join(pkgRoot, "tokens", "tokens.json")
+      const buildFile = path.join(pkgRoot, "build", "build-tokens.js")
+      const textCssFile = path.join(pkgRoot, "css", "text.css")
 
       copyFile(tokenFile, path.join(projectRoot, "tokens", "tokens.json"))
       copyFile(buildFile, path.join(projectRoot, "build", "build-tokens.js"))
       copyFile(textCssFile, path.join(projectRoot, "css", "text.css"))
+
+      // 기본 데모 컴포넌트 추가
+      const addedComponents = new Set<string>()
+      logger.info("⏳ 기본 데모 컴포넌트 설치 중...")
+      // 명시적으로 필요한 컴포넌트들을 추가 (Theme이 Button을 포함하지만 안전을 위해 명시)
+      addComponent("Button", projectRoot, addedComponents)
+      addComponent("Theme", projectRoot, addedComponents)
+      addComponent("Card", projectRoot, addedComponents)
 
       logger.success("🚀 Atomsystem 초기 설정 완료!")
     } catch (error) {
