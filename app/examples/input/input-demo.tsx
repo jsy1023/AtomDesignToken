@@ -1,5 +1,8 @@
 "use client";
-import { Input, Label } from "@/app/templates/Form/Form";
+import { Input } from "@/app/templates/Input/Input";
+import { Label } from "@/app/templates/Label/Label";
+
+
 
 export default function InputDemo() {
   return (

@@ -8,7 +8,11 @@
 @import "./templates/Card/card.css";
 @import "./templates/Collapse/collapse.css";
 @import "./templates/Dropdown/Dropdown.css";
-@import "./templates/Form/form.css";
+@import "./templates/Input/input.css";
+@import "./templates/Select/select.css";
+@import "./templates/Checkbox/checkbox.css";
+@import "./templates/Radio/radio.css";
+
 @import "./templates/Modal/modal.css";
 @import "./templates/Navigation/navigation.css";
 @import "./templates/Pagination/pagination.css";

@@ -1,0 +1,24 @@
+.input{
+    background: var(--color-bg-input-standard);
+    border: 1px solid var(--color-border-standard);   
+    color: var(--color-text-standard);
+    padding: var(--spacing-common-y) var(--spacing-common-x);
+    border-radius: var(--radius-common);
+    outline: none;
+    width: 100%;
+}
+
+.input::placeholder{
+    color: var(--color-text-placeholder);
+}
+
+.input:focus{
+    border: 1px solid var(--color-border-active);   
+}
+
+.input:disabled{
+    background: var(--color-bg-input-disabled);
+    border: 1px solid var(--color-border-standard);   
+    color: var(--color-text-disabled);
+    cursor: not-allowed;
+}

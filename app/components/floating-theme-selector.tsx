@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import { themes } from "@/build/typescript/theme";
 import { Dropdown, DropdownItem } from "../templates/Dropdown/Dropdown";
 import { Button } from "../templates/Button/Button";
-import { Radio } from "../templates/Form/Form";
+import { Radio } from "../templates/Radio/Radio";
+
 
 export default function FloatingThemeSelector() {
   const [currentThemes, setCurrentThemes] = useState<Record<string, string>>({});

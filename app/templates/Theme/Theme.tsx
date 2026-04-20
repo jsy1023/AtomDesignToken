@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Radio } from "../Form/Form";
+import { Radio } from "../Radio/Radio";
+
 import { themes } from "@/build/typescript/theme";
 import { Button } from "../Button/Button";
 import { ModalContent } from "../Modal/Modal";

@@ -23,7 +23,13 @@ import { Toast } from "@/app/templates/Toast/Toast";
 import Tab from "@/app/templates/Tab/Tab";
 
 // Form 및 기타 컴포넌트 추가
-import { Input, Select, Radio, Checkbox, Label } from "@/app/templates/Form/Form";
+import { Label } from "@/app/templates/Label/Label";
+
+import { Input } from "@/app/templates/Input/Input";
+import { Select } from "@/app/templates/Select/Select";
+import { Radio } from "@/app/templates/Radio/Radio";
+import { Checkbox } from "@/app/templates/Checkbox/Checkbox";
+
 import Table from "@/app/templates/Table/Table";
 import Pagination from "@/app/templates/Pagination/Pagination";
 import { Collapse } from "@/app/templates/Collapse/Collapse";

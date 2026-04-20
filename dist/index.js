@@ -159,10 +159,14 @@ var init_component = __esm({
       "Table",
       "Modal",
       "TOC",
-      "Dropdown"
+      "Dropdown",
+      "Checkbox",
+      "Radio",
+      "Select",
+      "Label"
     ];
     dependenciesMap = {
-      Theme: ["Button", "Form", "Modal"]
+      Theme: ["Button", "Radio", "Modal"]
     };
   }
 });

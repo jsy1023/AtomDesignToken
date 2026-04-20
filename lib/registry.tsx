@@ -7,7 +7,13 @@ import { Sidebar, SideNavList, SideNavItem } from "@/app/templates/Sidebar/Sideb
 import { Modal } from "@/app/templates/Modal/Modal";
 import { Toast } from "@/app/templates/Toast/Toast";
 import Tab from "@/app/templates/Tab/Tab";
-import { Input, Select, Radio, Checkbox, Label } from "@/app/templates/Form/Form";
+import { Label } from "@/app/templates/Label/Label";
+
+import { Input } from "@/app/templates/Input/Input";
+import { Select } from "@/app/templates/Select/Select";
+import { Radio } from "@/app/templates/Radio/Radio";
+import { Checkbox } from "@/app/templates/Checkbox/Checkbox";
+
 import Table from "@/app/templates/Table/Table";
 import Pagination from "@/app/templates/Pagination/Pagination";
 import { 

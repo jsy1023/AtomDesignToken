@@ -12,10 +12,11 @@ export const componentRegistry: Record<string, { path: string; componentName: st
   Toast: { path: "app/templates/Toast/Toast.tsx", componentName: "Toast" },
   Tab: { path: "app/templates/Tab/Tab.tsx", componentName: "Tab" },
   // Form 관련
-  Input: { path: "app/templates/Form/Form.tsx", componentName: "Input" },
-  Select: { path: "app/templates/Form/Form.tsx", componentName: "Select" },
-  Radio: { path: "app/templates/Form/Form.tsx", componentName: "Radio" },
-  Checkbox: { path: "app/templates/Form/Form.tsx", componentName: "Checkbox" },
+  Input: { path: "app/templates/Input/Input.tsx", componentName: "Input" },
+  Select: { path: "app/templates/Select/Select.tsx", componentName: "Select" },
+  Radio: { path: "app/templates/Radio/Radio.tsx", componentName: "Radio" },
+  Checkbox: { path: "app/templates/Checkbox/Checkbox.tsx", componentName: "Checkbox" },
+  Label: { path: "app/templates/Label/Label.tsx", componentName: "Label" },
   // 기타
   Table: { path: "app/templates/Table/Table.tsx", componentName: "Table" },
   Pagination: { path: "app/templates/Pagination/Pagination.tsx", componentName: "Pagination" },

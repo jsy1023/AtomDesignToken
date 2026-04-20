@@ -1,5 +1,6 @@
 "use client";
-import { Checkbox } from "@/app/templates/Form/Form";
+import { Checkbox } from "@/app/templates/Checkbox/Checkbox";
+
 
 export default function CheckboxDemo() {
   return (

@@ -1,5 +1,8 @@
 "use client";
-import { Select, Label } from "@/app/templates/Form/Form";
+import { Select } from "@/app/templates/Select/Select";
+import { Label } from "@/app/templates/Label/Label";
+
+
 
 const options = ["옵션 1", "옵션 2", "옵션 3", "옵션 4", "옵션 5"];
 

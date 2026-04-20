@@ -2,7 +2,8 @@
 import { useState } from "react";
 import { Button } from "@/app/templates/Button/Button";
 import { ModalContent } from "@/app/templates/Modal/Modal";
-import { Input } from "@/app/templates/Form/Form";
+import { Input } from "@/app/templates/Input/Input";
+
 
 export default function ModalDemo() {
   const [isOpen, setIsOpen] = useState(false);

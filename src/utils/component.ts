@@ -37,11 +37,11 @@ logger.info(`🔍 Debug: templateDir=${templateDir}`)
 export const components = [
   "Button", "Badge", "Card", "Collapse", "CodeBlock", "Navigation",
   "Sidebar", "Input", "Theme", "Tab", "Toast", "Pagination",
-  "Table", "Modal", "TOC", "Dropdown"
+  "Table", "Modal", "TOC", "Dropdown", "Checkbox", "Radio", "Select", "Label"
 ]
 
 export const dependenciesMap: Record<string, string[]> = {
-  Theme: ["Button", "Form", "Modal"],
+  Theme: ["Button", "Radio", "Modal"],
 }
 
 export function addComponent(comp: string, cwd: string, addedComponents: Set<string>) {

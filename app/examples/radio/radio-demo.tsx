@@ -1,5 +1,6 @@
 "use client";
-import { Radio } from "@/app/templates/Form/Form";
+import { Radio } from "@/app/templates/Radio/Radio";
+
 
 export default function RadioDemo() {
   return (
