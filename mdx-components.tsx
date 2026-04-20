@@ -48,7 +48,6 @@ const customComponents = {
   ),
   h2: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h2
-      id={props.children?.toString().toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '')}
       className={cn(
         "mt-10 scroll-m-20 border-b border-[var(--color-border-standard)] pb-1 text-3xl font-semibold tracking-tight first:mt-0 text-[var(--color-text-title)]",
         className
@@ -58,7 +57,6 @@ const customComponents = {
   ),
   h3: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h3
-      id={props.children?.toString().toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '')}
       className={cn(
         "mt-8 scroll-m-20 text-2xl font-semibold tracking-tight text-[var(--color-text-title)]",
         className
