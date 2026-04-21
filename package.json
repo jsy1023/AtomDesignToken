@@ -15,7 +15,7 @@
     "css"
   ],
   "scripts": {
-    "dev": "node build/build-tokens.js && next dev --webpack",
+    "dev": "node build/build-tokens.js && next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
