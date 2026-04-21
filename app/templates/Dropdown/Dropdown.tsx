@@ -61,7 +61,7 @@ export const Dropdown = ({
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [isOpen]);
+  }, [isOpen, close]);
 
   return (
     <div className={clsx("dropdown-container", className)} ref={dropdownRef}>

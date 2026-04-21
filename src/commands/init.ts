@@ -10,8 +10,7 @@ import { z } from "zod"
 import { logger } from "../utils/logger"
 import { addComponent } from "../utils/component"
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
+
 
 const execPromise = promisify(exec)
 

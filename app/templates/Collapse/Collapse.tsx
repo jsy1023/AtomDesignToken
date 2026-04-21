@@ -198,10 +198,32 @@ const CollapseContent = ({
   );
 };
 
+const NodeCollapse = ({ 
+  type = "collapse", 
+  collapses 
+}: { 
+  type?: "accordion" | "collapse"; 
+  collapses: { title: ReactNode; content: ReactNode }[];
+}) => {
+  return (
+    <CollapseProvider type={type}>
+      <Collapse>
+        {collapses.map((item, index) => (
+          <CollapseItem key={index} value={index}>
+            <CollapseHeader>{item.title}</CollapseHeader>
+            <CollapseContent>{item.content}</CollapseContent>
+          </CollapseItem>
+        ))}
+      </Collapse>
+    </CollapseProvider>
+  );
+};
+
 export {
   Collapse,
   CollapseProvider,
   CollapseItem,
   CollapseHeader,
-  CollapseContent
+  CollapseContent,
+  NodeCollapse
 };
