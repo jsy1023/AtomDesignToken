@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import "./Dropdown.css";
 
@@ -30,20 +30,20 @@ export const Dropdown = ({
   
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const toggle = () => {
+  const toggle = useCallback(() => {
     const nextValue = !isOpen;
     if (controlledIsOpen === undefined) {
       setInternalIsOpen(nextValue);
     }
     onOpenChange?.(nextValue);
-  };
+  }, [isOpen, controlledIsOpen, onOpenChange]);
 
-  const close = () => {
+  const close = useCallback(() => {
     if (controlledIsOpen === undefined) {
       setInternalIsOpen(false);
     }
     onOpenChange?.(false);
-  };
+  }, [controlledIsOpen, onOpenChange]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
