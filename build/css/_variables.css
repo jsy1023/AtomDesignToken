@@ -89,6 +89,12 @@
 --radius-common: 4px;
 --radius-circle: 10000000px;
 --font-spoqaNeo: Spoqa Han Sans Neo;
+--spacing-section-gap: 64px;
+--spacing-section-padding: 48px;
+--spacing-component-gap: 24px;
+--spacing-component-padding: 16px;
+--spacing-container-width: 1200px;
+--spacing-container-padding: 24px;
 --spacing-common-y: 12px;
 --spacing-common-x: 16px;
 --spacing-gap-small: 4px;
