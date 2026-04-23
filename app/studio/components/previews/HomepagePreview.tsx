@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '@/app/templates/Button/Button';
-import { Card, CardContent, CardHeader, CardFooter } from '@/app/templates/Card/Card';
+import { Card, CardContent, CardHeader } from '@/app/templates/Card/Card';
 
 export function HomepagePreview() {
   return (

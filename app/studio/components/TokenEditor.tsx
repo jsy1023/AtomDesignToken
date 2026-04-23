@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import React, { useState, useEffect } from 'react';
@@ -5,28 +6,29 @@ import defaultTokens from '@/tokens/tokens.json';
 import { ChevronRight, ChevronDown, Download, Check } from 'lucide-react';
 
 // Helper to generate CSS variables from parsed token JSON
-const generateCssFromTokens = (jsonObj: any) => {
+const generateCssFromTokens = (jsonObj: Record<string, unknown>) => {
   const dictionary = new Map<string, string>();
   const cssLines: string[] = [];
   
   // Flatten all values
-  const flatten = (obj: any, currentPath: string[]) => {
-    for (const key in obj) {
+  const flatten = (obj: Record<string, unknown>, currentPath: string[]) => {
+    const typedObj = obj as Record<string, any>;
+    for (const key in typedObj) {
       if (key === "$type" || key === "type") continue;
       if (typeof obj[key] === "object" && obj[key] !== null) {
-        if (obj[key].$value !== undefined || obj[key].value !== undefined) {
-           const val = obj[key].$value ?? obj[key].value;
+        if (typedObj[key].$value !== undefined || typedObj[key].value !== undefined) {
+           const val = typedObj[key].$value ?? typedObj[key].value;
            dictionary.set([...currentPath, key].join("."), val);
         } else {
-           flatten(obj[key], [...currentPath, key]);
+           flatten(typedObj[key], [...currentPath, key]);
         }
       }
     }
   }
   
-  if (jsonObj.global) flatten(jsonObj.global, ["global"]);
-  if (jsonObj.white) flatten(jsonObj.white, ["white"]);
-  if (jsonObj.dark) flatten(jsonObj.dark, ["dark"]);
+  if (jsonObj.global) flatten(jsonObj.global as Record<string, unknown>, ["global"]);
+  if (jsonObj.white) flatten(jsonObj.white as Record<string, unknown>, ["white"]);
+  if (jsonObj.dark) flatten(jsonObj.dark as Record<string, unknown>, ["dark"]);
 
   // Resolve {references}
   const resolveValue = (val: string, visited: Set<string> = new Set()): string => {
@@ -73,7 +75,7 @@ const generateCssFromTokens = (jsonObj: any) => {
 };
 
 // Deep update helper
-const setIn = (obj: any, path: string[], value: any): any => {
+const setIn = (obj: Record<string, any>, path: string[], value: string | number): any => {
   if (path.length === 0) return value;
   const [head, ...rest] = path;
   if (rest.length === 0) {
@@ -85,10 +87,10 @@ const setIn = (obj: any, path: string[], value: any): any => {
   };
 };
 
-const TokenInput = ({ path, token, onChange, getResolvedColor }: { path: string[], token: any, onChange: (path: string[], value: string) => void, getResolvedColor: (v: string) => string }) => {
+const TokenInput = ({ path, token, onChange, getResolvedColor }: { path: string[], token: Record<string, unknown>, onChange: (path: string[], value: string) => void, getResolvedColor: (v: string) => string }) => {
   const name = path[path.length - 1];
-  const value = token.$value !== undefined ? token.$value : token.value;
-  const type = token.$type || token.type;
+  const value = (token.$value !== undefined ? token.$value : token.value) as string;
+  const type = (token.$type || token.type) as string;
 
   const isColor = type === 'color';
   const displayColor = getResolvedColor(value);
@@ -115,17 +117,18 @@ const TokenInput = ({ path, token, onChange, getResolvedColor }: { path: string[
   );
 };
 
-const TokenGroup = ({ name, data, path, expandedPaths, togglePath, onChange, getResolvedColor }: any) => {
-  const isToken = data && (data.$value !== undefined || data.value !== undefined);
+const TokenGroup = ({ name, data, path, expandedPaths, togglePath, onChange, getResolvedColor }: { name: string, data: unknown, path: string[], expandedPaths: Set<string>, togglePath: (p: string) => void, onChange: (p: string[], v: string) => void, getResolvedColor: (v: string) => string }) => {
+  const typedData = data as Record<string, any>;
+  const isToken = data && (typedData.$value !== undefined || typedData.value !== undefined);
   
   if (isToken) {
-    return <TokenInput path={path} token={data} onChange={onChange} getResolvedColor={getResolvedColor} />;
+    return <TokenInput path={path} token={typedData} onChange={onChange} getResolvedColor={getResolvedColor} />;
   }
 
   const pathKey = path.join('.');
   // Auto-expand top level groups like global, dark, white
   const isExpanded = expandedPaths.has(pathKey) || path.length === 1;
-  const childrenKeys = Object.keys(data).filter(k => k !== '$type' && k !== 'type');
+  const childrenKeys = Object.keys(typedData).filter(k => k !== '$type' && k !== 'type');
 
   return (
     <div className="flex flex-col">
@@ -145,7 +148,7 @@ const TokenGroup = ({ name, data, path, expandedPaths, togglePath, onChange, get
             <TokenGroup 
               key={key} 
               name={key} 
-              data={data[key]} 
+              data={typedData[key]} 
               path={[...path, key]} 
               expandedPaths={expandedPaths} 
               togglePath={togglePath}
@@ -160,7 +163,7 @@ const TokenGroup = ({ name, data, path, expandedPaths, togglePath, onChange, get
 };
 
 export function TokenEditor() {
-  const [tokens, setTokens] = useState<any>(null);
+  const [tokens, setTokens] = useState<Record<string, unknown> | null>(null);
   const [expandedPaths, setExpandedPaths] = useState<Set<string>>(new Set(['global.palette', 'global.palette.color']));
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [isApplying, setIsApplying] = useState(false);
@@ -179,26 +182,28 @@ export function TokenEditor() {
     });
   };
 
-  const resolveTokenForUI = (val: string, currentTokens: any, visited = new Set<string>()): string => {
+  const resolveTokenForUI = (val: string, currentTokens: Record<string, unknown>, visited = new Set<string>()): string => {
     if (typeof val === 'string' && val.startsWith('{') && val.endsWith('}')) {
       const refPath = val.slice(1, -1);
       if (visited.has(refPath)) return 'transparent'; // Circular reference
       visited.add(refPath);
       
+      let current: unknown = currentTokens;
       const pathParts = refPath.startsWith('global.') ? refPath.split('.') : ['global', ...refPath.split('.')];
       
-      let current: any = currentTokens;
       for (const p of pathParts) {
-        if (current && current[p]) {
-          current = current[p];
+        const typedCurrent = current as Record<string, any>;
+        if (current && typedCurrent[p]) {
+          current = typedCurrent[p];
         } else {
           current = null;
           break;
         }
       }
       
-      if (current && (current.$value !== undefined || current.value !== undefined)) {
-        const nextVal = current.$value ?? current.value;
+      const typedCurrent = current as Record<string, any>;
+      if (current && (typedCurrent.$value !== undefined || typedCurrent.value !== undefined)) {
+        const nextVal = (typedCurrent.$value ?? typedCurrent.value) as string;
         return resolveTokenForUI(nextVal, currentTokens, visited);
       }
     }
@@ -206,7 +211,7 @@ export function TokenEditor() {
   };
 
   const handleTokenChange = (path: string[], newValue: string) => {
-    setTokens((prev: any) => setIn(prev, path, newValue));
+    setTokens((prev: Record<string, unknown> | null) => prev ? setIn(prev as Record<string, any>, path, newValue) : null);
   };
 
   const handleApply = () => {
@@ -229,8 +234,9 @@ export function TokenEditor() {
       
       // Feedback effect
       setTimeout(() => setIsApplying(false), 500);
-    } catch (err: any) {
-      setErrorMsg(err.message || 'Error generating CSS from tokens');
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Error generating CSS from tokens';
+      setErrorMsg(message);
       setIsApplying(false);
     }
   };
@@ -248,7 +254,7 @@ export function TokenEditor() {
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-    } catch (err) {
+    } catch {
       setErrorMsg('Cannot download invalid tokens');
     }
   };
@@ -265,8 +271,8 @@ export function TokenEditor() {
       </div>
       
       <div className="flex-1 w-full bg-bg-card flex flex-col relative overflow-y-auto p-4 custom-scrollbar">
-         {['global', 'white', 'dark'].map(rootKey => (
-           tokens[rootKey] && (
+          {(['global', 'white', 'dark'] as const).map(rootKey => (
+            (tokens as Record<string, any>)[rootKey] && (
              <TokenGroup 
                key={rootKey}
                name={rootKey}
