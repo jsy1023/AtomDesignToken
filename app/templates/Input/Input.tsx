@@ -1,15 +1,18 @@
 "use client";
 import React from "react";
+import clsx from "clsx";
 import "./input.css";
 
 export const Input = ({
   type = "text",
+  size = "base",
   placeholder = "값을 입력해주세요",
   readOnly,
   disabled,
   required,
 }: {
   type?: string;
+  size?: "small" | "base" | "large";
   className?: string;
   placeholder?: string;
   readOnly?: boolean;
@@ -18,7 +21,7 @@ export const Input = ({
 }) => {
   return (
       <input
-        className="input"
+        className={clsx("input", size)}
         type={type}
         placeholder={placeholder}
         readOnly={readOnly}

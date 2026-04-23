@@ -89,6 +89,18 @@
 --radius-common: 4px;
 --radius-circle: 10000000px;
 --font-spoqaNeo: Spoqa Han Sans Neo;
+--spacing-s-xs: 4px;
+--spacing-s-sm: 8px;
+--spacing-s-md: 12px;
+--spacing-s-lg: 16px;
+--spacing-s-xl: 20px;
+--spacing-s-2xl: 24px;
+--spacing-s-3xl: 32px;
+--spacing-s-4xl: 40px;
+--spacing-s-5xl: 48px;
+--spacing-gap-small: var(--spacing-s-xs);
+--spacing-sm-y: var(--spacing-s-sm);
+--spacing-small: var(--spacing-s-xl);
 --spacing-section-gap: 64px;
 --spacing-section-padding: 48px;
 --spacing-component-gap: 24px;
@@ -97,9 +109,6 @@
 --spacing-container-padding: 24px;
 --spacing-common-y: 12px;
 --spacing-common-x: 16px;
---spacing-gap-small: 4px;
---spacing-sm-y: 8px;
---spacing-small: 20px;
 
   --color-bg-card: var(--bg-card);
   --color-bg-wrapper: var(--bg-wrapper);

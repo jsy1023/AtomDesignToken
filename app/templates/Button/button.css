@@ -116,16 +116,16 @@
     background-color: var(--color-bg-input-standard);
 }
 
-.btn.sm {
-    padding: var(--spacing-sm-y) var(--spacing-common-x);
+.btn.small {
+    padding: var(--spacing-s-sm) var(--spacing-s-lg);
     font-size: var(--text-sm);
 }
-.btn.md {
-    padding: var(--spacing-common-y) var(--spacing-common-x);
+.btn.base {
+    padding: var(--spacing-s-md) var(--spacing-s-lg);
     font-size: var(--text-body);
 }
-.btn.lg {
-    padding: var(--spacing-small) var(--spacing-common-x);
+.btn.large {
+    padding: var(--spacing-s-xl) var(--spacing-s-2xl);
     font-size: var(--text-h6);
 }
 

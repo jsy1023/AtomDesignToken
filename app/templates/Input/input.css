@@ -2,10 +2,22 @@
     background: var(--color-bg-input-standard);
     border: 1px solid var(--color-border-standard);   
     color: var(--color-text-standard);
-    padding: var(--spacing-common-y) var(--spacing-common-x);
     border-radius: var(--radius-common);
     outline: none;
     width: 100%;
+}
+
+.input.small {
+    padding: var(--spacing-s-sm) var(--spacing-s-lg);
+    font-size: var(--text-sm);
+}
+.input.base {
+    padding: var(--spacing-s-md) var(--spacing-s-lg);
+    font-size: var(--text-body);
+}
+.input.large {
+    padding: var(--spacing-s-xl) var(--spacing-s-2xl);
+    font-size: var(--text-h6);
 }
 
 .input::placeholder{

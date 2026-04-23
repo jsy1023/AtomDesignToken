@@ -4,7 +4,7 @@ import clsx from "clsx";
 export const Button = ({
   children,
   type = "primary",
-  size = "md",
+  size = "base",
   className,
   style,
   disabled,
@@ -12,7 +12,7 @@ export const Button = ({
 }: {
   children: React.ReactNode;
   type?: "primary" | "secondary" | "success" | "warning" | "danger" | "gray" | "outline";
-  size?: "sm" | "md" | "lg";
+  size?: "small" | "base" | "large";
   className?: string;
   style?: React.CSSProperties;
   disabled?: boolean;
