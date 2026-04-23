@@ -37,7 +37,7 @@ export function DashboardPreview() {
         {/* Header */}
         <header className="h-16 flex items-center justify-between px-8 border-b border-border-standard bg-bg-card">
           <h2 className="font-bold text-text-title" style={{ fontSize: 'var(--font-sizes-h5)' }}>Overview</h2>
-          <Button type="primary" className="!py-1.5 !px-4">New Project</Button>
+          <Button type="primary" className="py-1.5! px-4!">New Project</Button>
         </header>
 
         {/* Content */}

@@ -7,8 +7,8 @@ export function HomepagePreview() {
     <div className="flex flex-col w-full h-full bg-bg-wrapper text-text-standard overflow-y-auto">
       {/* Header */}
       <header className="flex items-center justify-between px-8 py-4 border-b border-border-standard bg-bg-card">
-        <div className="font-bold text-[20px] text-text-title tracking-tight">Acme.</div>
-        <nav className="flex gap-6 text-[14px]">
+        <span className="font-extrabold text-h5 text-text-title tracking-tight">Acme.</span>
+        <nav className="flex gap-6 text-sm">
           <a href="#" className="hover:text-primary transition-colors">Products</a>
           <a href="#" className="hover:text-primary transition-colors">Solutions</a>
           <a href="#" className="hover:text-primary transition-colors">Pricing</a>
@@ -28,8 +28,8 @@ export function HomepagePreview() {
           Build scalable and consistent web applications faster than ever using our robust and flexible atomic design token system.
         </p>
         <div className="flex gap-4 mt-4">
-          <Button type="primary" className="!px-8 !py-3 !text-[16px]">Get Started</Button>
-          <Button type="secondary" className="!px-8 !py-3 !text-[16px]">Read Documentation</Button>
+            <Button className="px-8 py-3 text-base font-bold shadow-lg">Get Started</Button>
+            <Button type="outline" className="px-8 py-3 text-base font-bold bg-white/10 hover:bg-white/20 border-white/20 text-white backdrop-blur-sm">Read Documentation</Button>
         </div>
       </section>
 

@@ -50,8 +50,8 @@ export function AppPreview() {
             </div>
             
             {[1, 2, 3, 4].map((i) => (
-              <Card key={i} className="!rounded-common border-none shadow-sm">
-                <CardContent className="!p-4 flex items-center justify-between">
+              <Card key={i} className="rounded-common border-none shadow-sm">
+                <CardContent className="flex items-center justify-between p-4">
                   <div className="flex items-center gap-4">
                     <div className="w-10 h-10 rounded-circle bg-bg-wrapper flex items-center justify-center">
                       <div className="w-4 h-4 rounded-circle bg-gray-400"></div>

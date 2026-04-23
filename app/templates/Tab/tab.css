@@ -1,20 +1,21 @@
 .tab {
   display: flex;
   width: 100%;
-  background-color: var(--color-bg-wrapper);
-  border-bottom: 1px solid var(--color-border-standard);
+  background-color: var(--tab-nav-bg, transparent);
+  border-bottom: 1px solid var(--tab-nav-border, transparent);
   position: relative;
   z-index: 0;
-  height: 57px;
+  height: auto;
+  min-height: 44px;
 }
 
 .tab-nav-item {
-  padding: var(--spacing-common-x);
+  padding: var(--spacing-sm-y) var(--spacing-common-x);
   cursor: pointer;
   border: 1px solid transparent; /* reserve space for active state border */
   border-bottom: none;
   background-color: transparent;
-  color: var(--color-text-standard);
+  color: var(--tab-nav-text, inherit);
   transition: all 0.2s ease-in-out;
   display: flex;
   align-items: center;
@@ -22,30 +23,32 @@
 }
 
 .tab-nav-item:hover {
-  background-color: var(--color-bg-card);
+  background-color: var(--tab-nav-hover-bg, transparent);
 }
 
 .tab-nav-item-active {
-  background-color: var(--color-bg-card);
-  border: 1px solid var(--color-border-standard);
-  border-bottom: 1px solid var(--color-bg-card);
+  background-color: var(--tab-nav-active-bg, transparent);
+  border: 1px solid var(--tab-nav-active-border, transparent);
+  border-bottom: 1px solid var(--tab-nav-active-borderBottom, transparent);
+  border-radius: var(--tab-nav-active-radius, 0);
   position: relative;
   z-index: 10;
-  color: var(--color-primary);
+  color: var(--tab-nav-active-text, inherit);
 }
 
 .tab-content {
-  background-color: var(--color-bg-card);
-  padding: var(--spacing-common-x);
-  border: 1px solid var(--color-border-standard);
-  border-top: 0;
-  margin-top: -1px; /* Overlap the top line of content with the bottom line of tab to allow the active tab to connect */
+  background-color: var(--tab-content-bg, transparent);
+  padding: var(--tab-content-padding, var(--spacing-common-x));
+  border: 1px solid var(--tab-content-border, transparent);
+  border-top: var(--tab-content-borderTop, 0);
+  border-radius: var(--tab-content-radius, 0 0 var(--radius-common) var(--radius-common));
+  margin-top: var(--tab-content-marginTop, -1px);
   position: relative;
   z-index: 1;
 }
 
 .tab-content-item {
-  color: var(--color-text-standard);
+  color: var(--tab-content-text, inherit);
   width: 100%;
 }
 
@@ -54,3 +57,4 @@
     width: auto;
   }
 }
+

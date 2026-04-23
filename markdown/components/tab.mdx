@@ -12,7 +12,7 @@
 
 탭 메뉴와 각 탭에 대응하는 콘텐츠 리스트를 정의합니다.
 
-<ComponentPreview name="tab-demo" />
+<ComponentPreview name="tab-demo" themeGroup="tab" />
 
 ---
 
@@ -38,18 +38,18 @@ npx atomsystem-add Tab
 
 ## 활용 가이드 (Usage)
 
-### 데이터 구조
-탭은 `tabs` (메뉴 설정)와 `tabContents` (매칭될 내용) 두 가지 배열 데이터가 필요합니다. `target`과 `tag` 값이 일치하는 항목끼리 연결됩니다.
+### 개별 컴포넌트 조합 구조 (Compound Components)
+탭은 `<Tabs>`, `<TabsList>`, `<TabsTrigger>`, `<TabsContent>`를 조합하여 구성합니다. `defaultValue`와 `value` 값이 일치하는 항목끼리 연결됩니다.
 
 ```tsx
-<Tab
-  tabs={[
-    { id: "tab1", target: ["groupA"], tabItem: "메뉴1" }
-  ]}
-  tabContents={[
-    { id: "content1", tag: "groupA", content: <Box /> }
-  ]}
-/>
+<Tabs defaultValue="tab1">
+  <TabsList>
+    <TabsTrigger value="tab1">메뉴 1</TabsTrigger>
+  </TabsList>
+  <TabsContent value="tab1">
+    <Box />
+  </TabsContent>
+</Tabs>
 ```
 
 ---

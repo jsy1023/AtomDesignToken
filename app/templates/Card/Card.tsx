@@ -22,29 +22,35 @@ export const Card = ({
 export const CardHeader = ({
   children,
   noMargin,
+  className = "",
 }: {
   children: React.ReactNode;
   noMargin?: boolean;
+  className?: string;
 }) => {
-  return <div className={`card-header ${noMargin ? "no-margin" : ""}`}>{children}</div>;
+  return <div className={`card-header ${noMargin ? "no-margin" : ""} ${className}`}>{children}</div>;
 };
 
 export const CardContent = ({
   children,
   noMargin,
+  className = "",
 }: {
   children: React.ReactNode;
   noMargin?: boolean;
+  className?: string;
 }) => {
-  return <div className={`card-content ${noMargin ? "no-margin" : ""}`}>{children}</div>;
+  return <div className={`card-content ${noMargin ? "no-margin" : ""} ${className}`}>{children}</div>;
 };
 
 export const CardFooter = ({
   children,
   noMargin,
+  className = "",
 }: {
   children: React.ReactNode;
   noMargin?: boolean;
+  className?: string;
 }) => {
-  return <div className={`card-footer ${noMargin ? "no-margin" : ""}`}>{children}</div>;
+  return <div className={`card-footer ${noMargin ? "no-margin" : ""} ${className}`}>{children}</div>;
 };

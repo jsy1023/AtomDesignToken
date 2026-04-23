@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader } from "@/app/templates/Card/Card";
 import CodeBlock from "@/app/templates/CodeBlock/CodeBlock";
 import { NodeCollapse } from "@/app/templates/Collapse/Collapse";
-import Tab from "@/app/templates/Tab/Tab";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/app/templates/Tab/Tab";
 import tokens from "@/tokens/tokens.json";
 
 export const resolveColor = (val) => {
@@ -51,98 +51,83 @@ export const getContrastColor = (hex) => {
 
 색상 팔레트는 웹사이트에서 사용되는 색상의 집합을 의미합니다. 색상 팔레트 안에서 시스템 컬러, 브랜드 컬러, 텍스트 컬러, 배경 컬러, 테마 컬러 등 다양한 컬러를 사용하여, 색상의 통일성을 유지합니다.
 
-<Tab
-  tabClass="tab"
-  tabNavItemClass="tab-nav-item uppercase"
-  tabNavItemActiveClass="tab-nav-item-active"
-  tabContentClass="tab-content border-t-0"
-  tabContentItem="tab-content-item !w-full"
-  tabs={[
-    { id: "token", target: ["token"], tabItem: "token" },
-    { id: "color", target: ["color"], tabItem: "color" },
-  ]}
-  tabContents={[
-    {
-      id: "tokenContent",
-      tag: "token",
-      content: (
-        <div className="w-full">
-            <CardHeader>global.palette.color (token.json)</CardHeader>
-            <CodeBlock language="json">{JSON.stringify(tokens.global.palette.color, null, 2)}</CodeBlock>
-        </div>
-      ),
-    },
-    {
-      id: "colorContent",
-      tag: "color",
-      content: (
-        <div className="flex flex-col w-full">
-            <NodeCollapse
-              type="accordion"
-              collapses={Object.entries(tokens.global.palette.color).map(([key, value]) => {
-                const isGroup = typeof value === "object" && !value.$value;
-                return {
-                  title: <b className="mb-2 uppercase text-sm">{key} Palette</b>,
-                  content: (
-                    <div className="p-4 flex gap-4 flex-wrap bg-white">
-                      {isGroup ? (
-                        Object.entries(value).map(([vKey, vVal]) => {
-                          const hex = resolveColor(vVal.$value);
-                          const textColor = getContrastColor(hex);
-                          return (
-                            <div key={vKey} className="flex flex-col items-center gap-1">
-                              <div 
-                                className="w-24 h-24 flex flex-col items-center justify-center text-[11px] border border-border rounded-lg shadow-sm" 
-                                style={{ 
-                                  backgroundColor: hex,
-                                  color: textColor
-                                }}
-                              >
-                                {hex === 'transparent' ? (
-                                  <span className="text-red-500 font-bold">ERR</span>
-                                ) : (
-                                  <>
-                                    <span className="font-extrabold mb-1">{vKey}</span>
-                                    <span style={{ opacity: 0.8 }}>{hex}</span>
-                                  </>
-                                )}
-                              </div>
-                            </div>
-                          );
-                        })
-                      ) : (
-                        (() => {
-                          const hex = resolveColor(value.$value);
-                          const textColor = getContrastColor(hex);
-                          return (
-                            <div className="flex flex-col items-center gap-1">
-                              <div 
-                                className="w-24 h-24 flex flex-col items-center justify-center text-[11px] border border-border rounded-lg shadow-sm" 
-                                style={{ 
-                                  backgroundColor: hex,
-                                  color: textColor
-                                }}
-                              >
-                                {hex === 'transparent' ? (
-                                  <span className="text-red-500 font-bold">ERR</span>
-                                ) : (
-                                  <>
-                                    <span className="font-extrabold mb-1">{key}</span>
-                                    <span style={{ opacity: 0.8 }}>{hex}</span>
-                                  </>
-                                )}
-                              </div>
-                            </div>
-                          );
-                        })()
-                      )}
-                    </div>
-                  )
-                };
-              })}
-            />
-        </div>
-      ),
-    },
-  ]}
-/>
+<Tabs defaultValue="token" className="tab">
+  <TabsList className="tab-nav-item uppercase">
+    <TabsTrigger value="token" className="tab-nav-item-active">token</TabsTrigger>
+    <TabsTrigger value="color" className="tab-nav-item-active">color</TabsTrigger>
+  </TabsList>
+  <TabsContent value="token" className="tab-content border-t-0">
+    <div className="w-full tab-content-item !w-full">
+        <CardHeader>global.palette.color (token.json)</CardHeader>
+        <CodeBlock language="json">{JSON.stringify(tokens.global.palette.color, null, 2)}</CodeBlock>
+    </div>
+  </TabsContent>
+  <TabsContent value="color" className="tab-content border-t-0">
+    <div className="flex flex-col w-full tab-content-item !w-full">
+        <NodeCollapse
+          type="accordion"
+          collapses={Object.entries(tokens.global.palette.color).map(([key, value]) => {
+            const isGroup = typeof value === "object" && !value.$value;
+            return {
+              title: <b className="mb-2 uppercase text-sm">{key} Palette</b>,
+              content: (
+                <div className="p-4 flex gap-4 flex-wrap bg-white">
+                  {isGroup ? (
+                    Object.entries(value).map(([vKey, vVal]) => {
+                      const hex = resolveColor(vVal.$value);
+                      const textColor = getContrastColor(hex);
+                      return (
+                        <div key={vKey} className="flex flex-col items-center gap-1">
+                          <div 
+                            className="w-24 h-24 flex flex-col items-center justify-center text-[11px] border border-border rounded-lg shadow-sm" 
+                            style={{ 
+                              backgroundColor: hex,
+                              color: textColor
+                            }}
+                          >
+                            {hex === 'transparent' ? (
+                              <span className="text-red-500 font-bold">ERR</span>
+                            ) : (
+                              <>
+                                <span className="font-extrabold mb-1">{vKey}</span>
+                                <span style={{ opacity: 0.8 }}>{hex}</span>
+                              </>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })
+                  ) : (
+                    (() => {
+                      const hex = resolveColor(value.$value);
+                      const textColor = getContrastColor(hex);
+                      return (
+                        <div className="flex flex-col items-center gap-1">
+                          <div 
+                            className="w-24 h-24 flex flex-col items-center justify-center text-[11px] border border-border rounded-lg shadow-sm" 
+                            style={{ 
+                              backgroundColor: hex,
+                              color: textColor
+                            }}
+                          >
+                            {hex === 'transparent' ? (
+                              <span className="text-red-500 font-bold">ERR</span>
+                            ) : (
+                              <>
+                                <span className="font-extrabold mb-1">{key}</span>
+                                <span style={{ opacity: 0.8 }}>{hex}</span>
+                              </>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })()
+                  )}
+                </div>
+              )
+            };
+          })}
+        />
+    </div>
+  </TabsContent>
+</Tabs>

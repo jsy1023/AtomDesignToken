@@ -5,6 +5,7 @@ import ComponentSource from "./ComponentSource";
 
 interface ComponentPreviewProps {
   name: string;
+  themeGroup?: string;
   className?: string;
   previewClassName?: string;
   children?: React.ReactNode;
@@ -17,6 +18,7 @@ interface ComponentPreviewProps {
  */
 export default async function ComponentPreview({
   name,
+  themeGroup,
   className,
   previewClassName,
   children,
@@ -36,9 +38,11 @@ export default async function ComponentPreview({
     <ComponentPreviewClient
       className={className}
       previewClassName={previewClassName}
+      themeGroup={themeGroup}
       source={<ComponentSource name={name} />}
     >
       <Component {...props}>{children}</Component>
     </ComponentPreviewClient>
   );
 }
+

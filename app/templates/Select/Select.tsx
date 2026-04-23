@@ -5,10 +5,18 @@ import "./select.css";
 
 export const Select = ({
   options = [],
+  value,
+  onValueChange,
   disabled,
+  placeholder = "값을 선택해주세요...",
+  className,
 }: {
   options: string[];
+  value?: string;
+  onValueChange?: (value: string) => void;
   disabled?: boolean;
+  placeholder?: string;
+  className?: string;
 }) => {
   const [filterValue, setFilterValue] = useState("");
   const [isOpen, setIsOpen] = useState(false);
@@ -19,6 +27,12 @@ export const Select = ({
   });
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLUListElement>(null);
+
+  const isControlled = value !== undefined;
+  
+  // Display value logic: if open, show filter text. if closed, show selected value.
+  const displayValue = isOpen ? filterValue : (isControlled ? value : filterValue) || "";
+
   const filteredOptions = options.filter((option) =>
     option.toLowerCase().includes(filterValue.toLowerCase())
   );
@@ -28,36 +42,19 @@ export const Select = ({
       const rect = inputRef.current.getBoundingClientRect();
       const dropdownRect = dropdownRef.current.getBoundingClientRect();
 
-      if (Math.abs(menuPosition.width - rect.width) > 0.5) {
-        setMenuPosition({
-          top: rect.bottom + window.scrollY,
-          left: rect.left,
-          width: rect.width,
-        });
-        return;
-      }
-
       let top = rect.bottom + window.scrollY;
 
       if (rect.bottom + dropdownRect.height > window.innerHeight) {
         top = rect.top + window.scrollY - dropdownRect.height;
       }
 
-      setMenuPosition((prev) => {
-        if (
-          Math.abs(prev.top - top) < 0.5 &&
-          Math.abs(prev.left - rect.left) < 0.5
-        ) {
-          return prev;
-        }
-        return {
-          top,
-          left: rect.left,
-          width: rect.width,
-        };
+      setMenuPosition({
+        top,
+        left: rect.left,
+        width: rect.width,
       });
     }
-  }, [isOpen, filterValue, menuPosition.width]);
+  }, [isOpen, filterValue]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -74,34 +71,47 @@ export const Select = ({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const handleSelect = (option: string) => {
+    if (onValueChange) {
+      onValueChange(option);
+    }
+    setFilterValue(option);
+    setIsOpen(false);
+  };
+
   return (
-    <div className="relative">
-      <label className="relative w-fit hidden md:block">
+    <div className={`relative ${className || ""}`}>
+      <div className="relative w-full">
         <input
           ref={inputRef}
           type="text"
-          value={filterValue}
-          placeholder="값을 선택해주세요..."
+          value={displayValue}
+          placeholder={placeholder}
           onChange={(e) => {
             setFilterValue(e.target.value);
+            if (!isOpen) setIsOpen(true);
           }}
-          onFocus={() => setIsOpen(true)}
-          className="select hidden sm:block"
+          onFocus={() => {
+            setFilterValue(""); // Clear filter on focus to show all options
+            setIsOpen(true);
+          }}
+          className="select w-full"
           disabled={disabled}
         />
         <div
-          className="absolute flex items-center right-0 top-0 h-full px-2"
+          className="absolute flex items-center right-0 top-0 h-full px-2 pointer-events-none"
         >
-          <span className="material-symbols-outlined">
-            <span className="text-base">arrow_drop_down</span>
+          <span className="material-symbols-outlined text-base text-text-sub">
+            arrow_drop_down
           </span>
         </div>
-      </label>
+      </div>
+      
       {isOpen &&
         createPortal(
           <ul
             ref={dropdownRef}
-            className="absolute w-full select-menu"
+            className="absolute z-9999 select-menu"
             style={{
               top: menuPosition.top,
               left: menuPosition.left,
@@ -113,30 +123,31 @@ export const Select = ({
                 <li
                   key={index}
                   className="select-menu-item"
-                  onClick={() => {
-                    setFilterValue(option);
-                    setIsOpen(false);
-                  }}
+                  onClick={() => handleSelect(option)}
                 >
                   {option}
                 </li>
               ))
             ) : (
-              <li className="select-menu-item">No results</li>
+              <li className="select-menu-item text-text-sub text-xs">No results</li>
             )}
           </ul>,
           document.body
         )}
+
+      {/* Mobile native fallback */}
       <select
-        className="select block sm:hidden"
+        className="select absolute inset-0 opacity-0 md:hidden"
+        value={value}
+        onChange={(e) => handleSelect(e.target.value)}
+        disabled={disabled}
       >
-        {options.map((option, index) => {
-          return (
-            <option key={index} value={option}>
-              {option}
-            </option>
-          );
-        })}
+        <option value="" disabled>{placeholder}</option>
+        {options.map((option, index) => (
+          <option key={index} value={option}>
+            {option}
+          </option>
+        ))}
       </select>
     </div>
   );

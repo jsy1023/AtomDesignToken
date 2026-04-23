@@ -6,7 +6,7 @@ import { Navigation, NavBrand, NavList, NavItem } from "@/app/templates/Navigati
 import { Sidebar, SideNavList, SideNavItem } from "@/app/templates/Sidebar/Sidebar";
 import { Modal } from "@/app/templates/Modal/Modal";
 import { Toast } from "@/app/templates/Toast/Toast";
-import Tab from "@/app/templates/Tab/Tab";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/app/templates/Tab/Tab";
 import { Label } from "@/app/templates/Label/Label";
 
 import { Input } from "@/app/templates/Input/Input";
@@ -79,7 +79,10 @@ export const componentRegistry: Record<string, React.ElementType> = {
   SideNavItem,
   Modal,
   Toast,
-  Tab,
+  Tabs,
+  TabsList,
+  TabsTrigger,
+  TabsContent,
   Input,
   Select,
   Radio,

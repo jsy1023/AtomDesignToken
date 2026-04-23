@@ -12,7 +12,7 @@ export default function StudioPage() {
   return (
     <div className="flex w-screen h-screen bg-bg-wrapper text-text-standard overflow-hidden">
       {/* Sidebar: Token Editor */}
-      <aside className="w-[320px] flex-shrink-0 z-10 shadow-lg">
+      <aside className="w-[320px] flex shrink-0 z-10 shadow-lg">
         <TokenEditor />
       </aside>
 
@@ -43,7 +43,7 @@ export default function StudioPage() {
 
         {/* Selected Preview Container */}
         <div className="flex-1 w-full h-full flex justify-center items-center p-8 pt-20 overflow-y-auto">
-          <div className="w-full max-w-[1200px] h-full rounded-xl shadow-2xl overflow-hidden border border-border-standard bg-bg-card relative">
+          <div className="shrink-0 w-[400px] border-r border-border-standard bg-bg-card flex flex-col relative z-20">
             {activeTab === 'homepage' && <HomepagePreview />}
             {activeTab === 'dashboard' && <DashboardPreview />}
             {activeTab === 'app' && <AppPreview />}

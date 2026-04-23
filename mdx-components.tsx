@@ -20,7 +20,7 @@ import { Navigation, NavBrand, NavList, NavItem } from "@/app/templates/Navigati
 import { Sidebar, SideNavList, SideNavItem } from "@/app/templates/Sidebar/Sidebar";
 import { Modal, ModalContent } from "@/app/templates/Modal/Modal";
 import { Toast } from "@/app/templates/Toast/Toast";
-import Tab from "@/app/templates/Tab/Tab";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/app/templates/Tab/Tab";
 
 // Form 및 기타 컴포넌트 추가
 import { Label } from "@/app/templates/Label/Label";
@@ -40,7 +40,7 @@ const customComponents = {
   h1: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h1
       className={cn(
-        "mt-2 scroll-m-20 text-4xl font-bold tracking-tight text-[var(--color-text-title)]",
+        "mt-2 scroll-m-20 text-4xl font-bold tracking-tight text-text-title",
         className
       )}
       {...props}
@@ -49,7 +49,7 @@ const customComponents = {
   h2: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h2
       className={cn(
-        "mt-10 scroll-m-20 border-b border-[var(--color-border-standard)] pb-1 text-3xl font-semibold tracking-tight first:mt-0 text-[var(--color-text-title)]",
+        "mt-10 scroll-m-20 border-b border-border-standard pb-1 text-3xl font-semibold tracking-tight first:mt-0 text-text-title",
         className
       )}
       {...props}
@@ -58,7 +58,7 @@ const customComponents = {
   h3: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h3
       className={cn(
-        "mt-8 scroll-m-20 text-2xl font-semibold tracking-tight text-[var(--color-text-title)]",
+        "mt-8 scroll-m-20 text-2xl font-semibold tracking-tight text-text-title",
         className
       )}
       {...props}
@@ -67,7 +67,7 @@ const customComponents = {
   h4: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h4
       className={cn(
-        "mt-8 scroll-m-20 text-xl font-semibold tracking-tight text-[var(--color-text-title)]",
+        "mt-8 scroll-m-20 text-xl font-semibold tracking-tight text-text-title",
         className
       )}
       {...props}
@@ -75,12 +75,12 @@ const customComponents = {
   ),
   p: ({ className, ...props }: React.HTMLAttributes<HTMLParagraphElement>) => (
     <p
-      className={cn("leading-7 [&:not(:first-child)]:mt-6 text-[var(--color-text-body)]", className)}
+      className={cn("leading-7 not-first:mt-6 text-text-body", className)}
       {...props}
     />
   ),
   ul: ({ className, ...props }: React.HTMLAttributes<HTMLUListElement>) => (
-    <ul className={cn("my-6 ml-6 list-disc [&>li]:mt-2 text-[var(--color-text-body)]", className)} {...props} />
+    <ul className={cn("my-6 ml-6 list-disc [&>li]:mt-2 text-text-body", className)} {...props} />
   ),
   li: ({ className, ...props }: React.HTMLAttributes<HTMLLIElement>) => (
     <li className={cn("mt-2", className)} {...props} />
@@ -88,28 +88,28 @@ const customComponents = {
   blockquote: ({ className, ...props }: React.HTMLAttributes<HTMLQuoteElement>) => (
     <blockquote
       className={cn(
-        "mt-6 border-l-2 border-[var(--color-primary)] pl-6 italic text-[var(--color-text-sub)]",
+        "mt-6 border-l-2 border-primary pl-6 italic text-text-sub",
         className
       )}
       {...props}
     />
   ),
-  hr: ({ ...props }) => <hr className="my-4 md:my-8 border-[var(--color-border-standard)]" {...props} />,
+  hr: ({ ...props }) => <hr className="my-4 md:my-8 border-border-standard" {...props} />,
   table: ({ className, ...props }: React.HTMLAttributes<HTMLTableElement>) => (
     <div className="my-6 w-full overflow-y-auto">
-      <table className={cn("w-full border-collapse border border-[var(--color-border-standard)]", className)} {...props} />
+      <table className={cn("w-full border-collapse border border-border-standard", className)} {...props} />
     </div>
   ),
   tr: ({ className, ...props }: React.HTMLAttributes<HTMLTableRowElement>) => (
     <tr
-      className={cn("m-0 border-t border-[var(--color-border-standard)] p-0 even:bg-[var(--color-bg-input-standard)]", className)}
+      className={cn("m-0 border-t border-border-standard p-0 even:bg-bg-input-standard", className)}
       {...props}
     />
   ),
   th: ({ className, ...props }: React.HTMLAttributes<HTMLTableCellElement>) => (
     <th
       className={cn(
-        "border border-[var(--color-border-standard)] px-4 py-2 text-left font-bold [&[align=center]]:text-center [&[align=right]]:text-right bg-[var(--color-table-header-bg)] text-[var(--color-table-header-text)]",
+        "border border-border-standard px-4 py-2 text-left font-bold [[align=center]]:text-center [[align=right]]:text-right bg-table-header-bg text-table-header-text",
         className
       )}
       {...props}
@@ -118,7 +118,7 @@ const customComponents = {
   td: ({ className, ...props }: React.HTMLAttributes<HTMLTableCellElement>) => (
     <td
       className={cn(
-        "border border-[var(--color-border-standard)] px-4 py-2 text-left [&[align=center]]:text-center [&[align=right]]:text-right text-[var(--color-text-body)]",
+        "border border-border-standard px-4 py-2 text-left [[align=center]]:text-center [[align=right]]:text-right text-text-body",
         className
       )}
       {...props}
@@ -127,7 +127,7 @@ const customComponents = {
   img: (props) => (
     <Image
       sizes="100vw"
-      className="rounded-md border border-[var(--color-border-standard)] my-4"
+      className="rounded-md border border-border-standard my-4"
       style={{ width: "100%", height: "auto" }}
       {...(props as ImageProps)}
     />
@@ -138,7 +138,7 @@ const customComponents = {
   code: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => (
     <code
       className={cn(
-        "relative rounded bg-[var(--color-bg-input-standard)] px-[0.3rem] py-[0.2rem] font-mono text-sm text-[var(--color-text-title)]",
+        "relative rounded bg-bg-input-standard px-[0.3rem] py-[0.2rem] font-mono text-sm text-text-title",
         className
       )}
       {...props}
@@ -171,7 +171,10 @@ const customComponents = {
   Modal,
   ModalContent,
   Toast,
-  Tab,
+  Tabs,
+  TabsList,
+  TabsTrigger,
+  TabsContent,
   Input,
   Select,
   Radio,

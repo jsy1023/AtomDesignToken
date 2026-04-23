@@ -167,8 +167,8 @@ myStyleDictionary.registerFormat({
             if (token.$type === "color") {
               return `--${name}: ${value};`;
             }
-            if (token.$type === "spacing" || token.$type === "sizing") {
-               if (!String(value).endsWith("px") && !String(value).includes("var(")) {
+            if (token.$type === "spacing" || token.$type === "sizing" || token.$type === "borderRadius" || token.$type === "fontSizes" || token.$type === "dimension") {
+               if (!String(value).endsWith("px") && !String(value).includes("var(") && !String(value).includes(" ") && value !== "0" && value !== "none") {
                    return `--${name}: ${value}px;`;
                }
                return `--${name}: ${value};`;

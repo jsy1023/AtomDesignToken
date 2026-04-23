@@ -1,117 +1,101 @@
 "use client";
 
-import { useRef, useState } from "react";
+import React, { createContext, useContext, useState, useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
-const Tab = ({
-  tabs,
-  tabClass = "tab",
-  tabNavItemClass = "tab-nav-item",
-  tabNavItemActiveClass = "tab-nav-item-active",
-  tabContents,
-  tabContentClass = "tab-content",
-  tabContentItem = "tab-content-item",
-  expectionValue,
-  expectionLayout,
+interface TabsContextProps {
+  activeTab: string;
+  setActiveTab: (id: string) => void;
+}
+
+const TabsContext = createContext<TabsContextProps | undefined>(undefined);
+
+export const useTabsContext = () => {
+  const context = useContext(TabsContext);
+  if (!context) throw new Error("Tabs compound components must be used within a <Tabs> component.");
+  return context;
+};
+
+export const Tabs = ({
+  defaultValue,
+  children,
+  className,
 }: {
-  /**탭 네비게이션을 정의내립니다.
-   */
-  tabs: Array<{
-    /** id는 탭 메뉴의 고유 값입니다. 고유 값을 통해 Active 상태 값을 관리합니다.*/
-    id: string;
-    /** target은 배열로 제공되며, 타겟의 배열과 동일한 내용을 tabContent로 적용됩니다.*/
-    target: string[];
-    /** 탭 메뉴의 ReactNode 내용을 받습니다.*/
-    tabItem: React.ReactNode;
-  }>;
-  /** 탭 메뉴의 tailwinds css 스타일 지정을 위한 class를 받습니다.*/
-  tabClass?: string;
-  /** 탭 메뉴의 각각의 tailwinds css 스타일 지정을 위한 class를 받습니다.*/
-  tabNavItemClass?: string;
-  /** 탭 메뉴의 활성화 상태의 tailwinds css 스타일 지정을 위한 class를 받습니다.*/
-  tabNavItemActiveClass?: string;
-  /** 탭 메뉴의 콘텐츠 값을 정의내립니다.*/
-  tabContents: Array<{
-    /** 고유 ID 값입니다.*/
-    id: string;
-    /** 태그 값으로 tabs target에서 선택된 내용만 화면에 제공됩니다.*/
-    tag: string;
-    /** 탭 메뉴의 콘텐츠 ReactNode 정보를 받습니다.*/
-    content: React.ReactNode;
-  }>;
-  /** 탭 메뉴의 콘텐츠 레이아웃을 위한한 tailwinds css 스타일 지정을 위한 class를 받습니다. */
-  tabContentClass?: string;
-  /** 탭 메뉴의 콘텐츠의 각 개별 요소를 위한 tailwinds css 스타일 지정을 위한 class를 받습니다. */
-  tabContentItem?: string;
-  /** 예외 레이아웃을 사용할 콘텐츠의 tag값을 입력받습니다. */
-  expectionValue?: string;
-  /** 예외 레이아웃에 사용하기 위한 tailwinds css 스타일 지정을 위한 class를 받습니다. */
-  expectionLayout?: string;
+  defaultValue: string;
+  children: React.ReactNode;
+  className?: string;
 }) => {
-  const [activeContent, setActiveContent] = useState(tabs[0].target);
-  const [activeTab, setActiveTab] = useState(tabs[0].id);
-  const tabContentRef = useRef<HTMLDivElement>(null);
-
-  const handleTabActive = (target: string[], id: string) => {
-    setActiveContent(target);
-    setActiveTab(id);
-  };
-
-  // 👇 activeContent가 변경된 이후에 실행
-  useGSAP(() => {
-    if (tabContentRef.current) {
-      gsap.fromTo(
-        tabContentRef.current.children,
-        { y: 50, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          stagger: 0.1,
-          duration: 0.6,
-          ease: "power4.out",
-        }
-      );
-    }
-  }, [activeContent]);
+  const [activeTab, setActiveTab] = useState(defaultValue);
 
   return (
-    <div className="flex flex-col w-full">
-      <div className={tabClass}>
-        {tabs.map((tab) => {
-          return (
-            <button
-              key={tab.id}
-              id={tab.id}
-              onClick={() => handleTabActive(tab.target, tab.id)}
-              className={`${tabNavItemClass} ${
-                activeTab == tab.id
-                  ? tabNavItemActiveClass
-                  : ""
-              }`}
-            >
-              {tab.tabItem}
-            </button>
-          );
-        })}
-      </div>
-      <div ref={tabContentRef} className={tabContentClass}>
-        {tabContents.map((tabContent) => {
-          return activeContent.includes(tabContent.tag) ? (
-            <div
-              key={tabContent.id}
-              id={tabContent.tag}
-              className={`${tabContentItem} ${
-                activeTab == expectionValue ? expectionLayout : ""
-              }`}
-            >
-              {tabContent.content}
-            </div>
-          ) : null;
-        })}
+    <TabsContext.Provider value={{ activeTab, setActiveTab }}>
+      <div className={`flex flex-col w-full ${className || ""}`}>{children}</div>
+    </TabsContext.Provider>
+  );
+};
+
+export const TabsList = ({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) => {
+  return <div className={`tab ${className || ""}`}>{children}</div>;
+};
+
+export const TabsTrigger = ({
+  value,
+  children,
+  className,
+}: {
+  value: string;
+  children: React.ReactNode;
+  className?: string;
+}) => {
+  const { activeTab, setActiveTab } = useTabsContext();
+  const isActive = activeTab === value;
+
+  return (
+    <button
+      onClick={() => setActiveTab(value)}
+      className={`tab-nav-item ${isActive ? "tab-nav-item-active" : ""} ${className || ""}`}
+    >
+      {children}
+    </button>
+  );
+};
+
+export const TabsContent = ({
+  value,
+  children,
+  className,
+}: {
+  value: string;
+  children: React.ReactNode;
+  className?: string;
+}) => {
+  const { activeTab } = useTabsContext();
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    if (activeTab === value && contentRef.current) {
+      gsap.fromTo(
+        contentRef.current.children,
+        { y: 50, opacity: 0 },
+        { y: 0, opacity: 1, stagger: 0.1, duration: 0.6, ease: "power4.out" }
+      );
+    }
+  }, [activeTab]);
+
+  if (activeTab !== value) return null;
+
+  return (
+    <div className={`tab-content ${className || ""}`}>
+      <div ref={contentRef} className="tab-content-item">
+        {children}
       </div>
     </div>
   );
 };
-
-export default Tab;
