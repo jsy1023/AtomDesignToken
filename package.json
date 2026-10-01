@@ -9,6 +9,7 @@
   "files": [
     "dist",
     "tokens",
+    "presets",
     "tailwind.config.ts",
     "build",
     "app/templates",
