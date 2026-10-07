@@ -1,16 +1,80 @@
 # 입력창 (Input)
 
-사용자로부터 데이터를 입력받기 위한 기본적인 대화형 컨트롤 요소입니다.
+사용자로부터 텍스트나 데이터를 입력받는 기본 폼 컴포넌트입니다. 포커스 상태, 에러 상태, 플레이스홀더 토큰이 자동으로 바인딩됩니다.
 
-<Callout type="note">
-  입력창은 포커스, 에러, 비활성 등 다양한 상태를 직관적으로 표현하여 사용자와 원활하게 상호작용해야 합니다.
+<Callout type="tip">
+  모든 프레임워크에서 `.atom-input`과 `.atom-field` 래퍼를 사용하여 라벨과 에러 메시지를 일관성 있게 조합할 수 있습니다.
 </Callout>
 
 ---
 
-## 기본 사용법 (Basics)
+## 🤖 AI Agent에게 지시하기 (Prompt)
 
-가장 기본적인 형태의 입력창입니다.
+<AgentPrompt prompt='presets/toss.md 가이드 스타일로 이메일과 비밀번호, 유효성 검사 에러 메시지가 포함된 로그인 폼을 내 프레임워크 코드로 만들어줘.' />
+
+---
+
+## 🚀 멀티 프레임워크 사용법 (Multi-Framework Usage)
+
+<FrameworkTabs 
+  react={`import 'atomsystem/css/atom-ui.css';
+import { Input, Label } from 'atomsystem';
+
+export default function Demo() {
+  return (
+    <div className="atom-field max-w-sm">
+      <Label htmlFor="email">이메일 주소</Label>
+      <Input id="email" type="email" placeholder="user@example.com" />
+    </div>
+  );
+}`}
+  vue={`<template>
+  <div class="atom-field max-w-sm">
+    <label class="atom-label" for="username">사용자명</label>
+    <input 
+      id="username" 
+      class="atom-input" 
+      v-model="username" 
+      placeholder="이름을 입력하세요" 
+    />
+  </div>
+</template>`}
+  vanilla={`<!-- 1. Pure HTML / jQuery -->
+<div class="atom-field" style="max-width: 320px;">
+  <label class="atom-label" for="search-input">검색어</label>
+  <input class="atom-input" id="search-input" type="text" placeholder="검색어를 입력하세요">
+</div>
+
+<!-- jQuery 이벤트 바인딩 -->
+<script>
+  $('#search-input').on('keyup', function(e) {
+    if (e.key === 'Enter') {
+      console.log('검색 실행:', $(this).val());
+    }
+  });
+</script>`}
+  angular={`import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+
+@Component({
+  selector: 'app-input-demo',
+  standalone: true,
+  imports: [FormsModule],
+  template: \`
+    <div class="atom-field max-w-sm">
+      <label class="atom-label">계좌번호</label>
+      <input class="atom-input" [(ngModel)]="accountNumber" placeholder="숫자만 입력" />
+    </div>
+  \`
+})
+export class InputDemoComponent {
+  accountNumber = '';
+}`}
+/>
+
+---
+
+## 기본 컴포넌트 프리뷰 (Live Preview)
 
 <ComponentPreview name="input-demo" />
 

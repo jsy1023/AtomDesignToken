@@ -1,55 +1,98 @@
 # 버튼 (Button)
 
-사용자가 클릭하여 액션을 수행할 수 있는 기본적인 인터랙티브 컴포넌트입니다.
+어떤 환경(React, Vue, Angular, Vanilla JS, jQuery)에서든 즉시 동작하는 범용 인터랙티브 버튼입니다. 디자인 토큰을 통해 모든 테마와 브랜드 스타일이 자동 반영됩니다.
 
 <Callout type="tip">
-  버튼 컴포넌트는 모든 표준 HTML 버튼 속성을 지원하며, 다양한 크기와 스타일 변형을 제공합니다.
+  버튼 컴포넌트는 표준 HTML 속성을 100% 보존하며, W3C 웹 접근성 표준(A11y)과 키보드 인터랙션을 완벽히 지원합니다.
 </Callout>
 
 ---
 
-## 기본 사용법 (Basics)
+## 🤖 AI Agent에게 지시하기 (Prompt)
 
-<ComponentPreview name="button-demo" />
+<AgentPrompt prompt='presets/toss.md 가이드 스타일을 적용하고, "결제하기" Primary 버튼과 "취소" Ghost 버튼을 내가 사용하는 프레임워크 코드로 만들어줘.' />
 
 ---
 
-## 설치 (Installation)
+## 🚀 멀티 프레임워크 사용법 (Multi-Framework Usage)
 
-<Steps>
+<FrameworkTabs 
+  react={`import 'atomsystem/css/atom-ui.css';
+import { Button } from 'atomsystem';
 
-### 패키지 추가
+export default function Demo() {
+  return (
+    <div className="flex gap-3">
+      <Button type="primary">확인</Button>
+      <Button type="secondary">취소</Button>
+      <Button disabled>비활성화</Button>
+    </div>
+  );
+}`}
+  vue={`<script setup>
+// atomsystem/css/atom-ui.css 전역 로드
+</script>
 
-```bash
-npx atomsystem-add Button
-```
+<template>
+  <div class="flex gap-3">
+    <button class="atom-btn atom-btn-primary" @click="handleConfirm">확인</button>
+    <button class="atom-btn atom-btn-secondary" @click="handleCancel">취소</button>
+    <button class="atom-btn" disabled>비활성화</button>
+  </div>
+</template>`}
+  vanilla={`<!-- 1. CSS 로드 -->
+<link rel="stylesheet" href="node_modules/atomsystem/css/atom-ui.css">
 
-### 소스 코드 확인
+<!-- 2. 순수 HTML 마크업 -->
+<button class="atom-btn atom-btn-primary" id="btn-submit">확인</button>
+<button class="atom-btn atom-btn-secondary" id="btn-cancel">취소</button>
+<button class="atom-btn" disabled>비활성화</button>
 
-<ComponentSource name="Button" />
+<!-- jQuery 예시 -->
+<script>
+  $('#btn-submit').on('click', function() {
+    alert('확인 클릭됨!');
+  });
+</script>`}
+  angular={`import { Component } from '@angular/core';
 
-</Steps>
+@Component({
+  selector: 'app-button-demo',
+  standalone: true,
+  template: \`
+    <div class="flex gap-3">
+      <button class="atom-btn atom-btn-primary" (click)="onConfirm()">확인</button>
+      <button class="atom-btn atom-btn-secondary" (click)="onCancel()">취소</button>
+    </div>
+  \`
+})
+export class ButtonDemoComponent {
+  onConfirm() { console.log('Confirm'); }
+  onCancel() { console.log('Cancel'); }
+}`}
+/>
+
+---
+
+## 기본 컴포넌트 프리뷰 (Live Preview)
+
+<ComponentPreview name="button-demo" />
 
 ---
 
 ## 스타일 변형 (Variants)
 
 ### 타입 (Types)
-
-`type` 속성을 통해 버튼의 시각적 강조점을 변경할 수 있습니다.
+`type` 또는 시멘틱 클래스(`.atom-btn-primary`, `.atom-btn-secondary`, `.atom-btn-danger`, `.atom-btn-ghost`)를 통해 버튼의 시각적 위계를 설정합니다.
 
 <ComponentPreview name="button-variants" />
 
 ### 크기 (Sizes)
-
-`size` 속성을 통해 버튼의 크기를 조절할 수 있습니다.
+Small, Medium, Large 크기 조절을 지원합니다.
 
 <ComponentPreview name="button-sizes" />
 
-### 비활성화 (Disabled)
-
-`disabled` 속성으로 버튼을 비활성화합니다.
-
+### 비활성화 상태 (Disabled)
 <ComponentPreview name="button-disabled" />
 
 ---
@@ -57,8 +100,3 @@ npx atomsystem-add Button
 ## 속성 (Properties)
 
 <ComponentProps name="Button" />
-
-
----
-
-

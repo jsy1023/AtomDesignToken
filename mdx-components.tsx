@@ -11,6 +11,8 @@ import { Callout } from "@/app/components/Callout";
 import { Steps, Step } from "@/app/components/Steps";
 import MdxCodeBlock from "@/app/components/MdxCodeBlock";
 import ComponentProps from "@/app/components/ComponentProps";
+import FrameworkTabs from "@/app/components/FrameworkTabs";
+import AgentPromptCallout from "@/app/components/AgentPromptCallout";
 
 // 디자인 시스템 컴포넌트 (레지스트리 활용 권장되지만, 직접 매핑도 유지)
 import { Button } from "@/app/templates/Button/Button";
@@ -150,6 +152,9 @@ const customComponents = {
   ComponentPreview,
   ComponentSource,
   ComponentProps,
+  FrameworkTabs,
+  AgentPrompt: AgentPromptCallout,
+  AgentPromptCallout,
   Callout,
   Steps,
   Step,

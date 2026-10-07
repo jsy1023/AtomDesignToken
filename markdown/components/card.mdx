@@ -1,61 +1,99 @@
 # 카드 (Card)
 
-정보를 논리적으로 그룹화하고 시각적으로 구분하여 보여주는 컨테이너 요소입니다.
+콘텐츠와 액션을 시각적으로 그룹화하는 유연한 서피스(Surface) 컨테이너입니다. 토스, 당근 등 설정된 디자인 가이드의 라운딩과 그림자 토큰이 자동 적용됩니다.
 
-<Callout type="note">
-  카드는 헤더, 콘텐츠, 푸터로 구성된 모듈형 구조를 가지고 있어 유연하게 배치할 수 있습니다.
+<Callout type="tip">
+  카드는 상호작용 가능한 `.atom-card-interactive` 클래스를 통해 호버 시 부드러운 엘리베이션 리프트 애니메이션을 제공합니다.
 </Callout>
 
 ---
 
-## 기본 구성 (Basics)
+## 🤖 AI Agent에게 지시하기 (Prompt)
 
-표준적인 카드의 구성 요소들을 활용한 예시입니다.
+<AgentPrompt prompt='presets/daangn.md 가이드 스타일로, 상품 이미지/제목/가격/동네정보가 들어간 중고거래 아이템 카드 컴포넌트를 만들어줘.' />
+
+---
+
+## 🚀 멀티 프레임워크 사용법 (Multi-Framework Usage)
+
+<FrameworkTabs 
+  react={`import 'atomsystem/css/atom-ui.css';
+import { Card, CardHeader, CardContent, CardFooter } from 'atomsystem';
+
+export default function Demo() {
+  return (
+    <Card className="max-w-sm">
+      <CardHeader>
+        <h3 className="atom-title-2">송금 완료</h3>
+        <p className="atom-caption">2026.10.01 17:00</p>
+      </CardHeader>
+      <CardContent>
+        <p className="atom-body-1">성공적으로 50,000원이 전달되었습니다.</p>
+      </CardContent>
+    </Card>
+  );
+}`}
+  vue={`<template>
+  <div class="atom-card atom-card-interactive max-w-sm">
+    <div class="atom-card-header">
+      <h3 class="atom-card-title">당근 동네생활</h3>
+      <p class="atom-card-subtitle">역삼동 · 3분 전</p>
+    </div>
+    <div class="atom-card-body">
+      <p class="atom-body-2">근처에 맛있는 붕어빵 가게 찾았습니다!</p>
+    </div>
+  </div>
+</template>`}
+  vanilla={`<!-- 1. Pure HTML -->
+<div class="atom-card atom-card-interactive" id="item-card">
+  <div class="atom-card-header">
+    <h3 class="atom-card-title">에어팟 프로 2세대 미개봉</h3>
+    <p class="atom-card-subtitle">서초동 · 끌올 5분 전</p>
+  </div>
+  <p class="atom-title-2" style="color: var(--color-primary);">220,000원</p>
+</div>
+
+<!-- jQuery 클릭 이벤트 -->
+<script>
+  $('#item-card').on('click', function() {
+    console.log('카드 상세 페이지로 이동');
+  });
+</script>`}
+  angular={`import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-card-demo',
+  standalone: true,
+  template: \`
+    <div class="atom-card max-w-md">
+      <div class="atom-card-header">
+        <h3 class="atom-card-title">{{ title }}</h3>
+      </div>
+      <p class="atom-body-1">{{ content }}</p>
+    </div>
+  \`
+})
+export class CardDemoComponent {
+  title = '알림 카드';
+  content = '새로운 메시지가 도착했습니다.';
+}`}
+/>
+
+---
+
+## 기본 컴포넌트 프리뷰 (Live Preview)
 
 <ComponentPreview name="card-demo" />
 
 ---
 
-## 설치 (Installation)
+## 스타일 변형 (Variants)
 
-<Steps>
-
-### 컴포넌트 추가
-터미널에서 아래 명령어를 실행하여 카드 시스템을 추가합니다.
-
-```bash
-npx atomsystem-add Card
-```
-
-### 구현 상세
-카드는 여러 하위 컴포넌트로 나뉘어져 있습니다. 전체 코드를 확인해 보세요.
-
-<ComponentSource name="Card" />
-
-</Steps>
+### 인터랙티브 카드 (Hover Elevation)
+<ComponentPreview name="card-interactive" />
 
 ---
 
-## 활용 가이드 (Usage)
+## 속성 (Properties)
 
-### 복합 구성
-카드는 내부에 버튼, 이미지 등 다른 컴포넌트를 포함하여 풍부한 정보를 담을 수 있습니다.
-
-```tsx
-<Card className="w-full">
-  <CardHeader className="font-bold">제품명</CardHeader>
-  <CardContent>제품에 대한 상세 설명이 들어가는 영역입니다.</CardContent>
-  <CardFooter className="flex justify-end">
-    <Button size="small">상세보기</Button>
-  </CardFooter>
-</Card>
-```
-
----
-
-## 구성 요소 (Components)
-
-- **`Card`**: 메인 컨테이너
-- **`CardHeader`**: 제목 영역
-- **`CardContent`**: 본문 영역
-- **`CardFooter`**: 하단 영역
+<ComponentProps name="Card" />
