@@ -148,11 +148,8 @@ test.describe('[명세 4] 디자인 가이드(.md) 파일 업로드 및 실시�
       const daangnBtn = page.locator('#btn-preset-daangn');
       const textarea = page.locator('#markdown-editor');
 
-      await expect(async () => {
-        await daangnBtn.click();
-        await expect(textarea).toHaveValue(/Daangn Warm Orange/);
-      }).toPass({ timeout: 10000 });
-
+      await daangnBtn.click();
+      await expect(textarea).toHaveValue(/Daangn Warm Orange/);
       await expect(textarea).toHaveValue(/#FF6F0F/);
     });
 
@@ -199,11 +196,14 @@ test.describe('[명세 5] 상단 네비게이션 Showcase 이동 및 마크다�
   test('네비게이션의 Showcase 메뉴로 이동하여 .md 수정 및 적용 시 쇼케이스 템플릿에 즉시 반영되어야 한다', async ({ page }) => {
     await test.step('홈페이지에서 상단 GNV의 Showcase 메뉴를 클릭한다', async () => {
       await page.goto('/', { waitUntil: 'domcontentloaded' });
+      await page.waitForLoadState('networkidle');
       const showcaseNavLink = page.locator('a[href="/showcases"]').first();
       await expect(showcaseNavLink).toBeVisible();
 
-      await showcaseNavLink.click();
-      await expect(page).toHaveURL(/.*\/showcases/);
+      await Promise.all([
+        page.waitForURL(/.*\/showcases/, { timeout: 20000 }),
+        showcaseNavLink.click(),
+      ]);
       await page.waitForSelector('[data-hydrated="true"]');
     });
 
@@ -219,10 +219,8 @@ test.describe('[명세 5] 상단 네비게이션 Showcase 이동 및 마크다�
       const daangnBtn = page.locator('#btn-preset-daangn');
       const textarea = page.locator('#markdown-editor');
 
-      await expect(async () => {
-        await daangnBtn.click();
-        await expect(textarea).toHaveValue(/Daangn Warm Orange/);
-      }).toPass({ timeout: 10000 });
+      await daangnBtn.click();
+      await expect(textarea).toHaveValue(/Daangn Warm Orange/);
 
       // 우측 가계부 송금 버튼의 색상 검증
       const sendBtn = page.locator('#send-money-btn');

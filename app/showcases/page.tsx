@@ -2,8 +2,8 @@
 
 import React, { useState } from 'react';
 import { MarkdownGuideEditor } from '../studio/components/MarkdownGuideEditor';
-import { FinanceShowcaseContent } from './finance/page';
-import { DashboardShowcaseContent } from './dashboard/page';
+import { FinanceShowcaseContent } from './finance/FinanceShowcaseContent';
+import { DashboardShowcaseContent } from './dashboard/DashboardShowcaseContent';
 import { CreditCard, LayoutDashboard, ExternalLink, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 
@@ -74,17 +74,19 @@ export default function ShowcasesHubPage() {
 
         {/* Live Template Container */}
         <div className="flex-1 w-full h-full overflow-y-auto">
-          {activeTemplate === 'finance' ? (
-            <div className="w-full min-h-full flex justify-center py-6">
-              <div className="w-full max-w-lg">
-                <FinanceShowcaseContent />
+          <React.Suspense fallback={<div className="p-8 text-center text-text-sub">로딩 중...</div>}>
+            {activeTemplate === 'finance' ? (
+              <div className="w-full min-h-full flex justify-center py-6">
+                <div className="w-full max-w-lg">
+                  <FinanceShowcaseContent />
+                </div>
               </div>
-            </div>
-          ) : (
-            <div className="w-full h-full">
-              <DashboardShowcaseContent />
-            </div>
-          )}
+            ) : (
+              <div className="w-full h-full">
+                <DashboardShowcaseContent />
+              </div>
+            )}
+          </React.Suspense>
         </div>
       </main>
     </div>

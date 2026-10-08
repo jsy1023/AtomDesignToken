@@ -4,36 +4,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { UploadCloud, FileText, Check, Download, Sparkles, RefreshCw, AlertCircle } from 'lucide-react';
 
-// 프리셋 원문 정의
-const TOSS_MD_PRESET = `# Toss Style Design Guide (토스 스타일 디자인 가이드)
-
-## 1. 디자인 철학
-- Extreme Simplicity, Bold Typography, Soft Geometry
-- 곡률: 16px ~ 20px (볼드 라운딩)
-
-## 2. 색상 시스템 (Color Palette)
-### Primary / Brand
-- \`primary\`: \`#3182F6\` (Toss Signature Blue)
-- \`primary-hover\`: \`#1B64DA\`
-- \`primary-light\`: \`#E8F3FF\`
-
-### Secondary / Semantic
-- \`success\`: \`#04C759\`
-- \`warning\`: \`#FF9F00\`
-- \`danger\`: \`#F04452\`
-
-### Neutral / Surface
-- \`bg-surface\`: \`#FFFFFF\`
-- \`bg-canvas\`: \`#F2F4F6\`
-- \`text-primary\`: \`#191F28\`
-- \`text-secondary\`: \`#4E5968\`
-- \`border-default\`: \`#E5E8EB\`
-
-## 3. 조형 및 모서리 (Border Radius)
-- 버튼 곡률: \`16px\`
-- 카드 곡률: \`20px\`
-- \`font-family\`: Pretendard, -apple-system, sans-serif
-`;
+import { TOSS_MD_PRESET } from '../constants/tossGuide';
 
 const DAANGN_MD_PRESET = `# Daangn Style Design Guide (당근 스타일 디자인 가이드)
 
@@ -100,63 +71,85 @@ export interface ParsedTokens {
   fontFamily?: string;
 }
 
-// Markdown 텍스트에서 토큰을 추출하는 파서 함수
+// Markdown 텍스트에서 토큰을 추출하는 파서 함수 (YAML Frontmatter 및 Markdown 완벽 지원)
 export const parseMarkdownToTokens = (markdown: string): ParsedTokens => {
   const result: ParsedTokens = {
     primary: '#3182F6',
-    radiusBtn: '12px',
-    radiusCard: '16px',
+    radiusBtn: '16px',
+    radiusCard: '20px',
     bgSurface: '#FFFFFF',
-    bgCanvas: '#F9FAFB',
+    bgCanvas: '#F2F4F6',
     textPrimary: '#191F28'
   };
 
-  // 1. Primary Color 추출 (예: `primary`: `#3182F6` 또는 primary: #3182f6)
-  const primaryMatch = markdown.match(/(?:primary|메인 포인트 컬러|Primary Color)[^#\n]*([#][0-9a-fA-F]{3,8})/i);
-  if (primaryMatch && primaryMatch[1]) {
-    result.primary = primaryMatch[1];
+  // 1. Primary Color 추출 (TDS blue-500: ... # #3182F6 또는 primary: #3182F6 등)
+  const blue500Match = markdown.match(/blue-500:[^#\n]*[#]\s*([#][0-9a-fA-F]{3,8})/i) ||
+                       markdown.match(/blue-500:[^#\n]*([#][0-9a-fA-F]{3,8})/i);
+  const explicitPrimaryMatch = markdown.match(/(?:primary|메인 포인트 컬러|Primary Color)[^#\n]*([#][0-9a-fA-F]{3,8})/i);
+
+  if (blue500Match && blue500Match[1] && (markdown.includes('slug: toss') || markdown.includes('토스'))) {
+    result.primary = blue500Match[1];
+  } else if (explicitPrimaryMatch && explicitPrimaryMatch[1]) {
+    result.primary = explicitPrimaryMatch[1];
+  } else if (blue500Match && blue500Match[1]) {
+    result.primary = blue500Match[1];
   }
 
-  // 2. Primary Hover
-  const hoverMatch = markdown.match(/primary-hover[^#\n]*([#][0-9a-fA-F]{3,8})/i);
+  // 2. Primary Hover & Light (blue-50: #E8F3FF 등)
+  const hoverMatch = markdown.match(/blue-600:[^#\n]*[#]\s*([#][0-9a-fA-F]{3,8})/i) ||
+                     markdown.match(/primary-hover[^#\n]*([#][0-9a-fA-F]{3,8})/i);
   if (hoverMatch && hoverMatch[1]) {
     result.primaryHover = hoverMatch[1];
   }
 
-  // 3. Primary Light
-  const lightMatch = markdown.match(/primary-light[^#\n]*([#][0-9a-fA-F]{3,8})/i);
+  const lightMatch = markdown.match(/blue-50:[^#\n]*[#]\s*([#][0-9a-fA-F]{3,8})/i) ||
+                     markdown.match(/blue-50:[^#\n]*([#][0-9a-fA-F]{3,8})/i) ||
+                     markdown.match(/primary-light[^#\n]*([#][0-9a-fA-F]{3,8})/i);
   if (lightMatch && lightMatch[1]) {
     result.primaryLight = lightMatch[1];
   }
 
-  // 4. Background Surface
-  const surfaceMatch = markdown.match(/bg-surface[^#\n]*([#][0-9a-fA-F]{3,8})/i);
-  if (surfaceMatch && surfaceMatch[1]) {
-    result.bgSurface = surfaceMatch[1];
+  // 3. Background Surface & Canvas (white, grey-100: #F2F4F6 등)
+  const surfaceMatch = markdown.match(/tds-bg-primary:\s*"\{colors\.white\}"/i) ||
+                       markdown.match(/bg-surface[^#\n]*([#][0-9a-fA-F]{3,8})/i);
+  if (surfaceMatch) {
+    result.bgSurface = '#FFFFFF';
   }
 
-  // 5. Background Canvas
-  const canvasMatch = markdown.match(/bg-canvas[^#\n]*([#][0-9a-fA-F]{3,8})/i);
+  const canvasMatch = markdown.match(/grey-100:[^#\n]*[#]\s*([#][0-9a-fA-F]{3,8})/i) ||
+                      markdown.match(/grey-100:[^#\n]*([#][0-9a-fA-F]{3,8})/i) ||
+                      markdown.match(/bg-canvas[^#\n]*([#][0-9a-fA-F]{3,8})/i);
   if (canvasMatch && canvasMatch[1]) {
     result.bgCanvas = canvasMatch[1];
   }
 
-  // 6. Text Primary
-  const textMatch = markdown.match(/text-primary[^#\n]*([#][0-9a-fA-F]{3,8})/i);
+  // 4. Text Primary (grey-900: #191F28 등)
+  const textMatch = markdown.match(/grey-900:[^#\n]*[#]\s*([#][0-9a-fA-F]{3,8})/i) ||
+                    markdown.match(/grey-900:[^#\n]*([#][0-9a-fA-F]{3,8})/i) ||
+                    markdown.match(/text-primary[^#\n]*([#][0-9a-fA-F]{3,8})/i);
   if (textMatch && textMatch[1]) {
     result.textPrimary = textMatch[1];
   }
 
-  // 7. Button Radius (버튼 곡률: `16px`, radius-btn 등)
-  const btnRadiusMatch = markdown.match(/(?:버튼\s*(?:곡률|라운딩)|radius-btn|btn-radius)[^0-9\n]*(\d+)\s*px/i);
+  // 5. Button Radius (radius-xl: 16px 또는 버튼 곡률: 16px)
+  const btnRadiusMatch = markdown.match(/radius-xl:\s*(\d+)\s*px/i) ||
+                         markdown.match(/(?:버튼\s*(?:곡률|라운딩)|radius-btn|btn-radius)[^0-9\n]*(\d+)\s*px/i);
   if (btnRadiusMatch && btnRadiusMatch[1]) {
     result.radiusBtn = `${btnRadiusMatch[1]}px`;
   }
 
-  // 8. Card Radius (카드 곡률: `20px`, radius-card 등)
-  const cardRadiusMatch = markdown.match(/(?:카드\s*(?:곡률|라운딩)|radius-card|card-radius)[^0-9\n]*(\d+)\s*px/i);
+  // 6. Card Radius (radius-2xl: 20px 또는 카드 곡률: 20px)
+  const cardRadiusMatch = markdown.match(/radius-2xl:\s*(\d+)\s*px/i) ||
+                          markdown.match(/(?:카드\s*(?:곡률|라운딩)|radius-card|card-radius)[^0-9\n]*(\d+)\s*px/i);
   if (cardRadiusMatch && cardRadiusMatch[1]) {
     result.radiusCard = `${cardRadiusMatch[1]}px`;
+  }
+
+  // 7. Font Family
+  const fontMatch = markdown.match(/fontFamily:\s*"?([^"\n]+)"?/i) ||
+                    markdown.match(/font-family[^:\n]*:\s*([^\n]+)/i);
+  if (fontMatch && fontMatch[1]) {
+    result.fontFamily = fontMatch[1].trim();
   }
 
   return result;

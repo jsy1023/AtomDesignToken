@@ -1,5 +1,9 @@
 body{
-    @apply text-text-standard
+    font-family: var(--font-spoqaNeo, "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    word-break: keep-all;
+    @apply text-text-standard;
 }
 
 h1, h2, h3, h4, h5, h6 {

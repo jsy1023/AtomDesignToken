@@ -1,4 +1,4 @@
----
+export const TOSS_MD_PRESET = `---
 name: 토스
 slug: toss
 category: finance
@@ -110,97 +110,97 @@ colors:
   dark-red-500: oklch(0.639 0.209 21)   # #F04251 — TDS 발행값 red500 (colors.dark.css)
 typography:
   display-1:
-    fontFamily: "\"Pretendard Variable\", Pretendard, -apple-system, BlinkMacSystemFont, \"SF Pro Text\", \"SF Pro\", \"Apple SD Gothic Neo\", \"Noto Sans KR\", Roboto, \"Helvetica Neue\", Arial, sans-serif"
+    fontFamily: "\\"Pretendard Variable\\", Pretendard, -apple-system, BlinkMacSystemFont, \\"SF Pro Text\\", \\"SF Pro\\", \\"Apple SD Gothic Neo\\", \\"Noto Sans KR\\", Roboto, \\"Helvetica Neue\\", Arial, sans-serif"
     fontSize: 56px
     fontWeight: 700
     lineHeight: 1.30
     letterSpacing: -0.005em
   display-2:
-    fontFamily: "\"Pretendard Variable\", Pretendard, -apple-system, BlinkMacSystemFont, \"SF Pro Text\", \"SF Pro\", \"Apple SD Gothic Neo\", \"Noto Sans KR\", Roboto, \"Helvetica Neue\", Arial, sans-serif"
+    fontFamily: "\\"Pretendard Variable\\", Pretendard, -apple-system, BlinkMacSystemFont, \\"SF Pro Text\\", \\"SF Pro\\", \\"Apple SD Gothic Neo\\", \\"Noto Sans KR\\", Roboto, \\"Helvetica Neue\\", Arial, sans-serif"
     fontSize: 40px
     fontWeight: 700
     lineHeight: 1.20
     letterSpacing: -0.020em
   h1:
-    fontFamily: "\"Pretendard Variable\", Pretendard, -apple-system, BlinkMacSystemFont, \"SF Pro Text\", \"SF Pro\", \"Apple SD Gothic Neo\", \"Noto Sans KR\", Roboto, \"Helvetica Neue\", Arial, sans-serif"
+    fontFamily: "\\"Pretendard Variable\\", Pretendard, -apple-system, BlinkMacSystemFont, \\"SF Pro Text\\", \\"SF Pro\\", \\"Apple SD Gothic Neo\\", \\"Noto Sans KR\\", Roboto, \\"Helvetica Neue\\", Arial, sans-serif"
     fontSize: 28px
     fontWeight: 700
     lineHeight: 1.30
     letterSpacing: -0.020em
   h2:
-    fontFamily: "\"Pretendard Variable\", Pretendard, -apple-system, BlinkMacSystemFont, \"SF Pro Text\", \"SF Pro\", \"Apple SD Gothic Neo\", \"Noto Sans KR\", Roboto, \"Helvetica Neue\", Arial, sans-serif"
+    fontFamily: "\\"Pretendard Variable\\", Pretendard, -apple-system, BlinkMacSystemFont, \\"SF Pro Text\\", \\"SF Pro\\", \\"Apple SD Gothic Neo\\", \\"Noto Sans KR\\", Roboto, \\"Helvetica Neue\\", Arial, sans-serif"
     fontSize: 24px
     fontWeight: 700
     lineHeight: 1.30
     letterSpacing: -0.020em
   h3:
-    fontFamily: "\"Pretendard Variable\", Pretendard, -apple-system, BlinkMacSystemFont, \"SF Pro Text\", \"SF Pro\", \"Apple SD Gothic Neo\", \"Noto Sans KR\", Roboto, \"Helvetica Neue\", Arial, sans-serif"
+    fontFamily: "\\"Pretendard Variable\\", Pretendard, -apple-system, BlinkMacSystemFont, \\"SF Pro Text\\", \\"SF Pro\\", \\"Apple SD Gothic Neo\\", \\"Noto Sans KR\\", Roboto, \\"Helvetica Neue\\", Arial, sans-serif"
     fontSize: 22px
     fontWeight: 700
     lineHeight: 1.30
     letterSpacing: -0.015em
   h4:
-    fontFamily: "\"Pretendard Variable\", Pretendard, -apple-system, BlinkMacSystemFont, \"SF Pro Text\", \"SF Pro\", \"Apple SD Gothic Neo\", \"Noto Sans KR\", Roboto, \"Helvetica Neue\", Arial, sans-serif"
+    fontFamily: "\\"Pretendard Variable\\", Pretendard, -apple-system, BlinkMacSystemFont, \\"SF Pro Text\\", \\"SF Pro\\", \\"Apple SD Gothic Neo\\", \\"Noto Sans KR\\", Roboto, \\"Helvetica Neue\\", Arial, sans-serif"
     fontSize: 20px
     fontWeight: 700
     lineHeight: 1.35
     letterSpacing: -0.015em
   title-1:
-    fontFamily: "\"Pretendard Variable\", Pretendard, -apple-system, BlinkMacSystemFont, \"SF Pro Text\", \"SF Pro\", \"Apple SD Gothic Neo\", \"Noto Sans KR\", Roboto, \"Helvetica Neue\", Arial, sans-serif"
+    fontFamily: "\\"Pretendard Variable\\", Pretendard, -apple-system, BlinkMacSystemFont, \\"SF Pro Text\\", \\"SF Pro\\", \\"Apple SD Gothic Neo\\", \\"Noto Sans KR\\", Roboto, \\"Helvetica Neue\\", Arial, sans-serif"
     fontSize: 18px
     fontWeight: 600
     lineHeight: 1.45
     letterSpacing: -0.010em
   title-2:
-    fontFamily: "\"Pretendard Variable\", Pretendard, -apple-system, BlinkMacSystemFont, \"SF Pro Text\", \"SF Pro\", \"Apple SD Gothic Neo\", \"Noto Sans KR\", Roboto, \"Helvetica Neue\", Arial, sans-serif"
+    fontFamily: "\\"Pretendard Variable\\", Pretendard, -apple-system, BlinkMacSystemFont, \\"SF Pro Text\\", \\"SF Pro\\", \\"Apple SD Gothic Neo\\", \\"Noto Sans KR\\", Roboto, \\"Helvetica Neue\\", Arial, sans-serif"
     fontSize: 17px
     fontWeight: 600
     lineHeight: 1.45
     letterSpacing: -0.010em
   body-1:
-    fontFamily: "\"Pretendard Variable\", Pretendard, -apple-system, BlinkMacSystemFont, \"SF Pro Text\", \"SF Pro\", \"Apple SD Gothic Neo\", \"Noto Sans KR\", Roboto, \"Helvetica Neue\", Arial, sans-serif"
+    fontFamily: "\\"Pretendard Variable\\", Pretendard, -apple-system, BlinkMacSystemFont, \\"SF Pro Text\\", \\"SF Pro\\", \\"Apple SD Gothic Neo\\", \\"Noto Sans KR\\", Roboto, \\"Helvetica Neue\\", Arial, sans-serif"
     fontSize: 17px
     fontWeight: 400
     lineHeight: 1.50
     letterSpacing: -0.005em
   body-2:
-    fontFamily: "\"Pretendard Variable\", Pretendard, -apple-system, BlinkMacSystemFont, \"SF Pro Text\", \"SF Pro\", \"Apple SD Gothic Neo\", \"Noto Sans KR\", Roboto, \"Helvetica Neue\", Arial, sans-serif"
+    fontFamily: "\\"Pretendard Variable\\", Pretendard, -apple-system, BlinkMacSystemFont, \\"SF Pro Text\\", \\"SF Pro\\", \\"Apple SD Gothic Neo\\", \\"Noto Sans KR\\", Roboto, \\"Helvetica Neue\\", Arial, sans-serif"
     fontSize: 15px
     fontWeight: 400
     lineHeight: 1.50
     letterSpacing: -0.005em
   body-3:
-    fontFamily: "\"Pretendard Variable\", Pretendard, -apple-system, BlinkMacSystemFont, \"SF Pro Text\", \"SF Pro\", \"Apple SD Gothic Neo\", \"Noto Sans KR\", Roboto, \"Helvetica Neue\", Arial, sans-serif"
+    fontFamily: "\\"Pretendard Variable\\", Pretendard, -apple-system, BlinkMacSystemFont, \\"SF Pro Text\\", \\"SF Pro\\", \\"Apple SD Gothic Neo\\", \\"Noto Sans KR\\", Roboto, \\"Helvetica Neue\\", Arial, sans-serif"
     fontSize: 13px
     fontWeight: 400
     lineHeight: 1.50
     letterSpacing: 0em
   label-l:
-    fontFamily: "\"Pretendard Variable\", Pretendard, -apple-system, BlinkMacSystemFont, \"SF Pro Text\", \"SF Pro\", \"Apple SD Gothic Neo\", \"Noto Sans KR\", Roboto, \"Helvetica Neue\", Arial, sans-serif"
+    fontFamily: "\\"Pretendard Variable\\", Pretendard, -apple-system, BlinkMacSystemFont, \\"SF Pro Text\\", \\"SF Pro\\", \\"Apple SD Gothic Neo\\", \\"Noto Sans KR\\", Roboto, \\"Helvetica Neue\\", Arial, sans-serif"
     fontSize: 17px
     fontWeight: 700
     lineHeight: 1.25
     letterSpacing: -0.005em
   label-m:
-    fontFamily: "\"Pretendard Variable\", Pretendard, -apple-system, BlinkMacSystemFont, \"SF Pro Text\", \"SF Pro\", \"Apple SD Gothic Neo\", \"Noto Sans KR\", Roboto, \"Helvetica Neue\", Arial, sans-serif"
+    fontFamily: "\\"Pretendard Variable\\", Pretendard, -apple-system, BlinkMacSystemFont, \\"SF Pro Text\\", \\"SF Pro\\", \\"Apple SD Gothic Neo\\", \\"Noto Sans KR\\", Roboto, \\"Helvetica Neue\\", Arial, sans-serif"
     fontSize: 15px
     fontWeight: 600
     lineHeight: 1.25
     letterSpacing: -0.005em
   label-s:
-    fontFamily: "\"Pretendard Variable\", Pretendard, -apple-system, BlinkMacSystemFont, \"SF Pro Text\", \"SF Pro\", \"Apple SD Gothic Neo\", \"Noto Sans KR\", Roboto, \"Helvetica Neue\", Arial, sans-serif"
+    fontFamily: "\\"Pretendard Variable\\", Pretendard, -apple-system, BlinkMacSystemFont, \\"SF Pro Text\\", \\"SF Pro\\", \\"Apple SD Gothic Neo\\", \\"Noto Sans KR\\", Roboto, \\"Helvetica Neue\\", Arial, sans-serif"
     fontSize: 13px
     fontWeight: 600
     lineHeight: 1.25
     letterSpacing: 0em
   caption:
-    fontFamily: "\"Pretendard Variable\", Pretendard, -apple-system, BlinkMacSystemFont, \"SF Pro Text\", \"SF Pro\", \"Apple SD Gothic Neo\", \"Noto Sans KR\", Roboto, \"Helvetica Neue\", Arial, sans-serif"
+    fontFamily: "\\"Pretendard Variable\\", Pretendard, -apple-system, BlinkMacSystemFont, \\"SF Pro Text\\", \\"SF Pro\\", \\"Apple SD Gothic Neo\\", \\"Noto Sans KR\\", Roboto, \\"Helvetica Neue\\", Arial, sans-serif"
     fontSize: 12px
     fontWeight: 500
     lineHeight: 1.40
     letterSpacing: 0em
   caption-s:
-    fontFamily: "\"Pretendard Variable\", Pretendard, -apple-system, BlinkMacSystemFont, \"SF Pro Text\", \"SF Pro\", \"Apple SD Gothic Neo\", \"Noto Sans KR\", Roboto, \"Helvetica Neue\", Arial, sans-serif"
+    fontFamily: "\\"Pretendard Variable\\", Pretendard, -apple-system, BlinkMacSystemFont, \\"SF Pro Text\\", \\"SF Pro\\", \\"Apple SD Gothic Neo\\", \\"Noto Sans KR\\", Roboto, \\"Helvetica Neue\\", Arial, sans-serif"
     fontSize: 11px
     fontWeight: 500
     lineHeight: 1.40
@@ -242,30 +242,45 @@ fonts:
 
 # 토스 (Toss) — design.md
 
-> 비바리퍼블리카가 운영하는 한국 최대 핀테크 슈퍼앱. 송금·결제·은행·증권·보험·세금·부동산·자동차 관리 등 금융 전반을 단일 모바일 셸로 묶고, "Apps in Toss" 미니앱 플랫폼까지 같은 디자인 시스템 위에 얹는다 [src:2]. 본 문서는 Toss Design System 핸드오프 번들(`TDS_Mobile_for_Apps_in_Toss_(2602-3-2).fig` export → `toss-design-system/{README, chats/chat1, project/{README, SKILL, colors_and_type.css, preview/ 41 cards, ui_kits/mobile/{Components.jsx, Screens.jsx, Send-Money Flow.html, ios-frame.jsx}, assets/toss-logo.png}}`)을 1차 출처로 합성한 결과이며, 공개된 toss.tech 보고서 [src:1]와 toss.im 미니앱 가이드, TDS Mobile docs를 보조 출처로 사용했다.
+> 비바리퍼블리카가 운영하는 한국 최대 핀테크 슈퍼앱. 송금·결제·은행·증권·보험·세금·부동산·자동차 관리 등 금융 전반을 단일 모바일 셸로 묶고, "Apps in Toss" 미니앱 플랫폼까지 같은 디자인 시스템 위에 얹는다 [src:2]. 본 문서는 Toss Design System 핸드오프 번들(\`TDS_Mobile_for_Apps_in_Toss_(2602-3-2).fig\` export → \`toss-design-system/{README, chats/chat1, project/{README, SKILL, colors_and_type.css, preview/ 41 cards, ui_kits/mobile/{Components.jsx, Screens.jsx, Send-Money Flow.html, ios-frame.jsx}, assets/toss-logo.png}}\`)을 1차 출처로 합성한 결과이며, 공개된 toss.tech 보고서 [src:1]와 toss.im 미니앱 가이드, TDS Mobile docs를 보조 출처로 사용했다.
 
 ## Brand & Style
 
 토스는 자신을 **"은행에 다니는 유능한 친구"** 로 포지셔닝한다 — 조용히 일을 처리하고, 사용자의 시간을 낭비시키지 않는다는 어조다. 슬로건과 카피 곳곳에 "투자, 모두가 할 수 있도록", "수수료 걱정 없이"와 같이 진입 장벽을 제거하는 메시지가 반복되며, "토스가 알아서"라는 위임형 표현이 사용자 부담을 줄이는 톤으로 일관된다 [src:11]. 이는 단순한 마케팅 카피가 아니라 인터페이스 전반의 의사결정 기준이다 — 정보 밀도보다 가독성과 행동 유도를 우선하고, "한번에 볼 수 있어요" 같은 통합 뷰 패턴이 반복되는 이유다 [src:11].
 
-전체 무드는 **차갑고 절제된, 거의 무채색에 가까운 화이트 캔버스 + 선명한 토스 블루 단일 강조색**으로 요약된다. 깊은 한기 어린 cool-blue 중성색(`grey-900`부터 `grey-100`까지)이 표면 전체를 차지하고, 채도가 높은 브랜드 블루(`blue-500`)는 화면당 하나의 가장 중요한 액션에만 예약된다. 모서리는 **공격적으로 둥글지만 결코 귀엽지 않다** — 버튼·카드·hero 블록에 16~32px 라운드, chips·primary CTA에 999px full pill을 쓰며, iOS류 squircle/blob 라운드는 `Templates/Squircle` 전용 페이지를 제외하면 명시적으로 회피된다.
+대상 사용자는 일반 소비자 전 연령대이지만, 디자인 시스템(TDS) 자체는 약 **2,000명 규모의 메이커**가 단일 시스템 위에서 일한다는 전제로 설계되었다 [src:2]. 일관성과 확장성은 디자인 가이드라인 차원이 아니라 인프라 차원에서 다뤄지며, 컴포넌트는 "**레고 블록**"으로 비유된다 [src:2]. 새 컴포넌트 결정은 디자이너 직관이 아니라 A/B 테스트 결과로 검증된다 — 예를 들어 Menu 컴포넌트는 10일간의 A/B 테스트에서 Android item-click rate가 10% 더 높게 나온 뒤에야 정식 채택되었다 [src:4]. Apps-in-Toss 미니앱 플랫폼은 제3자 미니앱을 토스 셸 안에서 돌리되 토스와의 경계를 흐리지 못하게 한다 — 탭바가 필요하면 토스가 제공하는 플로팅 탭바를 써야 하고, 토스 메인 화면의 기본 하단 탭과 형태가 겹치는 탭바는 사용자가 현재 위치를 헷갈린다는 이유로 허용하지 않으며, 브랜드 로고·이름·컬러를 노출해 "사용자가 토스와 앱인토스를 혼동하지 않도록" 하라고 요구한다 [src:6].
 
-Voice는 **해요체(대화형 존댓말) + 위임형 + 일상어**로 요약된다 [src:10]. 종결어미 `-요`로 통일되며 격식체(~니다/~합니다)도, 방송 헤드라인의 단정형 `-다`도 사용하지 않는다.
+전체 무드는 **차갑고 절제된, 거의 무채색에 가까운 화이트 캔버스 + 선명한 토스 블루 단일 강조색**으로 요약된다. 깊은 한기 어린 cool-blue 중성색(\`grey-900\`부터 \`grey-100\`까지)이 표면 전체를 차지하고, 채도가 높은 브랜드 블루(\`blue-500\`)는 화면당 하나의 가장 중요한 액션에만 예약된다. 모서리는 **공격적으로 둥글지만 결코 귀엽지 않다** — 버튼·카드·hero 블록에 16~32px 라운드, chips·primary CTA에 999px full pill을 쓰며, iOS류 squircle/blob 라운드는 \`Templates/Squircle\` 전용 페이지를 제외하면 명시적으로 회피된다. 배경은 평면이 기본이며, 그라디언트는 (1) bottom CTA 위쪽 \`white → transparent\` 보호 그라디언트, (2) 로딩 버튼 내부의 미세한 pressed-blue radial glow, (3) yellow→orange 일러스트 그라디언트 — 세 가지 문서화된 예외만 허용된다. 텍스처·노이즈·전면 사진은 chrome에 사용되지 않는다.
+
+Voice는 **해요체(대화형 존댓말) + 위임형 + 일상어**로 요약된다 [src:10]. 종결어미 \`-요\`로 통일되며 격식체(~니다/~합니다)도, 방송 헤드라인의 단정형 \`-다\`도 사용하지 않는다 — 한 문장은 목적을 말하고, 다음 한 문장은 *언제 쓰는지*를 말하는 패턴이 표준이다. 토스가 잘못해 발생한 에러 화면에서조차 격식체가 아닌 해요체를 유지하며, 반복되는 시스템 상황은 Figma preset과 개발자 에러 메시지 라이브러리로 템플릿화되어 좋은 카피가 기본 선택지가 되도록 운영된다 [src:10]. 본 카탈로그 메타 문서는 토스 자체 카피와 달리 \`~다\` 평서체로 기술하며, 토스의 해요체 정책은 product surface 카피에 한해 적용되는 규칙임을 분리해 둔다.
 
 ## Colors
-- `primary`: `#3182F6` (Toss Signature Blue)
-- `primary-hover`: `#1B64DA`
-- `primary-light`: `#E8F3FF`
-- `bg-surface`: `#FFFFFF`
-- `bg-canvas`: `#F2F4F6`
-- `text-primary`: `#191F28`
-- `text-secondary`: `#4E5968`
-- `border-default`: `#E5E8EB`
-- `success`: `#04C759`
-- `warning`: `#FF9F00`
-- `danger`: `#F04452`
+
+### Brand
+- \`primary\`: \`#3182F6\` (Toss Signature Blue)
+- \`primary-hover\`: \`#1B64DA\`
+- \`primary-light\`: \`#E8F3FF\`
+
+### Neutral / Surface
+- \`bg-surface\`: \`#FFFFFF\`
+- \`bg-canvas\`: \`#F2F4F6\`
+- \`text-primary\`: \`#191F28\`
+- \`text-secondary\`: \`#4E5968\`
+- \`border-default\`: \`#E5E8EB\`
+
+### Semantic
+- \`success\`: \`#04C759\`
+- \`warning\`: \`#FF9F00\`
+- \`danger\`: \`#F04452\`
 
 ## Rounded
-- 버튼 곡률: `16px`
-- 카드 곡률: `20px`
-- `font-family`: "Pretendard Variable", Pretendard, -apple-system, sans-serif
+- 버튼 곡률: \`16px\`
+- 카드 곡률: \`20px\`
+- \`font-family\`: "Pretendard Variable", Pretendard, -apple-system, sans-serif
+
+## Components
+- **Button XL**: 56px 높이, radius 16px (radius-xl)
+- **Button L**: 48px 높이, radius 14px (radius-l)
+- **BottomCTA**: 56pt 높이, safe area 자동 대응
+- **Balance Card**: radius 20px (radius-2xl)
+`;
