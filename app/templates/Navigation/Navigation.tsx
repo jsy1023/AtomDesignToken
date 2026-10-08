@@ -7,7 +7,7 @@ import { useGSAP } from '@gsap/react';
 import { useRef, createContext, useContext, useState } from "react";
 
 // Icons
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { ChevronDown } from 'lucide-react';
 
 
 gsap.registerPlugin(useGSAP); // register the hook to avoid React version discrepancies
@@ -120,7 +120,7 @@ const NavTrigger = ({children}: Navigation) => {
         >
             {children}
             {/* 상태에 따라 화살표 아이콘 회전 애니메이션 클래스 적용 */}
-            <KeyboardArrowDownIcon className={`nav-arrow ${isOpen ? "open" : ""}`} />
+            <ChevronDown size={16} className={`nav-arrow ${isOpen ? "open" : ""}`} />
         </div>
     )
 }

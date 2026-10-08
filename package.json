@@ -22,7 +22,10 @@
     "lint": "next lint",
     "token-build": "node build/build-tokens.js",
     "cli:build": "tsup src/index.ts --format esm --clean --shims --target node20 --no-splitting",
-    "cli:dev": "tsx src/index.ts"
+    "cli:dev": "tsx src/index.ts",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:report": "playwright show-report"
   },
   "peerDependencies": {
     "sd-tailwindcss-transformer": "^2.0.0",
@@ -65,6 +68,7 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@playwright/test": "^1.64.0",
     "@types/node": "^20.19.39",
     "@types/prompts": "^2.4.9",
     "@types/react": "^18.3.28",

@@ -7,7 +7,7 @@ import { useGSAP } from '@gsap/react';
 import { createContext, useContext, useRef, useState } from "react";
 
 // Icons
-import MenuIcon from '@mui/icons-material/Menu';
+import { Menu } from 'lucide-react';
 
 gsap.registerPlugin(useGSAP); // register the hook to avoid React version discrepancies
 
@@ -51,7 +51,9 @@ const SidebarProvider = ({ children }: { children: React.ReactNode }) => {
 const SidebarToggle = () => {
   const { isOpen, setToggle } = useSideContext();
   return (
-      <button className="cursor-pointer" onClick={() => setToggle(!isOpen)}><MenuIcon className="text-text-sub" sx={{fontSize: "20px"}}/></button>
+      <button className="cursor-pointer p-1" onClick={() => setToggle(!isOpen)} aria-label="사이드바 토글">
+        <Menu size={20} className="text-text-sub" />
+      </button>
   )
 }
 

@@ -29,6 +29,9 @@ export const GNV = ({children}: {children: React.ReactNode}) => {
                 <NavItem>
                   <NavLink href="/docs">Docs</NavLink>
                 </NavItem>
+                <NavItem>
+                  <NavLink href="/showcases">Showcase</NavLink>
+                </NavItem>
               </NavList>
           </Navigation>
           {children}
