@@ -41,7 +41,7 @@ export const components = [
 ]
 
 export const dependenciesMap: Record<string, string[]> = {
-  Theme: ["Button", "Radio", "Modal"],
+  Theme: ["Button", "Modal"],
 }
 
 export function addComponent(comp: string, cwd: string, addedComponents: Set<string>) {

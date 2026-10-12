@@ -246,4 +246,71 @@ test.describe('[명세 5] 상단 네비게이션 Showcase 이동 및 마크다�
   });
 });
 
+test.describe('[명세 6] 우측 하단 플로팅 버튼을 통한 .md 편집 및 실시간 화면 스타일 반영 검증', () => {
+  test('1. 우측 하단 플로팅 버튼 클릭 -> 2. md 편집기로 내용 편집 -> 3. 적용버튼 클릭 -> 4. md 편집내용에 따라 화면 변경', async ({ page }) => {
+    await test.step('루트 페이지에 접속하여 우측 하단 플로팅 버튼이 표시되는지 확인한다', async () => {
+      await page.goto('/', { waitUntil: 'domcontentloaded' });
+      await page.waitForLoadState('networkidle');
+      const floatingBtn = page.locator('#floating-theme-btn');
+      await expect(floatingBtn).toBeVisible();
+    });
+
+    await test.step('1. 우측 하단 플로팅 버튼을 클릭한다', async () => {
+      const floatingBtn = page.locator('#floating-theme-btn');
+      await floatingBtn.click();
+
+      // 모달과 md 편집기가 열렸는지 확인
+      const modal = page.locator('.modal');
+      await expect(modal).toBeVisible();
+      const textarea = page.locator('#markdown-editor');
+      await expect(textarea).toBeVisible();
+    });
+
+    await test.step('2. md 편집기로 내용을 편집한다', async () => {
+      const textarea = page.locator('#markdown-editor');
+      const customMarkdown = `# Purple Custom Design Guide\n\n## 1. Brand & Colors\n- primary: #8B5CF6\n- primary-hover: #7C3AED\n- bg-surface: #FFFFFF\n- bg-canvas: #FAF5FF\n\n## 2. Rounded & Radius\n- 버튼 곡률: 28px\n- 카드 곡률: 32px\n`;
+
+      await textarea.fill(customMarkdown);
+      await expect(textarea).toHaveValue(/#8B5CF6/);
+
+      // 프리뷰에 파싱된 값이 실시간 노출되는지 확인
+      const previewHex = page.locator('#preview-token-primary-hex');
+      await expect(previewHex).toHaveText('#8B5CF6');
+    });
+
+    await test.step('3. 적용버튼 클릭한다', async () => {
+      const applyBtn = page.locator('#apply-tokens-btn');
+      await applyBtn.click();
+    });
+
+    await test.step('4. md 편집내용에 따라 화면이 변경된다', async () => {
+      // CSS 변수 주입 확인
+      await expect(async () => {
+        const rootStyles = await page.evaluate(() => {
+          const style = getComputedStyle(document.documentElement);
+          return {
+            primary: style.getPropertyValue('--primary').trim().toLowerCase(),
+            atomColorPrimary: style.getPropertyValue('--atom-color-primary').trim().toLowerCase(),
+            radiusBtn: style.getPropertyValue('--radius-btn').trim(),
+            radiusCard: style.getPropertyValue('--radius-card').trim(),
+          };
+        });
+
+        expect(rootStyles.primary).toBe('#8b5cf6');
+        expect(rootStyles.atomColorPrimary).toBe('#8b5cf6');
+        expect(rootStyles.radiusBtn).toBe('28px');
+        expect(rootStyles.radiusCard).toBe('32px');
+      }).toPass({ timeout: 5000 });
+
+      // 화면 내 primary 요소를 확인하여 실제 색상이 보라색(rgb(139, 92, 246))으로 변경되었는지 검증
+      const floatingBtn = page.locator('#floating-theme-btn');
+      await expect(async () => {
+        const btnBg = await floatingBtn.evaluate((el) => getComputedStyle(el).backgroundColor);
+        expect(btnBg).toBe('rgb(139, 92, 246)');
+      }).toPass({ timeout: 5000 });
+    });
+  });
+});
+
+
 

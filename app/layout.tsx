@@ -40,7 +40,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko" className="w-full h-full">
+    <html lang="ko" className="w-full h-full" suppressHydrationWarning>
       <head>
         <link
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap"
@@ -51,7 +51,7 @@ export default async function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="w-full h-full bg-bg-wrapper flex flex-col">        
+      <body className="w-full h-full bg-bg-wrapper flex flex-col" suppressHydrationWarning>        
         
         <div id="modal-root"></div>
         <Toast />
