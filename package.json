@@ -16,13 +16,10 @@
     "css"
   ],
   "scripts": {
-    "dev": "node build/build-tokens.js && next dev",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "token-build": "node build/build-tokens.js",
-    "cli:build": "tsup src/index.ts --format esm --clean --shims --target node20 --no-splitting",
-    "cli:dev": "tsx src/index.ts",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:report": "playwright show-report"
