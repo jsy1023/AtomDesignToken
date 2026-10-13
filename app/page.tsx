@@ -121,12 +121,15 @@ export default function Home() {
           <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-neutral-600 dark:text-neutral-300">
             <Link href="/patterns" className="text-blue-600 dark:text-blue-400 font-bold hover:underline transition flex items-center gap-1">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>UX 패턴 라이브러리</span>
+              <span>UX 패턴</span>
+            </Link>
+            <Link href="/components" className="hover:text-neutral-900 dark:hover:text-white transition flex items-center gap-1 font-semibold">
+              <Layers className="w-3.5 h-3.5 text-indigo-500" />
+              <span>컴포넌트 갤러리</span>
             </Link>
             <a href="#studio" className="hover:text-neutral-900 dark:hover:text-white transition">라이브 스튜디오</a>
             <a href="#workflow" className="hover:text-neutral-900 dark:hover:text-white transition">4-Step 작업</a>
             <a href="#liberation" className="hover:text-neutral-900 dark:hover:text-white transition">피그마 해방</a>
-            <a href="#architecture" className="hover:text-neutral-900 dark:hover:text-white transition">shadcn 방식</a>
           </nav>
 
           <div className="flex items-center gap-3">

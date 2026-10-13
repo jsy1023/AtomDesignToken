@@ -359,6 +359,12 @@ export default function PatternsPage() {
                 UX Pattern Catalog
               </span>
             </div>
+            <Link 
+              href="/components" 
+              className="hidden md:inline-flex text-xs font-semibold text-neutral-500 hover:text-neutral-900 dark:hover:text-white transition ml-2"
+            >
+              컴포넌트 갤러리
+            </Link>
           </div>
 
           <div className="flex items-center gap-3">
