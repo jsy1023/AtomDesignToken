@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import {
   Sparkles,
   ArrowRight,
@@ -118,6 +119,10 @@ export default function Home() {
           </div>
 
           <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-neutral-600 dark:text-neutral-300">
+            <Link href="/patterns" className="text-blue-600 dark:text-blue-400 font-bold hover:underline transition flex items-center gap-1">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>UX 패턴 라이브러리</span>
+            </Link>
             <a href="#studio" className="hover:text-neutral-900 dark:hover:text-white transition">라이브 스튜디오</a>
             <a href="#workflow" className="hover:text-neutral-900 dark:hover:text-white transition">4-Step 작업</a>
             <a href="#liberation" className="hover:text-neutral-900 dark:hover:text-white transition">피그마 해방</a>
@@ -168,22 +173,29 @@ export default function Home() {
 
         {/* CTA Buttons */}
         <div className="flex flex-wrap items-center justify-center gap-4">
+          <Link
+            href="/patterns"
+            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow-xl shadow-blue-500/25 active:scale-[0.98] transition-all"
+          >
+            <Sparkles className="w-4 h-4" />
+            <span>UX 패턴 라이브러리 가기</span>
+            <ArrowRight className="w-4 h-4 ml-1" />
+          </Link>
+
           <a 
             href="#studio" 
-            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-2xl text-white font-semibold text-sm shadow-xl shadow-blue-500/20 active:scale-[0.98] transition-all hover:opacity-95"
-            style={{ backgroundColor: brandColor }}
+            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 text-neutral-800 dark:text-neutral-200 font-semibold text-sm hover:bg-neutral-50 dark:hover:bg-neutral-800 active:scale-[0.98] transition-all"
           >
-            <Sliders className="w-4 h-4" />
-            <span>스튜디오에서 바로 체험하기</span>
-            <ArrowRight className="w-4 h-4 ml-1" />
+            <Sliders className="w-4 h-4 text-neutral-500" />
+            <span>라이브 스튜디오 체험</span>
           </a>
 
           <a
             href="#workflow"
-            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 text-neutral-800 dark:text-neutral-200 font-semibold text-sm hover:bg-neutral-50 dark:hover:bg-neutral-800 active:scale-[0.98] transition-all"
+            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-transparent border border-neutral-300 dark:border-neutral-700 text-neutral-600 dark:text-neutral-400 font-semibold text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800 active:scale-[0.98] transition-all"
           >
-            <Workflow className="w-4 h-4 text-neutral-500" />
-            <span>완전히 달라진 4단계 워크플로우</span>
+            <Workflow className="w-4 h-4 text-neutral-400" />
+            <span>4단계 워크플로우</span>
           </a>
         </div>
       </section>
