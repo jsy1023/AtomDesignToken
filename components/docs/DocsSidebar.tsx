@@ -1,63 +1,59 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
-import { GALLERY_COMPONENTS, ComponentCategory } from '@/lib/data/components';
-import { Search, BookOpen, Layers, Terminal, Sparkles, ChevronDown, ExternalLink } from 'lucide-react';
+import { GALLERY_COMPONENTS } from '@/lib/data/components';
+import { Search, BookOpen, Layers, Terminal, Sparkles, ChevronRight } from 'lucide-react';
 
 interface DocsSidebarProps {
-  searchQuery: string;
-  onSearchChange: (query: string) => void;
+  searchQuery?: string;
+  onSearchChange?: (query: string) => void;
   activeId: string;
-  onSelectComponent: (id: string) => void;
 }
 
 export function DocsSidebar({
-  searchQuery,
-  onSearchChange,
-  activeId,
-  onSelectComponent
+  searchQuery: externalSearchQuery,
+  onSearchChange: externalOnSearchChange,
+  activeId
 }: DocsSidebarProps) {
-  const formComps = GALLERY_COMPONENTS.filter((c) => c.category === 'form');
-  const feedbackComps = GALLERY_COMPONENTS.filter((c) => c.category === 'feedback');
-  const navComps = GALLERY_COMPONENTS.filter((c) => c.category === 'navigation');
-  const dataComps = GALLERY_COMPONENTS.filter((c) => c.category === 'data');
+  const [internalQuery, setInternalQuery] = useState('');
+  const query = externalSearchQuery !== undefined ? externalSearchQuery : internalQuery;
+  const setQuery = externalOnSearchChange || setInternalQuery;
 
-  const scrollToSection = (id: string) => {
-    onSelectComponent(id);
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  };
+  const filtered = GALLERY_COMPONENTS.filter((comp) => {
+    if (!query.trim()) return true;
+    const q = query.toLowerCase();
+    return (
+      comp.name.toLowerCase().includes(q) ||
+      comp.id.toLowerCase().includes(q) ||
+      comp.category.toLowerCase().includes(q)
+    );
+  });
 
-  const renderCompItem = (comp: (typeof GALLERY_COMPONENTS)[number]) => (
-    <div
-      key={comp.id}
-      className={`group flex items-center justify-between rounded-xl px-2.5 py-1 transition ${
-        activeId === comp.id
-          ? 'bg-blue-600 text-white font-bold shadow-xs'
-          : 'text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-850'
-      }`}
-    >
-      <button
-        onClick={() => scrollToSection(comp.id)}
-        className="flex-1 text-left text-xs py-0.5 flex items-center justify-between pr-1"
-      >
-        <span>{comp.name.split(' (')[0]}</span>
-        <span className="text-[10px] font-mono opacity-60">.{comp.id}</span>
-      </button>
+  const formComps = filtered.filter((c) => c.category === 'form');
+  const feedbackComps = filtered.filter((c) => c.category === 'feedback');
+  const navComps = filtered.filter((c) => c.category === 'navigation');
+  const dataComps = filtered.filter((c) => c.category === 'data');
+
+  const renderCompItem = (comp: (typeof GALLERY_COMPONENTS)[number]) => {
+    const isActive = activeId === comp.id;
+    return (
       <Link
+        key={comp.id}
         href={`/components/${comp.id}`}
-        title={`${comp.name} 개별 상세 페이지`}
-        className={`p-1 rounded-md opacity-0 group-hover:opacity-100 hover:bg-black/10 dark:hover:bg-white/10 transition shrink-0 ${
-          activeId === comp.id ? 'text-white' : 'text-neutral-400 hover:text-blue-600'
+        className={`px-3 py-1.5 rounded-xl text-left text-xs font-medium transition flex items-center justify-between ${
+          isActive
+            ? 'bg-blue-600 text-white font-bold shadow-xs'
+            : 'text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-850 hover:text-neutral-900 dark:hover:text-white'
         }`}
       >
-        <ExternalLink className="w-3 h-3" />
+        <span>{comp.name.split(' (')[0]}</span>
+        <span className={`text-[10px] font-mono ${isActive ? 'text-blue-100' : 'opacity-60'}`}>
+          .{comp.id}
+        </span>
       </Link>
-    </div>
-  );
+    );
+  };
 
   return (
     <aside className="w-64 shrink-0 flex flex-col gap-5 sticky top-24 max-h-[calc(100vh-120px)] overflow-y-auto pr-2 select-none">
@@ -78,51 +74,62 @@ export function DocsSidebar({
         <input
           type="text"
           placeholder="컴포넌트 검색 (Cmd + K)..."
-          value={searchQuery}
-          onChange={(e) => onSearchChange(e.target.value)}
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
           className="w-full pl-9 pr-3 py-2 bg-neutral-100 dark:bg-neutral-850 border border-neutral-200 dark:border-neutral-800 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
 
-      {/* 3. Getting Started Links */}
+      {/* 3. Overview & Navigation */}
       <div className="flex flex-col gap-1">
-        <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider px-2">시작하기</span>
-        <button
-          onClick={() => scrollToSection('getting-started')}
-          className={`px-3 py-1.5 rounded-xl text-left text-xs font-medium transition flex items-center gap-2 ${
-            activeId === 'getting-started'
+        <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider px-2">개요 및 갤러리</span>
+        <Link
+          href="/components"
+          className={`px-3 py-1.5 rounded-xl text-left text-xs font-medium transition flex items-center justify-between ${
+            activeId === 'overview'
               ? 'bg-blue-600 text-white font-bold shadow-xs'
-              : 'text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-850'
+              : 'text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-850 hover:text-neutral-900 dark:hover:text-white'
           }`}
         >
-          <Terminal className="w-3.5 h-3.5" />
-          <span>빠른 설치 & CLI 설정</span>
-        </button>
+          <div className="flex items-center gap-2">
+            <Layers className="w-3.5 h-3.5" />
+            <span>컴포넌트 갤러리 홈</span>
+          </div>
+          <span className="text-[10px] font-mono opacity-60">10개</span>
+        </Link>
       </div>
 
       {/* 4. Form & Inputs Group */}
-      <div className="flex flex-col gap-1">
-        <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider px-2">Form & Inputs</span>
-        {formComps.map(renderCompItem)}
-      </div>
+      {formComps.length > 0 && (
+        <div className="flex flex-col gap-1">
+          <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider px-2">Form & Inputs</span>
+          {formComps.map(renderCompItem)}
+        </div>
+      )}
 
       {/* 5. Feedback & Overlays */}
-      <div className="flex flex-col gap-1">
-        <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider px-2">Feedback & Overlays</span>
-        {feedbackComps.map(renderCompItem)}
-      </div>
+      {feedbackComps.length > 0 && (
+        <div className="flex flex-col gap-1">
+          <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider px-2">Feedback & Overlays</span>
+          {feedbackComps.map(renderCompItem)}
+        </div>
+      )}
 
       {/* 6. Navigation & Layout */}
-      <div className="flex flex-col gap-1">
-        <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider px-2">Navigation & Layout</span>
-        {navComps.map(renderCompItem)}
-      </div>
+      {navComps.length > 0 && (
+        <div className="flex flex-col gap-1">
+          <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider px-2">Navigation & Layout</span>
+          {navComps.map(renderCompItem)}
+        </div>
+      )}
 
       {/* 7. Data Display */}
-      <div className="flex flex-col gap-1">
-        <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider px-2">Data Display</span>
-        {dataComps.map(renderCompItem)}
-      </div>
+      {dataComps.length > 0 && (
+        <div className="flex flex-col gap-1">
+          <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider px-2">Data Display</span>
+          {dataComps.map(renderCompItem)}
+        </div>
+      )}
     </aside>
   );
 }

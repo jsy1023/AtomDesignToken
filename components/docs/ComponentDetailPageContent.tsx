@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Header } from '@/components/Header';
+import { DocsSidebar } from '@/components/docs/DocsSidebar';
 import { GalleryComponent } from '@/lib/data/components';
 import { PATTERNS_COLLECTION } from '@/lib/data/patterns';
 import {
@@ -342,10 +343,15 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
       {/* Global Header */}
       <Header />
 
-      {/* Main Container */}
-      <main className="max-w-5xl w-full mx-auto px-6 py-8 flex-1 flex flex-col gap-8">
-        {/* Navigation & Header */}
-        <div className="flex flex-col gap-4 pb-6 border-b border-neutral-200/80 dark:border-neutral-800">
+      {/* Main 3-Column Documentation Container */}
+      <main className="max-w-7xl w-full mx-auto px-6 py-8 flex-1 flex gap-8 items-start">
+        {/* 1. Left Column: Components Sidebar */}
+        <DocsSidebar activeId={component.id} />
+
+        {/* 2. Center Column: Main Component Content */}
+        <div className="flex-1 min-w-0 flex flex-col gap-8">
+          {/* Navigation & Header */}
+          <div className="flex flex-col gap-4 pb-6 border-b border-neutral-200/80 dark:border-neutral-800">
           <Link
             href="/components"
             className="inline-flex items-center gap-2 text-xs font-bold text-neutral-600 dark:text-neutral-400 hover:text-blue-600 dark:hover:text-blue-400 transition w-fit"
@@ -386,7 +392,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
         </div>
 
         {/* 1. Interactive Live Preview */}
-        <section className="flex flex-col gap-3">
+        <section id="preview" className="scroll-mt-28 flex flex-col gap-3">
           <h2 className="text-sm font-bold uppercase tracking-wider text-neutral-500">
             인터랙티브 라이브 프리뷰 (Interactive Preview)
           </h2>
@@ -396,7 +402,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
         </section>
 
         {/* 2. Code Copy Section (React / Vue / HTML) */}
-        <section className="flex flex-col gap-3">
+        <section id="code" className="scroll-mt-28 flex flex-col gap-3">
           <div className="flex items-center justify-between">
             <h2 className="text-sm font-bold uppercase tracking-wider text-neutral-500 flex items-center gap-1.5">
               <Code2 className="w-4 h-4 text-blue-500" />
@@ -439,7 +445,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
         </section>
 
         {/* 3. Use Cases (사용 케이스) */}
-        <section className="flex flex-col gap-3">
+        <section id="use-cases" className="scroll-mt-28 flex flex-col gap-3">
           <h2 className="text-sm font-bold uppercase tracking-wider text-neutral-500 flex items-center gap-1.5">
             <Sparkles className="w-4 h-4 text-emerald-500" />
             <span>실무 주요 사용 케이스 (Use Cases)</span>
@@ -462,7 +468,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
         </section>
 
         {/* 4. Usage Patterns & Best Practices (사용 패턴) */}
-        <section className="flex flex-col gap-3">
+        <section id="patterns" className="scroll-mt-28 flex flex-col gap-3">
           <h2 className="text-sm font-bold uppercase tracking-wider text-neutral-500 flex items-center gap-1.5">
             <BookOpen className="w-4 h-4 text-blue-500" />
             <span>권장 사용 패턴 및 설계 지침 (Usage Patterns)</span>
@@ -479,7 +485,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
 
         {/* 5. Do's & Don'ts */}
         {component.dosAndDonts && component.dosAndDonts.length > 0 && (
-          <section className="flex flex-col gap-3">
+          <section id="dos-donts" className="scroll-mt-28 flex flex-col gap-3">
             <h2 className="text-sm font-bold uppercase tracking-wider text-neutral-500">
               올바른 사용법 & 안티패턴 방지 (Do's & Don'ts)
             </h2>
@@ -513,7 +519,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
 
         {/* 6. API Props Reference */}
         {component.propsSpec && component.propsSpec.length > 0 && (
-          <section className="flex flex-col gap-3">
+          <section id="props" className="scroll-mt-28 flex flex-col gap-3">
             <h2 className="text-sm font-bold uppercase tracking-wider text-neutral-500">
               API Props 규격 명세 (API Reference)
             </h2>
@@ -544,7 +550,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
 
         {/* 7. Related UX Patterns */}
         {relatedPatterns.length > 0 && (
-          <section className="flex flex-col gap-3 pt-4 border-t border-neutral-200/80 dark:border-neutral-800">
+          <section id="related" className="scroll-mt-28 flex flex-col gap-3 pt-4 border-t border-neutral-200/80 dark:border-neutral-800">
             <h2 className="text-sm font-bold uppercase tracking-wider text-neutral-500 flex items-center gap-1.5">
               <Layers className="w-4 h-4 text-blue-500" />
               <span>이 컴포넌트가 사용되는 실무 UX 패턴</span>
@@ -571,6 +577,57 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
             </div>
           </section>
         )}
+        </div>
+
+        {/* 3. Right Column: Quick On-Page Section TOC */}
+        <aside className="w-52 shrink-0 sticky top-24 max-h-[calc(100vh-120px)] overflow-y-auto pl-4 border-l border-neutral-200/80 dark:border-neutral-800 select-none hidden xl:flex flex-col gap-3">
+          <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider">
+            이 페이지 목차
+          </span>
+          <ul className="flex flex-col gap-1 text-xs">
+            <li>
+              <a href="#preview" className="text-neutral-600 dark:text-neutral-400 hover:text-blue-600 py-1 block">
+                라이브 프리뷰
+              </a>
+            </li>
+            <li>
+              <a href="#code" className="text-neutral-600 dark:text-neutral-400 hover:text-blue-600 py-1 block">
+                코드 스니펫
+              </a>
+            </li>
+            <li>
+              <a href="#use-cases" className="text-neutral-600 dark:text-neutral-400 hover:text-blue-600 py-1 block">
+                실무 사용 케이스
+              </a>
+            </li>
+            <li>
+              <a href="#patterns" className="text-neutral-600 dark:text-neutral-400 hover:text-blue-600 py-1 block">
+                권장 사용 패턴
+              </a>
+            </li>
+            {component.dosAndDonts && component.dosAndDonts.length > 0 && (
+              <li>
+                <a href="#dos-donts" className="text-neutral-600 dark:text-neutral-400 hover:text-blue-600 py-1 block">
+                  Do's & Don'ts
+                </a>
+              </li>
+            )}
+            {component.propsSpec && component.propsSpec.length > 0 && (
+              <li>
+                <a href="#props" className="text-neutral-600 dark:text-neutral-400 hover:text-blue-600 py-1 block">
+                  API Props 규격
+                </a>
+              </li>
+            )}
+            {relatedPatterns.length > 0 && (
+              <li>
+                <a href="#related" className="text-neutral-600 dark:text-neutral-400 hover:text-blue-600 py-1 block">
+                  연관 UX 패턴
+                </a>
+              </li>
+            )}
+          </ul>
+        </aside>
       </main>
 
       {/* Footer */}
