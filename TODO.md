@@ -7,6 +7,10 @@
 
 ## 📅 작업 히스토리 (Changelog)
 
+- [x] **스튜디오(`/studio`)와 패턴 카탈로그(`/patterns`) UI/UX 100% 동기화**:
+  - `app/studio/page.tsx`의 Step 1 패턴 선택 영역을 `/patterns`와 동일하게 와이어프레임 프리뷰(`WireframeGraphic`), `🖥️ WEB` / `📱 모바일` 플랫폼 배지, 설명, 권장 컴포넌트 조합으로 전면 개편
+  - 스튜디오 Step 1에 실시간 [전체 / 🖥️ WEB / 📱 모바일] 필터 탭 및 검색창 탑재
+  - 우측 실시간 캔버스를 `DeviceMockupView`로 통합하여 Web은 브라우저 크롬창, 모바일은 스마트폰 프레임 실동작 화면을 그대로 동일하게 렌더링하도록 캡슐화
 - [x] **UX 패턴 WEB/모바일 필터링 및 와이어프레임 2Depth 실동작 화면 아키텍처 구현**:
   - `lib/data/patterns.ts`: 패턴 모델에 `platform`(`'web' | 'mobile'`) 및 `wireframeType` 메타데이터 속성 추가
   - `components/patterns/WireframeGraphic.tsx`: 11종 패턴별 블루프린트 레이아웃 스케치를 보여주는 미니멀 와이어프레임 컴포넌트 신규 개발
