@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { Header } from '@/components/Header';
 import {
   Sparkles,
   ArrowLeft,
@@ -613,44 +614,7 @@ export default function ComponentsPage() {
     <div className="min-h-screen bg-[#fafafa] dark:bg-[#090a0f] text-neutral-900 dark:text-neutral-100 flex flex-col justify-between">
       
       {/* Header */}
-      <header className="sticky top-0 z-40 backdrop-blur-md bg-white/80 dark:bg-[#090a0f]/80 border-b border-neutral-200/70 dark:border-neutral-800/70">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link 
-              href="/" 
-              className="inline-flex items-center gap-1.5 text-xs font-semibold text-neutral-500 hover:text-neutral-900 dark:hover:text-white transition"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              <span>메인으로</span>
-            </Link>
-            <span className="text-neutral-300 dark:text-neutral-700">|</span>
-            <div className="flex items-center gap-2">
-              <span className="font-extrabold text-sm tracking-tight">AtomDesignToken</span>
-              <span className="text-xs px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 font-bold">
-                Components Gallery
-              </span>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-4 text-xs font-medium">
-            <Link href="/patterns" className="text-neutral-500 hover:text-neutral-900 dark:hover:text-white transition">
-              UX 패턴 보러가기
-            </Link>
-            <button
-              onClick={() => {
-                navigator.clipboard.writeText('npx atomsystem init');
-                setCopiedId('cli');
-                setTimeout(() => setCopiedId(null), 2000);
-              }}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 font-mono text-[11px]"
-            >
-              <Terminal className="w-3 h-3 text-blue-500" />
-              <span>npx atomsystem init</span>
-              {copiedId === 'cli' ? <Check className="w-3 h-3 text-emerald-500" /> : <Copy className="w-3 h-3 opacity-60" />}
-            </button>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       {/* Main Content */}
       <main className="max-w-7xl w-full mx-auto px-6 py-10 flex-1 flex flex-col gap-8">

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { Header } from '@/components/Header';
 import {
   Sparkles,
   ArrowRight,
@@ -101,50 +102,7 @@ export default function Home() {
       <div className="absolute top-[30rem] right-[-10rem] w-[500px] h-[300px] bg-purple-500/10 blur-[120px] pointer-events-none rounded-full" />
 
       {/* Navigation Bar */}
-      <header className="sticky top-0 z-50 backdrop-blur-md bg-white/70 dark:bg-[#090a0f]/70 border-b border-neutral-200/60 dark:border-neutral-800/60">
-        <div className="max-w-6xl w-full mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div 
-              className="w-9 h-9 rounded-xl flex items-center justify-center text-white shadow-lg transition-transform hover:scale-105"
-              style={{ backgroundColor: brandColor }}
-            >
-              <LayoutGrid className="w-5 h-5" />
-            </div>
-            <div>
-              <span className="font-extrabold text-base tracking-tight">AtomDesignToken</span>
-              <span className="ml-2 text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400">
-                Agent-Native
-              </span>
-            </div>
-          </div>
-
-          <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-neutral-600 dark:text-neutral-300">
-            <Link href="/patterns" className="text-blue-600 dark:text-blue-400 font-bold hover:underline transition flex items-center gap-1">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>UX 패턴</span>
-            </Link>
-            <Link href="/components" className="hover:text-neutral-900 dark:hover:text-white transition flex items-center gap-1 font-semibold">
-              <Layers className="w-3.5 h-3.5 text-indigo-500" />
-              <span>컴포넌트 갤러리</span>
-            </Link>
-            <a href="#studio" className="hover:text-neutral-900 dark:hover:text-white transition">라이브 스튜디오</a>
-            <a href="#workflow" className="hover:text-neutral-900 dark:hover:text-white transition">4-Step 작업</a>
-            <a href="#liberation" className="hover:text-neutral-900 dark:hover:text-white transition">피그마 해방</a>
-          </nav>
-
-          <div className="flex items-center gap-3">
-            <button 
-              onClick={copyCli}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-xs font-mono font-medium hover:bg-neutral-200 dark:hover:bg-neutral-700 transition"
-              title="명령어 복사"
-            >
-              <Terminal className="w-3.5 h-3.5 text-blue-500" />
-              <span>npx atomsystem init</span>
-              {copiedCli ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5 opacity-60" />}
-            </button>
-          </div>
-        </div>
-      </header>
+      <Header brandColor={brandColor} />
 
       {/* Hero Section */}
       <section className="relative z-10 max-w-4xl mx-auto px-6 pt-16 pb-12 text-center flex flex-col items-center">

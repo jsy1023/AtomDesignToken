@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { Header } from '@/components/Header';
 import {
   Sparkles,
   ArrowLeft,
@@ -342,50 +343,27 @@ export default function PatternsPage() {
     <div className="min-h-screen bg-[#fafafa] dark:bg-[#090a0f] text-neutral-900 dark:text-neutral-100 flex flex-col justify-between">
       
       {/* Header */}
-      <header className="sticky top-0 z-50 backdrop-blur-md bg-white/80 dark:bg-[#090a0f]/80 border-b border-neutral-200/70 dark:border-neutral-800/70">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link 
-              href="/" 
-              className="inline-flex items-center gap-1.5 text-xs font-semibold text-neutral-500 hover:text-neutral-900 dark:hover:text-white transition"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              <span>메인으로 돌아가기</span>
-            </Link>
-            <span className="text-neutral-300 dark:text-neutral-700">|</span>
-            <div className="flex items-center gap-2">
-              <span className="font-extrabold text-sm tracking-tight">AtomDesignToken</span>
-              <span className="text-xs px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 font-bold">
-                UX Pattern Catalog
-              </span>
-            </div>
-            <Link 
-              href="/components" 
-              className="hidden md:inline-flex text-xs font-semibold text-neutral-500 hover:text-neutral-900 dark:hover:text-white transition ml-2"
-            >
-              컴포넌트 갤러리
-            </Link>
-          </div>
-
-          <div className="flex items-center gap-3">
+      <Header
+        rightExtra={
+          <div className="flex items-center gap-2">
             <button
               onClick={handleCopyMarkdown}
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs shadow-md shadow-blue-500/20 active:scale-95 transition"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs shadow-md shadow-blue-500/20 active:scale-95 transition"
             >
               {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-              <span>{copied ? 'AI 지시용 .md 복사완료!' : '선택된 패턴 .md 복사'}</span>
+              <span>{copied ? '복사완료!' : '.md 복사'}</span>
             </button>
             <button
               onClick={handleDownloadMarkdown}
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-neutral-700 dark:text-neutral-200 text-xs font-semibold hover:bg-neutral-200 dark:hover:bg-neutral-700 transition"
+              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-neutral-700 dark:text-neutral-200 text-xs font-semibold hover:bg-neutral-200 dark:hover:bg-neutral-700 transition"
               title="파일 다운로드"
             >
               <Download className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">.md 다운로드</span>
+              <span>.md 다운로드</span>
             </button>
           </div>
-        </div>
-      </header>
+        }
+      />
 
       {/* Main Container: 2 Column Layout */}
       <div className="max-w-7xl w-full mx-auto px-6 py-8 flex-1 grid grid-cols-1 lg:grid-cols-12 gap-8">
