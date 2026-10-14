@@ -29,16 +29,9 @@ import {
   Code2
 } from 'lucide-react';
 
-type ComponentCategory = 'all' | 'form' | 'feedback' | 'navigation' | 'data';
+import { GALLERY_COMPONENTS, GalleryComponent, ComponentCategory } from '@/lib/data/components';
 
-interface ComponentItem {
-  id: string;
-  name: string;
-  category: ComponentCategory;
-  source: 'shadcn + bootstrap';
-  description: string;
-  htmlSnippet: string;
-  reactSnippet: string;
+interface ComponentItem extends GalleryComponent {
   render: (copiedId: string | null, onCopy: (id: string, text: string) => void) => React.ReactNode;
 }
 
