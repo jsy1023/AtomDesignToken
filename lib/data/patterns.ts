@@ -16,7 +16,7 @@ export interface PatternItem {
   badge: string;
   platform: PatternPlatform;
   wireframeType: string;
-  iconName: 'dashboard' | 'chat' | 'onboarding' | 'uploader' | 'kyc' | 'blog' | 'map' | 'flight' | 'fintech' | 'commerce' | 'search';
+  iconName: 'dashboard' | 'chat' | 'onboarding' | 'uploader' | 'kyc' | 'blog' | 'map' | 'flight' | 'fintech' | 'commerce' | 'search' | 'docs';
   summary: string;
   recommendedComponentIds: string[];
   checklist: string[];
@@ -407,6 +407,51 @@ export const PATTERNS_COLLECTION: PatternItem[] = [
         checklist: ['최근 검색어 삭제 기능', '인기 검색어 랭킹 표시'],
         antiPatterns: ['검색어가 1글자일 때 무조건 전체 DB를 조회하여 브라우저 렉 유발'],
         markdown: `# [UX Pattern] 실시간 검색 및 결과 없음 복구 패턴`
+      }
+    ]
+  },
+  {
+    id: 'developer-docs',
+    platform: 'web',
+    wireframeType: 'docs-layout',
+    title: '개발자 기술 문서 & API Docs 패턴',
+    categoryName: 'Documentation & DX',
+    badge: '기술문서/API',
+    iconName: 'docs',
+    summary: '좌측 계층 트리 내비게이션, 중앙 코드 스니펫(원클릭 복사/언어 탭), 인라인 API 파라미터 테이블, 우측 목차(On this page) 스크롤 스파이.',
+    recommendedComponentIds: ['table', 'badge', 'tabs', 'button', 'card'],
+    checklist: [
+      '모든 코드 블록 상단에 프로그래밍 언어 배지 및 원클릭 복사(Copy) 피드백 제공',
+      '전역 단축키(Cmd+K / Ctrl+K) 지원 문서 통합 검색 오버레이 제공',
+      '현재 보고 있는 섹션을 우측 목차(TOC)에서 실시간 하이라이트하는 스크롤 스파이(Scroll Spy)',
+      'API 엔드포인트마다 HTTP Method 배지(GET/POST/DELETE) 및 요청/응답 파라미터 타입 표기'
+    ],
+    antiPatterns: [
+      '긴 코드 블록에 가로 스크롤이 없어 오른쪽 코드가 강제로 잘려 보이는 현상',
+      '검색 결과를 클릭했을 때 해당 앵커(#section)로 정확히 이동하지 않는 딥링크 누락',
+      '버전 선택(v1, v2) 시 기존에 보고 있던 페이지 컨텍스트를 잃어버리는 현상'
+    ],
+    variants: [
+      {
+        id: 'api-reference-3col',
+        name: '3단 분할 개발자 기술 레퍼런스',
+        description: 'Stripe, Next.js 스타일. 좌측 탐색 사이드바, 중앙 상세 가이드, 우측 실시간 코드 예제 및 TOC.',
+        checklist: ['코드 스니펫 cURL / JavaScript / Python 탭 전환', 'API 응답 JSON 구문 하이라이트'],
+        antiPatterns: ['다크모드 지원 미비로 어두운 환경에서 코드 가독성 저하'],
+        markdown: `# [UX Pattern] 개발자 기술 문서 & API 레퍼런스 패턴
+
+## 1. 개요
+개발자가 빠르게 라이브러리를 설치하고 API 규격을 확인하여 복사-붙여넣기로 즉시 연동할 수 있는 3단 기술 문서 레이아웃입니다.
+
+## 2. 필수 레이아웃 구조
+- **Left Column (Sidebar)**: 카테고리 트리, 버전 실렉터, 검색창
+- **Center Column (Content)**: 마크다운 렌더링, Callout(Note/Tip/Warning), 인터랙티브 코드 블록
+- **Right Column (TOC)**: 페이지 내 목차 (H2/H3 계층)
+
+## 3. 필수 인터랙션
+- \`navigator.clipboard.writeText()\`: 코드 복사 시 "Copied!" 툴팁 피드백.
+- \`IntersectionObserver\`: 본문 스크롤에 따른 목차 활성 링크 동기화.
+`
       }
     ]
   }

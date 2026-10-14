@@ -275,6 +275,38 @@ export function WireframeGraphic({ wireframeType, platform, className = '' }: Wi
             </div>
           </div>
         )}
+
+        {wireframeType === 'docs-layout' && (
+          <div className="flex gap-2 h-full">
+            {/* Left Nav Sidebar */}
+            <div className="w-1/4 bg-neutral-200/80 dark:bg-neutral-800 rounded p-1.5 flex flex-col gap-1">
+              <div className="h-2 w-3/4 bg-neutral-400 dark:bg-neutral-600 rounded"></div>
+              <div className="h-1.5 w-full bg-blue-500/70 rounded mt-1"></div>
+              <div className="h-1.5 w-5/6 bg-neutral-300 dark:bg-neutral-700 rounded"></div>
+              <div className="h-1.5 w-4/6 bg-neutral-300 dark:bg-neutral-700 rounded"></div>
+            </div>
+            {/* Center Content: Title, text, code block */}
+            <div className="flex-1 flex flex-col gap-1.5">
+              <div className="h-2.5 w-1/2 bg-neutral-800 dark:bg-neutral-200 rounded"></div>
+              <div className="h-1.5 w-full bg-neutral-300 dark:bg-neutral-700 rounded"></div>
+              <div className="h-1.5 w-4/5 bg-neutral-300 dark:bg-neutral-700 rounded"></div>
+              {/* Terminal Code Snippet Block */}
+              <div className="flex-1 bg-neutral-900 rounded p-1.5 flex flex-col gap-1 justify-center">
+                <div className="flex items-center justify-between">
+                  <div className="h-1 w-10 bg-neutral-500 rounded"></div>
+                  <div className="w-2 h-2 rounded bg-neutral-600"></div>
+                </div>
+                <div className="h-1.5 w-3/4 bg-emerald-400 rounded"></div>
+              </div>
+            </div>
+            {/* Right TOC Column */}
+            <div className="w-1/5 border-l border-neutral-200 dark:border-neutral-800 pl-1.5 flex flex-col gap-1 justify-center">
+              <div className="h-1 w-3/4 bg-neutral-400 rounded"></div>
+              <div className="h-1 w-full bg-blue-500 rounded"></div>
+              <div className="h-1 w-2/3 bg-neutral-300 dark:bg-neutral-700 rounded"></div>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Blueprint Grid Watermark Badge */}

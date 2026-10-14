@@ -7,6 +7,16 @@
 
 ## 📅 작업 히스토리 (Changelog)
 
+- [x] **컴포넌트 갤러리(`/components`)에 3단 개발자 기술 문서 & API 레퍼런스 UX 패턴 전면 적용**:
+  - **Left Column (Sidebar)**: `components/docs/DocsSidebar.tsx` (버전 `v1.2.4 Latest` 배지, Cmd+K 빠른 검색창, 계층형 카테고리 트리 메뉴 및 부드러운 스크롤 이동)
+  - **Center Column (Content)**: `components/docs/ComponentDocCard.tsx` (상단 히어로 & CLI 설치 가이드, 각 컴포넌트별 접근성/구현 팁 Callout 박스, 인터랙티브 라이브 프리뷰 캔버스, React/HTML 코드 스니펫 탭 + 원클릭 복사 & "Copied!" 피드백, API Props 명세 규격 테이블)
+  - **Right Column (TOC)**: `components/docs/DocsTOC.tsx` (On this page 목차, `IntersectionObserver` 기반 뷰포트 스크롤 스파이 실시간 하이라이트 동기화)
+  - `lib/data/components.ts`: 10대 핵심 컴포넌트에 `propsSpec` 및 `callout` 메타데이터 통합 (SSOT 일원화)
+- [x] **개발자 기술 문서 & API Docs 패턴 신규 추가 (`developer-docs`)**:
+  - `lib/data/patterns.ts`: 12번째 핵심 패턴으로 `developer-docs` (Documentation & DX, 🖥️ WEB) 도메인 모델 등록
+  - `components/patterns/WireframeGraphic.tsx`: 좌측 계층 트리, 중앙 코드 스니펫, 우측 TOC 3단 구조의 `docs-layout` 와이어프레임 구현
+  - `components/patterns/PatternInteractiveScreen.tsx`: CLI 복사(`npx atomsystem init`), 빠른 시작 가이드, 컴포넌트 임포트 문법, Props 규격 테이블, 사이드바 내비게이션 실동작 뷰 탑재
+  - `/patterns` 카탈로그 및 `/studio` 3단계 위저드에 자동 동기화 완료
 - [x] **스튜디오(`/studio`)와 패턴 카탈로그(`/patterns`) UI/UX 100% 동기화**:
   - `app/studio/page.tsx`의 Step 1 패턴 선택 영역을 `/patterns`와 동일하게 와이어프레임 프리뷰(`WireframeGraphic`), `🖥️ WEB` / `📱 모바일` 플랫폼 배지, 설명, 권장 컴포넌트 조합으로 전면 개편
   - 스튜디오 Step 1에 실시간 [전체 / 🖥️ WEB / 📱 모바일] 필터 탭 및 검색창 탑재

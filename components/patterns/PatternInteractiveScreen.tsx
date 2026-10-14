@@ -22,7 +22,12 @@ import {
   Sparkles,
   RefreshCw,
   Phone,
-  Navigation2
+  Navigation2,
+  Copy,
+  Check,
+  Terminal,
+  BookOpen,
+  Code2
 } from 'lucide-react';
 
 interface PatternInteractiveScreenProps {
@@ -77,6 +82,10 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
 
   // Search Empty State
   const [searchVal, setSearchVal] = useState('존재하지않는쿼리XYZ');
+
+  // Developer Docs State
+  const [activeDocNav, setActiveDocNav] = useState('quickstart');
+  const [copiedDocSnippet, setCopiedDocSnippet] = useState(false);
 
   return (
     <div className="w-full h-full text-neutral-900 dark:text-neutral-100 p-4 overflow-y-auto">
@@ -681,6 +690,165 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
                 </button>
               ))}
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* 12. Developer Docs (Web) */}
+      {patternId === 'developer-docs' && (
+        <div className="flex gap-4 h-full">
+          {/* Left Documentation Sidebar (Navigation Tree) */}
+          <div className="w-48 shrink-0 bg-neutral-50 dark:bg-neutral-850/60 border border-neutral-200/80 dark:border-neutral-800 rounded-xl p-3 flex flex-col gap-3 text-xs">
+            <div className="flex items-center gap-1.5 pb-2 border-b border-neutral-200/60 dark:border-neutral-700">
+              <BookOpen className="w-4 h-4 text-blue-600" />
+              <span className="font-bold text-neutral-900 dark:text-white">DOCS v1.2</span>
+            </div>
+
+            <div className="flex flex-col gap-1">
+              <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider">시작하기</span>
+              {[
+                { id: 'quickstart', label: '빠른 시작 가이드' },
+                { id: 'installation', label: 'CLI 라이브러리 설치' },
+                { id: 'dtcg-spec', label: 'W3C 토큰 표준 규격' }
+              ].map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => setActiveDocNav(item.id)}
+                  className={`px-2.5 py-1.5 rounded-lg text-left transition font-medium ${
+                    activeDocNav === item.id
+                      ? 'bg-blue-600 text-white font-bold shadow-xs'
+                      : 'text-neutral-600 dark:text-neutral-400 hover:bg-neutral-200/60 dark:hover:bg-neutral-800'
+                  }`}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+
+            <div className="flex flex-col gap-1 pt-1 border-t border-neutral-200/50 dark:border-neutral-800">
+              <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider">API 레퍼런스</span>
+              {[
+                { id: 'button-api', label: 'Button API' },
+                { id: 'input-api', label: 'Input API' },
+                { id: 'dialog-api', label: 'Modal / Dialog' }
+              ].map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => setActiveDocNav(item.id)}
+                  className={`px-2.5 py-1.5 rounded-lg text-left transition font-medium ${
+                    activeDocNav === item.id
+                      ? 'bg-blue-600 text-white font-bold shadow-xs'
+                      : 'text-neutral-600 dark:text-neutral-400 hover:bg-neutral-200/60 dark:hover:bg-neutral-800'
+                  }`}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Center Main Content Area */}
+          <div className="flex-1 overflow-y-auto pr-2 flex flex-col gap-4 text-xs">
+            {/* Breadcrumb */}
+            <div className="flex items-center gap-1.5 text-[11px] text-neutral-400 font-medium">
+              <span>Docs</span>
+              <span>/</span>
+              <span>Getting Started</span>
+              <span>/</span>
+              <span className="text-blue-600 dark:text-blue-400 font-bold">Quickstart</span>
+            </div>
+
+            <div>
+              <div className="flex items-center gap-2">
+                <h1 className="text-xl font-black text-neutral-900 dark:text-white">
+                  개발자 빠른 시작 가이드 (Quickstart)
+                </h1>
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 font-bold border border-emerald-200 dark:border-emerald-800">
+                  Latest v1.2.4
+                </span>
+              </div>
+              <p className="text-neutral-500 mt-1 leading-relaxed">
+                AtomSystem은 React, Vue, 바닐라 웹 등 모든 프론트엔드 환경에서 디자인 토큰과 UI 컴포넌트를 즉시 바인딩할 수 있도록 표준 CSS 변수와 사전 컴파일된 스타일 딕셔너리를 제공합니다.
+              </p>
+            </div>
+
+            {/* CLI Installation Box with Copy */}
+            <div className="p-3.5 rounded-xl bg-neutral-900 text-white flex flex-col gap-2 font-mono">
+              <div className="flex items-center justify-between text-[11px] text-neutral-400 pb-1.5 border-b border-neutral-800">
+                <span className="flex items-center gap-1">
+                  <Terminal className="w-3.5 h-3.5 text-emerald-400" />
+                  Terminal CLI
+                </span>
+                <button
+                  onClick={() => {
+                    navigator.clipboard.writeText('npx atomsystem init');
+                    setCopiedDocSnippet(true);
+                    setTimeout(() => setCopiedDocSnippet(false), 2000);
+                  }}
+                  className="inline-flex items-center gap-1 text-[10px] text-neutral-300 hover:text-white transition"
+                >
+                  {copiedDocSnippet ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                  <span>{copiedDocSnippet ? '복사완료!' : '복사'}</span>
+                </button>
+              </div>
+              <div className="text-emerald-400 text-xs">
+                $ npx atomsystem init --preset toss
+              </div>
+            </div>
+
+            {/* Code Block Example */}
+            <div className="flex flex-col gap-1.5">
+              <span className="font-bold text-neutral-800 dark:text-neutral-200">2. 컴포넌트 임포트 및 사용</span>
+              <div className="p-3.5 rounded-xl bg-neutral-900 text-neutral-200 font-mono text-[11px] leading-relaxed overflow-x-auto">
+                <div className="text-neutral-400">// React / Next.js 프로젝트</div>
+                <div><span className="text-purple-400">import</span> &#123; Button, Input &#125; <span className="text-purple-400">from</span> <span className="text-emerald-400">'@atomsystem/ui'</span>;</div>
+                <div className="mt-1"><span className="text-blue-400">&lt;Button</span> variant=<span className="text-emerald-400">"primary"</span> size=<span className="text-emerald-400">"lg"</span>&gt;</div>
+                <div className="pl-4">지금 시작하기</div>
+                <div><span className="text-blue-400">&lt;/Button&gt;</span></div>
+              </div>
+            </div>
+
+            {/* API Parameters Spec Table */}
+            <div className="flex flex-col gap-2">
+              <span className="font-bold text-neutral-800 dark:text-neutral-200">Button Props 규격</span>
+              <div className="border border-neutral-200 dark:border-neutral-800 rounded-xl overflow-hidden">
+                <table className="w-full text-left border-collapse text-[11px]">
+                  <thead className="bg-neutral-100 dark:bg-neutral-850 text-neutral-600 dark:text-neutral-300 font-bold border-b border-neutral-200 dark:border-neutral-800">
+                    <tr>
+                      <th className="p-2">Property</th>
+                      <th className="p-2">Type</th>
+                      <th className="p-2">Default</th>
+                      <th className="p-2">Description</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-neutral-200 dark:divide-neutral-800">
+                    <tr>
+                      <td className="p-2 font-mono font-bold text-blue-600">variant</td>
+                      <td className="p-2 font-mono text-neutral-400">'primary' | 'secondary' | 'outline'</td>
+                      <td className="p-2 font-mono">'primary'</td>
+                      <td className="p-2 text-neutral-600 dark:text-neutral-400">버튼 시각적 스타일 배리언트</td>
+                    </tr>
+                    <tr>
+                      <td className="p-2 font-mono font-bold text-blue-600">loading</td>
+                      <td className="p-2 font-mono text-neutral-400">boolean</td>
+                      <td className="p-2 font-mono">false</td>
+                      <td className="p-2 text-neutral-600 dark:text-neutral-400">로딩 스피너 및 비활성화 상태 토글</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          {/* Right TOC Column (On this page) */}
+          <div className="w-40 shrink-0 border-l border-neutral-200/80 dark:border-neutral-800 pl-3 flex flex-col gap-2 text-xs">
+            <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider">On this page</span>
+            <ul className="flex flex-col gap-1.5 text-[11px]">
+              <li className="font-bold text-blue-600 dark:text-blue-400 cursor-pointer">빠른 시작 개요</li>
+              <li className="text-neutral-500 hover:text-neutral-900 dark:hover:text-white cursor-pointer">1. CLI 라이브러리 설치</li>
+              <li className="text-neutral-500 hover:text-neutral-900 dark:hover:text-white cursor-pointer">2. 컴포넌트 임포트</li>
+              <li className="text-neutral-500 hover:text-neutral-900 dark:hover:text-white cursor-pointer">3. Button Props 규격</li>
+            </ul>
           </div>
         </div>
       )}
