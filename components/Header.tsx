@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Sparkles, Layers, Terminal, Check, Copy, LayoutGrid, Palette } from 'lucide-react';
+import { Sparkles, Layers, Terminal, Check, Copy, LayoutGrid, Palette, Zap } from 'lucide-react';
 
 interface HeaderProps {
   brandColor?: string;
@@ -23,6 +23,7 @@ export function Header({ brandColor = '#2563eb', rightExtra }: HeaderProps) {
   const isTokens = pathname?.startsWith('/tokens');
   const isPatterns = pathname?.startsWith('/patterns');
   const isComponents = pathname?.startsWith('/components');
+  const isStudio = pathname?.startsWith('/studio');
 
   return (
     <header className="sticky top-0 z-50 backdrop-blur-md bg-white/80 dark:bg-[#090a0f]/80 border-b border-neutral-200/70 dark:border-neutral-800/70 transition-colors">
@@ -79,6 +80,20 @@ export function Header({ brandColor = '#2563eb', rightExtra }: HeaderProps) {
           >
             <Layers className={`w-3.5 h-3.5 ${isComponents ? 'text-indigo-600 dark:text-indigo-400' : 'text-neutral-400'}`} />
             <span>컴포넌트 갤러리</span>
+          </Link>
+          <Link 
+            href="/studio" 
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl transition-all ${
+              isStudio 
+                ? 'text-amber-600 dark:text-amber-400 font-bold bg-amber-50 dark:bg-amber-950/60 shadow-xs ring-1 ring-amber-500/30' 
+                : 'text-neutral-600 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800/60'
+            }`}
+          >
+            <Zap className={`w-3.5 h-3.5 ${isStudio ? 'text-amber-500 fill-amber-500' : 'text-amber-500'}`} />
+            <span>스튜디오</span>
+            <span className="text-[9px] font-bold px-1.5 py-0.2 rounded-full bg-amber-500/15 text-amber-600 dark:text-amber-400">
+              NEW
+            </span>
           </Link>
         </nav>
 
