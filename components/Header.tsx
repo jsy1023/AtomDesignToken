@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Sparkles, Layers, Terminal, Check, Copy, LayoutGrid } from 'lucide-react';
+import { Sparkles, Layers, Terminal, Check, Copy, LayoutGrid, Palette } from 'lucide-react';
 
 interface HeaderProps {
   brandColor?: string;
@@ -20,6 +20,7 @@ export function Header({ brandColor = '#2563eb', rightExtra }: HeaderProps) {
     setTimeout(() => setCopiedCli(false), 2000);
   };
 
+  const isTokens = pathname?.startsWith('/tokens');
   const isPatterns = pathname?.startsWith('/patterns');
   const isComponents = pathname?.startsWith('/components');
 
@@ -45,7 +46,18 @@ export function Header({ brandColor = '#2563eb', rightExtra }: HeaderProps) {
         </Link>
 
         {/* Center: Navigation Links */}
-        <nav className="flex items-center gap-2 sm:gap-6 text-sm font-medium">
+        <nav className="flex items-center gap-1.5 sm:gap-4 md:gap-6 text-sm font-medium">
+          <Link 
+            href="/tokens" 
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl transition-all ${
+              isTokens 
+                ? 'text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-emerald-950/60 shadow-xs' 
+                : 'text-neutral-600 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800/60'
+            }`}
+          >
+            <Palette className={`w-3.5 h-3.5 ${isTokens ? 'text-emerald-600 dark:text-emerald-400' : 'text-neutral-400'}`} />
+            <span>디자인 토큰</span>
+          </Link>
           <Link 
             href="/patterns" 
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl transition-all ${

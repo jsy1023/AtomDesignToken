@@ -7,17 +7,22 @@
 
 ## 📅 작업 히스토리 (Changelog)
 
-### [2026-10-14] 공통 헤더 컴포넌트화 및 GNB 정비
+### [2026-10-14] 디자인 토큰 카탈로그 구축 및 공통 헤더 정비
+- [x] **디자인 토큰 설명 및 주요 변수 카탈로그 페이지 신규 구축 (`app/tokens/page.tsx`)**
+  - 디자인 토큰 개념 및 W3C DTCG 3계층 아키텍처(Global, Semantic, Component) 시각화 다이어그램
+  - 5대 토큰 변수 카테고리별 직관적 비주얼 스와치 및 원클릭 CSS 변수명 복사 (`var(--atom-...)`):
+    1. 색상 (Brand, Surface, Text, Border, Status 등)
+    2. 타이포그래피 (Display, Title 1~3, Body 1~2, Mono Code)
+    3. 테두리 곡률/Radius (직각 0px ~ 캡슐 9999px 비주얼 박스)
+    4. 간격/Spacing (4px 베이스 간격 큐브)
+    5. 그림자/Elevation (Elevation 1~4 플로팅 카드)
+  - 실시간 토큰 값 주입 인터랙티브 쇼케이스 (버튼, 카드, 인풋 바인딩)
 - [x] **공통 Header 컴포넌트 생성 (`components/Header.tsx`)**
-  - 불필요한 섹션 링크(`라이브 스튜디오`, `4-Step 작업`, `피그마 해방`) 완전 제거
-  - `[UX 패턴]` (`/patterns`) 및 `[컴포넌트 갤러리]` (`/components`) 2대 핵심 메뉴 통합
-  - 현재 라우트에 따른 자동 하이라이트(Active state) 표시 (`usePathname()`)
+  - GNB 3대 메뉴 통합: `[디자인 토큰]`, `[UX 패턴]`, `[컴포넌트 갤러리]`
+  - 불필요한 섹션 링크 제거 및 현재 라우트에 따른 자동 하이라이트(Active state)
   - `npx atomsystem init` 원클릭 CLI 복사 버튼 내장
-  - 각 페이지별 우측 맞춤형 액션 슬롯(`rightExtra`) 지원
 - [x] **전체 페이지 공통 헤더 적용**
-  - 메인 페이지 (`app/page.tsx`)
-  - UX 패턴 페이지 (`app/patterns/page.tsx`)
-  - 컴포넌트 갤러리 페이지 (`app/components/page.tsx`)
+  - 메인 페이지 (`app/page.tsx`), UX 패턴 (`app/patterns/page.tsx`), 컴포넌트 갤러리 (`app/components/page.tsx`), 디자인 토큰 (`app/tokens/page.tsx`)
 - [x] **TypeScript 타입 검사 통과 (`npx tsc --noEmit` Exit 0)**
 
 ### [2026-10-13] 핵심 페이지 피보팅 및 3대 핵심 뷰 구축
