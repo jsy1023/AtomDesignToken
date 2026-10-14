@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { GalleryComponent } from '@/lib/data/components';
 import {
   Copy,
@@ -12,7 +13,8 @@ import {
   Sparkles,
   ExternalLink,
   ChevronDown,
-  Layers
+  Layers,
+  ArrowRight
 } from 'lucide-react';
 
 interface ComponentDocCardProps {
@@ -39,7 +41,7 @@ export function ComponentDocCard({ component, renderPreview }: ComponentDocCardP
     >
       {/* 1. Header: Component Title, Badges, Description */}
       <div className="flex flex-col gap-2 pb-4 border-b border-neutral-100 dark:border-neutral-800">
-        <div className="flex flex-wrap items-center justify-between gap-2">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2.5">
             <h2 className="text-xl sm:text-2xl font-black text-neutral-900 dark:text-white tracking-tight">
               {component.name}
@@ -49,13 +51,20 @@ export function ComponentDocCard({ component, renderPreview }: ComponentDocCardP
             </span>
           </div>
 
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-2">
             <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400">
               {component.source}
             </span>
             <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400">
               {component.category}
             </span>
+            <Link
+              href={`/components/${component.id}`}
+              className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 active:scale-95 rounded-lg transition shadow-xs"
+            >
+              <span>상세 가이드 & 케이스</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
           </div>
         </div>
 
@@ -169,6 +178,25 @@ export function ComponentDocCard({ component, renderPreview }: ComponentDocCardP
           </div>
         </div>
       )}
+
+      {/* 6. Footer: Link to Dedicated Component Detail Page */}
+      <div className="pt-2 border-t border-neutral-100 dark:border-neutral-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-neutral-50/70 dark:bg-neutral-850/50 p-4 rounded-2xl border border-neutral-200/60 dark:border-neutral-800/60">
+        <div className="flex flex-col gap-0.5">
+          <span className="text-xs font-bold text-neutral-900 dark:text-white">
+            {component.name} 전용 가이드 & 사용 패턴
+          </span>
+          <p className="text-[11px] text-neutral-500 dark:text-neutral-400">
+            실무 사용 케이스, 안티패턴 방지(Do's & Don'ts), React/Vue/HTML 코드 및 연관 UX 패턴 확인
+          </p>
+        </div>
+        <Link
+          href={`/components/${component.id}`}
+          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 active:scale-95 transition shadow-xs shrink-0"
+        >
+          <span>개별 상세 페이지 이동</span>
+          <ArrowRight className="w-3.5 h-3.5" />
+        </Link>
+      </div>
     </section>
   );
 }

@@ -7,6 +7,17 @@
 
 ## 📅 작업 히스토리 (Changelog)
 
+- [x] **컴포넌트 갤러리 각 컴포넌트별 독립 상세 페이지 분리 구축 (`/components/[id]`)**:
+  - `app/components/[id]/page.tsx`: Next.js 15 App Router 동적 라우트 생성 및 `generateStaticParams` 정적 사전 렌더링 지원
+  - `components/docs/ComponentDetailPageContent.tsx`: 각 컴포넌트별 심층 기술 문서 뷰 캡슐화
+    1. **인터랙티브 라이브 프리뷰**: 각 컴포넌트(Button, Input, Switch/Checkbox, Dialog, Sheet, Alert, Tabs, Badge, Card, Table) 실동작 캔버스
+    2. **다중 프레임워크 코드 복사**: React/Next.js, Vue 3, Vanilla HTML 탭 전환 및 원클릭 클립보드 복사 피드백
+    3. **실무 주요 사용 케이스 (Use Cases)**: 실무 현업에서 주로 사용되는 시나리오 목록 정리
+    4. **권장 사용 패턴 및 설계 지침 (Usage Patterns)**: 설계 원칙 및 모범 사례 가이드
+    5. **올바른 사용법 & 안티패턴 방지 (Do's & Don'ts)**: 올바른 구현과 지양해야 할 패턴 대조
+    6. **API Props 규격 명세**: 타입, 기본값, 상세 설명 테이블
+    7. **연관 UX 패턴 연동**: `/patterns` 카탈로그와 상호 링크 연결
+  - `components/docs/ComponentDocCard.tsx` & `components/docs/DocsSidebar.tsx`: 메인 갤러리 및 사이드바에서 개별 상세 페이지로 즉시 이동하는 버튼/링크 탑재
 - [x] **컴포넌트 갤러리(`/components`)에 3단 개발자 기술 문서 & API 레퍼런스 UX 패턴 전면 적용**:
   - **Left Column (Sidebar)**: `components/docs/DocsSidebar.tsx` (버전 `v1.2.4 Latest` 배지, Cmd+K 빠른 검색창, 계층형 카테고리 트리 메뉴 및 부드러운 스크롤 이동)
   - **Center Column (Content)**: `components/docs/ComponentDocCard.tsx` (상단 히어로 & CLI 설치 가이드, 각 컴포넌트별 접근성/구현 팁 Callout 박스, 인터랙티브 라이브 프리뷰 캔버스, React/HTML 코드 스니펫 탭 + 원클릭 복사 & "Copied!" 피드백, API Props 명세 규격 테이블)

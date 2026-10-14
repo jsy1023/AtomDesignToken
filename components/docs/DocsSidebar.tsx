@@ -1,8 +1,9 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { GALLERY_COMPONENTS, ComponentCategory } from '@/lib/data/components';
-import { Search, BookOpen, Layers, Terminal, Sparkles, ChevronDown } from 'lucide-react';
+import { Search, BookOpen, Layers, Terminal, Sparkles, ChevronDown, ExternalLink } from 'lucide-react';
 
 interface DocsSidebarProps {
   searchQuery: string;
@@ -29,6 +30,34 @@ export function DocsSidebar({
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
+
+  const renderCompItem = (comp: (typeof GALLERY_COMPONENTS)[number]) => (
+    <div
+      key={comp.id}
+      className={`group flex items-center justify-between rounded-xl px-2.5 py-1 transition ${
+        activeId === comp.id
+          ? 'bg-blue-600 text-white font-bold shadow-xs'
+          : 'text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-850'
+      }`}
+    >
+      <button
+        onClick={() => scrollToSection(comp.id)}
+        className="flex-1 text-left text-xs py-0.5 flex items-center justify-between pr-1"
+      >
+        <span>{comp.name.split(' (')[0]}</span>
+        <span className="text-[10px] font-mono opacity-60">.{comp.id}</span>
+      </button>
+      <Link
+        href={`/components/${comp.id}`}
+        title={`${comp.name} 개별 상세 페이지`}
+        className={`p-1 rounded-md opacity-0 group-hover:opacity-100 hover:bg-black/10 dark:hover:bg-white/10 transition shrink-0 ${
+          activeId === comp.id ? 'text-white' : 'text-neutral-400 hover:text-blue-600'
+        }`}
+      >
+        <ExternalLink className="w-3 h-3" />
+      </Link>
+    </div>
+  );
 
   return (
     <aside className="w-64 shrink-0 flex flex-col gap-5 sticky top-24 max-h-[calc(100vh-120px)] overflow-y-auto pr-2 select-none">
@@ -74,77 +103,25 @@ export function DocsSidebar({
       {/* 4. Form & Inputs Group */}
       <div className="flex flex-col gap-1">
         <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider px-2">Form & Inputs</span>
-        {formComps.map((comp) => (
-          <button
-            key={comp.id}
-            onClick={() => scrollToSection(comp.id)}
-            className={`px-3 py-1.5 rounded-xl text-left text-xs font-medium transition flex items-center justify-between ${
-              activeId === comp.id
-                ? 'bg-blue-600 text-white font-bold shadow-xs'
-                : 'text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-850'
-            }`}
-          >
-            <span>{comp.name.split(' (')[0]}</span>
-            <span className="text-[10px] font-mono opacity-60">.{comp.id}</span>
-          </button>
-        ))}
+        {formComps.map(renderCompItem)}
       </div>
 
       {/* 5. Feedback & Overlays */}
       <div className="flex flex-col gap-1">
         <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider px-2">Feedback & Overlays</span>
-        {feedbackComps.map((comp) => (
-          <button
-            key={comp.id}
-            onClick={() => scrollToSection(comp.id)}
-            className={`px-3 py-1.5 rounded-xl text-left text-xs font-medium transition flex items-center justify-between ${
-              activeId === comp.id
-                ? 'bg-blue-600 text-white font-bold shadow-xs'
-                : 'text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-850'
-            }`}
-          >
-            <span>{comp.name.split(' (')[0]}</span>
-            <span className="text-[10px] font-mono opacity-60">.{comp.id}</span>
-          </button>
-        ))}
+        {feedbackComps.map(renderCompItem)}
       </div>
 
       {/* 6. Navigation & Layout */}
       <div className="flex flex-col gap-1">
         <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider px-2">Navigation & Layout</span>
-        {navComps.map((comp) => (
-          <button
-            key={comp.id}
-            onClick={() => scrollToSection(comp.id)}
-            className={`px-3 py-1.5 rounded-xl text-left text-xs font-medium transition flex items-center justify-between ${
-              activeId === comp.id
-                ? 'bg-blue-600 text-white font-bold shadow-xs'
-                : 'text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-850'
-            }`}
-          >
-            <span>{comp.name.split(' (')[0]}</span>
-            <span className="text-[10px] font-mono opacity-60">.{comp.id}</span>
-          </button>
-        ))}
+        {navComps.map(renderCompItem)}
       </div>
 
       {/* 7. Data Display */}
       <div className="flex flex-col gap-1">
         <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider px-2">Data Display</span>
-        {dataComps.map((comp) => (
-          <button
-            key={comp.id}
-            onClick={() => scrollToSection(comp.id)}
-            className={`px-3 py-1.5 rounded-xl text-left text-xs font-medium transition flex items-center justify-between ${
-              activeId === comp.id
-                ? 'bg-blue-600 text-white font-bold shadow-xs'
-                : 'text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-850'
-            }`}
-          >
-            <span>{comp.name.split(' (')[0]}</span>
-            <span className="text-[10px] font-mono opacity-60">.{comp.id}</span>
-          </button>
-        ))}
+        {dataComps.map(renderCompItem)}
       </div>
     </aside>
   );
