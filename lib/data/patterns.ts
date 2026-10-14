@@ -7,11 +7,15 @@ export interface PatternVariant {
   markdown: string;
 }
 
+export type PatternPlatform = 'web' | 'mobile';
+
 export interface PatternItem {
   id: string;
   title: string;
   categoryName: string;
   badge: string;
+  platform: PatternPlatform;
+  wireframeType: string;
   iconName: 'dashboard' | 'chat' | 'onboarding' | 'uploader' | 'kyc' | 'blog' | 'map' | 'flight' | 'fintech' | 'commerce' | 'search';
   summary: string;
   recommendedComponentIds: string[];
@@ -23,6 +27,8 @@ export interface PatternItem {
 export const PATTERNS_COLLECTION: PatternItem[] = [
   {
     id: 'saas-dashboard',
+    platform: 'web',
+    wireframeType: 'dashboard-grid',
     title: 'SaaS 데이터 분석 & KPI 대시보드',
     categoryName: 'Analytics & SaaS',
     badge: '대시보드/데이터',
@@ -66,6 +72,8 @@ export const PATTERNS_COLLECTION: PatternItem[] = [
   },
   {
     id: 'chat-support',
+    platform: 'mobile',
+    wireframeType: 'chat-stream',
     title: '1:1 고객지원 & AI 챗봇 상담 패턴',
     categoryName: 'Communication',
     badge: '채팅/CS',
@@ -104,6 +112,8 @@ export const PATTERNS_COLLECTION: PatternItem[] = [
   },
   {
     id: 'kyc-verification',
+    platform: 'mobile',
+    wireframeType: 'kyc-camera',
     title: '본인확인 & KYC 인증신청 패턴',
     categoryName: 'Identity & Security',
     badge: '인증/보안',
@@ -142,6 +152,8 @@ export const PATTERNS_COLLECTION: PatternItem[] = [
   },
   {
     id: 'blog-editor',
+    platform: 'web',
+    wireframeType: 'editor-toolbar',
     title: '블로그 글 작성 & 발행 에디터 패턴',
     categoryName: 'Content & Publishing',
     badge: '콘텐츠/에디터',
@@ -176,6 +188,8 @@ export const PATTERNS_COLLECTION: PatternItem[] = [
   },
   {
     id: 'map-location',
+    platform: 'mobile',
+    wireframeType: 'map-sheet',
     title: '지도 & 위치 기반 POI 탐색 패턴',
     categoryName: 'Location & Mobility',
     badge: '지도/로케이션',
@@ -206,6 +220,8 @@ export const PATTERNS_COLLECTION: PatternItem[] = [
   },
   {
     id: 'flight-booking',
+    platform: 'web',
+    wireframeType: 'flight-swap',
     title: '항공권 / 여행 일정 예약 패턴',
     categoryName: 'Travel & Booking',
     badge: '예약/일정',
@@ -236,6 +252,8 @@ export const PATTERNS_COLLECTION: PatternItem[] = [
   },
   {
     id: 'onboarding-wizard',
+    platform: 'mobile',
+    wireframeType: 'wizard-steps',
     title: '온보딩 튜토리얼 & 다단계 스텝 위저드',
     categoryName: 'User Onboarding',
     badge: '온보딩/가입',
@@ -266,6 +284,8 @@ export const PATTERNS_COLLECTION: PatternItem[] = [
   },
   {
     id: 'file-uploader',
+    platform: 'web',
+    wireframeType: 'uploader-dropzone',
     title: '파일 드래그앤드롭 업로더 & 미디어 관리',
     categoryName: 'File & Media',
     badge: '파일/업로드',
@@ -296,6 +316,8 @@ export const PATTERNS_COLLECTION: PatternItem[] = [
   },
   {
     id: 'fintech-transfer',
+    platform: 'mobile',
+    wireframeType: 'keypad-transfer',
     title: '계좌 송금 & 간편 이체 패턴',
     categoryName: 'Fintech & Pay',
     badge: '핀테크/이체',
@@ -326,6 +348,8 @@ export const PATTERNS_COLLECTION: PatternItem[] = [
   },
   {
     id: 'ecommerce-checkout',
+    platform: 'mobile',
+    wireframeType: 'cart-sticky',
     title: '장바구니 & 주문 결제서 패턴',
     categoryName: 'Commerce & Order',
     badge: '커머스/결제',
@@ -356,6 +380,8 @@ export const PATTERNS_COLLECTION: PatternItem[] = [
   },
   {
     id: 'search-empty',
+    platform: 'web',
+    wireframeType: 'search-empty',
     title: '실시간 검색 & Empty UX 패턴',
     categoryName: 'Discovery',
     badge: '탐색/복구',

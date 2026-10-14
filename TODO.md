@@ -7,6 +7,14 @@
 
 ## 📅 작업 히스토리 (Changelog)
 
+- [x] **UX 패턴 WEB/모바일 필터링 및 와이어프레임 2Depth 실동작 화면 아키텍처 구현**:
+  - `lib/data/patterns.ts`: 패턴 모델에 `platform`(`'web' | 'mobile'`) 및 `wireframeType` 메타데이터 속성 추가
+  - `components/patterns/WireframeGraphic.tsx`: 11종 패턴별 블루프린트 레이아웃 스케치를 보여주는 미니멀 와이어프레임 컴포넌트 신규 개발
+  - `components/patterns/PatternCard.tsx`: 1Depth 카드 상단 와이어프레임 + 플랫폼 뱃지(🖥️ WEB / 📱 모바일) + 요약 설명 + 추천 컴포넌트 조합
+  - `components/patterns/DeviceMockupView.tsx`: Web은 브라우저 윈도우 프레임(URL 바, 탭, 신호등 버튼), 모바일은 스마트폰 베젤 프레임(다이내믹 아일랜드, 상태바, 홈바)으로 실제 화면을 그대로 감싸서 렌더링
+  - `components/patterns/PatternInteractiveScreen.tsx`: 패턴별 실제 입력, 탭 전환, 챗봇 스트림, 송금 등이 가능한 반응형 실동작 캔버스 캡슐화
+  - `components/patterns/PatternDetailView.tsx`: 2Depth 진입 시 브라우저/스마트폰 디바이스 목업 실동작 + 필수 체크리스트 + 안티패턴 방지 + AI 지시용 `.md` 복사/다운로드 일체형 뷰 지원
+  - `app/patterns/page.tsx`: [전체 / 🖥️ WEB / 📱 모바일] 실시간 필터 탭 및 1Depth ↔ 2Depth 전환 오케스트레이션 완성
 - [x] **객체지향 개발 지침 수립 (`GEMINI.md`)**:
   - 단일 책임 원칙(SRP) 및 단일 진실 공급원(SSOT) 강제
   - 개별 페이지 내 데이터 하드코딩 엄격 금지 및 `lib/data/` 도메인 계층 중심 아키텍처 명문화
