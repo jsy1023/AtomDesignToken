@@ -27,7 +27,14 @@ import {
   Check,
   Terminal,
   BookOpen,
-  Code2
+  Code2,
+  Settings,
+  Globe,
+  Key,
+  HelpCircle,
+  Save,
+  RotateCcw,
+  Lock
 } from 'lucide-react';
 
 interface PatternInteractiveScreenProps {
@@ -86,6 +93,46 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
   // Developer Docs State
   const [activeDocNav, setActiveDocNav] = useState('quickstart');
   const [copiedDocSnippet, setCopiedDocSnippet] = useState(false);
+
+  // Complex Form Settings State
+  const [activeFormTab, setActiveFormTab] = useState<'general' | 'security' | 'webhooks' | 'danger'>('general');
+  const [formValues, setFormValues] = useState({
+    projectName: 'acme-commerce-api',
+    environment: 'production',
+    customDomain: 'api.acme-store.com',
+    enable2FA: true,
+    sessionTimeout: '30m',
+    enableWebhooks: true,
+    webhookUrl: 'https://api.acme.com/v1/events',
+    secretKey: 'whsec_9948291034821',
+    eventOrders: true,
+    eventUsers: false,
+    deleteConfirmText: '',
+  });
+  const [initialFormValues, setInitialFormValues] = useState({ ...formValues });
+  const [isSavedFeedback, setIsSavedFeedback] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+
+  const isFormDirty = JSON.stringify(formValues) !== JSON.stringify(initialFormValues);
+
+  const domainError =
+    formValues.customDomain && !formValues.customDomain.includes('.')
+      ? '유효한 도메인 주소(예: api.example.com) 형식이 아닙니다.'
+      : '';
+
+  const handleSaveForm = () => {
+    setIsSaving(true);
+    setTimeout(() => {
+      setIsSaving(false);
+      setInitialFormValues({ ...formValues });
+      setIsSavedFeedback(true);
+      setTimeout(() => setIsSavedFeedback(false), 2500);
+    }, 600);
+  };
+
+  const handleResetForm = () => {
+    setFormValues({ ...initialFormValues });
+  };
 
   return (
     <div className="w-full h-full text-neutral-900 dark:text-neutral-100 p-4 overflow-y-auto">
@@ -849,6 +896,444 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
               <li className="text-neutral-500 hover:text-neutral-900 dark:hover:text-white cursor-pointer">2. 컴포넌트 임포트</li>
               <li className="text-neutral-500 hover:text-neutral-900 dark:hover:text-white cursor-pointer">3. Button Props 규격</li>
             </ul>
+          </div>
+        </div>
+      )}
+
+      {/* 13. Complex Form Settings (Web) */}
+      {patternId === 'complex-form-settings' && (
+        <div className="relative flex flex-col h-full gap-4 text-xs">
+          {/* Header */}
+          <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-neutral-200 dark:border-neutral-800 shrink-0">
+            <div>
+              <div className="flex items-center gap-2">
+                <h2 className="text-base font-bold text-neutral-900 dark:text-neutral-100">
+                  엔터프라이즈 프로젝트 환경설정
+                </h2>
+                <span className="text-[10px] px-2 py-0.5 rounded-full font-bold bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800">
+                  Best UX Form
+                </span>
+              </div>
+              <p className="text-[11px] text-neutral-500 mt-0.5">
+                섹션 청킹, 점진적 공개, 인라인 유효성 검사, 하단 플로팅 세이브 바가 결합된 모범 사례입니다.
+              </p>
+            </div>
+
+            {/* Save Status Badge */}
+            <div className="flex items-center gap-1.5 text-[11px]">
+              {isSavedFeedback ? (
+                <span className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-emerald-950/80 px-2.5 py-1 rounded-lg border border-emerald-200 dark:border-emerald-800 animate-fade-in">
+                  <CheckCircle2 className="w-3.5 h-3.5" />
+                  변경사항이 저장되었습니다!
+                </span>
+              ) : isFormDirty ? (
+                <span className="flex items-center gap-1 text-amber-600 dark:text-amber-400 font-semibold bg-amber-50 dark:bg-amber-950/80 px-2.5 py-1 rounded-lg border border-amber-200 dark:border-amber-800">
+                  <AlertCircle className="w-3.5 h-3.5" />
+                  저장되지 않은 변경사항 있음
+                </span>
+              ) : (
+                <span className="flex items-center gap-1 text-neutral-400 px-2 py-1">
+                  <Check className="w-3 h-3" />
+                  모든 변경사항 최신 동기화됨
+                </span>
+              )}
+            </div>
+          </div>
+
+          {/* 2-Column Section Layout */}
+          <div className="flex-1 flex gap-5 overflow-hidden">
+            {/* Left Nav: Section Chunking */}
+            <div className="w-44 shrink-0 flex flex-col gap-1 border-r border-neutral-200/80 dark:border-neutral-800 pr-3">
+              <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider mb-1 px-2">
+                설정 카테고리
+              </span>
+              {[
+                { id: 'general', label: '일반 설정', icon: Settings },
+                { id: 'security', label: '보안 & 2FA', icon: Lock },
+                { id: 'webhooks', label: '웹훅 & 이벤트', icon: Globe },
+                { id: 'danger', label: '위험 구역', icon: AlertCircle },
+              ].map((tab) => {
+                const Icon = tab.icon;
+                const isActive = activeFormTab === tab.id;
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveFormTab(tab.id as any)}
+                    className={`flex items-center gap-2 px-3 py-2 rounded-xl text-left font-medium transition text-xs ${
+                      isActive
+                        ? 'bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 font-bold shadow-xs'
+                        : 'text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:text-neutral-900 dark:hover:text-white'
+                    } ${tab.id === 'danger' && !isActive ? 'hover:text-rose-500' : ''}`}
+                  >
+                    <Icon className="w-3.5 h-3.5" />
+                    <span>{tab.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Right Form Fields Area */}
+            <div className="flex-1 overflow-y-auto pr-2 pb-16 space-y-5">
+              {/* Tab 1: General Settings */}
+              {activeFormTab === 'general' && (
+                <div className="space-y-4">
+                  {/* Field 1: Project Name */}
+                  <div className="p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <label className="font-bold text-neutral-900 dark:text-neutral-100">
+                        프로젝트 식별자 (Project Name)
+                      </label>
+                      <span className="text-[10px] font-mono text-neutral-400">필수</span>
+                    </div>
+                    <p className="text-[11px] text-neutral-500">
+                      API 엔드포인트와 내부 리소스 네임스페이스에 고유하게 사용되는 식별자입니다.
+                    </p>
+                    <input
+                      type="text"
+                      value={formValues.projectName}
+                      onChange={(e) =>
+                        setFormValues({ ...formValues, projectName: e.target.value })
+                      }
+                      className="w-full px-3 py-2 text-xs rounded-lg border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-850 font-mono text-neutral-900 dark:text-neutral-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+
+                  {/* Field 2: Environment Card Selection */}
+                  <div className="p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 space-y-2.5">
+                    <label className="font-bold text-neutral-900 dark:text-neutral-100 block">
+                      배포 환경 (Deployment Environment)
+                    </label>
+                    <div className="grid grid-cols-3 gap-2">
+                      {[
+                        { id: 'production', name: 'Production', desc: '실서비스 및 SLA 99.9%' },
+                        { id: 'staging', name: 'Staging', desc: '사전 QA 검증 환경' },
+                        { id: 'development', name: 'Development', desc: '로컬 개발 및 샌드박스' },
+                      ].map((env) => (
+                        <button
+                          key={env.id}
+                          type="button"
+                          onClick={() => setFormValues({ ...formValues, environment: env.id })}
+                          className={`p-2.5 rounded-xl border text-left transition ${
+                            formValues.environment === env.id
+                              ? 'border-blue-600 bg-blue-50/60 dark:bg-blue-950/40 text-blue-900 dark:text-blue-300 font-bold shadow-xs'
+                              : 'border-neutral-200 dark:border-neutral-700 hover:border-neutral-300'
+                          }`}
+                        >
+                          <div className="font-bold text-xs">{env.name}</div>
+                          <div className="text-[10px] text-neutral-400 font-normal mt-0.5 line-clamp-1">
+                            {env.desc}
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Field 3: Custom Domain with Real-time Inline Validation */}
+                  <div className="p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-1.5">
+                        <label className="font-bold text-neutral-900 dark:text-neutral-100">
+                          커스텀 도메인 (Custom Domain)
+                        </label>
+                        <span className="text-[10px] text-neutral-400">(선택)</span>
+                      </div>
+                      <span className="text-[10px] text-blue-600 dark:text-blue-400 flex items-center gap-1">
+                        <HelpCircle className="w-3 h-3" />
+                        CNAME DNS 레코드 안내
+                      </span>
+                    </div>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        value={formValues.customDomain}
+                        onChange={(e) =>
+                          setFormValues({ ...formValues, customDomain: e.target.value })
+                        }
+                        placeholder="예: api.yourcompany.com"
+                        className={`w-full px-3 py-2 text-xs rounded-lg border font-mono transition ${
+                          domainError
+                            ? 'border-rose-500 bg-rose-50/30 dark:bg-rose-950/20 text-rose-900 dark:text-rose-200 focus:ring-rose-500'
+                            : 'border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-850 text-neutral-900 dark:text-neutral-100 focus:ring-blue-500'
+                        } focus:outline-none focus:ring-2`}
+                      />
+                      <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                        {domainError ? (
+                          <AlertCircle className="w-4 h-4 text-rose-500" />
+                        ) : formValues.customDomain ? (
+                          <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                        ) : null}
+                      </div>
+                    </div>
+                    {/* Inline Error or Helper */}
+                    {domainError ? (
+                      <p className="text-[11px] text-rose-600 dark:text-rose-400 font-medium flex items-center gap-1">
+                        {domainError}
+                      </p>
+                    ) : (
+                      <p className="text-[11px] text-neutral-400">
+                        HTTPS SSL 인증서가 무료로 자동 발급 및 갱신됩니다.
+                      </p>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Tab 2: Security & 2FA */}
+              {activeFormTab === 'security' && (
+                <div className="space-y-4">
+                  {/* 2FA Toggle Row */}
+                  <div className="p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 flex items-center justify-between">
+                    <div>
+                      <div className="font-bold text-neutral-900 dark:text-neutral-100 flex items-center gap-1.5">
+                        <ShieldCheck className="w-4 h-4 text-blue-500" />
+                        조직원 2단계 인증(2FA) 강제
+                      </div>
+                      <p className="text-[11px] text-neutral-500 mt-0.5">
+                        모든 팀원이 로그인 시 OTP 또는 하드웨어 보안키를 필수로 인증합니다.
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setFormValues({ ...formValues, enable2FA: !formValues.enable2FA })
+                      }
+                      className={`w-11 h-6 rounded-full transition-colors relative flex items-center px-0.5 ${
+                        formValues.enable2FA ? 'bg-blue-600' : 'bg-neutral-300 dark:bg-neutral-700'
+                      }`}
+                    >
+                      <span
+                        className={`w-5 h-5 rounded-full bg-white shadow-md transform transition-transform ${
+                          formValues.enable2FA ? 'translate-x-5' : 'translate-x-0'
+                        }`}
+                      />
+                    </button>
+                  </div>
+
+                  {/* Session Timeout */}
+                  <div className="p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 space-y-2">
+                    <label className="font-bold text-neutral-900 dark:text-neutral-100 block">
+                      유휴 세션 자동 로그아웃 시간
+                    </label>
+                    <select
+                      value={formValues.sessionTimeout}
+                      onChange={(e) =>
+                        setFormValues({ ...formValues, sessionTimeout: e.target.value })
+                      }
+                      className="w-full px-3 py-2 text-xs rounded-lg border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-850 text-neutral-800 dark:text-neutral-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                      <option value="15m">15분 (가장 엄격)</option>
+                      <option value="30m">30분 (권장)</option>
+                      <option value="1h">1시간</option>
+                      <option value="8h">8시간 (근무 시간)</option>
+                    </select>
+                  </div>
+                </div>
+              )}
+
+              {/* Tab 3: Webhooks (Progressive Disclosure Example) */}
+              {activeFormTab === 'webhooks' && (
+                <div className="space-y-4">
+                  {/* Master Toggle */}
+                  <div className="p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 flex items-center justify-between">
+                    <div>
+                      <div className="font-bold text-neutral-900 dark:text-neutral-100 flex items-center gap-1.5">
+                        <Globe className="w-4 h-4 text-emerald-500" />
+                        실시간 웹훅(Webhooks) 이벤트 발송
+                      </div>
+                      <p className="text-[11px] text-neutral-500 mt-0.5">
+                        주문, 결제, 회원 상태 변경 시 외부 서버로 HTTP POST 요청을 보냅니다.
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setFormValues({
+                          ...formValues,
+                          enableWebhooks: !formValues.enableWebhooks,
+                        })
+                      }
+                      className={`w-11 h-6 rounded-full transition-colors relative flex items-center px-0.5 ${
+                        formValues.enableWebhooks
+                          ? 'bg-emerald-600'
+                          : 'bg-neutral-300 dark:bg-neutral-700'
+                      }`}
+                    >
+                      <span
+                        className={`w-5 h-5 rounded-full bg-white shadow-md transform transition-transform ${
+                          formValues.enableWebhooks ? 'translate-x-5' : 'translate-x-0'
+                        }`}
+                      />
+                    </button>
+                  </div>
+
+                  {/* Dependent Conditional Fields (Progressive Disclosure) */}
+                  {formValues.enableWebhooks ? (
+                    <div className="p-4 rounded-xl border border-emerald-200/80 dark:border-emerald-900/60 bg-emerald-50/20 dark:bg-emerald-950/20 space-y-3.5 animate-fade-in">
+                      <div className="flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400 font-bold text-xs">
+                        <Sparkles className="w-3.5 h-3.5" />
+                        <span>웹훅 상세 엔드포인트 설정 (활성화됨)</span>
+                      </div>
+
+                      {/* Webhook Endpoint URL */}
+                      <div className="space-y-1">
+                        <label className="text-[11px] font-semibold text-neutral-700 dark:text-neutral-300">
+                          수신 엔드포인트 URL (Webhook Endpoint)
+                        </label>
+                        <input
+                          type="text"
+                          value={formValues.webhookUrl}
+                          onChange={(e) =>
+                            setFormValues({ ...formValues, webhookUrl: e.target.value })
+                          }
+                          className="w-full px-3 py-2 text-xs font-mono rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                        />
+                      </div>
+
+                      {/* Secret Signing Key */}
+                      <div className="space-y-1">
+                        <div className="flex items-center justify-between text-[11px]">
+                          <span className="font-semibold text-neutral-700 dark:text-neutral-300">
+                            서명 검증 시크릿 키 (Signing Secret)
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              navigator.clipboard.writeText(formValues.secretKey);
+                              alert('시크릿 키가 복사되었습니다!');
+                            }}
+                            className="text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1"
+                          >
+                            <Copy className="w-3 h-3" />
+                            복사
+                          </button>
+                        </div>
+                        <input
+                          type="text"
+                          readOnly
+                          value={formValues.secretKey}
+                          className="w-full px-3 py-2 text-xs font-mono rounded-lg border border-neutral-200 dark:border-neutral-700 bg-neutral-100 dark:bg-neutral-800 text-neutral-500 cursor-not-allowed"
+                        />
+                      </div>
+
+                      {/* Event Subscriptions Checkboxes */}
+                      <div className="space-y-1.5 pt-1">
+                        <span className="text-[11px] font-semibold text-neutral-700 dark:text-neutral-300 block">
+                          구독할 이벤트 트리거
+                        </span>
+                        <div className="flex items-center gap-4 text-xs">
+                          <label className="flex items-center gap-1.5 cursor-pointer">
+                            <input
+                              type="checkbox"
+                              checked={formValues.eventOrders}
+                              onChange={(e) =>
+                                setFormValues({ ...formValues, eventOrders: e.target.checked })
+                              }
+                              className="rounded border-neutral-300 text-emerald-600"
+                            />
+                            <span>order.created / order.paid</span>
+                          </label>
+                          <label className="flex items-center gap-1.5 cursor-pointer">
+                            <input
+                              type="checkbox"
+                              checked={formValues.eventUsers}
+                              onChange={(e) =>
+                                setFormValues({ ...formValues, eventUsers: e.target.checked })
+                              }
+                              className="rounded border-neutral-300 text-emerald-600"
+                            />
+                            <span>user.signup / user.deleted</span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="p-4 rounded-xl border border-dashed border-neutral-200 dark:border-neutral-800 text-center text-[11px] text-neutral-400 py-6">
+                      웹훅 기능을 활성화하면 엔드포인트 URL 및 시크릿 키 설정이 노출됩니다.
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Tab 4: Danger Zone (Safeguard Example) */}
+              {activeFormTab === 'danger' && (
+                <div className="space-y-4">
+                  <div className="p-4 rounded-xl border border-rose-300 dark:border-rose-900 bg-rose-50/40 dark:bg-rose-950/20 space-y-3">
+                    <div className="flex items-center gap-2 text-rose-600 dark:text-rose-400 font-bold">
+                      <AlertCircle className="w-4 h-4" />
+                      <span>프로젝트 영구 삭제 (Danger Zone)</span>
+                    </div>
+                    <p className="text-[11px] text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                      이 작업은 즉시 모든 프로덕션 데이터베이스, API 키, 결제 연동 내역을 삭제하며 되돌릴 수 없습니다.
+                    </p>
+                    <div className="space-y-1.5 pt-1">
+                      <label className="text-[11px] font-semibold text-neutral-700 dark:text-neutral-300">
+                        확인을 위해 <span className="font-mono text-rose-600 font-bold">delete acme-commerce-api</span> 를 입력하세요:
+                      </label>
+                      <input
+                        type="text"
+                        value={formValues.deleteConfirmText}
+                        onChange={(e) =>
+                          setFormValues({ ...formValues, deleteConfirmText: e.target.value })
+                        }
+                        placeholder="delete acme-commerce-api"
+                        className="w-full px-3 py-2 text-xs font-mono rounded-lg border border-rose-300 dark:border-rose-900 bg-white dark:bg-neutral-900 focus:outline-none focus:ring-2 focus:ring-rose-500"
+                      />
+                    </div>
+                    <button
+                      type="button"
+                      disabled={formValues.deleteConfirmText !== 'delete acme-commerce-api'}
+                      className="w-full py-2 rounded-lg bg-rose-600 text-white font-bold text-xs disabled:opacity-40 disabled:cursor-not-allowed hover:bg-rose-700 transition"
+                    >
+                      프로젝트 영구 삭제 확정
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Floating Sticky Unsaved Changes Bar */}
+          <div
+            className={`absolute bottom-0 left-0 right-0 p-3 bg-neutral-900/95 dark:bg-neutral-950/95 text-white rounded-xl shadow-2xl border border-neutral-700 flex items-center justify-between transition-all duration-300 backdrop-blur-md ${
+              isFormDirty
+                ? 'translate-y-0 opacity-100 pointer-events-auto'
+                : 'translate-y-12 opacity-0 pointer-events-none'
+            }`}
+          >
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+              <span className="text-xs font-semibold text-neutral-200">
+                수정된 변경사항이 있습니다. 저장하지 않으면 변경 내용이 유실됩니다.
+              </span>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={handleResetForm}
+                className="px-3 py-1.5 text-xs text-neutral-300 hover:text-white hover:bg-neutral-800 rounded-lg transition"
+              >
+                되돌리기 (Reset)
+              </button>
+              <button
+                type="button"
+                onClick={handleSaveForm}
+                disabled={isSaving || !!domainError}
+                className="px-4 py-1.5 text-xs font-bold bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition shadow-xs flex items-center gap-1.5 disabled:opacity-50"
+              >
+                {isSaving ? (
+                  <>
+                    <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                    <span>저장 중...</span>
+                  </>
+                ) : (
+                  <>
+                    <Save className="w-3.5 h-3.5" />
+                    <span>변경사항 저장</span>
+                  </>
+                )}
+              </button>
+            </div>
           </div>
         </div>
       )}

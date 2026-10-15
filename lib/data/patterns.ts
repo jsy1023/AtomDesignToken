@@ -16,7 +16,7 @@ export interface PatternItem {
   badge: string;
   platform: PatternPlatform;
   wireframeType: string;
-  iconName: 'dashboard' | 'chat' | 'onboarding' | 'uploader' | 'kyc' | 'blog' | 'map' | 'flight' | 'fintech' | 'commerce' | 'search' | 'docs';
+  iconName: 'dashboard' | 'chat' | 'onboarding' | 'uploader' | 'kyc' | 'blog' | 'map' | 'flight' | 'fintech' | 'commerce' | 'search' | 'docs' | 'settings';
   summary: string;
   recommendedComponentIds: string[];
   checklist: string[];
@@ -451,6 +451,67 @@ export const PATTERNS_COLLECTION: PatternItem[] = [
 ## 3. 필수 인터랙션
 - \`navigator.clipboard.writeText()\`: 코드 복사 시 "Copied!" 툴팁 피드백.
 - \`IntersectionObserver\`: 본문 스크롤에 따른 목차 활성 링크 동기화.
+`
+      }
+    ]
+  },
+  {
+    id: 'complex-form-settings',
+    platform: 'web',
+    wireframeType: 'complex-form',
+    title: '복잡한 엔터프라이즈 환경설정 & 다단계 폼 패턴',
+    categoryName: 'Settings & Configuration',
+    badge: '복합 폼/환경설정',
+    iconName: 'settings',
+    summary: '섹션 청킹(좌측 네비게이션), 조건부 종속 입력(Progressive Disclosure), 실시간 인라인 유효성 검사, 하단 플로팅 미저장 변경사항(Unsaved Changes) 바, 파괴적 설정 안전장치.',
+    recommendedComponentIds: ['input', 'selection', 'button', 'badge', 'alert', 'tabs', 'card'],
+    checklist: [
+      '정보 구조 청킹(Chunking): 좌측 고정 네비게이션으로 섹션(기본 설정, 보안 정책, 결제/웹훅 등)을 명확히 분리하여 인지 과부하 방지',
+      '점진적 노출(Progressive Disclosure): "고급 설정" 또는 상위 토글 활성화 시에만 하위 조건부 인풋이 부드럽게 노출',
+      '실시간 인라인 유효성 검증: Blur 및 디바운스 실시간 검사로 에러 위치와 해결 힌트를 필드 바로 밑에 명확히 표기',
+      '미저장 변경사항 플로팅 바(Sticky Unsaved Bar): 필드 수정 시 화면 하단에 [저장되지 않은 변경사항이 있습니다 | 취소 | 저장] 바가 슬라이드 업',
+      '파괴적 액션 2단계 안전장치: 데이터 삭제/API 재발급 등 위험 작업 시 명시적 텍스트 입력 확인(예: 프로젝트명 직접 입력) 다이얼로그 제공',
+      '스마트 기본값(Sensible Defaults) & 헬퍼 툴팁: 복잡한 기술 용어 옆에 안내 툴팁과 원클릭 복사/생성 버튼 배치'
+    ],
+    antiPatterns: [
+      '수십 개의 인풋을 스크롤 없이 단일 페이지에 일렬 배치하여 사용자에게 시각적 공포와 인지 과부하를 주는 형태',
+      '제출 버튼을 눌렀을 때 화면 상단에서만 "입력값을 확인하세요"라는 모호한 alert을 띄우고 어디서 에러가 났는지 알려주지 않는 불친절함',
+      '설정값을 바꿨는데 페이지 이동 시 경고 없이 작성 내용이 모두 증발하는 데이터 유실 버그',
+      '비활성화된(Disabled) 필드인데 왜 비활성화되어 있는지 이유(상위 권한 필요, 필수 선행 조건 등)를 툴팁으로 설명하지 않음'
+    ],
+    variants: [
+      {
+        id: 'enterprise-settings-form',
+        name: '엔터프라이즈 멀티 섹션 폼 & 조건부 필드',
+        description: 'Vercel, Stripe, GitHub 스타일의 복잡한 시스템 설정 폼. 좌측 앵커 탭과 우측 본문, 실시간 검증 및 플로팅 세이브 바 지원.',
+        checklist: [
+          '수정 즉시 하단 플로팅 세이브 바 표시',
+          'URL 형식 검증 및 실시간 체크 아이콘',
+          '토글 스위치에 따른 조건부 입력창 애니메이션 노출'
+        ],
+        antiPatterns: ['저장 버튼을 찾으려고 사용자가 페이지 맨 밑까지 스크롤해야 하는 피로감'],
+        markdown: `# [UX Pattern] 복잡한 엔터프라이즈 환경설정 & 다단계 폼 패턴
+
+## 1. 패턴 개요
+수십 가지의 인풋, 셀렉트, 토글 스위치가 존재하는 복잡한 비즈니스 설정 화면에서 사용자의 인지 부하(Cognitive Load)를 최소화하고, 입력 오류와 데이터 유실을 방지하는 엔터프라이즈급 폼 설계 패턴입니다.
+
+## 2. 핵심 5대 UX 설계 원칙
+
+### 1) 점진적 공개 (Progressive Disclosure)
+- 상위 토글(예: "웹훅 활성화", "2단계 인증 강제")을 켰을 때만 종속된 하위 URL 입력창, 시크릿 키 등이 애니메이션과 함께 노출됩니다.
+- 초기 진입 시 화면의 시각적 노이즈를 70% 이상 줄여줍니다.
+
+### 2) 미저장 변경사항 고정 바 (Sticky Unsaved Changes Bar)
+- 사용자가 어떤 필드라도 수정(Dirty 상태)하면 화면 하단에 플로팅 바가 솟아오릅니다.
+- \`[ 변경되지 않은 설정이 있습니다 | 되돌리기 | 변경사항 저장 ]\`
+- 페이지 최하단까지 스크롤하지 않고도 즉시 저장할 수 있습니다.
+
+### 3) 실시간 인라인 검증 (Real-time Inline Validation)
+- 폼 전체를 제출한 뒤에 서버 에러 팝업을 띄우지 않습니다.
+- 사용자가 포커스를 잃었을 때(onBlur) 즉시 포맷을 검사하고, 유효할 때는 초록색 체크 아이콘, 오류 시 필드 바로 아래에 구체적인 수정 가이드를 붉은색 텍스트로 노출합니다.
+
+### 4) 파괴적 작업 안전장치 (Confirmation Safeguard)
+- '프로젝트 삭제'나 'API 키 재생성' 같은 복구 불가능한 액션은 빨간색 Danger Card로 별도 격리하며, 반드시 확인 문자열(예: \`delete my-project\`)을 직접 입력해야만 버튼이 활성화됩니다.
 `
       }
     ]

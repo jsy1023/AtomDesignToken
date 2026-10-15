@@ -307,6 +307,42 @@ export function WireframeGraphic({ wireframeType, platform, className = '' }: Wi
             </div>
           </div>
         )}
+
+        {wireframeType === 'complex-form' && (
+          <div className="flex gap-2 h-full flex-col justify-between">
+            <div className="flex gap-2 flex-1">
+              {/* Left Subnav Sidebar */}
+              <div className="w-1/4 bg-neutral-200/80 dark:bg-neutral-800/80 rounded p-1.5 flex flex-col gap-1">
+                <div className="h-1.5 w-full bg-blue-600 rounded"></div>
+                <div className="h-1.5 w-3/4 bg-neutral-300 dark:bg-neutral-700 rounded"></div>
+                <div className="h-1.5 w-5/6 bg-neutral-300 dark:bg-neutral-700 rounded"></div>
+              </div>
+              {/* Right Form Fields */}
+              <div className="flex-1 flex flex-col gap-1.5 justify-center">
+                <div className="h-4 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded px-1.5 flex items-center justify-between">
+                  <div className="h-1.5 w-1/3 bg-neutral-400 rounded"></div>
+                  <div className="w-2 h-2 rounded-full bg-emerald-500"></div>
+                </div>
+                {/* Toggle Switch row */}
+                <div className="h-4 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded px-1.5 flex items-center justify-between">
+                  <div className="h-1.5 w-1/2 bg-neutral-400 rounded"></div>
+                  <div className="w-4 h-2 rounded-full bg-blue-500 flex items-center justify-end px-0.5">
+                    <div className="w-1.5 h-1.5 rounded-full bg-white"></div>
+                  </div>
+                </div>
+                {/* Conditional sub-input */}
+                <div className="h-3.5 bg-neutral-100 dark:bg-neutral-850 border border-rose-300 dark:border-rose-900 rounded px-1.5 flex items-center justify-between ml-2">
+                  <div className="h-1 w-2/3 bg-rose-400 rounded"></div>
+                </div>
+              </div>
+            </div>
+            {/* Bottom Floating Unsaved Changes Bar */}
+            <div className="h-4 bg-neutral-900 text-white rounded px-2 flex items-center justify-between shadow-xs">
+              <div className="h-1 w-16 bg-neutral-300 rounded"></div>
+              <div className="h-2.5 w-8 bg-blue-500 rounded"></div>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Blueprint Grid Watermark Badge */}
