@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Header } from '@/components/Header';
+import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';
 import {
   Sparkles,
   ArrowRight,
@@ -45,13 +46,16 @@ const RADIUS_PRESETS = [
 ];
 
 export default function Home() {
+  const { theme, updateColor, updateBorderRadius } = useThemeEditor();
   const [copiedCli, setCopiedCli] = useState(false);
   const [copiedPrompt, setCopiedPrompt] = useState(false);
 
+  // Sync with global theme editor tokens
+  const brandColor = theme?.color?.primary || '#3182f6';
+  const radius = theme?.borderRadius || '14px';
+
   // Studio Interactive State
   const [selectedPattern, setSelectedPattern] = useState<'transfer' | 'search' | 'auth'>('transfer');
-  const [brandColor, setBrandColor] = useState('#3182f6');
-  const [radius, setRadius] = useState('14px');
   const [fontSizeScale, setFontSizeScale] = useState<'normal' | 'large'>('normal');
 
   // Preview Interactive State
@@ -93,13 +97,12 @@ export default function Home() {
 }`;
 
   return (
-    <main className="relative min-h-screen flex flex-col justify-between overflow-x-hidden bg-[#fafafa] dark:bg-[#090a0f] text-neutral-900 dark:text-neutral-100 transition-colors">
+    <main className="relative min-h-screen flex flex-col justify-between overflow-x-hidden bg-[var(--bg-primary)] text-[var(--text-primary)] transition-colors duration-300">
       {/* Decorative Background Lighting */}
       <div 
-        className="absolute top-[-14rem] left-1/2 -translate-x-1/2 w-[850px] h-[450px] opacity-25 dark:opacity-20 blur-[130px] pointer-events-none rounded-full transition-all duration-500"
+        className="absolute top-[-14rem] left-1/2 -translate-x-1/2 w-[850px] h-[450px] opacity-20 dark:opacity-15 blur-[140px] pointer-events-none rounded-full transition-all duration-500"
         style={{ background: `radial-gradient(circle, ${brandColor} 0%, transparent 70%)` }}
       />
-      <div className="absolute top-[30rem] right-[-10rem] w-[500px] h-[300px] bg-purple-500/10 blur-[120px] pointer-events-none rounded-full" />
 
       {/* Navigation Bar */}
       <Header brandColor={brandColor} />
@@ -107,28 +110,29 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative z-10 max-w-4xl mx-auto px-6 pt-16 pb-12 text-center flex flex-col items-center">
         {/* Pre-header Tag */}
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800/60 text-xs font-bold text-blue-600 dark:text-blue-400 mb-6 shadow-sm">
-          <Sparkles className="w-3.5 h-3.5 animate-pulse" />
-          <span>UI/UX 디자이너의 피그마 해방 🚀</span>
+        <div 
+          style={{ borderColor: brandColor + '40' }}
+          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-neutral-100/80 dark:bg-neutral-850/80 border text-xs font-bold mb-6 shadow-xs backdrop-blur-md"
+        >
+          <Sparkles className="w-3.5 h-3.5 text-amber-500 animate-pulse" />
+          <span style={{ color: brandColor }}>UI/UX 디자이너의 피그마 해방 🚀</span>
         </div>
 
-        {/* Main Headline */}
-        <h1 className="text-4xl sm:text-6xl font-black tracking-tight leading-[1.18] mb-6">
+        {/* Main Headline (Clean solid refined typography, NO tacky AI gradients) */}
+        <h1 className="text-4xl sm:text-6xl font-black tracking-tight leading-[1.18] mb-6 text-[var(--text-primary)]">
           디자이너, 이제부터는<br />
           <span 
-            className="bg-clip-text text-transparent transition-all duration-300"
-            style={{ 
-              backgroundImage: `linear-gradient(to right, ${brandColor}, #6366f1, #a855f7)` 
-            }}
+            className="transition-colors duration-300 font-black inline-block mt-1"
+            style={{ color: brandColor }}
           >
             말로 디자인하는 시대
           </span>
         </h1>
 
         {/* Sub-headline */}
-        <p className="max-w-2xl text-base sm:text-lg text-neutral-600 dark:text-neutral-300 mb-10 leading-relaxed font-normal">
+        <p className="max-w-2xl text-base sm:text-lg text-[var(--text-secondary)] mb-10 leading-relaxed font-normal">
           오토레이아웃과 픽셀을 깎는 노동은 끝났습니다.<br className="hidden sm:inline" />
-          검증된 <strong className="font-semibold text-neutral-900 dark:text-white">UX 패턴</strong>을 선택하고 <strong className="font-semibold text-neutral-900 dark:text-white">브랜드 토큰</strong>을 정하면,
+          검증된 <strong className="font-semibold text-[var(--text-primary)]">UX 패턴</strong>을 선택하고 <strong className="font-semibold text-[var(--text-primary)]">브랜드 토큰</strong>을 정하면,
           AI가 오차 없는 프로덕트 코드로 즉시 완성합니다.
         </p>
 
@@ -136,7 +140,8 @@ export default function Home() {
         <div className="flex flex-wrap items-center justify-center gap-4">
           <Link
             href="/patterns"
-            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow-xl shadow-blue-500/25 active:scale-[0.98] transition-all"
+            style={{ backgroundColor: brandColor, borderRadius: radius }}
+            className="inline-flex items-center gap-2 px-7 py-3.5 text-white font-bold text-sm shadow-xl hover:opacity-90 active:scale-[0.98] transition-all"
           >
             <Sparkles className="w-4 h-4" />
             <span>UX 패턴 라이브러리 가기</span>
@@ -174,73 +179,104 @@ export default function Home() {
         </div>
 
         {/* Studio Box */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 bg-white dark:bg-neutral-900/90 rounded-3xl p-6 sm:p-8 border border-neutral-200/80 dark:border-neutral-800 shadow-2xl backdrop-blur-xl">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 bg-[var(--bg-secondary)] rounded-3xl p-6 sm:p-8 border border-[var(--border-strong)] shadow-2xl backdrop-blur-xl">
           
           {/* Controls Column (Left, 5 cols) */}
           <div className="lg:col-span-5 flex flex-col gap-6">
             
             {/* Step 1: UX Pattern Selector */}
-            <div className="p-5 rounded-2xl bg-neutral-50 dark:bg-neutral-850/60 border border-neutral-200/70 dark:border-neutral-800">
+            <div className="p-5 rounded-2xl bg-[var(--bg-primary)] border border-[var(--border-subtle)]">
               <div className="flex items-center justify-between mb-3">
-                <span className="text-xs font-bold uppercase tracking-wider text-neutral-500 flex items-center gap-1.5">
-                  <span className="w-4 h-4 rounded-full bg-blue-600 text-white flex items-center justify-center text-[10px]">1</span>
+                <span className="text-xs font-bold uppercase tracking-wider text-[var(--text-secondary)] flex items-center gap-1.5">
+                  <span 
+                    className="w-4 h-4 rounded-full text-white flex items-center justify-center text-[10px]"
+                    style={{ backgroundColor: brandColor }}
+                  >
+                    1
+                  </span>
                   UX Pattern 선택
                 </span>
-                <span className="text-[11px] text-neutral-400">AI의 UX 안티패턴 방지</span>
+                <span className="text-[11px] text-[var(--text-muted)]">AI의 UX 안티패턴 방지</span>
               </div>
 
               <div className="grid grid-cols-1 gap-2">
                 <button
                   onClick={() => { setSelectedPattern('transfer'); setTransferState('idle'); }}
-                  className={`p-3 rounded-xl text-left border transition-all flex items-start justify-between ${
+                  style={{
+                    borderColor: selectedPattern === 'transfer' ? brandColor : undefined,
+                    backgroundColor: selectedPattern === 'transfer' ? `${brandColor}12` : undefined,
+                    borderRadius: radius
+                  }}
+                  className={`p-3 text-left border transition-all flex items-start justify-between ${
                     selectedPattern === 'transfer'
-                      ? 'border-blue-500 bg-blue-50/50 dark:bg-blue-950/30'
-                      : 'border-neutral-200 dark:border-neutral-750 hover:bg-neutral-100 dark:hover:bg-neutral-800'
+                      ? 'border-2'
+                      : 'border-[var(--border-subtle)] hover:bg-[var(--border-subtle)]'
                   }`}
                 >
                   <div>
-                    <div className="text-sm font-bold">계좌 송금 & 확인 플로우</div>
-                    <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">금액 포맷팅 + 2단계 확인 + 로딩 방어 UX</div>
+                    <div className="text-sm font-bold text-[var(--text-primary)]">계좌 송금 & 확인 플로우</div>
+                    <div className="text-xs text-[var(--text-secondary)] mt-0.5">금액 포맷팅 + 2단계 확인 + 로딩 방어 UX</div>
                   </div>
-                  {selectedPattern === 'transfer' && <CheckCircle2 className="w-4 h-4 text-blue-500 shrink-0 mt-0.5" />}
+                  {selectedPattern === 'transfer' && (
+                    <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5" style={{ color: brandColor }} />
+                  )}
                 </button>
 
                 <button
                   onClick={() => { setSelectedPattern('search'); setSearchQuery(''); }}
-                  className={`p-3 rounded-xl text-left border transition-all flex items-start justify-between ${
+                  style={{
+                    borderColor: selectedPattern === 'search' ? brandColor : undefined,
+                    backgroundColor: selectedPattern === 'search' ? `${brandColor}12` : undefined,
+                    borderRadius: radius
+                  }}
+                  className={`p-3 text-left border transition-all flex items-start justify-between ${
                     selectedPattern === 'search'
-                      ? 'border-blue-500 bg-blue-50/50 dark:bg-blue-950/30'
-                      : 'border-neutral-200 dark:border-neutral-750 hover:bg-neutral-100 dark:hover:bg-neutral-800'
+                      ? 'border-2'
+                      : 'border-[var(--border-subtle)] hover:bg-[var(--border-subtle)]'
                   }`}
                 >
                   <div>
-                    <div className="text-sm font-bold">검색 & 필터 & 빈 상태 (Empty)</div>
-                    <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">실시간 인풋 + 결과 없음(Empty State) + 초기화</div>
+                    <div className="text-sm font-bold text-[var(--text-primary)]">검색 & 필터 & 빈 상태 (Empty)</div>
+                    <div className="text-xs text-[var(--text-secondary)] mt-0.5">실시간 인풋 + 결과 없음(Empty State) + 초기화</div>
                   </div>
-                  {selectedPattern === 'search' && <CheckCircle2 className="w-4 h-4 text-blue-500 shrink-0 mt-0.5" />}
+                  {selectedPattern === 'search' && (
+                    <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5" style={{ color: brandColor }} />
+                  )}
                 </button>
 
                 <button
                   onClick={() => setSelectedPattern('auth')}
-                  className={`p-3 rounded-xl text-left border transition-all flex items-start justify-between ${
+                  style={{
+                    borderColor: selectedPattern === 'auth' ? brandColor : undefined,
+                    backgroundColor: selectedPattern === 'auth' ? `${brandColor}12` : undefined,
+                    borderRadius: radius
+                  }}
+                  className={`p-3 text-left border transition-all flex items-start justify-between ${
                     selectedPattern === 'auth'
-                      ? 'border-blue-500 bg-blue-50/50 dark:bg-blue-950/30'
-                      : 'border-neutral-200 dark:border-neutral-750 hover:bg-neutral-100 dark:hover:bg-neutral-800'
+                      ? 'border-2'
+                      : 'border-[var(--border-subtle)] hover:bg-[var(--border-subtle)]'
                   }`}
                 >
                   <div>
-                    <div className="text-sm font-bold">폼 유효성 검사 & 인증 플로우</div>
-                    <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">실시간 인라인 피드백 + 에러 바운더리 UX</div>
+                    <div className="text-sm font-bold text-[var(--text-primary)]">폼 유효성 검사 & 인증 플로우</div>
+                    <div className="text-xs text-[var(--text-secondary)] mt-0.5">실시간 인라인 피드백 + 에러 바운더리 UX</div>
                   </div>
-                  {selectedPattern === 'auth' && <CheckCircle2 className="w-4 h-4 text-blue-500 shrink-0 mt-0.5" />}
+                  {selectedPattern === 'auth' && (
+                    <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5" style={{ color: brandColor }} />
+                  )}
                 </button>
               </div>
             </div>
 
             {/* Step 2: Brand Tokens Configurator */}
-            <div className="p-5 rounded-2xl bg-neutral-50 dark:bg-neutral-850/60 border border-neutral-200/70 dark:border-neutral-800 flex flex-col gap-4">
-              <span className="text-xs font-bold uppercase tracking-wider text-neutral-500 flex items-center gap-1.5">
-                <span className="w-4 h-4 rounded-full bg-blue-600 text-white flex items-center justify-center text-[10px]">2</span>
+            <div className="p-5 rounded-2xl bg-[var(--bg-primary)] border border-[var(--border-subtle)] flex flex-col gap-4">
+              <span className="text-xs font-bold uppercase tracking-wider text-[var(--text-secondary)] flex items-center gap-1.5">
+                <span 
+                  className="w-4 h-4 rounded-full text-white flex items-center justify-center text-[10px]"
+                  style={{ backgroundColor: brandColor }}
+                >
+                  2
+                </span>
                 브랜드 디자인 토큰 설정
               </span>
 
@@ -253,7 +289,7 @@ export default function Home() {
                   {COLOR_PRESETS.map((c) => (
                     <button
                       key={c.name}
-                      onClick={() => setBrandColor(c.value)}
+                      onClick={() => updateColor('primary', c.value)}
                       className={`w-7 h-7 rounded-full transition-transform flex items-center justify-center shadow-sm ${
                         brandColor === c.value ? 'scale-125 ring-2 ring-offset-2 ring-blue-500 dark:ring-offset-neutral-900' : 'hover:scale-110'
                       }`}
@@ -267,7 +303,7 @@ export default function Home() {
                     <input 
                       type="color" 
                       value={brandColor} 
-                      onChange={(e) => setBrandColor(e.target.value)}
+                      onChange={(e) => updateColor('primary', e.target.value)}
                       className="w-7 h-7 rounded-lg border-0 cursor-pointer bg-transparent"
                     />
                     <span className="text-xs font-mono text-neutral-400">{brandColor}</span>
@@ -284,10 +320,10 @@ export default function Home() {
                   {RADIUS_PRESETS.map((r) => (
                     <button
                       key={r.label}
-                      onClick={() => setRadius(r.value)}
+                      onClick={() => updateBorderRadius(r.value)}
                       className={`py-1.5 text-xs font-medium rounded-lg border transition ${
                         radius === r.value 
-                          ? 'border-blue-500 bg-white dark:bg-neutral-800 shadow-sm text-blue-600 dark:text-blue-400' 
+                          ? 'border-blue-500 bg-white dark:bg-neutral-800 shadow-sm text-blue-600 dark:text-blue-400 font-bold' 
                           : 'border-neutral-200 dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800'
                       }`}
                     >
@@ -612,14 +648,17 @@ export default function Home() {
       {/* 4-Step Workflow Section */}
       <section id="workflow" className="relative z-10 max-w-6xl w-full mx-auto px-6 py-20">
         <div className="text-center mb-14">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 text-xs font-bold uppercase tracking-wider mb-3">
+          <div 
+            style={{ backgroundColor: `${brandColor}18`, color: brandColor }}
+            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-3"
+          >
             <Workflow className="w-3.5 h-3.5" />
             <span>Workflow Revolution</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
+          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[var(--text-primary)]">
             이제는 완전히 달라진 디자인 작업 4단계
           </h2>
-          <p className="text-neutral-500 dark:text-neutral-400 text-sm sm:text-base mt-2 max-w-xl mx-auto">
+          <p className="text-[var(--text-secondary)] text-sm sm:text-base mt-2 max-w-xl mx-auto">
             피그마에서 수작업으로 그리던 고통을 끝내고, AI와 함께 지휘하는 새로운 방식입니다.
           </p>
         </div>
@@ -627,48 +666,72 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           
           {/* Card 1 */}
-          <div className="p-6 rounded-2xl bg-white dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800 shadow-sm hover:shadow-md transition">
-            <div className="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold text-sm mb-4 shadow-lg shadow-blue-500/20">
+          <div 
+            style={{ borderRadius: radius }}
+            className="p-6 bg-[var(--bg-secondary)] border border-[var(--border-strong)] shadow-sm hover:shadow-md transition"
+          >
+            <div 
+              style={{ backgroundColor: brandColor, borderRadius: '10px' }}
+              className="w-10 h-10 text-white flex items-center justify-center font-bold text-sm mb-4 shadow-lg"
+            >
               01
             </div>
-            <h3 className="font-bold text-base mb-2">UX Pattern 선택</h3>
-            <p className="text-xs text-neutral-500 dark:text-neutral-400 leading-relaxed">
+            <h3 className="font-bold text-base mb-2 text-[var(--text-primary)]">UX Pattern 선택</h3>
+            <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
               "AI에게 어떤 화면을 만들라고 지시해야 할지 막막한가요?"<br />
-              검색, 폼 검증, 송금 확인 등 검증된 <strong>UX 안티패턴 방지 템플릿</strong>을 먼저 선택하세요.
+              검색, 폼 검증, 송금 확인 등 검증된 <strong className="text-[var(--text-primary)]">UX 안티패턴 방지 템플릿</strong>을 먼저 선택하세요.
             </p>
           </div>
 
           {/* Card 2 */}
-          <div className="p-6 rounded-2xl bg-white dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800 shadow-sm hover:shadow-md transition">
-            <div className="w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-bold text-sm mb-4 shadow-lg shadow-indigo-500/20">
+          <div 
+            style={{ borderRadius: radius }}
+            className="p-6 bg-[var(--bg-secondary)] border border-[var(--border-strong)] shadow-sm hover:shadow-md transition"
+          >
+            <div 
+              style={{ backgroundColor: brandColor, borderRadius: '10px' }}
+              className="w-10 h-10 text-white flex items-center justify-center font-bold text-sm mb-4 shadow-lg"
+            >
               02
             </div>
-            <h3 className="font-bold text-base mb-2">브랜드 토큰 설정</h3>
-            <p className="text-xs text-neutral-500 dark:text-neutral-400 leading-relaxed">
+            <h3 className="font-bold text-base mb-2 text-[var(--text-primary)]">브랜드 토큰 설정</h3>
+            <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
               메인 브랜드 컬러, 라운딩, 텍스트 크기를 설정하세요.<br />
-              W3C 표준 디자인 토큰으로 나만의 <strong>시멘틱 테마 시스템</strong>이 즉시 생성됩니다.
+              W3C 표준 디자인 토큰으로 나만의 <strong className="text-[var(--text-primary)]">시멘틱 테마 시스템</strong>이 즉시 생성됩니다.
             </p>
           </div>
 
           {/* Card 3 */}
-          <div className="p-6 rounded-2xl bg-white dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800 shadow-sm hover:shadow-md transition">
-            <div className="w-10 h-10 rounded-xl bg-purple-600 text-white flex items-center justify-center font-bold text-sm mb-4 shadow-lg shadow-purple-500/20">
+          <div 
+            style={{ borderRadius: radius }}
+            className="p-6 bg-[var(--bg-secondary)] border border-[var(--border-strong)] shadow-sm hover:shadow-md transition"
+          >
+            <div 
+              style={{ backgroundColor: brandColor, borderRadius: '10px' }}
+              className="w-10 h-10 text-white flex items-center justify-center font-bold text-sm mb-4 shadow-lg"
+            >
               03
             </div>
-            <h3 className="font-bold text-base mb-2">AI에게 요청</h3>
-            <p className="text-xs text-neutral-500 dark:text-neutral-400 leading-relaxed">
-              AI에게 말만 걸면, AtomDesignToken의 규격 컴포넌트(`atom-*`) 기반으로 <strong>오차 없는 완성형 화면</strong>을 코딩합니다.
+            <h3 className="font-bold text-base mb-2 text-[var(--text-primary)]">AI에게 요청</h3>
+            <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
+              AI에게 말만 걸면, AtomDesignToken의 규격 컴포넌트(`atom-*`) 기반으로 <strong className="text-[var(--text-primary)]">오차 없는 완성형 화면</strong>을 코딩합니다.
             </p>
           </div>
 
           {/* Card 4 */}
-          <div className="p-6 rounded-2xl bg-white dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800 shadow-sm hover:shadow-md transition">
-            <div className="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold text-sm mb-4 shadow-lg shadow-emerald-500/20">
+          <div 
+            style={{ borderRadius: radius }}
+            className="p-6 bg-[var(--bg-secondary)] border border-[var(--border-strong)] shadow-sm hover:shadow-md transition"
+          >
+            <div 
+              style={{ backgroundColor: brandColor, borderRadius: '10px' }}
+              className="w-10 h-10 text-white flex items-center justify-center font-bold text-sm mb-4 shadow-lg"
+            >
               04
             </div>
-            <h3 className="font-bold text-base mb-2">1초 리디자인</h3>
-            <p className="text-xs text-neutral-500 dark:text-neutral-400 leading-relaxed">
-              디자인을 바꾸고 싶다면? 생성된 <code className="text-emerald-600 dark:text-emerald-400 font-mono">tokens.json</code> 파일만 수정하세요. 전체 제품의 룩앤필이 실시간으로 바뀝니다.
+            <h3 className="font-bold text-base mb-2 text-[var(--text-primary)]">1초 리디자인</h3>
+            <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
+              디자인을 바꾸고 싶다면? 생성된 <code className="font-mono" style={{ color: brandColor }}>tokens.json</code> 파일만 수정하세요. 전체 제품의 룩앤필이 실시간으로 바뀝니다.
             </p>
           </div>
 
@@ -677,17 +740,17 @@ export default function Home() {
 
       {/* Liberation Section: Before vs After */}
       <section id="liberation" className="relative z-10 max-w-5xl w-full mx-auto px-6 py-20">
-        <div className="p-1 rounded-3xl bg-gradient-to-b from-neutral-200 to-transparent dark:from-neutral-800 border border-neutral-200 dark:border-neutral-800 shadow-2xl">
-          <div className="bg-white dark:bg-neutral-900 rounded-[22px] p-8 sm:p-12">
+        <div className="p-1 rounded-3xl border border-[var(--border-strong)] shadow-2xl bg-[var(--bg-secondary)]">
+          <div className="bg-[var(--bg-primary)] rounded-[22px] p-8 sm:p-12">
             
             <div className="text-center mb-10">
-              <span className="text-xs font-bold uppercase tracking-wider text-rose-500 dark:text-rose-400">
+              <span className="text-xs font-bold uppercase tracking-wider text-rose-500">
                 The Liberation
               </span>
-              <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight mt-1">
+              <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight mt-1 text-[var(--text-primary)]">
                 UI/UX 디자이너의 피그마 해방
               </h2>
-              <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-2">
+              <p className="text-sm text-[var(--text-secondary)] mt-2">
                 픽셀을 옮기던 시간에 사용자의 문제와 비즈니스 경험을 기획하세요.
               </p>
             </div>
@@ -695,12 +758,15 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               
               {/* Before */}
-              <div className="p-6 rounded-2xl bg-rose-50/50 dark:bg-rose-950/20 border border-rose-200/60 dark:border-rose-900/40">
-                <div className="text-sm font-bold text-rose-600 dark:text-rose-400 mb-4 flex items-center gap-2">
+              <div 
+                style={{ borderRadius: radius }}
+                className="p-6 bg-rose-500/5 border border-rose-500/20"
+              >
+                <div className="text-sm font-bold text-rose-500 mb-4 flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-rose-500" />
                   기존의 피그마 노동 (Before)
                 </div>
-                <ul className="space-y-3 text-xs text-neutral-600 dark:text-neutral-300">
+                <ul className="space-y-3 text-xs text-[var(--text-secondary)]">
                   <li className="flex items-start gap-2">
                     <span className="text-rose-500 font-bold shrink-0">✕</span>
                     <span>반응형 오토레이아웃 맞추느라 프레임 뜯고 리사이징 무한 반복</span>
@@ -721,27 +787,34 @@ export default function Home() {
               </div>
 
               {/* After */}
-              <div className="p-6 rounded-2xl bg-blue-50/50 dark:bg-blue-950/20 border border-blue-200/60 dark:border-blue-900/40">
-                <div className="text-sm font-bold text-blue-600 dark:text-blue-400 mb-4 flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-blue-500" />
+              <div 
+                style={{ 
+                  backgroundColor: `${brandColor}0c`, 
+                  borderColor: `${brandColor}35`,
+                  borderRadius: radius 
+                }}
+                className="p-6 border"
+              >
+                <div className="text-sm font-bold mb-4 flex items-center gap-2" style={{ color: brandColor }}>
+                  <span className="w-2 h-2 rounded-full" style={{ backgroundColor: brandColor }} />
                   AtomDesignToken (After)
                 </div>
-                <ul className="space-y-3 text-xs text-neutral-600 dark:text-neutral-300">
+                <ul className="space-y-3 text-xs text-[var(--text-secondary)]">
                   <li className="flex items-start gap-2">
-                    <span className="text-blue-500 font-bold shrink-0">✓</span>
-                    <span><strong>자연어 한마디:</strong> "모바일은 바텀시트, 데스크톱은 센터 모달로 해줘"</span>
+                    <span className="font-bold shrink-0" style={{ color: brandColor }}>✓</span>
+                    <span><strong className="text-[var(--text-primary)]">자연어 한마디:</strong> "모바일은 바텀시트, 데스크톱은 센터 모달로 해줘"</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <span className="text-blue-500 font-bold shrink-0">✓</span>
-                    <span><strong>UX 패턴 내장:</strong> 로딩 스켈레톤, 빈 상태(Empty), 인라인 에러 자동 구축</span>
+                    <span className="font-bold shrink-0" style={{ color: brandColor }}>✓</span>
+                    <span><strong className="text-[var(--text-primary)]">UX 패턴 내장:</strong> 로딩 스켈레톤, 빈 상태(Empty), 인라인 에러 자동 구축</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <span className="text-blue-500 font-bold shrink-0">✓</span>
-                    <span><strong>실시간 100% 일치:</strong> 토큰 기반 CSS로 개발자 검수 논쟁 원천 차단</span>
+                    <span className="font-bold shrink-0" style={{ color: brandColor }}>✓</span>
+                    <span><strong className="text-[var(--text-primary)]">실시간 100% 일치:</strong> 토큰 기반 CSS로 개발자 검수 논쟁 원천 차단</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <span className="text-blue-500 font-bold shrink-0">✓</span>
-                    <span><strong>완벽한 AI 통제:</strong> AI Agent에게 헌법처럼 작동하는 규격 가이드 주입</span>
+                    <span className="font-bold shrink-0" style={{ color: brandColor }}>✓</span>
+                    <span><strong className="text-[var(--text-primary)]">완벽한 AI 통제:</strong> AI Agent에게 헌법처럼 작동하는 규격 가이드 주입</span>
                   </li>
                 </ul>
               </div>
@@ -754,18 +827,24 @@ export default function Home() {
 
       {/* shadcn for Design Tokens (Architecture Section) */}
       <section id="architecture" className="relative z-10 max-w-5xl w-full mx-auto px-6 py-16 text-center">
-        <div className="p-8 sm:p-12 rounded-3xl bg-neutral-100 dark:bg-neutral-850 border border-neutral-200 dark:border-neutral-750">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 text-purple-600 dark:text-purple-400 text-xs font-bold mb-4">
+        <div 
+          style={{ borderRadius: radius }}
+          className="p-8 sm:p-12 bg-[var(--bg-secondary)] border border-[var(--border-strong)]"
+        >
+          <div 
+            style={{ backgroundColor: `${brandColor}18`, color: brandColor }}
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold mb-4"
+          >
             <Code2 className="w-3.5 h-3.5" />
             <span>라이브러리인가 플랫폼인가?</span>
           </div>
 
-          <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight mb-4">
+          <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight mb-4 text-[var(--text-primary)]">
             shadcn이 컴포넌트를 복붙해 소유하게 했듯,<br />
-            우리는 <span className="text-blue-600 dark:text-blue-400">토큰과 UX 가이드의 소유권</span>을 당신에게 넘깁니다.
+            우리는 <span style={{ color: brandColor }}>토큰과 UX 가이드의 소유권</span>을 당신에게 넘깁니다.
           </h2>
 
-          <p className="max-w-2xl mx-auto text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed mb-8">
+          <p className="max-w-2xl mx-auto text-sm text-[var(--text-secondary)] leading-relaxed mb-8">
             무거운 블랙박스 npm 패키지에 갇히지 마세요. 웹에서는 가볍게 프리뷰하고 고른 뒤,  
             프로젝트에는 토큰 파일과 AI 가이드를 심어 자유롭게 커스텀하세요.  
             React, Vue, 바닐라 HTML 어디서나 100% 동작합니다.
@@ -774,27 +853,28 @@ export default function Home() {
           <div className="inline-flex flex-col sm:flex-row items-center justify-center gap-3">
             <button 
               onClick={copyCli}
-              className="flex items-center gap-2 px-6 py-3 rounded-xl bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 font-bold text-xs shadow-lg hover:opacity-90 transition"
+              style={{ borderRadius: radius }}
+              className="flex items-center gap-2 px-6 py-3 bg-[var(--text-primary)] text-[var(--bg-primary)] font-bold text-xs shadow-lg hover:opacity-90 transition active:scale-[0.98]"
             >
-              <Terminal className="w-4 h-4 text-blue-500" />
+              <Terminal className="w-4 h-4" style={{ color: brandColor }} />
               <span>npx atomsystem init</span>
               {copiedCli ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5 opacity-60" />}
             </button>
-            <span className="text-xs text-neutral-400">명령어 한 줄로 프로젝트에 즉시 세팅</span>
+            <span className="text-xs text-[var(--text-muted)]">명령어 한 줄로 프로젝트에 즉시 세팅</span>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="relative z-10 border-t border-neutral-200 dark:border-neutral-800 py-10 bg-white/50 dark:bg-neutral-950/50">
-        <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-neutral-500">
+      <footer className="relative z-10 border-t border-[var(--border-subtle)] py-10 bg-[var(--bg-secondary)]">
+        <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[var(--text-secondary)]">
           <div className="flex items-center gap-2">
-            <span className="font-bold text-neutral-800 dark:text-neutral-200">AtomDesignToken</span>
+            <span className="font-bold text-[var(--text-primary)]">AtomDesignToken</span>
             <span>— The Agent-Native UX & Design Token System</span>
           </div>
           <div className="flex items-center gap-6">
             <span>React · Vue · Angular · Vanilla HTML 호환</span>
-            <span className="font-mono">v0.1.48</span>
+            <span className="font-mono text-[var(--text-muted)]">v0.1.48</span>
           </div>
         </div>
       </footer>
