@@ -58,7 +58,8 @@ async function testComplexFormPattern() {
     console.log('✅ Progressive Disclosure dependent fields visible');
 
     // Take screenshot
-    const screenshotPath = path.resolve('public', 'complex-form-pattern-test.png');
+    const screenshotDir = path.resolve('test-results', 'screenshots');
+    const screenshotPath = path.resolve(screenshotDir, 'complex-form-pattern-test.png');
     await page.screenshot({ path: screenshotPath, fullPage: false });
     console.log(`📸 Screenshot saved to ${screenshotPath}`);
 

@@ -64,7 +64,8 @@ async function runTest() {
     await page.waitForTimeout(500);
 
     // Take screenshot
-    const screenshotPath = path.resolve('public', 'theme-editor-test.png');
+    const screenshotDir = path.resolve('test-results', 'screenshots');
+    const screenshotPath = path.resolve(screenshotDir, 'theme-editor-test.png');
     await page.screenshot({ path: screenshotPath, fullPage: false });
     console.log(`📸 Screenshot saved to ${screenshotPath}`);
 

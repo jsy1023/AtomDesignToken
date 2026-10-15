@@ -59,7 +59,8 @@ async function testPatternsSplitUX() {
     await allChip.click();
     await page.waitForTimeout(400);
 
-    const screenshotPath = path.resolve('public', 'patterns-split-ux-test.png');
+    const screenshotDir = path.resolve('test-results', 'screenshots');
+    const screenshotPath = path.resolve(screenshotDir, 'patterns-split-ux-test.png');
     await page.screenshot({ path: screenshotPath, fullPage: false });
     console.log(`📸 Screenshot saved to ${screenshotPath}`);
 

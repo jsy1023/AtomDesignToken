@@ -15,7 +15,8 @@ async function runDesignMdScreenshot() {
   await page.click('button:has-text("DESIGN.md (84)")');
   await page.waitForTimeout(500);
 
-  const screenshotPath = path.resolve('public', 'theme-editor-designmd-tab.png');
+  const screenshotDir = path.resolve('test-results', 'screenshots');
+  const screenshotPath = path.resolve(screenshotDir, 'theme-editor-designmd-tab.png');
   await page.screenshot({ path: screenshotPath });
   console.log(`📸 DESIGN.md tab screenshot saved to ${screenshotPath}`);
 

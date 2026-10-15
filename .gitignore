@@ -2,5 +2,18 @@ node_modules
 .next
 *storybook.log
 
+# Test & Playwright Artifacts
 /test-results/
 /playwright-report/
+
+# Images & Screenshots (Exclude from Git repository)
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.gif
+*.bmp
+*.tiff
+
+# Keep essential web assets
+!public/favicon.ico
