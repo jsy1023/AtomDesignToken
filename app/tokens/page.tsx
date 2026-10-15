@@ -25,6 +25,7 @@ import {
   LayoutGrid
 } from 'lucide-react';
 
+import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';
 import {
   TokenCategory,
   ColorToken,
@@ -41,12 +42,13 @@ import {
 } from '@/lib/data/tokens';
 
 export default function TokensPage() {
+  const { theme, updateColor, updateBorderRadius } = useThemeEditor();
   const [activeCategory, setActiveCategory] = useState<TokenCategory>('color');
   const [copiedVar, setCopiedVar] = useState<string | null>(null);
 
-  // Live Token Customizer State
-  const [liveBrandColor, setLiveBrandColor] = useState('#3182f6');
-  const [liveRadius, setLiveRadius] = useState('16px');
+  // Live Token Customizer State linked to ThemeEditor
+  const liveBrandColor = theme?.color?.primary || '#3182f6';
+  const liveRadius = theme?.borderRadius || '16px';
   const [searchFilter, setSearchFilter] = useState('');
 
   const handleCopy = (variable: string) => {
@@ -64,7 +66,7 @@ export default function TokensPage() {
   });
 
   return (
-    <div className="min-h-screen bg-[#fafafa] dark:bg-[#090a0f] text-neutral-900 dark:text-neutral-100 flex flex-col justify-between transition-colors">
+    <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] flex flex-col justify-between transition-colors">
       
       {/* Header */}
       <Header brandColor={liveBrandColor} />
@@ -73,21 +75,27 @@ export default function TokensPage() {
       <main className="max-w-7xl w-full mx-auto px-6 py-10 flex-1 flex flex-col gap-10">
 
         {/* 1. Hero & Concept Section */}
-        <section className="flex flex-col gap-6 border-b border-neutral-200/80 dark:border-neutral-800 pb-10">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-xs font-bold text-emerald-600 dark:text-emerald-400 w-fit">
+        <section className="flex flex-col gap-6 border-b border-[var(--border-subtle)] pb-10">
+          <div 
+            style={{ backgroundColor: `${liveBrandColor}15`, color: liveBrandColor, borderColor: `${liveBrandColor}30` }}
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border text-xs font-bold w-fit"
+          >
             <Sparkles className="w-3.5 h-3.5" />
             <span>W3C DTCG Standard · Single Source of Truth</span>
           </div>
 
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
             <div className="max-w-3xl">
-              <h1 className="text-3xl sm:text-5xl font-black tracking-tight leading-tight">
+              <h1 className="text-3xl sm:text-5xl font-black tracking-tight leading-tight text-[var(--text-primary)]">
                 디자인 토큰(Design Tokens)의 이해와<br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 via-blue-600 to-indigo-600">
+                <span 
+                  style={{ color: liveBrandColor }}
+                  className="font-black inline-block mt-1"
+                >
                   표준 CSS 변수 명세서
                 </span>
               </h1>
-              <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400 mt-4 leading-relaxed">
+              <p className="text-sm sm:text-base text-[var(--text-secondary)] mt-4 leading-relaxed">
                 디자인 토큰은 색상, 폰트, 여백, 곡률 등 <strong>UI의 모든 디자인 결정을 플랫폼에 독립적인 최소 단위 데이터</strong>로 정의한 것입니다. 
                 피그마나 마크다운에서 정의된 토큰은 CSS 변수(`var(--atom-...)`), Tailwind 클래스, TypeScript 타입으로 자동 컴파일되어 
                 React, Vue, 바닐라 HTML 어디서나 100% 동일하게 동작합니다.
@@ -95,34 +103,37 @@ export default function TokensPage() {
             </div>
 
             {/* Quick Live Preview Pill */}
-            <div className="p-4 rounded-2xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 shadow-sm flex flex-col gap-3 min-w-[280px]">
-              <span className="text-[11px] font-bold text-neutral-400 uppercase tracking-wider flex items-center gap-1.5">
-                <Sliders className="w-3.5 h-3.5 text-blue-500" />
+            <div 
+              style={{ borderRadius: liveRadius }}
+              className="p-4 bg-[var(--bg-secondary)] border border-[var(--border-strong)] shadow-sm flex flex-col gap-3 min-w-[280px]"
+            >
+              <span className="text-[11px] font-bold text-[var(--text-muted)] uppercase tracking-wider flex items-center gap-1.5">
+                <Sliders className="w-3.5 h-3.5" style={{ color: liveBrandColor }} />
                 실시간 토큰 값 프리뷰 테스트
               </span>
               <div className="flex items-center gap-3">
                 <div className="flex flex-col gap-1">
-                  <span className="text-[10px] text-neutral-500">브랜드 컬러</span>
+                  <span className="text-[10px] text-[var(--text-secondary)]">브랜드 컬러</span>
                   <div className="flex items-center gap-1.5">
                     {['#3182f6', '#ff6f0f', '#10b981', '#7c3aed'].map((c) => (
                       <button
                         key={c}
-                        onClick={() => setLiveBrandColor(c)}
-                        className={`w-6 h-6 rounded-full border-2 transition-transform ${liveBrandColor === c ? 'scale-110 border-neutral-900 dark:border-white shadow-sm' : 'border-transparent'}`}
+                        onClick={() => updateColor('primary', c)}
+                        className={`w-6 h-6 rounded-full border-2 transition-transform ${liveBrandColor === c ? 'scale-110 border-[var(--text-primary)] shadow-sm' : 'border-transparent'}`}
                         style={{ backgroundColor: c }}
                       />
                     ))}
                   </div>
                 </div>
 
-                <div className="h-8 w-px bg-neutral-200 dark:bg-neutral-800 mx-1" />
+                <div className="h-8 w-px bg-[var(--border-subtle)] mx-1" />
 
                 <div className="flex flex-col gap-1">
-                  <span className="text-[10px] text-neutral-500">테두리 곡률</span>
+                  <span className="text-[10px] text-[var(--text-secondary)]">테두리 곡률</span>
                   <select
                     value={liveRadius}
-                    onChange={(e) => setLiveRadius(e.target.value)}
-                    className="text-xs px-2 py-1 bg-neutral-100 dark:bg-neutral-800 rounded-lg border border-neutral-200 dark:border-neutral-700 font-semibold"
+                    onChange={(e) => updateBorderRadius(e.target.value)}
+                    className="text-xs px-2 py-1 bg-[var(--bg-primary)] text-[var(--text-primary)] rounded-lg border border-[var(--border-strong)] font-semibold"
                   >
                     <option value="6px">6px (샤프)</option>
                     <option value="12px">12px (표준)</option>
@@ -136,8 +147,11 @@ export default function TokensPage() {
 
           {/* 3-Tier Architecture Diagram */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4">
-            <div className="p-5 rounded-2xl bg-white dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800 shadow-xs">
-              <div className="text-[10px] font-extrabold uppercase tracking-wider text-neutral-400 mb-1">Tier 1</div>
+            <div 
+              style={{ borderRadius: liveRadius }}
+              className="p-5 bg-[var(--bg-secondary)] border border-[var(--border-strong)] shadow-xs"
+            >
+              <div className="text-[10px] font-extrabold uppercase tracking-wider text-[var(--text-muted)] mb-1">Tier 1</div>
               <h3 className="font-bold text-sm text-neutral-900 dark:text-white flex items-center gap-1.5 mb-2">
                 <Box className="w-4 h-4 text-emerald-500" />
                 Global / Raw Tokens
@@ -513,16 +527,22 @@ export default function TokensPage() {
         </section>
 
         {/* 4. AI Prompt & Usage Guide */}
-        <section className="p-8 rounded-3xl bg-white dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-6">
+        <section 
+          style={{ borderRadius: liveRadius }}
+          className="p-8 bg-[var(--bg-secondary)] border border-[var(--border-strong)] shadow-sm flex flex-col sm:flex-row items-center justify-between gap-6"
+        >
           <div>
-            <div className="inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 dark:text-blue-400 mb-2">
+            <div 
+              style={{ color: liveBrandColor }}
+              className="inline-flex items-center gap-1.5 text-xs font-bold mb-2"
+            >
               <Terminal className="w-3.5 h-3.5" />
               <span>AI Agent 프롬프트 연동</span>
             </div>
-            <h3 className="text-xl font-bold tracking-tight">
+            <h3 className="text-xl font-bold tracking-tight text-[var(--text-primary)]">
               AI에게 말만 걸면 디자인 토큰이 즉시 구축됩니다
             </h3>
-            <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1 max-w-xl">
+            <p className="text-xs text-[var(--text-secondary)] mt-1 max-w-xl">
               "presets/toss.md 가이드를 보고 디자인 토큰을 생성해줘"라고 지시하면, 
               Agent가 W3C tokens.json을 갱신하고 위 변수들을 즉시 컴파일합니다.
             </p>
@@ -531,7 +551,8 @@ export default function TokensPage() {
           <div className="flex items-center gap-3">
             <Link
               href="/patterns"
-              className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-md transition flex items-center gap-2"
+              style={{ backgroundColor: liveBrandColor, borderRadius: liveRadius }}
+              className="px-5 py-2.5 text-white font-bold text-xs shadow-md hover:opacity-90 active:scale-95 transition flex items-center gap-2"
             >
               <span>UX 패턴 보러가기</span>
               <ArrowRight className="w-4 h-4" />
@@ -542,17 +563,17 @@ export default function TokensPage() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-neutral-200 dark:border-neutral-800 py-8 bg-white/50 dark:bg-neutral-950/50 mt-12">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-neutral-500">
+      <footer className="border-t border-[var(--border-subtle)] py-8 bg-[var(--bg-secondary)] mt-12">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[var(--text-secondary)]">
           <div>
-            <span className="font-bold text-neutral-800 dark:text-neutral-200">AtomDesignToken Specification</span>
+            <span className="font-bold text-[var(--text-primary)]">AtomDesignToken Specification</span>
             <span> — Universal W3C DTCG Token System</span>
           </div>
           <div className="flex items-center gap-4">
             <Link href="/" className="hover:underline">메인으로 가기</Link>
             <Link href="/patterns" className="hover:underline">UX 패턴</Link>
             <Link href="/components" className="hover:underline">컴포넌트 갤러리</Link>
-            <span>v0.1.48</span>
+            <span className="text-[var(--text-muted)] font-mono">v0.1.48</span>
           </div>
         </div>
       </footer>
