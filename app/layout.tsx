@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { ThemeEditorRoot } from '@/components/editor/ThemeEditorRoot';
 
 export const metadata: Metadata = {
   title: 'AtomDesignToken - UI/UX 디자이너의 피그마 해방 | 말로 디자인하는 시대',
@@ -18,6 +19,7 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         {children}
+        <ThemeEditorRoot />
       </body>
     </html>
   );
