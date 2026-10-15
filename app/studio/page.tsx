@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { Header } from '@/components/Header';
+import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';
 import {
   PATTERNS_COLLECTION,
   PatternItem,
@@ -28,6 +29,8 @@ import {
 } from 'lucide-react';
 
 export default function StudioPage() {
+  const { theme, updateColor, updateBorderRadius } = useThemeEditor();
+
   // Wizard Step: 1 (Pattern) -> 2 (Components) -> 3 (Tokens)
   const [currentStep, setCurrentStep] = useState<1 | 2 | 3>(1);
 
@@ -35,7 +38,7 @@ export default function StudioPage() {
   const [platformFilter, setPlatformFilter] = useState<'all' | PatternPlatform>('all');
   const [searchFilter, setSearchFilter] = useState('');
 
-  // Selections State
+  // Selections State - initialized from global theme
   const [selectedPatternId, setSelectedPatternId] = useState<string>('saas-dashboard');
   const [selectedComponents, setSelectedComponents] = useState<string[]>([
     'card',
@@ -44,8 +47,10 @@ export default function StudioPage() {
     'tabs',
     'table'
   ]);
-  const [selectedBrandColor, setSelectedBrandColor] = useState<string>('#3182f6');
-  const [selectedRadius, setSelectedRadius] = useState<string>('16px');
+  const selectedBrandColor = theme?.color?.primary || '#3182f6';
+  const selectedRadius = theme?.borderRadius || '16px';
+  const setSelectedBrandColor = (c: string) => updateColor('primary', c);
+  const setSelectedRadius = (r: string) => updateBorderRadius(r);
   const [targetFramework, setTargetFramework] = useState<'react' | 'vue' | 'html'>('react');
   const [copiedPrompt, setCopiedPrompt] = useState(false);
 
@@ -174,63 +179,69 @@ ${selectedComponents
   };
 
   return (
-    <div className="min-h-screen bg-[#fafafa] dark:bg-[#090a0f] text-neutral-900 dark:text-neutral-100 flex flex-col justify-between transition-colors">
+    <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] flex flex-col justify-between transition-colors">
       {/* Global Header */}
-      <Header />
+      <Header brandColor={selectedBrandColor} />
 
       {/* Main Container */}
       <main className="max-w-7xl w-full mx-auto px-6 py-8 flex-1 flex flex-col gap-8">
         {/* Studio Top Stepper Navigation */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-neutral-200/80 dark:border-neutral-800">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[var(--border-subtle)]">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 text-xs font-bold text-blue-600 dark:text-blue-400 w-fit mb-2">
+            <div 
+              style={{ backgroundColor: `${selectedBrandColor}15`, color: selectedBrandColor, borderColor: `${selectedBrandColor}30` }}
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full border text-xs font-bold w-fit mb-2"
+            >
               <Sparkles className="w-3.5 h-3.5" />
               <span>Atom Studio 3-Step Wizard · patterns 연동 단일 진실 공급원(SSOT)</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-black text-neutral-900 dark:text-white">
+            <h1 className="text-2xl sm:text-3xl font-black text-[var(--text-primary)]">
               AI 프롬프트 빌더 스튜디오
             </h1>
-            <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 mt-1">
+            <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-1">
               UX 패턴 선택 ➔ 컴포넌트 구성 ➔ 디자인 토큰 주입의 3단계를 거쳐 실행 가능한 AI 지시서를 완성합니다.
             </p>
           </div>
 
           {/* Stepper Buttons */}
-          <div className="inline-flex items-center gap-1.5 p-1 rounded-2xl bg-neutral-200/70 dark:bg-neutral-800 border border-neutral-300/60 dark:border-neutral-700 text-xs font-bold">
+          <div className="inline-flex items-center gap-1.5 p-1 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-strong)] text-xs font-bold">
             <button
               onClick={() => setCurrentStep(1)}
-              className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl transition ${
+              style={currentStep === 1 ? { backgroundColor: selectedBrandColor, borderRadius: selectedRadius } : undefined}
+              className={`flex items-center gap-1.5 px-3.5 py-2 transition ${
                 currentStep === 1
-                  ? 'bg-blue-600 text-white shadow-sm'
-                  : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white'
+                  ? 'text-white shadow-sm'
+                  : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
               }`}
             >
               <span className="w-4 h-4 rounded-full bg-white/20 flex items-center justify-center text-[10px]">1</span>
               <span>1. UX 패턴</span>
             </button>
 
-            <span className="text-neutral-400">➔</span>
+            <span className="text-[var(--text-muted)]">➔</span>
 
             <button
               onClick={() => setCurrentStep(2)}
-              className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl transition ${
+              style={currentStep === 2 ? { backgroundColor: selectedBrandColor, borderRadius: selectedRadius } : undefined}
+              className={`flex items-center gap-1.5 px-3.5 py-2 transition ${
                 currentStep === 2
-                  ? 'bg-blue-600 text-white shadow-sm'
-                  : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white'
+                  ? 'text-white shadow-sm'
+                  : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
               }`}
             >
               <span className="w-4 h-4 rounded-full bg-white/20 flex items-center justify-center text-[10px]">2</span>
               <span>2. 컴포넌트</span>
             </button>
 
-            <span className="text-neutral-400">➔</span>
+            <span className="text-[var(--text-muted)]">➔</span>
 
             <button
               onClick={() => setCurrentStep(3)}
-              className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl transition ${
+              style={currentStep === 3 ? { backgroundColor: selectedBrandColor, borderRadius: selectedRadius } : undefined}
+              className={`flex items-center gap-1.5 px-3.5 py-2 transition ${
                 currentStep === 3
-                  ? 'bg-blue-600 text-white shadow-sm'
-                  : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white'
+                  ? 'text-white shadow-sm'
+                  : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
               }`}
             >
               <span className="w-4 h-4 rounded-full bg-white/20 flex items-center justify-center text-[10px]">3</span>
