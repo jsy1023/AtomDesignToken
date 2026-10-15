@@ -4,14 +4,17 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Sparkles, Layers, Terminal, Check, Copy, LayoutGrid, Palette, Zap } from 'lucide-react';
+import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';
 
 interface HeaderProps {
   brandColor?: string;
   rightExtra?: React.ReactNode;
 }
 
-export function Header({ brandColor = '#2563eb', rightExtra }: HeaderProps) {
+export function Header({ brandColor, rightExtra }: HeaderProps) {
   const pathname = usePathname();
+  const { theme } = useThemeEditor();
+  const activeBrandColor = brandColor || theme?.color?.primary || '#3182f6';
   const [copiedCli, setCopiedCli] = useState(false);
 
   const copyCli = () => {
@@ -26,13 +29,13 @@ export function Header({ brandColor = '#2563eb', rightExtra }: HeaderProps) {
   const isStudio = pathname?.startsWith('/studio');
 
   return (
-    <header className="sticky top-0 z-50 backdrop-blur-md bg-white/80 dark:bg-[#090a0f]/80 border-b border-neutral-200/70 dark:border-neutral-800/70 transition-colors">
+    <header className="sticky top-0 z-50 backdrop-blur-md bg-[var(--bg-primary)]/85 border-b border-[var(--border-subtle)] transition-colors">
       <div className="max-w-7xl w-full mx-auto px-6 h-16 flex items-center justify-between">
         {/* Left: Brand Logo & Title */}
         <Link href="/" className="flex items-center gap-3 group">
           <div 
             className="w-9 h-9 rounded-xl flex items-center justify-center text-white shadow-lg transition-transform group-hover:scale-105"
-            style={{ backgroundColor: brandColor }}
+            style={{ backgroundColor: activeBrandColor }}
           >
             <LayoutGrid className="w-5 h-5" />
           </div>

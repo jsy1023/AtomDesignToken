@@ -15,5 +15,8 @@ node_modules
 *.bmp
 *.tiff
 
+# Build cache
+*.tsbuildinfo
+
 # Keep essential web assets
 !public/favicon.ico

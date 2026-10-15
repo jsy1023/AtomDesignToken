@@ -2,14 +2,31 @@ import { ThemeConfig } from '@/lib/data/themeEditorDefaults';
 
 const STYLE_ELEMENT_ID = 'atom-theme-live-engine-style';
 
+const FONT_IMPORT_MAP: Record<string, string> = {
+  Inter: '@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");',
+  'Noto Sans KR': '@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap");',
+  'JetBrains Mono': '@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap");',
+  Outfit: '@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap");',
+  'Plus Jakarta Sans': '@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");',
+};
+
 /**
  * ThemeConfig를 받아 전역에 적용될 동적 CSS 문자열을 생성합니다.
  */
 export function generateThemeCSS(theme: ThemeConfig): string {
   const { color, typography, borderRadius } = theme;
 
+  // Detect font import if Google font selected
+  let fontImportCSS = '';
+  for (const [fontKey, importRule] of Object.entries(FONT_IMPORT_MAP)) {
+    if (typography.fontFamily.includes(fontKey)) {
+      fontImportCSS = `${importRule}\n`;
+      break;
+    }
+  }
+
   return `
-/* [AtomDesignToken] Live Injected Theme Variables */
+${fontImportCSS}/* [AtomDesignToken] Live Injected Theme Variables */
 :root {
   /* Font Family */
   --font-sans: ${typography.fontFamily};
@@ -126,13 +143,16 @@ h6, .atom-h6 {
 }
 
 /* Body & Paragraph styles */
+html, body, button, input, select, textarea, h1, h2, h3, h4, h5, h6 {
+  font-family: ${typography.fontFamily} !important;
+}
+
 body {
-  font-family: ${typography.fontFamily};
   background-color: ${color.bgPrimary};
   color: ${color.textPrimary};
 }
 
-.atom-body, p:not([class*="text-"]) {
+.atom-body, p:not([class*="text-xs"]):not([class*="text-sm"]) {
   font-size: ${typography.body.fontSize}px;
   line-height: ${typography.body.lineHeight};
   font-weight: ${typography.body.fontWeight};

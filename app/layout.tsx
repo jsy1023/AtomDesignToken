@@ -18,8 +18,9 @@ export default function RootLayout({
         className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] antialiased"
         suppressHydrationWarning
       >
-        {children}
-        <ThemeEditorRoot />
+        <ThemeEditorRoot>
+          {children}
+        </ThemeEditorRoot>
       </body>
     </html>
   );
