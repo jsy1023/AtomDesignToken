@@ -11,7 +11,7 @@ import {
 } from '@/lib/data/themeEditorDefaults';
 import { applyThemeToDOM } from '@/lib/services/themeEngine';
 
-export type EditorTab = 'colors' | 'typography' | 'preview' | 'export';
+export type EditorTab = 'colors' | 'typography' | 'design-md' | 'preview' | 'export';
 
 interface ThemeEditorContextValue {
   isOpen: boolean;
@@ -29,6 +29,7 @@ interface ThemeEditorContextValue {
   updateFontFamily: (fontFamily: string) => void;
   updateBorderRadius: (radius: string) => void;
   applyColorPreset: (preset: ColorPreset) => void;
+  applyFullTheme: (newTheme: ThemeConfig) => void;
   resetTheme: () => void;
   isDirty: boolean;
   mounted: boolean;
@@ -163,6 +164,13 @@ export function ThemeEditorProvider({ children }: { children: React.ReactNode })
     [persistAndApply]
   );
 
+  const applyFullTheme = useCallback(
+    (newTheme: ThemeConfig) => {
+      persistAndApply(newTheme);
+    },
+    [persistAndApply]
+  );
+
   const resetTheme = useCallback(() => {
     persistAndApply(DEFAULT_THEME_CONFIG);
   }, [persistAndApply]);
@@ -183,6 +191,7 @@ export function ThemeEditorProvider({ children }: { children: React.ReactNode })
         updateFontFamily,
         updateBorderRadius,
         applyColorPreset,
+        applyFullTheme,
         resetTheme,
         isDirty,
         mounted,

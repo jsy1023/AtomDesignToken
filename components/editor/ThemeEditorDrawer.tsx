@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import { useThemeEditor, EditorTab } from './ThemeEditorProvider';
 import { ColorEditorTab } from './tabs/ColorEditorTab';
 import { TypographyEditorTab } from './tabs/TypographyEditorTab';
+import { AwesomeThemesTab } from './tabs/AwesomeThemesTab';
 import { LivePreviewTab } from './tabs/LivePreviewTab';
 import { ExportTab } from './tabs/ExportTab';
 import {
@@ -14,7 +15,8 @@ import {
   Eye,
   Download,
   Sparkles,
-  CheckCircle2
+  CheckCircle2,
+  Globe
 } from 'lucide-react';
 
 export function ThemeEditorDrawer() {
@@ -34,10 +36,11 @@ export function ThemeEditorDrawer() {
   if (!mounted) return null;
 
   const tabs: { id: EditorTab; label: string; icon: React.ElementType }[] = [
+    { id: 'design-md', label: 'DESIGN.md (84)', icon: Globe },
     { id: 'colors', label: '색상', icon: Palette },
-    { id: 'typography', label: '타이포그래피', icon: Type },
+    { id: 'typography', label: '타이포', icon: Type },
     { id: 'preview', label: '미리보기', icon: Eye },
-    { id: 'export', label: '코드 내보내기', icon: Download },
+    { id: 'export', label: '내보내기', icon: Download },
   ];
 
   return (
@@ -136,6 +139,7 @@ export function ThemeEditorDrawer() {
 
         {/* 3. Tab Contents Body (Scrollable) */}
         <div className="flex-1 overflow-y-auto p-4 sm:p-5">
+          {activeTab === 'design-md' && <AwesomeThemesTab />}
           {activeTab === 'colors' && <ColorEditorTab />}
           {activeTab === 'typography' && <TypographyEditorTab />}
           {activeTab === 'preview' && <LivePreviewTab />}
