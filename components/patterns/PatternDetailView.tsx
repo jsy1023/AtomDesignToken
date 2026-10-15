@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import { PatternItem } from '@/lib/data/patterns';
+import { PatternItem, PATTERNS_COLLECTION } from '@/lib/data/patterns';
 import { DeviceMockupView } from './DeviceMockupView';
+import { PatternQuickSwitcher } from './PatternQuickSwitcher';
 import {
   ArrowLeft,
   Copy,
@@ -20,9 +21,16 @@ import {
 interface PatternDetailViewProps {
   pattern: PatternItem;
   onBack: () => void;
+  onSelectPattern?: (id: string) => void;
+  allPatterns?: PatternItem[];
 }
 
-export function PatternDetailView({ pattern, onBack }: PatternDetailViewProps) {
+export function PatternDetailView({
+  pattern,
+  onBack,
+  onSelectPattern,
+  allPatterns = PATTERNS_COLLECTION,
+}: PatternDetailViewProps) {
   const [copied, setCopied] = useState(false);
   const isWeb = pattern.platform === 'web';
   const currentVariant = pattern.variants[0];
@@ -46,6 +54,16 @@ export function PatternDetailView({ pattern, onBack }: PatternDetailViewProps) {
 
   return (
     <div className="flex flex-col gap-6 w-full">
+      {/* Quick Pattern Switcher Bar */}
+      {onSelectPattern && (
+        <PatternQuickSwitcher
+          currentPatternId={pattern.id}
+          onSelectPattern={onSelectPattern}
+          onBackToGrid={onBack}
+          filteredList={allPatterns}
+        />
+      )}
+
       {/* 1. Top Navigation Bar: Back Button & Actions */}
       <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-neutral-200 dark:border-neutral-800">
         <button
