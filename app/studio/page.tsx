@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import Link from 'next/link';
 import { Header } from '@/components/Header';
 import {
   PATTERNS_COLLECTION,
@@ -21,14 +20,11 @@ import {
   Copy,
   Download,
   ArrowRight,
-  ArrowLeft,
   Smartphone,
   Monitor,
   CheckCircle2,
   Search,
-  Code2,
-  Eye,
-  Sliders
+  Eye
 } from 'lucide-react';
 
 export default function StudioPage() {

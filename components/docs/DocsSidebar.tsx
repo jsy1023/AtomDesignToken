@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { GALLERY_COMPONENTS } from '@/lib/data/components';
-import { Search, BookOpen, Layers, Terminal, Sparkles, ChevronRight } from 'lucide-react';
+import { Search, BookOpen, Layers } from 'lucide-react';
 
 interface DocsSidebarProps {
   searchQuery?: string;

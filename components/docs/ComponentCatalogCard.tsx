@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { GalleryComponent } from '@/lib/data/components';
-import { ArrowRight, Code2, Sparkles } from 'lucide-react';
+import { ArrowRight, Code2 } from 'lucide-react';
 
 interface ComponentCatalogCardProps {
   component: GalleryComponent;
