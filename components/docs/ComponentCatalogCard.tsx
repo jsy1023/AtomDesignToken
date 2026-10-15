@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';
 import { GalleryComponent } from '@/lib/data/components';
 import { ArrowRight, Code2 } from 'lucide-react';
 
@@ -11,21 +12,31 @@ interface ComponentCatalogCardProps {
 }
 
 export function ComponentCatalogCard({ component, renderPreview }: ComponentCatalogCardProps) {
+  const { theme } = useThemeEditor();
+  const brandColor = theme?.color?.primary || '#3182f6';
+  const radius = theme?.borderRadius || '16px';
+
   return (
-    <div className="p-6 rounded-3xl bg-white dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800 shadow-xs hover:shadow-md hover:border-blue-500/50 transition-all flex flex-col justify-between gap-5 group">
+    <div 
+      style={{ borderRadius: radius }}
+      className="p-6 bg-[var(--bg-secondary)] border border-[var(--border-strong)] shadow-xs hover:shadow-md transition-all flex flex-col justify-between gap-5 group"
+    >
       {/* 1. Header: Title, Semantic Class, Category */}
       <div className="flex flex-col gap-2">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-2">
-            <h3 className="text-lg font-bold text-neutral-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition">
+            <h3 className="text-lg font-bold text-[var(--text-primary)] transition">
               {component.name}
             </h3>
-            <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 font-bold border border-blue-200 dark:border-blue-800">
+            <span 
+              style={{ backgroundColor: `${brandColor}15`, color: brandColor, borderColor: `${brandColor}30` }}
+              className="text-[10px] font-mono px-2 py-0.5 rounded-full font-bold border"
+            >
               .atom-{component.id}
             </span>
           </div>
 
-          <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400">
+          <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-[var(--bg-primary)] text-[var(--text-secondary)] border border-[var(--border-subtle)]">
             {component.category}
           </span>
         </div>

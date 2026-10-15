@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Header } from '@/components/Header';
+import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';
 import { GALLERY_COMPONENTS, ComponentCategory } from '@/lib/data/components';
 import { DocsSidebar } from '@/components/docs/DocsSidebar';
 import { ComponentCatalogCard } from '@/components/docs/ComponentCatalogCard';
@@ -20,6 +21,10 @@ import {
 } from 'lucide-react';
 
 export default function ComponentsGalleryPage() {
+  const { theme } = useThemeEditor();
+  const brandColor = theme?.color?.primary || '#3182f6';
+  const radius = theme?.borderRadius || '16px';
+
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<ComponentCategory>('all');
   const [copiedCli, setCopiedCli] = useState(false);
@@ -306,9 +311,9 @@ export default function ComponentsGalleryPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#fafafa] dark:bg-[#090a0f] text-neutral-900 dark:text-neutral-100 flex flex-col justify-between transition-colors">
+    <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] flex flex-col justify-between transition-colors">
       {/* Global Header */}
-      <Header />
+      <Header brandColor={brandColor} />
 
       {/* Main 2-Column Documentation Container */}
       <main className="max-w-7xl w-full mx-auto px-6 py-8 flex-1 flex gap-8 items-start">
@@ -322,17 +327,20 @@ export default function ComponentsGalleryPage() {
         {/* 2. Right/Center Column: Component Catalog Hub */}
         <div className="flex-1 min-w-0 flex flex-col gap-8">
           {/* Hero Section */}
-          <section className="flex flex-col gap-4 pb-6 border-b border-neutral-200/80 dark:border-neutral-800">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 text-xs font-bold text-blue-600 dark:text-blue-400 w-fit">
+          <section className="flex flex-col gap-4 pb-6 border-b border-[var(--border-subtle)]">
+            <div 
+              style={{ backgroundColor: `${brandColor}15`, color: brandColor, borderColor: `${brandColor}30` }}
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full border text-xs font-bold w-fit"
+            >
               <Layers className="w-3.5 h-3.5" />
               <span>10대 핵심 컴포넌트 갤러리 카탈로그</span>
             </div>
 
             <div>
-              <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-neutral-900 dark:text-white">
+              <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-[var(--text-primary)]">
                 컴포넌트 갤러리 (Component Catalog)
               </h1>
-              <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400 mt-2 leading-relaxed">
+              <p className="text-sm sm:text-base text-[var(--text-secondary)] mt-2 leading-relaxed">
                 각 컴포넌트를 선택하면 <strong>전용 상세 페이지</strong>로 이동하여 <strong>프레임워크별 코드 복사(React, Vue, Vanilla HTML)</strong>, <strong>실무 사용 케이스</strong>, <strong>설계 지침(Usage Patterns)</strong>, <strong>Do's & Don'ts</strong> 및 <strong>API 명세</strong>를 확인할 수 있습니다.
               </p>
             </div>

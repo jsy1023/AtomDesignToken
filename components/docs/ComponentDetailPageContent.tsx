@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Header } from '@/components/Header';
+import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';
 import { DocsSidebar } from '@/components/docs/DocsSidebar';
 import { GalleryComponent } from '@/lib/data/components';
 import { PATTERNS_COLLECTION } from '@/lib/data/patterns';
@@ -27,6 +28,10 @@ interface ComponentDetailPageContentProps {
 }
 
 export function ComponentDetailPageContent({ component }: ComponentDetailPageContentProps) {
+  const { theme } = useThemeEditor();
+  const brandColor = theme?.color?.primary || '#3182f6';
+  const radius = theme?.borderRadius || '16px';
+
   const [activeSnippetTab, setActiveSnippetTab] = useState<'react' | 'vue' | 'html'>('react');
   const [copied, setCopied] = useState(false);
 
@@ -335,9 +340,9 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
   );
 
   return (
-    <div className="min-h-screen bg-[#fafafa] dark:bg-[#090a0f] text-neutral-900 dark:text-neutral-100 flex flex-col justify-between transition-colors">
+    <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] flex flex-col justify-between transition-colors">
       {/* Global Header */}
-      <Header />
+      <Header brandColor={brandColor} />
 
       {/* Main 3-Column Documentation Container */}
       <main className="max-w-7xl w-full mx-auto px-6 py-8 flex-1 flex gap-8 items-start">
@@ -347,10 +352,10 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
         {/* 2. Center Column: Main Component Content */}
         <div className="flex-1 min-w-0 flex flex-col gap-8">
           {/* Navigation & Header */}
-          <div className="flex flex-col gap-4 pb-6 border-b border-neutral-200/80 dark:border-neutral-800">
+          <div className="flex flex-col gap-4 pb-6 border-b border-[var(--border-subtle)]">
           <Link
             href="/components"
-            className="inline-flex items-center gap-2 text-xs font-bold text-neutral-600 dark:text-neutral-400 hover:text-blue-600 dark:hover:text-blue-400 transition w-fit"
+            className="inline-flex items-center gap-2 text-xs font-bold text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition w-fit"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>전체 컴포넌트 갤러리로 돌아가기</span>
@@ -359,17 +364,20 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
           <div className="flex flex-wrap items-center justify-between gap-4 mt-2">
             <div>
               <div className="flex items-center gap-2 mb-2">
-                <span className="text-[11px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800">
+                <span 
+                  style={{ backgroundColor: `${brandColor}15`, color: brandColor, borderColor: `${brandColor}30` }}
+                  className="text-[11px] font-mono font-bold px-2.5 py-0.5 rounded-full border"
+                >
                   .atom-{component.id}
                 </span>
-                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400">
+                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-[var(--bg-secondary)] text-[var(--text-secondary)] border border-[var(--border-subtle)]">
                   {component.category}
                 </span>
-                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400">
+                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-[var(--bg-secondary)] text-[var(--text-secondary)] border border-[var(--border-subtle)]">
                   {component.source}
                 </span>
               </div>
-              <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-neutral-900 dark:text-white">
+              <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-[var(--text-primary)]">
                 {component.name}
               </h1>
               <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400 mt-2 leading-relaxed max-w-2xl">

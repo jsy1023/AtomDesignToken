@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';
 import { GALLERY_COMPONENTS } from '@/lib/data/components';
 import { Search, BookOpen, Layers } from 'lucide-react';
 
@@ -16,6 +17,10 @@ export function DocsSidebar({
   onSearchChange: externalOnSearchChange,
   activeId
 }: DocsSidebarProps) {
+  const { theme } = useThemeEditor();
+  const brandColor = theme?.color?.primary || '#3182f6';
+  const radius = theme?.borderRadius || '12px';
+
   const [internalQuery, setInternalQuery] = useState('');
   const query = externalSearchQuery !== undefined ? externalSearchQuery : internalQuery;
   const setQuery = externalOnSearchChange || setInternalQuery;
@@ -41,14 +46,15 @@ export function DocsSidebar({
       <Link
         key={comp.id}
         href={`/components/${comp.id}`}
-        className={`px-3 py-1.5 rounded-xl text-left text-xs font-medium transition flex items-center justify-between ${
+        style={isActive ? { backgroundColor: brandColor, borderRadius: radius } : { borderRadius: radius }}
+        className={`px-3 py-1.5 text-left text-xs font-medium transition flex items-center justify-between ${
           isActive
-            ? 'bg-blue-600 text-white font-bold shadow-xs'
-            : 'text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-850 hover:text-neutral-900 dark:hover:text-white'
+            ? 'text-white font-bold shadow-xs'
+            : 'text-[var(--text-secondary)] hover:bg-[var(--border-subtle)] hover:text-[var(--text-primary)]'
         }`}
       >
         <span>{comp.name.split(' (')[0]}</span>
-        <span className={`text-[10px] font-mono ${isActive ? 'text-blue-100' : 'opacity-60'}`}>
+        <span className={`text-[10px] font-mono ${isActive ? 'text-white/80' : 'opacity-60'}`}>
           .{comp.id}
         </span>
       </Link>
