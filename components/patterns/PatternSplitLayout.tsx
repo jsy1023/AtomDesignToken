@@ -19,6 +19,8 @@ import {
   Filter
 } from 'lucide-react';
 
+import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';
+
 export const PATTERN_CATEGORY_FILTERS = [
   { id: 'all', label: '전체 카테고리' },
   { id: 'analytics', label: '📊 분석/대시보드', match: ['Analytics & SaaS'] },
@@ -43,6 +45,9 @@ export function PatternSplitLayout({
   onSelectPattern,
   onSwitchToGrid,
 }: PatternSplitLayoutProps) {
+  const { theme } = useThemeEditor();
+  const brandColor = theme?.color?.primary || '#3182f6';
+  const radius = theme?.borderRadius || '16px';
   const [platformFilter, setPlatformFilter] = useState<'all' | PatternPlatform>('all');
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
@@ -101,7 +106,10 @@ export function PatternSplitLayout({
   return (
     <div className="flex flex-col lg:flex-row gap-6 w-full items-start">
       {/* 1. Left Master List Sidebar */}
-      <aside className="w-full lg:w-[380px] shrink-0 bg-white dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800 rounded-3xl p-4 shadow-sm flex flex-col gap-4">
+      <aside 
+        style={{ borderRadius: radius }}
+        className="w-full lg:w-[380px] shrink-0 bg-[var(--bg-secondary)] border border-[var(--border-strong)] p-4 shadow-sm flex flex-col gap-4"
+      >
         {/* Search & Platform Filters */}
         <div className="space-y-3">
           <div className="relative">
@@ -198,10 +206,19 @@ export function PatternSplitLayout({
                 key={p.id}
                 type="button"
                 onClick={() => onSelectPattern(p.id)}
-                className={`w-full p-3 rounded-2xl border text-left transition-all duration-200 flex flex-col gap-1.5 ${
+                style={
                   isSelected
-                    ? 'border-blue-600 dark:border-blue-500 bg-blue-50/70 dark:bg-blue-950/40 shadow-xs ring-1 ring-blue-500/30'
-                    : 'border-neutral-200/80 dark:border-neutral-800 bg-white dark:bg-neutral-900 hover:border-neutral-300 dark:hover:border-neutral-700 hover:bg-neutral-50/50'
+                    ? {
+                        borderColor: brandColor,
+                        backgroundColor: `${brandColor}12`,
+                        borderRadius: radius,
+                      }
+                    : { borderRadius: radius }
+                }
+                className={`w-full p-3 border text-left transition-all duration-200 flex flex-col gap-1.5 ${
+                  isSelected
+                    ? 'border-2 shadow-xs'
+                    : 'border-[var(--border-subtle)] bg-[var(--bg-secondary)] hover:border-[var(--border-strong)]'
                 }`}
               >
                 <div className="flex items-center justify-between gap-1.5">
@@ -216,29 +233,31 @@ export function PatternSplitLayout({
                     <span>{isWeb ? 'WEB' : '모바일'}</span>
                   </span>
 
-                  <span className="text-[10px] text-neutral-400 font-medium truncate">
+                  <span className="text-[10px] text-[var(--text-muted)] font-medium truncate">
                     {p.categoryName}
                   </span>
                 </div>
 
                 <div className="flex items-center justify-between gap-2">
                   <span
+                    style={isSelected ? { color: brandColor } : undefined}
                     className={`font-bold text-xs truncate ${
                       isSelected
-                        ? 'text-blue-700 dark:text-blue-300'
-                        : 'text-neutral-900 dark:text-neutral-100'
+                        ? ''
+                        : 'text-[var(--text-primary)]'
                     }`}
                   >
                     {p.title}
                   </span>
                   <ChevronRight
+                    style={isSelected ? { color: brandColor } : undefined}
                     className={`w-3.5 h-3.5 shrink-0 transition-transform ${
-                      isSelected ? 'text-blue-600 translate-x-0.5' : 'text-neutral-300'
+                      isSelected ? 'translate-x-0.5' : 'text-[var(--text-muted)]'
                     }`}
                   />
                 </div>
 
-                <p className="text-[11px] text-neutral-500 dark:text-neutral-400 line-clamp-1 leading-relaxed">
+                <p className="text-[11px] text-[var(--text-secondary)] line-clamp-1 leading-relaxed">
                   {p.summary}
                 </p>
               </button>
@@ -266,7 +285,10 @@ export function PatternSplitLayout({
             />
 
             {/* Pattern Header Information */}
-            <div className="p-5 rounded-3xl bg-white dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div 
+              style={{ borderRadius: radius }}
+              className="p-5 bg-[var(--bg-secondary)] border border-[var(--border-strong)] shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4"
+            >
               <div>
                 <div className="flex items-center gap-2 mb-1.5">
                   <span
