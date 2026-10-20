@@ -1,0 +1,41 @@
+@import "tailwindcss";
+@import "atomsystem/css/atom-ui.css";
+
+:root {
+  --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8f9fa;
+  --text-primary: #191f28;
+  --text-secondary: #8b95a1;
+  --text-muted: #b0b8c1;
+  --border-subtle: #f2f4f6;
+  --border-strong: #e5e8eb;
+  
+  --accent-primary: #3182f6;
+  --accent-hover: #1b64da;
+  --accent-light: #e8f3ff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-primary: #0f1115;
+    --bg-secondary: #171a21;
+    --text-primary: #f2f4f6;
+    --text-secondary: #8b95a1;
+    --text-muted: #4e5968;
+    --border-subtle: #222631;
+    --border-strong: #2c3240;
+    
+    --accent-primary: #3b82f6;
+    --accent-hover: #60a5fa;
+    --accent-light: #1e293b;
+  }
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

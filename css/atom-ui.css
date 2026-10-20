@@ -1,0 +1,216 @@
+/**
+ * AtomSystem Universal Framework-Agnostic CSS
+ * Compatible with React, Vue, Angular, Vanilla JS, and jQuery.
+ */
+
+:root {
+  --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+  
+  /* Semantic Color Tokens */
+  --atom-bg-primary: #ffffff;
+  --atom-bg-secondary: #f8f9fa;
+  --atom-bg-surface: #ffffff;
+  --atom-text-primary: #191f28;
+  --atom-text-secondary: #8b95a1;
+  --atom-text-muted: #b0b8c1;
+  --atom-border-subtle: #f2f4f6;
+  --atom-border-strong: #e5e8eb;
+  
+  /* Brand Accent Tokens */
+  --atom-primary: #3182f6;
+  --atom-primary-hover: #1b64da;
+  --atom-primary-light: #e8f3ff;
+  --atom-destructive: #f04452;
+  --atom-destructive-hover: #dc2626;
+  --atom-success: #10b981;
+  --atom-warning: #f59e0b;
+
+  /* Typography & Radius */
+  --atom-radius-sm: 8px;
+  --atom-radius-md: 12px;
+  --atom-radius-lg: 16px;
+  --atom-radius-full: 9999px;
+  --atom-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --atom-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --atom-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --atom-bg-primary: #0f1115;
+    --atom-bg-secondary: #171a21;
+    --atom-bg-surface: #1e222d;
+    --atom-text-primary: #f2f4f6;
+    --atom-text-secondary: #8b95a1;
+    --atom-text-muted: #4e5968;
+    --atom-border-subtle: #222631;
+    --atom-border-strong: #2c3240;
+    
+    --atom-primary: #3b82f6;
+    --atom-primary-hover: #60a5fa;
+    --atom-primary-light: #1e293b;
+    --atom-destructive: #f87171;
+    --atom-destructive-hover: #ef4444;
+  }
+}
+
+/* === Universal Component Classes === */
+
+/* Buttons */
+.atom-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: var(--atom-radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  text-decoration: none;
+  user-select: none;
+}
+.atom-btn:focus-visible {
+  outline: 2px solid var(--atom-primary);
+  outline-offset: 2px;
+}
+.atom-btn:disabled, .atom-btn[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.atom-btn-primary {
+  background-color: var(--atom-primary);
+  color: #ffffff;
+}
+.atom-btn-primary:hover:not(:disabled) {
+  background-color: var(--atom-primary-hover);
+}
+
+.atom-btn-secondary {
+  background-color: var(--atom-bg-secondary);
+  color: var(--atom-text-primary);
+  border-color: var(--atom-border-strong);
+}
+.atom-btn-secondary:hover:not(:disabled) {
+  background-color: var(--atom-border-subtle);
+}
+
+.atom-btn-outline {
+  background-color: transparent;
+  color: var(--atom-text-primary);
+  border-color: var(--atom-border-strong);
+}
+.atom-btn-outline:hover:not(:disabled) {
+  background-color: var(--atom-bg-secondary);
+}
+
+.atom-btn-destructive {
+  background-color: var(--atom-destructive);
+  color: #ffffff;
+}
+.atom-btn-destructive:hover:not(:disabled) {
+  background-color: var(--atom-destructive-hover);
+}
+
+.atom-btn-sm {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.625rem;
+  border-radius: var(--atom-radius-sm);
+}
+.atom-btn-lg {
+  font-size: 1rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--atom-radius-lg);
+}
+
+/* Cards */
+.atom-card {
+  background-color: var(--atom-bg-surface);
+  border: 1px solid var(--atom-border-subtle);
+  border-radius: var(--atom-radius-lg);
+  padding: 1.25rem;
+  box-shadow: var(--atom-shadow-sm);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.atom-card-interactive {
+  cursor: pointer;
+}
+.atom-card-interactive:hover {
+  border-color: var(--atom-primary);
+  box-shadow: var(--atom-shadow-md);
+}
+
+/* Inputs */
+.atom-input {
+  display: block;
+  width: 100%;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--atom-radius-md);
+  border: 1px solid var(--atom-border-strong);
+  background-color: var(--atom-bg-surface);
+  color: var(--atom-text-primary);
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.atom-input:focus {
+  border-color: var(--atom-primary);
+  box-shadow: 0 0 0 3px var(--atom-primary-light);
+}
+.atom-input::placeholder {
+  color: var(--atom-text-muted);
+}
+
+/* Badges */
+.atom-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--atom-radius-full);
+  background-color: var(--atom-bg-secondary);
+  color: var(--atom-text-secondary);
+  border: 1px solid var(--atom-border-subtle);
+}
+.atom-badge-primary {
+  background-color: var(--atom-primary-light);
+  color: var(--atom-primary);
+  border-color: transparent;
+}
+.atom-badge-success {
+  background-color: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+  border-color: transparent;
+}
+
+/* Typography Helpers */
+.atom-title-1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--atom-text-primary);
+}
+.atom-title-2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--atom-text-primary);
+}
+.atom-body-1 {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--atom-text-primary);
+}
+.atom-body-2 {
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: var(--atom-text-secondary);
+}

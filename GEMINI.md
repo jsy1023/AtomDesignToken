@@ -52,6 +52,15 @@ components/ (Presentation Layer)
 ### C. 데이터 모델 불변성(Immutability) 유지
 - 원천 데이터를 직접 변경(mutation)하지 않고, 항상 불변 객체 복사나 순수 함수 매핑을 통해 새로운 상태를 생성합니다.
 
+### D. 테스팅 표준: Playwright 기반 E2E 및 인터랙션 검증 (필수)
+- 본 프로젝트의 모든 UI 화면 및 핵심 비즈니스 로직 연동(페이지 렌더링, 파일 업로드, 트리 조작, 검색 및 모달 인터랙션 등) 검증은 **Playwright(`@playwright/test`)**를 공식 도구로 채택하여 진행합니다.
+- 새로운 페이지/기능/컴포넌트 개발 및 주요 리팩토링 시, 반드시 `e2e/` 디렉토리에 해당 시나리오를 검증하는 Playwright 테스트 코드(`*.spec.ts`)를 작성하거나 갱신해야 합니다.
+- **테스트 실행 표준 명령어**:
+  - Headless E2E 테스트 실행: `npm run test:e2e` (또는 `npx playwright test`)
+  - 대화형 UI 모드 테스트: `npm run test:e2e:ui`
+  - 테스트 결과 리포트 확인: `npm run test:e2e:report`
+- 테스트 작성 시 하드코딩된 대기(`waitForTimeout`)를 지양하고, 웹 표준 로케이터(`getByRole`, `getByPlaceholder`, `getByText`)와 웹 안정성 대기(Web-First Assertions: `expect(locator).toBeVisible()`)를 준수합니다.
+
 ---
 
 ## 3. 작업 전/후 AI 점검 체크리스트
@@ -59,3 +68,4 @@ components/ (Presentation Layer)
 - [ ] 컴포넌트가 렌더링 외의 과도한 데이터 가공 책임을 지고 있지 않은가?
 - [ ] 동일한 로직이나 데이터 구조가 다른 페이지와 중복되고 있지 않은가?
 - [ ] 타입스크립트 인터페이스가 명확히 정의되어 있고 타입 단언(`any`)을 사용하지 않았는가?
+- [ ] UI 및 사용자 플로우 검증을 위해 **Playwright E2E 테스트(`e2e/*.spec.ts`)**가 작성/실행되어 정상 통과했는가?

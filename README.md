@@ -104,13 +104,49 @@ npm run token-build
 
 ---
 
+## 📦 라이브러리 빌드 & NPM 패키징 (NPM Package Workflow)
+
+AtomSystem은 NPM 배포 라이브러리입니다. 아래 명령어로 라이브러리를 빌드하거나 배포용 패키지를 검증할 수 있습니다:
+
+```bash
+# 1. 라이브러리 CJS, ESM, DTS 타입 빌드 (tsup)
+npm run build:lib
+
+# 2. 배포용 tarball 패키징 검증
+npm run pack:lib
+```
+
+---
+
+## 🚀 독립 실행형 예제 프로젝트 (Consumer Examples)
+
+디자인 토큰 라이브러리를 외부 프로젝트에서 실제로 NPM 패키지로 설치하여 사용할 때의 동작을 검증하기 위한 독립 실행 예제들입니다:
+
+### 1. SNMP MIB Browser (`examples/mib-browser`)
+라이브러리(`atomsystem`)의 CSS 및 토큰 규격을 소비하여 개발된 독립 실행형 SNMP MIB 파서 & OID 계층 트리 검색엔진입니다.
+
+```bash
+# 독립 MIB 브라우저 실행 (포트 3001)
+npm run example:mib
+
+# 독립 MIB 브라우저 빌드
+npm run example:mib:build
+
+# 독립 MIB 브라우저 Playwright E2E 테스트
+npm run example:mib:test
+```
+
+---
+
 ## 📂 디렉토리 구조
 
+- `/src`: NPM 배포용 라이브러리 공용 API 진입점 (`index.ts`)
+- `/dist`: 컴파일된 배포 번들 (CJS, ESM, DTS)
+- `/css`: 프레임워크 독립적 범용 스타일시트 (`atom-ui.css`)
 - `/presets`: 디자인 가이드 마크다운 (`toss.md`, `daangn.md`, `custom-template.md`)
 - `/tokens`: 디자인 토큰 단일 진실 공급원 (`tokens.json`)
-- `/build`: 컴파일된 CSS 변수(`_variables.css`) 및 TypeScript 타입
-- `/css`: 프레임워크 독립적 범용 스타일시트 (`atom-ui.css`)
-- `/src/vanilla`: Vanilla JS / jQuery 인터랙션 헬퍼
+- `/examples`: 라이브러리를 외부 패키지로 참조하는 독립 실행형 예제 애플리케이션
+  - `/examples/mib-browser`: SNMP MIB 파서 & OID 탐색기 독립 앱
 - `/.agents/skills/tokens-skills`: Agent 전용 디자인 시스템 자동화 스킬
 
 ---
