@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Sparkles, Layers, Terminal, Check, Copy, LayoutGrid, Palette, Zap } from 'lucide-react';
+import { Sparkles, Layers, Terminal, Check, Copy, LayoutGrid, Palette, Zap, BookOpen } from 'lucide-react';
 import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';
 
 interface HeaderProps {
@@ -27,6 +27,7 @@ export function Header({ brandColor, rightExtra }: HeaderProps) {
   const isPatterns = pathname?.startsWith('/patterns');
   const isComponents = pathname?.startsWith('/components');
   const isStudio = pathname?.startsWith('/studio');
+  const isGuide = pathname?.startsWith('/guide');
 
   return (
     <header className="sticky top-0 z-50 backdrop-blur-md bg-[var(--bg-primary)]/85 border-b border-[var(--border-subtle)] transition-colors">
@@ -97,6 +98,17 @@ export function Header({ brandColor, rightExtra }: HeaderProps) {
             <span className="text-[9px] font-bold px-1.5 py-0.2 rounded-full bg-amber-500/15 text-amber-600 dark:text-amber-400">
               NEW
             </span>
+          </Link>
+          <Link 
+            href="/guide" 
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl transition-all ${
+              isGuide 
+                ? 'text-violet-600 dark:text-violet-400 font-bold bg-violet-50 dark:bg-violet-950/60 shadow-xs' 
+                : 'text-neutral-600 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800/60'
+            }`}
+          >
+            <BookOpen className={`w-3.5 h-3.5 ${isGuide ? 'text-violet-600 dark:text-violet-400' : 'text-neutral-400'}`} />
+            <span>사용 가이드</span>
           </Link>
         </nav>
 

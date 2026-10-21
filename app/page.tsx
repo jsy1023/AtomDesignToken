@@ -148,20 +148,20 @@ export default function Home() {
             <ArrowRight className="w-4 h-4 ml-1" />
           </Link>
 
+          <Link
+            href="/guide"
+            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 font-bold text-sm shadow-md hover:opacity-90 active:scale-[0.98] transition-all"
+          >
+            <Layers className="w-4 h-4 text-blue-400 dark:text-blue-600" />
+            <span>라이브러리 활용 가이드</span>
+          </Link>
+
           <a 
             href="#studio" 
             className="inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 text-neutral-800 dark:text-neutral-200 font-semibold text-sm hover:bg-neutral-50 dark:hover:bg-neutral-800 active:scale-[0.98] transition-all"
           >
             <Sliders className="w-4 h-4 text-neutral-500" />
             <span>라이브 스튜디오 체험</span>
-          </a>
-
-          <a
-            href="#workflow"
-            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-transparent border border-neutral-300 dark:border-neutral-700 text-neutral-600 dark:text-neutral-400 font-semibold text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800 active:scale-[0.98] transition-all"
-          >
-            <Workflow className="w-4 h-4 text-neutral-400" />
-            <span>4단계 워크플로우</span>
           </a>
         </div>
       </section>
