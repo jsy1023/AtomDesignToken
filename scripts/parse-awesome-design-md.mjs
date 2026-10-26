@@ -129,21 +129,76 @@ function main() {
 
     const colors = parsed.colors || {};
     const typo = parsed.typography || {};
-    const radii = parsed.radii || {};
+    const isDarkHex = (hex) => {
+      if (!hex || typeof hex !== 'string' || !hex.startsWith('#')) return false;
+      const clean = hex.replace('#', '');
+      if (clean.length === 3) {
+        const r = parseInt(clean[0] + clean[0], 16);
+        const g = parseInt(clean[1] + clean[1], 16);
+        const b = parseInt(clean[2] + clean[2], 16);
+        return (r * 299 + g * 587 + b * 114) / 1000 < 128;
+      }
+      if (clean.length < 6) return false;
+      const r = parseInt(clean.substring(0, 2), 16);
+      const g = parseInt(clean.substring(2, 4), 16);
+      const b = parseInt(clean.substring(4, 6), 16);
+      return (r * 299 + g * 587 + b * 114) / 1000 < 128;
+    };
 
     const primary = colors.primary || colors['brand-primary'] || colors['accent'] || '#3182f6';
     const primaryHover = colors['primary-hover'] || colors['primary-focus'] || colors['primary-deep'] || primary;
-    const primaryLight = colors['primary-soft'] || colors['primary-subtle'] || colors['surface-1'] || '#e8f3ff';
     const bgPrimary = colors.canvas || colors.background || colors['surface-base'] || '#ffffff';
-    const bgSecondary = colors['surface-1'] || colors['surface-2'] || colors['canvas-soft'] || '#f8f9fa';
-    const textPrimary = colors.ink || colors.body || colors['text-primary'] || '#191f28';
-    const textSecondary = colors['ink-muted'] || colors['ink-secondary'] || colors['body-muted'] || '#8b95a1';
-    const textMuted = colors['ink-subtle'] || colors['ink-mute-2'] || colors['ink-tertiary'] || '#b0b8c1';
-    const borderSubtle = colors.hairline || colors['divider-soft'] || colors['border-subtle'] || '#f2f4f6';
-    const borderStrong = colors['hairline-strong'] || colors['hairline-input'] || colors['border-strong'] || '#e5e8eb';
+    const isDark = isDarkHex(bgPrimary);
+
+    const primaryLight =
+      colors['primary-soft'] ||
+      colors['primary-subtle'] ||
+      colors['primary-light'] ||
+      (isDark ? `${primary}26` : '#e8f3ff');
+
+    const bgSecondary =
+      colors['surface'] ||
+      colors['surface-1'] ||
+      colors['surface-2'] ||
+      colors['surface-card'] ||
+      colors['card'] ||
+      colors['canvas-soft'] ||
+      (isDark ? '#23262d' : '#f8f9fa');
+
+    const textPrimary = colors.ink || colors.body || colors['text-primary'] || (isDark ? '#f0f2f5' : '#191f28');
+    const textSecondary =
+      colors['ink-muted'] ||
+      colors['ink-secondary'] ||
+      colors['body-muted'] ||
+      colors['muted'] ||
+      (isDark ? '#9aa1b1' : '#8b95a1');
+
+    const textMuted =
+      colors['ink-subtle'] ||
+      colors['ink-mute-2'] ||
+      colors['ink-tertiary'] ||
+      colors['faint'] ||
+      (isDark ? '#5c6470' : '#b0b8c1');
+
+    const borderSubtle =
+      colors.hairline ||
+      colors['divider-soft'] ||
+      colors['border-subtle'] ||
+      colors['border'] ||
+      (isDark ? '#2d2f33' : '#f2f4f6');
+
+    const borderStrong =
+      colors['hairline-strong'] ||
+      colors['hairline-input'] ||
+      colors['border-strong'] ||
+      (isDark ? '#3d414a' : '#e5e8eb');
+
     const statusSuccess = colors['semantic-success'] || colors['success'] || '#10b981';
     const statusDanger = colors['semantic-danger'] || colors.ruby || colors['danger'] || '#f43f5e';
     const statusWarning = colors['semantic-warning'] || colors.lemon || colors['warning'] || '#f59e0b';
+
+    const radii = parsed.radii || parsed.rounded || {};
+    const borderRadius = radii.md || radii.default || radii.base || radii.sm || '12px';
 
     // Typography finding helpers
     const typoEntries = Object.entries(typo);
@@ -168,8 +223,6 @@ function main() {
       (h1Item && h1Item.fontFamily) ||
       (bodyItem && bodyItem.fontFamily) ||
       '"Pretendard Variable", Pretendard, system-ui, sans-serif';
-
-    const borderRadius = radii.md || radii.default || radii.sm || '12px';
 
     const cleanDesc = (parsed.description || '')
       .replace(/\r?\n/g, ' ')

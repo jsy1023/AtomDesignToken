@@ -176,7 +176,12 @@ declare const AWESOME_CATEGORIES: readonly ["All", "AI & LLM", "Developer Tools"
  */
 declare function generateThemeCSS(theme: ThemeConfig): string;
 /**
+ * Hex 색상의 명도(Luminance)를 계산하여 다크 테마 여부를 판별합니다.
+ */
+declare function isDarkColor(hexColor: string): boolean;
+/**
  * DOM에 실시간 스타일 태그를 주입하거나 갱신합니다.
+ * 다크/라이트 테마에 따라 html 태그의 dark 클래스 및 data-theme 속성을 자동 동기화합니다.
  */
 declare function applyThemeToDOM(theme: ThemeConfig): void;
 /**
@@ -210,4 +215,4 @@ declare const ATOM_UI_CSS_PATH = "atomsystem/css/atom-ui.css";
 declare const ATOM_VERSION = "0.1.48";
 declare const ATOM_LIB_NAME = "atomsystem";
 
-export { ATOM_LIB_NAME, ATOM_UI_CSS_PATH, ATOM_VERSION, AWESOME_CATEGORIES, AWESOME_DESIGN_MD_THEMES, type AwesomeDesignMdTheme, BASE_COLOR_TOKENS, BRAND_PRESETS, type BrandPreset, COLOR_PRESETS, type ColorConfig, type ColorPreset, type ColorToken, type ComponentCategory, DEFAULT_THEME_CONFIG, type DosAndDont, FONT_FAMILY_PRESETS, GALLERY_COMPONENTS, type GalleryComponent, PATTERNS_COLLECTION, type PatternItem, type PatternPlatform, type PatternVariant, type PropItem, RADIUS_TOKENS, type RadiusToken, SHADOW_TOKENS, SPACING_TOKENS, type ShadowToken, type SpacingToken, TYPOGRAPHY_TOKENS, type ThemeConfig, type TokenCategory, type TypographyConfig, type TypographyLevelConfig, type TypographyToken, applyThemeToDOM, cn, exportToCSS, exportToTailwind, exportToTokensJson, generateThemeCSS };
+export { ATOM_LIB_NAME, ATOM_UI_CSS_PATH, ATOM_VERSION, AWESOME_CATEGORIES, AWESOME_DESIGN_MD_THEMES, type AwesomeDesignMdTheme, BASE_COLOR_TOKENS, BRAND_PRESETS, type BrandPreset, COLOR_PRESETS, type ColorConfig, type ColorPreset, type ColorToken, type ComponentCategory, DEFAULT_THEME_CONFIG, type DosAndDont, FONT_FAMILY_PRESETS, GALLERY_COMPONENTS, type GalleryComponent, PATTERNS_COLLECTION, type PatternItem, type PatternPlatform, type PatternVariant, type PropItem, RADIUS_TOKENS, type RadiusToken, SHADOW_TOKENS, SPACING_TOKENS, type ShadowToken, type SpacingToken, TYPOGRAPHY_TOKENS, type ThemeConfig, type TokenCategory, type TypographyConfig, type TypographyLevelConfig, type TypographyToken, applyThemeToDOM, cn, exportToCSS, exportToTailwind, exportToTokensJson, generateThemeCSS, isDarkColor };
