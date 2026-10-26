@@ -9,7 +9,8 @@ import {
   ColorPreset,
   DEFAULT_THEME_CONFIG,
 } from '@/lib/data/themeEditorDefaults';
-import { applyThemeToDOM } from '@/lib/services/themeEngine';
+import { applyThemeToDOM, isDarkColor } from '@/lib/services/themeEngine';
+import { AWESOME_DESIGN_MD_THEMES } from '@/lib/data/awesomeThemes';
 
 export type EditorTab = 'colors' | 'typography' | 'design-md' | 'preview' | 'export';
 
@@ -52,6 +53,20 @@ export function ThemeEditorProvider({ children }: { children: React.ReactNode })
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
         const parsed = JSON.parse(saved);
+        // Stale theme self-healing: 다크 배경인데 카드가 흰색(#f8f9fa 등)으로 남아있다면 최신 토큰으로 보정
+        if (parsed?.color?.bgPrimary && isDarkColor(parsed.color.bgPrimary) && !isDarkColor(parsed.color.bgSecondary)) {
+          const match = AWESOME_DESIGN_MD_THEMES.find(
+            (t) => t.color.bgPrimary === parsed.color.bgPrimary && t.color.primary === parsed.color.primary
+          );
+          if (match) {
+            parsed.color = { ...parsed.color, ...match.color };
+            try {
+              localStorage.setItem(STORAGE_KEY, JSON.stringify(parsed));
+            } catch {
+              // ignore
+            }
+          }
+        }
         setTheme(parsed);
         applyThemeToDOM(parsed);
         return;

@@ -27,7 +27,7 @@ export function generateThemeCSS(theme: ThemeConfig): string {
 
   return `
 ${fontImportCSS}/* [AtomDesignToken] Live Injected Theme Variables */
-:root {
+:root, .dark, [data-theme="dark"], [data-theme="light"] {
   /* Font Family */
   --font-sans: ${typography.fontFamily};
 
@@ -173,14 +173,65 @@ body {
   font-weight: ${typography.xs.fontWeight};
   letter-spacing: ${typography.xs.letterSpacing};
 }
+
+/* Card & Surface Synchronizations */
+html.dark {
+  --color-neutral-900: ${color.bgSecondary};
+  --color-neutral-850: ${color.bgSecondary};
+}
+
+html.dark .bg-white:not([data-keep-white]):not([role="switch"]):not([aria-hidden="true"]) {
+  background-color: ${color.bgSecondary} !important;
+}
+
+html.dark .border-neutral-200,
+html.dark .border-neutral-200\\/80 {
+  border-color: ${color.borderSubtle} !important;
+}
+
+/* Ensure tab active pills and chips using dark:bg-white take brand accent */
+html.dark [class*="dark:bg-white"]:not([data-keep-white]) {
+  background-color: ${color.primary} !important;
+  color: #ffffff !important;
+}
 `.trim();
 }
 
 /**
+ * Hex 색상의 명도(Luminance)를 계산하여 다크 테마 여부를 판별합니다.
+ */
+export function isDarkColor(hexColor: string): boolean {
+  if (!hexColor || typeof hexColor !== 'string') return false;
+  const clean = hexColor.replace('#', '').trim();
+  if (clean.length === 3) {
+    const r = parseInt(clean[0] + clean[0], 16);
+    const g = parseInt(clean[1] + clean[1], 16);
+    const b = parseInt(clean[2] + clean[2], 16);
+    return (r * 299 + g * 587 + b * 114) / 1000 < 128;
+  }
+  if (clean.length < 6) return false;
+  const r = parseInt(clean.substring(0, 2), 16);
+  const g = parseInt(clean.substring(2, 4), 16);
+  const b = parseInt(clean.substring(4, 6), 16);
+  if (isNaN(r) || isNaN(g) || isNaN(b)) return false;
+  return (r * 299 + g * 587 + b * 114) / 1000 < 128;
+}
+
+/**
  * DOM에 실시간 스타일 태그를 주입하거나 갱신합니다.
+ * 다크/라이트 테마에 따라 html 태그의 dark 클래스 및 data-theme 속성을 자동 동기화합니다.
  */
 export function applyThemeToDOM(theme: ThemeConfig): void {
   if (typeof document === 'undefined') return;
+
+  const isDark = isDarkColor(theme.color.bgPrimary);
+  if (isDark) {
+    document.documentElement.classList.add('dark');
+    document.documentElement.setAttribute('data-theme', 'dark');
+  } else {
+    document.documentElement.classList.remove('dark');
+    document.documentElement.setAttribute('data-theme', 'light');
+  }
 
   let styleTag = document.getElementById(STYLE_ELEMENT_ID) as HTMLStyleElement | null;
   if (!styleTag) {
