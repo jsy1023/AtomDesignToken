@@ -1,8 +1,12 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('UX 패턴 문서(Docs) 스타일 개편 E2E 인터랙션 검증', () => {
-  test.beforeEach(async () => {
+  test.beforeEach(async ({ page }) => {
     test.setTimeout(60000);
+    // 드로어가 열려있는 잔여 상태 방지를 위해 localStorage 초기화
+    await page.addInitScript(() => {
+      window.localStorage.clear();
+    });
   });
 
   test('깔끔한 2단 Docs 레이아웃, 사이드바 트리 탐색, 탭 전환 및 체크리스트 동작 검증', async ({ page }) => {

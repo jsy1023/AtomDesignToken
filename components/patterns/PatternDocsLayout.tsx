@@ -200,7 +200,7 @@ export function PatternDocsLayout({
               />
             </div>
             <p className="text-xs text-neutral-400 text-center">
-              💡 실시간 반응형 뷰포트 전환 및 마우스 클릭 인터랙션을 직접 체험해보실 수 있습니다.
+              실시간 반응형 뷰포트 전환 및 클릭 인터랙션을 직접 테스트할 수 있습니다.
             </p>
           </section>
         )}

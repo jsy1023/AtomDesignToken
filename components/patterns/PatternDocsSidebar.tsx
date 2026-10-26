@@ -65,7 +65,7 @@ export function PatternDocsSidebar({
     if (others.length > 0) {
       groups.push({
         categoryId: 'others',
-        label: '📦 기타 실무 패턴',
+        label: '기타 패턴',
         items: others,
       });
     }

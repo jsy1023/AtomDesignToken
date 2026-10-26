@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Sparkles, Layers, Terminal, Check, Copy, LayoutGrid, Palette, Zap, BookOpen } from 'lucide-react';
+import { Terminal, Check, Copy } from 'lucide-react';
 import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';
 
 interface HeaderProps {
@@ -14,7 +14,7 @@ interface HeaderProps {
 export function Header({ brandColor, rightExtra }: HeaderProps) {
   const pathname = usePathname();
   const { theme } = useThemeEditor();
-  const activeBrandColor = brandColor || theme?.color?.primary || '#3182f6';
+  const activeBrandColor = brandColor || theme?.color?.primary || '#18181b';
   const [copiedCli, setCopiedCli] = useState(false);
 
   const copyCli = () => {
@@ -23,107 +23,67 @@ export function Header({ brandColor, rightExtra }: HeaderProps) {
     setTimeout(() => setCopiedCli(false), 2000);
   };
 
-  const isTokens = pathname?.startsWith('/tokens');
-  const isPatterns = pathname?.startsWith('/patterns');
-  const isComponents = pathname?.startsWith('/components');
-  const isStudio = pathname?.startsWith('/studio');
-  const isGuide = pathname?.startsWith('/guide');
+  const navItems = [
+    { href: '/tokens', label: '디자인 토큰' },
+    { href: '/components', label: '컴포넌트' },
+    { href: '/patterns', label: 'UX 패턴' },
+    { href: '/guide', label: '가이드' },
+    { href: '/studio', label: '스튜디오' },
+  ];
 
   return (
-    <header className="sticky top-0 z-50 backdrop-blur-md bg-[var(--bg-primary)]/85 border-b border-[var(--border-subtle)] transition-colors">
-      <div className="max-w-7xl w-full mx-auto px-6 h-16 flex items-center justify-between">
-        {/* Left: Brand Logo & Title */}
-        <Link href="/" className="flex items-center gap-3 group">
-          <div 
-            className="w-9 h-9 rounded-xl flex items-center justify-center text-white shadow-lg transition-transform group-hover:scale-105"
-            style={{ backgroundColor: activeBrandColor }}
-          >
-            <LayoutGrid className="w-5 h-5" />
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="font-extrabold text-base tracking-tight text-neutral-900 dark:text-neutral-100">
+    <header className="sticky top-0 z-40 bg-[var(--bg-primary)] border-b border-[var(--border-subtle)] transition-colors">
+      <div className="max-w-7xl w-full mx-auto px-6 h-14 flex items-center justify-between">
+        {/* Left: Brand Logo */}
+        <div className="flex items-center gap-8">
+          <Link href="/" className="flex items-center gap-2.5 group">
+            <span 
+              className="w-4 h-4 rounded-sm flex items-center justify-center shrink-0"
+              style={{ backgroundColor: activeBrandColor }}
+            />
+            <span className="font-bold text-sm tracking-tight text-[var(--text-primary)]">
               AtomDesignToken
             </span>
-            <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400">
-              Agent-Native
-            </span>
-          </div>
-        </Link>
+          </Link>
 
-        {/* Center: Navigation Links */}
-        <nav className="flex items-center gap-1.5 sm:gap-4 md:gap-6 text-sm font-medium">
-          <Link 
-            href="/tokens" 
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl transition-all ${
-              isTokens 
-                ? 'text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-emerald-950/60 shadow-xs' 
-                : 'text-neutral-600 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800/60'
-            }`}
-          >
-            <Palette className={`w-3.5 h-3.5 ${isTokens ? 'text-emerald-600 dark:text-emerald-400' : 'text-neutral-400'}`} />
-            <span>디자인 토큰</span>
-          </Link>
-          <Link 
-            href="/patterns" 
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl transition-all ${
-              isPatterns 
-                ? 'text-blue-600 dark:text-blue-400 font-bold bg-blue-50 dark:bg-blue-950/60 shadow-xs' 
-                : 'text-neutral-600 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800/60'
-            }`}
-          >
-            <Sparkles className={`w-3.5 h-3.5 ${isPatterns ? 'text-blue-600 dark:text-blue-400' : 'text-neutral-400'}`} />
-            <span>UX 패턴</span>
-          </Link>
-          <Link 
-            href="/components" 
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl transition-all ${
-              isComponents 
-                ? 'text-indigo-600 dark:text-indigo-400 font-bold bg-indigo-50 dark:bg-indigo-950/60 shadow-xs' 
-                : 'text-neutral-600 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800/60'
-            }`}
-          >
-            <Layers className={`w-3.5 h-3.5 ${isComponents ? 'text-indigo-600 dark:text-indigo-400' : 'text-neutral-400'}`} />
-            <span>컴포넌트 갤러리</span>
-          </Link>
-          <Link 
-            href="/studio" 
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl transition-all ${
-              isStudio 
-                ? 'text-amber-600 dark:text-amber-400 font-bold bg-amber-50 dark:bg-amber-950/60 shadow-xs ring-1 ring-amber-500/30' 
-                : 'text-neutral-600 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800/60'
-            }`}
-          >
-            <Zap className={`w-3.5 h-3.5 ${isStudio ? 'text-amber-500 fill-amber-500' : 'text-amber-500'}`} />
-            <span>스튜디오</span>
-            <span className="text-[9px] font-bold px-1.5 py-0.2 rounded-full bg-amber-500/15 text-amber-600 dark:text-amber-400">
-              NEW
-            </span>
-          </Link>
-          <Link 
-            href="/guide" 
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl transition-all ${
-              isGuide 
-                ? 'text-violet-600 dark:text-violet-400 font-bold bg-violet-50 dark:bg-violet-950/60 shadow-xs' 
-                : 'text-neutral-600 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800/60'
-            }`}
-          >
-            <BookOpen className={`w-3.5 h-3.5 ${isGuide ? 'text-violet-600 dark:text-violet-400' : 'text-neutral-400'}`} />
-            <span>사용 가이드</span>
-          </Link>
-        </nav>
+          {/* Navigation Links - Clean Minimal Monotone */}
+          <nav className="hidden md:flex items-center gap-1 text-xs">
+            {navItems.map((item) => {
+              const isActive = pathname?.startsWith(item.href);
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`px-3 py-1.5 rounded-md transition-colors ${
+                    isActive
+                      ? 'text-[var(--text-primary)] font-semibold bg-neutral-100 dark:bg-neutral-800'
+                      : 'text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100'
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
+          </nav>
+        </div>
 
         {/* Right: Actions */}
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-3">
           {rightExtra}
           <button 
+            type="button"
             onClick={copyCli}
-            className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-xs font-mono font-medium hover:bg-neutral-200 dark:hover:bg-neutral-700 text-neutral-800 dark:text-neutral-200 transition active:scale-95"
+            className="flex items-center gap-1.5 px-2.5 py-1 rounded-md border border-[var(--border-strong)] bg-[var(--bg-secondary)] hover:bg-[var(--bg-primary)] text-xs font-mono text-neutral-600 dark:text-neutral-300 transition"
             title="명령어 복사"
           >
-            <Terminal className="w-3.5 h-3.5 text-blue-500" />
+            <Terminal className="w-3 h-3 text-neutral-400" />
             <span className="hidden sm:inline">npx atomsystem init</span>
             <span className="sm:hidden">CLI</span>
-            {copiedCli ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5 opacity-60" />}
+            {copiedCli ? (
+              <Check className="w-3 h-3 text-emerald-500" />
+            ) : (
+              <Copy className="w-3 h-3 text-neutral-400" />
+            )}
           </button>
         </div>
       </div>

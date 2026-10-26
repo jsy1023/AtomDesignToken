@@ -21,37 +21,37 @@ export function DeviceMockupView({ patternId, defaultPlatform }: DeviceMockupVie
         <div className="inline-flex items-center gap-1 p-1 rounded-xl bg-neutral-200/60 dark:bg-neutral-800 border border-neutral-300/60 dark:border-neutral-700">
           <button
             onClick={() => setDeviceMode('web')}
-            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition ${
+            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
               isWeb
-                ? 'bg-white dark:bg-neutral-900 text-blue-600 dark:text-blue-400 shadow-sm'
+                ? 'bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 shadow-xs'
                 : 'text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200'
             }`}
           >
             <Monitor className="w-3.5 h-3.5" />
-            <span>🖥️ WEB 모드</span>
+            <span>Web</span>
           </button>
           <button
             onClick={() => setDeviceMode('mobile')}
-            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition ${
+            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
               !isWeb
-                ? 'bg-white dark:bg-neutral-900 text-emerald-600 dark:text-emerald-400 shadow-sm'
+                ? 'bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 shadow-xs'
                 : 'text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200'
             }`}
           >
             <Smartphone className="w-3.5 h-3.5" />
-            <span>📱 모바일 모드</span>
+            <span>Mobile</span>
           </button>
         </div>
 
-        <span className="text-[11px] font-medium text-neutral-400 dark:text-neutral-500">
-          {isWeb ? '데스크톱 뷰포트 (100% 가변 반응형)' : '모바일 뷰포트 (375 × 680px)'}
+        <span className="text-[11px] text-neutral-400">
+          {isWeb ? '데스크톱 뷰포트' : '모바일 뷰포트 (375px)'}
         </span>
       </div>
 
       {/* Frame Container */}
       {isWeb ? (
         /* WEB BROWSER FRAME */
-        <div className="w-full rounded-2xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 shadow-2xl overflow-hidden flex flex-col">
+        <div className="w-full rounded-xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 shadow-xs overflow-hidden flex flex-col">
           {/* Browser Top Navigation Bar */}
           <div className="h-10 bg-neutral-100 dark:bg-neutral-850 border-b border-neutral-200 dark:border-neutral-800 px-4 flex items-center justify-between gap-3">
             <div className="flex items-center gap-2">

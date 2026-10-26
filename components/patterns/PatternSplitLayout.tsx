@@ -22,14 +22,14 @@ import {
 import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';
 
 export const PATTERN_CATEGORY_FILTERS = [
-  { id: 'all', label: '전체 카테고리' },
-  { id: 'analytics', label: '📊 분석/대시보드', match: ['Analytics & SaaS'] },
-  { id: 'settings', label: '⚙️ 폼/환경설정', match: ['Settings & Configuration'] },
-  { id: 'fintech', label: '💳 핀테크/결제', match: ['Fintech & Pay', 'Commerce & Order'] },
-  { id: 'auth', label: '🔐 온보딩/인증', match: ['Identity & Security', 'User Onboarding'] },
-  { id: 'content', label: '✍️ 콘텐츠/에디터', match: ['Content & Publishing', 'Documentation & DX'] },
-  { id: 'media', label: '📁 파일/커뮤니케이션', match: ['Communication', 'File & Media'] },
-  { id: 'mobility', label: '🗺️ 예약/탐색', match: ['Location & Mobility', 'Travel & Booking', 'Discovery'] },
+  { id: 'all', label: '전체' },
+  { id: 'analytics', label: '분석 및 대시보드', match: ['Analytics & SaaS'] },
+  { id: 'settings', label: '설정 및 폼', match: ['Settings & Configuration'] },
+  { id: 'fintech', label: '결제 및 핀테크', match: ['Fintech & Pay', 'Commerce & Order'] },
+  { id: 'auth', label: '인증 및 온보딩', match: ['Identity & Security', 'User Onboarding'] },
+  { id: 'content', label: '에디터 및 콘텐츠', match: ['Content & Publishing', 'Documentation & DX'] },
+  { id: 'media', label: '미디어 및 파일', match: ['Communication', 'File & Media'] },
+  { id: 'mobility', label: '탐색 및 예약', match: ['Location & Mobility', 'Travel & Booking', 'Discovery'] },
 ] as const;
 
 interface PatternSplitLayoutProps {

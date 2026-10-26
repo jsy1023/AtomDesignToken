@@ -75,30 +75,21 @@ export default function TokensPage() {
       <main className="max-w-7xl w-full mx-auto px-6 py-10 flex-1 flex flex-col gap-10">
 
         {/* 1. Hero & Concept Section */}
-        <section className="flex flex-col gap-6 border-b border-[var(--border-subtle)] pb-10">
-          <div 
-            style={{ backgroundColor: `${liveBrandColor}15`, color: liveBrandColor, borderColor: `${liveBrandColor}30` }}
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border text-xs font-bold w-fit"
-          >
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>W3C DTCG Standard · Single Source of Truth</span>
+        <section className="flex flex-col gap-4 border-b border-[var(--border-subtle)] pb-8">
+          <div className="flex items-center gap-2 text-xs font-mono text-neutral-400">
+            <span>W3C DTCG Standard</span>
+            <span>•</span>
+            <span>Single Source of Truth</span>
           </div>
 
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
-            <div className="max-w-3xl">
-              <h1 className="text-3xl sm:text-5xl font-black tracking-tight leading-tight text-[var(--text-primary)]">
-                디자인 토큰(Design Tokens)의 이해와<br />
-                <span 
-                  style={{ color: liveBrandColor }}
-                  className="font-black inline-block mt-1"
-                >
-                  표준 CSS 변수 명세서
-                </span>
+            <div className="max-w-3xl space-y-2">
+              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--text-primary)]">
+                디자인 토큰(Design Tokens) 표준 CSS 변수 명세
               </h1>
-              <p className="text-sm sm:text-base text-[var(--text-secondary)] mt-4 leading-relaxed">
-                디자인 토큰은 색상, 폰트, 여백, 곡률 등 <strong>UI의 모든 디자인 결정을 플랫폼에 독립적인 최소 단위 데이터</strong>로 정의한 것입니다. 
-                피그마나 마크다운에서 정의된 토큰은 CSS 변수(`var(--atom-...)`), Tailwind 클래스, TypeScript 타입으로 자동 컴파일되어 
-                React, Vue, 바닐라 HTML 어디서나 100% 동일하게 동작합니다.
+              <p className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed">
+                색상, 폰트, 여백, 곡률 등 <strong>UI의 모든 디자인 결정을 플랫폼에 독립적인 최소 단위 데이터</strong>로 정의합니다. 
+                정의된 토큰은 CSS 변수(`var(--atom-...)`), Tailwind 클래스, TypeScript 타입으로 자동 컴파일되어 React, Vue, HTML 어디서나 100% 동일하게 동작합니다.
               </p>
             </div>
 
