@@ -112,10 +112,11 @@ export function AwesomeThemesTab() {
             key={cat}
             type="button"
             onClick={() => setSelectedCategory(cat)}
+            style={selectedCategory === cat ? { backgroundColor: 'var(--accent-primary)', color: '#ffffff' } : {}}
             className={`px-2.5 py-1 rounded-lg font-medium whitespace-nowrap transition-all text-[11px] ${
               selectedCategory === cat
-                ? 'bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 font-bold shadow-xs'
-                : 'bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 hover:bg-neutral-200/80 dark:hover:bg-neutral-700'
+                ? 'font-bold shadow-xs'
+                : 'bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 hover:bg-neutral-200 dark:hover:bg-neutral-700'
             }`}
           >
             {cat}

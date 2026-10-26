@@ -182,13 +182,17 @@ function PatternsContent() {
             <section className="flex flex-col gap-3">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 {/* Platform Filters */}
-                <div className="inline-flex items-center gap-1 p-1 rounded-xl bg-neutral-200/70 dark:bg-neutral-800 border border-neutral-300/60 dark:border-neutral-700 text-xs font-bold">
+                <div 
+                  style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-subtle)' }}
+                  className="inline-flex items-center gap-1 p-1 rounded-xl border text-xs font-bold"
+                >
                   <button
                     type="button"
                     onClick={() => setPlatformFilter('all')}
+                    style={platformFilter === 'all' ? { backgroundColor: 'var(--bg-primary)', color: 'var(--text-primary)', borderColor: 'var(--border-strong)' } : {}}
                     className={`px-3 py-1.5 rounded-lg transition ${
                       platformFilter === 'all'
-                        ? 'bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white shadow-xs'
+                        ? 'border shadow-xs font-bold'
                         : 'text-neutral-500 hover:text-neutral-900 dark:hover:text-white'
                     }`}
                   >
@@ -197,9 +201,10 @@ function PatternsContent() {
                   <button
                     type="button"
                     onClick={() => setPlatformFilter('web')}
+                    style={platformFilter === 'web' ? { backgroundColor: 'var(--bg-primary)', color: 'var(--accent-primary)', borderColor: 'var(--border-strong)' } : {}}
                     className={`px-3 py-1.5 rounded-lg transition flex items-center gap-1 ${
                       platformFilter === 'web'
-                        ? 'bg-white dark:bg-neutral-900 text-blue-600 dark:text-blue-400 shadow-xs'
+                        ? 'border shadow-xs font-bold'
                         : 'text-neutral-500 hover:text-neutral-900 dark:hover:text-white'
                     }`}
                   >
@@ -209,9 +214,10 @@ function PatternsContent() {
                   <button
                     type="button"
                     onClick={() => setPlatformFilter('mobile')}
+                    style={platformFilter === 'mobile' ? { backgroundColor: 'var(--bg-primary)', color: 'var(--accent-primary)', borderColor: 'var(--border-strong)' } : {}}
                     className={`px-3 py-1.5 rounded-lg transition flex items-center gap-1 ${
                       platformFilter === 'mobile'
-                        ? 'bg-white dark:bg-neutral-900 text-emerald-600 dark:text-emerald-400 shadow-xs'
+                        ? 'border shadow-xs font-bold'
                         : 'text-neutral-500 hover:text-neutral-900 dark:hover:text-white'
                     }`}
                   >
@@ -228,7 +234,8 @@ function PatternsContent() {
                     placeholder="패턴 검색 (대시보드, 폼, 송금...)"
                     value={searchFilter}
                     onChange={(e) => setSearchFilter(e.target.value)}
-                    className="w-full pl-9 pr-3 py-2 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-xs"
+                    style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-subtle)', color: 'var(--text-primary)' }}
+                    className="w-full pl-9 pr-3 py-2 border rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-xs"
                   />
                 </div>
               </div>
@@ -240,9 +247,10 @@ function PatternsContent() {
                     key={cat.id}
                     type="button"
                     onClick={() => setCategoryFilter(cat.id)}
+                    style={categoryFilter === cat.id ? { backgroundColor: 'var(--accent-primary)', color: '#ffffff' } : {}}
                     className={`px-3 py-1.5 rounded-xl font-medium whitespace-nowrap transition text-xs ${
                       categoryFilter === cat.id
-                        ? 'bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 font-bold shadow-xs'
+                        ? 'font-bold shadow-xs'
                         : 'bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 hover:bg-neutral-200/80'
                     }`}
                   >

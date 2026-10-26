@@ -169,9 +169,10 @@ export function PatternSplitLayout({
                 key={cat.id}
                 type="button"
                 onClick={() => setCategoryFilter(cat.id)}
+                style={categoryFilter === cat.id ? { backgroundColor: 'var(--accent-primary)', color: '#ffffff' } : {}}
                 className={`px-2.5 py-1 rounded-lg whitespace-nowrap transition font-medium ${
                   categoryFilter === cat.id
-                    ? 'bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 font-bold shadow-xs'
+                    ? 'font-bold shadow-xs'
                     : 'bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 hover:bg-neutral-200/80'
                 }`}
               >

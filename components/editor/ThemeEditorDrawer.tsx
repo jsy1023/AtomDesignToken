@@ -113,7 +113,10 @@ export function ThemeEditorDrawer() {
         </div>
 
         {/* 2. Navigation Tabs */}
-        <div className="px-4 border-b border-neutral-200/80 dark:border-neutral-800 shrink-0 bg-white dark:bg-neutral-900">
+        <div 
+          style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-subtle)' }}
+          className="px-4 border-b shrink-0"
+        >
           <div className="flex items-center gap-1">
             {tabs.map((tab) => {
               const Icon = tab.icon;
@@ -123,9 +126,10 @@ export function ThemeEditorDrawer() {
                   key={tab.id}
                   type="button"
                   onClick={() => setActiveTab(tab.id)}
+                  style={isActive ? { borderColor: 'var(--accent-primary)', color: 'var(--accent-primary)' } : {}}
                   className={`flex items-center gap-1.5 py-3 px-3 text-xs font-semibold border-b-2 transition-all shrink-0 ${
                     isActive
-                      ? 'border-blue-600 text-blue-600 dark:text-blue-400'
+                      ? 'border-b-2 font-bold'
                       : 'border-transparent text-neutral-500 hover:text-neutral-800 dark:text-neutral-400 dark:hover:text-neutral-200'
                   }`}
                 >

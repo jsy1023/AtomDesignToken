@@ -15,7 +15,14 @@ export function LivePreviewTab() {
         <h3 className="text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-neutral-400 mb-3">
           타이포그래피 계층 (h1 ~ h6)
         </h3>
-        <div className="space-y-3 p-4 rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900">
+        <div
+          style={{
+            backgroundColor: color.bgSecondary,
+            borderColor: color.borderSubtle,
+            borderRadius: borderRadius,
+          }}
+          className="space-y-3 p-4 border shadow-xs transition-colors"
+        >
           <div>
             <span className="text-[10px] font-mono text-neutral-400 block mb-1">
               H1 ({typography.h1.fontSize}px / w{typography.h1.fontWeight})
@@ -125,7 +132,14 @@ export function LivePreviewTab() {
         <h3 className="text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-neutral-400 mb-3">
           본문 및 서브 텍스트
         </h3>
-        <div className="space-y-3 p-4 rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900">
+        <div
+          style={{
+            backgroundColor: color.bgSecondary,
+            borderColor: color.borderSubtle,
+            borderRadius: borderRadius,
+          }}
+          className="space-y-3 p-4 border shadow-xs transition-colors"
+        >
           <div>
             <span className="text-[10px] font-mono text-neutral-400 block mb-1">
               Body ({typography.body.fontSize}px / w{typography.body.fontWeight})
@@ -253,8 +267,9 @@ export function LivePreviewTab() {
                 borderColor: color.borderStrong,
                 borderRadius: borderRadius,
                 color: color.textPrimary,
+                backgroundColor: color.bgPrimary,
               }}
-              className="px-4 py-2 border bg-white dark:bg-neutral-900 text-xs font-medium hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors"
+              className="px-4 py-2 border text-xs font-medium hover:opacity-85 transition-opacity"
             >
               보조 버튼
             </button>

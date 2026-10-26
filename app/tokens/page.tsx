@@ -211,38 +211,46 @@ export default function TokensPage() {
             </div>
 
             {/* Navigation Tabs */}
-            <div className="inline-flex p-1.5 rounded-2xl bg-neutral-100 dark:bg-neutral-850 border border-neutral-200 dark:border-neutral-800 text-xs font-semibold overflow-x-auto">
+            <div 
+              style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-subtle)' }}
+              className="inline-flex p-1.5 rounded-2xl border text-xs font-semibold overflow-x-auto shadow-xs"
+            >
               <button
                 onClick={() => setActiveCategory('color')}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl transition ${activeCategory === 'color' ? 'bg-white dark:bg-neutral-800 text-blue-600 dark:text-blue-400 shadow-xs font-bold' : 'text-neutral-500 hover:text-neutral-900 dark:hover:text-white'}`}
+                style={activeCategory === 'color' ? { backgroundColor: 'var(--bg-primary)', color: 'var(--accent-primary)', borderColor: 'var(--border-strong)' } : {}}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl transition ${activeCategory === 'color' ? 'border shadow-xs font-bold' : 'text-neutral-500 hover:text-neutral-900 dark:hover:text-white'}`}
               >
                 <Palette className="w-3.5 h-3.5" />
                 <span>색상 (Colors)</span>
               </button>
               <button
                 onClick={() => setActiveCategory('typography')}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl transition ${activeCategory === 'typography' ? 'bg-white dark:bg-neutral-800 text-blue-600 dark:text-blue-400 shadow-xs font-bold' : 'text-neutral-500 hover:text-neutral-900 dark:hover:text-white'}`}
+                style={activeCategory === 'typography' ? { backgroundColor: 'var(--bg-primary)', color: 'var(--accent-primary)', borderColor: 'var(--border-strong)' } : {}}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl transition ${activeCategory === 'typography' ? 'border shadow-xs font-bold' : 'text-neutral-500 hover:text-neutral-900 dark:hover:text-white'}`}
               >
                 <Type className="w-3.5 h-3.5" />
                 <span>타이포그래피 (Typography)</span>
               </button>
               <button
                 onClick={() => setActiveCategory('radius')}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl transition ${activeCategory === 'radius' ? 'bg-white dark:bg-neutral-800 text-blue-600 dark:text-blue-400 shadow-xs font-bold' : 'text-neutral-500 hover:text-neutral-900 dark:hover:text-white'}`}
+                style={activeCategory === 'radius' ? { backgroundColor: 'var(--bg-primary)', color: 'var(--accent-primary)', borderColor: 'var(--border-strong)' } : {}}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl transition ${activeCategory === 'radius' ? 'border shadow-xs font-bold' : 'text-neutral-500 hover:text-neutral-900 dark:hover:text-white'}`}
               >
                 <Maximize2 className="w-3.5 h-3.5" />
                 <span>곡률 (Radius)</span>
               </button>
               <button
                 onClick={() => setActiveCategory('spacing')}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl transition ${activeCategory === 'spacing' ? 'bg-white dark:bg-neutral-800 text-blue-600 dark:text-blue-400 shadow-xs font-bold' : 'text-neutral-500 hover:text-neutral-900 dark:hover:text-white'}`}
+                style={activeCategory === 'spacing' ? { backgroundColor: 'var(--bg-primary)', color: 'var(--accent-primary)', borderColor: 'var(--border-strong)' } : {}}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl transition ${activeCategory === 'spacing' ? 'border shadow-xs font-bold' : 'text-neutral-500 hover:text-neutral-900 dark:hover:text-white'}`}
               >
                 <Box className="w-3.5 h-3.5" />
                 <span>간격 (Spacing)</span>
               </button>
               <button
                 onClick={() => setActiveCategory('shadow')}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl transition ${activeCategory === 'shadow' ? 'bg-white dark:bg-neutral-800 text-blue-600 dark:text-blue-400 shadow-xs font-bold' : 'text-neutral-500 hover:text-neutral-900 dark:hover:text-white'}`}
+                style={activeCategory === 'shadow' ? { backgroundColor: 'var(--bg-primary)', color: 'var(--accent-primary)', borderColor: 'var(--border-strong)' } : {}}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl transition ${activeCategory === 'shadow' ? 'border shadow-xs font-bold' : 'text-neutral-500 hover:text-neutral-900 dark:hover:text-white'}`}
               >
                 <Layers className="w-3.5 h-3.5" />
                 <span>그림자 (Shadow)</span>

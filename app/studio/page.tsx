@@ -267,12 +267,16 @@ ${selectedComponents
 
                 {/* Platform Filter Tabs (All / WEB / Mobile) - patterns 페이지와 동일 */}
                 <div className="flex flex-col gap-2">
-                  <div className="inline-flex items-center gap-1 p-1 rounded-xl bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-xs font-bold">
+                  <div 
+                    style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-subtle)' }}
+                    className="inline-flex items-center gap-1 p-1 rounded-xl border text-xs font-bold"
+                  >
                     <button
                       onClick={() => setPlatformFilter('all')}
+                      style={platformFilter === 'all' ? { backgroundColor: 'var(--bg-primary)', color: 'var(--text-primary)', borderColor: 'var(--border-strong)' } : {}}
                       className={`flex-1 py-1.5 rounded-lg transition ${
                         platformFilter === 'all'
-                          ? 'bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white shadow-xs'
+                          ? 'border shadow-xs font-bold'
                           : 'text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200'
                       }`}
                     >
@@ -280,9 +284,10 @@ ${selectedComponents
                     </button>
                     <button
                       onClick={() => setPlatformFilter('web')}
+                      style={platformFilter === 'web' ? { backgroundColor: 'var(--bg-primary)', color: 'var(--accent-primary)', borderColor: 'var(--border-strong)' } : {}}
                       className={`flex-1 py-1.5 rounded-lg transition flex items-center justify-center gap-1 ${
                         platformFilter === 'web'
-                          ? 'bg-white dark:bg-neutral-900 text-blue-600 dark:text-blue-400 shadow-xs'
+                          ? 'border shadow-xs font-bold'
                           : 'text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200'
                       }`}
                     >
@@ -291,9 +296,10 @@ ${selectedComponents
                     </button>
                     <button
                       onClick={() => setPlatformFilter('mobile')}
+                      style={platformFilter === 'mobile' ? { backgroundColor: 'var(--bg-primary)', color: 'var(--accent-primary)', borderColor: 'var(--border-strong)' } : {}}
                       className={`flex-1 py-1.5 rounded-lg transition flex items-center justify-center gap-1 ${
                         platformFilter === 'mobile'
-                          ? 'bg-white dark:bg-neutral-900 text-emerald-600 dark:text-emerald-400 shadow-xs'
+                          ? 'border shadow-xs font-bold'
                           : 'text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200'
                       }`}
                     >
@@ -519,9 +525,10 @@ ${selectedComponents
                         <button
                           key={r}
                           onClick={() => setSelectedRadius(r)}
+                          style={selectedRadius === r ? { backgroundColor: 'var(--accent-primary)', color: '#ffffff', borderColor: 'transparent' } : {}}
                           className={`py-1.5 rounded-lg text-xs font-mono font-bold border transition ${
                             selectedRadius === r
-                              ? 'bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 border-transparent'
+                              ? 'shadow-xs font-bold'
                               : 'bg-white dark:bg-neutral-900 text-neutral-600 dark:text-neutral-400 border-neutral-200 dark:border-neutral-700'
                           }`}
                         >
@@ -535,22 +542,28 @@ ${selectedComponents
                 {/* Target Framework Switcher */}
                 <div className="flex items-center justify-between p-3 rounded-2xl bg-neutral-50 dark:bg-neutral-850 border border-neutral-200 dark:border-neutral-800">
                   <span className="text-xs font-bold text-neutral-600 dark:text-neutral-300">대상 프레임워크</span>
-                  <div className="inline-flex p-1 rounded-xl bg-neutral-200 dark:bg-neutral-800 text-xs font-semibold">
+                  <div 
+                    style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-subtle)' }}
+                    className="inline-flex p-1 rounded-xl border text-xs font-semibold"
+                  >
                     <button
                       onClick={() => setTargetFramework('react')}
-                      className={`px-2.5 py-1 rounded-lg transition ${targetFramework === 'react' ? 'bg-white dark:bg-neutral-900 text-blue-600 font-bold shadow-xs' : 'text-neutral-500'}`}
+                      style={targetFramework === 'react' ? { backgroundColor: 'var(--bg-primary)', color: 'var(--accent-primary)', borderColor: 'var(--border-strong)' } : {}}
+                      className={`px-2.5 py-1 rounded-lg transition ${targetFramework === 'react' ? 'border shadow-xs font-bold' : 'text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200'}`}
                     >
                       React
                     </button>
                     <button
                       onClick={() => setTargetFramework('vue')}
-                      className={`px-2.5 py-1 rounded-lg transition ${targetFramework === 'vue' ? 'bg-white dark:bg-neutral-900 text-emerald-600 font-bold shadow-xs' : 'text-neutral-500'}`}
+                      style={targetFramework === 'vue' ? { backgroundColor: 'var(--bg-primary)', color: 'var(--accent-primary)', borderColor: 'var(--border-strong)' } : {}}
+                      className={`px-2.5 py-1 rounded-lg transition ${targetFramework === 'vue' ? 'border shadow-xs font-bold' : 'text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200'}`}
                     >
                       Vue
                     </button>
                     <button
                       onClick={() => setTargetFramework('html')}
-                      className={`px-2.5 py-1 rounded-lg transition ${targetFramework === 'html' ? 'bg-white dark:bg-neutral-900 text-orange-600 font-bold shadow-xs' : 'text-neutral-500'}`}
+                      style={targetFramework === 'html' ? { backgroundColor: 'var(--bg-primary)', color: 'var(--accent-primary)', borderColor: 'var(--border-strong)' } : {}}
+                      className={`px-2.5 py-1 rounded-lg transition ${targetFramework === 'html' ? 'border shadow-xs font-bold' : 'text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200'}`}
                     >
                       HTML
                     </button>
