@@ -327,46 +327,18 @@ export default function ComponentsGalleryPage() {
         {/* 2. Right/Center Column: Component Catalog Hub */}
         <div className="flex-1 min-w-0 flex flex-col gap-8">
           {/* Hero Section */}
-          <section className="flex flex-col gap-4 pb-6 border-b border-[var(--border-subtle)]">
-            <div 
-              style={{ backgroundColor: `${brandColor}15`, color: brandColor, borderColor: `${brandColor}30` }}
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full border text-xs font-bold w-fit"
-            >
-              <Layers className="w-3.5 h-3.5" />
-              <span>10대 핵심 컴포넌트 갤러리 카탈로그</span>
+          <section className="flex flex-col gap-3 pb-6 border-b border-[var(--border-subtle)]">
+            <div className="text-xs font-mono text-neutral-400">
+              10 Core UI Components · Semantic Tokens & Framework Agnostic
             </div>
 
-            <div>
-              <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-[var(--text-primary)]">
-                컴포넌트 갤러리 (Component Catalog)
+            <div className="space-y-1">
+              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--text-primary)]">
+                컴포넌트 갤러리 (Components)
               </h1>
-              <p className="text-sm sm:text-base text-[var(--text-secondary)] mt-2 leading-relaxed">
-                각 컴포넌트를 선택하면 <strong>전용 상세 페이지</strong>로 이동하여 <strong>프레임워크별 코드 복사(React, Vue, Vanilla HTML)</strong>, <strong>실무 사용 케이스</strong>, <strong>설계 지침(Usage Patterns)</strong>, <strong>Do's & Don'ts</strong> 및 <strong>API 명세</strong>를 확인할 수 있습니다.
+              <p className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed">
+                각 컴포넌트의 프리뷰와 실무 사용 케이스를 확인하고, 상세 페이지에서 React, Vue, HTML 구현 명세 및 설계 지침을 탐색할 수 있습니다.
               </p>
-            </div>
-
-            {/* Quickstart CLI Callout Box */}
-            <div className="p-4 rounded-2xl bg-neutral-900 text-white flex flex-col gap-2 font-mono shadow-md border border-neutral-800">
-              <div className="flex items-center justify-between text-xs text-neutral-400 pb-2 border-b border-neutral-800">
-                <span className="flex items-center gap-1.5 font-bold">
-                  <Terminal className="w-4 h-4 text-emerald-400" />
-                  라이브러리 원클릭 초기화 (Quickstart)
-                </span>
-                <button
-                  onClick={() => {
-                    navigator.clipboard.writeText('npx atomsystem init');
-                    setCopiedCli(true);
-                    setTimeout(() => setCopiedCli(false), 2000);
-                  }}
-                  className="inline-flex items-center gap-1 text-xs text-neutral-300 hover:text-white transition px-2 py-0.5 rounded bg-neutral-800 hover:bg-neutral-750"
-                >
-                  {copiedCli ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
-                  <span>{copiedCli ? '복사완료!' : '명령어 복사'}</span>
-                </button>
-              </div>
-              <div className="text-emerald-400 text-xs sm:text-sm">
-                $ npx atomsystem init
-              </div>
             </div>
           </section>
 

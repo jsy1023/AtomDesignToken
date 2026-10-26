@@ -187,19 +187,15 @@ ${selectedComponents
       <main className="max-w-7xl w-full mx-auto px-6 py-8 flex-1 flex flex-col gap-8">
         {/* Studio Top Stepper Navigation */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[var(--border-subtle)]">
-          <div>
-            <div 
-              style={{ backgroundColor: `${selectedBrandColor}15`, color: selectedBrandColor, borderColor: `${selectedBrandColor}30` }}
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full border text-xs font-bold w-fit mb-2"
-            >
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Atom Studio 3-Step Wizard · patterns 연동 단일 진실 공급원(SSOT)</span>
+          <div className="space-y-1">
+            <div className="text-xs font-mono text-neutral-400">
+              3-Step Wizard · Pattern & Token SSOT
             </div>
-            <h1 className="text-2xl sm:text-3xl font-black text-[var(--text-primary)]">
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--text-primary)]">
               AI 프롬프트 빌더 스튜디오
             </h1>
-            <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-1">
-              UX 패턴 선택 ➔ 컴포넌트 구성 ➔ 디자인 토큰 주입의 3단계를 거쳐 실행 가능한 AI 지시서를 완성합니다.
+            <p className="text-xs sm:text-sm text-[var(--text-secondary)]">
+              UX 패턴, 컴포넌트, 디자인 토큰을 선택하여 표준화된 AI 개발 지시서를 생성합니다.
             </p>
           </div>
 

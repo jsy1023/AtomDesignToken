@@ -41,19 +41,15 @@ export function GuideAgentMechanism() {
   };
 
   return (
-    <section className="py-16 md:py-24 border-b border-[var(--border-subtle)] bg-[var(--bg-secondary)]/50 relative overflow-hidden">
-      {/* Decorative subtle pattern */}
-      <div className="absolute inset-0 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:24px_24px] opacity-10 pointer-events-none" />
-
-      <div className="max-w-6xl mx-auto px-6 relative z-10">
+    <section className="py-12 md:py-16 border-b border-[var(--border-subtle)]">
+      <div className="max-w-6xl mx-auto px-6">
         {/* Section Header */}
-        <div className="max-w-3xl mb-12">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20 mb-3 shadow-2xs">
-            <BrainCircuit className="w-4 h-4 text-purple-500 animate-pulse" />
-            <span>AI Agent 동작 메커니즘 (작동 원리)</span>
+        <div className="max-w-3xl mb-8 space-y-2">
+          <div className="text-xs font-mono text-neutral-400">
+            AI Agent Reference Pipeline
           </div>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-neutral-900 dark:text-white tracking-tight mb-4">
-            AI는 이 라이브러리를 어떻게 참조할까요?
+          <h2 className="text-xl sm:text-2xl font-bold text-[var(--text-primary)] tracking-tight">
+            AI Agent 동작 메커니즘
           </h2>
           <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400 leading-relaxed">
             {AI_REFERENCE_PIPELINE.description}

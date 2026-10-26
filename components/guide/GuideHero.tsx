@@ -17,46 +17,19 @@ export function GuideHero() {
   };
 
   return (
-    <section className="relative overflow-hidden py-14 md:py-20 border-b border-[var(--border-subtle)] bg-gradient-to-b from-neutral-50/70 via-transparent to-transparent dark:from-neutral-900/40">
-      {/* Decorative background glow */}
-      <div 
-        className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full blur-3xl opacity-20 pointer-events-none transition-colors"
-        style={{ backgroundColor: primaryColor }}
-      />
-
-      <div className="max-w-6xl mx-auto px-6 relative z-10">
-        {/* Top Badges */}
-        <div className="flex flex-wrap items-center gap-2.5 mb-6">
-          <span 
-            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold text-white shadow-xs"
-            style={{ backgroundColor: primaryColor }}
-          >
-            <BookOpen className="w-3.5 h-3.5" />
-            공식 활용 가이드
-          </span>
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20">
-            <Sparkles className="w-3.5 h-3.5" />
-            수레바퀴를 다시 발명하지 않는 법
-          </span>
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
-            <ShieldCheck className="w-3.5 h-3.5" />
-            W3C DTCG & CSS 표준 준수
-          </span>
+    <section className="py-12 md:py-16 border-b border-[var(--border-subtle)]">
+      <div className="max-w-6xl mx-auto px-6">
+        <div className="text-xs font-mono text-neutral-400 mb-3">
+          공식 활용 가이드 · W3C DTCG & CSS 표준 준수
         </div>
 
         {/* Main Headline */}
-        <div className="max-w-3xl">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-neutral-900 dark:text-white leading-[1.2] mb-5">
-            수레바퀴를 다시 만들지 마세요.{' '}
-            <span 
-              className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 dark:from-blue-400 dark:via-indigo-300 dark:to-violet-400"
-            >
-              Atomsystem으로 스마트하게 굴리세요.
-            </span>
+        <div className="max-w-3xl space-y-3">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[var(--text-primary)] leading-tight">
+            라이브러리 활용 및 통합 가이드
           </h1>
-          <p className="text-base sm:text-lg text-neutral-600 dark:text-neutral-300 leading-relaxed mb-8">
-            세상에 없던 버튼과 모달을 바닥부터 다시 코딩하느라 시간을 낭비하지 마세요. 
-            검증된 W3C 표준 디자인 토큰과 단 1줄의 CSS로 React, Vue, Vanilla HTML 어디서든 동일하게 작동하는 실전 사용법을 안내합니다.
+          <p className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed">
+            검증된 W3C 표준 디자인 토큰과 단 1줄의 CSS로 React, Vue, HTML 어디서든 동일하게 동작하는 UI를 빠르게 구축하는 실전 사용법을 안내합니다.
           </p>
         </div>
 
