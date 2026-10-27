@@ -11,8 +11,6 @@ import {
   Layers,
   ArrowRight,
   Terminal,
-  Sliders,
-  Zap,
   Copy,
   Check,
   Search,
@@ -113,7 +111,7 @@ export default function TokensPage() {
       {/* Main Content */}
       <main className="max-w-7xl w-full mx-auto px-6 py-10 flex-1 flex flex-col gap-10">
         {/* 1. Hero & Concept Section */}
-        <section className="flex flex-col gap-4 border-b border-(--border-subtle) pb-8">
+        <section className="flex flex-col gap-5 border-b border-(--border-subtle) pb-8">
           <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-neutral-400">
             <a
               href="https://www.designtokens.org/tr/2025.10/"
@@ -141,423 +139,430 @@ export default function TokensPage() {
               </p>
             </div>
 
-            {/* Quick Live Preview Pill */}
-            <div
-              style={{ borderRadius: liveRadius }}
-              className="p-4 bg-(--bg-secondary) border border-(--border-strong) shadow-xs flex flex-col gap-3 min-w-[280px]"
-            >
-              <span className="text-[11px] font-bold text-(--text-muted) uppercase tracking-wider flex items-center gap-1.5">
-                <Sliders className="w-3.5 h-3.5" style={{ color: liveBrandColor }} />
-                실시간 토큰 값 프리뷰 테스트
-              </span>
-              <div className="flex items-center gap-3">
-                <div className="flex flex-col gap-1">
-                  <span className="text-[10px] text-(--text-secondary)">브랜드 컬러</span>
-                  <div className="flex items-center gap-1.5">
-                    {['#3182f6', '#ff6f0f', '#10b981', '#7c3aed'].map((c) => (
-                      <button
-                        key={c}
-                        onClick={() => updateColor('primary', c)}
-                        className={`w-6 h-6 rounded-full border-2 transition-transform ${liveBrandColor === c ? 'scale-110 border-(--text-primary) shadow-sm' : 'border-transparent'}`}
-                        style={{ backgroundColor: c }}
-                        title={c}
-                      />
-                    ))}
-                  </div>
+            {/* Quick Live Preview Controls - Clean Minimal Strip */}
+            <div className="flex flex-wrap items-center gap-4 text-xs font-mono pb-1">
+              <div className="flex items-center gap-2">
+                <span className="text-(--text-muted)">Brand:</span>
+                <div className="flex items-center gap-1.5">
+                  {['#3182f6', '#ff6f0f', '#10b981', '#7c3aed'].map((c) => (
+                    <button
+                      key={c}
+                      onClick={() => updateColor('primary', c)}
+                      className={`w-4 h-4 rounded-full border transition-transform ${liveBrandColor === c ? 'scale-125 border-(--text-primary)' : 'border-transparent'}`}
+                      style={{ backgroundColor: c }}
+                      title={c}
+                    />
+                  ))}
                 </div>
+              </div>
 
-                <div className="h-8 w-px bg-(--border-subtle) mx-1" />
+              <span className="text-(--border-subtle)">|</span>
 
-                <div className="flex flex-col gap-1">
-                  <span className="text-[10px] text-(--text-secondary)">테두리 곡률</span>
-                  <select
-                    value={liveRadius}
-                    onChange={(e) => updateBorderRadius(e.target.value)}
-                    className="text-xs px-2 py-1 bg-(--bg-primary) text-(--text-primary) rounded-lg border border-(--border-strong) font-semibold"
-                  >
-                    <option value="6px">6px (샤프)</option>
-                    <option value="12px">12px (표준)</option>
-                    <option value="16px">16px (토스/당근)</option>
-                    <option value="9999px">9999px (캡슐)</option>
-                  </select>
-                </div>
+              <div className="flex items-center gap-2">
+                <span className="text-(--text-muted)">Radius:</span>
+                <select
+                  value={liveRadius}
+                  onChange={(e) => updateBorderRadius(e.target.value)}
+                  className="text-xs px-2 py-0.5 bg-(--bg-secondary) text-(--text-primary) rounded border border-(--border-subtle) font-mono"
+                >
+                  <option value="6px">6px</option>
+                  <option value="12px">12px</option>
+                  <option value="16px">16px</option>
+                  <option value="9999px">9999px</option>
+                </select>
               </div>
             </div>
           </div>
 
-          {/* 3-Tier Architecture Diagram */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4">
-            <div
-              style={{ borderRadius: liveRadius }}
-              className="p-5 bg-(--bg-secondary) border border-(--border-subtle) shadow-xs"
-            >
-              <div className="text-[10px] font-extrabold uppercase tracking-wider text-(--text-muted) mb-1">Tier 1</div>
-              <h3 className="font-bold text-sm text-(--text-primary) flex items-center gap-1.5 mb-2">
-                <Box className="w-4 h-4 text-emerald-500" />
-                Global / Raw Tokens
-              </h3>
-              <p className="text-xs text-(--text-secondary) leading-relaxed mb-3">
-                플랫폼 무관한 절대적 원천 값입니다. 특정 맥락이나 의도를 갖지 않는 순수 팔레트와 단위입니다.
-              </p>
-              <div className="p-2 rounded-lg bg-(--bg-primary) border border-(--border-subtle) font-mono text-[11px] text-(--text-secondary)">
-                blue-500: #3182F6<br />
-                radius-16: 16px
+          {/* 3-Tier Architecture Specification - Flat List */}
+          <div className="pt-4 border-t border-(--border-subtle)">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs">
+              <div className="space-y-1">
+                <div className="text-[10px] font-mono text-(--text-muted) uppercase">Tier 1 · Global / Raw</div>
+                <h3 className="font-semibold text-sm text-(--text-primary)">원천 토큰</h3>
+                <p className="text-xs text-(--text-secondary) leading-relaxed">
+                  특정 의도를 갖지 않는 순수 팔레트와 단위 (예: <code className="font-mono text-[11px]">blue-500: #3182F6</code>, <code className="font-mono text-[11px]">radius-16: 16px</code>).
+                </p>
               </div>
-            </div>
 
-            <div
-              style={{ borderRadius: liveRadius }}
-              className="p-5 bg-(--bg-secondary) border-2 border-blue-500/40 shadow-xs relative"
-            >
-              <div className="text-[10px] font-extrabold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-1">Tier 2 (핵심 표준)</div>
-              <h3 className="font-bold text-sm text-(--text-primary) flex items-center gap-1.5 mb-2">
-                <Zap className="w-4 h-4 text-blue-500" />
-                Semantic Tokens (의도/역할)
-              </h3>
-              <p className="text-xs text-(--text-secondary) leading-relaxed mb-3">
-                <strong>&quot;어디에 쓰이는가&quot;</strong> 목적에 따라 명명합니다. 라이트/다크 모드 전환 시 매핑만 변경됩니다.
-              </p>
-              <div className="p-2 rounded-lg bg-blue-50 dark:bg-blue-950/40 border border-blue-200/50 dark:border-blue-900/50 font-mono text-[11px] text-blue-700 dark:text-blue-300">
-                --atom-color-primary: var(--blue-500)<br />
-                --atom-bg-surface: var(--white)
+              <div className="space-y-1 md:border-l md:border-(--border-subtle) md:pl-6">
+                <div className="text-[10px] font-mono text-blue-500 uppercase">Tier 2 · Semantic (핵심 표준)</div>
+                <h3 className="font-semibold text-sm text-(--text-primary)">시맨틱 토큰</h3>
+                <p className="text-xs text-(--text-secondary) leading-relaxed">
+                  &quot;어디에 쓰이는가&quot; 목적과 역할에 따른 명명 (예: <code className="font-mono text-[11px]">--atom-color-primary</code>, 테마 전환 시 자동 매핑).
+                </p>
               </div>
-            </div>
 
-            <div
-              style={{ borderRadius: liveRadius }}
-              className="p-5 bg-(--bg-secondary) border border-(--border-subtle) shadow-xs"
-            >
-              <div className="text-[10px] font-extrabold uppercase tracking-wider text-(--text-muted) mb-1">Tier 3</div>
-              <h3 className="font-bold text-sm text-(--text-primary) flex items-center gap-1.5 mb-2">
-                <Layers className="w-4 h-4 text-indigo-500" />
-                Component Tokens
-              </h3>
-              <p className="text-xs text-(--text-secondary) leading-relaxed mb-3">
-                특정 컴포넌트에 한정된 스타일 값입니다. 시맨틱 토큰을 상속받아 세밀한 오버라이드를 수행합니다.
-              </p>
-              <div className="p-2 rounded-lg bg-(--bg-primary) border border-(--border-subtle) font-mono text-[11px] text-(--text-secondary)">
-                .atom-btn-primary &#123;<br />
-                &nbsp;&nbsp;background: var(--atom-color-primary);<br />
-                &#125;
+              <div className="space-y-1 md:border-l md:border-(--border-subtle) md:pl-6">
+                <div className="text-[10px] font-mono text-(--text-muted) uppercase">Tier 3 · Component</div>
+                <h3 className="font-semibold text-sm text-(--text-primary)">컴포넌트 토큰</h3>
+                <p className="text-xs text-(--text-secondary) leading-relaxed">
+                  특정 UI 단위에 한정된 세밀한 스타일 값 (예: <code className="font-mono text-[11px]">.atom-btn-primary</code>).
+                </p>
               </div>
             </div>
           </div>
         </section>
 
-        {/* 2. Interactive Tokens Explorer */}
+        {/* 2. Interactive Tokens Explorer - Clean Documentation Table */}
         <section className="flex flex-col gap-6">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div>
-              <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-(--text-primary)">
-                주요 디자인 토큰 변수 카탈로그
-              </h2>
-              <p className="text-xs text-(--text-secondary) mt-1">
-                변수명을 클릭하면 클립보드에 즉시 복사되어 CSS나 스타일 코드에 바로 붙여넣을 수 있습니다.
-              </p>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-(--border-subtle) pb-2">
+            {/* Navigation Tabs - Clean Flat Style (No Scrollbar) */}
+            <div className="flex items-center gap-1 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              {TABS.map((tab) => {
+                const Icon = tab.icon;
+                const isActive = activeCategory === tab.id;
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveCategory(tab.id)}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md transition-colors whitespace-nowrap text-xs ${
+                      isActive
+                        ? 'bg-(--bg-secondary) text-(--text-primary) font-bold'
+                        : 'text-(--text-muted) hover:text-(--text-primary) hover:bg-(--bg-secondary)/50'
+                    }`}
+                  >
+                    <Icon className="w-3.5 h-3.5" />
+                    <span>{tab.label}</span>
+                    <span className="text-[10px] font-mono opacity-60">
+                      ({tab.count})
+                    </span>
+                  </button>
+                );
+              })}
             </div>
 
-            {/* Search Filter & Category Tabs */}
-            <div className="flex flex-wrap items-center gap-3">
-              <div className="relative min-w-[200px]">
-                <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-(--text-muted)" />
-                <input
-                  type="text"
-                  placeholder="토큰 검색..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-8 pr-7 py-1.5 text-xs bg-(--bg-secondary) border border-(--border-subtle) focus:border-(--border-strong) rounded-xl text-(--text-primary) placeholder:text-(--text-muted) outline-hidden transition-colors"
-                />
-                {searchQuery && (
-                  <button
-                    onClick={() => setSearchQuery('')}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 text-(--text-muted) hover:text-(--text-primary)"
-                    title="검색어 지우기"
-                  >
-                    <X className="w-3.5 h-3.5" />
-                  </button>
-                )}
-              </div>
-
-              {/* Navigation Tabs */}
-              <div className="inline-flex p-1 rounded-xl bg-(--bg-secondary) border border-(--border-subtle) text-xs font-semibold overflow-x-auto shadow-xs">
-                {TABS.map((tab) => {
-                  const Icon = tab.icon;
-                  const isActive = activeCategory === tab.id;
-                  return (
-                    <button
-                      key={tab.id}
-                      onClick={() => setActiveCategory(tab.id)}
-                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-colors text-xs ${
-                        isActive
-                          ? 'bg-(--bg-primary) text-(--text-primary) border border-(--border-strong) shadow-xs font-bold'
-                          : 'text-(--text-secondary) hover:text-(--text-primary)'
-                      }`}
-                    >
-                      <Icon className="w-3.5 h-3.5" />
-                      <span>{tab.label}</span>
-                      <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${isActive ? 'bg-(--bg-secondary)' : 'opacity-70'}`}>
-                        {tab.count}
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
+            {/* Search Input - Clean Minimal Line */}
+            <div className="relative w-full sm:w-60">
+              <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-(--text-muted)" />
+              <input
+                type="text"
+                placeholder="토큰 검색..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-8 pr-7 py-1 text-xs bg-(--bg-secondary) border border-(--border-subtle) focus:border-(--border-strong) rounded text-(--text-primary) placeholder:text-(--text-muted) outline-hidden transition-colors"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-(--text-muted) hover:text-(--text-primary)"
+                  title="검색어 지우기"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              )}
             </div>
           </div>
 
-          {/* TAB 1: COLORS */}
+          {/* TAB 1: COLORS TABLE */}
           {activeCategory === 'color' && (
             filteredColors.length === 0 ? (
-              <div className="text-center py-12 text-xs text-(--text-muted) bg-(--bg-secondary) border border-(--border-subtle) rounded-2xl">
+              <div className="text-center py-12 text-xs text-(--text-muted)">
                 검색된 색상 토큰이 없습니다.
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {filteredColors.map((token) => (
-                  <div
-                    key={token.variable}
-                    style={{ borderRadius: liveRadius }}
-                    className="p-5 bg-(--bg-secondary) border border-(--border-subtle) hover:border-(--border-strong) shadow-xs transition-colors flex flex-col justify-between gap-4"
-                  >
-                    <div className="flex items-center gap-3.5">
-                      <div
-                        className="w-12 h-12 rounded-xl shadow-inner border border-black/10 dark:border-white/10 shrink-0 transition-transform"
-                        style={{ backgroundColor: token.value }}
-                      />
-                      <div>
-                        <div className="text-xs font-bold text-(--text-primary)">
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs">
+                  <thead>
+                    <tr className="border-b border-(--border-subtle) text-(--text-muted) font-mono text-[11px]">
+                      <th className="py-2.5 px-3 font-medium w-12">미리보기</th>
+                      <th className="py-2.5 px-3 font-medium">토큰 이름</th>
+                      <th className="py-2.5 px-3 font-medium">CSS 변수 (클릭 복사)</th>
+                      <th className="py-2.5 px-3 font-medium">원천 값</th>
+                      <th className="py-2.5 px-3 font-medium hidden md:table-cell">용도 및 설명</th>
+                      <th className="py-2.5 px-3 font-medium text-right">구분</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-(--border-subtle)">
+                    {filteredColors.map((token) => (
+                      <tr key={token.variable} className="hover:bg-(--bg-secondary)/60 transition-colors group">
+                        <td className="py-2.5 px-3">
+                          <div
+                            className="w-6 h-6 rounded border border-black/10 dark:border-white/10 shrink-0"
+                            style={{ backgroundColor: token.value }}
+                          />
+                        </td>
+                        <td className="py-2.5 px-3 font-semibold text-(--text-primary)">
                           {token.name}
-                        </div>
-                        <span className="text-[10px] font-mono font-medium text-(--text-muted) uppercase">
+                        </td>
+                        <td className="py-2.5 px-3">
+                          <button
+                            onClick={() => handleCopy(`var(${token.variable})`)}
+                            className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-(--bg-secondary) hover:bg-(--border-subtle) text-(--text-primary) font-mono text-[11px] transition-colors"
+                            title="클릭하여 복사"
+                          >
+                            {copiedVar === `var(${token.variable})` ? (
+                              <Check className="w-3 h-3 text-emerald-500" />
+                            ) : (
+                              <Copy className="w-3 h-3 text-(--text-muted) group-hover:text-(--text-primary)" />
+                            )}
+                            <span>var({token.variable})</span>
+                          </button>
+                        </td>
+                        <td className="py-2.5 px-3 font-mono text-[11px] text-(--text-muted) uppercase">
                           {token.value}
-                        </span>
-                      </div>
-                    </div>
-
-                    <p className="text-xs text-(--text-secondary) leading-relaxed">
-                      {token.description}
-                    </p>
-
-                    <div className="pt-2 border-t border-(--border-subtle) flex items-center justify-between">
-                      <button
-                        onClick={() => handleCopy(`var(${token.variable})`)}
-                        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-(--bg-primary) border border-(--border-subtle) hover:border-(--border-strong) text-(--text-primary) text-[11px] font-mono transition-colors"
-                        title="클릭하여 복사"
-                      >
-                        {copiedVar === `var(${token.variable})` ? (
-                          <Check className="w-3 h-3 text-emerald-500" />
-                        ) : (
-                          <Copy className="w-3 h-3 opacity-60" />
-                        )}
-                        <span>var({token.variable})</span>
-                      </button>
-                      <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded-full bg-(--bg-primary) text-(--text-muted) border border-(--border-subtle)">
-                        {token.category}
-                      </span>
-                    </div>
-                  </div>
-                ))}
+                        </td>
+                        <td className="py-2.5 px-3 text-(--text-secondary) hidden md:table-cell max-w-sm">
+                          {token.description}
+                        </td>
+                        <td className="py-2.5 px-3 text-right">
+                          <span className="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded bg-(--bg-secondary) text-(--text-muted) border border-(--border-subtle)">
+                            {token.category}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             )
           )}
 
-          {/* TAB 2: TYPOGRAPHY */}
+          {/* TAB 2: TYPOGRAPHY TABLE */}
           {activeCategory === 'typography' && (
             filteredTypography.length === 0 ? (
-              <div className="text-center py-12 text-xs text-(--text-muted) bg-(--bg-secondary) border border-(--border-subtle) rounded-2xl">
+              <div className="text-center py-12 text-xs text-(--text-muted)">
                 검색된 타이포그래피 토큰이 없습니다.
               </div>
             ) : (
-              <div className="flex flex-col gap-3">
-                {filteredTypography.map((token) => (
-                  <div
-                    key={token.variable}
-                    style={{ borderRadius: liveRadius }}
-                    className="p-5 bg-(--bg-secondary) border border-(--border-subtle) hover:border-(--border-strong) shadow-xs transition-colors flex flex-col md:flex-row md:items-center justify-between gap-4"
-                  >
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="text-xs font-bold text-(--text-primary)">{token.name}</span>
-                        <span className="text-[10px] font-mono text-(--text-muted)">{token.fontSize} · {token.weight}</span>
-                      </div>
-                      <div className="text-(--text-primary) font-sans tracking-tight py-1" style={{ fontSize: token.fontSize.split(' ')[0] }}>
-                        {token.sample}
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-3 shrink-0">
-                      <button
-                        onClick={() => handleCopy(`var(${token.variable})`)}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-(--bg-primary) border border-(--border-subtle) hover:border-(--border-strong) text-(--text-primary) text-xs font-mono transition-colors"
-                      >
-                        {copiedVar === `var(${token.variable})` ? (
-                          <Check className="w-3.5 h-3.5 text-emerald-500" />
-                        ) : (
-                          <Copy className="w-3.5 h-3.5 opacity-60" />
-                        )}
-                        <span>var({token.variable})</span>
-                      </button>
-                    </div>
-                  </div>
-                ))}
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs">
+                  <thead>
+                    <tr className="border-b border-(--border-subtle) text-(--text-muted) font-mono text-[11px]">
+                      <th className="py-2.5 px-3 font-medium">토큰 이름</th>
+                      <th className="py-2.5 px-3 font-medium">스펙 (Size / Weight)</th>
+                      <th className="py-2.5 px-3 font-medium">CSS 변수</th>
+                      <th className="py-2.5 px-3 font-medium">실제 텍스트 미리보기</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-(--border-subtle)">
+                    {filteredTypography.map((token) => (
+                      <tr key={token.variable} className="hover:bg-(--bg-secondary)/60 transition-colors group">
+                        <td className="py-3 px-3 font-semibold text-(--text-primary)">
+                          {token.name}
+                        </td>
+                        <td className="py-3 px-3 font-mono text-[11px] text-(--text-muted)">
+                          {token.fontSize} · {token.weight}
+                        </td>
+                        <td className="py-3 px-3">
+                          <button
+                            onClick={() => handleCopy(`var(${token.variable})`)}
+                            className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-(--bg-secondary) hover:bg-(--border-subtle) text-(--text-primary) font-mono text-[11px] transition-colors"
+                            title="클릭하여 복사"
+                          >
+                            {copiedVar === `var(${token.variable})` ? (
+                              <Check className="w-3 h-3 text-emerald-500" />
+                            ) : (
+                              <Copy className="w-3 h-3 text-(--text-muted) group-hover:text-(--text-primary)" />
+                            )}
+                            <span>var({token.variable})</span>
+                          </button>
+                        </td>
+                        <td className="py-3 px-3 text-(--text-primary) font-sans tracking-tight" style={{ fontSize: token.fontSize.split(' ')[0] }}>
+                          {token.sample}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             )
           )}
 
-          {/* TAB 3: RADIUS */}
+          {/* TAB 3: RADIUS TABLE */}
           {activeCategory === 'radius' && (
             filteredRadius.length === 0 ? (
-              <div className="text-center py-12 text-xs text-(--text-muted) bg-(--bg-secondary) border border-(--border-subtle) rounded-2xl">
+              <div className="text-center py-12 text-xs text-(--text-muted)">
                 검색된 곡률 토큰이 없습니다.
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {filteredRadius.map((token) => (
-                  <div
-                    key={token.variable}
-                    style={{ borderRadius: liveRadius }}
-                    className="p-5 bg-(--bg-secondary) border border-(--border-subtle) hover:border-(--border-strong) shadow-xs transition-colors flex flex-col justify-between gap-4"
-                  >
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-(--text-primary)">{token.name}</span>
-                      <span className="text-xs font-mono font-bold text-blue-500">{token.value}</span>
-                    </div>
-
-                    <div className="h-24 w-full bg-(--bg-primary) border-2 border-dashed border-blue-500/40 flex items-center justify-center transition-all" style={{ borderRadius: token.value }}>
-                      <div className="w-14 h-14 bg-blue-600 text-white text-[10px] font-bold flex items-center justify-center shadow-xs transition-all" style={{ borderRadius: token.value }}>
-                        {token.value}
-                      </div>
-                    </div>
-
-                    <p className="text-xs text-(--text-secondary)">
-                      {token.description}
-                    </p>
-
-                    <button
-                      onClick={() => handleCopy(`var(${token.variable})`)}
-                      className="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl bg-(--bg-primary) border border-(--border-subtle) hover:border-(--border-strong) text-(--text-primary) text-xs font-mono transition-colors w-full"
-                    >
-                      {copiedVar === `var(${token.variable})` ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5 opacity-60" />}
-                      <span>var({token.variable})</span>
-                    </button>
-                  </div>
-                ))}
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs">
+                  <thead>
+                    <tr className="border-b border-(--border-subtle) text-(--text-muted) font-mono text-[11px]">
+                      <th className="py-2.5 px-3 font-medium w-16">미리보기</th>
+                      <th className="py-2.5 px-3 font-medium">토큰 이름</th>
+                      <th className="py-2.5 px-3 font-medium">값 (Value)</th>
+                      <th className="py-2.5 px-3 font-medium">CSS 변수</th>
+                      <th className="py-2.5 px-3 font-medium hidden sm:table-cell">권장 용도</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-(--border-subtle)">
+                    {filteredRadius.map((token) => (
+                      <tr key={token.variable} className="hover:bg-(--bg-secondary)/60 transition-colors group">
+                        <td className="py-2.5 px-3">
+                          <div
+                            className="w-9 h-6 bg-blue-600/15 border border-blue-500/30 flex items-center justify-center text-[9px] font-mono text-blue-500"
+                            style={{ borderRadius: token.value }}
+                          >
+                            {token.value}
+                          </div>
+                        </td>
+                        <td className="py-2.5 px-3 font-semibold text-(--text-primary)">
+                          {token.name}
+                        </td>
+                        <td className="py-2.5 px-3 font-mono text-[11px] font-bold text-blue-500">
+                          {token.value}
+                        </td>
+                        <td className="py-2.5 px-3">
+                          <button
+                            onClick={() => handleCopy(`var(${token.variable})`)}
+                            className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-(--bg-secondary) hover:bg-(--border-subtle) text-(--text-primary) font-mono text-[11px] transition-colors"
+                            title="클릭하여 복사"
+                          >
+                            {copiedVar === `var(${token.variable})` ? (
+                              <Check className="w-3 h-3 text-emerald-500" />
+                            ) : (
+                              <Copy className="w-3 h-3 text-(--text-muted) group-hover:text-(--text-primary)" />
+                            )}
+                            <span>var({token.variable})</span>
+                          </button>
+                        </td>
+                        <td className="py-2.5 px-3 text-(--text-secondary) hidden sm:table-cell">
+                          {token.description}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             )
           )}
 
-          {/* TAB 4: SPACING */}
+          {/* TAB 4: SPACING TABLE */}
           {activeCategory === 'spacing' && (
             filteredSpacing.length === 0 ? (
-              <div className="text-center py-12 text-xs text-(--text-muted) bg-(--bg-secondary) border border-(--border-subtle) rounded-2xl">
+              <div className="text-center py-12 text-xs text-(--text-muted)">
                 검색된 간격 토큰이 없습니다.
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {filteredSpacing.map((token) => (
-                  <div
-                    key={token.variable}
-                    style={{ borderRadius: liveRadius }}
-                    className="p-5 bg-(--bg-secondary) border border-(--border-subtle) hover:border-(--border-strong) shadow-xs transition-colors flex flex-col justify-between gap-3"
-                  >
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-(--text-primary)">{token.name}</span>
-                      <span className="text-xs font-mono font-bold text-emerald-500">{token.value}</span>
-                    </div>
-
-                    <div className="w-full bg-(--bg-primary) h-10 rounded-xl p-2 flex items-center border border-(--border-subtle)">
-                      <div className="bg-emerald-500 h-full rounded-md shadow-xs transition-all" style={{ width: `${Math.min(token.px * 3, 240)}px` }} />
-                    </div>
-
-                    <button
-                      onClick={() => handleCopy(`var(${token.variable})`)}
-                      className="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl bg-(--bg-primary) border border-(--border-subtle) hover:border-(--border-strong) text-(--text-primary) text-xs font-mono transition-colors w-full"
-                    >
-                      {copiedVar === `var(${token.variable})` ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5 opacity-60" />}
-                      <span>var({token.variable})</span>
-                    </button>
-                  </div>
-                ))}
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs">
+                  <thead>
+                    <tr className="border-b border-(--border-subtle) text-(--text-muted) font-mono text-[11px]">
+                      <th className="py-2.5 px-3 font-medium w-48">너비 미리보기</th>
+                      <th className="py-2.5 px-3 font-medium">토큰 이름</th>
+                      <th className="py-2.5 px-3 font-medium">값 (Value)</th>
+                      <th className="py-2.5 px-3 font-medium">CSS 변수</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-(--border-subtle)">
+                    {filteredSpacing.map((token) => (
+                      <tr key={token.variable} className="hover:bg-(--bg-secondary)/60 transition-colors group">
+                        <td className="py-2.5 px-3">
+                          <div className="h-3.5 bg-emerald-500/15 border border-emerald-500/30 rounded flex items-center">
+                            <div
+                              className="h-full bg-emerald-500 rounded-xs"
+                              style={{ width: `${Math.min(token.px * 2.5, 160)}px` }}
+                            />
+                          </div>
+                        </td>
+                        <td className="py-2.5 px-3 font-semibold text-(--text-primary)">
+                          {token.name}
+                        </td>
+                        <td className="py-2.5 px-3 font-mono text-[11px] font-bold text-emerald-500">
+                          {token.value} ({token.px}px)
+                        </td>
+                        <td className="py-2.5 px-3">
+                          <button
+                            onClick={() => handleCopy(`var(${token.variable})`)}
+                            className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-(--bg-secondary) hover:bg-(--border-subtle) text-(--text-primary) font-mono text-[11px] transition-colors"
+                            title="클릭하여 복사"
+                          >
+                            {copiedVar === `var(${token.variable})` ? (
+                              <Check className="w-3 h-3 text-emerald-500" />
+                            ) : (
+                              <Copy className="w-3 h-3 text-(--text-muted) group-hover:text-(--text-primary)" />
+                            )}
+                            <span>var({token.variable})</span>
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             )
           )}
 
-          {/* TAB 5: SHADOW */}
+          {/* TAB 5: SHADOW TABLE */}
           {activeCategory === 'shadow' && (
             filteredShadow.length === 0 ? (
-              <div className="text-center py-12 text-xs text-(--text-muted) bg-(--bg-secondary) border border-(--border-subtle) rounded-2xl">
+              <div className="text-center py-12 text-xs text-(--text-muted)">
                 검색된 그림자 토큰이 없습니다.
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {filteredShadow.map((token) => (
-                  <div
-                    key={token.variable}
-                    style={{ borderRadius: liveRadius }}
-                    className="p-6 bg-(--bg-secondary) border border-(--border-subtle) hover:border-(--border-strong) transition-colors flex flex-col justify-between gap-4"
-                  >
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm font-bold text-(--text-primary)">{token.name}</span>
-                      <span className="text-xs font-mono text-(--text-muted)">var({token.variable})</span>
-                    </div>
-
-                    <div className="h-32 rounded-2xl bg-(--bg-primary) border border-(--border-subtle) flex items-center justify-center p-4">
-                      <div
-                        className="w-48 py-4 bg-(--bg-secondary) rounded-xl text-center text-xs font-semibold text-(--text-primary) border border-(--border-subtle) transition-all duration-300"
-                        style={{ boxShadow: token.value }}
-                      >
-                        Shadow Preview
-                      </div>
-                    </div>
-
-                    <p className="text-xs text-(--text-secondary)">
-                      {token.description}
-                    </p>
-
-                    <button
-                      onClick={() => handleCopy(`var(${token.variable})`)}
-                      className="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl bg-(--bg-primary) border border-(--border-subtle) hover:border-(--border-strong) text-(--text-primary) text-xs font-mono transition-colors w-full"
-                    >
-                      {copiedVar === `var(${token.variable})` ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5 opacity-60" />}
-                      <span>var({token.variable})</span>
-                    </button>
-                  </div>
-                ))}
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs">
+                  <thead>
+                    <tr className="border-b border-(--border-subtle) text-(--text-muted) font-mono text-[11px]">
+                      <th className="py-2.5 px-3 font-medium w-20">미리보기</th>
+                      <th className="py-2.5 px-3 font-medium">토큰 이름</th>
+                      <th className="py-2.5 px-3 font-medium">CSS 변수</th>
+                      <th className="py-2.5 px-3 font-medium">CSS 원천 값</th>
+                      <th className="py-2.5 px-3 font-medium hidden md:table-cell">용도 및 설명</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-(--border-subtle)">
+                    {filteredShadow.map((token) => (
+                      <tr key={token.variable} className="hover:bg-(--bg-secondary)/60 transition-colors group">
+                        <td className="py-2.5 px-3">
+                          <div
+                            className="w-14 py-1 px-1.5 bg-(--bg-primary) border border-(--border-subtle) rounded text-[9px] text-center text-(--text-primary)"
+                            style={{ boxShadow: token.value }}
+                          >
+                            Shadow
+                          </div>
+                        </td>
+                        <td className="py-2.5 px-3 font-semibold text-(--text-primary)">
+                          {token.name}
+                        </td>
+                        <td className="py-2.5 px-3">
+                          <button
+                            onClick={() => handleCopy(`var(${token.variable})`)}
+                            className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-(--bg-secondary) hover:bg-(--border-subtle) text-(--text-primary) font-mono text-[11px] transition-colors"
+                            title="클릭하여 복사"
+                          >
+                            {copiedVar === `var(${token.variable})` ? (
+                              <Check className="w-3 h-3 text-emerald-500" />
+                            ) : (
+                              <Copy className="w-3 h-3 text-(--text-muted) group-hover:text-(--text-primary)" />
+                            )}
+                            <span>var({token.variable})</span>
+                          </button>
+                        </td>
+                        <td className="py-2.5 px-3 font-mono text-[10px] text-(--text-muted) max-w-xs truncate">
+                          {token.value}
+                        </td>
+                        <td className="py-2.5 px-3 text-(--text-secondary) hidden md:table-cell">
+                          {token.description}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             )
           )}
         </section>
 
-        {/* 3. Live Token Interactive Showcase */}
-        <section
-          style={{ borderRadius: liveRadius }}
-          className="p-8 bg-(--bg-secondary) text-(--text-primary) border border-(--border-strong) shadow-xs flex flex-col gap-6"
-        >
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-(--border-subtle) pb-5">
+        {/* 3. Live Token Interactive Showcase - Clean Flat Layout */}
+        <section className="space-y-4 pt-6 border-t border-(--border-subtle)">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div>
-              <span className="text-xs font-mono font-bold text-emerald-500 uppercase tracking-wider flex items-center gap-1.5">
-                <Zap className="w-3.5 h-3.5" />
-                Live Token Binding Showcase
-              </span>
-              <h3 className="text-xl font-bold mt-1 text-(--text-primary)">
-                실제 UI 컴포넌트에 토큰이 주입되는 방식
-              </h3>
+              <div className="text-xs font-mono text-neutral-400">Live Token Binding Showcase</div>
+              <h3 className="text-lg font-bold text-(--text-primary)">실제 UI 컴포넌트에 토큰이 주입되는 방식</h3>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-(--text-muted) font-mono">React / Vue / HTML 호환</span>
-            </div>
+            <span className="text-xs text-(--text-muted) font-mono">React · Vue · HTML 호환</span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
             {/* Interactive Component 1: Button */}
-            <div
-              style={{ borderRadius: liveRadius }}
-              className="p-5 bg-(--bg-primary) border border-(--border-subtle) flex flex-col justify-between gap-4"
-            >
-              <div className="text-xs font-semibold text-(--text-muted)">Primary Button</div>
-              <div className="py-4 flex justify-center">
+            <div className="space-y-2">
+              <div className="text-xs text-(--text-muted) font-medium">1. 버튼 컴포넌트</div>
+              <div className="py-2 flex items-center">
                 <button
-                  className="px-5 py-2.5 text-white font-bold text-xs shadow-xs transition-transform active:scale-95"
+                  className="px-4 py-2 text-white font-semibold text-xs transition-opacity hover:opacity-90 active:scale-95"
                   style={{
                     backgroundColor: liveBrandColor,
                     borderRadius: liveRadius,
@@ -566,96 +571,74 @@ export default function TokensPage() {
                   토큰 주입된 버튼
                 </button>
               </div>
-              <div className="p-2 rounded-lg bg-(--bg-secondary) border border-(--border-subtle) text-[10px] font-mono text-(--text-secondary)">
-                background: {liveBrandColor};<br />
-                border-radius: {liveRadius};
+              <div className="text-[11px] font-mono text-(--text-muted)">
+                background: {liveBrandColor}; border-radius: {liveRadius};
               </div>
             </div>
 
             {/* Interactive Component 2: Card */}
-            <div
-              style={{ borderRadius: liveRadius }}
-              className="p-5 bg-(--bg-primary) border border-(--border-subtle) flex flex-col justify-between gap-4"
-            >
-              <div className="text-xs font-semibold text-(--text-muted)">Action Card</div>
-              <div
-                className="p-4 bg-(--bg-secondary) border border-(--border-subtle) transition-all"
-                style={{ borderRadius: liveRadius }}
-              >
-                <div className="text-xs font-bold text-(--text-secondary) mb-1">계좌 잔액</div>
-                <div className="text-sm font-extrabold" style={{ color: liveBrandColor }}>
+            <div className="space-y-2">
+              <div className="text-xs text-(--text-muted) font-medium">2. 데이터 수치 컴포넌트</div>
+              <div className="py-1 space-y-0.5">
+                <div className="text-xs text-(--text-muted)">계좌 잔액</div>
+                <div className="text-base font-bold" style={{ color: liveBrandColor }}>
                   1,450,000 원
                 </div>
               </div>
-              <div className="p-2 rounded-lg bg-(--bg-secondary) border border-(--border-subtle) text-[10px] font-mono text-(--text-secondary)">
-                color: var(--atom-color-primary);<br />
-                border-radius: {liveRadius};
+              <div className="text-[11px] font-mono text-(--text-muted)">
+                color: var(--atom-color-primary);
               </div>
             </div>
 
             {/* Interactive Component 3: Badge & Input */}
-            <div
-              style={{ borderRadius: liveRadius }}
-              className="p-5 bg-(--bg-primary) border border-(--border-subtle) flex flex-col justify-between gap-4"
-            >
-              <div className="text-xs font-semibold text-(--text-muted)">Input &amp; Pill Badge</div>
-              <div className="flex flex-col gap-2 py-1">
-                <div className="flex justify-between items-center">
-                  <span
-                    className="px-2.5 py-0.5 text-[10px] font-bold text-white"
-                    style={{ backgroundColor: liveBrandColor, borderRadius: '9999px' }}
-                  >
-                    Vivid Pill
-                  </span>
-                </div>
+            <div className="space-y-2">
+              <div className="text-xs text-(--text-muted) font-medium">3. 인풋 및 뱃지 컴포넌트</div>
+              <div className="py-1 space-y-1.5 max-w-xs">
+                <span
+                  className="inline-block px-2 py-0.5 text-[10px] font-semibold text-white rounded-full"
+                  style={{ backgroundColor: liveBrandColor }}
+                >
+                  Vivid Pill
+                </span>
                 <input
                   type="text"
                   readOnly
                   value="토큰 테두리 인풋"
-                  className="w-full px-3 py-1.5 bg-(--bg-secondary) border text-xs text-(--text-primary) font-medium"
+                  className="w-full px-2.5 py-1.5 bg-transparent border text-xs text-(--text-primary) outline-hidden"
                   style={{ borderColor: liveBrandColor, borderRadius: liveRadius }}
                 />
               </div>
-              <div className="p-2 rounded-lg bg-(--bg-secondary) border border-(--border-subtle) text-[10px] font-mono text-(--text-secondary)">
-                border-color: {liveBrandColor};<br />
-                border-radius: {liveRadius};
+              <div className="text-[11px] font-mono text-(--text-muted)">
+                border-color: {liveBrandColor}; border-radius: {liveRadius};
               </div>
             </div>
           </div>
         </section>
 
-        {/* 4. AI Prompt & Usage Guide */}
-        <section
-          style={{ borderRadius: liveRadius }}
-          className="p-8 bg-(--bg-secondary) border border-(--border-strong) shadow-xs flex flex-col sm:flex-row items-center justify-between gap-6"
-        >
-          <div>
-            <div
-              style={{ color: liveBrandColor }}
-              className="inline-flex items-center gap-1.5 text-xs font-bold mb-2"
-            >
+        {/* 4. AI Prompt & Usage Guide - Flat Banner */}
+        <section className="pt-6 border-t border-(--border-subtle) flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="space-y-1 max-w-2xl">
+            <div className="flex items-center gap-1.5 text-xs font-mono text-neutral-400">
               <Terminal className="w-3.5 h-3.5" />
               <span>AI Agent 프롬프트 연동</span>
             </div>
-            <h3 className="text-xl font-bold tracking-tight text-(--text-primary)">
+            <h3 className="text-base font-bold text-(--text-primary)">
               AI에게 말만 걸면 디자인 토큰이 즉시 구축됩니다
             </h3>
-            <p className="text-xs text-(--text-secondary) mt-1 max-w-xl">
+            <p className="text-xs text-(--text-secondary) leading-relaxed">
               &quot;presets/toss.md 가이드를 보고 디자인 토큰을 생성해줘&quot;라고 지시하면,{' '}
               Agent가 W3C tokens.json을 갱신하고 위 변수들을 즉시 컴파일합니다.
             </p>
           </div>
 
-          <div className="flex items-center gap-3">
-            <Link
-              href="/patterns"
-              style={{ backgroundColor: liveBrandColor, borderRadius: liveRadius }}
-              className="px-5 py-2.5 text-white font-bold text-xs shadow-xs hover:opacity-90 active:scale-95 transition flex items-center gap-2"
-            >
-              <span>UX 패턴 보러가기</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
+          <Link
+            href="/patterns"
+            style={{ backgroundColor: liveBrandColor, borderRadius: liveRadius }}
+            className="inline-flex items-center gap-1.5 px-4 py-2 text-white font-semibold text-xs hover:opacity-90 active:scale-95 transition-opacity shrink-0"
+          >
+            <span>UX 패턴 보러가기</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
         </section>
       </main>
 
