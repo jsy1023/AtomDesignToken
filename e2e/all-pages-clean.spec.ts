@@ -12,7 +12,7 @@ test.describe('전체 페이지 담백한 미니멀 디자인 및 렌더링 안�
     await page.goto('/', { waitUntil: 'domcontentloaded' });
     const h1 = page.locator('h1');
     await expect(h1).toBeVisible();
-    await expect(page.getByText('npx atomsystem init').first()).toBeVisible();
+    await expect(page.locator('main').getByText('npx atomsystem init')).toBeVisible();
     await expect(page.getByRole('link', { name: /시작하기/i })).toBeVisible();
   });
 
