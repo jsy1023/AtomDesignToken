@@ -24,15 +24,18 @@ export function Header({ brandColor, rightExtra }: HeaderProps) {
   };
 
   const navItems = [
+    { href: '/principles', label: '원칙' },
     { href: '/tokens', label: '디자인 토큰' },
+    { href: '/motion', label: '모션' },
     { href: '/components', label: '컴포넌트' },
     { href: '/patterns', label: 'UX 패턴' },
+    { href: '/dependencies', label: '디펜던시' },
     { href: '/guide', label: '가이드' },
     { href: '/studio', label: '스튜디오' },
   ];
 
   return (
-    <header className="sticky top-0 z-40 bg-[var(--bg-primary)] border-b border-[var(--border-subtle)] transition-colors">
+    <header className="sticky top-0 z-40 bg-(--bg-primary) border-b border-(--border-subtle) transition-colors">
       <div className="max-w-7xl w-full mx-auto px-6 h-14 flex items-center justify-between">
         {/* Left: Brand Logo */}
         <div className="flex items-center gap-8">
@@ -41,23 +44,23 @@ export function Header({ brandColor, rightExtra }: HeaderProps) {
               className="w-4 h-4 rounded-sm flex items-center justify-center shrink-0"
               style={{ backgroundColor: activeBrandColor }}
             />
-            <span className="font-bold text-sm tracking-tight text-[var(--text-primary)]">
+            <span className="font-bold text-sm tracking-tight text-(--text-primary)">
               AtomDesignToken
             </span>
           </Link>
 
           {/* Navigation Links - Clean Minimal Monotone */}
-          <nav className="hidden md:flex items-center gap-1 text-xs">
+          <nav className="hidden lg:flex items-center gap-0.5 text-xs">
             {navItems.map((item) => {
               const isActive = pathname?.startsWith(item.href);
               return (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`px-3 py-1.5 rounded-md transition-colors ${
+                  className={`px-2.5 py-1.5 rounded-md transition-colors ${
                     isActive
-                      ? 'text-[var(--text-primary)] font-semibold bg-neutral-100 dark:bg-neutral-800'
-                      : 'text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100'
+                      ? 'text-(--text-primary) font-semibold bg-(--bg-secondary)'
+                      : 'text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary)/50'
                   }`}
                 >
                   {item.label}
