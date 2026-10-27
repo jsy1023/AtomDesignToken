@@ -12,7 +12,11 @@ import {
   Layers,
   BookOpen,
   Code2,
-  ExternalLink
+  ExternalLink,
+  ShieldCheck,
+  Zap,
+  Cpu,
+  SlidersHorizontal,
 } from 'lucide-react';
 
 export default function Home() {
@@ -29,32 +33,60 @@ export default function Home() {
 
   const features = [
     {
-      title: '디자인 토큰 명세',
+      title: '설계 원칙 (Principles)',
+      desc: '단일 진실 공급원(SSOT), 제로 런타임, 3계층 아키텍처 등 6대 핵심 설계 규격.',
+      href: '/principles',
+      linkText: '원칙 가이드 보기',
+      icon: ShieldCheck,
+    },
+    {
+      title: '디자인 토큰 명세 (Tokens)',
       desc: 'W3C DTCG 표준 기반 색상, 타이포그래피, 곡률, 간격, 그림자 CSS 변수 카탈로그.',
       href: '/tokens',
       linkText: '토큰 명세서 보기',
       icon: Palette,
     },
     {
-      title: '컴포넌트 갤러리',
-      desc: '버튼, 인풋, 모달, 바텀시트, 탭 등 시맨틱 토큰과 결합된 10대 프로덕션 UI 컴포넌트.',
+      title: '모션 및 트랜지션 (Motion)',
+      desc: '지속 시간(Duration)과 이징(Easing) 큐빅 베지에 타이밍 토큰 및 실시간 테스트.',
+      href: '/motion',
+      linkText: '모션 명세 보기',
+      icon: Zap,
+    },
+    {
+      title: '컴포넌트 갤러리 (Components)',
+      desc: '버튼, 인풋, 모달, 바텀시트, 탭 등 시맨틱 토큰과 결합된 프로덕션 UI 컴포넌트.',
       href: '/components',
       linkText: '컴포넌트 보기',
       icon: Layers,
     },
     {
-      title: 'UX 인터랙션 패턴',
+      title: 'UX 인터랙션 패턴 (Patterns)',
       desc: '대시보드, 폼 유효성, 결제, 온보딩 등 검증된 실무 UX 패턴 및 안티패턴 체크리스트.',
       href: '/patterns',
-      linkText: 'UX 패턴 탐색',
+      linkText: 'UX패턴 탐색',
       icon: Code2,
     },
     {
-      title: '라이브러리 활용 가이드',
+      title: '디펜던시 매트릭스 (Dependencies)',
+      desc: '0KB 런타임 아키텍처, 패키지 의존성 및 프레임워크 간 크로스 플랫폼 호환성.',
+      href: '/dependencies',
+      linkText: '디펜던시 확인',
+      icon: Cpu,
+    },
+    {
+      title: '라이브러리 활용 가이드 (Guide)',
       desc: 'React, Vue, Vanilla HTML 어디서나 의존성 없이 스타일을 공유하고 빌드하는 실전 지침.',
       href: '/guide',
       linkText: '활용 가이드 보기',
       icon: BookOpen,
+    },
+    {
+      title: '프롬프트 빌더 스튜디오 (Studio)',
+      desc: '선택한 토큰과 패턴을 기반으로 AI에게 전달할 규격화된 프롬프트를 자동 생성.',
+      href: '/studio',
+      linkText: '스튜디오 바로가기',
+      icon: SlidersHorizontal,
     },
   ];
 
@@ -169,11 +201,23 @@ export default function Home() {
       <footer className="border-t border-(--border-subtle) py-6 text-xs text-neutral-400">
         <div className="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
           <span>AtomDesignToken — Single Source of Truth for Design Tokens & Patterns</span>
-          <div className="flex items-center gap-4 text-neutral-500">
-            <Link href="/tokens" className="hover:text-(--text-primary)">토큰</Link>
+          <div className="flex flex-wrap items-center gap-2 text-xs text-neutral-500">
+            <Link href="/principles" className="hover:text-(--text-primary)">원칙</Link>
+            <span>|</span>
+            <Link href="/tokens" className="hover:text-(--text-primary)">디자인 토큰</Link>
+            <span>|</span>
+            <Link href="/motion" className="hover:text-(--text-primary)">모션</Link>
+            <span>|</span>
             <Link href="/components" className="hover:text-(--text-primary)">컴포넌트</Link>
-            <Link href="/patterns" className="hover:text-(--text-primary)">UX 패턴</Link>
+            <span>|</span>
+            <Link href="/patterns" className="hover:text-(--text-primary)">UX패턴</Link>
+            <span>|</span>
+            <Link href="/dependencies" className="hover:text-(--text-primary)">디펜던시</Link>
+            <span>|</span>
             <Link href="/guide" className="hover:text-(--text-primary)">가이드</Link>
+            <span>|</span>
+            <Link href="/studio" className="hover:text-(--text-primary)">스튜디오</Link>
+            <span>|</span>
             <a
               href="https://www.designtokens.org/tr/2025.10/"
               target="_blank"
