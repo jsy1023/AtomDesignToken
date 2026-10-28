@@ -31,7 +31,14 @@ function generateTokenJson() {
   const tokenStructure: Record<string, any> = {
     $schema: 'https://design-tokens.github.io/community-group/format/',
     name: 'AtomDesignToken System',
-    version: '0.1.48',
+    version: (function() {
+      try {
+        const pkg = JSON.parse(fs.readFileSync(path.join(ROOT_DIR, 'package.json'), 'utf-8'));
+        return pkg.version || '0.1.0';
+      } catch {
+        return '0.1.0';
+      }
+    })(),
     color: {
       brand: {},
       surface: {},
