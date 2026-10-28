@@ -3,6 +3,13 @@
   "version": "0.1.48",
   "type": "module",
   "homepage": "https://system.atomground.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jsy1023/AtomDesignToken.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "bin": {
     "atomsystem": "dist/cli.js"
   },
@@ -38,6 +45,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "prepublishOnly": "npm run build:lib",
     "generate:dist": "tsx scripts/generate-package-distribution.ts",
     "build:lib": "npm run generate:dist && tsup",
     "pack:lib": "npm run build:lib && npm pack",
