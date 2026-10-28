@@ -4,7 +4,7 @@
   "type": "module",
   "homepage": "https://system.atomground.com",
   "bin": {
-    "atomsystem": "dist/index.js"
+    "atomsystem": "dist/cli.js"
   },
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -15,6 +15,12 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
+    "./token.json": "./tokens/token.json",
+    "./tokens": "./tokens/tokens.json",
+    "./design.md": "./presets/default.design.md",
+    "./uxPattern.md": "./presets/uxPattern.md",
+    "./skill": "./skills/atomsystem.skill.md",
+    "./components/*": "./components/ui/*.tsx",
     "./css/atom-ui.css": "./css/atom-ui.css",
     "./package.json": "./package.json"
   },
@@ -22,15 +28,18 @@
     "dist",
     "tokens",
     "presets",
-    "tailwind.config.ts",
-    "build",
-    "app/templates",
-    "css"
+    "skills",
+    "components/ui",
+    "css",
+    "atom.design.md",
+    "atom.uxPattern.md",
+    "tailwind.config.ts"
   ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "build:lib": "tsup",
+    "generate:dist": "tsx scripts/generate-package-distribution.ts",
+    "build:lib": "npm run generate:dist && tsup",
     "pack:lib": "npm run build:lib && npm pack",
     "example:mib": "npm --prefix examples/mib-browser run dev",
     "example:mib:build": "npm --prefix examples/mib-browser run build",
