@@ -25,7 +25,7 @@ export function ComponentCatalogCard({ component, renderPreview }: ComponentCata
       <div className="flex flex-col gap-2">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-2">
-            <h3 className="text-lg font-bold text-[var(--text-primary)] transition">
+            <h3 className="docs-h3 group-hover:text-blue-600 transition">
               {component.name}
             </h3>
             <span 

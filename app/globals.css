@@ -58,3 +58,78 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* ==========================================================================
+   Documentation Dedicated Typography (.docs-h1 ~ .docs-h4)
+   Tailored specifically for documentation readability, clear hierarchy,
+   and visual balance without overpowering the screen.
+   ========================================================================== */
+.docs-h1 {
+  font-size: 1.5rem; /* 24px */
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.025em;
+  color: var(--text-primary);
+}
+@media (min-width: 640px) {
+  .docs-h1 {
+    font-size: 1.75rem; /* 28px - refined and balanced down from 36-40px font-black */
+  }
+}
+
+.docs-h2 {
+  font-size: 1.125rem; /* 18px */
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+@media (min-width: 640px) {
+  .docs-h2 {
+    font-size: 1.25rem; /* 20px */
+  }
+}
+
+.docs-h3 {
+  font-size: 0.9375rem; /* 15px */
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+@media (min-width: 640px) {
+  .docs-h3 {
+    font-size: 1rem; /* 16px */
+  }
+}
+
+.docs-h4 {
+  font-size: 0.8125rem; /* 13px */
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--text-primary);
+}
+@media (min-width: 640px) {
+  .docs-h4 {
+    font-size: 0.875rem; /* 14px */
+  }
+}
+
+.docs-section-header {
+  font-size: 0.8125rem; /* 13px */
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.docs-lead {
+  font-size: 0.875rem; /* 14px */
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+@media (min-width: 640px) {
+  .docs-lead {
+    font-size: 0.9375rem; /* 15px */
+  }
+}

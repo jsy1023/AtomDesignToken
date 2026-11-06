@@ -377,10 +377,10 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                   {component.source}
                 </span>
               </div>
-              <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-[var(--text-primary)]">
+              <h1 className="docs-h1">
                 {component.name}
               </h1>
-              <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400 mt-2 leading-relaxed max-w-2xl">
+              <p className="docs-lead mt-1.5 max-w-2xl">
                 {component.description}
               </p>
             </div>
@@ -397,7 +397,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
 
         {/* 1. Interactive Live Preview */}
         <section id="preview" className="scroll-mt-28 flex flex-col gap-3">
-          <h2 className="text-sm font-bold uppercase tracking-wider text-neutral-500">
+          <h2 className="docs-section-header">
             인터랙티브 라이브 프리뷰 (Interactive Preview)
           </h2>
           <div className="w-full min-h-[220px] p-8 rounded-3xl bg-neutral-100/70 dark:bg-neutral-950/70 border border-neutral-200/80 dark:border-neutral-800 flex items-center justify-center shadow-inner">
@@ -408,7 +408,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
         {/* 2. Code Copy Section (React / Vue / HTML) */}
         <section id="code" className="scroll-mt-28 flex flex-col gap-3">
           <div className="flex items-center justify-between">
-            <h2 className="text-sm font-bold uppercase tracking-wider text-neutral-500 flex items-center gap-1.5">
+            <h2 className="docs-section-header flex items-center gap-1.5">
               <Code2 className="w-4 h-4 text-blue-500" />
               <span>컴포넌트 코드 스니펫 (Code Copy)</span>
             </h2>
@@ -568,7 +568,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                 >
                   <div>
                     <span className="text-[10px] font-bold text-neutral-500 uppercase">{pattern.categoryName}</span>
-                    <h4 className="font-bold text-xs text-neutral-900 dark:text-white group-hover:text-blue-600 transition">
+                    <h4 className="docs-h4 group-hover:text-blue-600 transition">
                       {pattern.title}
                     </h4>
                   </div>

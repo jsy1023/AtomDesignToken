@@ -43,7 +43,7 @@ export function ComponentDocCard({ component, renderPreview }: ComponentDocCardP
       <div className="flex flex-col gap-2 pb-4 border-b border-neutral-100 dark:border-neutral-800">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2.5">
-            <h2 className="text-xl sm:text-2xl font-black text-neutral-900 dark:text-white tracking-tight">
+            <h2 className="docs-h2">
               {component.name}
             </h2>
             <span className="text-[11px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800">

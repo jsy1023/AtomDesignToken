@@ -64,7 +64,7 @@ export default function MotionPage() {
             <span>Zero-Jank CSS Transitions</span>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-(--text-primary)">
+          <h1 className="docs-h1">
             모션 및 트랜지션 명세 (Motion)
           </h1>
 
@@ -77,7 +77,7 @@ export default function MotionPage() {
         <section className="p-6 bg-(--bg-secondary) border border-(--border-subtle) rounded-xl space-y-5">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-(--border-subtle) pb-4">
             <div>
-              <h2 className="text-base font-bold text-(--text-primary) flex items-center gap-2">
+              <h2 className="docs-h2 flex items-center gap-2">
                 <Sparkles className="w-4 h-4 text-amber-500" />
                 실시간 모션 테스트 플레이그라운드
               </h2>
@@ -153,7 +153,7 @@ export default function MotionPage() {
         {/* 2. Duration Tokens Table */}
         <section className="space-y-3">
           <div className="border-b border-(--border-subtle) pb-2">
-            <h2 className="text-lg font-bold text-(--text-primary)">
+            <h2 className="docs-h2">
               지속 시간 토큰 (Duration Tokens)
             </h2>
             <p className="text-xs text-(--text-secondary)">

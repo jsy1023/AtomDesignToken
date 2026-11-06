@@ -52,7 +52,7 @@ export default function DependenciesPage() {
             <span>0 KB Client Bundle</span>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-(--text-primary)">
+          <h1 className="docs-h1">
             의존성 및 아키텍처 매트릭스 (Dependencies)
           </h1>
 
@@ -64,7 +64,7 @@ export default function DependenciesPage() {
         {/* 1. Architecture Flow Pipeline */}
         <section className="space-y-4">
           <div className="border-b border-(--border-subtle) pb-2">
-            <h2 className="text-lg font-bold text-(--text-primary) flex items-center gap-2">
+            <h2 className="docs-h2 flex items-center gap-2">
               <Workflow className="w-4 h-4 text-blue-500" />
               제로 런타임 토큰 컴파일 파이프라인
             </h2>
@@ -112,7 +112,7 @@ export default function DependenciesPage() {
         <section className="space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 border-b border-(--border-subtle) pb-3">
             <div>
-              <h2 className="text-lg font-bold text-(--text-primary)">
+              <h2 className="docs-h2">
                 시스템 패키지 및 도구 의존성
               </h2>
               <p className="text-xs text-(--text-secondary)">

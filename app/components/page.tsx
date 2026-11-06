@@ -512,10 +512,10 @@ export default function ComponentsGalleryPage() {
             </div>
 
             <div className="space-y-1">
-              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--text-primary)]">
+              <h1 className="docs-h1">
                 컴포넌트 갤러리 (Components)
               </h1>
-              <p className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed">
+              <p className="docs-lead">
                 각 컴포넌트의 프리뷰와 실무 사용 케이스를 확인하고, 상세 페이지에서 React, Vue, HTML 구현 명세 및 설계 지침을 탐색할 수 있습니다.
               </p>
             </div>
@@ -580,7 +580,7 @@ export default function ComponentsGalleryPage() {
           {filteredComponents.length === 0 && (
             <div className="p-12 text-center rounded-3xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800">
               <Search className="w-8 h-8 text-neutral-400 mx-auto mb-2" />
-              <h3 className="font-bold text-sm text-neutral-700 dark:text-neutral-300">일치하는 컴포넌트가 없습니다</h3>
+              <h3 className="docs-h3">일치하는 컴포넌트가 없습니다</h3>
               <p className="text-xs text-neutral-400 mt-1">다른 검색어를 입력하시거나 카테고리 필터를 변경해보세요.</p>
             </div>
           )}

@@ -51,7 +51,7 @@ export default function PrinciplesPage() {
             <span>Zero Runtime</span>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-(--text-primary)">
+          <h1 className="docs-h1">
             디자인 시스템 설계 원칙 (Principles)
           </h1>
 
@@ -95,7 +95,7 @@ export default function PrinciplesPage() {
                   )}
                 </div>
 
-                <h2 className="text-xl font-bold tracking-tight text-(--text-primary)">
+                <h2 className="docs-h2">
                   {item.title}
                 </h2>
                 <p className="text-xs font-medium text-(--text-secondary)">

@@ -130,10 +130,10 @@ export function PatternDocsLayout({
           </span>
         </div>
 
-        <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-[var(--text-primary)]">
+        <h1 className="docs-h1">
           {pattern.title}
         </h1>
-        <p className="text-sm text-[var(--text-secondary)] leading-relaxed max-w-3xl">
+        <p className="docs-lead max-w-3xl">
           {pattern.summary}
         </p>
       </header>

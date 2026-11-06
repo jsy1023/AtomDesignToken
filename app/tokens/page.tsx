@@ -130,7 +130,7 @@ export default function TokensPage() {
 
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
             <div className="max-w-3xl space-y-2">
-              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-(--text-primary)">
+              <h1 className="docs-h1">
                 디자인 토큰(Design Tokens) 표준 CSS 변수 명세
               </h1>
               <p className="text-xs sm:text-sm text-(--text-secondary) leading-relaxed">

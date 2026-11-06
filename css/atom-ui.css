@@ -191,18 +191,45 @@
   border-color: transparent;
 }
 
-/* Typography Helpers */
-.atom-title-1 {
-  font-size: 1.5rem;
+/* Typography & Heading Scale */
+.atom-h1, .atom-title-1 {
+  font-size: 1.625rem;
   font-weight: 700;
   line-height: 1.25;
+  letter-spacing: -0.025em;
   color: var(--atom-text-primary);
 }
-.atom-title-2 {
+.atom-h2, .atom-title-2 {
   font-size: 1.25rem;
   font-weight: 600;
-  line-height: 1.35;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
   color: var(--atom-text-primary);
+}
+.atom-h3, .atom-title-3 {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.015em;
+  color: var(--atom-text-primary);
+}
+.atom-h4 {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--atom-text-primary);
+}
+.atom-h5 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--atom-text-primary);
+}
+.atom-h6 {
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--atom-text-secondary);
 }
 .atom-body-1 {
   font-size: 1rem;
