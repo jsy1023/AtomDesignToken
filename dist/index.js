@@ -851,6 +851,363 @@ export function TableDemo() {
     vueSnippet: `<template>
   <AtomTable :headers="['\uC774\uB984', '\uC0C1\uD0DC']" :rows="userRows" hoverable />
 </template>`
+  },
+  {
+    id: "calendar",
+    name: "\uCE98\uB9B0\uB354 & \uB0A0\uC9DC \uC120\uD0DD\uAE30 (Calendar & DatePicker)",
+    category: "form",
+    source: "shadcn + react-day-picker",
+    description: "\uC6D4\uBCC4 \uB2EC\uB825 \uB0B4\uBE44\uAC8C\uC774\uC158, \uB2E8\uC77C \uBC0F \uBC94\uC704 \uB0A0\uC9DC \uC120\uD0DD, \uC624\uB298 \uD45C\uC2DC, \uBE44\uD65C\uC131\uD654 \uB0A0\uC9DC\uB97C \uC9C0\uC6D0\uD558\uB294 W3C \uC811\uADFC\uC131 \uC900\uC218 \uCE98\uB9B0\uB354",
+    callout: {
+      type: "tip",
+      title: "\uD0A4\uBCF4\uB4DC \uD0D0\uC0C9 \uC811\uADFC\uC131(A11y)",
+      text: '\uBC29\uD5A5\uD0A4(\uC0C1/\uD558/\uC88C/\uC6B0)\uB85C \uB0A0\uC9DC \uC140 \uAC04 \uD3EC\uCEE4\uC2A4\uB97C \uC774\uB3D9\uD558\uACE0 Space \uB610\uB294 Enter\uB85C \uC120\uD0DD\uD560 \uC218 \uC788\uB3C4\uB85D aria-selected \uBC0F role="grid" \uAD6C\uC870\uB97C \uC900\uC218\uD569\uB2C8\uB2E4.'
+    },
+    useCases: [
+      "\uC608\uC57D \uC2DC\uC2A4\uD15C (\uC219\uC18C \uC608\uC57D, \uD56D\uACF5\uAD8C \uC77C\uC815, \uC9C4\uB8CC \uC608\uC57D \uB4F1)\uC758 \uC785\uC2E4/\uD1F4\uC2E4 \uC77C\uC790 \uC120\uD0DD",
+      "\uAE08\uC735 \uBC0F \uB300\uC2DC\uBCF4\uB4DC\uC758 \uAE30\uAC04\uBCC4 \uAC70\uB798 \uB0B4\uC5ED \uC870\uD68C (\uCD5C\uADFC 7\uC77C, \uC774\uBC88 \uB2EC, \uB9DE\uCDA4 \uAE30\uAC04)",
+      "\uC0DD\uB144\uC6D4\uC77C \uBC0F \uB9CC\uB8CC\uC77C \uC785\uB825 \uD3FC",
+      "\uD560 \uC77C(To-Do) \uBC0F \uD504\uB85C\uC81D\uD2B8 \uB9C8\uC77C\uC2A4\uD1A4 \uB9C8\uAC10 \uAE30\uD55C \uC124\uC815"
+    ],
+    usagePatterns: [
+      '\uD604\uC7AC \uC120\uD0DD\uB41C \uB0A0\uC9DC\uC640 "\uC624\uB298(Today)"\uC758 \uC2DC\uAC01\uC801 \uC704\uACC4\uB97C \uAD6C\uBD84\uD558\uC5EC \uC0AC\uC6A9\uC790\uAC00 \uB2EC\uB825 \uB0B4\uC5D0\uC11C \uD604\uC7AC \uC2DC\uC810\uC744 \uBE60\uB974\uAC8C \uC778\uC9C0\uD558\uB3C4\uB85D \uD569\uB2C8\uB2E4.',
+      "\uC608\uC57D \uBD88\uAC00\uB2A5\uD55C \uACFC\uAC70 \uB0A0\uC9DC\uB098 \uD734\uBB34\uC77C\uC740 \uBE44\uD65C\uC131\uD654(Disabled) \uCC98\uB9AC\uD558\uACE0 \uBA85\uB3C4 \uB300\uBE44\uB97C \uB0AE\uCDB0 \uC9C1\uAD00\uC801\uC73C\uB85C \uC120\uD0DD\uC744 \uBC29\uC9C0\uD569\uB2C8\uB2E4.",
+      "\uBAA8\uBC14\uC77C \uD658\uACBD\uC5D0\uC11C\uB294 \uB0A0\uC9DC \uC140 \uD130\uCE58 \uD0C0\uAE43\uC744 \uCD5C\uC18C 36x36px \uC774\uC0C1\uC73C\uB85C \uB109\uB109\uD558\uAC8C \uD655\uBCF4\uD569\uB2C8\uB2E4."
+    ],
+    dosAndDonts: [
+      {
+        do: "\uC120\uD0DD\uB41C \uB0A0\uC9DC\uC758 \uC5F0/\uC6D4/\uC77C\uC744 \uC0C1\uB2E8 \uB610\uB294 \uC778\uD48B \uD544\uB4DC\uC5D0 \uBA85\uD655\uD55C \uD3EC\uB9F7(YYYY-MM-DD)\uC73C\uB85C \uC989\uC2DC \uD53C\uB4DC\uBC31\uD569\uB2C8\uB2E4.",
+        dont: "\uACFC\uAC70 \uC77C\uC790 \uC120\uD0DD \uBD88\uAC00 \uADDC\uCE59\uC774 \uC788\uB294\uB370\uB3C4 \uD074\uB9AD \uD6C4\uC5D0\uC57C \uC5D0\uB7EC \uD1A0\uC2A4\uD2B8\uB97C \uB744\uC6B0\uC9C0 \uB9C8\uC138\uC694. \uB2EC\uB825 \uC140 \uC790\uCCB4\uB97C \uBE44\uD65C\uC131\uD654\uD558\uC138\uC694."
+      },
+      {
+        do: "\uC774\uC804 \uB2EC/\uB2E4\uC74C \uB2EC\uB85C \uC774\uB3D9\uD560 \uC218 \uC788\uB294 \uC9C1\uAD00\uC801\uC778 \uD654\uC0B4\uD45C \uBC84\uD2BC\uACFC \uC5F0/\uC6D4 \uC140\uB809\uD130\uB97C \uD568\uAED8 \uC81C\uACF5\uD569\uB2C8\uB2E4.",
+        dont: "10\uB144 \uC804 \uC0DD\uB144\uC6D4\uC77C\uC744 \uC120\uD0DD\uD574\uC57C \uD558\uB294\uB370 \uC6D4 \uB2E8\uC704 \uD654\uC0B4\uD45C \uD074\uB9AD\uB9CC \uAC15\uC694\uD558\uC9C0 \uB9C8\uC138\uC694. \uC5F0\uB3C4 \uC810\uD504 \uAE30\uB2A5\uC744 \uC81C\uACF5\uD558\uC138\uC694."
+      }
+    ],
+    relatedPatternIds: ["ecommerce-checkout", "saas-dashboard"],
+    propsSpec: [
+      { name: "selectedDate", type: "Date | null", defaultValue: "null", description: "\uD604\uC7AC \uC120\uD0DD\uB41C \uC77C\uC790 \uAC1D\uCCB4" },
+      { name: "mode", type: "'single' | 'range'", defaultValue: "'single'", description: "\uB2E8\uC77C \uB0A0\uC9DC \uC120\uD0DD \uB610\uB294 \uAE30\uAC04 \uBC94\uC704 \uC120\uD0DD \uBAA8\uB4DC" },
+      { name: "minDate", type: "Date", defaultValue: "undefined", description: "\uC120\uD0DD \uAC00\uB2A5\uD55C \uCD5C\uC18C \uC77C\uC790 (\uC774\uC804 \uB0A0\uC9DC \uBE44\uD65C\uC131\uD654)" },
+      { name: "onSelect", type: "(date: Date) => void", defaultValue: "undefined", description: "\uB0A0\uC9DC \uC120\uD0DD \uC2DC \uD638\uCD9C\uB418\uB294 \uCF5C\uBC31 \uD578\uB4E4\uB7EC" }
+    ],
+    htmlSnippet: `<div class="atom-calendar">
+  <div class="atom-calendar-header">
+    <button class="atom-calendar-nav-btn" aria-label="\uC774\uC804 \uB2EC">&lt;</button>
+    <span class="atom-calendar-title">2026\uB144 11\uC6D4</span>
+    <button class="atom-calendar-nav-btn" aria-label="\uB2E4\uC74C \uB2EC">&gt;</button>
+  </div>
+  <div class="atom-calendar-grid">
+    <div class="atom-calendar-weekday">\uC77C</div>
+    <div class="atom-calendar-weekday">\uC6D4</div>
+    <div class="atom-calendar-weekday">\uD654</div>
+    <div class="atom-calendar-weekday">\uC218</div>
+    <div class="atom-calendar-weekday">\uBAA9</div>
+    <div class="atom-calendar-weekday">\uAE08</div>
+    <div class="atom-calendar-weekday">\uD1A0</div>
+    <button class="atom-calendar-day">1</button>
+    <button class="atom-calendar-day atom-calendar-day-selected">6</button>
+  </div>
+</div>`,
+    reactSnippet: `import { Calendar } from '@/components/ui/calendar';
+import { useState } from 'react';
+
+export function CalendarDemo() {
+  const [date, setDate] = useState<Date | undefined>(new Date());
+
+  return (
+    <div className="p-4 border rounded-2xl bg-white dark:bg-neutral-900 w-fit">
+      <Calendar
+        selected={date}
+        onSelect={setDate}
+        mode="single"
+      />
+    </div>
+  );
+}`,
+    vueSnippet: `<template>
+  <AtomCalendar v-model="selectedDate" mode="single" />
+</template>`
+  },
+  {
+    id: "select",
+    name: "\uCEE4\uC2A4\uD140 \uC140\uB809\uD2B8 (Select & Dropdown)",
+    category: "form",
+    source: "radix-ui + shadcn",
+    description: "\uD0A4\uBCF4\uB4DC \uB124\uBE44\uAC8C\uC774\uC158, \uAC80\uC0C9 \uD544\uD130\uB9C1, \uADF8\uB8F9 \uB77C\uBCA8\uC744 \uC644\uBCBD\uD788 \uC9C0\uC6D0\uD558\uB294 \uCEE4\uC2A4\uD140 \uB4DC\uB86D\uB2E4\uC6B4 \uC120\uD0DD\uAE30",
+    callout: {
+      type: "tip",
+      title: "\uBAA8\uBC14\uC77C OS \uAE30\uBCF8 \uD53C\uCEE4 \uD638\uD658",
+      text: "\uBAA8\uBC14\uC77C \uBDF0\uD3EC\uD2B8\uC5D0\uC11C\uB294 \uB124\uC774\uD2F0\uBE0C <select> \uC694\uC18C\uB97C \uBCF4\uC774\uC9C0 \uC54A\uAC8C \uC624\uBC84\uB808\uC774\uD558\uC5EC OS \uC790\uCCB4 \uD720 \uD53C\uCEE4(iOS \uB864\uB7EC/Android \uBC14\uD140 \uB4DC\uB85C\uC5B4)\uB97C \uC790\uC5F0\uC2A4\uB7FD\uAC8C \uB744\uC6B8 \uC218 \uC788\uC2B5\uB2C8\uB2E4."
+    },
+    useCases: [
+      "\uAD6D\uAC00/\uC9C0\uC5ED \uCF54\uB4DC, \uD1B5\uD654(KRW/USD), \uC740\uD589 \uACC4\uC88C \uBAA9\uB85D \uC120\uD0DD",
+      "\uC0C1\uD488 \uC815\uB82C \uAE30\uC900 (\uCD5C\uC2E0\uC21C, \uC778\uAE30\uC21C, \uB0AE\uC740 \uAC00\uACA9\uC21C, \uB9AC\uBDF0 \uB9CE\uC740 \uC21C)",
+      "\uAD00\uB9AC\uC790 \uB300\uC2DC\uBCF4\uB4DC\uC758 \uAE30\uAC04 \uD544\uD130\uB9C1 \uBC0F \uAD8C\uD55C(Role) \uD560\uB2F9",
+      "\uC218\uB7C9 \uBC0F \uBC30\uC1A1 \uBA54\uBAA8 \uC120\uD0DD \uB4DC\uB86D\uB2E4\uC6B4"
+    ],
+    usagePatterns: [
+      "\uC635\uC158 \uAC1C\uC218\uAC00 5\uAC1C \uC774\uC0C1\uC77C \uB54C\uB294 \uB77C\uB514\uC624 \uBC84\uD2BC \uB300\uC2E0 \uB4DC\uB86D\uB2E4\uC6B4 \uC140\uB809\uD2B8\uB97C \uC0AC\uC6A9\uD558\uC5EC \uD654\uBA74 \uACF5\uAC04\uC744 \uC808\uC57D\uD569\uB2C8\uB2E4.",
+      "\uC635\uC158\uC774 15\uAC1C \uC774\uC0C1\uC73C\uB85C \uB9CE\uC744 \uACBD\uC6B0 \uC0C1\uB2E8\uC5D0 \uC778\uB77C\uC778 \uAC80\uC0C9\uCC3D(Filter Input)\uC744 \uD3EC\uD568\uD558\uC5EC \uBE60\uB978 \uD0D0\uC0C9\uC744 \uB3D5\uC2B5\uB2C8\uB2E4.",
+      "\uC120\uD0DD \uC644\uB8CC \uD6C4 \uD2B8\uB9AC\uAC70 \uBC84\uD2BC\uC5D0 \uC120\uD0DD\uB41C \uB77C\uBCA8\uACFC \uC544\uC774\uCF58\uC744 \uC9C1\uAD00\uC801\uC73C\uB85C \uD45C\uAE30\uD569\uB2C8\uB2E4."
+    ],
+    dosAndDonts: [
+      {
+        do: '\uC544\uBB34\uAC83\uB3C4 \uC120\uD0DD\uB418\uC9C0 \uC54A\uC558\uC744 \uB54C "\uC635\uC158\uC744 \uC120\uD0DD\uD558\uC138\uC694"\uC640 \uAC19\uC740 \uBA85\uD655\uD55C \uD50C\uB808\uC774\uC2A4\uD640\uB354\uB97C \uC81C\uACF5\uD569\uB2C8\uB2E4.',
+        dont: "\uC635\uC158\uC774 2~3\uAC1C\uBC16\uC5D0 \uC548 \uB418\uB294\uB370 \uB4DC\uB86D\uB2E4\uC6B4 \uC548\uC5D0 \uC228\uACA8\uB450\uC9C0 \uB9C8\uC138\uC694. \uC138\uADF8\uBA3C\uD2B8 \uD0ED\uC774\uB098 \uB77C\uB514\uC624 \uBC84\uD2BC\uC774 \uD6E8\uC52C \uD3B8\uB9AC\uD569\uB2C8\uB2E4."
+      }
+    ],
+    relatedPatternIds: ["fintech-transfer", "ecommerce-checkout"],
+    propsSpec: [
+      { name: "options", type: "Array<{ value: string; label: string; icon?: ReactNode }>", defaultValue: "[]", description: "\uB4DC\uB86D\uB2E4\uC6B4 \uBAA9\uB85D\uC5D0 \uB178\uCD9C\uB420 \uC635\uC158 \uBC30\uC5F4" },
+      { name: "value", type: "string", defaultValue: "''", description: "\uD604\uC7AC \uC120\uD0DD\uB41C \uC635\uC158\uC758 \uACE0\uC720 \uC2DD\uBCC4 \uAC12" },
+      { name: "placeholder", type: "string", defaultValue: "'\uC120\uD0DD\uD558\uC138\uC694'", description: "\uBBF8\uC120\uD0DD \uC0C1\uD0DC\uC758 \uC548\uB0B4 \uBB38\uAD6C" },
+      { name: "onChange", type: "(value: string) => void", defaultValue: "undefined", description: "\uC635\uC158 \uC120\uD0DD \uBCC0\uACBD \uC2DC \uC774\uBCA4\uD2B8 \uD578\uB4E4\uB7EC" }
+    ],
+    htmlSnippet: `<div class="atom-select">
+  <button class="atom-select-trigger" aria-haspopup="listbox">
+    <span>\uC120\uD0DD\uD558\uC138\uC694</span>
+    <span class="atom-select-arrow">\u25BC</span>
+  </button>
+  <ul class="atom-select-menu" role="listbox">
+    <li class="atom-select-option" role="option">\uC635\uC158 1</li>
+    <li class="atom-select-option" role="option">\uC635\uC158 2</li>
+  </ul>
+</div>`,
+    reactSnippet: `import { Select } from '@/components/ui/select';
+import { useState } from 'react';
+
+const BANK_OPTIONS = [
+  { value: 'toss', label: '\uD1A0\uC2A4\uBC45\uD06C' },
+  { value: 'kakao', label: '\uCE74\uCE74\uC624\uBC45\uD06C' },
+  { value: 'shinhan', label: '\uC2E0\uD55C\uC740\uD589' },
+];
+
+export function SelectDemo() {
+  const [bank, setBank] = useState('toss');
+  return <Select options={BANK_OPTIONS} value={bank} onChange={setBank} />;
+}`,
+    vueSnippet: `<template>
+  <AtomSelect v-model="selectedBank" :options="bankOptions" />
+</template>`
+  },
+  {
+    id: "accordion",
+    name: "\uC544\uCF54\uB514\uC5B8 (Accordion & Collapse)",
+    category: "data",
+    source: "shadcn + radix-ui",
+    description: "FAQ, \uC57D\uAD00, \uC0C1\uC138 \uC124\uC815 \uB4F1 \uC218\uC9C1\uC73C\uB85C \uCEE8\uD150\uCE20\uB97C \uD655\uC7A5/\uCD95\uC18C\uD558\uC5EC \uC2DC\uAC01\uC801 \uBCF5\uC7A1\uB3C4\uB97C \uB0AE\uCD94\uB294 \uC544\uCF54\uB514\uC5B8 \uCEF4\uD3EC\uB10C\uD2B8",
+    callout: {
+      type: "tip",
+      title: "\uB2E8\uC77C vs \uB2E4\uC911 \uC5F4\uB9BC \uBAA8\uB4DC",
+      text: '\uD55C \uBC88\uC5D0 \uD558\uB098\uC758 \uC139\uC158\uB9CC \uC5F4\uB824\uC57C \uD558\uB294 FAQ\uB098 \uC704\uC800\uB4DC \uB2E8\uACC4\uB294 type="single"\uC744, \uC5EC\uB7EC \uC124\uC815\uC744 \uB3D9\uC2DC\uC5D0 \uC5F4\uC5B4 \uBE44\uAD50\uD574\uC57C \uD558\uB294 \uACF3\uC740 type="multiple"\uC744 \uC0AC\uC6A9\uD558\uC138\uC694.'
+    },
+    useCases: [
+      "\uC790\uC8FC \uBB3B\uB294 \uC9C8\uBB38(FAQ) \uBC0F \uACE0\uAC1D\uC13C\uD130 \uC548\uB0B4",
+      "\uC7A5\uBC14\uAD6C\uB2C8 \uACB0\uC81C \uB2E8\uACC4\uBCC4 \uC0C1\uC138 \uB0B4\uC5ED (\uD560\uC778 \uCFE0\uD3F0, \uBC30\uC1A1\uC9C0 \uC815\uBCF4, \uACB0\uC81C \uC218\uB2E8)",
+      "\uBAA8\uBC14\uC77C \uC124\uC815 \uBA54\uB274 \uBC0F \uAD8C\uD55C \uAD00\uB9AC \uD56D\uBAA9",
+      "\uBCF5\uC7A1\uD55C \uC57D\uAD00 \uBC0F \uAC1C\uC778\uC815\uBCF4 \uCC98\uB9AC\uBC29\uCE68 \uC804\uBB38 \uC811\uAE30/\uD3BC\uCE58\uAE30"
+    ],
+    usagePatterns: [
+      "\uAC01 \uD56D\uBAA9 \uC6B0\uCE21\uC5D0 \uD68C\uC804\uD558\uB294 \uD654\uC0B4\uD45C(Chevron) \uC544\uC774\uCF58\uC744 \uBC30\uCE58\uD558\uC5EC \uC5F4\uB9BC/\uB2EB\uD798 \uC0C1\uD0DC\uB97C \uBA85\uD655\uD788 \uC548\uB0B4\uD569\uB2C8\uB2E4.",
+      "\uC560\uB2C8\uBA54\uC774\uC158 \uC804\uD658 \uC2DC \uB192\uC774(Height) \uBCC0\uD654\uB97C \uBD80\uB4DC\uB7FD\uAC8C \uCC98\uB9AC\uD558\uC5EC \uD654\uBA74\uC774 \uAC11\uC790\uAE30 \uD280\uB294 \uB808\uC774\uC544\uC6C3 \uC26C\uD504\uD2B8(CLS)\uB97C \uBC29\uC9C0\uD569\uB2C8\uB2E4."
+    ],
+    dosAndDonts: [
+      {
+        do: "\uD5E4\uB354 \uD14D\uC2A4\uD2B8\uB294 \uAC04\uACB0\uD55C \uC758\uBB38\uBB38\uC774\uB098 \uD575\uC2EC \uBA85\uC0AC\uB85C \uC791\uC131\uD558\uC5EC \uC0AC\uC6A9\uC790\uAC00 \uC6D0\uD558\uB294 \uC815\uBCF4\uB97C \uD55C\uB208\uC5D0 \uD6D1\uC5B4\uBCFC \uC218 \uC788\uAC8C \uD569\uB2C8\uB2E4.",
+        dont: "\uD398\uC774\uC9C0 \uC9C4\uC785 \uC2DC \uBAA8\uB4E0 \uD56D\uBAA9\uC744 \uD3BC\uCCD0\uB450\uC9C0 \uB9C8\uC138\uC694. \uC2A4\uD06C\uB864\uC774 \uBD88\uD544\uC694\uD558\uAC8C \uAE38\uC5B4\uC9D1\uB2C8\uB2E4."
+      }
+    ],
+    relatedPatternIds: ["developer-docs", "saas-dashboard"],
+    propsSpec: [
+      { name: "items", type: "Array<{ id: string; title: string; content: ReactNode }>", defaultValue: "[]", description: "\uC544\uCF54\uB514\uC5B8 \uD328\uB110 \uBAA9\uB85D" },
+      { name: "type", type: "'single' | 'multiple'", defaultValue: "'single'", description: "\uB2E8\uC77C \uD65C\uC131\uD654 \uB610\uB294 \uB2E4\uC911 \uD65C\uC131\uD654 \uD5C8\uC6A9 \uC5EC\uBD80" }
+    ],
+    htmlSnippet: `<div class="atom-accordion">
+  <div class="atom-accordion-item">
+    <button class="atom-accordion-trigger">
+      <span>\uC218\uC218\uB8CC\uB294 \uC5BC\uB9C8\uC778\uAC00\uC694?</span>
+      <span class="atom-accordion-icon">\u25BE</span>
+    </button>
+    <div class="atom-accordion-content">
+      <p>\uD3C9\uC0DD \uBB34\uC81C\uD55C \uBB34\uB8CC \uC1A1\uAE08\uC744 \uC9C0\uC6D0\uD569\uB2C8\uB2E4.</p>
+    </div>
+  </div>
+</div>`,
+    reactSnippet: `import { Accordion } from '@/components/ui/accordion';
+
+const FAQ_ITEMS = [
+  { id: '1', title: '\uC1A1\uAE08 \uD55C\uB3C4\uB294 \uC5BC\uB9C8\uC778\uAC00\uC694?', content: '1\uD68C 1,000\uB9CC\uC6D0, 1\uC77C 5,000\uB9CC\uC6D0\uAE4C\uC9C0 \uC1A1\uAE08 \uAC00\uB2A5\uD569\uB2C8\uB2E4.' },
+  { id: '2', title: '\uD574\uC678 \uC1A1\uAE08\uB3C4 \uC9C0\uC6D0\uD558\uB098\uC694?', content: '\uC804 \uC138\uACC4 30\uAC1C\uAD6D\uC73C\uB85C \uB2F9\uC77C \uD574\uC678 \uC1A1\uAE08\uC744 \uC9C0\uC6D0\uD569\uB2C8\uB2E4.' }
+];
+
+export function AccordionDemo() {
+  return <Accordion items={FAQ_ITEMS} type="single" />;
+}`,
+    vueSnippet: `<template>
+  <AtomAccordion :items="faqItems" type="single" />
+</template>`
+  },
+  {
+    id: "tooltip",
+    name: "\uD234\uD301 & \uD31D\uC624\uBC84 (Tooltip & Popover)",
+    category: "feedback",
+    source: "radix-ui + floating-ui",
+    description: "\uC544\uC774\uCF58\uC774\uB098 \uCD95\uC57D\uB41C \uC815\uBCF4\uC5D0 \uB9C8\uC6B0\uC2A4\uB97C \uC62C\uB9AC\uAC70\uB098 \uD3EC\uCEE4\uC2A4\uD588\uC744 \uB54C \uBCF4\uCDA9 \uC124\uBA85\uC744 \uB744\uC6CC\uC8FC\uB294 \uBD80\uB3D9\uD615 \uCEE8\uD14D\uC2A4\uD2B8 \uC624\uBC84\uB808\uC774",
+    callout: {
+      type: "tip",
+      title: "\uD0A4\uBCF4\uB4DC \uD3EC\uCEE4\uC2A4 \uBC18\uC751",
+      text: "\uB9C8\uC6B0\uC2A4 hover\uBFD0\uB9CC \uC544\uB2C8\uB77C \uD0A4\uBCF4\uB4DC Tab \uD0A4\uB85C \uD3EC\uCEE4\uC2A4 \uC9C4\uC785(focus-visible)\uD588\uC744 \uB54C\uB3C4 \uD234\uD301\uC774 \uB3D9\uC77C\uD558\uAC8C \uB178\uCD9C\uB418\uC5B4\uC57C \uC2A4\uD06C\uB9B0\uB9AC\uB354 \uC0AC\uC6A9\uC790\uAC00 \uC18C\uC678\uB418\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    useCases: [
+      "\uD14D\uC2A4\uD2B8 \uCD95\uC57D(Truncation) \uC2DC \uB9D0\uC904\uC784\uD45C(...)\uB85C \uC798\uB9B0 \uC6D0\uBCF8 \uC804\uCCB4 \uD14D\uC2A4\uD2B8 \uD655\uC778",
+      "\uBCF5\uC7A1\uD55C \uAE08\uC735 \uC6A9\uC5B4 (APR, \uC6D0\uB9AC\uAE08\uADE0\uB4F1\uC0C1\uD658, DSR) \uC606 \uBB3C\uC74C\uD45C(?) \uC544\uC774\uCF58\uC758 \uB3C4\uC6C0\uB9D0 \uC124\uBA85",
+      "\uC544\uC774\uCF58 \uC804\uC6A9 \uBC84\uD2BC(Icon Button - \uBCF5\uC0AC, \uB2E4\uC6B4\uB85C\uB4DC, \uC124\uC815 \uB4F1)\uC758 \uAE30\uB2A5 \uB77C\uBCA8 \uC548\uB0B4",
+      '\uBE44\uD65C\uC131\uD654\uB41C \uBC84\uD2BC\uC5D0 \uB9C8\uC6B0\uC2A4\uC624\uBC84 \uC2DC "\uAD8C\uD55C\uC774 \uC5C6\uC2B5\uB2C8\uB2E4"\uC640 \uAC19\uC740 \uBE44\uD65C\uC131\uD654 \uC0AC\uC720 \uD53C\uB4DC\uBC31'
+    ],
+    usagePatterns: [
+      "\uC0AC\uC6A9\uC790\uAC00 \uC758\uB3C4\uCE58 \uC54A\uAC8C \uC2A4\uCE58\uBA70 \uC9C0\uB098\uAC08 \uB54C \uAE5C\uBE61\uC774\uC9C0 \uC54A\uB3C4\uB85D 150~200ms\uC758 \uC801\uC808\uD55C \uB178\uCD9C \uC9C0\uC5F0(delay)\uC744 \uB461\uB2C8\uB2E4.",
+      "\uD654\uBA74 \uAC00\uC7A5\uC790\uB9AC\uC5D0 \uB2FF\uC558\uC744 \uB54C \uC790\uB3D9\uC73C\uB85C \uBC18\uB300 \uBC29\uD5A5\uC73C\uB85C \uB4A4\uC9D1\uD788\uB294 \uBDF0\uD3EC\uD2B8 \uCDA9\uB3CC \uD68C\uD53C(collision flip)\uB97C \uC9C0\uC6D0\uD569\uB2C8\uB2E4."
+    ],
+    dosAndDonts: [
+      {
+        do: "1~2\uC904 \uC774\uB0B4\uC758 \uC9E7\uACE0 \uBA85\uB8CC\uD55C \uBCF4\uC870 \uC124\uBA85\uBB38\uC73C\uB85C \uAC04\uACB0\uD558\uAC8C \uAD6C\uC131\uD569\uB2C8\uB2E4.",
+        dont: "\uD234\uD301 \uC548\uC5D0 \uD074\uB9AD\uD574\uC57C \uD558\uB294 \uB9C1\uD06C\uB098 \uBC84\uD2BC \uAC19\uC740 \uC778\uD130\uB799\uD2F0\uBE0C \uC694\uC18C\uB97C \uB123\uC9C0 \uB9C8\uC138\uC694. \uADF8 \uACBD\uC6B0\uC5D4 Popover\uB098 Dialog\uB97C \uC4F0\uC138\uC694."
+      }
+    ],
+    relatedPatternIds: ["saas-dashboard", "developer-docs"],
+    propsSpec: [
+      { name: "content", type: "string | ReactNode", defaultValue: "''", description: "\uD234\uD301 \uB9D0\uD48D\uC120 \uC548\uC5D0 \uB4E4\uC5B4\uAC08 \uB3C4\uC6C0\uB9D0 \uD14D\uC2A4\uD2B8" },
+      { name: "position", type: "'top' | 'bottom' | 'left' | 'right'", defaultValue: "'top'", description: "\uD234\uD301\uC774 \uB178\uCD9C\uB420 \uAE30\uC900 \uBC29\uD5A5" }
+    ],
+    htmlSnippet: `<div class="atom-tooltip-wrapper">
+  <button class="atom-btn atom-btn-outline">\uC815\uBCF4</button>
+  <div class="atom-tooltip-bubble atom-tooltip-top" role="tooltip">
+    \uCD94\uAC00 \uC124\uBA85 \uB0B4\uC6A9\uC785\uB2C8\uB2E4.
+  </div>
+</div>`,
+    reactSnippet: `import { Tooltip } from '@/components/ui/tooltip';
+
+export function TooltipDemo() {
+  return (
+    <Tooltip content="\uD074\uB9AD \uC2DC \uD074\uB9BD\uBCF4\uB4DC\uC5D0 \uBCF5\uC0AC\uB429\uB2C8\uB2E4" position="top">
+      <button className="atom-btn atom-btn-outline">\uBCF5\uC0AC</button>
+    </Tooltip>
+  );
+}`,
+    vueSnippet: `<template>
+  <AtomTooltip content="\uACC4\uC88C\uBC88\uD638\uAC00 \uBCF5\uC0AC\uB429\uB2C8\uB2E4" position="top">
+    <button class="atom-btn">\uBCF5\uC0AC</button>
+  </AtomTooltip>
+</template>`
+  },
+  {
+    id: "toast",
+    name: "\uD1A0\uC2A4\uD2B8 \uC54C\uB9BC (Toast & Notification)",
+    category: "feedback",
+    source: "sonner + shadcn",
+    description: "\uC791\uC5C5\uC758 \uC131\uACF5, \uC2E4\uD328, \uACBD\uACE0 \uBA54\uC2DC\uC9C0\uB97C \uC0AC\uC6A9\uC790 \uD654\uBA74 \uBAA8\uC11C\uB9AC\uC5D0 \uBE44\uAC04\uC12D\uC801(Non-intrusive)\uC73C\uB85C \uB744\uC6B0\uACE0 \uC790\uB3D9 \uC18C\uBA78\uC2DC\uD0A4\uB294 \uD1A0\uC2A4\uD2B8 \uC2A4\uB0B5\uBC14",
+    callout: {
+      type: "tip",
+      title: "\uC790\uB3D9 \uC18C\uBA78 \uC2DC\uAC04 \uBC0F \uC77C\uC2DC \uC815\uC9C0",
+      text: "\uAE30\uBCF8 3~4\uCD08 \uD6C4 \uC790\uB3D9 \uB2EB\uD798\uC744 \uC9C0\uC6D0\uD558\uB418, \uC0AC\uC6A9\uC790\uAC00 \uB9C8\uC6B0\uC2A4\uB97C \uC62C\uB9AC\uAC70\uB098 \uD130\uCE58 \uC911\uC77C \uB54C\uB294 \uD0C0\uC774\uBA38\uAC00 \uC77C\uC2DC \uC815\uC9C0\uB418\uC5B4 \uCDA9\uBD84\uD788 \uC77D\uC744 \uC2DC\uAC04\uC744 \uBCF4\uC7A5\uD558\uC138\uC694."
+    },
+    useCases: [
+      '\uD074\uB9BD\uBCF4\uB4DC \uBCF5\uC0AC \uC644\uB8CC ("\uB9C1\uD06C\uAC00 \uBCF5\uC0AC\uB418\uC5C8\uC2B5\uB2C8\uB2E4")',
+      "\uC124\uC815 \uC800\uC7A5 \uBC0F \uD504\uB85C\uD544 \uC218\uC815 \uC644\uB8CC \uD53C\uB4DC\uBC31",
+      "\uB124\uD2B8\uC6CC\uD06C \uC77C\uC2DC \uC624\uB958 \uB610\uB294 API \uC694\uCCAD \uC2E4\uD328 \uC2DC \uC7AC\uC2DC\uB3C4 \uC548\uB0B4",
+      '\uC7A5\uBC14\uAD6C\uB2C8 \uB2F4\uAE30 \uC644\uB8CC \uD6C4 "\uC7A5\uBC14\uAD6C\uB2C8 \uBC14\uB85C\uAC00\uAE30" \uC778\uB77C\uC778 \uC561\uC158 \uBC84\uD2BC \uC81C\uACF5'
+    ],
+    usagePatterns: [
+      "\uBAA8\uBC14\uC77C\uC5D0\uC11C\uB294 \uD654\uBA74 \uCD5C\uC0C1\uB2E8 \uB610\uB294 \uCD5C\uD558\uB2E8 \uC804\uCCB4 \uB108\uBE44\uB85C \uB178\uCD9C\uD558\uACE0, \uB370\uC2A4\uD06C\uD1B1\uC5D0\uC11C\uB294 \uC6B0\uCE21 \uC0C1\uB2E8/\uD558\uB2E8\uC5D0 \uCEF4\uD329\uD2B8\uD558\uAC8C \uBC30\uCE58\uD569\uB2C8\uB2E4.",
+      "\uB3D9\uC2DC\uC5D0 \uC5EC\uB7EC \uC54C\uB9BC\uC774 \uBC1C\uC0DD\uD560 \uACBD\uC6B0 \uCD5C\uB300 3\uAC1C\uAE4C\uC9C0 \uC2A4\uD0DD(Stacking)\uD558\uC5EC \uACB9\uCCD0 \uBCF4\uC5EC\uC8FC\uACE0 \uC624\uB798\uB41C \uC54C\uB9BC\uBD80\uD130 \uC21C\uCC28\uC801\uC73C\uB85C \uC81C\uAC70\uD569\uB2C8\uB2E4."
+    ],
+    dosAndDonts: [
+      {
+        do: "\uC131\uACF5\uC740 \uB179\uC0C9(Emerald), \uC5D0\uB7EC\uB294 \uC801\uC0C9(Rose), \uC815\uBCF4\uB294 \uCCAD\uC0C9(Blue)\uC73C\uB85C \uC0C1\uD0DC\uBCC4 \uC2DC\uBA58\uD2F1 \uC0C9\uC0C1\uC744 \uC9C1\uAD00\uC801\uC73C\uB85C \uBD80\uC5EC\uD569\uB2C8\uB2E4.",
+        dont: "\uC0AC\uC6A9\uC790\uAC00 \uC989\uC2DC \uD655\uC778\uD558\uACE0 \uACB0\uC815\uD574\uC57C \uD558\uB294 \uC911\uC694\uD55C \uD655\uC778 \uC808\uCC28(\uC608: \uACB0\uC81C \uC644\uB8CC \uD6C4 \uACC4\uC88C \uCC28\uAC10)\uC5D0 \uBAA8\uB2EC \uB300\uC2E0 \uD1A0\uC2A4\uD2B8\uB9CC \uC4F0\uACE0 \uB2EB\uD788\uAC8C \uB450\uC9C0 \uB9C8\uC138\uC694."
+      }
+    ],
+    relatedPatternIds: ["fintech-transfer", "ecommerce-checkout"],
+    propsSpec: [
+      { name: "message", type: "string", defaultValue: "''", description: "\uD1A0\uC2A4\uD2B8 \uBCF8\uBB38 \uBA54\uC2DC\uC9C0" },
+      { name: "type", type: "'success' | 'error' | 'info' | 'warning'", defaultValue: "'info'", description: "\uD1A0\uC2A4\uD2B8 \uC0C1\uD0DC \uC2DC\uBA58\uD2F1 \uC2A4\uD0C0\uC77C" },
+      { name: "duration", type: "number", defaultValue: "3000", description: "\uD654\uBA74\uC5D0 \uC720\uC9C0\uB420 \uBC00\uB9AC\uCD08 \uB2E8\uC704 \uC2DC\uAC04" }
+    ],
+    htmlSnippet: `<div class="atom-toast-container">
+  <div class="atom-toast atom-toast-success">
+    <span class="atom-toast-icon">\u2713</span>
+    <span class="atom-toast-message">\uC800\uC7A5\uC774 \uC644\uB8CC\uB418\uC5C8\uC2B5\uB2C8\uB2E4.</span>
+  </div>
+</div>`,
+    reactSnippet: `import { Toast, useToast } from '@/components/ui/toast';
+
+export function ToastDemo() {
+  const { toast } = useToast();
+
+  return (
+    <button 
+      onClick={() => toast({ title: '\uC131\uACF5', message: '\uACC4\uC88C \uC1A1\uAE08\uC774 \uC644\uB8CC\uB418\uC5C8\uC2B5\uB2C8\uB2E4.', type: 'success' })}
+      className="atom-btn atom-btn-primary"
+    >
+      \uC1A1\uAE08\uD558\uAE30
+    </button>
+  );
+}`,
+    vueSnippet: `<template>
+  <button @click="$toast.success('\uC800\uC7A5\uB418\uC5C8\uC2B5\uB2C8\uB2E4')">\uC800\uC7A5</button>
+</template>`
+  },
+  {
+    id: "pagination",
+    name: "\uD398\uC774\uC9C0\uB124\uC774\uC158 (Pagination)",
+    category: "navigation",
+    source: "shadcn + bootstrap",
+    description: "\uB300\uC6A9\uB7C9 \uB370\uC774\uD130 \uB9AC\uC2A4\uD2B8\uB97C \uC5EC\uB7EC \uD398\uC774\uC9C0\uB85C \uB098\uB204\uC5B4 \uBC88\uD638\uBCC4 \uBC0F \uC774\uC804/\uB2E4\uC74C \uD0D0\uC0C9\uC744 \uC9C0\uC6D0\uD558\uB294 \uD398\uC774\uC9C0\uB124\uC774\uC158 \uB124\uBE44\uAC8C\uC774\uC158",
+    callout: {
+      type: "tip",
+      title: "\uC811\uADFC\uC131(A11y) \uB124\uBE44\uAC8C\uC774\uC158 \uD0DC\uADF8",
+      text: '<nav aria-label="\uD398\uC774\uC9C0 \uD0D0\uC0C9">\uC73C\uB85C \uB798\uD551\uD558\uACE0 \uD604\uC7AC \uD65C\uC131\uD654\uB41C \uD398\uC774\uC9C0 \uBC88\uD638 \uBC84\uD2BC\uC5D0 aria-current="page" \uC18D\uC131\uC744 \uBC18\uB4DC\uC2DC \uBD80\uC5EC\uD558\uC138\uC694.'
+    },
+    useCases: [
+      "\uAC8C\uC2DC\uD310 \uBAA9\uB85D, \uACF5\uC9C0\uC0AC\uD56D, FAQ \uC9C8\uBB38 \uB9AC\uC2A4\uD2B8 \uD0D0\uC0C9",
+      "\uC804\uC790\uC0C1\uAC70\uB798 \uC1FC\uD551\uBAB0\uC758 \uC0C1\uD488 \uAC80\uC0C9 \uACB0\uACFC \uBAA9\uB85D (1\uD398\uC774\uC9C0\uB2F9 20/40/60\uAC1C)",
+      "\uAD00\uB9AC\uC790 \uB300\uC2DC\uBCF4\uB4DC\uC758 \uD68C\uC6D0 \uAD00\uB9AC \uBC0F \uC8FC\uBB38 \uB85C\uADF8 \uD14C\uC774\uBE14",
+      "\uAC80\uC0C9\uC5D4\uC9C4\uC758 \uAC80\uC0C9 \uACB0\uACFC \uD398\uC774\uC9C0 \uC774\uB3D9"
+    ],
+    usagePatterns: [
+      "\uD398\uC774\uC9C0 \uBC88\uD638\uAC00 10\uAC1C\uB97C \uCD08\uACFC\uD560 \uACBD\uC6B0 \uC911\uAC04 \uBC88\uD638\uB97C \uC0DD\uB7B5 \uAE30\uD638(...)\uB85C \uCD95\uC57D\uD558\uC5EC \uBAA8\uBC14\uC77C\uC5D0\uC11C\uB3C4 \uB808\uC774\uC544\uC6C3\uC774 \uD130\uC9C0\uC9C0 \uC54A\uB3C4\uB85D \uD569\uB2C8\uB2E4.",
+      '\uCCAB \uD398\uC774\uC9C0\uC5D0\uC11C\uB294 "\uC774\uC804" \uBC84\uD2BC\uC744, \uB9C8\uC9C0\uB9C9 \uD398\uC774\uC9C0\uC5D0\uC11C\uB294 "\uB2E4\uC74C" \uBC84\uD2BC\uC744 \uBE44\uD65C\uC131\uD654(disabled)\uD558\uC5EC \uACBD\uACC4 \uC0C1\uD0DC\uB97C \uC548\uB0B4\uD569\uB2C8\uB2E4.'
+    ],
+    dosAndDonts: [
+      {
+        do: "\uD604\uC7AC \uBA87 \uBC88\uC9F8 \uD398\uC774\uC9C0\uB97C \uBCF4\uACE0 \uC788\uB294\uC9C0 \uBA85\uD655\uD55C \uD65C\uC131(Active) \uD558\uC774\uB77C\uC774\uD2B8\uB97C \uC81C\uACF5\uD569\uB2C8\uB2E4.",
+        dont: "\uBAA8\uBC14\uC77C \uD658\uACBD\uC5D0\uC11C 1\uBD80\uD130 20\uAE4C\uC9C0\uC758 \uBAA8\uB4E0 \uC22B\uC790 \uBC84\uD2BC\uC744 \uAC00\uB85C\uB85C \uAE38\uAC8C \uB298\uC5B4\uB193\uC544 \uD654\uBA74\uC744 \uB6AB\uACE0 \uB098\uAC00\uAC8C \uD558\uC9C0 \uB9C8\uC138\uC694."
+      }
+    ],
+    relatedPatternIds: ["saas-dashboard", "developer-docs"],
+    propsSpec: [
+      { name: "currentPage", type: "number", defaultValue: "1", description: "\uD604\uC7AC \uD65C\uC131\uD654\uB41C \uD398\uC774\uC9C0 \uBC88\uD638" },
+      { name: "totalPages", type: "number", defaultValue: "10", description: "\uC804\uCCB4 \uD398\uC774\uC9C0 \uCD1D \uAC1C\uC218" },
+      { name: "onPageChange", type: "(page: number) => void", defaultValue: "undefined", description: "\uD398\uC774\uC9C0 \uBC88\uD638 \uD074\uB9AD \uC2DC \uBCC0\uACBD \uD578\uB4E4\uB7EC" }
+    ],
+    htmlSnippet: `<nav class="atom-pagination" aria-label="\uD398\uC774\uC9C0 \uB124\uBE44\uAC8C\uC774\uC158">
+  <button class="atom-pagination-btn" disabled>&lt; \uC774\uC804</button>
+  <button class="atom-pagination-btn atom-pagination-active">1</button>
+  <button class="atom-pagination-btn">2</button>
+  <button class="atom-pagination-btn">3</button>
+  <button class="atom-pagination-btn">\uB2E4\uC74C &gt;</button>
+</nav>`,
+    reactSnippet: `import { Pagination } from '@/components/ui/pagination';
+import { useState } from 'react';
+
+export function PaginationDemo() {
+  const [page, setPage] = useState(1);
+  return <Pagination currentPage={page} totalPages={10} onPageChange={setPage} />;
+}`,
+    vueSnippet: `<template>
+  <AtomPagination :current-page="page" :total-pages="10" @change="p => page = p" />
+</template>`
   }
 ];
 

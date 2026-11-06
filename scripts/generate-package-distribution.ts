@@ -448,12 +448,310 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }
 `;
   fs.writeFileSync(path.join(uiDir, 'Modal.tsx'), modalCode, 'utf-8');
 
+  // Calendar
+  const calendarCode = `import React, { useState } from 'react';
+
+export interface CalendarProps {
+  selected?: Date;
+  onSelect?: (date: Date) => void;
+  className?: string;
+}
+
+export const Calendar: React.FC<CalendarProps> = ({ selected, onSelect, className = '' }) => {
+  const [currentDate, setCurrentDate] = useState(selected || new Date());
+
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth();
+
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  const handlePrevMonth = () => setCurrentDate(new Date(year, month - 1, 1));
+  const handleNextMonth = () => setCurrentDate(new Date(year, month + 1, 1));
+
+  const days = [];
+  for (let i = 0; i < firstDay; i++) {
+    days.push(null);
+  }
+  for (let i = 1; i <= daysInMonth; i++) {
+    days.push(new Date(year, month, i));
+  }
+
+  const isSelected = (d: Date | null) => {
+    if (!d || !selected) return false;
+    return (
+      d.getFullYear() === selected.getFullYear() &&
+      d.getMonth() === selected.getMonth() &&
+      d.getDate() === selected.getDate()
+    );
+  };
+
+  return (
+    <div className={\`atom-calendar \${className}\`}>
+      <div className="atom-calendar-header">
+        <button type="button" onClick={handlePrevMonth} className="atom-calendar-nav-btn" aria-label="이전 달">
+          &lt;
+        </button>
+        <span className="atom-calendar-title">
+          {year}년 {month + 1}월
+        </span>
+        <button type="button" onClick={handleNextMonth} className="atom-calendar-nav-btn" aria-label="다음 달">
+          &gt;
+        </button>
+      </div>
+      <div className="atom-calendar-grid">
+        {['일', '월', '화', '수', '목', '금', '토'].map((w) => (
+          <div key={w} className="atom-calendar-weekday">
+            {w}
+          </div>
+        ))}
+        {days.map((d, idx) =>
+          d ? (
+            <button
+              key={idx}
+              type="button"
+              onClick={() => onSelect?.(d)}
+              className={\`atom-calendar-day \${isSelected(d) ? 'atom-calendar-day-selected' : ''}\`}
+            >
+              {d.getDate()}
+            </button>
+          ) : (
+            <div key={idx} />
+          )
+        )}
+      </div>
+    </div>
+  );
+};
+`;
+  fs.writeFileSync(path.join(uiDir, 'Calendar.tsx'), calendarCode, 'utf-8');
+
+  // Select
+  const selectCode = `import React, { useState, useRef, useEffect } from 'react';
+
+export interface SelectOption {
+  value: string;
+  label: string;
+}
+
+export interface SelectProps {
+  options: SelectOption[];
+  value?: string;
+  onChange?: (value: string) => void;
+  placeholder?: string;
+  className?: string;
+}
+
+export const Select: React.FC<SelectProps> = ({
+  options,
+  value,
+  onChange,
+  placeholder = '선택하세요',
+  className = '',
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const selectedOption = options.find((opt) => opt.value === value);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  return (
+    <div ref={containerRef} className={\`atom-select \${className}\`}>
+      <button
+        type="button"
+        className="atom-select-trigger"
+        onClick={() => setIsOpen(!isOpen)}
+        aria-haspopup="listbox"
+        aria-expanded={isOpen}
+      >
+        <span>{selectedOption ? selectedOption.label : placeholder}</span>
+        <span className="atom-select-arrow" style={{ transform: isOpen ? 'rotate(180deg)' : 'none' }}>
+          ▼
+        </span>
+      </button>
+      {isOpen && (
+        <ul className="atom-select-menu" role="listbox">
+          {options.map((opt) => (
+            <li
+              key={opt.value}
+              className="atom-select-option"
+              role="option"
+              aria-selected={opt.value === value}
+              onClick={() => {
+                onChange?.(opt.value);
+                setIsOpen(false);
+              }}
+            >
+              {opt.label}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+};
+`;
+  fs.writeFileSync(path.join(uiDir, 'Select.tsx'), selectCode, 'utf-8');
+
+  // Accordion
+  const accordionCode = `import React, { useState } from 'react';
+
+export interface AccordionItem {
+  id: string;
+  title: string;
+  content: React.ReactNode;
+}
+
+export interface AccordionProps {
+  items: AccordionItem[];
+  type?: 'single' | 'multiple';
+  className?: string;
+}
+
+export const Accordion: React.FC<AccordionProps> = ({ items, type = 'single', className = '' }) => {
+  const [openIds, setOpenIds] = useState<string[]>([]);
+
+  const toggle = (id: string) => {
+    if (type === 'single') {
+      setOpenIds(openIds.includes(id) ? [] : [id]);
+    } else {
+      setOpenIds(openIds.includes(id) ? openIds.filter((item) => item !== id) : [...openIds, id]);
+    }
+  };
+
+  return (
+    <div className={\`atom-accordion \${className}\`}>
+      {items.map((item) => {
+        const isOpen = openIds.includes(item.id);
+        return (
+          <div key={item.id} className="atom-accordion-item">
+            <button
+              type="button"
+              className="atom-accordion-trigger"
+              onClick={() => toggle(item.id)}
+              aria-expanded={isOpen}
+            >
+              <span>{item.title}</span>
+              <span className="atom-accordion-icon" style={{ transform: isOpen ? 'rotate(180deg)' : 'none' }}>
+                ▾
+              </span>
+            </button>
+            {isOpen && <div className="atom-accordion-content">{item.content}</div>}
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+`;
+  fs.writeFileSync(path.join(uiDir, 'Accordion.tsx'), accordionCode, 'utf-8');
+
+  // Tooltip
+  const tooltipCode = `import React, { useState } from 'react';
+
+export interface TooltipProps {
+  content: React.ReactNode;
+  children: React.ReactNode;
+  position?: 'top' | 'bottom';
+  className?: string;
+}
+
+export const Tooltip: React.FC<TooltipProps> = ({ content, children, position = 'top', className = '' }) => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  return (
+    <div
+      className={\`atom-tooltip-wrapper \${className}\`}
+      onMouseEnter={() => setIsVisible(true)}
+      onMouseLeave={() => setIsVisible(false)}
+      onFocus={() => setIsVisible(true)}
+      onBlur={() => setIsVisible(false)}
+    >
+      {children}
+      {isVisible && (
+        <div className={\`atom-tooltip-bubble atom-tooltip-\${position}\`} role="tooltip">
+          {content}
+        </div>
+      )}
+    </div>
+  );
+};
+`;
+  fs.writeFileSync(path.join(uiDir, 'Tooltip.tsx'), tooltipCode, 'utf-8');
+
+  // Pagination
+  const paginationCode = `import React from 'react';
+
+export interface PaginationProps {
+  currentPage: number;
+  totalPages: number;
+  onPageChange?: (page: number) => void;
+  className?: string;
+}
+
+export const Pagination: React.FC<PaginationProps> = ({
+  currentPage,
+  totalPages,
+  onPageChange,
+  className = '',
+}) => {
+  const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+
+  return (
+    <nav className={\`atom-pagination \${className}\`} aria-label="페이지 네비게이션">
+      <button
+        type="button"
+        disabled={currentPage <= 1}
+        onClick={() => onPageChange?.(currentPage - 1)}
+        className="atom-pagination-btn"
+      >
+        &lt; 이전
+      </button>
+      {pages.map((p) => (
+        <button
+          key={p}
+          type="button"
+          onClick={() => onPageChange?.(p)}
+          className={\`atom-pagination-btn \${p === currentPage ? 'atom-pagination-active' : ''}\`}
+          aria-current={p === currentPage ? 'page' : undefined}
+        >
+          {p}
+        </button>
+      ))}
+      <button
+        type="button"
+        disabled={currentPage >= totalPages}
+        onClick={() => onPageChange?.(currentPage + 1)}
+        className="atom-pagination-btn"
+      >
+        다음 &gt;
+      </button>
+    </nav>
+  );
+};
+`;
+  fs.writeFileSync(path.join(uiDir, 'Pagination.tsx'), paginationCode, 'utf-8');
+
   // UI Components Index
   const indexCode = `export * from './Button';
 export * from './Input';
 export * from './Card';
 export * from './Badge';
 export * from './Modal';
+export * from './Calendar';
+export * from './Select';
+export * from './Accordion';
+export * from './Tooltip';
+export * from './Pagination';
 `;
   fs.writeFileSync(path.join(uiDir, 'index.ts'), indexCode, 'utf-8');
   console.log('✅ Generated components/ui ready-to-use React components');

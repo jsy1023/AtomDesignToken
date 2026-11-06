@@ -612,5 +612,362 @@ export function TableDemo() {
     vueSnippet: `<template>
   <AtomTable :headers="['이름', '상태']" :rows="userRows" hoverable />
 </template>`
+  },
+  {
+    id: 'calendar',
+    name: '캘린더 & 날짜 선택기 (Calendar & DatePicker)',
+    category: 'form',
+    source: 'shadcn + react-day-picker',
+    description: '월별 달력 내비게이션, 단일 및 범위 날짜 선택, 오늘 표시, 비활성화 날짜를 지원하는 W3C 접근성 준수 캘린더',
+    callout: {
+      type: 'tip',
+      title: '키보드 탐색 접근성(A11y)',
+      text: '방향키(상/하/좌/우)로 날짜 셀 간 포커스를 이동하고 Space 또는 Enter로 선택할 수 있도록 aria-selected 및 role="grid" 구조를 준수합니다.'
+    },
+    useCases: [
+      '예약 시스템 (숙소 예약, 항공권 일정, 진료 예약 등)의 입실/퇴실 일자 선택',
+      '금융 및 대시보드의 기간별 거래 내역 조회 (최근 7일, 이번 달, 맞춤 기간)',
+      '생년월일 및 만료일 입력 폼',
+      '할 일(To-Do) 및 프로젝트 마일스톤 마감 기한 설정'
+    ],
+    usagePatterns: [
+      '현재 선택된 날짜와 "오늘(Today)"의 시각적 위계를 구분하여 사용자가 달력 내에서 현재 시점을 빠르게 인지하도록 합니다.',
+      '예약 불가능한 과거 날짜나 휴무일은 비활성화(Disabled) 처리하고 명도 대비를 낮춰 직관적으로 선택을 방지합니다.',
+      '모바일 환경에서는 날짜 셀 터치 타깃을 최소 36x36px 이상으로 넉넉하게 확보합니다.'
+    ],
+    dosAndDonts: [
+      {
+        do: '선택된 날짜의 연/월/일을 상단 또는 인풋 필드에 명확한 포맷(YYYY-MM-DD)으로 즉시 피드백합니다.',
+        dont: '과거 일자 선택 불가 규칙이 있는데도 클릭 후에야 에러 토스트를 띄우지 마세요. 달력 셀 자체를 비활성화하세요.'
+      },
+      {
+        do: '이전 달/다음 달로 이동할 수 있는 직관적인 화살표 버튼과 연/월 셀렉터를 함께 제공합니다.',
+        dont: '10년 전 생년월일을 선택해야 하는데 월 단위 화살표 클릭만 강요하지 마세요. 연도 점프 기능을 제공하세요.'
+      }
+    ],
+    relatedPatternIds: ['ecommerce-checkout', 'saas-dashboard'],
+    propsSpec: [
+      { name: 'selectedDate', type: 'Date | null', defaultValue: 'null', description: '현재 선택된 일자 객체' },
+      { name: 'mode', type: "'single' | 'range'", defaultValue: "'single'", description: '단일 날짜 선택 또는 기간 범위 선택 모드' },
+      { name: 'minDate', type: 'Date', defaultValue: 'undefined', description: '선택 가능한 최소 일자 (이전 날짜 비활성화)' },
+      { name: 'onSelect', type: '(date: Date) => void', defaultValue: 'undefined', description: '날짜 선택 시 호출되는 콜백 핸들러' }
+    ],
+    htmlSnippet: `<div class="atom-calendar">
+  <div class="atom-calendar-header">
+    <button class="atom-calendar-nav-btn" aria-label="이전 달">&lt;</button>
+    <span class="atom-calendar-title">2026년 11월</span>
+    <button class="atom-calendar-nav-btn" aria-label="다음 달">&gt;</button>
+  </div>
+  <div class="atom-calendar-grid">
+    <div class="atom-calendar-weekday">일</div>
+    <div class="atom-calendar-weekday">월</div>
+    <div class="atom-calendar-weekday">화</div>
+    <div class="atom-calendar-weekday">수</div>
+    <div class="atom-calendar-weekday">목</div>
+    <div class="atom-calendar-weekday">금</div>
+    <div class="atom-calendar-weekday">토</div>
+    <button class="atom-calendar-day">1</button>
+    <button class="atom-calendar-day atom-calendar-day-selected">6</button>
+  </div>
+</div>`,
+    reactSnippet: `import { Calendar } from '@/components/ui/calendar';
+import { useState } from 'react';
+
+export function CalendarDemo() {
+  const [date, setDate] = useState<Date | undefined>(new Date());
+
+  return (
+    <div className="p-4 border rounded-2xl bg-white dark:bg-neutral-900 w-fit">
+      <Calendar
+        selected={date}
+        onSelect={setDate}
+        mode="single"
+      />
+    </div>
+  );
+}`,
+    vueSnippet: `<template>
+  <AtomCalendar v-model="selectedDate" mode="single" />
+</template>`
+  },
+  {
+    id: 'select',
+    name: '커스텀 셀렉트 (Select & Dropdown)',
+    category: 'form',
+    source: 'radix-ui + shadcn',
+    description: '키보드 네비게이션, 검색 필터링, 그룹 라벨을 완벽히 지원하는 커스텀 드롭다운 선택기',
+    callout: {
+      type: 'tip',
+      title: '모바일 OS 기본 피커 호환',
+      text: '모바일 뷰포트에서는 네이티브 <select> 요소를 보이지 않게 오버레이하여 OS 자체 휠 피커(iOS 롤러/Android 바텀 드로어)를 자연스럽게 띄울 수 있습니다.'
+    },
+    useCases: [
+      '국가/지역 코드, 통화(KRW/USD), 은행 계좌 목록 선택',
+      '상품 정렬 기준 (최신순, 인기순, 낮은 가격순, 리뷰 많은 순)',
+      '관리자 대시보드의 기간 필터링 및 권한(Role) 할당',
+      '수량 및 배송 메모 선택 드롭다운'
+    ],
+    usagePatterns: [
+      '옵션 개수가 5개 이상일 때는 라디오 버튼 대신 드롭다운 셀렉트를 사용하여 화면 공간을 절약합니다.',
+      '옵션이 15개 이상으로 많을 경우 상단에 인라인 검색창(Filter Input)을 포함하여 빠른 탐색을 돕습니다.',
+      '선택 완료 후 트리거 버튼에 선택된 라벨과 아이콘을 직관적으로 표기합니다.'
+    ],
+    dosAndDonts: [
+      {
+        do: '아무것도 선택되지 않았을 때 "옵션을 선택하세요"와 같은 명확한 플레이스홀더를 제공합니다.',
+        dont: '옵션이 2~3개밖에 안 되는데 드롭다운 안에 숨겨두지 마세요. 세그먼트 탭이나 라디오 버튼이 훨씬 편리합니다.'
+      }
+    ],
+    relatedPatternIds: ['fintech-transfer', 'ecommerce-checkout'],
+    propsSpec: [
+      { name: 'options', type: 'Array<{ value: string; label: string; icon?: ReactNode }>', defaultValue: '[]', description: '드롭다운 목록에 노출될 옵션 배열' },
+      { name: 'value', type: 'string', defaultValue: "''", description: '현재 선택된 옵션의 고유 식별 값' },
+      { name: 'placeholder', type: 'string', defaultValue: "'선택하세요'", description: '미선택 상태의 안내 문구' },
+      { name: 'onChange', type: '(value: string) => void', defaultValue: 'undefined', description: '옵션 선택 변경 시 이벤트 핸들러' }
+    ],
+    htmlSnippet: `<div class="atom-select">
+  <button class="atom-select-trigger" aria-haspopup="listbox">
+    <span>선택하세요</span>
+    <span class="atom-select-arrow">▼</span>
+  </button>
+  <ul class="atom-select-menu" role="listbox">
+    <li class="atom-select-option" role="option">옵션 1</li>
+    <li class="atom-select-option" role="option">옵션 2</li>
+  </ul>
+</div>`,
+    reactSnippet: `import { Select } from '@/components/ui/select';
+import { useState } from 'react';
+
+const BANK_OPTIONS = [
+  { value: 'toss', label: '토스뱅크' },
+  { value: 'kakao', label: '카카오뱅크' },
+  { value: 'shinhan', label: '신한은행' },
+];
+
+export function SelectDemo() {
+  const [bank, setBank] = useState('toss');
+  return <Select options={BANK_OPTIONS} value={bank} onChange={setBank} />;
+}`,
+    vueSnippet: `<template>
+  <AtomSelect v-model="selectedBank" :options="bankOptions" />
+</template>`
+  },
+  {
+    id: 'accordion',
+    name: '아코디언 (Accordion & Collapse)',
+    category: 'data',
+    source: 'shadcn + radix-ui',
+    description: 'FAQ, 약관, 상세 설정 등 수직으로 컨텐츠를 확장/축소하여 시각적 복잡도를 낮추는 아코디언 컴포넌트',
+    callout: {
+      type: 'tip',
+      title: '단일 vs 다중 열림 모드',
+      text: '한 번에 하나의 섹션만 열려야 하는 FAQ나 위저드 단계는 type="single"을, 여러 설정을 동시에 열어 비교해야 하는 곳은 type="multiple"을 사용하세요.'
+    },
+    useCases: [
+      '자주 묻는 질문(FAQ) 및 고객센터 안내',
+      '장바구니 결제 단계별 상세 내역 (할인 쿠폰, 배송지 정보, 결제 수단)',
+      '모바일 설정 메뉴 및 권한 관리 항목',
+      '복잡한 약관 및 개인정보 처리방침 전문 접기/펼치기'
+    ],
+    usagePatterns: [
+      '각 항목 우측에 회전하는 화살표(Chevron) 아이콘을 배치하여 열림/닫힘 상태를 명확히 안내합니다.',
+      '애니메이션 전환 시 높이(Height) 변화를 부드럽게 처리하여 화면이 갑자기 튀는 레이아웃 쉬프트(CLS)를 방지합니다.'
+    ],
+    dosAndDonts: [
+      {
+        do: '헤더 텍스트는 간결한 의문문이나 핵심 명사로 작성하여 사용자가 원하는 정보를 한눈에 훑어볼 수 있게 합니다.',
+        dont: '페이지 진입 시 모든 항목을 펼쳐두지 마세요. 스크롤이 불필요하게 길어집니다.'
+      }
+    ],
+    relatedPatternIds: ['developer-docs', 'saas-dashboard'],
+    propsSpec: [
+      { name: 'items', type: 'Array<{ id: string; title: string; content: ReactNode }>', defaultValue: '[]', description: '아코디언 패널 목록' },
+      { name: 'type', type: "'single' | 'multiple'", defaultValue: "'single'", description: '단일 활성화 또는 다중 활성화 허용 여부' }
+    ],
+    htmlSnippet: `<div class="atom-accordion">
+  <div class="atom-accordion-item">
+    <button class="atom-accordion-trigger">
+      <span>수수료는 얼마인가요?</span>
+      <span class="atom-accordion-icon">▾</span>
+    </button>
+    <div class="atom-accordion-content">
+      <p>평생 무제한 무료 송금을 지원합니다.</p>
+    </div>
+  </div>
+</div>`,
+    reactSnippet: `import { Accordion } from '@/components/ui/accordion';
+
+const FAQ_ITEMS = [
+  { id: '1', title: '송금 한도는 얼마인가요?', content: '1회 1,000만원, 1일 5,000만원까지 송금 가능합니다.' },
+  { id: '2', title: '해외 송금도 지원하나요?', content: '전 세계 30개국으로 당일 해외 송금을 지원합니다.' }
+];
+
+export function AccordionDemo() {
+  return <Accordion items={FAQ_ITEMS} type="single" />;
+}`,
+    vueSnippet: `<template>
+  <AtomAccordion :items="faqItems" type="single" />
+</template>`
+  },
+  {
+    id: 'tooltip',
+    name: '툴팁 & 팝오버 (Tooltip & Popover)',
+    category: 'feedback',
+    source: 'radix-ui + floating-ui',
+    description: '아이콘이나 축약된 정보에 마우스를 올리거나 포커스했을 때 보충 설명을 띄워주는 부동형 컨텍스트 오버레이',
+    callout: {
+      type: 'tip',
+      title: '키보드 포커스 반응',
+      text: '마우스 hover뿐만 아니라 키보드 Tab 키로 포커스 진입(focus-visible)했을 때도 툴팁이 동일하게 노출되어야 스크린리더 사용자가 소외되지 않습니다.'
+    },
+    useCases: [
+      '텍스트 축약(Truncation) 시 말줄임표(...)로 잘린 원본 전체 텍스트 확인',
+      '복잡한 금융 용어 (APR, 원리금균등상환, DSR) 옆 물음표(?) 아이콘의 도움말 설명',
+      '아이콘 전용 버튼(Icon Button - 복사, 다운로드, 설정 등)의 기능 라벨 안내',
+      '비활성화된 버튼에 마우스오버 시 "권한이 없습니다"와 같은 비활성화 사유 피드백'
+    ],
+    usagePatterns: [
+      '사용자가 의도치 않게 스치며 지나갈 때 깜빡이지 않도록 150~200ms의 적절한 노출 지연(delay)을 둡니다.',
+      '화면 가장자리에 닿았을 때 자동으로 반대 방향으로 뒤집히는 뷰포트 충돌 회피(collision flip)를 지원합니다.'
+    ],
+    dosAndDonts: [
+      {
+        do: '1~2줄 이내의 짧고 명료한 보조 설명문으로 간결하게 구성합니다.',
+        dont: '툴팁 안에 클릭해야 하는 링크나 버튼 같은 인터랙티브 요소를 넣지 마세요. 그 경우엔 Popover나 Dialog를 쓰세요.'
+      }
+    ],
+    relatedPatternIds: ['saas-dashboard', 'developer-docs'],
+    propsSpec: [
+      { name: 'content', type: 'string | ReactNode', defaultValue: "''", description: '툴팁 말풍선 안에 들어갈 도움말 텍스트' },
+      { name: 'position', type: "'top' | 'bottom' | 'left' | 'right'", defaultValue: "'top'", description: '툴팁이 노출될 기준 방향' }
+    ],
+    htmlSnippet: `<div class="atom-tooltip-wrapper">
+  <button class="atom-btn atom-btn-outline">정보</button>
+  <div class="atom-tooltip-bubble atom-tooltip-top" role="tooltip">
+    추가 설명 내용입니다.
+  </div>
+</div>`,
+    reactSnippet: `import { Tooltip } from '@/components/ui/tooltip';
+
+export function TooltipDemo() {
+  return (
+    <Tooltip content="클릭 시 클립보드에 복사됩니다" position="top">
+      <button className="atom-btn atom-btn-outline">복사</button>
+    </Tooltip>
+  );
+}`,
+    vueSnippet: `<template>
+  <AtomTooltip content="계좌번호가 복사됩니다" position="top">
+    <button class="atom-btn">복사</button>
+  </AtomTooltip>
+</template>`
+  },
+  {
+    id: 'toast',
+    name: '토스트 알림 (Toast & Notification)',
+    category: 'feedback',
+    source: 'sonner + shadcn',
+    description: '작업의 성공, 실패, 경고 메시지를 사용자 화면 모서리에 비간섭적(Non-intrusive)으로 띄우고 자동 소멸시키는 토스트 스낵바',
+    callout: {
+      type: 'tip',
+      title: '자동 소멸 시간 및 일시 정지',
+      text: '기본 3~4초 후 자동 닫힘을 지원하되, 사용자가 마우스를 올리거나 터치 중일 때는 타이머가 일시 정지되어 충분히 읽을 시간을 보장하세요.'
+    },
+    useCases: [
+      '클립보드 복사 완료 ("링크가 복사되었습니다")',
+      '설정 저장 및 프로필 수정 완료 피드백',
+      '네트워크 일시 오류 또는 API 요청 실패 시 재시도 안내',
+      '장바구니 담기 완료 후 "장바구니 바로가기" 인라인 액션 버튼 제공'
+    ],
+    usagePatterns: [
+      '모바일에서는 화면 최상단 또는 최하단 전체 너비로 노출하고, 데스크톱에서는 우측 상단/하단에 컴팩트하게 배치합니다.',
+      '동시에 여러 알림이 발생할 경우 최대 3개까지 스택(Stacking)하여 겹쳐 보여주고 오래된 알림부터 순차적으로 제거합니다.'
+    ],
+    dosAndDonts: [
+      {
+        do: '성공은 녹색(Emerald), 에러는 적색(Rose), 정보는 청색(Blue)으로 상태별 시멘틱 색상을 직관적으로 부여합니다.',
+        dont: '사용자가 즉시 확인하고 결정해야 하는 중요한 확인 절차(예: 결제 완료 후 계좌 차감)에 모달 대신 토스트만 쓰고 닫히게 두지 마세요.'
+      }
+    ],
+    relatedPatternIds: ['fintech-transfer', 'ecommerce-checkout'],
+    propsSpec: [
+      { name: 'message', type: 'string', defaultValue: "''", description: '토스트 본문 메시지' },
+      { name: 'type', type: "'success' | 'error' | 'info' | 'warning'", defaultValue: "'info'", description: '토스트 상태 시멘틱 스타일' },
+      { name: 'duration', type: 'number', defaultValue: '3000', description: '화면에 유지될 밀리초 단위 시간' }
+    ],
+    htmlSnippet: `<div class="atom-toast-container">
+  <div class="atom-toast atom-toast-success">
+    <span class="atom-toast-icon">✓</span>
+    <span class="atom-toast-message">저장이 완료되었습니다.</span>
+  </div>
+</div>`,
+    reactSnippet: `import { Toast, useToast } from '@/components/ui/toast';
+
+export function ToastDemo() {
+  const { toast } = useToast();
+
+  return (
+    <button 
+      onClick={() => toast({ title: '성공', message: '계좌 송금이 완료되었습니다.', type: 'success' })}
+      className="atom-btn atom-btn-primary"
+    >
+      송금하기
+    </button>
+  );
+}`,
+    vueSnippet: `<template>
+  <button @click="$toast.success('저장되었습니다')">저장</button>
+</template>`
+  },
+  {
+    id: 'pagination',
+    name: '페이지네이션 (Pagination)',
+    category: 'navigation',
+    source: 'shadcn + bootstrap',
+    description: '대용량 데이터 리스트를 여러 페이지로 나누어 번호별 및 이전/다음 탐색을 지원하는 페이지네이션 네비게이션',
+    callout: {
+      type: 'tip',
+      title: '접근성(A11y) 네비게이션 태그',
+      text: '<nav aria-label="페이지 탐색">으로 래핑하고 현재 활성화된 페이지 번호 버튼에 aria-current="page" 속성을 반드시 부여하세요.'
+    },
+    useCases: [
+      '게시판 목록, 공지사항, FAQ 질문 리스트 탐색',
+      '전자상거래 쇼핑몰의 상품 검색 결과 목록 (1페이지당 20/40/60개)',
+      '관리자 대시보드의 회원 관리 및 주문 로그 테이블',
+      '검색엔진의 검색 결과 페이지 이동'
+    ],
+    usagePatterns: [
+      '페이지 번호가 10개를 초과할 경우 중간 번호를 생략 기호(...)로 축약하여 모바일에서도 레이아웃이 터지지 않도록 합니다.',
+      '첫 페이지에서는 "이전" 버튼을, 마지막 페이지에서는 "다음" 버튼을 비활성화(disabled)하여 경계 상태를 안내합니다.'
+    ],
+    dosAndDonts: [
+      {
+        do: '현재 몇 번째 페이지를 보고 있는지 명확한 활성(Active) 하이라이트를 제공합니다.',
+        dont: '모바일 환경에서 1부터 20까지의 모든 숫자 버튼을 가로로 길게 늘어놓아 화면을 뚫고 나가게 하지 마세요.'
+      }
+    ],
+    relatedPatternIds: ['saas-dashboard', 'developer-docs'],
+    propsSpec: [
+      { name: 'currentPage', type: 'number', defaultValue: '1', description: '현재 활성화된 페이지 번호' },
+      { name: 'totalPages', type: 'number', defaultValue: '10', description: '전체 페이지 총 개수' },
+      { name: 'onPageChange', type: '(page: number) => void', defaultValue: 'undefined', description: '페이지 번호 클릭 시 변경 핸들러' }
+    ],
+    htmlSnippet: `<nav class="atom-pagination" aria-label="페이지 네비게이션">
+  <button class="atom-pagination-btn" disabled>&lt; 이전</button>
+  <button class="atom-pagination-btn atom-pagination-active">1</button>
+  <button class="atom-pagination-btn">2</button>
+  <button class="atom-pagination-btn">3</button>
+  <button class="atom-pagination-btn">다음 &gt;</button>
+</nav>`,
+    reactSnippet: `import { Pagination } from '@/components/ui/pagination';
+import { useState } from 'react';
+
+export function PaginationDemo() {
+  const [page, setPage] = useState(1);
+  return <Pagination currentPage={page} totalPages={10} onPageChange={setPage} />;
+}`,
+    vueSnippet: `<template>
+  <AtomPagination :current-page="page" :total-pages="10" @change="p => page = p" />
+</template>`
   }
 ];
