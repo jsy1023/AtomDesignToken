@@ -2,6 +2,8 @@ name: Publish to npm
 
 on:
   push:
+    branches:
+      - main
     tags:
       - 'v*.*.*'
   workflow_dispatch:
@@ -21,6 +23,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Upgrade npm to latest
         run: npm install -g npm@latest
@@ -32,4 +35,4 @@ jobs:
         run: npm run build:lib
 
       - name: Publish to npm
-        run: npm publish --access public
+        run: npm publish --access public --provenance
