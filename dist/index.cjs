@@ -8645,7 +8645,7 @@ function cn(...inputs) {
 
 // src/index.ts
 var ATOM_UI_CSS_PATH = "atomsystem/css/atom-ui.css";
-var ATOM_VERSION = "0.4.0";
+var ATOM_VERSION = "0.4.1";
 var ATOM_LIB_NAME = "atomsystem";
 
 exports.ATOM_LIB_NAME = ATOM_LIB_NAME;
