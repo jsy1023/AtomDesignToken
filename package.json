@@ -1,6 +1,6 @@
 {
   "name": "atomsystem",
-  "version": "0.1.50",
+  "version": "0.1.51",
   "type": "module",
   "homepage": "https://system.atomground.com",
   "repository": {
@@ -46,6 +46,7 @@
     "dev": "next dev",
     "build": "next build",
     "prepublishOnly": "npm run build:lib",
+    "bump:version": "tsx scripts/bump-version.ts",
     "generate:dist": "tsx scripts/generate-package-distribution.ts",
     "build:lib": "npm run generate:dist && tsup",
     "pack:lib": "npm run build:lib && npm pack",

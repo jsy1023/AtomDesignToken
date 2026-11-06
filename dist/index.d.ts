@@ -212,7 +212,7 @@ declare const ATOM_UI_CSS_PATH = "atomsystem/css/atom-ui.css";
 /**
  * CLI Banner & Metadata
  */
-declare const ATOM_VERSION = "0.1.50";
+declare const ATOM_VERSION = "0.1.51";
 declare const ATOM_LIB_NAME = "atomsystem";
 
 export { ATOM_LIB_NAME, ATOM_UI_CSS_PATH, ATOM_VERSION, AWESOME_CATEGORIES, AWESOME_DESIGN_MD_THEMES, type AwesomeDesignMdTheme, BASE_COLOR_TOKENS, BRAND_PRESETS, type BrandPreset, COLOR_PRESETS, type ColorConfig, type ColorPreset, type ColorToken, type ComponentCategory, DEFAULT_THEME_CONFIG, type DosAndDont, FONT_FAMILY_PRESETS, GALLERY_COMPONENTS, type GalleryComponent, PATTERNS_COLLECTION, type PatternItem, type PatternPlatform, type PatternVariant, type PropItem, RADIUS_TOKENS, type RadiusToken, SHADOW_TOKENS, SPACING_TOKENS, type ShadowToken, type SpacingToken, TYPOGRAPHY_TOKENS, type ThemeConfig, type TokenCategory, type TypographyConfig, type TypographyLevelConfig, type TypographyToken, applyThemeToDOM, cn, exportToCSS, exportToTailwind, exportToTokensJson, generateThemeCSS, isDarkColor };

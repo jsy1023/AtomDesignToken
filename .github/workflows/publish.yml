@@ -12,12 +12,14 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       id-token: write
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -31,8 +33,22 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Calculate Semantic Version & Bump
+        id: semver
+        run: npm run bump:version
+
       - name: Generate distribution assets & Build library
         run: npm run build:lib
 
       - name: Publish to npm
         run: npm publish --access public --provenance
+
+      - name: Commit and push bumped version and git tag
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          VERSION=$(node -p "require('./package.json').version")
+          git add package.json src/index.ts src/cli.ts tokens/ atom.design.md atom.uxPattern.md presets/ components/ui/ dist/
+          git commit -m "chore(release): v${VERSION} [skip ci]" || echo "No changes to commit"
+          git tag "v${VERSION}" || echo "Tag already exists"
+          git push origin main --tags
