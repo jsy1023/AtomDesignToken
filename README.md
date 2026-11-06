@@ -134,7 +134,7 @@ AI Agent는 자동으로 디자인 토큰과 UX 표준을 적용하여 일관된
 | :--- | :--- |
 | `atomsystem` | 토큰 데이터 모델, 테마 엔진, 색상/타이포 유틸리티 |
 | `atomsystem/css/atom-ui.css` | 전역 스타일 및 시멘틱 UI 클래스 (`.atom-btn`, `.atom-card` 등) |
-| `atomsystem/components/*` | React UI 컴포넌트 (`Button`, `Card`, `Modal`, `Input`, `Badge`) |
+| `atomsystem/components/*` | React UI 컴포넌트 풀세트 (`Button`, `Input`, `Card`, `Badge`, `Modal`, `Calendar`, `Select`, `Accordion`, `Radio`, `Slider`, `Avatar`, `Progress`, `Skeleton`, `Breadcrumb`, `Separator`, `Textarea`, `Pagination`, `Tooltip`) |
 | `atomsystem/token.json` | W3C DTCG 포맷 단일 진실 공급원 토큰 파일 |
 | `atomsystem/design.md` | 마크다운 기반 디자인 시스템 가이드 규격 |
 | `atomsystem/uxPattern.md` | 마크다운 기반 UX 인터랙션 패턴 가이드 |

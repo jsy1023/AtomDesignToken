@@ -1210,6 +1210,427 @@ export function PaginationDemo() {
     vueSnippet: `<template>
   <AtomPagination :current-page="page" :total-pages="10" @change="p => page = p" />
 </template>`
+  },
+  {
+    id: "radio",
+    name: "\uB77C\uB514\uC624 \uADF8\uB8F9 (Radio Group & Cards)",
+    category: "form",
+    source: "shadcn + radix-ui",
+    description: "\uC11C\uB85C \uBC30\uD0C0\uC801\uC778 \uB2E8\uC77C \uC120\uD0DD\uC744 \uC81C\uACF5\uD558\uBA70, \uAE30\uBCF8 \uC6D0\uD615 \uB77C\uB514\uC624 \uBC0F \uCE74\uB4DC\uD615 \uC120\uD0DD \uC635\uC158\uC744 \uC9C0\uC6D0\uD558\uB294 \uB77C\uB514\uC624 \uADF8\uB8F9",
+    callout: {
+      type: "tip",
+      title: "\uD0A4\uBCF4\uB4DC \uB0B4\uBE44\uAC8C\uC774\uC158 \uC811\uADFC\uC131",
+      text: 'role="radiogroup"\uACFC role="radio"\uB97C \uC801\uC6A9\uD558\uACE0 \uBC29\uD5A5\uD0A4(\uC0C1/\uD558/\uC88C/\uC6B0)\uB85C \uC635\uC158 \uAC04 \uD3EC\uCEE4\uC2A4\uB97C \uC989\uC2DC \uC804\uD658\uD560 \uC218 \uC788\uC5B4\uC57C \uD569\uB2C8\uB2E4.'
+    },
+    useCases: [
+      "\uACB0\uC81C \uC218\uB2E8 \uC120\uD0DD (\uC2E0\uC6A9\uCE74\uB4DC, \uCE74\uCE74\uC624\uD398\uC774, \uD1A0\uC2A4\uD398\uC774, \uBB34\uD1B5\uC7A5\uC785\uAE08)",
+      "\uBC30\uC1A1 \uC635\uC158 \uC120\uD0DD (\uC77C\uBC18 \uD0DD\uBC30, \uC0C8\uBCBD \uBC30\uC1A1, \uB9E4\uC7A5 \uD53D\uC5C5)",
+      "\uC131\uBCC4 \uBC0F \uD68C\uC6D0 \uB4F1\uAE09 \uC120\uD0DD \uD3FC",
+      "\uC694\uAE08\uC81C \uD50C\uB79C \uC120\uD0DD \uCE74\uB4DC (Basic, Pro, Enterprise)"
+    ],
+    usagePatterns: [
+      "\uC635\uC158\uC774 2~4\uAC1C \uC0AC\uC774\uC77C \uB54C \uB4DC\uB86D\uB2E4\uC6B4 \uB300\uC2E0 \uB77C\uB514\uC624\uB97C \uC0AC\uC6A9\uD558\uC5EC \uBAA8\uB4E0 \uC120\uD0DD\uC9C0\uB97C \uD55C\uB208\uC5D0 \uBE44\uAD50\uD560 \uC218 \uC788\uAC8C \uD569\uB2C8\uB2E4.",
+      '\uC911\uC694\uD55C \uACFC\uAE08 \uD50C\uB79C\uC774\uB098 \uACB0\uC81C \uC218\uB2E8\uC740 \uB2E8\uC21C \uD14D\uC2A4\uD2B8 \uB77C\uB514\uC624 \uB300\uC2E0 \uD0C0\uC774\uD2C0, \uC124\uBA85, \uBC43\uC9C0\uAC00 \uD3EC\uD568\uB41C "\uB77C\uB514\uC624 \uCE74\uB4DC" \uD615\uD0DC\uB97C \uAD8C\uC7A5\uD569\uB2C8\uB2E4.'
+    ],
+    dosAndDonts: [
+      {
+        do: "\uC0AC\uC6A9\uC790\uAC00 \uC635\uC158\uC758 \uC758\uBBF8\uB97C \uD30C\uC545\uD558\uAE30 \uC27D\uB3C4\uB85D \uAE30\uBCF8\uAC12(Default Value)\uC744 \uD558\uB098 \uC9C0\uC815\uD574 \uB461\uB2C8\uB2E4.",
+        dont: "\uB2E4\uC911 \uC120\uD0DD\uC774 \uAC00\uB2A5\uD55C \uD56D\uBAA9\uC5D0 \uCCB4\uD06C\uBC15\uC2A4 \uB300\uC2E0 \uB77C\uB514\uC624 \uBC84\uD2BC\uC744 \uC4F0\uC9C0 \uB9C8\uC138\uC694."
+      }
+    ],
+    relatedPatternIds: ["ecommerce-checkout", "fintech-transfer"],
+    propsSpec: [
+      { name: "name", type: "string", defaultValue: "''", description: "\uB77C\uB514\uC624 \uD3FC \uD544\uB4DC \uADF8\uB8F9\uBA85" },
+      { name: "options", type: "Array<{ value: string; label: string; description?: string }>", defaultValue: "[]", description: "\uB77C\uB514\uC624 \uC120\uD0DD \uC635\uC158 \uBAA9\uB85D" },
+      { name: "value", type: "string", defaultValue: "''", description: "\uD604\uC7AC \uC120\uD0DD\uB41C \uAC12" },
+      { name: "onChange", type: "(val: string) => void", defaultValue: "undefined", description: "\uC120\uD0DD \uBCC0\uACBD \uD578\uB4E4\uB7EC" }
+    ],
+    htmlSnippet: `<div class="atom-radio-group" role="radiogroup">
+  <label class="atom-radio-label">
+    <input type="radio" name="payment" value="card" class="atom-radio" checked />
+    <span>\uC2E0\uC6A9/\uCCB4\uD06C\uCE74\uB4DC</span>
+  </label>
+  <label class="atom-radio-label">
+    <input type="radio" name="payment" value="toss" class="atom-radio" />
+    <span>\uD1A0\uC2A4\uD398\uC774</span>
+  </label>
+</div>`,
+    reactSnippet: `import { RadioGroup, RadioItem } from '@/components/ui/radio';
+import { useState } from 'react';
+
+export function RadioDemo() {
+  const [pay, setPay] = useState('card');
+  return (
+    <RadioGroup value={pay} onChange={setPay}>
+      <RadioItem value="card" label="\uC2E0\uC6A9/\uCCB4\uD06C\uCE74\uB4DC" />
+      <RadioItem value="toss" label="\uD1A0\uC2A4\uD398\uC774 \uAC04\uD3B8\uACB0\uC81C" />
+    </RadioGroup>
+  );
+}`,
+    vueSnippet: `<template>
+  <AtomRadioGroup v-model="selectedPay" :options="payOptions" />
+</template>`
+  },
+  {
+    id: "slider",
+    name: "\uC2AC\uB77C\uC774\uB354 (Range Slider)",
+    category: "form",
+    source: "radix-ui + shadcn",
+    description: "\uC5F0\uC18D\uC801\uC778 \uC218\uCE58(\uAC00\uACA9, \uBCFC\uB968, \uAE30\uAC04 \uB4F1)\uB97C \uB9C8\uC6B0\uC2A4 \uB4DC\uB798\uADF8\uB098 \uD130\uCE58\uB85C \uC9C1\uAD00\uC801\uC73C\uB85C \uC870\uC808\uD560 \uC218 \uC788\uB294 \uC2AC\uB77C\uC774\uB354 \uBC14",
+    callout: {
+      type: "tip",
+      title: "\uD0A4\uBCF4\uB4DC \uC2A4\uD15D \uC870\uC808(A11y)",
+      text: "Thumb \uD578\uB4E4\uC5D0 \uD3EC\uCEE4\uC2A4\uB41C \uC0C1\uD0DC\uC5D0\uC11C \uC88C/\uC6B0 \uBC29\uD5A5\uD0A4\uB85C step \uB2E8\uC704, PageUp/PageDown\uC73C\uB85C 10\uBC30 \uB2E8\uC704\uB85C \uC99D\uAC10\uD560 \uC218 \uC788\uB3C4\uB85D \uC9C0\uC6D0\uD569\uB2C8\uB2E4."
+    },
+    useCases: [
+      "\uC1FC\uD551\uBAB0 \uC0C1\uD488 \uAC00\uACA9 \uD544\uD130 (\uC608: 10,000\uC6D0 ~ 150,000\uC6D0)",
+      "\uB300\uCD9C \uAE08\uC561 \uBC0F \uC0C1\uD658 \uAE30\uAC04 \uC124\uC815 \uC2DC\uBBAC\uB808\uC774\uD130",
+      "\uBBF8\uB514\uC5B4 \uD50C\uB808\uC774\uC5B4 \uC74C\uB7C9 \uBC0F \uC7AC\uC0DD \uC704\uCE58 \uC870\uC808",
+      "\uD654\uBA74 \uBC1D\uAE30, \uD3F0\uD2B8 \uD06C\uAE30 \uB4F1 \uC0AC\uC6A9\uC790 \uAC1C\uC778\uD654 \uC124\uC815"
+    ],
+    usagePatterns: [
+      "\uC2AC\uB77C\uC774\uB354 \uC870\uC808 \uC911 \uD604\uC7AC \uC120\uD0DD\uB41C \uC218\uCE58\uB97C Thumb \uC0C1\uB2E8 \uD234\uD301\uC774\uB098 \uC778\uC811 \uC778\uD48B \uD544\uB4DC\uC5D0 \uC2E4\uC2DC\uAC04\uC73C\uB85C \uD45C\uC2DC\uD569\uB2C8\uB2E4.",
+      "\uCD5C\uC18C\uAC12(min), \uCD5C\uB300\uAC12(max), \uD604\uC7AC\uAC12(value)\uC744 \uD2B8\uB799 \uC591 \uB05D\uC5D0 \uB77C\uBCA8\uB85C \uBC30\uCE58\uD558\uC5EC \uC9C1\uAD00\uC131\uC744 \uB192\uC785\uB2C8\uB2E4."
+    ],
+    dosAndDonts: [
+      {
+        do: "\uC6D0\uD558\uB294 \uAC12\uC5D0 \uB531 \uB9DE\uCDB0 \uB5A8\uC5B4\uC9C0\uB3C4\uB85D \uC801\uC808\uD55C step(\uC608: 1,000\uC6D0 \uB2E8\uC704, 5% \uB2E8\uC704)\uC744 \uC124\uC815\uD569\uB2C8\uB2E4.",
+        dont: "\uC815\uBC00\uD55C \uC22B\uC790\uB97C \uC9C1\uC811 \uC785\uB825\uD574\uC57C \uD558\uB294 \uD544\uB4DC\uC5D0 \uC2AC\uB77C\uC774\uB354\uB9CC \uB2E8\uB3C5\uC73C\uB85C \uC81C\uACF5\uD558\uC9C0 \uB9C8\uC138\uC694."
+      }
+    ],
+    relatedPatternIds: ["saas-dashboard", "ecommerce-checkout"],
+    propsSpec: [
+      { name: "value", type: "number", defaultValue: "50", description: "\uD604\uC7AC \uC2AC\uB77C\uC774\uB354 \uC218\uCE58" },
+      { name: "min", type: "number", defaultValue: "0", description: "\uCD5C\uC18C\uAC12" },
+      { name: "max", type: "number", defaultValue: "100", description: "\uCD5C\uB300\uAC12" },
+      { name: "step", type: "number", defaultValue: "1", description: "\uB2E8\uACC4\uBCC4 \uC99D\uAC10 \uD3ED" },
+      { name: "onChange", type: "(val: number) => void", defaultValue: "undefined", description: "\uC218\uCE58 \uBCC0\uACBD \uCF5C\uBC31" }
+    ],
+    htmlSnippet: `<div class="atom-slider">
+  <input type="range" class="atom-slider-input" min="0" max="100" value="50" />
+</div>`,
+    reactSnippet: `import { Slider } from '@/components/ui/slider';
+import { useState } from 'react';
+
+export function SliderDemo() {
+  const [val, setVal] = useState(50);
+  return <Slider value={val} onChange={setVal} min={0} max={100} />;
+}`,
+    vueSnippet: `<template>
+  <AtomSlider v-model="volume" :min="0" :max="100" />
+</template>`
+  },
+  {
+    id: "avatar",
+    name: "\uC544\uBC14\uD0C0 (User Avatar & Stack)",
+    category: "data",
+    source: "shadcn + radix-ui",
+    description: "\uC0AC\uC6A9\uC790 \uD504\uB85C\uD544 \uC774\uBBF8\uC9C0, \uC774\uBBF8\uC9C0 \uB85C\uB529 \uC2E4\uD328 \uC2DC \uC774\uB2C8\uC15C \uD3F4\uBC31, \uC811\uC18D \uC0C1\uD0DC \uBC30\uC9C0 \uBC0F \uC911\uCCA9 \uC544\uBC14\uD0C0 \uC2A4\uD0DD \uC9C0\uC6D0",
+    callout: {
+      type: "tip",
+      title: "\uC774\uBBF8\uC9C0 \uC2E4\uD328 \uC2DC \uC989\uAC01\uC801 Fallback",
+      text: "\uD504\uB85C\uD544 \uC774\uBBF8\uC9C0\uAC00 \uAE68\uC9C0\uAC70\uB098 \uC5C6\uC744 \uB54C\uB294 \uC0AC\uC6A9\uC790\uC758 \uC774\uB984 \uC55E \uAE00\uC790(\uC774\uB2C8\uC15C)\uB97C \uBE0C\uB79C\uB4DC \uCEEC\uB7EC \uBC30\uACBD \uC704\uC5D0 \uAE54\uB054\uD558\uAC8C \uB744\uC6CC \uC2DC\uAC01\uC801 \uACB0\uD568\uC744 \uBC29\uC9C0\uD569\uB2C8\uB2E4."
+    },
+    useCases: [
+      "\uAE00\uB85C\uBC8C \uD5E4\uB354 \uC6B0\uCE21 \uC0C1\uB2E8\uC758 \uB0B4 \uD504\uB85C\uD544 \uBA54\uB274 \uC544\uC774\uCF58",
+      "\uB313\uAE00 \uC791\uC131\uC790 \uBC0F \uCC44\uD305 \uB300\uD654 \uC0C1\uB300 \uD504\uB85C\uD544",
+      "\uD504\uB85C\uC81D\uD2B8 \uD611\uC5C5 \uBA64\uBC84 \uBAA9\uB85D \uBC0F \uBC30\uC815\uC790 \uC544\uBC14\uD0C0 \uC2A4\uD0DD (+3\uBA85 \uB4F1)",
+      "\uC628\uB77C\uC778/\uC624\uD504\uB77C\uC778 \uC811\uC18D \uC0C1\uD0DC\uB97C \uB098\uD0C0\uB0B4\uB294 \uC0C1\uD0DC \uC810(Green Dot)"
+    ],
+    usagePatterns: [
+      "\uC6D0\uD615(Circular) \uD615\uD0DC\uB97C \uAE30\uBCF8\uC73C\uB85C \uD558\uB418, \uD300/\uC870\uC9C1\uC774\uB098 \uBE0C\uB79C\uB4DC \uB85C\uACE0\uB294 \uB465\uADFC \uC0AC\uAC01\uD615(Rounded Rect) \uD615\uD0DC\uB97C \uAD8C\uC7A5\uD569\uB2C8\uB2E4.",
+      "\uD611\uC5C5 \uB3C4\uAD6C\uC5D0\uC11C\uB294 \uC5EC\uB7EC \uC544\uBC14\uD0C0\uAC00 \uACB9\uCCD0\uC9C4 \uC544\uBC14\uD0C0 \uC2A4\uD0DD(Overlap Stack)\uC73C\uB85C \uACF5\uAC04\uC744 \uC808\uC57D\uD569\uB2C8\uB2E4."
+    ],
+    dosAndDonts: [
+      {
+        do: "alt \uC18D\uC131\uC5D0 \uC0AC\uC6A9\uC790 \uC774\uB984\uC744 \uBA85\uC2DC\uD558\uC5EC \uC2A4\uD06C\uB9B0\uB9AC\uB354\uAC00 \uB204\uAD6C\uC758 \uD504\uB85C\uD544\uC778\uC9C0 \uC77D\uC744 \uC218 \uC788\uAC8C \uD569\uB2C8\uB2E4.",
+        dont: "\uC774\uBBF8\uC9C0\uAC00 \uB85C\uB4DC\uB418\uB294 \uB3D9\uC548 \uAE68\uC9C4 \uC774\uBBF8\uC9C0 \uC544\uC774\uCF58\uC774 \uD654\uBA74\uC5D0 \uADF8\uB300\uB85C \uB178\uCD9C\uB418\uAC8C \uB450\uC9C0 \uB9C8\uC138\uC694."
+      }
+    ],
+    relatedPatternIds: ["saas-dashboard"],
+    propsSpec: [
+      { name: "src", type: "string", defaultValue: "''", description: "\uD504\uB85C\uD544 \uC774\uBBF8\uC9C0 URL" },
+      { name: "alt", type: "string", defaultValue: "''", description: "\uC0AC\uC6A9\uC790 \uC774\uB984/\uB300\uCCB4 \uD14D\uC2A4\uD2B8" },
+      { name: "fallback", type: "string", defaultValue: "''", description: "\uB300\uCCB4 \uC774\uB2C8\uC15C (\uC608: \uAE40\uBBFC\uC218 -> KM)" },
+      { name: "size", type: "'sm' | 'md' | 'lg' | 'xl'", defaultValue: "'md'", description: "\uC544\uBC14\uD0C0 \uD06C\uAE30" },
+      { name: "status", type: "'online' | 'offline' | 'busy'", defaultValue: "undefined", description: "\uC811\uC18D \uC0C1\uD0DC \uD45C\uC2DC" }
+    ],
+    htmlSnippet: `<div class="atom-avatar atom-avatar-md">
+  <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb" alt="\uC774\uC9C0\uC740" class="atom-avatar-img" />
+  <span class="atom-avatar-status atom-avatar-status-online"></span>
+</div>`,
+    reactSnippet: `import { Avatar } from '@/components/ui/avatar';
+
+export function AvatarDemo() {
+  return (
+    <div className="flex items-center gap-3">
+      <Avatar src="/user.jpg" alt="\uAE40\uD1A0\uC2A4" fallback="KT" size="md" status="online" />
+      <Avatar fallback="JD" size="md" />
+    </div>
+  );
+}`,
+    vueSnippet: `<template>
+  <AtomAvatar src="/user.jpg" alt="\uD64D\uAE38\uB3D9" fallback="HG" status="online" />
+</template>`
+  },
+  {
+    id: "progress",
+    name: "\uC9C4\uD589\uB3C4 (Progress Bar & Step)",
+    category: "feedback",
+    source: "shadcn + bootstrap",
+    description: "\uC791\uC5C5\uC758 \uC644\uB8CC \uC9C4\uD589\uB960(%) \uB610\uB294 \uB2E4\uB2E8\uACC4 \uC704\uC800\uB4DC\uC758 \uD604\uC7AC \uB2E8\uACC4\uB97C \uC2DC\uAC01\uC801\uC73C\uB85C \uC804\uB2EC\uD558\uB294 \uD504\uB85C\uADF8\uB808\uC2A4 \uBC14",
+    callout: {
+      type: "tip",
+      title: "\uC811\uADFC\uC131(A11y) \uC2E4\uC2DC\uAC04 \uAC12 \uC804\uB2EC",
+      text: 'role="progressbar"\uC640 \uD568\uAED8 aria-valuenow, aria-valuemin, aria-valuemax\uB97C \uB3D9\uAE30\uD654\uD558\uC5EC \uC2A4\uD06C\uB9B0\uB9AC\uB354\uC5D0 \uC9C4\uD589\uB960\uC744 \uC804\uB2EC\uD558\uC138\uC694.'
+    },
+    useCases: [
+      "\uB300\uC6A9\uB7C9 \uD30C\uC77C \uC5C5\uB85C\uB4DC/\uB2E4\uC6B4\uB85C\uB4DC \uC804\uC1A1\uB960 \uAC8C\uC774\uC9C0",
+      "\uD68C\uC6D0\uAC00\uC785, \uC2E0\uC6A9\uB300\uCD9C \uC2EC\uC0AC, \uC124\uBB38\uC870\uC0AC \uB4F1 1/4\uB2E8\uACC4 \uC2A4\uD15D \uC9C4\uD589\uB3C4",
+      "\uD06C\uB77C\uC6B0\uB4DC\uD380\uB529 \uBAA8\uAE08 \uBAA9\uD45C \uB2EC\uC131\uB960 (\uC608: 124% \uB2EC\uC131)",
+      "\uC2A4\uD1A0\uB9AC\uC9C0 \uC6A9\uB7C9 \uC0AC\uC6A9\uB7C9 (\uC608: 15GB \uC911 12GB \uC0AC\uC6A9)"
+    ],
+    usagePatterns: [
+      "\uC9C4\uD589\uB960\uC774 100%\uC5D0 \uB3C4\uB2EC\uD558\uBA74 \uC0C9\uC0C1\uC744 \uC131\uACF5(Emerald) \uCEEC\uB7EC\uB85C \uC804\uD658\uD558\uC5EC \uC644\uACB0\uC131\uC744 \uBD80\uC5EC\uD569\uB2C8\uB2E4.",
+      "\uC11C\uBC84 \uC751\uB2F5 \uB300\uAE30 \uC911 \uC9C4\uD589\uB960\uC744 \uC54C \uC218 \uC5C6\uC744 \uB54C\uB294 \uBB34\uD55C \uC655\uBCF5\uD558\uB294 \uC778\uB514\uD130\uBBF8\uB2DB(Indeterminate) \uC560\uB2C8\uBA54\uC774\uC158\uC744 \uC801\uC6A9\uD569\uB2C8\uB2E4."
+    ],
+    dosAndDonts: [
+      {
+        do: '\uBC14 \uC6B0\uCE21\uC774\uB098 \uC0C1\uB2E8\uC5D0 "75%"\uC640 \uAC19\uC774 \uAD6C\uCCB4\uC801\uC778 \uC22B\uC790\uB97C \uD568\uAED8 \uD45C\uAE30\uD569\uB2C8\uB2E4.',
+        dont: "\uC9C4\uD589\uB960\uC774 0%\uC77C \uB54C \uBC14 \uC804\uCCB4\uAC00 \uC0AC\uB77C\uC838 \uC5B4\uB514\uC5D0 \uAC8C\uC774\uC9C0\uAC00 \uC788\uB294\uC9C0 \uBAA8\uB974\uAC8C \uD558\uC9C0 \uB9C8\uC138\uC694."
+      }
+    ],
+    relatedPatternIds: ["fintech-transfer", "ecommerce-checkout"],
+    propsSpec: [
+      { name: "value", type: "number", defaultValue: "0", description: "\uD604\uC7AC \uC9C4\uD589 \uC218\uCE58 (0~100)" },
+      { name: "max", type: "number", defaultValue: "100", description: "\uCD5C\uB300 \uC218\uCE58" },
+      { name: "variant", type: "'primary' | 'success' | 'warning'", defaultValue: "'primary'", description: "\uC9C4\uD589\uB3C4 \uBC14 \uC0C9\uC0C1" },
+      { name: "indeterminate", type: "boolean", defaultValue: "false", description: "\uC218\uCE58 \uBBF8\uC815 \uBB34\uD55C \uC560\uB2C8\uBA54\uC774\uC158 \uBAA8\uB4DC" }
+    ],
+    htmlSnippet: `<div class="atom-progress" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">
+  <div class="atom-progress-bar atom-progress-primary" style="width: 70%"></div>
+</div>`,
+    reactSnippet: `import { Progress } from '@/components/ui/progress';
+
+export function ProgressDemo() {
+  return <Progress value={75} variant="primary" showLabel />;
+}`,
+    vueSnippet: `<template>
+  <AtomProgress :value="uploadPercent" variant="success" />
+</template>`
+  },
+  {
+    id: "skeleton",
+    name: "\uC2A4\uCF08\uB808\uD1A4 \uB85C\uB354 (Skeleton Shimmer)",
+    category: "feedback",
+    source: "shadcn + tailwind",
+    description: "\uCF58\uD150\uCE20 \uB85C\uB529 \uC911 \uD654\uBA74 \uAE5C\uBE61\uC784\uC744 \uBC29\uC9C0\uD558\uACE0 \uB808\uC774\uC544\uC6C3 \uACE8\uACA9\uC744 \uC740\uC740\uD55C \uC2DC\uBA38(Shimmer) \uC560\uB2C8\uBA54\uC774\uC158\uC73C\uB85C \uBBF8\uB9AC \uBCF4\uC5EC\uC8FC\uB294 \uD50C\uB808\uC774\uC2A4\uD640\uB354",
+    callout: {
+      type: "tip",
+      title: "\uCCB4\uAC10 \uB85C\uB529 \uC18D\uB3C4(Perceived Performance)",
+      text: "\uBE59\uAE00\uBE59\uAE00 \uB3C4\uB294 \uC2A4\uD53C\uB108\uBCF4\uB2E4 \uC2E4\uC81C \uB80C\uB354\uB9C1\uB420 \uCE74\uB4DC\uC640 \uD14D\uC2A4\uD2B8 \uBAA8\uC591\uC758 \uC2A4\uCF08\uB808\uD1A4\uC744 \uB178\uCD9C\uD560 \uB54C \uC0AC\uC6A9\uC790\uAC00 \uCCB4\uAC10\uD558\uB294 \uB300\uAE30 \uC2DC\uAC04\uC774 \uCD5C\uB300 40% \uB2E8\uCD95\uB429\uB2C8\uB2E4."
+    },
+    useCases: [
+      "\uD53C\uB4DC \uB9AC\uC2A4\uD2B8, \uB274\uC2A4 \uCE74\uB4DC, \uC0C1\uD488 \uC378\uB124\uC77C \uCD5C\uCD08 \uB85C\uB4DC \uC2DC",
+      "\uC0AC\uC6A9\uC790 \uD504\uB85C\uD544 \uBC0F \uB300\uC2DC\uBCF4\uB4DC \uC704\uC82F API \uD328\uCE58 \uB300\uAE30 \uC911",
+      "\uD14C\uC774\uBE14 \uB370\uC774\uD130 \uD589(Row) \uBE44\uB3D9\uAE30 \uB85C\uB529 \uD50C\uB808\uC774\uC2A4\uD640\uB354",
+      "\uB313\uAE00 \uC601\uC5ED \uB85C\uB529 \uB300\uAE30 \uC0C1\uD0DC"
+    ],
+    usagePatterns: [
+      "\uC2E4\uC81C \uB178\uCD9C\uB420 \uCEF4\uD3EC\uB10C\uD2B8\uC758 \uAC00\uB85C/\uC138\uB85C/\uB77C\uC6B4\uB529 \uBE44\uC728\uACFC \uCD5C\uB300\uD55C 1:1\uB85C \uC77C\uCE58\uC2DC\uCF1C \uB808\uC774\uC544\uC6C3 \uC26C\uD504\uD2B8(CLS)\uB97C \uC81C\uB85C\uD654\uD569\uB2C8\uB2E4."
+    ],
+    dosAndDonts: [
+      {
+        do: "\uD14D\uC2A4\uD2B8 \uB77C\uC778\uC740 3\uC904 \uC911 \uB9C8\uC9C0\uB9C9 \uC904\uC758 \uB108\uBE44\uB97C 60% \uC815\uB3C4\uB85C \uC904\uC5EC \uC2E4\uC81C \uBB38\uB2E8\uCC98\uB7FC \uBCF4\uC774\uAC8C \uD569\uB2C8\uB2E4.",
+        dont: "\uC2A4\uCF08\uB808\uD1A4\uC758 \uC560\uB2C8\uBA54\uC774\uC158\uC744 \uB108\uBB34 \uBE60\uB974\uAC70\uB098 \uBC88\uCA4D\uC774\uAC8C \uB9CC\uB4E4\uC5B4 \uC0AC\uC6A9\uC790 \uB208\uC744 \uD53C\uB85C\uD558\uAC8C \uD558\uC9C0 \uB9C8\uC138\uC694."
+      }
+    ],
+    relatedPatternIds: ["saas-dashboard", "ecommerce-checkout"],
+    propsSpec: [
+      { name: "width", type: "string | number", defaultValue: "'100%'", description: "\uB108\uBE44" },
+      { name: "height", type: "string | number", defaultValue: "'1rem'", description: "\uB192\uC774" },
+      { name: "rounded", type: "'sm' | 'md' | 'lg' | 'full'", defaultValue: "'md'", description: "\uBAA8\uC11C\uB9AC \uACE1\uB960" }
+    ],
+    htmlSnippet: `<div class="atom-skeleton-card">
+  <div class="atom-skeleton atom-skeleton-circle" style="width: 48px; height: 48px"></div>
+  <div class="atom-skeleton atom-skeleton-text" style="width: 80%"></div>
+  <div class="atom-skeleton atom-skeleton-text" style="width: 50%"></div>
+</div>`,
+    reactSnippet: `import { Skeleton } from '@/components/ui/skeleton';
+
+export function SkeletonDemo() {
+  return (
+    <div className="flex items-center gap-3">
+      <Skeleton width="48px" height="48px" rounded="full" />
+      <div className="space-y-2 flex-1">
+        <Skeleton width="70%" height="16px" />
+        <Skeleton width="40%" height="12px" />
+      </div>
+    </div>
+  );
+}`,
+    vueSnippet: `<template>
+  <div class="flex gap-3">
+    <AtomSkeleton width="40px" height="40px" rounded="full" />
+    <AtomSkeleton width="80%" height="20px" />
+  </div>
+</template>`
+  },
+  {
+    id: "breadcrumb",
+    name: "\uBE0C\uB808\uB4DC\uD06C\uB7FC (Breadcrumb Navigation)",
+    category: "navigation",
+    source: "shadcn + bootstrap",
+    description: "\uC6F9\uC0AC\uC774\uD2B8\uC758 \uC815\uBCF4 \uAD6C\uC870(IA)\uC5D0\uC11C \uC0AC\uC6A9\uC790\uC758 \uD604\uC7AC \uC704\uCE58\uB97C \uACC4\uCE35 \uACBD\uB85C\uB85C \uB098\uD0C0\uB0B4\uACE0 \uC0C1\uC704 \uB2E8\uACC4\uB85C \uC989\uC2DC \uC774\uB3D9\uD560 \uC218 \uC788\uB294 \uD0D0\uC0C9 \uACBD\uB85C",
+    callout: {
+      type: "tip",
+      title: "\uC811\uADFC\uC131(A11y)\uACFC SEO \uAD6C\uC870\uD654 \uB370\uC774\uD130",
+      text: '<nav aria-label="Breadcrumb"> \uD0DC\uADF8\uB97C \uC0AC\uC6A9\uD558\uACE0 \uD604\uC7AC \uB9C8\uC9C0\uB9C9 \uD398\uC774\uC9C0\uC5D0\uB294 aria-current="page"\uB97C \uC9C0\uC815\uD558\uC5EC \uAC80\uC0C9\uC5D4\uC9C4\uACFC \uC2A4\uD06C\uB9B0\uB9AC\uB354\uB97C \uBAA8\uB450 \uB9CC\uC871\uC2DC\uD0B5\uB2C8\uB2E4.'
+    },
+    useCases: [
+      "\uC804\uC790\uC0C1\uAC70\uB798 \uC1FC\uD551\uBAB0\uC758 \uCE74\uD14C\uACE0\uB9AC \uACC4\uCE35 (\uD648 > \uC5EC\uC131\uD328\uC158 > \uC544\uC6B0\uD130 > \uCF54\uD2B8)",
+      "\uAC1C\uBC1C\uC790 \uAE30\uC220 \uBB38\uC11C \uACC4\uCE35 (Docs > Components > Form > Calendar)",
+      "\uAD00\uB9AC\uC790 \uB300\uC2DC\uBCF4\uB4DC\uC758 \uD558\uC704 \uD3F4\uB354 \uBC0F \uC138\uBD80 \uC124\uC815 \uD0D0\uC0C9",
+      "\uBD80\uB3D9\uC0B0 \uB9E4\uBB3C \uACC4\uCE35 (\uC11C\uC6B8\uC2DC > \uAC15\uB0A8\uAD6C > \uC5ED\uC0BC\uB3D9)"
+    ],
+    usagePatterns: [
+      "\uAD6C\uBD84\uC790(Separator)\uB85C\uB294 \uC2AC\uB798\uC2DC(/) \uB610\uB294 \uC6B0\uCE21 \uAEBE\uC1E0(Chevron Right >) \uC544\uC774\uCF58\uC744 \uC0AC\uC6A9\uD558\uC5EC \uC2DC\uAC01\uC801 \uD750\uB984\uC744 \uC548\uB0B4\uD569\uB2C8\uB2E4.",
+      "\uBAA8\uBC14\uC77C \uD658\uACBD\uC5D0\uC11C \uACBD\uB85C\uAC00 \uB108\uBB34 \uAE38 \uACBD\uC6B0 \uC911\uAC04 \uB2E8\uACC4\uB97C \uB4DC\uB86D\uB2E4\uC6B4 \uB610\uB294 \uB9D0\uC904\uC784\uD45C(...)\uB85C \uCD95\uC57D\uD569\uB2C8\uB2E4."
+    ],
+    dosAndDonts: [
+      {
+        do: "\uACBD\uB85C\uC758 \uB9C8\uC9C0\uB9C9 \uD56D\uBAA9\uC740 \uD604\uC7AC \uBA38\uBB3C\uACE0 \uC788\uB294 \uD398\uC774\uC9C0\uC774\uBBC0\uB85C \uD074\uB9AD\uD560 \uC218 \uC5C6\uB294 \uC77C\uBC18 \uD14D\uC2A4\uD2B8\uB85C \uCC98\uB9AC\uD569\uB2C8\uB2E4.",
+        dont: "1\uB2E8\uACC4 \uAE4A\uC774\uC758 \uC595\uC740 \uD398\uC774\uC9C0\uC5D0 \uBD88\uD544\uC694\uD558\uAC8C \uBE0C\uB808\uB4DC\uD06C\uB7FC\uC744 \uB0A8\uBC1C\uD558\uC9C0 \uB9C8\uC138\uC694."
+      }
+    ],
+    relatedPatternIds: ["developer-docs", "ecommerce-checkout"],
+    propsSpec: [
+      { name: "items", type: "Array<{ label: string; href?: string }>", defaultValue: "[]", description: "\uACBD\uB85C \uB2E8\uACC4\uBCC4 \uB77C\uBCA8 \uBC0F \uB9C1\uD06C \uBC30\uC5F4" },
+      { name: "separator", type: "string | ReactNode", defaultValue: "'/'", description: "\uD56D\uBAA9 \uAC04 \uAD6C\uBD84\uC790" }
+    ],
+    htmlSnippet: `<nav class="atom-breadcrumb" aria-label="\uBE0C\uB808\uB4DC\uD06C\uB7FC">
+  <ol class="atom-breadcrumb-list">
+    <li class="atom-breadcrumb-item"><a href="/">\uD648</a></li>
+    <li class="atom-breadcrumb-separator">/</li>
+    <li class="atom-breadcrumb-item"><a href="/components">\uCEF4\uD3EC\uB10C\uD2B8</a></li>
+    <li class="atom-breadcrumb-separator">/</li>
+    <li class="atom-breadcrumb-item atom-breadcrumb-current" aria-current="page">\uCE98\uB9B0\uB354</li>
+  </ol>
+</nav>`,
+    reactSnippet: `import { Breadcrumb } from '@/components/ui/breadcrumb';
+
+const PATH = [
+  { label: '\uD648', href: '/' },
+  { label: '\uBB38\uC11C', href: '/guide' },
+  { label: '\uCEF4\uD3EC\uB10C\uD2B8' }
+];
+
+export function BreadcrumbDemo() {
+  return <Breadcrumb items={PATH} />;
+}`,
+    vueSnippet: `<template>
+  <AtomBreadcrumb :items="pathItems" />
+</template>`
+  },
+  {
+    id: "separator",
+    name: "\uB514\uBC14\uC774\uB354 (Separator & Divider)",
+    category: "data",
+    source: "radix-ui + shadcn",
+    description: "\uCF58\uD150\uCE20 \uADF8\uB8F9\uC774\uB098 UI \uC694\uC18C \uAC04\uC758 \uC2DC\uAC01\uC801 \uACBD\uACC4\uB97C \uAE54\uB054\uD558\uAC8C \uB098\uB204\uB294 \uAC00\uB85C/\uC138\uB85C \uC2DC\uBA58\uD2F1 \uAD6C\uBD84\uC120",
+    callout: {
+      type: "tip",
+      title: '\uC2DC\uBA58\uD2F1 \uC5ED\uD560(role="separator")',
+      text: '\uB2E8\uC21C \uC7A5\uC2DD\uC6A9 \uAD6C\uBD84\uC120\uC77C \uB54C\uB294 aria-hidden="true"\uB97C, \uC758\uBBF8 \uC788\uB294 \uAD6C\uD68D \uBD84\uB9AC\uC77C \uB54C\uB294 role="separator" \uBC0F aria-orientation \uC18D\uC131\uC744 \uC9C0\uC815\uD569\uB2C8\uB2E4.'
+    },
+    useCases: [
+      "\uB4DC\uB86D\uB2E4\uC6B4 \uBA54\uB274\uB098 \uB124\uBE44\uAC8C\uC774\uC158 \uB0B4 \uACC4\uC815 \uC124\uC815 / \uB85C\uADF8\uC544\uC6C3 \uC0AC\uC774\uC758 \uACBD\uACC4\uC120",
+      '\uD3FC \uC601\uC5ED\uC5D0\uC11C \uAC04\uD3B8 \uB85C\uADF8\uC778(SNS)\uACFC \uC77C\uBC18 \uC774\uBA54\uC77C \uC785\uB825 \uC0AC\uC774\uC758 "\uB610\uB294(OR)" \uB77C\uBCA8 \uAD6C\uBD84\uC120',
+      "\uD5E4\uB354 \uBA54\uB274 \uD56D\uBAA9\uB4E4 \uC0AC\uC774\uC758 \uC138\uB85C \uBC84\uD2F0\uCEEC \uBC14(|)",
+      "\uCE74\uB4DC \uB0B4 \uD5E4\uB354, \uBCF8\uBB38, \uD478\uD130 \uC561\uC158 \uC601\uC5ED \uBD84\uB9AC"
+    ],
+    usagePatterns: [
+      "\uBBF8\uB2C8\uBA40 \uB514\uC790\uC778\uC5D0\uC11C\uB294 \uB108\uBB34 \uC9D9\uC740 \uAC80\uC740\uC0C9 \uC120 \uB300\uC2E0 \uC11C\uBE0C\uD2C0(Subtle) \uD14C\uB9C8 \uD1A0\uD070\uC744 \uC0AC\uC6A9\uD558\uC5EC \uBD80\uB4DC\uB7FD\uAC8C \uC601\uC5ED\uC744 \uBD84\uB9AC\uD569\uB2C8\uB2E4."
+    ],
+    dosAndDonts: [
+      {
+        do: "\uAC00\uB85C(Horizontal)\uC640 \uC138\uB85C(Vertical) \uBC29\uD5A5\uC5D0 \uB9DE\uB294 \uC801\uC808\uD55C \uB9C8\uC9C4\uACFC \uB192\uC774\uB97C \uBD80\uC5EC\uD569\uB2C8\uB2E4.",
+        dont: "\uAD6C\uBD84\uC120\uC744 \uB108\uBB34 \uAD75\uACE0 \uC5B4\uB461\uAC8C \uB9CC\uB4E4\uC5B4 \uCF58\uD150\uCE20\uBCF4\uB2E4 \uB208\uC5D0 \uB744\uAC8C \uD558\uC9C0 \uB9C8\uC138\uC694."
+      }
+    ],
+    relatedPatternIds: ["saas-dashboard", "developer-docs"],
+    propsSpec: [
+      { name: "orientation", type: "'horizontal' | 'vertical'", defaultValue: "'horizontal'", description: "\uAD6C\uBD84\uC120 \uBC29\uD5A5" },
+      { name: "label", type: "string", defaultValue: "''", description: "\uAD6C\uBD84\uC120 \uC911\uC559\uC5D0 \uB4E4\uC5B4\uAC08 \uC778\uB77C\uC778 \uB77C\uBCA8 (\uC608: OR)" }
+    ],
+    htmlSnippet: `<div class="atom-separator atom-separator-horizontal"></div>
+<div class="atom-separator-with-label">
+  <span>\uB610\uB294</span>
+</div>`,
+    reactSnippet: `import { Separator } from '@/components/ui/separator';
+
+export function SeparatorDemo() {
+  return (
+    <div className="space-y-4">
+      <div>\uC139\uC158 A</div>
+      <Separator label="\uB610\uB294" />
+      <div>\uC139\uC158 B</div>
+    </div>
+  );
+}`,
+    vueSnippet: `<template>
+  <AtomSeparator orientation="horizontal" />
+</template>`
+  },
+  {
+    id: "textarea",
+    name: "\uD14D\uC2A4\uD2B8\uC5D0\uB9AC\uC5B4 (Textarea with Counter)",
+    category: "form",
+    source: "shadcn + bootstrap",
+    description: "\uBB38\uC758 \uB0B4\uC6A9, \uB313\uAE00, \uAE34 \uBCF8\uBB38 \uC791\uC131\uC744 \uC704\uD55C \uB2E4\uC911 \uD589 \uC785\uB825 \uD544\uB4DC \uBC0F \uC2E4\uC2DC\uAC04 \uAE00\uC790\uC218 \uCE74\uC6B4\uD130 \uC9C0\uC6D0",
+    callout: {
+      type: "tip",
+      title: "\uC785\uB825 \uAE38\uC774\uC5D0 \uB9DE\uCD98 \uC790\uB3D9 \uB192\uC774 \uC870\uC808",
+      text: "\uACE0\uC815\uB41C \uB192\uC774\uC5D0\uC11C \uB0B4\uBD80 \uC2A4\uD06C\uB864\uC774 \uC0DD\uACA8 \uAE00\uC774 \uC798\uB824 \uBCF4\uC774\uB294 \uB2F5\uB2F5\uD568\uC744 \uC5C6\uC560\uAE30 \uC704\uD574 \uC791\uC131 \uB0B4\uC6A9\uC5D0 \uB9DE\uCDB0 \uB192\uC774\uAC00 \uBD80\uB4DC\uB7FD\uAC8C \uD655\uC7A5\uB418\uB294 auto-resize\uB97C \uAD8C\uC7A5\uD569\uB2C8\uB2E4."
+    },
+    useCases: [
+      "\uACE0\uAC1D\uC13C\uD130 1:1 \uBB38\uC758\uC0AC\uD56D \uBC0F \uC0C1\uC138 \uD53C\uB4DC\uBC31 \uC791\uC131",
+      "\uBE14\uB85C\uADF8/\uCEE4\uBBA4\uB2C8\uD2F0 \uAC8C\uC2DC\uAE00 \uBC0F \uB313\uAE00 \uC791\uC131\uCC3D",
+      "\uBC30\uC1A1 \uC694\uCCAD\uC0AC\uD56D \uBC0F \uC0C1\uC138 \uC8FC\uC18C \uC785\uB825",
+      "AI \uD504\uB86C\uD504\uD2B8 \uC785\uB825\uCC3D (\uBA40\uD2F0\uB77C\uC778)"
+    ],
+    usagePatterns: [
+      '\uCD5C\uB300 \uAE00\uC790\uC218 \uC81C\uD55C\uC774 \uC788\uB294 \uACBD\uC6B0 \uC6B0\uCE21 \uD558\uB2E8\uC5D0 "34 / 500\uC790"\uC640 \uAC19\uC740 \uCE74\uC6B4\uD130\uB97C \uC81C\uACF5\uD558\uC5EC \uCD08\uACFC \uC785\uB825\uC744 \uBC29\uC9C0\uD569\uB2C8\uB2E4.',
+      '\uB0B4\uC6A9\uC774 \uBE44\uC5B4\uC788\uC744 \uB54C\uB294 "\uC0C1\uC138 \uB0B4\uC6A9\uC744 \uC785\uB825\uD574 \uC8FC\uC138\uC694"\uC640 \uAC19\uC740 \uC548\uB0B4 \uD50C\uB808\uC774\uC2A4\uD640\uB354\uB97C \uC81C\uACF5\uD569\uB2C8\uB2E4.'
+    ],
+    dosAndDonts: [
+      {
+        do: "\uC5D0\uB7EC \uC0C1\uD0DC\uC77C \uB54C\uB294 \uC778\uD48B\uACFC \uB3D9\uC77C\uD558\uAC8C \uBD89\uC740\uC0C9 \uD14C\uB450\uB9AC\uC640 \uD558\uB2E8 \uC5D0\uB7EC \uBA54\uC2DC\uC9C0\uB97C \uB178\uCD9C\uD569\uB2C8\uB2E4.",
+        dont: "\uBAA8\uBC14\uC77C \uD654\uBA74\uC5D0\uC11C \uD14D\uC2A4\uD2B8\uC5D0\uB9AC\uC5B4\uAC00 \uB108\uBB34 \uC791\uC544 \uB450\uC138 \uAE00\uC790\uB9CC \uBCF4\uC774\uACE0 \uC2A4\uD06C\uB864\uB418\uAC8C \uB9CC\uB4E4\uC9C0 \uB9C8\uC138\uC694."
+      }
+    ],
+    relatedPatternIds: ["developer-docs", "saas-dashboard"],
+    propsSpec: [
+      { name: "value", type: "string", defaultValue: "''", description: "\uC785\uB825\uB41C \uD14D\uC2A4\uD2B8" },
+      { name: "maxLength", type: "number", defaultValue: "undefined", description: "\uCD5C\uB300 \uAE00\uC790\uC218" },
+      { name: "rows", type: "number", defaultValue: "4", description: "\uAE30\uBCF8 \uB178\uCD9C \uD589 \uC218" },
+      { name: "placeholder", type: "string", defaultValue: "''", description: "\uC548\uB0B4 \uBB38\uAD6C" },
+      { name: "onChange", type: "(val: string) => void", defaultValue: "undefined", description: "\uC785\uB825\uAC12 \uBCC0\uACBD \uD578\uB4E4\uB7EC" }
+    ],
+    htmlSnippet: `<div class="atom-textarea-group">
+  <textarea class="atom-textarea" rows="4" placeholder="\uB0B4\uC6A9\uC744 \uC785\uB825\uD558\uC138\uC694"></textarea>
+  <div class="atom-textarea-counter">0 / 500\uC790</div>
+</div>`,
+    reactSnippet: `import { Textarea } from '@/components/ui/textarea';
+import { useState } from 'react';
+
+export function TextareaDemo() {
+  const [text, setText] = useState('');
+  return <Textarea value={text} onChange={setText} maxLength={500} placeholder="\uD53C\uB4DC\uBC31\uC744 \uB0A8\uACA8\uC8FC\uC138\uC694." />;
+}`,
+    vueSnippet: `<template>
+  <AtomTextarea v-model="comment" :max-length="300" />
+</template>`
   }
 ];
 

@@ -741,6 +741,298 @@ export const Pagination: React.FC<PaginationProps> = ({
 `;
   fs.writeFileSync(path.join(uiDir, 'Pagination.tsx'), paginationCode, 'utf-8');
 
+  // Radio Group
+  const radioCode = `import React from 'react';
+
+export interface RadioOption {
+  value: string;
+  label: string;
+  description?: string;
+}
+
+export interface RadioGroupProps {
+  name?: string;
+  value?: string;
+  options: RadioOption[];
+  onChange?: (val: string) => void;
+  className?: string;
+}
+
+export const RadioGroup: React.FC<RadioGroupProps> = ({
+  name = 'atom-radio-group',
+  value,
+  options,
+  onChange,
+  className = '',
+}) => {
+  return (
+    <div className={\`atom-radio-group \${className}\`} role="radiogroup">
+      {options.map((opt) => (
+        <label key={opt.value} className="atom-radio-label">
+          <input
+            type="radio"
+            name={name}
+            value={opt.value}
+            checked={value === opt.value}
+            onChange={() => onChange?.(opt.value)}
+            className="atom-radio"
+          />
+          <div className="flex flex-col">
+            <span className="font-semibold">{opt.label}</span>
+            {opt.description && <span className="text-xs text-neutral-500">{opt.description}</span>}
+          </div>
+        </label>
+      ))}
+    </div>
+  );
+};
+`;
+  fs.writeFileSync(path.join(uiDir, 'Radio.tsx'), radioCode, 'utf-8');
+
+  // Slider
+  const sliderCode = `import React from 'react';
+
+export interface SliderProps {
+  value: number;
+  min?: number;
+  max?: number;
+  step?: number;
+  onChange?: (val: number) => void;
+  className?: string;
+}
+
+export const Slider: React.FC<SliderProps> = ({
+  value,
+  min = 0,
+  max = 100,
+  step = 1,
+  onChange,
+  className = '',
+}) => {
+  return (
+    <div className={\`atom-slider \${className}\`}>
+      <input
+        type="range"
+        min={min}
+        max={max}
+        step={step}
+        value={value}
+        onChange={(e) => onChange?.(Number(e.target.value))}
+        className="atom-slider-input"
+      />
+    </div>
+  );
+};
+`;
+  fs.writeFileSync(path.join(uiDir, 'Slider.tsx'), sliderCode, 'utf-8');
+
+  // Avatar
+  const avatarCode = `import React, { useState } from 'react';
+
+export interface AvatarProps {
+  src?: string;
+  alt?: string;
+  fallback?: string;
+  size?: 'sm' | 'md' | 'lg';
+  status?: 'online' | 'offline' | 'busy';
+  className?: string;
+}
+
+export const Avatar: React.FC<AvatarProps> = ({
+  src,
+  alt = 'Avatar',
+  fallback,
+  size = 'md',
+  status,
+  className = '',
+}) => {
+  const [hasError, setHasError] = useState(!src);
+
+  return (
+    <div className={\`atom-avatar atom-avatar-\${size} \${className}\`}>
+      {src && !hasError ? (
+        <img src={src} alt={alt} onError={() => setHasError(true)} className="atom-avatar-img" />
+      ) : (
+        <span className="atom-avatar-fallback">{fallback || alt.slice(0, 2).toUpperCase()}</span>
+      )}
+      {status && <span className={\`atom-avatar-status atom-avatar-status-\${status}\`} />}
+    </div>
+  );
+};
+`;
+  fs.writeFileSync(path.join(uiDir, 'Avatar.tsx'), avatarCode, 'utf-8');
+
+  // Progress
+  const progressCode = `import React from 'react';
+
+export interface ProgressProps {
+  value: number;
+  max?: number;
+  variant?: 'primary' | 'success';
+  className?: string;
+}
+
+export const Progress: React.FC<ProgressProps> = ({
+  value,
+  max = 100,
+  variant = 'primary',
+  className = '',
+}) => {
+  const percent = Math.min(100, Math.max(0, (value / max) * 100));
+
+  return (
+    <div
+      className={\`atom-progress \${className}\`}
+      role="progressbar"
+      aria-valuenow={value}
+      aria-valuemin={0}
+      aria-valuemax={max}
+    >
+      <div
+        className={\`atom-progress-bar atom-progress-\${variant}\`}
+        style={{ width: \`\${percent}%\` }}
+      />
+    </div>
+  );
+};
+`;
+  fs.writeFileSync(path.join(uiDir, 'Progress.tsx'), progressCode, 'utf-8');
+
+  // Skeleton
+  const skeletonCode = `import React from 'react';
+
+export interface SkeletonProps {
+  width?: string | number;
+  height?: string | number;
+  circle?: boolean;
+  className?: string;
+}
+
+export const Skeleton: React.FC<SkeletonProps> = ({
+  width = '100%',
+  height = '1rem',
+  circle = false,
+  className = '',
+}) => {
+  return (
+    <div
+      className={\`atom-skeleton \${circle ? '!rounded-full' : ''} \${className}\`}
+      style={{
+        width: typeof width === 'number' ? \`\${width}px\` : width,
+        height: typeof height === 'number' ? \`\${height}px\` : height,
+      }}
+    />
+  );
+};
+`;
+  fs.writeFileSync(path.join(uiDir, 'Skeleton.tsx'), skeletonCode, 'utf-8');
+
+  // Breadcrumb
+  const breadcrumbCode = `import React from 'react';
+
+export interface BreadcrumbItem {
+  label: string;
+  href?: string;
+}
+
+export interface BreadcrumbProps {
+  items: BreadcrumbItem[];
+  separator?: string;
+  className?: string;
+}
+
+export const Breadcrumb: React.FC<BreadcrumbProps> = ({
+  items,
+  separator = '/',
+  className = '',
+}) => {
+  return (
+    <nav className={\`atom-breadcrumb \${className}\`} aria-label="Breadcrumb">
+      <ol className="atom-breadcrumb-list">
+        {items.map((item, idx) => {
+          const isLast = idx === items.length - 1;
+          return (
+            <React.Fragment key={idx}>
+              <li className={\`atom-breadcrumb-item \${isLast ? 'atom-breadcrumb-current' : ''}\`}>
+                {isLast || !item.href ? (
+                  <span aria-current={isLast ? 'page' : undefined}>{item.label}</span>
+                ) : (
+                  <a href={item.href}>{item.label}</a>
+                )}
+              </li>
+              {!isLast && <li className="atom-breadcrumb-separator">{separator}</li>}
+            </React.Fragment>
+          );
+        })}
+      </ol>
+    </nav>
+  );
+};
+`;
+  fs.writeFileSync(path.join(uiDir, 'Breadcrumb.tsx'), breadcrumbCode, 'utf-8');
+
+  // Separator
+  const separatorCode = `import React from 'react';
+
+export interface SeparatorProps {
+  orientation?: 'horizontal' | 'vertical';
+  label?: string;
+  className?: string;
+}
+
+export const Separator: React.FC<SeparatorProps> = ({
+  orientation = 'horizontal',
+  label,
+  className = '',
+}) => {
+  if (label && orientation === 'horizontal') {
+    return (
+      <div className={\`atom-separator-with-label \${className}\`}>
+        <span>{label}</span>
+      </div>
+    );
+  }
+
+  return (
+    <div
+      role="separator"
+      aria-orientation={orientation}
+      className={\`atom-separator atom-separator-\${orientation} \${className}\`}
+    />
+  );
+};
+`;
+  fs.writeFileSync(path.join(uiDir, 'Separator.tsx'), separatorCode, 'utf-8');
+
+  // Textarea
+  const textareaCode = `import React from 'react';
+
+export interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+  maxLength?: number;
+  label?: string;
+}
+
+export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
+  ({ maxLength, label, value, className = '', ...props }, ref) => {
+    const currentLength = typeof value === 'string' ? value.length : 0;
+
+    return (
+      <div className="atom-textarea-group">
+        {label && <label className="text-xs font-semibold text-neutral-600 dark:text-neutral-400">{label}</label>}
+        <textarea ref={ref} value={value} maxLength={maxLength} className={\`atom-textarea \${className}\`} {...props} />
+        {maxLength && (
+          <div className="atom-textarea-counter">
+            {currentLength} / {maxLength}자
+          </div>
+        )}
+      </div>
+    );
+  }
+);
+Textarea.displayName = 'Textarea';
+`;
+  fs.writeFileSync(path.join(uiDir, 'Textarea.tsx'), textareaCode, 'utf-8');
+
   // UI Components Index
   const indexCode = `export * from './Button';
 export * from './Input';
@@ -752,6 +1044,14 @@ export * from './Select';
 export * from './Accordion';
 export * from './Tooltip';
 export * from './Pagination';
+export * from './Radio';
+export * from './Slider';
+export * from './Avatar';
+export * from './Progress';
+export * from './Skeleton';
+export * from './Breadcrumb';
+export * from './Separator';
+export * from './Textarea';
 `;
   fs.writeFileSync(path.join(uiDir, 'index.ts'), indexCode, 'utf-8');
   console.log('✅ Generated components/ui ready-to-use React components');

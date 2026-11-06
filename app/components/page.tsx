@@ -385,6 +385,105 @@ export default function ComponentsGalleryPage() {
           </div>
         );
 
+      case 'radio':
+        return (
+          <div className="flex flex-col gap-2 w-full max-w-xs">
+            <label className="flex items-center gap-2 cursor-pointer text-xs font-semibold text-neutral-700 dark:text-neutral-300">
+              <input type="radio" name="preview-radio" defaultChecked className="atom-radio" />
+              <span>신용/체크카드</span>
+            </label>
+            <label className="flex items-center gap-2 cursor-pointer text-xs font-semibold text-neutral-700 dark:text-neutral-300">
+              <input type="radio" name="preview-radio" className="atom-radio" />
+              <span>토스페이 간편결제</span>
+            </label>
+          </div>
+        );
+
+      case 'slider':
+        return (
+          <div className="w-full max-w-xs flex flex-col gap-2">
+            <div className="flex justify-between text-[11px] font-bold text-neutral-500">
+              <span>수치 조절</span>
+              <span className="text-blue-600 font-bold">65%</span>
+            </div>
+            <input type="range" defaultValue={65} className="atom-slider-input w-full" />
+          </div>
+        );
+
+      case 'avatar':
+        return (
+          <div className="flex items-center gap-3">
+            <div className="atom-avatar atom-avatar-md bg-blue-100 dark:bg-blue-950 text-blue-600 dark:text-blue-300 font-bold text-xs">
+              KT
+              <span className="atom-avatar-status atom-avatar-status-online" />
+            </div>
+            <div className="atom-avatar atom-avatar-md bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-300 font-bold text-xs">
+              MJ
+            </div>
+            <div className="atom-avatar atom-avatar-sm bg-purple-100 dark:bg-purple-950 text-purple-600 dark:text-purple-300 font-bold text-[10px]">
+              +3
+            </div>
+          </div>
+        );
+
+      case 'progress':
+        return (
+          <div className="w-full max-w-xs flex flex-col gap-1.5">
+            <div className="flex justify-between text-[10px] font-bold">
+              <span className="text-neutral-500">진행률</span>
+              <span className="text-blue-600 font-bold">75%</span>
+            </div>
+            <div className="atom-progress">
+              <div className="atom-progress-bar atom-progress-primary" style={{ width: '75%' }} />
+            </div>
+          </div>
+        );
+
+      case 'skeleton':
+        return (
+          <div className="w-full max-w-xs flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full atom-skeleton shrink-0" />
+            <div className="flex-1 flex flex-col gap-1.5">
+              <div className="w-4/5 h-3 atom-skeleton rounded" />
+              <div className="w-1/2 h-2.5 atom-skeleton rounded" />
+            </div>
+          </div>
+        );
+
+      case 'breadcrumb':
+        return (
+          <nav className="atom-breadcrumb text-xs">
+            <ol className="atom-breadcrumb-list">
+              <li className="atom-breadcrumb-item"><span className="text-neutral-400">홈</span></li>
+              <li className="atom-breadcrumb-separator">/</li>
+              <li className="atom-breadcrumb-item"><span className="text-neutral-400">가이드</span></li>
+              <li className="atom-breadcrumb-separator">/</li>
+              <li className="atom-breadcrumb-current font-bold text-blue-600">컴포넌트</li>
+            </ol>
+          </nav>
+        );
+
+      case 'separator':
+        return (
+          <div className="w-full max-w-xs">
+            <div className="atom-separator-with-label text-xs">
+              <span className="text-[10px] uppercase font-bold text-neutral-400">OR</span>
+            </div>
+          </div>
+        );
+
+      case 'textarea':
+        return (
+          <div className="w-full max-w-xs">
+            <textarea
+              rows={2}
+              placeholder="상세 내용을 입력해 주세요"
+              className="atom-textarea !py-1.5 !px-2.5 !text-xs !resize-none"
+              readOnly
+            />
+          </div>
+        );
+
       default:
         return null;
     }

@@ -969,5 +969,426 @@ export function PaginationDemo() {
     vueSnippet: `<template>
   <AtomPagination :current-page="page" :total-pages="10" @change="p => page = p" />
 </template>`
+  },
+  {
+    id: 'radio',
+    name: '라디오 그룹 (Radio Group & Cards)',
+    category: 'form',
+    source: 'shadcn + radix-ui',
+    description: '서로 배타적인 단일 선택을 제공하며, 기본 원형 라디오 및 카드형 선택 옵션을 지원하는 라디오 그룹',
+    callout: {
+      type: 'tip',
+      title: '키보드 내비게이션 접근성',
+      text: 'role="radiogroup"과 role="radio"를 적용하고 방향키(상/하/좌/우)로 옵션 간 포커스를 즉시 전환할 수 있어야 합니다.'
+    },
+    useCases: [
+      '결제 수단 선택 (신용카드, 카카오페이, 토스페이, 무통장입금)',
+      '배송 옵션 선택 (일반 택배, 새벽 배송, 매장 픽업)',
+      '성별 및 회원 등급 선택 폼',
+      '요금제 플랜 선택 카드 (Basic, Pro, Enterprise)'
+    ],
+    usagePatterns: [
+      '옵션이 2~4개 사이일 때 드롭다운 대신 라디오를 사용하여 모든 선택지를 한눈에 비교할 수 있게 합니다.',
+      '중요한 과금 플랜이나 결제 수단은 단순 텍스트 라디오 대신 타이틀, 설명, 뱃지가 포함된 "라디오 카드" 형태를 권장합니다.'
+    ],
+    dosAndDonts: [
+      {
+        do: '사용자가 옵션의 의미를 파악하기 쉽도록 기본값(Default Value)을 하나 지정해 둡니다.',
+        dont: '다중 선택이 가능한 항목에 체크박스 대신 라디오 버튼을 쓰지 마세요.'
+      }
+    ],
+    relatedPatternIds: ['ecommerce-checkout', 'fintech-transfer'],
+    propsSpec: [
+      { name: 'name', type: 'string', defaultValue: "''", description: '라디오 폼 필드 그룹명' },
+      { name: 'options', type: 'Array<{ value: string; label: string; description?: string }>', defaultValue: '[]', description: '라디오 선택 옵션 목록' },
+      { name: 'value', type: 'string', defaultValue: "''", description: '현재 선택된 값' },
+      { name: 'onChange', type: '(val: string) => void', defaultValue: 'undefined', description: '선택 변경 핸들러' }
+    ],
+    htmlSnippet: `<div class="atom-radio-group" role="radiogroup">
+  <label class="atom-radio-label">
+    <input type="radio" name="payment" value="card" class="atom-radio" checked />
+    <span>신용/체크카드</span>
+  </label>
+  <label class="atom-radio-label">
+    <input type="radio" name="payment" value="toss" class="atom-radio" />
+    <span>토스페이</span>
+  </label>
+</div>`,
+    reactSnippet: `import { RadioGroup, RadioItem } from '@/components/ui/radio';
+import { useState } from 'react';
+
+export function RadioDemo() {
+  const [pay, setPay] = useState('card');
+  return (
+    <RadioGroup value={pay} onChange={setPay}>
+      <RadioItem value="card" label="신용/체크카드" />
+      <RadioItem value="toss" label="토스페이 간편결제" />
+    </RadioGroup>
+  );
+}`,
+    vueSnippet: `<template>
+  <AtomRadioGroup v-model="selectedPay" :options="payOptions" />
+</template>`
+  },
+  {
+    id: 'slider',
+    name: '슬라이더 (Range Slider)',
+    category: 'form',
+    source: 'radix-ui + shadcn',
+    description: '연속적인 수치(가격, 볼륨, 기간 등)를 마우스 드래그나 터치로 직관적으로 조절할 수 있는 슬라이더 바',
+    callout: {
+      type: 'tip',
+      title: '키보드 스텝 조절(A11y)',
+      text: 'Thumb 핸들에 포커스된 상태에서 좌/우 방향키로 step 단위, PageUp/PageDown으로 10배 단위로 증감할 수 있도록 지원합니다.'
+    },
+    useCases: [
+      '쇼핑몰 상품 가격 필터 (예: 10,000원 ~ 150,000원)',
+      '대출 금액 및 상환 기간 설정 시뮬레이터',
+      '미디어 플레이어 음량 및 재생 위치 조절',
+      '화면 밝기, 폰트 크기 등 사용자 개인화 설정'
+    ],
+    usagePatterns: [
+      '슬라이더 조절 중 현재 선택된 수치를 Thumb 상단 툴팁이나 인접 인풋 필드에 실시간으로 표시합니다.',
+      '최소값(min), 최대값(max), 현재값(value)을 트랙 양 끝에 라벨로 배치하여 직관성을 높입니다.'
+    ],
+    dosAndDonts: [
+      {
+        do: '원하는 값에 딱 맞춰 떨어지도록 적절한 step(예: 1,000원 단위, 5% 단위)을 설정합니다.',
+        dont: '정밀한 숫자를 직접 입력해야 하는 필드에 슬라이더만 단독으로 제공하지 마세요.'
+      }
+    ],
+    relatedPatternIds: ['saas-dashboard', 'ecommerce-checkout'],
+    propsSpec: [
+      { name: 'value', type: 'number', defaultValue: '50', description: '현재 슬라이더 수치' },
+      { name: 'min', type: 'number', defaultValue: '0', description: '최소값' },
+      { name: 'max', type: 'number', defaultValue: '100', description: '최대값' },
+      { name: 'step', type: 'number', defaultValue: '1', description: '단계별 증감 폭' },
+      { name: 'onChange', type: '(val: number) => void', defaultValue: 'undefined', description: '수치 변경 콜백' }
+    ],
+    htmlSnippet: `<div class="atom-slider">
+  <input type="range" class="atom-slider-input" min="0" max="100" value="50" />
+</div>`,
+    reactSnippet: `import { Slider } from '@/components/ui/slider';
+import { useState } from 'react';
+
+export function SliderDemo() {
+  const [val, setVal] = useState(50);
+  return <Slider value={val} onChange={setVal} min={0} max={100} />;
+}`,
+    vueSnippet: `<template>
+  <AtomSlider v-model="volume" :min="0" :max="100" />
+</template>`
+  },
+  {
+    id: 'avatar',
+    name: '아바타 (User Avatar & Stack)',
+    category: 'data',
+    source: 'shadcn + radix-ui',
+    description: '사용자 프로필 이미지, 이미지 로딩 실패 시 이니셜 폴백, 접속 상태 배지 및 중첩 아바타 스택 지원',
+    callout: {
+      type: 'tip',
+      title: '이미지 실패 시 즉각적 Fallback',
+      text: '프로필 이미지가 깨지거나 없을 때는 사용자의 이름 앞 글자(이니셜)를 브랜드 컬러 배경 위에 깔끔하게 띄워 시각적 결함을 방지합니다.'
+    },
+    useCases: [
+      '글로벌 헤더 우측 상단의 내 프로필 메뉴 아이콘',
+      '댓글 작성자 및 채팅 대화 상대 프로필',
+      '프로젝트 협업 멤버 목록 및 배정자 아바타 스택 (+3명 등)',
+      '온라인/오프라인 접속 상태를 나타내는 상태 점(Green Dot)'
+    ],
+    usagePatterns: [
+      '원형(Circular) 형태를 기본으로 하되, 팀/조직이나 브랜드 로고는 둥근 사각형(Rounded Rect) 형태를 권장합니다.',
+      '협업 도구에서는 여러 아바타가 겹쳐진 아바타 스택(Overlap Stack)으로 공간을 절약합니다.'
+    ],
+    dosAndDonts: [
+      {
+        do: 'alt 속성에 사용자 이름을 명시하여 스크린리더가 누구의 프로필인지 읽을 수 있게 합니다.',
+        dont: '이미지가 로드되는 동안 깨진 이미지 아이콘이 화면에 그대로 노출되게 두지 마세요.'
+      }
+    ],
+    relatedPatternIds: ['saas-dashboard'],
+    propsSpec: [
+      { name: 'src', type: 'string', defaultValue: "''", description: '프로필 이미지 URL' },
+      { name: 'alt', type: 'string', defaultValue: "''", description: '사용자 이름/대체 텍스트' },
+      { name: 'fallback', type: 'string', defaultValue: "''", description: '대체 이니셜 (예: 김민수 -> KM)' },
+      { name: 'size', type: "'sm' | 'md' | 'lg' | 'xl'", defaultValue: "'md'", description: '아바타 크기' },
+      { name: 'status', type: "'online' | 'offline' | 'busy'", defaultValue: 'undefined', description: '접속 상태 표시' }
+    ],
+    htmlSnippet: `<div class="atom-avatar atom-avatar-md">
+  <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb" alt="이지은" class="atom-avatar-img" />
+  <span class="atom-avatar-status atom-avatar-status-online"></span>
+</div>`,
+    reactSnippet: `import { Avatar } from '@/components/ui/avatar';
+
+export function AvatarDemo() {
+  return (
+    <div className="flex items-center gap-3">
+      <Avatar src="/user.jpg" alt="김토스" fallback="KT" size="md" status="online" />
+      <Avatar fallback="JD" size="md" />
+    </div>
+  );
+}`,
+    vueSnippet: `<template>
+  <AtomAvatar src="/user.jpg" alt="홍길동" fallback="HG" status="online" />
+</template>`
+  },
+  {
+    id: 'progress',
+    name: '진행도 (Progress Bar & Step)',
+    category: 'feedback',
+    source: 'shadcn + bootstrap',
+    description: '작업의 완료 진행률(%) 또는 다단계 위저드의 현재 단계를 시각적으로 전달하는 프로그레스 바',
+    callout: {
+      type: 'tip',
+      title: '접근성(A11y) 실시간 값 전달',
+      text: 'role="progressbar"와 함께 aria-valuenow, aria-valuemin, aria-valuemax를 동기화하여 스크린리더에 진행률을 전달하세요.'
+    },
+    useCases: [
+      '대용량 파일 업로드/다운로드 전송률 게이지',
+      '회원가입, 신용대출 심사, 설문조사 등 1/4단계 스텝 진행도',
+      '크라우드펀딩 모금 목표 달성률 (예: 124% 달성)',
+      '스토리지 용량 사용량 (예: 15GB 중 12GB 사용)'
+    ],
+    usagePatterns: [
+      '진행률이 100%에 도달하면 색상을 성공(Emerald) 컬러로 전환하여 완결성을 부여합니다.',
+      '서버 응답 대기 중 진행률을 알 수 없을 때는 무한 왕복하는 인디터미닛(Indeterminate) 애니메이션을 적용합니다.'
+    ],
+    dosAndDonts: [
+      {
+        do: '바 우측이나 상단에 "75%"와 같이 구체적인 숫자를 함께 표기합니다.',
+        dont: '진행률이 0%일 때 바 전체가 사라져 어디에 게이지가 있는지 모르게 하지 마세요.'
+      }
+    ],
+    relatedPatternIds: ['fintech-transfer', 'ecommerce-checkout'],
+    propsSpec: [
+      { name: 'value', type: 'number', defaultValue: '0', description: '현재 진행 수치 (0~100)' },
+      { name: 'max', type: 'number', defaultValue: '100', description: '최대 수치' },
+      { name: 'variant', type: "'primary' | 'success' | 'warning'", defaultValue: "'primary'", description: '진행도 바 색상' },
+      { name: 'indeterminate', type: 'boolean', defaultValue: 'false', description: '수치 미정 무한 애니메이션 모드' }
+    ],
+    htmlSnippet: `<div class="atom-progress" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">
+  <div class="atom-progress-bar atom-progress-primary" style="width: 70%"></div>
+</div>`,
+    reactSnippet: `import { Progress } from '@/components/ui/progress';
+
+export function ProgressDemo() {
+  return <Progress value={75} variant="primary" showLabel />;
+}`,
+    vueSnippet: `<template>
+  <AtomProgress :value="uploadPercent" variant="success" />
+</template>`
+  },
+  {
+    id: 'skeleton',
+    name: '스켈레톤 로더 (Skeleton Shimmer)',
+    category: 'feedback',
+    source: 'shadcn + tailwind',
+    description: '콘텐츠 로딩 중 화면 깜빡임을 방지하고 레이아웃 골격을 은은한 시머(Shimmer) 애니메이션으로 미리 보여주는 플레이스홀더',
+    callout: {
+      type: 'tip',
+      title: '체감 로딩 속도(Perceived Performance)',
+      text: '빙글빙글 도는 스피너보다 실제 렌더링될 카드와 텍스트 모양의 스켈레톤을 노출할 때 사용자가 체감하는 대기 시간이 최대 40% 단축됩니다.'
+    },
+    useCases: [
+      '피드 리스트, 뉴스 카드, 상품 썸네일 최초 로드 시',
+      '사용자 프로필 및 대시보드 위젯 API 패치 대기 중',
+      '테이블 데이터 행(Row) 비동기 로딩 플레이스홀더',
+      '댓글 영역 로딩 대기 상태'
+    ],
+    usagePatterns: [
+      '실제 노출될 컴포넌트의 가로/세로/라운딩 비율과 최대한 1:1로 일치시켜 레이아웃 쉬프트(CLS)를 제로화합니다.'
+    ],
+    dosAndDonts: [
+      {
+        do: '텍스트 라인은 3줄 중 마지막 줄의 너비를 60% 정도로 줄여 실제 문단처럼 보이게 합니다.',
+        dont: '스켈레톤의 애니메이션을 너무 빠르거나 번쩍이게 만들어 사용자 눈을 피로하게 하지 마세요.'
+      }
+    ],
+    relatedPatternIds: ['saas-dashboard', 'ecommerce-checkout'],
+    propsSpec: [
+      { name: 'width', type: 'string | number', defaultValue: "'100%'", description: '너비' },
+      { name: 'height', type: 'string | number', defaultValue: "'1rem'", description: '높이' },
+      { name: 'rounded', type: "'sm' | 'md' | 'lg' | 'full'", defaultValue: "'md'", description: '모서리 곡률' }
+    ],
+    htmlSnippet: `<div class="atom-skeleton-card">
+  <div class="atom-skeleton atom-skeleton-circle" style="width: 48px; height: 48px"></div>
+  <div class="atom-skeleton atom-skeleton-text" style="width: 80%"></div>
+  <div class="atom-skeleton atom-skeleton-text" style="width: 50%"></div>
+</div>`,
+    reactSnippet: `import { Skeleton } from '@/components/ui/skeleton';
+
+export function SkeletonDemo() {
+  return (
+    <div className="flex items-center gap-3">
+      <Skeleton width="48px" height="48px" rounded="full" />
+      <div className="space-y-2 flex-1">
+        <Skeleton width="70%" height="16px" />
+        <Skeleton width="40%" height="12px" />
+      </div>
+    </div>
+  );
+}`,
+    vueSnippet: `<template>
+  <div class="flex gap-3">
+    <AtomSkeleton width="40px" height="40px" rounded="full" />
+    <AtomSkeleton width="80%" height="20px" />
+  </div>
+</template>`
+  },
+  {
+    id: 'breadcrumb',
+    name: '브레드크럼 (Breadcrumb Navigation)',
+    category: 'navigation',
+    source: 'shadcn + bootstrap',
+    description: '웹사이트의 정보 구조(IA)에서 사용자의 현재 위치를 계층 경로로 나타내고 상위 단계로 즉시 이동할 수 있는 탐색 경로',
+    callout: {
+      type: 'tip',
+      title: '접근성(A11y)과 SEO 구조화 데이터',
+      text: '<nav aria-label="Breadcrumb"> 태그를 사용하고 현재 마지막 페이지에는 aria-current="page"를 지정하여 검색엔진과 스크린리더를 모두 만족시킵니다.'
+    },
+    useCases: [
+      '전자상거래 쇼핑몰의 카테고리 계층 (홈 > 여성패션 > 아우터 > 코트)',
+      '개발자 기술 문서 계층 (Docs > Components > Form > Calendar)',
+      '관리자 대시보드의 하위 폴더 및 세부 설정 탐색',
+      '부동산 매물 계층 (서울시 > 강남구 > 역삼동)'
+    ],
+    usagePatterns: [
+      '구분자(Separator)로는 슬래시(/) 또는 우측 꺾쇠(Chevron Right >) 아이콘을 사용하여 시각적 흐름을 안내합니다.',
+      '모바일 환경에서 경로가 너무 길 경우 중간 단계를 드롭다운 또는 말줄임표(...)로 축약합니다.'
+    ],
+    dosAndDonts: [
+      {
+        do: '경로의 마지막 항목은 현재 머물고 있는 페이지이므로 클릭할 수 없는 일반 텍스트로 처리합니다.',
+        dont: '1단계 깊이의 얕은 페이지에 불필요하게 브레드크럼을 남발하지 마세요.'
+      }
+    ],
+    relatedPatternIds: ['developer-docs', 'ecommerce-checkout'],
+    propsSpec: [
+      { name: 'items', type: 'Array<{ label: string; href?: string }>', defaultValue: '[]', description: '경로 단계별 라벨 및 링크 배열' },
+      { name: 'separator', type: 'string | ReactNode', defaultValue: "'/'", description: '항목 간 구분자' }
+    ],
+    htmlSnippet: `<nav class="atom-breadcrumb" aria-label="브레드크럼">
+  <ol class="atom-breadcrumb-list">
+    <li class="atom-breadcrumb-item"><a href="/">홈</a></li>
+    <li class="atom-breadcrumb-separator">/</li>
+    <li class="atom-breadcrumb-item"><a href="/components">컴포넌트</a></li>
+    <li class="atom-breadcrumb-separator">/</li>
+    <li class="atom-breadcrumb-item atom-breadcrumb-current" aria-current="page">캘린더</li>
+  </ol>
+</nav>`,
+    reactSnippet: `import { Breadcrumb } from '@/components/ui/breadcrumb';
+
+const PATH = [
+  { label: '홈', href: '/' },
+  { label: '문서', href: '/guide' },
+  { label: '컴포넌트' }
+];
+
+export function BreadcrumbDemo() {
+  return <Breadcrumb items={PATH} />;
+}`,
+    vueSnippet: `<template>
+  <AtomBreadcrumb :items="pathItems" />
+</template>`
+  },
+  {
+    id: 'separator',
+    name: '디바이더 (Separator & Divider)',
+    category: 'data',
+    source: 'radix-ui + shadcn',
+    description: '콘텐츠 그룹이나 UI 요소 간의 시각적 경계를 깔끔하게 나누는 가로/세로 시멘틱 구분선',
+    callout: {
+      type: 'tip',
+      title: '시멘틱 역할(role="separator")',
+      text: '단순 장식용 구분선일 때는 aria-hidden="true"를, 의미 있는 구획 분리일 때는 role="separator" 및 aria-orientation 속성을 지정합니다.'
+    },
+    useCases: [
+      '드롭다운 메뉴나 네비게이션 내 계정 설정 / 로그아웃 사이의 경계선',
+      '폼 영역에서 간편 로그인(SNS)과 일반 이메일 입력 사이의 "또는(OR)" 라벨 구분선',
+      '헤더 메뉴 항목들 사이의 세로 버티컬 바(|)',
+      '카드 내 헤더, 본문, 푸터 액션 영역 분리'
+    ],
+    usagePatterns: [
+      '미니멀 디자인에서는 너무 짙은 검은색 선 대신 서브틀(Subtle) 테마 토큰을 사용하여 부드럽게 영역을 분리합니다.'
+    ],
+    dosAndDonts: [
+      {
+        do: '가로(Horizontal)와 세로(Vertical) 방향에 맞는 적절한 마진과 높이를 부여합니다.',
+        dont: '구분선을 너무 굵고 어둡게 만들어 콘텐츠보다 눈에 띄게 하지 마세요.'
+      }
+    ],
+    relatedPatternIds: ['saas-dashboard', 'developer-docs'],
+    propsSpec: [
+      { name: 'orientation', type: "'horizontal' | 'vertical'", defaultValue: "'horizontal'", description: '구분선 방향' },
+      { name: 'label', type: 'string', defaultValue: "''", description: '구분선 중앙에 들어갈 인라인 라벨 (예: OR)' }
+    ],
+    htmlSnippet: `<div class="atom-separator atom-separator-horizontal"></div>
+<div class="atom-separator-with-label">
+  <span>또는</span>
+</div>`,
+    reactSnippet: `import { Separator } from '@/components/ui/separator';
+
+export function SeparatorDemo() {
+  return (
+    <div className="space-y-4">
+      <div>섹션 A</div>
+      <Separator label="또는" />
+      <div>섹션 B</div>
+    </div>
+  );
+}`,
+    vueSnippet: `<template>
+  <AtomSeparator orientation="horizontal" />
+</template>`
+  },
+  {
+    id: 'textarea',
+    name: '텍스트에리어 (Textarea with Counter)',
+    category: 'form',
+    source: 'shadcn + bootstrap',
+    description: '문의 내용, 댓글, 긴 본문 작성을 위한 다중 행 입력 필드 및 실시간 글자수 카운터 지원',
+    callout: {
+      type: 'tip',
+      title: '입력 길이에 맞춘 자동 높이 조절',
+      text: '고정된 높이에서 내부 스크롤이 생겨 글이 잘려 보이는 답답함을 없애기 위해 작성 내용에 맞춰 높이가 부드럽게 확장되는 auto-resize를 권장합니다.'
+    },
+    useCases: [
+      '고객센터 1:1 문의사항 및 상세 피드백 작성',
+      '블로그/커뮤니티 게시글 및 댓글 작성창',
+      '배송 요청사항 및 상세 주소 입력',
+      'AI 프롬프트 입력창 (멀티라인)'
+    ],
+    usagePatterns: [
+      '최대 글자수 제한이 있는 경우 우측 하단에 "34 / 500자"와 같은 카운터를 제공하여 초과 입력을 방지합니다.',
+      '내용이 비어있을 때는 "상세 내용을 입력해 주세요"와 같은 안내 플레이스홀더를 제공합니다.'
+    ],
+    dosAndDonts: [
+      {
+        do: '에러 상태일 때는 인풋과 동일하게 붉은색 테두리와 하단 에러 메시지를 노출합니다.',
+        dont: '모바일 화면에서 텍스트에리어가 너무 작아 두세 글자만 보이고 스크롤되게 만들지 마세요.'
+      }
+    ],
+    relatedPatternIds: ['developer-docs', 'saas-dashboard'],
+    propsSpec: [
+      { name: 'value', type: 'string', defaultValue: "''", description: '입력된 텍스트' },
+      { name: 'maxLength', type: 'number', defaultValue: 'undefined', description: '최대 글자수' },
+      { name: 'rows', type: 'number', defaultValue: '4', description: '기본 노출 행 수' },
+      { name: 'placeholder', type: 'string', defaultValue: "''", description: '안내 문구' },
+      { name: 'onChange', type: '(val: string) => void', defaultValue: 'undefined', description: '입력값 변경 핸들러' }
+    ],
+    htmlSnippet: `<div class="atom-textarea-group">
+  <textarea class="atom-textarea" rows="4" placeholder="내용을 입력하세요"></textarea>
+  <div class="atom-textarea-counter">0 / 500자</div>
+</div>`,
+    reactSnippet: `import { Textarea } from '@/components/ui/textarea';
+import { useState } from 'react';
+
+export function TextareaDemo() {
+  const [text, setText] = useState('');
+  return <Textarea value={text} onChange={setText} maxLength={500} placeholder="피드백을 남겨주세요." />;
+}`,
+    vueSnippet: `<template>
+  <AtomTextarea v-model="comment" :max-length="300" />
+</template>`
   }
 ];
