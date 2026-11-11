@@ -16,6 +16,9 @@ import {
   Search,
   ExternalLink,
   X,
+  LayoutGrid,
+  FileCode,
+  Download,
 } from 'lucide-react';
 
 import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';
@@ -27,12 +30,19 @@ import {
   RADIUS_TOKENS,
   SPACING_TOKENS,
   SHADOW_TOKENS,
+  LAYOUT_TOKENS,
+  LayoutToken,
 } from '@/lib/data/tokens';
+import { CodeHighlight } from '@/components/common/CodeHighlight';
+import { useI18n } from '@/lib/i18n';
+import tokenJsonData from '@/tokens/token.json';
 
 export default function TokensPage() {
   const { theme, updateColor, updateBorderRadius } = useThemeEditor();
-  const [activeCategory, setActiveCategory] = useState<TokenCategory>('color');
+  const { t } = useI18n();
+  const [activeCategory, setActiveCategory] = useState<TokenCategory | 'json'>('color');
   const [copiedVar, setCopiedVar] = useState<string | null>(null);
+  const [copiedJson, setCopiedJson] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
   // Live Token Customizer State linked to ThemeEditor
@@ -43,6 +53,24 @@ export default function TokensPage() {
     navigator.clipboard.writeText(variable);
     setCopiedVar(variable);
     setTimeout(() => setCopiedVar(null), 2000);
+  };
+
+  const handleCopyJson = () => {
+    navigator.clipboard.writeText(JSON.stringify(tokenJsonData, null, 2));
+    setCopiedJson(true);
+    setTimeout(() => setCopiedJson(false), 2000);
+  };
+
+  const handleDownloadJson = () => {
+    const blob = new Blob([JSON.stringify(tokenJsonData, null, 2)], {
+      type: 'application/json',
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'token.json';
+    a.click();
+    URL.revokeObjectURL(url);
   };
 
   // Color tokens mapped with current live brand color
@@ -95,12 +123,23 @@ export default function TokensPage() {
       t.description.toLowerCase().includes(query)
   );
 
-  const TABS: { id: TokenCategory; label: string; icon: React.ElementType; count: number }[] = [
-    { id: 'color', label: '색상', icon: Palette, count: filteredColors.length },
-    { id: 'typography', label: '타이포그래피', icon: Type, count: filteredTypography.length },
-    { id: 'radius', label: '곡률', icon: Maximize2, count: filteredRadius.length },
-    { id: 'spacing', label: '간격', icon: Box, count: filteredSpacing.length },
-    { id: 'shadow', label: '그림자', icon: Layers, count: filteredShadow.length },
+  const filteredLayout = LAYOUT_TOKENS.filter(
+    (t) =>
+      !query ||
+      t.name.toLowerCase().includes(query) ||
+      t.variable.toLowerCase().includes(query) ||
+      t.description.toLowerCase().includes(query) ||
+      t.value.toLowerCase().includes(query)
+  );
+
+  const TABS: { id: TokenCategory | 'json'; label: string; icon: React.ElementType; count?: number }[] = [
+    { id: 'color', label: t('tokens.tabColors'), icon: Palette, count: filteredColors.length },
+    { id: 'typography', label: t('tokens.tabTypography'), icon: Type, count: filteredTypography.length },
+    { id: 'radius', label: t('tokens.tabRadius'), icon: Maximize2, count: filteredRadius.length },
+    { id: 'spacing', label: t('tokens.tabSpacing'), icon: Box, count: filteredSpacing.length },
+    { id: 'shadow', label: t('tokens.tabShadow'), icon: Layers, count: filteredShadow.length },
+    { id: 'layout', label: t('tokens.tabLayout'), icon: LayoutGrid, count: filteredLayout.length },
+    { id: 'json', label: t('tokens.tabJson'), icon: FileCode },
   ];
 
   return (
@@ -131,18 +170,17 @@ export default function TokensPage() {
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
             <div className="max-w-3xl space-y-2">
               <h1 className="docs-h1">
-                디자인 토큰(Design Tokens) 표준 CSS 변수 명세
+                {t('tokens.title')}
               </h1>
               <p className="text-xs sm:text-sm text-(--text-secondary) leading-relaxed">
-                색상, 폰트, 여백, 곡률 등 <strong>UI의 모든 디자인 결정을 플랫폼에 독립적인 최소 단위 데이터</strong>로 정의합니다.{' '}
-                정의된 토큰은 CSS 변수(<code className="text-xs bg-(--bg-secondary) px-1 py-0.5 rounded border border-(--border-subtle)">var(--atom-...)</code>), Tailwind 클래스, TypeScript 타입으로 자동 컴파일되어 React, Vue, HTML 어디서나 100% 동일하게 동작합니다.
+                {t('tokens.description')}
               </p>
             </div>
 
             {/* Quick Live Preview Controls - Clean Minimal Strip */}
             <div className="flex flex-wrap items-center gap-4 text-xs font-mono pb-1">
               <div className="flex items-center gap-2">
-                <span className="text-(--text-muted)">Brand:</span>
+                <span className="text-(--text-muted)">{t('tokens.brandColor')}</span>
                 <div className="flex items-center gap-1.5">
                   {['#3182f6', '#ff6f0f', '#10b981', '#7c3aed'].map((c) => (
                     <button
@@ -159,7 +197,7 @@ export default function TokensPage() {
               <span className="text-(--border-subtle)">|</span>
 
               <div className="flex items-center gap-2">
-                <span className="text-(--text-muted)">Radius:</span>
+                <span className="text-(--text-muted)">{t('tokens.radius')}</span>
                 <select
                   value={liveRadius}
                   onChange={(e) => updateBorderRadius(e.target.value)}
@@ -171,6 +209,20 @@ export default function TokensPage() {
                   <option value="9999px">9999px</option>
                 </select>
               </div>
+
+              <span className="text-(--border-subtle)">|</span>
+
+              <button
+                onClick={() => setActiveCategory('json')}
+                className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-(--radius-sm) border transition-colors text-xs font-semibold cursor-pointer ${
+                  activeCategory === 'json'
+                    ? 'bg-(--text-primary) text-(--bg-primary) border-(--text-primary)'
+                    : 'bg-(--bg-secondary) text-(--text-primary) border-(--border-subtle) hover:border-(--border-strong)'
+                }`}
+              >
+                <FileCode className="w-3.5 h-3.5" />
+                <span>{t('tokens.tabJson')}</span>
+              </button>
             </div>
           </div>
 
@@ -224,9 +276,11 @@ export default function TokensPage() {
                   >
                     <Icon className="w-3.5 h-3.5" />
                     <span>{tab.label}</span>
-                    <span className="text-[10px] font-mono opacity-60">
-                      ({tab.count})
-                    </span>
+                    {tab.count !== undefined && (
+                      <span className="text-[10px] font-mono opacity-60">
+                        ({tab.count})
+                      </span>
+                    )}
                   </button>
                 );
               })}
@@ -237,7 +291,7 @@ export default function TokensPage() {
               <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-(--text-muted)" />
               <input
                 type="text"
-                placeholder="토큰 검색..."
+                placeholder={t('common.search')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full pl-8 pr-7 py-1 text-xs bg-(--bg-secondary) border border-(--border-subtle) focus:border-(--border-strong) rounded text-(--text-primary) placeholder:text-(--text-muted) outline-hidden transition-colors"
@@ -543,6 +597,132 @@ export default function TokensPage() {
                 </table>
               </div>
             )
+          )}
+
+          {/* TAB 6: LAYOUT TABLE */}
+          {activeCategory === 'layout' && (
+            filteredLayout.length === 0 ? (
+              <div className="text-center py-12 text-xs text-(--text-muted)">
+                검색된 레이아웃 토큰이 없습니다.
+              </div>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs">
+                  <thead>
+                    <tr className="border-b border-(--border-subtle) text-(--text-muted) font-mono text-[11px]">
+                      <th className="py-2.5 px-3 font-medium w-28">미리보기</th>
+                      <th className="py-2.5 px-3 font-medium">토큰 이름</th>
+                      <th className="py-2.5 px-3 font-medium">CSS 변수 (클릭 복사)</th>
+                      <th className="py-2.5 px-3 font-medium">원천 규격</th>
+                      <th className="py-2.5 px-3 font-medium hidden md:table-cell">용도 및 설명</th>
+                      <th className="py-2.5 px-3 font-medium text-right">구분</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-(--border-subtle)">
+                    {filteredLayout.map((token) => (
+                      <tr key={token.variable} className="hover:bg-(--bg-secondary)/60 transition-colors group">
+                        <td className="py-2.5 px-3">
+                          <div className="h-4 rounded bg-(--bg-secondary) border border-(--border-subtle) flex items-center justify-center font-mono text-[9px] text-(--text-muted) px-1 overflow-hidden">
+                            {token.value}
+                          </div>
+                        </td>
+                        <td className="py-2.5 px-3 font-semibold text-(--text-primary)">
+                          {token.name}
+                        </td>
+                        <td className="py-2.5 px-3">
+                          <button
+                            onClick={() => handleCopy(`var(${token.variable})`)}
+                            className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-(--bg-secondary) hover:bg-(--border-subtle) text-(--text-primary) font-mono text-[11px] transition-colors"
+                            title="클릭하여 복사"
+                          >
+                            {copiedVar === `var(${token.variable})` ? (
+                              <Check className="w-3 h-3 text-emerald-500" />
+                            ) : (
+                              <Copy className="w-3 h-3 text-(--text-muted) group-hover:text-(--text-primary)" />
+                            )}
+                            <span>var({token.variable})</span>
+                          </button>
+                        </td>
+                        <td className="py-2.5 px-3 font-mono text-[11px] text-(--text-muted)">
+                          {token.value}
+                        </td>
+                        <td className="py-2.5 px-3 text-(--text-secondary) hidden md:table-cell max-w-sm">
+                          {token.description}
+                        </td>
+                        <td className="py-2.5 px-3 text-right">
+                          <span className="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded bg-(--bg-secondary) text-(--text-muted) border border-(--border-subtle)">
+                            {token.type}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )
+          )}
+
+          {/* TAB 7: FULL TOKEN.JSON VIEWER */}
+          {activeCategory === 'json' && (
+            <div className="rounded-(--radius) border border-(--border-subtle) bg-(--bg-primary) overflow-hidden space-y-0">
+              {/* Toolbar */}
+              <div className="px-4 py-3 border-b border-(--border-subtle) bg-(--bg-secondary)/40 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1.5 font-mono text-xs font-semibold text-(--text-primary)">
+                    <FileCode className="w-4 h-4 text-(--accent-primary)" />
+                    <span>tokens/token.json</span>
+                  </div>
+                  <span className="text-[11px] font-mono px-1.5 py-0.5 rounded bg-(--bg-secondary) text-(--text-muted) border border-(--border-subtle)">
+                    W3C DTCG Format
+                  </span>
+                  <span className="text-[11px] font-mono text-(--text-muted)">
+                    v{tokenJsonData.version || '0.4.3'}
+                  </span>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={handleCopyJson}
+                    className="inline-flex items-center gap-1 px-3 py-1.5 rounded-(--radius-sm) bg-(--bg-secondary) hover:bg-(--border-subtle) text-(--text-primary) border border-(--border-subtle) transition-colors text-xs font-semibold cursor-pointer"
+                  >
+                    {copiedJson ? (
+                      <Check className="w-3.5 h-3.5 text-emerald-500" />
+                    ) : (
+                      <Copy className="w-3.5 h-3.5" />
+                    )}
+                    <span>{copiedJson ? t('common.copied') : t('tokens.jsonCopy')}</span>
+                  </button>
+
+                  <button
+                    onClick={handleDownloadJson}
+                    className="inline-flex items-center gap-1 px-3 py-1.5 rounded-(--radius-sm) bg-(--text-primary) text-(--bg-primary) hover:opacity-90 transition-opacity text-xs font-semibold cursor-pointer"
+                  >
+                    <Download className="w-3.5 h-3.5" />
+                    <span>{t('tokens.jsonDownload')}</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Code Viewer */}
+              <div className="bg-(--bg-primary)">
+                <CodeHighlight
+                  code={JSON.stringify(tokenJsonData, null, 2)}
+                  language="json"
+                  className="p-4 max-h-[640px]"
+                />
+              </div>
+
+              {/* Bottom CLI Guide */}
+              <div className="px-4 py-2.5 border-t border-(--border-subtle) bg-(--bg-secondary)/30 text-xs text-(--text-secondary) flex flex-wrap items-center justify-between gap-2">
+                <div className="flex items-center gap-2 font-mono text-[11px]">
+                  <Terminal className="w-3.5 h-3.5 text-(--text-muted)" />
+                  <span>설치 명령어: npx atomsystem init</span>
+                </div>
+                <div className="text-[11px] text-(--text-muted)">
+                  Zero-Runtime 0KB CSS Variables & Tailwind v4 호환
+                </div>
+              </div>
+            </div>
           )}
         </section>
 

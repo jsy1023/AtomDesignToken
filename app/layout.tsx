@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { ThemeEditorRoot } from '@/components/editor/ThemeEditorRoot';
+import { I18nProvider } from '@/lib/i18n';
 
 export const metadata: Metadata = {
   title: 'AtomDesignToken - UI/UX 디자이너의 피그마 해방 | 말로 디자인하는 시대',
@@ -18,9 +19,11 @@ export default function RootLayout({
         className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] antialiased"
         suppressHydrationWarning
       >
-        <ThemeEditorRoot>
-          {children}
-        </ThemeEditorRoot>
+        <I18nProvider>
+          <ThemeEditorRoot>
+            {children}
+          </ThemeEditorRoot>
+        </I18nProvider>
       </body>
     </html>
   );

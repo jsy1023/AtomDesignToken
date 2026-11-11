@@ -10,9 +10,11 @@ import {
   ChevronDown,
   Menu,
   X,
+  Globe,
 } from 'lucide-react';
 import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';
 import { NAVIGATION_DEPTH, NavGroup } from '@/lib/data/navigation';
+import { useI18n, LOCALES } from '@/lib/i18n';
 
 interface HeaderProps {
   brandColor?: string;
@@ -22,6 +24,7 @@ interface HeaderProps {
 export function Header({ brandColor, rightExtra }: HeaderProps) {
   const pathname = usePathname();
   const { theme } = useThemeEditor();
+  const { locale, setLocale, t } = useI18n();
   const activeBrandColor = brandColor || theme?.color?.primary || '#18181b';
   const [copiedCli, setCopiedCli] = useState(false);
   const [openGroup, setOpenGroup] = useState<string | null>(null);
@@ -33,6 +36,42 @@ export function Header({ brandColor, rightExtra }: HeaderProps) {
     navigator.clipboard.writeText('npx atomsystem init');
     setCopiedCli(true);
     setTimeout(() => setCopiedCli(false), 2000);
+  };
+
+  const getNavLabel = (groupId: string, fallback: string) => {
+    switch (groupId) {
+      case 'foundations':
+        return t('nav.foundations', fallback);
+      case 'library':
+        return t('nav.library', fallback);
+      case 'engineering':
+        return t('nav.engineering', fallback);
+      default:
+        return fallback;
+    }
+  };
+
+  const getSubNavTitle = (href: string, fallback: string) => {
+    switch (href) {
+      case '/principles':
+        return t('nav.principles', fallback);
+      case '/tokens':
+        return t('nav.tokens', fallback);
+      case '/motion':
+        return t('nav.motion', fallback);
+      case '/components':
+        return t('nav.components', fallback);
+      case '/blocks':
+        return t('nav.blocks', fallback);
+      case '/patterns':
+        return t('nav.patterns', fallback);
+      case '/dependencies':
+        return t('nav.dependencies', fallback);
+      case '/guide':
+        return t('nav.guide', fallback);
+      default:
+        return fallback;
+    }
   };
 
   // Close dropdown on outside click or route change
@@ -74,7 +113,7 @@ export function Header({ brandColor, rightExtra }: HeaderProps) {
           {/* Desktop 2-Depth Navigation */}
           <nav
             ref={dropdownRef}
-            className="hidden md:flex items-center gap-0.5 text-[11px]"
+            className="hidden md:flex items-center gap-0.5 text-xs"
             onMouseLeave={handleMouseLeave}
           >
             {NAVIGATION_DEPTH.map((group) => {
@@ -90,15 +129,15 @@ export function Header({ brandColor, rightExtra }: HeaderProps) {
                   <Link
                     key={group.id}
                     href={singleItem.href}
-                    className={`inline-flex items-center gap-1 px-2.5 py-1 rounded transition-colors ${
+                    className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md transition-colors ${
                       isSingleActive
-                        ? 'text-(--text-primary) font-semibold bg-(--bg-secondary)'
+                        ? 'text-(--text-primary) font-medium bg-(--bg-secondary)'
                         : 'text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary)/50'
                     }`}
                   >
                     <span>{group.label}</span>
                     {singleItem.badge && (
-                      <span className="text-[9px] px-1 py-0.2 rounded font-mono bg-purple-500/10 text-purple-600 dark:text-purple-400 font-semibold border border-purple-500/20">
+                      <span className="text-[11px] px-1.5 py-0.5 rounded font-mono bg-(--bg-secondary) text-(--text-primary) font-medium border border-(--border-subtle)">
                         {singleItem.badge}
                       </span>
                     )}
@@ -115,13 +154,13 @@ export function Header({ brandColor, rightExtra }: HeaderProps) {
                   <button
                     type="button"
                     onClick={() => setOpenGroup(isOpen ? null : group.id)}
-                    className={`inline-flex items-center gap-1 px-2.5 py-1 rounded transition-colors ${
+                    className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md transition-colors ${
                       active || isOpen
-                        ? 'text-(--text-primary) font-semibold bg-(--bg-secondary)'
+                        ? 'text-(--text-primary) font-medium bg-(--bg-secondary)'
                         : 'text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary)/50'
                     }`}
                   >
-                    <span>{group.label}</span>
+                    <span>{getNavLabel(group.id, group.label)}</span>
                     <ChevronDown
                       className={`w-3 h-3 transition-transform duration-200 ${
                         isOpen ? 'rotate-180' : 'opacity-60'
@@ -131,9 +170,9 @@ export function Header({ brandColor, rightExtra }: HeaderProps) {
 
                   {/* Depth 2 Dropdown Menu */}
                   {isOpen && (
-                    <div className="absolute left-0 top-full pt-1 w-64 z-50">
-                      <div className="p-1 rounded-lg bg-(--bg-primary) border border-(--border-subtle) shadow-lg space-y-0.5">
-                        <div className="px-2.5 py-0.5 text-[9px] font-mono text-(--text-muted) uppercase">
+                    <div className="absolute left-0 top-full pt-1.5 w-64 z-50">
+                      <div className="p-1.5 rounded-lg bg-(--bg-primary) border border-(--border-subtle) shadow-md space-y-0.5">
+                        <div className="px-2.5 py-1 text-[11px] font-mono text-(--text-secondary) uppercase tracking-wider">
                           {group.englishLabel}
                         </div>
                         {group.items.map((sub) => {
@@ -149,9 +188,9 @@ export function Header({ brandColor, rightExtra }: HeaderProps) {
                               }`}
                             >
                               <div className="font-medium text-xs text-(--text-primary)">
-                                {sub.title}
+                                {getSubNavTitle(sub.href, sub.title)}
                               </div>
-                              <p className="text-[10px] text-(--text-muted) leading-snug line-clamp-1">
+                              <p className="text-xs text-(--text-secondary) leading-snug line-clamp-1">
                                 {sub.description}
                               </p>
                             </Link>
@@ -169,13 +208,33 @@ export function Header({ brandColor, rightExtra }: HeaderProps) {
         {/* Right: Actions */}
         <div className="flex items-center gap-2">
           {rightExtra}
+
+          {/* Language Switcher: KO | EN | JA */}
+          <div className="flex items-center rounded-md border border-(--border-subtle) bg-(--bg-secondary) p-0.5 text-xs font-mono">
+            {LOCALES.map((l) => (
+              <button
+                key={l.code}
+                type="button"
+                onClick={() => setLocale(l.code)}
+                className={`px-1.5 py-0.5 rounded text-[11px] transition-colors cursor-pointer ${
+                  locale === l.code
+                    ? 'bg-(--bg-primary) text-(--text-primary) font-bold shadow-xs'
+                    : 'text-(--text-muted) hover:text-(--text-primary)'
+                }`}
+                title={l.label}
+              >
+                {l.shortLabel}
+              </button>
+            ))}
+          </div>
+
           <button 
             type="button"
             onClick={copyCli}
-            className="flex items-center gap-1.5 px-2 py-0.5 rounded border border-(--border-subtle) bg-(--bg-secondary) hover:bg-(--bg-primary) text-[11px] font-mono text-(--text-secondary) hover:text-(--text-primary) transition-colors"
+            className="flex items-center gap-1.5 px-2 py-1 rounded-md border border-(--border-subtle) bg-(--bg-secondary) hover:bg-(--bg-primary) text-xs font-mono text-(--text-secondary) hover:text-(--text-primary) transition-colors"
             title="명령어 복사"
           >
-            <Terminal className="w-2.5 h-2.5 text-(--text-muted)" />
+            <Terminal className="w-3 h-3 text-(--text-secondary)" />
             <span className="hidden sm:inline">npx atomsystem init</span>
             <span className="sm:hidden">CLI</span>
             {copiedCli ? (
