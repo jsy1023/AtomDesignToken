@@ -1,6 +1,6 @@
 {
   "name": "atomsystem",
-  "version": "0.4.0",
+  "version": "0.4.2",
   "type": "module",
   "homepage": "https://system.atomground.com",
   "repository": {
@@ -28,6 +28,7 @@
     "./uxPattern.md": "./presets/uxPattern.md",
     "./skill": "./skills/atomsystem.skill.md",
     "./components/*": "./components/ui/*.tsx",
+    "./blocks/*": "./components/blocks/*.tsx",
     "./css/atom-ui.css": "./css/atom-ui.css",
     "./package.json": "./package.json"
   },
@@ -37,6 +38,7 @@
     "presets",
     "skills",
     "components/ui",
+    "components/blocks",
     "css",
     "atom.design.md",
     "atom.uxPattern.md",
@@ -55,6 +57,7 @@
     "example:mib:test": "npm --prefix examples/mib-browser run test:e2e",
     "start": "next start",
     "lint": "next lint",
+    "lint:design": "impeccable detect app components css presets",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:report": "playwright show-report"
@@ -90,6 +93,7 @@
     "ora": "^9.3.0",
     "prompts": "^2.4.2",
     "react": "^19.2.5",
+    "react-arborist": "^4.0.1",
     "react-dom": "^19.2.5",
     "react-modal": "^3.16.3",
     "react-responsive": "^10.0.1",
@@ -111,6 +115,7 @@
     "@vitest/coverage-v8": "^3.1.1",
     "eslint": "^8",
     "eslint-config-next": "15.0.3",
+    "impeccable": "^4.8.1",
     "playwright": "^1.51.1",
     "postcss": "^8.5.10",
     "tailwindcss": "^4.2.2",

@@ -36,11 +36,11 @@ export function ThemeEditorDrawer() {
   if (!mounted) return null;
 
   const tabs: { id: EditorTab; label: string; icon: React.ElementType }[] = [
-    { id: 'design-md', label: 'DESIGN.md (84)', icon: Globe },
     { id: 'colors', label: '색상', icon: Palette },
     { id: 'typography', label: '타이포', icon: Type },
     { id: 'preview', label: '미리보기', icon: Eye },
     { id: 'export', label: '내보내기', icon: Download },
+    { id: 'design-md', label: 'DESIGN.md (84)', icon: Globe },
   ];
 
   return (

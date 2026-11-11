@@ -51,7 +51,7 @@ export function ThemeEditorProvider({ children }: { children: React.ReactNode })
     setMounted(true);
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) {
+      if (saved && saved.trim() !== '') {
         const parsed = JSON.parse(saved);
         // Stale theme self-healing: 다크 배경인데 카드가 흰색(#f8f9fa 등)으로 남아있다면 최신 토큰으로 보정
         if (parsed?.color?.bgPrimary && isDarkColor(parsed.color.bgPrimary) && !isDarkColor(parsed.color.bgSecondary)) {

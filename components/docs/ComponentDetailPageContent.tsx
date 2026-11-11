@@ -7,6 +7,7 @@ import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';
 import { DocsSidebar } from '@/components/docs/DocsSidebar';
 import { GalleryComponent } from '@/lib/data/components';
 import { PATTERNS_COLLECTION } from '@/lib/data/patterns';
+import { Tree, TreeNode } from '@/components/ui/Tree';
 import {
   ArrowLeft,
   Copy,
@@ -42,6 +43,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
   const [checkboxState, setCheckboxState] = useState(true);
   const [activeTab, setActiveTab] = useState<'account' | 'password' | 'settings'>('account');
   const [showAlert, setShowAlert] = useState(true);
+  const [selectedTreeId, setSelectedTreeId] = useState<string>('Button.tsx');
 
   const activeSnippet =
     activeSnippetTab === 'react'
@@ -328,6 +330,51 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
             </table>
           </div>
         );
+
+      case 'tree': {
+        const demoTreeData: TreeNode[] = [
+          {
+            id: 'src',
+            label: 'src',
+            children: [
+              {
+                id: 'components',
+                label: 'components',
+                children: [
+                  { id: 'Button.tsx', label: 'Button.tsx' },
+                  { id: 'Card.tsx', label: 'Card.tsx' },
+                  { id: 'Tree.tsx', label: 'Tree.tsx' },
+                ],
+              },
+              {
+                id: 'tokens',
+                label: 'tokens',
+                children: [
+                  { id: 'tokens.json', label: 'tokens.json' },
+                ],
+              },
+              { id: 'index.ts', label: 'index.ts' },
+            ],
+          },
+          { id: 'package.json', label: 'package.json' },
+          { id: 'README.md', label: 'README.md' },
+        ];
+
+        return (
+          <div className="w-full max-w-sm p-4 rounded-xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 shadow-sm space-y-3">
+            <div className="flex items-center justify-between text-xs text-neutral-500 font-mono pb-2 border-b border-neutral-200 dark:border-neutral-800">
+              <span>EXPLORER</span>
+              <span>선택: <strong className="text-blue-500">{selectedTreeId}</strong></span>
+            </div>
+            <Tree
+              data={demoTreeData}
+              selectedId={selectedTreeId}
+              onSelect={(node) => setSelectedTreeId(node.id)}
+              defaultExpandedIds={['src', 'components']}
+            />
+          </div>
+        );
+      }
 
       default:
         return null;

@@ -109,10 +109,10 @@ export default function TokensPage() {
       <Header brandColor={liveBrandColor} />
 
       {/* Main Content */}
-      <main className="max-w-7xl w-full mx-auto px-6 py-10 flex-1 flex flex-col gap-10">
+      <main className="max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-7 flex-1 flex flex-col gap-6 sm:gap-7">
         {/* 1. Hero & Concept Section */}
-        <section className="flex flex-col gap-5 border-b border-(--border-subtle) pb-8">
-          <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-neutral-400">
+        <section className="flex flex-col gap-3 border-b border-(--border-subtle) pb-4 sm:pb-5">
+          <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-mono text-neutral-400">
             <a
               href="https://www.designtokens.org/tr/2025.10/"
               target="_blank"

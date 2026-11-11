@@ -160,14 +160,13 @@ export function PatternDocsSidebar({
                         ? {
                             backgroundColor: `${brandColor}18`,
                             color: brandColor,
-                            borderLeftColor: brandColor,
                           }
                         : {}
                     }
-                    className={`w-full text-left px-2.5 py-1.5 rounded-md transition-all flex items-center justify-between gap-2 border-l-2 ${
+                    className={`w-full text-left px-2.5 py-1.5 rounded-md transition-all flex items-center justify-between gap-2 ${
                       isSelected
-                        ? 'font-bold border-l-2'
-                        : 'border-l-transparent text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800/60 hover:text-neutral-900 dark:hover:text-neutral-100'
+                        ? 'font-bold shadow-xs'
+                        : 'text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800/60 hover:text-neutral-900 dark:hover:text-neutral-100'
                     }`}
                   >
                     <span className="truncate text-xs">{item.title}</span>

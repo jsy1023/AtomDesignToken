@@ -357,7 +357,7 @@ export default function ComponentsGalleryPage() {
       case 'tooltip':
         return (
           <div className="relative inline-flex flex-col items-center">
-            <div className="px-2 py-1 rounded bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 text-[10px] font-medium shadow-md mb-1.5 animate-bounce">
+            <div className="px-2 py-1 rounded-md bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 text-[10px] font-medium shadow-md mb-1.5 transition-all duration-200">
               실시간 잔액 조회
             </div>
             <button className="px-3 py-1.5 rounded-xl border border-neutral-300 dark:border-neutral-700 text-xs font-semibold bg-white dark:bg-neutral-900">
@@ -368,8 +368,8 @@ export default function ComponentsGalleryPage() {
 
       case 'toast':
         return (
-          <div className="flex items-center gap-2 py-2 px-3 rounded-xl border-l-4 border-l-emerald-500 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 text-xs shadow-md">
-            <span className="text-emerald-500 font-bold">✓</span>
+          <div className="flex items-center gap-2 py-2 px-3 rounded-xl bg-white dark:bg-neutral-900 border border-emerald-500/30 text-xs shadow-md">
+            <span className="w-4 h-4 rounded-full bg-emerald-500/10 text-emerald-500 flex items-center justify-center font-bold text-[10px]">✓</span>
             <span className="font-semibold text-[11px] text-neutral-800 dark:text-neutral-200">계좌 송금이 완료되었습니다</span>
           </div>
         );
@@ -481,6 +481,25 @@ export default function ComponentsGalleryPage() {
               className="atom-textarea !py-1.5 !px-2.5 !text-xs !resize-none"
               readOnly
             />
+          </div>
+        );
+
+      case 'tree':
+        return (
+          <div className="w-full max-w-[200px] p-2 rounded-lg bg-(--bg-secondary)/50 border border-(--border-subtle) text-xs font-mono">
+            <div className="flex items-center gap-1.5 text-blue-500 font-semibold py-0.5">
+              <span className="text-[10px]">▼</span>
+              <span>📁 src</span>
+            </div>
+            <div className="pl-3.5 space-y-0.5 border-l border-dashed border-(--border-subtle) ml-1.5 mt-0.5">
+              <div className="flex items-center gap-1.5 text-neutral-600 dark:text-neutral-400 py-0.5">
+                <span className="text-[10px]">▶</span>
+                <span>📁 components</span>
+              </div>
+              <div className="flex items-center gap-1.5 text-(--text-primary) font-semibold bg-(--bg-secondary) px-1 rounded py-0.5">
+                <span>📄 index.ts</span>
+              </div>
+            </div>
           </div>
         );
 

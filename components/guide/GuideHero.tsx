@@ -17,18 +17,18 @@ export function GuideHero() {
   };
 
   return (
-    <section className="py-12 md:py-16 border-b border-[var(--border-subtle)]">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="text-xs font-mono text-neutral-400 mb-3">
+    <section className="py-6 sm:py-8 border-b border-[var(--border-subtle)]">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <div className="text-[11px] font-mono text-neutral-400 mb-2">
           공식 활용 가이드 · W3C DTCG & CSS 표준 준수
         </div>
 
         {/* Main Headline */}
-        <div className="max-w-3xl space-y-3">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[var(--text-primary)] leading-tight">
+        <div className="max-w-3xl space-y-2 mb-5">
+          <h1 className="docs-h1">
             라이브러리 활용 및 통합 가이드
           </h1>
-          <p className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed">
+          <p className="docs-lead">
             검증된 W3C 표준 디자인 토큰과 단 1줄의 CSS로 React, Vue, HTML 어디서든 동일하게 동작하는 UI를 빠르게 구축하는 실전 사용법을 안내합니다.
           </p>
         </div>

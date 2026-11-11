@@ -47,10 +47,26 @@ ${fontImportCSS}/* [AtomDesignToken] Live Injected Theme Variables */
   --atom-color-primary: ${color.primary};
   --atom-color-primary-hover: ${color.primaryHover};
   --atom-color-primary-subtle: ${color.primaryLight};
+  --atom-color-bg: ${color.bgPrimary};
+  --atom-color-surface: ${color.bgSecondary};
+  --atom-color-text: ${color.textPrimary};
+  --atom-color-text-secondary: ${color.textSecondary};
+  --atom-color-border: ${color.borderSubtle};
   --atom-status-success: ${color.statusSuccess};
   --atom-status-danger: ${color.statusDanger};
   --atom-status-warning: ${color.statusWarning};
   --atom-radius: ${borderRadius};
+
+  /* All Atom UI Component CSS Variable Mappings */
+  --atom-btn-radius: ${borderRadius};
+  --atom-input-radius: ${borderRadius};
+  --atom-card-radius: ${borderRadius};
+  --atom-card-bg: ${color.bgSecondary};
+  --atom-card-border: ${color.borderSubtle};
+  --atom-tree-bg: ${color.bgSecondary};
+  --atom-tree-border: ${color.borderSubtle};
+  --atom-tree-selected-bg: ${color.primaryLight};
+  --atom-tree-selected-text: ${color.primary};
 
   /* Typography Variables */
   --atom-font-h1-size: ${typography.h1.fontSize}px;
@@ -178,6 +194,33 @@ body {
 html.dark {
   --color-neutral-900: ${color.bgSecondary};
   --color-neutral-850: ${color.bgSecondary};
+}
+
+/* Global Component Surface Overrides */
+.atom-card, .atom-modal, .atom-sheet, .atom-tree, .atom-table, .atom-input, .atom-button {
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, border-radius 0.2s ease;
+}
+
+.atom-button-primary {
+  background-color: ${color.primary} !important;
+  color: #ffffff !important;
+  border-radius: ${borderRadius} !important;
+}
+
+.atom-button-primary:hover {
+  background-color: ${color.primaryHover} !important;
+}
+
+.atom-card {
+  background-color: ${color.bgSecondary} !important;
+  border-color: ${color.borderSubtle} !important;
+  border-radius: ${borderRadius} !important;
+}
+
+.atom-tree-node.is-selected {
+  background-color: ${color.primaryLight} !important;
+  color: ${color.primary} !important;
+  border-radius: ${borderRadius} !important;
 }
 
 html.dark .bg-white:not([data-keep-white]):not([role="switch"]):not([aria-hidden="true"]) {

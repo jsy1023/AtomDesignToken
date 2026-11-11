@@ -407,8 +407,8 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
 
           {/* Map Center Pins */}
           <div className="flex-1 relative flex items-center justify-center">
-            <div className="absolute flex flex-col items-center animate-bounce">
-              <div className="px-2 py-1 rounded-md bg-neutral-900 text-white text-[10px] font-bold shadow-lg mb-1 whitespace-nowrap">
+            <div className="absolute flex flex-col items-center transition-all duration-300">
+              <div className="px-2 py-1 rounded-md bg-neutral-900 text-white text-[10px] font-bold shadow-lg mb-1 whitespace-nowrap animate-pulse">
                 {selectedPlace}
               </div>
               <div className="w-5 h-5 rounded-full bg-rose-500 ring-4 ring-rose-500/20 shadow-md flex items-center justify-center text-white text-[10px]">

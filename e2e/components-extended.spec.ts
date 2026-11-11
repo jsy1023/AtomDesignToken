@@ -40,4 +40,33 @@ test.describe('신규 확장 컴포넌트(라디오, 캘린더, 아바타 등 24
     await expect(h1).toBeVisible();
     await expect(h1).toContainText(/아바타/i);
   });
+
+  test('4. 트리 뷰(/components/tree) 갤러리 카드 노출 및 상세 페이지 인터랙션 검증', async ({ page }) => {
+    // 갤러리에서 트리 카드 노출 확인
+    await page.goto('/components', { waitUntil: 'domcontentloaded' });
+    await expect(page.getByRole('heading', { name: /트리 뷰/i })).toBeVisible();
+
+    // 트리 상세 페이지 이동
+    await page.goto('/components/tree', { waitUntil: 'load' });
+    const h1 = page.locator('h1');
+    await expect(h1).toBeVisible();
+    await expect(h1).toContainText(/트리 뷰/i);
+
+    // 인터랙티브 트리 뷰 렌더링 확인 (EXPLORER 영역)
+    const explorerHeader = page.getByText('EXPLORER');
+    await explorerHeader.scrollIntoViewIfNeeded();
+    await expect(explorerHeader).toBeVisible();
+
+    // 초기 렌더링 상태 확인 (React 하이드레이션 완료 대기)
+    const currentSelected = page.locator('strong.text-blue-500');
+    await expect(currentSelected).toHaveText('Button.tsx');
+
+    // 노드 선택 인터랙션 검증 (마우스 클릭 또는 키보드 엔터 지원)
+    const packageItem = page.locator('.atom-tree-node').filter({ hasText: 'package.json' });
+    await packageItem.scrollIntoViewIfNeeded();
+    await packageItem.click();
+
+    // 선택 결과 텍스트 확인
+    await expect(currentSelected).toHaveText('package.json');
+  });
 });

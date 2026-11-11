@@ -1631,6 +1631,52 @@ export function TextareaDemo() {
     vueSnippet: `<template>
   <AtomTextarea v-model="comment" :max-length="300" />
 </template>`
+  },
+  {
+    id: "tree",
+    name: "\uD2B8\uB9AC \uBDF0 (Tree View)",
+    category: "data",
+    source: "shadcn + vs-code",
+    description: "\uD3F4\uB354/\uD30C\uC77C \uD0D0\uC0C9\uAE30, \uC870\uC9C1\uB3C4, \uAD8C\uD55C \uACC4\uCE35 \uB4F1 \uC911\uCCA9\uB41C \uD2B8\uB9AC \uB370\uC774\uD130\uB97C \uC2DC\uAC01\uD654\uD558\uACE0 \uD3BC\uCE68/\uC811\uAE30/\uC120\uD0DD\uC744 \uC9C0\uC6D0\uD558\uB294 \uACE0\uC811\uADFC\uC131 \uD2B8\uB9AC \uCEF4\uD3EC\uB10C\uD2B8",
+    callout: {
+      type: "tip",
+      title: "\uC811\uADFC\uC131(A11y) \uD45C\uC900 \uC900\uC218",
+      text: 'WAI-ARIA Treeview \uD328\uD134\uC744 \uC900\uC218\uD558\uC5EC \uCEE8\uD14C\uC774\uB108\uC5D0 role="tree", \uAC01 \uD589\uC5D0 role="treeitem", \uC790\uC2DD \uBCF4\uC720 \uC2DC aria-expanded\uC640 \uD0A4\uBCF4\uB4DC \uD0D0\uC0C9(Enter/Space)\uC744 \uC9C0\uC6D0\uD569\uB2C8\uB2E4.'
+    },
+    propsSpec: [
+      { name: "data", type: "TreeNode[]", defaultValue: "[]", description: "\uD2B8\uB9AC \uB178\uB4DC \uACC4\uCE35 \uB370\uC774\uD130 \uBC30\uC5F4 ({ id, label, icon, children, disabled })" },
+      { name: "selectedId", type: "string", defaultValue: "undefined", description: "\uD604\uC7AC \uC120\uD0DD\uB41C \uB178\uB4DC\uC758 \uACE0\uC720 ID" },
+      { name: "onSelect", type: "(node: TreeNode) => void", defaultValue: "undefined", description: "\uB178\uB4DC \uC120\uD0DD \uC2DC \uD638\uCD9C\uB418\uB294 \uCF5C\uBC31 \uD568\uC218" },
+      { name: "defaultExpandedIds", type: "string[]", defaultValue: "[]", description: "\uCD08\uAE30\uC5D0 \uAE30\uBCF8\uC73C\uB85C \uD3BC\uCCD0\uB458 \uB178\uB4DC ID \uBAA9\uB85D" },
+      { name: "className", type: "string", defaultValue: "''", description: "\uB8E8\uD2B8 \uCEE8\uD14C\uC774\uB108\uC5D0 \uC804\uB2EC\uD560 \uCD94\uAC00 CSS \uD074\uB798\uC2A4" }
+    ],
+    useCases: [
+      "IDE \uBC0F \uCF54\uB4DC \uC5D0\uB514\uD130\uC758 \uC18C\uC2A4\uCF54\uB4DC \uD30C\uC77C/\uB514\uB809\uD1A0\uB9AC \uACC4\uCE35 \uD0D0\uC0C9\uAE30",
+      "\uBD80\uC11C \uBC0F \uD300\uC6D0 \uC870\uC9C1\uB3C4, \uC0AC\uB0B4 \uAD8C\uD55C/\uC5ED\uD560(RBAC) \uBD80\uC5EC \uD2B8\uB9AC \uBDF0",
+      "\uB300\uADDC\uBAA8 \uC804\uC790\uC0C1\uAC70\uB798 \uC0C1\uD488 \uCE74\uD14C\uACE0\uB9AC \uB2E4\uB2E8\uACC4 \uBD84\uB958 \uD0D0\uC0C9",
+      "\uBB38\uC11C \uBC0F \uC9C0\uC2DD\uBCA0\uC774\uC2A4(Knowledge Base) \uCC55\uD130/\uC139\uC158 \uBAA9\uCC28 \uB0B4\uBE44\uAC8C\uC774\uC158"
+    ],
+    usagePatterns: [
+      "\uC790\uC2DD \uB178\uB4DC\uAC00 \uC788\uB294 \uBD80\uBAA8 \uB178\uB4DC\uB294 \uC811\uAE30/\uD3BC\uCE58\uAE30 \uD1A0\uAE00(\u25B6)\uC744 \uBA85\uD655\uD788 \uC81C\uACF5\uD558\uACE0, \uD68C\uC804 \uC560\uB2C8\uBA54\uC774\uC158\uC73C\uB85C \uC0C1\uD0DC\uB97C \uC778\uC9C0\uC2DC\uD0B5\uB2C8\uB2E4.",
+      "\uC120\uD0DD\uB41C \uB178\uB4DC\uB294 \uCD0C\uC2A4\uB7EC\uC6B4 \uAD75\uC740 \uB2E8\uBA74 \uBCF4\uB354(side-tab) \uB300\uC2E0 \uC740\uC740\uD55C \uBE0C\uB79C\uB4DC \uD2F4\uD2B8 \uBC30\uACBD\uACFC \uD3F0\uD2B8 \uAD75\uAE30(font-semibold)\uB85C \uC138\uB828\uB418\uAC8C \uD45C\uD604\uD569\uB2C8\uB2E4.",
+      "\uAE4A\uC740 \uC911\uCCA9 \uC2DC\uC5D0\uB294 \uAC00\uC774\uB4DC \uB77C\uC778(dashed border)\uC744 \uAC00\uBCCD\uAC8C \uB450\uC5B4 \uC2DC\uAC01\uC801 \uC704\uACC4\uB97C \uD55C\uB208\uC5D0 \uD30C\uC545\uD560 \uC218 \uC788\uB3C4\uB85D \uB3D5\uC2B5\uB2C8\uB2E4."
+    ],
+    dosAndDonts: [
+      {
+        do: "\uB178\uB4DC\uAC00 \uB9CE\uC744 \uACBD\uC6B0 \uAE30\uBCF8\uC801\uC73C\uB85C 1~2\uB2E8\uACC4\uAE4C\uC9C0\uB9CC \uD3BC\uCE58\uACE0 \uD544\uC694 \uC2DC \uC0AC\uC6A9\uC790\uAC00 \uB4DC\uB9B4\uB2E4\uC6B4\uD558\uB3C4\uB85D \uC124\uACC4\uD569\uB2C8\uB2E4.",
+        dont: "\uC218\uBC31 \uAC1C\uC758 \uB178\uB4DC\uB97C \uD55C \uBC88\uC5D0 \uC804\uBD80 \uD3BC\uCCD0\uC11C \uC138\uB85C \uC2A4\uD06C\uB864\uC744 \uBB34\uD55C\uD788 \uAE38\uC5B4\uC9C0\uAC8C \uBC29\uCE58\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+      },
+      {
+        do: "\uD0A4\uBCF4\uB4DC \uC0AC\uC6A9\uC790\uB3C4 \uC811\uADFC\uD560 \uC218 \uC788\uB3C4\uB85D Space\uB098 Enter \uD0A4\uB85C \uD3BC\uCE68/\uC811\uAE30 \uBC0F \uC120\uD0DD\uC744 \uC9C0\uC6D0\uD569\uB2C8\uB2E4.",
+        dont: "\uB9C8\uC6B0\uC2A4 \uB354\uBE14\uD074\uB9AD\uC5D0\uB9CC \uC758\uC874\uD558\uAC70\uB098 \uD3EC\uCEE4\uC2A4 \uC544\uC6C3\uB77C\uC778\uC744 \uC81C\uAC70(outline: none)\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+      }
+    ],
+    relatedPatternIds: ["dashboard-overview", "filter-search"],
+    htmlSnippet: '<div class="atom-tree" role="tree">\n  <ul class="atom-tree-list">\n    <li class="atom-tree-item" role="treeitem" aria-expanded="true">\n      <div class="atom-tree-node is-selected">\n        <button class="atom-tree-toggle is-expanded">\u25B6</button>\n        <span class="atom-tree-label">src</span>\n      </div>\n    </li>\n  </ul>\n</div>',
+    reactSnippet: "import { Tree, TreeNode } from 'atomsystem/components/Tree';\nimport { useState } from 'react';\n\nconst treeData: TreeNode[] = [\n  {\n    id: 'src',\n    label: 'src',\n    children: [\n      { id: 'components', label: 'components', children: [{ id: 'Button.tsx', label: 'Button.tsx' }] },\n      { id: 'index.ts', label: 'index.ts' },\n    ],\n  },\n  { id: 'package.json', label: 'package.json' },\n];\n\nexport function TreeDemo() {\n  const [selectedId, setSelectedId] = useState('index.ts');\n  return <Tree data={treeData} selectedId={selectedId} onSelect={(node) => setSelectedId(node.id)} defaultExpandedIds={['src']} />;\n}",
+    vueSnippet: `<template>
+  <AtomTree :data="treeData" v-model:selected="selectedId" :default-expanded="['src']" />
+</template>`
   }
 ];
 
@@ -8329,10 +8375,26 @@ ${fontImportCSS}/* [AtomDesignToken] Live Injected Theme Variables */
   --atom-color-primary: ${color.primary};
   --atom-color-primary-hover: ${color.primaryHover};
   --atom-color-primary-subtle: ${color.primaryLight};
+  --atom-color-bg: ${color.bgPrimary};
+  --atom-color-surface: ${color.bgSecondary};
+  --atom-color-text: ${color.textPrimary};
+  --atom-color-text-secondary: ${color.textSecondary};
+  --atom-color-border: ${color.borderSubtle};
   --atom-status-success: ${color.statusSuccess};
   --atom-status-danger: ${color.statusDanger};
   --atom-status-warning: ${color.statusWarning};
   --atom-radius: ${borderRadius};
+
+  /* All Atom UI Component CSS Variable Mappings */
+  --atom-btn-radius: ${borderRadius};
+  --atom-input-radius: ${borderRadius};
+  --atom-card-radius: ${borderRadius};
+  --atom-card-bg: ${color.bgSecondary};
+  --atom-card-border: ${color.borderSubtle};
+  --atom-tree-bg: ${color.bgSecondary};
+  --atom-tree-border: ${color.borderSubtle};
+  --atom-tree-selected-bg: ${color.primaryLight};
+  --atom-tree-selected-text: ${color.primary};
 
   /* Typography Variables */
   --atom-font-h1-size: ${typography.h1.fontSize}px;
@@ -8460,6 +8522,33 @@ body {
 html.dark {
   --color-neutral-900: ${color.bgSecondary};
   --color-neutral-850: ${color.bgSecondary};
+}
+
+/* Global Component Surface Overrides */
+.atom-card, .atom-modal, .atom-sheet, .atom-tree, .atom-table, .atom-input, .atom-button {
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, border-radius 0.2s ease;
+}
+
+.atom-button-primary {
+  background-color: ${color.primary} !important;
+  color: #ffffff !important;
+  border-radius: ${borderRadius} !important;
+}
+
+.atom-button-primary:hover {
+  background-color: ${color.primaryHover} !important;
+}
+
+.atom-card {
+  background-color: ${color.bgSecondary} !important;
+  border-color: ${color.borderSubtle} !important;
+  border-radius: ${borderRadius} !important;
+}
+
+.atom-tree-node.is-selected {
+  background-color: ${color.primaryLight} !important;
+  color: ${color.primary} !important;
+  border-radius: ${borderRadius} !important;
 }
 
 html.dark .bg-white:not([data-keep-white]):not([role="switch"]):not([aria-hidden="true"]) {
@@ -8645,7 +8734,7 @@ function cn(...inputs) {
 
 // src/index.ts
 var ATOM_UI_CSS_PATH = "atomsystem/css/atom-ui.css";
-var ATOM_VERSION = "0.4.0";
+var ATOM_VERSION = "0.4.2";
 var ATOM_LIB_NAME = "atomsystem";
 
 exports.ATOM_LIB_NAME = ATOM_LIB_NAME;

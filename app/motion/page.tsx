@@ -50,10 +50,10 @@ export default function MotionPage() {
     <div className="min-h-screen bg-(--bg-primary) text-(--text-primary) flex flex-col justify-between transition-colors">
       <Header brandColor={brandColor} />
 
-      <main className="max-w-5xl w-full mx-auto px-6 py-12 flex-1 flex flex-col gap-10">
+      <main className="max-w-5xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8 flex-1 flex flex-col gap-6 sm:gap-8">
         {/* Hero Section */}
-        <section className="space-y-4 border-b border-(--border-subtle) pb-8">
-          <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-neutral-400">
+        <section className="space-y-2.5 border-b border-(--border-subtle) pb-4 sm:pb-5">
+          <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-mono text-neutral-400">
             <span className="text-blue-500 font-semibold flex items-center gap-1">
               <Zap className="w-3.5 h-3.5" />
               Motion &amp; Timing Tokens

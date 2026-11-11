@@ -37,12 +37,12 @@ export default function PrinciplesPage() {
     <div className="min-h-screen bg-(--bg-primary) text-(--text-primary) flex flex-col justify-between transition-colors">
       <Header brandColor={brandColor} />
 
-      <main className="max-w-5xl w-full mx-auto px-6 py-12 flex-1 flex flex-col gap-10">
+      <main className="max-w-5xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8 flex-1 flex flex-col gap-6 sm:gap-8">
         {/* Hero Section */}
-        <section className="space-y-4 border-b border-(--border-subtle) pb-8">
-          <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-neutral-400">
+        <section className="space-y-2.5 border-b border-(--border-subtle) pb-4 sm:pb-5">
+          <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-mono text-neutral-400">
             <span className="text-emerald-500 font-semibold flex items-center gap-1">
-              <ShieldCheck className="w-3.5 h-3.5" />
+              <ShieldCheck className="w-3 h-3" />
               Core Philosophy
             </span>
             <span>•</span>
@@ -55,7 +55,7 @@ export default function PrinciplesPage() {
             디자인 시스템 설계 원칙 (Principles)
           </h1>
 
-          <p className="text-sm text-(--text-secondary) leading-relaxed max-w-3xl">
+          <p className="text-xs sm:text-sm text-(--text-secondary) leading-relaxed max-w-3xl">
             AtomDesignToken은 임시방편적인 절차적 하드코딩을 배제하고, 플랫폼에 독립적인 단일 진실 공급원(SSOT)과 브라우저 네이티브 기술을 결합하여 유지보수 가능하고 확장성 높은 엔터프라이즈 UI를 구축하기 위한 6대 핵심 규격을 따릅니다.
           </p>
 

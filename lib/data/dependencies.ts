@@ -80,6 +80,15 @@ export const DEPENDENCY_ITEMS: DependencyItem[] = [
     bundleImpact: '0 KB (개발 환경 전용)',
     docsUrl: 'https://playwright.dev',
   },
+  {
+    name: 'Impeccable',
+    category: 'dev',
+    version: '^4.8.1',
+    purpose: 'AI 코딩 에이전트 전용 디자인 스킬팩 및 결정론적 디자인/접근성 안티패턴 검출',
+    whyChosen: 'LLM의 무분별한 제네릭 스타일(AI 슬롭)을 차단하고, 시맨틱 토큰 및 디자인 일관성을 정적 검증.',
+    bundleImpact: '0 KB (개발 및 CI/CD 전용 CLI)',
+    docsUrl: 'https://impeccable.style',
+  },
 ];
 
 export const COMPATIBILITY_MATRIX: CompatibilityItem[] = [

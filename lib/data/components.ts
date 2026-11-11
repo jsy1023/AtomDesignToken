@@ -1390,5 +1390,49 @@ export function TextareaDemo() {
     vueSnippet: `<template>
   <AtomTextarea v-model="comment" :max-length="300" />
 </template>`
+  },
+  {
+    id: 'tree',
+    name: '트리 뷰 (Tree View)',
+    category: 'data',
+    source: 'shadcn + vs-code',
+    description: '폴더/파일 탐색기, 조직도, 권한 계층 등 중첩된 트리 데이터를 시각화하고 펼침/접기/선택을 지원하는 고접근성 트리 컴포넌트',
+    callout: {
+      type: 'tip',
+      title: '접근성(A11y) 표준 준수',
+      text: 'WAI-ARIA Treeview 패턴을 준수하여 컨테이너에 role="tree", 각 행에 role="treeitem", 자식 보유 시 aria-expanded와 키보드 탐색(Enter/Space)을 지원합니다.'
+    },
+    propsSpec: [
+      { name: 'data', type: 'TreeNode[]', defaultValue: '[]', description: '트리 노드 계층 데이터 배열 ({ id, label, icon, children, disabled })' },
+      { name: 'selectedId', type: 'string', defaultValue: 'undefined', description: '현재 선택된 노드의 고유 ID' },
+      { name: 'onSelect', type: '(node: TreeNode) => void', defaultValue: 'undefined', description: '노드 선택 시 호출되는 콜백 함수' },
+      { name: 'defaultExpandedIds', type: 'string[]', defaultValue: '[]', description: '초기에 기본으로 펼쳐둘 노드 ID 목록' },
+      { name: 'className', type: 'string', defaultValue: "''", description: '루트 컨테이너에 전달할 추가 CSS 클래스' }
+    ],
+    useCases: [
+      'IDE 및 코드 에디터의 소스코드 파일/디렉토리 계층 탐색기',
+      '부서 및 팀원 조직도, 사내 권한/역할(RBAC) 부여 트리 뷰',
+      '대규모 전자상거래 상품 카테고리 다단계 분류 탐색',
+      '문서 및 지식베이스(Knowledge Base) 챕터/섹션 목차 내비게이션'
+    ],
+    usagePatterns: [
+      '자식 노드가 있는 부모 노드는 접기/펼치기 토글(▶)을 명확히 제공하고, 회전 애니메이션으로 상태를 인지시킵니다.',
+      '선택된 노드는 촌스러운 굵은 단면 보더(side-tab) 대신 은은한 브랜드 틴트 배경과 폰트 굵기(font-semibold)로 세련되게 표현합니다.',
+      '깊은 중첩 시에는 가이드 라인(dashed border)을 가볍게 두어 시각적 위계를 한눈에 파악할 수 있도록 돕습니다.'
+    ],
+    dosAndDonts: [
+      {
+        do: '노드가 많을 경우 기본적으로 1~2단계까지만 펼치고 필요 시 사용자가 드릴다운하도록 설계합니다.',
+        dont: '수백 개의 노드를 한 번에 전부 펼쳐서 세로 스크롤을 무한히 길어지게 방치하지 않습니다.'
+      },
+      {
+        do: '키보드 사용자도 접근할 수 있도록 Space나 Enter 키로 펼침/접기 및 선택을 지원합니다.',
+        dont: '마우스 더블클릭에만 의존하거나 포커스 아웃라인을 제거(outline: none)하지 않습니다.'
+      }
+    ],
+    relatedPatternIds: ['dashboard-overview', 'filter-search'],
+    htmlSnippet: '<div class="atom-tree" role="tree">\n  <ul class="atom-tree-list">\n    <li class="atom-tree-item" role="treeitem" aria-expanded="true">\n      <div class="atom-tree-node is-selected">\n        <button class="atom-tree-toggle is-expanded">▶</button>\n        <span class="atom-tree-label">src</span>\n      </div>\n    </li>\n  </ul>\n</div>',
+    reactSnippet: "import { Tree, TreeNode } from 'atomsystem/components/Tree';\nimport { useState } from 'react';\n\nconst treeData: TreeNode[] = [\n  {\n    id: 'src',\n    label: 'src',\n    children: [\n      { id: 'components', label: 'components', children: [{ id: 'Button.tsx', label: 'Button.tsx' }] },\n      { id: 'index.ts', label: 'index.ts' },\n    ],\n  },\n  { id: 'package.json', label: 'package.json' },\n];\n\nexport function TreeDemo() {\n  const [selectedId, setSelectedId] = useState('index.ts');\n  return <Tree data={treeData} selectedId={selectedId} onSelect={(node) => setSelectedId(node.id)} defaultExpandedIds={['src']} />;\n}",
+    vueSnippet: '<template>\n  <AtomTree :data="treeData" v-model:selected="selectedId" :default-expanded="[\'src\']" />\n</template>'
   }
 ];

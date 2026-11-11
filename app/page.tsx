@@ -17,6 +17,7 @@ import {
   Zap,
   Cpu,
   SlidersHorizontal,
+  Box,
 } from 'lucide-react';
 
 export default function Home() {
@@ -61,6 +62,13 @@ export default function Home() {
       icon: Layers,
     },
     {
+      title: '디자인 블록 (Blocks)',
+      desc: '실시간 차트, AI 대화형 메신저, 카드 리스트, 슬라이더, 요금제 등 완성형 프로덕션 모듈.',
+      href: '/blocks',
+      linkText: '디자인 블록 탐색',
+      icon: Box,
+    },
+    {
       title: 'UX 인터랙션 패턴 (Patterns)',
       desc: '대시보드, 폼 유효성, 결제, 온보딩 등 검증된 실무 UX 패턴 및 안티패턴 체크리스트.',
       href: '/patterns',
@@ -96,10 +104,10 @@ export default function Home() {
       <Header brandColor={brandColor} />
 
       {/* Main Content Area */}
-      <main className="max-w-5xl w-full mx-auto px-6 py-16 flex-1 flex flex-col gap-14">
+      <main className="max-w-5xl w-full mx-auto px-4 sm:px-6 py-8 sm:py-10 flex-1 flex flex-col gap-8 sm:gap-10">
         {/* Hero Section - Minimalist & Content-first */}
-        <section className="space-y-4 max-w-2xl">
-          <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-neutral-400">
+        <section className="space-y-3 max-w-2xl">
+          <div className="flex flex-wrap items-center gap-2 text-[11px] font-mono text-neutral-400">
             <a
               href="https://www.designtokens.org/tr/2025.10/"
               target="_blank"
@@ -113,12 +121,12 @@ export default function Home() {
             <span>Universal Design Token System</span>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-(--text-primary) leading-tight">
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-(--text-primary) leading-snug">
             플랫폼에 독립적인 디자인 토큰과<br />
             실무 UX 패턴 라이브러리
           </h1>
 
-          <p className="text-sm text-(--text-secondary) leading-relaxed">
+          <p className="text-xs sm:text-sm text-(--text-secondary) leading-relaxed">
             AtomDesignToken은 피그마 및 마크다운 기반의 디자인 결정을 단일 진실 공급원(SSOT)으로 관리하고, CSS 변수와 프레임워크 독립적 시맨틱 클래스로 컴파일하여 일관된 제품 경험을 구축합니다.
           </p>
 

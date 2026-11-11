@@ -16,3 +16,4 @@ export * from './Skeleton';
 export * from './Breadcrumb';
 export * from './Separator';
 export * from './Textarea';
+export * from './Tree';

@@ -38,12 +38,12 @@ export default function DependenciesPage() {
     <div className="min-h-screen bg-(--bg-primary) text-(--text-primary) flex flex-col justify-between transition-colors">
       <Header brandColor={brandColor} />
 
-      <main className="max-w-5xl w-full mx-auto px-6 py-12 flex-1 flex flex-col gap-10">
+      <main className="max-w-5xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8 flex-1 flex flex-col gap-6 sm:gap-8">
         {/* Hero Section */}
-        <section className="space-y-4 border-b border-(--border-subtle) pb-8">
-          <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-neutral-400">
+        <section className="space-y-2.5 border-b border-(--border-subtle) pb-4 sm:pb-5">
+          <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-mono text-neutral-400">
             <span className="text-emerald-500 font-semibold flex items-center gap-1">
-              <Cpu className="w-3.5 h-3.5" />
+              <Cpu className="w-3 h-3" />
               Zero Runtime Dependency
             </span>
             <span>•</span>
@@ -56,7 +56,7 @@ export default function DependenciesPage() {
             의존성 및 아키텍처 매트릭스 (Dependencies)
           </h1>
 
-          <p className="text-sm text-(--text-secondary) leading-relaxed max-w-3xl">
+          <p className="text-xs sm:text-sm text-(--text-secondary) leading-relaxed max-w-3xl">
             AtomDesignToken은 사용자 브라우저에 불필요한 자바스크립트 런타임 라이브러리를 단 1바이트도 강제하지 않습니다. 토큰 파싱과 컴파일은 빌드 타임에 완료되며, 실행 시점에는 브라우저 네이티브 CSS 변수만을 사용합니다.
           </p>
         </section>

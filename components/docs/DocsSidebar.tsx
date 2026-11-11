@@ -62,7 +62,7 @@ export function DocsSidebar({
   };
 
   return (
-    <aside className="w-64 shrink-0 flex flex-col gap-5 sticky top-24 max-h-[calc(100vh-120px)] overflow-y-auto pr-2 select-none">
+    <aside className="hidden lg:flex w-64 shrink-0 flex-col gap-5 sticky top-24 max-h-[calc(100vh-120px)] overflow-y-auto pr-2 select-none">
       {/* 1. Version Badge & Quick Meta */}
       <div className="flex items-center justify-between pb-3 border-b border-neutral-200/80 dark:border-neutral-800">
         <div className="flex items-center gap-2">

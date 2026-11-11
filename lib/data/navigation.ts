@@ -46,6 +46,12 @@ export const NAVIGATION_DEPTH: NavGroup[] = [
         description: '버튼, 인풋, 모달 등 시맨틱 토큰과 결합된 프로덕션 UI',
       },
       {
+        title: '디자인 블록',
+        href: '/blocks',
+        description: '실시간차트, 챗, 카드리스트, 슬라이더, 가격 등 실무 완성형 모듈',
+        badge: 'New',
+      },
+      {
         title: 'UX패턴',
         href: '/patterns',
         description: '대시보드, 폼 유효성, 결제 등 실무 검증 인터랙션 가이드',
