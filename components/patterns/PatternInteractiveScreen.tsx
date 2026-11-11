@@ -36,6 +36,9 @@ import {
   RotateCcw,
   Lock
 } from 'lucide-react';
+import { RealtimeChartBlock } from '@/components/blocks/RealtimeChartBlock';
+import { MetricStatsBlock } from '@/components/blocks/MetricStatsBlock';
+import { InteractiveChatBlock } from '@/components/blocks/InteractiveChatBlock';
 
 interface PatternInteractiveScreenProps {
   patternId: string;
@@ -138,154 +141,19 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
     <div className="w-full h-full text-neutral-900 dark:text-neutral-100 p-4 overflow-y-auto">
       {/* 1. SaaS Dashboard (Web) */}
       {patternId === 'saas-dashboard' && (
-        <div className="flex flex-col gap-5">
-          <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-neutral-200 dark:border-neutral-800">
-            <div>
-              <h2 className="text-lg font-bold">비즈니스 KPI 대시보드</h2>
-              <p className="text-xs text-neutral-500">실시간 성과 지표 및 전환율 모니터링</p>
-            </div>
-            <div className="inline-flex rounded-xl bg-neutral-100 dark:bg-neutral-800 p-1 text-xs font-semibold">
-              {(['7d', '30d', '90d'] as const).map((filter) => (
-                <button
-                  key={filter}
-                  onClick={() => setDashboardFilter(filter)}
-                  className={`px-3 py-1.5 rounded-lg transition ${
-                    dashboardFilter === filter
-                      ? 'bg-white dark:bg-neutral-900 shadow-sm text-blue-600 dark:text-blue-400 font-bold'
-                      : 'text-neutral-500 hover:text-neutral-900 dark:hover:text-white'
-                  }`}
-                >
-                  최근 {filter}
-                </button>
-              ))}
-            </div>
-          </div>
+        <div className="flex flex-col gap-6">
+          {/* Top Token Block: Metric Stats */}
+          <MetricStatsBlock />
 
-          {/* 4 KPI Cards */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {[
-              { label: '월간 반복 매출 (MRR)', val: '₩48,250,000', change: '+14.8%', up: true },
-              { label: '활성 사용자 (MAU)', val: '128,420명', change: '+8.2%', up: true },
-              { label: '유료 플랜 전환율', val: '4.65%', change: '+0.8%', up: true },
-              { label: '고객 이탈률 (Churn)', val: '1.12%', change: '-0.3%', up: false }
-            ].map((kpi, idx) => (
-              <div key={idx} className="p-3.5 rounded-xl bg-neutral-50 dark:bg-neutral-850 border border-neutral-200 dark:border-neutral-800">
-                <span className="text-[11px] font-medium text-neutral-500 block mb-1">{kpi.label}</span>
-                <div className="text-lg font-black text-neutral-900 dark:text-white">{kpi.val}</div>
-                <div className={`mt-1 text-[11px] font-bold flex items-center gap-1 ${kpi.up ? 'text-emerald-500' : 'text-blue-500'}`}>
-                  <TrendingUp className="w-3 h-3" />
-                  <span>전주 대비 {kpi.change}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Trend Bar Chart & Table */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="md:col-span-2 p-4 rounded-xl bg-neutral-50 dark:bg-neutral-850 border border-neutral-200 dark:border-neutral-800">
-              <span className="text-xs font-bold block mb-3">일별 매출 추이</span>
-              <div className="h-32 flex items-end gap-2 pt-4 px-2">
-                {[45, 60, 55, 75, 90, 85, 100].map((h, i) => (
-                  <div key={i} className="flex-1 flex flex-col items-center gap-1">
-                    <div style={{ height: `${h}%` }} className="w-full bg-blue-600 rounded-t transition-all hover:bg-blue-500"></div>
-                    <span className="text-[10px] text-neutral-400">10/{i + 8}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="p-4 rounded-xl bg-neutral-50 dark:bg-neutral-850 border border-neutral-200 dark:border-neutral-800 flex flex-col justify-between">
-              <span className="text-xs font-bold block mb-2">실시간 상태 현황</span>
-              <div className="flex flex-col gap-2">
-                <div className="flex justify-between items-center text-xs p-2 rounded-lg bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800">
-                  <span>API 서버 가동률</span>
-                  <span className="font-bold text-emerald-500">99.98%</span>
-                </div>
-                <div className="flex justify-between items-center text-xs p-2 rounded-lg bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800">
-                  <span>초당 요청 수 (RPS)</span>
-                  <span className="font-bold text-blue-500">4,820 req/s</span>
-                </div>
-              </div>
-              <button className="w-full py-2 rounded-lg bg-blue-600 text-white text-xs font-bold hover:bg-blue-700 transition mt-3">
-                전체 리포트 내보내기 (CSV)
-              </button>
-            </div>
-          </div>
+          {/* Core Token Block: Realtime Chart Section */}
+          <RealtimeChartBlock />
         </div>
       )}
 
       {/* 2. Chat Support (Mobile) */}
       {patternId === 'chat-support' && (
-        <div className="flex flex-col h-full max-w-sm mx-auto justify-between">
-          {/* Header */}
-          <div className="flex items-center gap-2.5 pb-3 border-b border-neutral-200 dark:border-neutral-800">
-            <div className="relative">
-              <div className="w-9 h-9 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center text-xs">AI</div>
-              <span className="absolute right-0 bottom-0 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-white dark:ring-neutral-900"></span>
-            </div>
-            <div>
-              <div className="font-bold text-xs">고객지원 어시스턴트</div>
-              <div className="text-[10px] text-emerald-600 dark:text-emerald-400 font-medium">상담 가능 · 평균 응답 1초</div>
-            </div>
-          </div>
-
-          {/* Chat Stream */}
-          <div className="flex-1 overflow-y-auto py-4 flex flex-col gap-2.5">
-            {messages.map((m, i) => (
-              <div key={i} className={`flex ${m.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                <div
-                  className={`max-w-[80%] px-3.5 py-2.5 rounded-2xl text-xs leading-relaxed ${
-                    m.sender === 'user'
-                      ? 'bg-blue-600 text-white rounded-br-none shadow-sm'
-                      : 'bg-neutral-100 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 rounded-bl-none border border-neutral-200/80 dark:border-neutral-700'
-                  }`}
-                >
-                  {m.text}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Quick FAQ Chips */}
-          <div className="flex gap-1.5 overflow-x-auto py-2">
-            {['반품 신청 방법', '배송 현황 조회', '쿠폰 적용 오류'].map((chip) => (
-              <button
-                key={chip}
-                onClick={() => setMessages([...messages, { sender: 'user', text: chip }])}
-                className="whitespace-nowrap px-2.5 py-1 rounded-full bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 border border-neutral-200 dark:border-neutral-700 text-[11px] font-medium text-neutral-600 dark:text-neutral-300"
-              >
-                {chip}
-              </button>
-            ))}
-          </div>
-
-          {/* Input Bar */}
-          <div className="flex gap-2 pt-2 border-t border-neutral-200 dark:border-neutral-800">
-            <input
-              type="text"
-              placeholder="메시지를 입력하세요..."
-              value={chatInput}
-              onChange={(e) => setChatInput(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && chatInput.trim()) {
-                  setMessages([...messages, { sender: 'user', text: chatInput }]);
-                  setChatInput('');
-                }
-              }}
-              className="flex-1 px-3 py-2 rounded-xl bg-neutral-100 dark:bg-neutral-800 text-xs border border-neutral-200 dark:border-neutral-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            <button
-              onClick={() => {
-                if (chatInput.trim()) {
-                  setMessages([...messages, { sender: 'user', text: chatInput }]);
-                  setChatInput('');
-                }
-              }}
-              className="p-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white"
-            >
-              <Send className="w-4 h-4" />
-            </button>
-          </div>
+        <div className="max-w-md mx-auto h-full flex flex-col justify-center">
+          <InteractiveChatBlock />
         </div>
       )}
 

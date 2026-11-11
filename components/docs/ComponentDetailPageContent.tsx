@@ -9,6 +9,27 @@ import { GalleryComponent } from '@/lib/data/components';
 import { PATTERNS_COLLECTION } from '@/lib/data/patterns';
 import { Tree, TreeNode } from '@/components/ui/Tree';
 import {
+  Button,
+  Badge,
+  Card,
+  Input,
+  Table,
+  TableHeader,
+  TableBody,
+  TableHead,
+  TableRow,
+  TableCell,
+  TabsList,
+  TabsTrigger,
+  TabsContent,
+  Switch,
+  Container,
+  Layout,
+  Stack,
+  Grid,
+} from '@/components/ui';
+import { CodeHighlight } from '@/components/common/CodeHighlight';
+import {
   ArrowLeft,
   Copy,
   Check,
@@ -64,54 +85,28 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
       case 'button':
         return (
           <div className="flex flex-wrap items-center justify-center gap-3">
-            <button className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-md shadow-blue-500/20 active:scale-95 transition">
-              Primary Action
-            </button>
-            <button className="px-5 py-2.5 rounded-xl bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 text-neutral-800 dark:text-neutral-200 font-bold text-xs border border-neutral-200 dark:border-neutral-700 active:scale-95 transition">
-              Secondary
-            </button>
-            <button className="px-5 py-2.5 rounded-xl border border-blue-500 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950 font-bold text-xs active:scale-95 transition">
-              Outline
-            </button>
-            <button className="px-5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs shadow-md shadow-rose-500/20 active:scale-95 transition">
-              Destructive
-            </button>
-            <button className="px-5 py-2.5 rounded-xl bg-neutral-100 dark:bg-neutral-800 text-neutral-400 font-bold text-xs cursor-not-allowed opacity-60">
-              Disabled
-            </button>
-            <button className="px-5 py-2.5 rounded-xl bg-blue-600 text-white font-bold text-xs inline-flex items-center gap-2 opacity-80 cursor-wait">
-              <RefreshCw className="w-3.5 h-3.5 animate-spin" />
-              <span>로딩 중...</span>
-            </button>
+            <Button variant="primary">Primary Action</Button>
+            <Button variant="secondary">Secondary</Button>
+            <Button variant="outline">Outline</Button>
+            <Button variant="destructive">Destructive</Button>
+            <Button disabled>Disabled</Button>
+            <Button loading>로딩 중...</Button>
           </div>
         );
 
       case 'input':
         return (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-lg">
-            <div>
-              <label className="text-xs font-bold text-neutral-700 dark:text-neutral-300 block mb-1.5">
-                이메일 주소 (기본)
-              </label>
-              <input
-                type="email"
-                placeholder="name@company.com"
-                className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 text-xs focus:ring-2 focus:ring-blue-500 focus:outline-none"
-              />
-            </div>
-            <div>
-              <label className="text-xs font-bold text-rose-500 block mb-1.5">
-                에러 상태 인풋
-              </label>
-              <input
-                type="text"
-                defaultValue="invalid_email"
-                className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-neutral-900 border border-rose-500 text-rose-500 text-xs focus:ring-2 focus:ring-rose-500 focus:outline-none"
-              />
-              <span className="text-[10px] text-rose-500 mt-1 block font-semibold">
-                유효한 이메일 형식을 입력하세요.
-              </span>
-            </div>
+            <Input
+              label="이메일 주소 (기본)"
+              type="email"
+              placeholder="name@company.com"
+            />
+            <Input
+              label="에러 상태 인풋"
+              defaultValue="invalid_email"
+              error="유효한 이메일 형식을 입력하세요."
+            />
           </div>
         );
 
@@ -119,19 +114,11 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
         return (
           <div className="flex flex-wrap items-center justify-center gap-8">
             <label className="flex items-center gap-3 cursor-pointer">
-              <div
-                onClick={() => setSwitchState(!switchState)}
-                className={`w-12 h-6 flex items-center rounded-full p-1 transition-colors ${
-                  switchState ? 'bg-blue-600' : 'bg-neutral-300 dark:bg-neutral-700'
-                }`}
-              >
-                <div
-                  className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform ${
-                    switchState ? 'translate-x-6' : 'translate-x-0'
-                  }`}
-                />
-              </div>
-              <span className="text-xs font-bold text-neutral-800 dark:text-neutral-200">
+              <Switch
+                checked={switchState}
+                onCheckedChange={setSwitchState}
+              />
+              <span className="text-xs font-medium text-(--text-primary)">
                 {switchState ? '야간 푸시 알림 켜짐' : '야간 푸시 알림 꺼짐'}
               </span>
             </label>
@@ -143,7 +130,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                 onChange={(e) => setCheckboxState(e.target.checked)}
                 className="w-4 h-4 rounded border-neutral-300 text-blue-600 focus:ring-blue-500 cursor-pointer"
               />
-              <span className="text-xs font-bold text-neutral-800 dark:text-neutral-200">
+              <span className="text-xs font-medium text-(--text-primary)">
                 이용약관 및 개인정보 처리방침 전체 동의
               </span>
             </label>
@@ -254,80 +241,72 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
       case 'tabs':
         return (
           <div className="w-full max-w-sm flex flex-col gap-3">
-            <div className="flex p-1 rounded-xl bg-neutral-100 dark:bg-neutral-800 text-xs font-semibold">
+            <TabsList className="w-full justify-center">
               {(['account', 'password', 'settings'] as const).map((tab) => (
-                <button
+                <TabsTrigger
                   key={tab}
+                  active={activeTab === tab}
                   onClick={() => setActiveTab(tab)}
-                  className={`flex-1 py-1.5 rounded-lg transition capitalize ${
-                    activeTab === tab
-                      ? 'bg-white dark:bg-neutral-900 text-blue-600 dark:text-blue-400 shadow-sm font-bold'
-                      : 'text-neutral-500 hover:text-neutral-900 dark:hover:text-white'
-                  }`}
+                  className="flex-1 capitalize"
                 >
                   {tab}
-                </button>
+                </TabsTrigger>
               ))}
-            </div>
-            <div className="p-4 rounded-xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 text-xs text-neutral-500 text-center">
-              선택된 탭: <strong className="text-neutral-900 dark:text-white">{activeTab}</strong>
-            </div>
+            </TabsList>
+            <TabsContent active className="text-center text-(--text-secondary)">
+              선택된 탭: <strong className="text-(--text-primary)">{activeTab}</strong>
+            </TabsContent>
           </div>
         );
 
       case 'badge':
         return (
           <div className="flex flex-wrap items-center justify-center gap-2">
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800">
-              NEW Feature
-            </span>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              온라인 연결됨
-            </span>
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-amber-50 dark:bg-amber-950 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-800">
-              대기중
-            </span>
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-rose-50 dark:bg-rose-950 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-800">
-              오류 발생
-            </span>
+            <Badge variant="primary">NEW Feature</Badge>
+            <Badge variant="success">온라인 연결됨</Badge>
+            <Badge variant="warning">대기중</Badge>
+            <Badge variant="destructive">오류 발생</Badge>
           </div>
         );
 
       case 'card':
         return (
-          <div className="p-5 rounded-2xl bg-white dark:bg-neutral-900 border border-neutral-200/90 dark:border-neutral-800 shadow-sm hover:shadow-lg transition-all duration-300 max-w-xs w-full flex flex-col gap-2">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-blue-600">토큰 바인딩 서피스</span>
-            <h4 className="text-base font-bold text-neutral-900 dark:text-white">토스뱅크 자유적금</h4>
-            <div className="text-xl font-black text-neutral-900 dark:text-white">₩ 12,450,000</div>
-            <p className="text-xs text-neutral-500">연 4.5% 최고 금리 적용 중</p>
-          </div>
+          <Card className="p-5 max-w-xs w-full flex flex-col gap-2">
+            <Badge variant="primary" className="self-start text-[10px]">토큰 바인딩 서피스</Badge>
+            <h4 className="text-base font-bold text-(--text-primary)">토스뱅크 자유적금</h4>
+            <div className="text-xl font-bold text-(--text-primary)">₩ 12,450,000</div>
+            <p className="text-xs text-(--text-secondary)">연 4.5% 최고 금리 적용 중</p>
+          </Card>
         );
 
       case 'table':
         return (
-          <div className="w-full max-w-lg border border-neutral-200 dark:border-neutral-800 rounded-xl overflow-hidden text-xs">
-            <table className="w-full text-left">
-              <thead className="bg-neutral-100 dark:bg-neutral-850 text-neutral-700 dark:text-neutral-300 font-bold border-b border-neutral-200 dark:border-neutral-800">
-                <tr>
-                  <th className="p-3">멤버</th>
-                  <th className="p-3">상태</th>
-                  <th className="p-3">역할</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-neutral-200 dark:divide-neutral-800">
-                <tr className="hover:bg-neutral-50 dark:hover:bg-neutral-850">
-                  <td className="p-3 font-bold">김민수</td>
-                  <td className="p-3 text-emerald-600 font-semibold">정상 가동</td>
-                  <td className="p-3 text-neutral-500">소유자 (Admin)</td>
-                </tr>
-                <tr className="hover:bg-neutral-50 dark:hover:bg-neutral-850">
-                  <td className="p-3 font-bold">이지은</td>
-                  <td className="p-3 text-blue-600 font-semibold">초대 수락</td>
-                  <td className="p-3 text-neutral-500">디자이너</td>
-                </tr>
-              </tbody>
-            </table>
+          <div className="w-full max-w-lg">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>멤버</TableHead>
+                  <TableHead>상태</TableHead>
+                  <TableHead>역할</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                <TableRow>
+                  <TableCell className="font-semibold">김민수</TableCell>
+                  <TableCell>
+                    <Badge variant="success">정상 가동</Badge>
+                  </TableCell>
+                  <TableCell className="text-(--text-secondary)">소유자 (Admin)</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className="font-semibold">이지은</TableCell>
+                  <TableCell>
+                    <Badge variant="primary">초대 수락</Badge>
+                  </TableCell>
+                  <TableCell className="text-(--text-secondary)">디자이너</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
           </div>
         );
 
@@ -376,6 +355,49 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
         );
       }
 
+      case 'container':
+        return (
+          <div className="w-full space-y-4">
+            <Container size="sm" className="p-4 rounded-(--radius) border border-(--border-subtle) bg-(--bg-secondary)/50 text-center">
+              <span className="text-xs font-mono text-(--text-secondary)">Container size="sm" (640px)</span>
+            </Container>
+            <Container size="md" className="p-4 rounded-(--radius) border border-(--border-subtle) bg-(--bg-secondary)/50 text-center">
+              <span className="text-xs font-mono text-(--text-secondary)">Container size="md" (768px)</span>
+            </Container>
+            <Container size="lg" className="p-4 rounded-(--radius) border border-(--border-strong) bg-(--bg-secondary)/50 text-center">
+              <span className="text-xs font-mono font-semibold text-(--text-primary)">Container size="lg" (1024px)</span>
+            </Container>
+          </div>
+        );
+
+      case 'layout':
+        return (
+          <div className="w-full p-4 rounded-(--radius) border border-(--border-subtle) bg-(--bg-primary) space-y-4">
+            <div className="text-xs font-semibold text-(--text-secondary) uppercase tracking-wider mb-2">
+              Stack & Grid 토큰 연동 프리뷰
+            </div>
+            <Stack gap="3">
+              <div className="p-2.5 rounded-(--radius-sm) bg-(--bg-secondary) text-xs font-mono">
+                Stack gap="3" (12px) 아이템 1
+              </div>
+              <div className="p-2.5 rounded-(--radius-sm) bg-(--bg-secondary) text-xs font-mono">
+                Stack gap="3" (12px) 아이템 2
+              </div>
+            </Stack>
+            <Grid cols={3} gap="2" className="mt-3">
+              <div className="p-3 text-center rounded-(--radius-sm) border border-(--border-subtle) text-xs font-mono">
+                Col 1
+              </div>
+              <div className="p-3 text-center rounded-(--radius-sm) border border-(--border-subtle) text-xs font-mono">
+                Col 2
+              </div>
+              <div className="p-3 text-center rounded-(--radius-sm) border border-(--border-subtle) text-xs font-mono">
+                Col 3
+              </div>
+            </Grid>
+          </div>
+        );
+
       default:
         return null;
     }
@@ -412,42 +434,43 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
             <div>
               <div className="flex items-center gap-2 mb-2">
                 <span 
-                  style={{ backgroundColor: `${brandColor}15`, color: brandColor, borderColor: `${brandColor}30` }}
-                  className="text-[11px] font-mono font-bold px-2.5 py-0.5 rounded-full border"
+                  className="text-xs font-mono font-medium px-2.5 py-0.5 rounded-full bg-(--bg-secondary) text-(--text-primary) border border-(--border-subtle)"
                 >
                   .atom-{component.id}
                 </span>
-                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-[var(--bg-secondary)] text-[var(--text-secondary)] border border-[var(--border-subtle)]">
+                <span className="text-xs font-medium uppercase tracking-wider px-2 py-0.5 rounded-(--radius-sm) bg-(--bg-secondary) text-(--text-secondary) border border-(--border-subtle)">
                   {component.category}
                 </span>
-                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-[var(--bg-secondary)] text-[var(--text-secondary)] border border-[var(--border-subtle)]">
+                <span className="text-xs font-medium uppercase tracking-wider px-2 py-0.5 rounded-(--radius-sm) bg-(--bg-secondary) text-(--text-secondary) border border-(--border-subtle)">
                   {component.source}
                 </span>
               </div>
-              <h1 className="docs-h1">
+              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-(--text-primary)">
                 {component.name}
               </h1>
-              <p className="docs-lead mt-1.5 max-w-2xl">
+              <p className="text-sm sm:text-base text-(--text-secondary) mt-1.5 max-w-2xl leading-relaxed">
                 {component.description}
               </p>
             </div>
 
-            <button
+            <Button
+              variant="primary"
+              size="md"
               onClick={handleCopyCode}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-md shadow-blue-500/20 active:scale-95 transition"
+              className="text-xs flex items-center gap-2"
             >
               {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
               <span>{copied ? '복사 완료!' : '컴포넌트 코드 복사'}</span>
-            </button>
+            </Button>
           </div>
         </div>
 
         {/* 1. Interactive Live Preview */}
         <section id="preview" className="scroll-mt-28 flex flex-col gap-3">
-          <h2 className="docs-section-header">
+          <h2 className="text-sm font-semibold text-(--text-primary)">
             인터랙티브 라이브 프리뷰 (Interactive Preview)
           </h2>
-          <div className="w-full min-h-[220px] p-8 rounded-3xl bg-neutral-100/70 dark:bg-neutral-950/70 border border-neutral-200/80 dark:border-neutral-800 flex items-center justify-center shadow-inner">
+          <div className="w-full min-h-[220px] p-6 rounded-(--radius) bg-(--bg-secondary)/30 border border-(--border-subtle) flex items-center justify-center">
             {renderPreview()}
           </div>
         </section>
@@ -455,113 +478,115 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
         {/* 2. Code Copy Section (React / Vue / HTML) */}
         <section id="code" className="scroll-mt-28 flex flex-col gap-3">
           <div className="flex items-center justify-between">
-            <h2 className="docs-section-header flex items-center gap-1.5">
-              <Code2 className="w-4 h-4 text-blue-500" />
+            <h2 className="text-sm font-semibold text-(--text-primary) flex items-center gap-1.5">
+              <Code2 className="w-4 h-4 text-(--accent-primary)" />
               <span>컴포넌트 코드 스니펫 (Code Copy)</span>
             </h2>
-            <span className="text-xs text-neutral-400 font-mono">Framework Agnostic</span>
+            <span className="text-xs text-(--text-secondary) font-mono">Framework Agnostic</span>
           </div>
 
-          <div className="rounded-3xl bg-neutral-900 border border-neutral-800 overflow-hidden shadow-xl text-neutral-200">
-            <div className="flex items-center justify-between px-4 py-2.5 border-b border-neutral-800 bg-neutral-950/80 text-xs font-semibold">
+          <div className="rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) overflow-hidden text-(--text-primary)">
+            <div className="flex items-center justify-between px-4 py-2 border-b border-(--border-subtle) bg-(--bg-secondary)/40 text-xs font-semibold">
               <div className="flex items-center gap-1">
                 {(['react', 'vue', 'html'] as const).map((tab) => (
-                  <button
+                  <Button
                     key={tab}
+                    variant={activeSnippetTab === tab ? 'primary' : 'ghost'}
+                    size="sm"
                     onClick={() => setActiveSnippetTab(tab)}
-                    className={`px-3 py-1.5 rounded-lg transition capitalize ${
-                      activeSnippetTab === tab
-                        ? 'bg-neutral-800 text-blue-400 font-bold'
-                        : 'text-neutral-400 hover:text-white'
-                    }`}
+                    className="text-xs px-2.5 py-1 h-auto"
                   >
                     {tab === 'react' ? 'React / Next.js' : tab === 'vue' ? 'Vue 3' : 'Vanilla HTML'}
-                  </button>
+                  </Button>
                 ))}
               </div>
 
-              <button
+              <Button
+                variant="outline"
+                size="sm"
                 onClick={handleCopyCode}
-                className="inline-flex items-center gap-1.5 text-xs text-neutral-400 hover:text-white transition px-3 py-1.5 rounded-lg hover:bg-neutral-800"
+                className="text-xs flex items-center gap-1.5 h-auto py-1"
               >
-                {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
                 <span>{copied ? '복사됨!' : '전체 코드 복사'}</span>
-              </button>
+              </Button>
             </div>
 
-            <pre className="p-5 text-xs font-mono leading-relaxed overflow-x-auto text-neutral-300">
-              <code>{activeSnippet}</code>
-            </pre>
+            <CodeHighlight
+              code={activeSnippet}
+              language={activeSnippetTab === 'html' ? 'html' : activeSnippetTab === 'vue' ? 'html' : 'tsx'}
+              className="p-4 bg-(--bg-secondary)/10"
+            />
           </div>
         </section>
 
         {/* 3. Use Cases (사용 케이스) */}
         <section id="use-cases" className="scroll-mt-28 flex flex-col gap-3">
-          <h2 className="text-sm font-bold uppercase tracking-wider text-neutral-500 flex items-center gap-1.5">
-            <Sparkles className="w-4 h-4 text-emerald-500" />
+          <h2 className="text-xs font-semibold uppercase tracking-wider text-(--text-secondary) flex items-center gap-1.5">
+            <Sparkles className="w-4 h-4 text-(--accent-primary)" />
             <span>실무 주요 사용 케이스 (Use Cases)</span>
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {component.useCases.map((useCase, idx) => (
-              <div
+              <Card
                 key={idx}
-                className="p-4 rounded-2xl bg-white dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800 shadow-xs flex items-start gap-3"
+                className="p-4 flex items-start gap-3 shadow-xs"
               >
-                <div className="w-6 h-6 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">
+                <div className="w-5 h-5 rounded-full bg-(--bg-secondary) text-(--text-primary) font-bold text-xs flex items-center justify-center shrink-0 mt-0.5 border border-(--border-subtle)">
                   {idx + 1}
                 </div>
-                <p className="text-xs text-neutral-700 dark:text-neutral-300 leading-relaxed font-medium">
+                <p className="text-xs text-(--text-secondary) leading-relaxed">
                   {useCase}
                 </p>
-              </div>
+              </Card>
             ))}
           </div>
         </section>
 
-        {/* 4. Usage Patterns & Best Practices (사용 패턴) */}
+        {/* 4. Usage Patterns & Best Practices */}
         <section id="patterns" className="scroll-mt-28 flex flex-col gap-3">
-          <h2 className="text-sm font-bold uppercase tracking-wider text-neutral-500 flex items-center gap-1.5">
-            <BookOpen className="w-4 h-4 text-blue-500" />
+          <h2 className="text-xs font-semibold uppercase tracking-wider text-(--text-secondary) flex items-center gap-1.5">
+            <BookOpen className="w-4 h-4 text-(--accent-primary)" />
             <span>권장 사용 패턴 및 설계 지침 (Usage Patterns)</span>
           </h2>
-          <div className="p-5 rounded-2xl bg-white dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800 shadow-xs flex flex-col gap-2.5">
+          <Card className="p-4 flex flex-col gap-2">
             {component.usagePatterns.map((pattern, idx) => (
-              <div key={idx} className="flex items-start gap-2.5 text-xs text-neutral-700 dark:text-neutral-300">
-                <span className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 shrink-0" />
-                <p className="leading-relaxed font-medium">{pattern}</p>
+              <div key={idx} className="flex items-start gap-2.5 text-xs text-(--text-secondary)">
+                <span className="w-1.5 h-1.5 rounded-full bg-(--accent-primary) mt-1.5 shrink-0" />
+                <p className="leading-relaxed">{pattern}</p>
               </div>
             ))}
-          </div>
+          </Card>
         </section>
 
         {/* 5. Do's & Don'ts */}
         {component.dosAndDonts && component.dosAndDonts.length > 0 && (
           <section id="dos-donts" className="scroll-mt-28 flex flex-col gap-3">
-            <h2 className="text-sm font-bold uppercase tracking-wider text-neutral-500">
+            <h2 className="text-xs font-semibold uppercase tracking-wider text-(--text-secondary)">
               올바른 사용법 & 안티패턴 방지 (Do's & Don'ts)
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {component.dosAndDonts.map((rule, idx) => (
                 <React.Fragment key={idx}>
-                  <div className="p-4 rounded-2xl bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-200/80 dark:border-emerald-900/40 flex flex-col gap-1.5">
-                    <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-600 dark:text-emerald-400">
-                      <CheckCircle2 className="w-4 h-4" />
+                  <Card className="p-4 border-emerald-500/20 bg-emerald-500/5 flex flex-col gap-1.5">
+                    <div className="flex items-center gap-1.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+                      <CheckCircle2 className="w-3.5 h-3.5" />
                       <span>DO (권장)</span>
                     </div>
-                    <p className="text-xs text-emerald-900 dark:text-emerald-200 leading-relaxed font-medium">
+                    <p className="text-xs text-(--text-primary) leading-relaxed">
                       {rule.do}
                     </p>
-                  </div>
+                  </Card>
 
-                  <div className="p-4 rounded-2xl bg-rose-50/50 dark:bg-rose-950/20 border border-rose-200/80 dark:border-rose-900/40 flex flex-col gap-1.5">
-                    <div className="flex items-center gap-1.5 text-xs font-bold text-rose-600 dark:text-rose-400">
-                      <XCircle className="w-4 h-4" />
+                  <Card className="p-4 border-rose-500/20 bg-rose-500/5 flex flex-col gap-1.5">
+                    <div className="flex items-center gap-1.5 text-xs font-semibold text-rose-600 dark:text-rose-400">
+                      <XCircle className="w-3.5 h-3.5" />
                       <span>DON'T (지양)</span>
                     </div>
-                    <p className="text-xs text-rose-900 dark:text-rose-200 leading-relaxed font-medium">
+                    <p className="text-xs text-(--text-primary) leading-relaxed">
                       {rule.dont}
                     </p>
-                  </div>
+                  </Card>
                 </React.Fragment>
               ))}
             </div>
@@ -571,39 +596,37 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
         {/* 6. API Props Reference */}
         {component.propsSpec && component.propsSpec.length > 0 && (
           <section id="props" className="scroll-mt-28 flex flex-col gap-3">
-            <h2 className="text-sm font-bold uppercase tracking-wider text-neutral-500">
+            <h2 className="text-xs font-semibold uppercase tracking-wider text-(--text-secondary)">
               API Props 규격 명세 (API Reference)
             </h2>
-            <div className="border border-neutral-200 dark:border-neutral-800 rounded-2xl overflow-hidden bg-white dark:bg-neutral-900 shadow-xs">
-              <table className="w-full text-left border-collapse text-xs">
-                <thead className="bg-neutral-50 dark:bg-neutral-850 text-neutral-700 dark:text-neutral-300 font-bold border-b border-neutral-200 dark:border-neutral-800">
-                  <tr>
-                    <th className="p-3 w-1/4">Property</th>
-                    <th className="p-3 w-1/3">Type</th>
-                    <th className="p-3 w-1/6">Default</th>
-                    <th className="p-3">Description</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-neutral-200 dark:divide-neutral-800">
-                  {component.propsSpec.map((prop, idx) => (
-                    <tr key={idx} className="hover:bg-neutral-50/50 dark:hover:bg-neutral-850/50 transition-colors">
-                      <td className="p-3 font-mono font-bold text-blue-600 dark:text-blue-400">{prop.name}</td>
-                      <td className="p-3 font-mono text-[11px] text-purple-600 dark:text-purple-400">{prop.type}</td>
-                      <td className="p-3 font-mono text-neutral-500 dark:text-neutral-400">{prop.defaultValue}</td>
-                      <td className="p-3 text-neutral-700 dark:text-neutral-300 font-medium">{prop.description}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-1/4">Property</TableHead>
+                  <TableHead className="w-1/3">Type</TableHead>
+                  <TableHead className="w-1/6">Default</TableHead>
+                  <TableHead>Description</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {component.propsSpec.map((prop, idx) => (
+                  <TableRow key={idx}>
+                    <TableCell className="font-mono font-semibold text-(--text-primary)">{prop.name}</TableCell>
+                    <TableCell className="font-mono text-xs text-(--text-secondary)">{prop.type}</TableCell>
+                    <TableCell className="font-mono text-(--text-muted)">{prop.defaultValue}</TableCell>
+                    <TableCell className="text-(--text-secondary)">{prop.description}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </section>
         )}
 
         {/* 7. Related UX Patterns */}
         {relatedPatterns.length > 0 && (
-          <section id="related" className="scroll-mt-28 flex flex-col gap-3 pt-4 border-t border-neutral-200/80 dark:border-neutral-800">
-            <h2 className="text-sm font-bold uppercase tracking-wider text-neutral-500 flex items-center gap-1.5">
-              <Layers className="w-4 h-4 text-blue-500" />
+          <section id="related" className="scroll-mt-28 flex flex-col gap-3 pt-4 border-t border-(--border-subtle)">
+            <h2 className="text-xs font-semibold uppercase tracking-wider text-(--text-secondary) flex items-center gap-1.5">
+              <Layers className="w-4 h-4 text-(--accent-primary)" />
               <span>이 컴포넌트가 사용되는 실무 UX 패턴</span>
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
@@ -611,17 +634,17 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                 <Link
                   key={pattern.id}
                   href={`/patterns`}
-                  className="p-4 rounded-2xl bg-white dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800 hover:border-blue-500 transition-all flex flex-col justify-between gap-2 shadow-xs group"
+                  className="p-4 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) hover:border-(--border-strong) transition-colors flex flex-col justify-between gap-2 shadow-xs group"
                 >
                   <div>
-                    <span className="text-[10px] font-bold text-neutral-500 uppercase">{pattern.categoryName}</span>
-                    <h4 className="docs-h4 group-hover:text-blue-600 transition">
+                    <span className="text-xs font-medium text-(--text-secondary) uppercase">{pattern.categoryName}</span>
+                    <h3 className="text-sm font-semibold text-(--text-primary) group-hover:text-(--accent-primary) transition-colors mt-0.5">
                       {pattern.title}
-                    </h4>
+                    </h3>
                   </div>
-                  <div className="flex items-center gap-1 text-[11px] font-bold text-blue-600">
+                  <div className="flex items-center gap-1 text-xs font-medium text-(--accent-primary)">
                     <span>패턴 상세 보기</span>
-                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition" />
+                    <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
                   </div>
                 </Link>
               ))}
@@ -631,49 +654,49 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
         </div>
 
         {/* 3. Right Column: Quick On-Page Section TOC */}
-        <aside className="w-52 shrink-0 sticky top-24 max-h-[calc(100vh-120px)] overflow-y-auto pl-4 border-l border-neutral-200/80 dark:border-neutral-800 select-none hidden xl:flex flex-col gap-3">
-          <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider">
+        <aside className="w-52 shrink-0 sticky top-24 max-h-[calc(100vh-120px)] overflow-y-auto pl-4 border-l border-(--border-subtle) select-none hidden xl:flex flex-col gap-3 text-xs">
+          <span className="text-xs font-medium text-(--text-secondary) uppercase tracking-wider">
             이 페이지 목차
           </span>
           <ul className="flex flex-col gap-1 text-xs">
             <li>
-              <a href="#preview" className="text-neutral-600 dark:text-neutral-400 hover:text-blue-600 py-1 block">
+              <a href="#preview" className="text-(--text-secondary) hover:text-(--text-primary) py-1 block transition-colors">
                 라이브 프리뷰
               </a>
             </li>
             <li>
-              <a href="#code" className="text-neutral-600 dark:text-neutral-400 hover:text-blue-600 py-1 block">
+              <a href="#code" className="text-(--text-secondary) hover:text-(--text-primary) py-1 block transition-colors">
                 코드 스니펫
               </a>
             </li>
             <li>
-              <a href="#use-cases" className="text-neutral-600 dark:text-neutral-400 hover:text-blue-600 py-1 block">
+              <a href="#use-cases" className="text-(--text-secondary) hover:text-(--text-primary) py-1 block transition-colors">
                 실무 사용 케이스
               </a>
             </li>
             <li>
-              <a href="#patterns" className="text-neutral-600 dark:text-neutral-400 hover:text-blue-600 py-1 block">
+              <a href="#patterns" className="text-(--text-secondary) hover:text-(--text-primary) py-1 block transition-colors">
                 권장 사용 패턴
               </a>
             </li>
             {component.dosAndDonts && component.dosAndDonts.length > 0 && (
               <li>
-                <a href="#dos-donts" className="text-neutral-600 dark:text-neutral-400 hover:text-blue-600 py-1 block">
+                <a href="#dos-donts" className="text-(--text-secondary) hover:text-(--text-primary) py-1 block transition-colors">
                   Do's & Don'ts
                 </a>
               </li>
             )}
             {component.propsSpec && component.propsSpec.length > 0 && (
               <li>
-                <a href="#props" className="text-neutral-600 dark:text-neutral-400 hover:text-blue-600 py-1 block">
-                  API Props 규격
+                <a href="#props" className="text-(--text-secondary) hover:text-(--text-primary) py-1 block transition-colors">
+                  API Props 명세
                 </a>
               </li>
             )}
             {relatedPatterns.length > 0 && (
               <li>
-                <a href="#related" className="text-neutral-600 dark:text-neutral-400 hover:text-blue-600 py-1 block">
-                  연관 UX 패턴
+                <a href="#related" className="text-(--text-secondary) hover:text-(--text-primary) py-1 block transition-colors">
+                  관련 UX 패턴
                 </a>
               </li>
             )}

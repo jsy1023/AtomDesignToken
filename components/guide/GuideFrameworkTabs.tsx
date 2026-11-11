@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Atom, Code2, Globe, Bot, Copy, Check, Info, FileCode } from 'lucide-react';
 import { FRAMEWORK_SNIPPETS, FrameworkSnippet } from '@/lib/data/libraryGuideData';
 import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';
+import { CodeHighlight } from '@/components/common/CodeHighlight';
 
 const TAB_ICONS: Record<string, React.ReactNode> = {
   Atom: <Atom className="w-4 h-4" />,
@@ -105,9 +106,10 @@ export function GuideFrameworkTabs() {
 
             {/* Code Body */}
             <div className="p-5 overflow-x-auto max-h-[460px]">
-              <pre className="text-xs font-mono text-neutral-300 leading-relaxed">
-                <code>{activeSnippet.code}</code>
-              </pre>
+              <CodeHighlight
+                code={activeSnippet.code}
+                language={activeSnippet.language || 'typescript'}
+              />
             </div>
           </div>
 

@@ -65,13 +65,13 @@ export function GuideHero() {
             </button>
           </div>
 
-          {/* Studio Link */}
+          {/* Blocks Link */}
           <Link
-            href="/studio"
+            href="/blocks"
             className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-2xl font-bold text-xs text-white shadow-md transition hover:opacity-90 active:scale-95"
             style={{ backgroundColor: primaryColor }}
           >
-            <span>스튜디오에서 테마 조합하기</span>
+            <span>디자인 블록 둘러보기</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>

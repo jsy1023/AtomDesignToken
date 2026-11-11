@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { GalleryComponent } from '@/lib/data/components';
+import { CodeHighlight } from '@/components/common/CodeHighlight';
 import {
   Copy,
   Check,
@@ -143,9 +144,11 @@ export function ComponentDocCard({ component, renderPreview }: ComponentDocCardP
           </button>
         </div>
 
-        <pre className="p-4 text-xs font-mono leading-relaxed overflow-x-auto text-neutral-300">
-          <code>{activeSnippet}</code>
-        </pre>
+        <CodeHighlight
+          code={activeSnippet}
+          language={snippetTab === 'react' ? 'tsx' : 'html'}
+          className="p-4"
+        />
       </div>
 
       {/* 5. API Props Specification Table */}

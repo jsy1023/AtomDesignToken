@@ -102,12 +102,11 @@ export function PatternDocsLayout({
           </button>
 
           <Link
-            href={`/studio?pattern=${pattern.id}`}
-            style={{ backgroundColor: brandColor }}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-white text-xs font-bold shadow-xs hover:opacity-90 active:scale-95 transition"
+            href="/blocks"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border border-(--border-subtle) hover:bg-(--bg-secondary) text-(--text-primary) transition"
           >
             <Sparkles className="w-3.5 h-3.5" />
-            <span>스튜디오에서 빌드</span>
+            <span>디자인 블록 보기</span>
           </Link>
         </div>
       </div>

@@ -116,10 +116,10 @@ export function GuideWorkflowSection() {
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
               <Link
-                href="/studio"
+                href="/blocks"
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold bg-neutral-800 hover:bg-neutral-700 text-white transition border border-neutral-700"
               >
-                <span>AI 스튜디오로 이동</span>
+                <span>디자인 블록 보기</span>
               </Link>
             </div>
           </div>

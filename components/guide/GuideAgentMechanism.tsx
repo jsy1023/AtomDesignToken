@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { AI_REFERENCE_PIPELINE, AgentReferenceStep } from '@/lib/data/libraryGuideData';
 import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';
+import { CodeHighlight } from '@/components/common/CodeHighlight';
 
 const STEP_ICONS: Record<string, React.ReactNode> = {
   FileSearch: <FileSearch className="w-5 h-5" />,
@@ -202,9 +203,10 @@ export function GuideAgentMechanism() {
                   </span>
                 </div>
                 <div className="p-4 rounded-xl bg-neutral-900/60 border border-neutral-800/70 overflow-x-auto max-h-[360px]">
-                  <pre className="text-xs font-mono text-emerald-300 leading-relaxed">
-                    <code>{activeStep.outputCode}</code>
-                  </pre>
+                  <CodeHighlight
+                    code={activeStep.outputCode}
+                    language={activeStep.outputLanguage || 'typescript'}
+                  />
                 </div>
               </div>
 
