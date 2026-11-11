@@ -12,7 +12,7 @@ import {
 import { applyThemeToDOM, isDarkColor } from '@/lib/services/themeEngine';
 import { AWESOME_DESIGN_MD_THEMES } from '@/lib/data/awesomeThemes';
 
-export type EditorTab = 'colors' | 'typography' | 'design-md' | 'preview' | 'export';
+export type EditorTab = 'colors' | 'typography' | 'tokens' | 'preview' | 'export';
 
 interface ThemeEditorContextValue {
   isOpen: boolean;

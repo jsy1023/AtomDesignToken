@@ -2,8 +2,8 @@
 
 import React from 'react';
 import { useThemeEditor } from '../ThemeEditorProvider';
-import { COLOR_PRESETS, ColorConfig } from '@/lib/data/themeEditorDefaults';
-import { Sparkles, Palette, Layers } from 'lucide-react';
+import { ColorConfig } from '@/lib/data/themeEditorDefaults';
+import { Palette, Layers } from 'lucide-react';
 
 interface ColorFieldProps {
   label: string;
@@ -47,59 +47,11 @@ function ColorField({ label, fieldKey, value, description, onChange }: ColorFiel
 }
 
 export function ColorEditorTab() {
-  const { theme, updateColor, updateBorderRadius, applyColorPreset } = useThemeEditor();
-
-  const radiusOptions = ['0px', '6px', '10px', '14px', '20px', '9999px'];
+  const { theme, updateColor } = useThemeEditor();
 
   return (
     <div className="space-y-6">
-      {/* 1. Quick Presets */}
-      <div>
-        <div className="flex items-center gap-1.5 mb-2.5">
-          <Sparkles className="w-4 h-4 text-amber-500" />
-          <h3 className="text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-neutral-400">
-            브랜드 추천 프리셋
-          </h3>
-        </div>
-        <div className="grid grid-cols-2 gap-2">
-          {COLOR_PRESETS.map((preset) => {
-            const isSelected = theme.color.primary === preset.colors.primary;
-            return (
-              <button
-                key={preset.id}
-                type="button"
-                onClick={() => applyColorPreset(preset)}
-                className={`p-2.5 text-left rounded-xl border transition-all text-xs flex flex-col gap-1.5 ${
-                  isSelected
-                    ? 'border-blue-600 dark:border-blue-500 bg-blue-50/70 dark:bg-blue-950/40 shadow-xs'
-                    : 'border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700 bg-white dark:bg-neutral-900'
-                }`}
-              >
-                <div className="flex items-center justify-between">
-                  <span className="font-bold text-neutral-800 dark:text-neutral-100 truncate">
-                    {preset.name.split(' ')[0]}
-                  </span>
-                  <div className="flex items-center gap-1">
-                    <span
-                      className="w-3.5 h-3.5 rounded-full shadow-xs border border-white/40"
-                      style={{ backgroundColor: preset.colors.primary }}
-                    />
-                    <span
-                      className="w-3.5 h-3.5 rounded-full shadow-xs border border-white/40"
-                      style={{ backgroundColor: preset.colors.primaryLight }}
-                    />
-                  </div>
-                </div>
-                <span className="text-[10px] text-neutral-400 dark:text-neutral-500 line-clamp-1">
-                  {preset.description}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* 2. Brand Accent Colors */}
+      {/* 1. Brand Accent Colors */}
       <div>
         <div className="flex items-center gap-1.5 mb-2.5">
           <Palette className="w-4 h-4 text-blue-500" />
@@ -201,34 +153,6 @@ export function ColorEditorTab() {
             description="인풋 아웃라인 및 버튼 테두리"
             onChange={updateColor}
           />
-        </div>
-      </div>
-
-      {/* 5. Border Radius */}
-      <div>
-        <div className="flex items-center justify-between mb-2">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-neutral-400">
-            모서리 둥글기 (Border Radius)
-          </h3>
-          <span className="text-xs font-mono font-bold text-blue-600 dark:text-blue-400">
-            {theme.borderRadius}
-          </span>
-        </div>
-        <div className="grid grid-cols-6 gap-1.5">
-          {radiusOptions.map((r) => (
-            <button
-              key={r}
-              type="button"
-              onClick={() => updateBorderRadius(r)}
-              className={`py-1.5 text-xs font-medium rounded-lg border transition-all ${
-                theme.borderRadius === r
-                  ? 'border-blue-600 bg-blue-600 text-white font-bold'
-                  : 'border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-neutral-700 dark:text-neutral-300 hover:border-neutral-300'
-              }`}
-            >
-              {r === '9999px' ? 'Full' : r}
-            </button>
-          ))}
         </div>
       </div>
     </div>

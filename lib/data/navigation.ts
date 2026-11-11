@@ -75,17 +75,4 @@ export const NAVIGATION_DEPTH: NavGroup[] = [
       },
     ],
   },
-  {
-    id: 'studio',
-    label: '스튜디오',
-    englishLabel: 'Studio',
-    items: [
-      {
-        title: '프롬프트 스튜디오',
-        href: '/studio',
-        description: '선택한 토큰과 패턴 기반의 AI 프롬프트 자동 생성기',
-        badge: 'AI Builder',
-      },
-    ],
-  },
 ];

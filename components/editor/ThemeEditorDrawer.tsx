@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import { useThemeEditor, EditorTab } from './ThemeEditorProvider';
 import { ColorEditorTab } from './tabs/ColorEditorTab';
 import { TypographyEditorTab } from './tabs/TypographyEditorTab';
-import { AwesomeThemesTab } from './tabs/AwesomeThemesTab';
+import { TokensEditorTab } from './tabs/TokensEditorTab';
 import { LivePreviewTab } from './tabs/LivePreviewTab';
 import { ExportTab } from './tabs/ExportTab';
 import {
@@ -16,7 +16,7 @@ import {
   Download,
   Sparkles,
   CheckCircle2,
-  Globe
+  Sliders,
 } from 'lucide-react';
 
 export function ThemeEditorDrawer() {
@@ -38,9 +38,9 @@ export function ThemeEditorDrawer() {
   const tabs: { id: EditorTab; label: string; icon: React.ElementType }[] = [
     { id: 'colors', label: '색상', icon: Palette },
     { id: 'typography', label: '타이포', icon: Type },
+    { id: 'tokens', label: '곡률/간격', icon: Sliders },
     { id: 'preview', label: '미리보기', icon: Eye },
     { id: 'export', label: '내보내기', icon: Download },
-    { id: 'design-md', label: 'DESIGN.md (84)', icon: Globe },
   ];
 
   return (
@@ -69,23 +69,22 @@ export function ThemeEditorDrawer() {
         aria-label="디자인 시스템 스타일 에디터"
       >
         {/* 1. Drawer Header */}
-        <div className="p-4 sm:p-5 border-b border-neutral-200/80 dark:border-neutral-800 flex items-center justify-between shrink-0 bg-neutral-50/50 dark:bg-neutral-900/50">
+        <div className="p-4 sm:p-5 border-b border-neutral-200/80 dark:border-neutral-800 flex items-center justify-between shrink-0 bg-white dark:bg-neutral-900">
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-white flex items-center justify-center shadow-md">
-              <Sparkles className="w-5 h-5" />
+            <div className="w-8 h-8 rounded-(--radius-sm) bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 flex items-center justify-center">
+              <Sliders className="w-4 h-4" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h2 className="text-sm font-bold text-neutral-900 dark:text-neutral-100">
+                <h2 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">
                   스타일 & 타이포 에디터
                 </h2>
-                <span className="inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border border-emerald-200/60 dark:border-emerald-800/60">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                  실시간 연동
+                <span className="text-[11px] font-mono text-neutral-500">
+                  실시간
                 </span>
               </div>
-              <p className="text-[11px] text-neutral-500 dark:text-neutral-400">
-                색상, h1~h6, 본문 텍스트 스타일을 즉각 정의합니다
+              <p className="text-xs text-neutral-500 dark:text-neutral-400">
+                색상, 타이포그래피, 토큰을 즉시 조절합니다
               </p>
             </div>
           </div>
@@ -143,9 +142,9 @@ export function ThemeEditorDrawer() {
 
         {/* 3. Tab Contents Body (Scrollable) */}
         <div className="flex-1 overflow-y-auto p-4 sm:p-5">
-          {activeTab === 'design-md' && <AwesomeThemesTab />}
           {activeTab === 'colors' && <ColorEditorTab />}
           {activeTab === 'typography' && <TypographyEditorTab />}
+          {activeTab === 'tokens' && <TokensEditorTab />}
           {activeTab === 'preview' && <LivePreviewTab />}
           {activeTab === 'export' && <ExportTab />}
         </div>

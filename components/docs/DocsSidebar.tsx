@@ -49,12 +49,12 @@ export function DocsSidebar({
         style={isActive ? { backgroundColor: brandColor, borderRadius: radius } : { borderRadius: radius }}
         className={`px-3 py-1.5 text-left text-xs font-medium transition flex items-center justify-between ${
           isActive
-            ? 'text-white font-bold shadow-xs'
-            : 'text-[var(--text-secondary)] hover:bg-[var(--border-subtle)] hover:text-[var(--text-primary)]'
+            ? 'text-(--bg-primary) bg-(--text-primary) font-semibold shadow-xs'
+            : 'text-(--text-secondary) hover:bg-(--bg-secondary) hover:text-(--text-primary)'
         }`}
       >
         <span>{comp.name.split(' (')[0]}</span>
-        <span className={`text-[10px] font-mono ${isActive ? 'text-white/80' : 'opacity-60'}`}>
+        <span className={`text-xs font-mono ${isActive ? 'text-(--bg-primary)/80' : 'opacity-60'}`}>
           .{comp.id}
         </span>
       </Link>
@@ -64,51 +64,51 @@ export function DocsSidebar({
   return (
     <aside className="hidden lg:flex w-64 shrink-0 flex-col gap-5 sticky top-24 max-h-[calc(100vh-120px)] overflow-y-auto pr-2 select-none">
       {/* 1. Version Badge & Quick Meta */}
-      <div className="flex items-center justify-between pb-3 border-b border-neutral-200/80 dark:border-neutral-800">
+      <div className="flex items-center justify-between pb-3 border-b border-(--border-subtle)">
         <div className="flex items-center gap-2">
-          <BookOpen className="w-4 h-4 text-blue-600 dark:text-blue-400" />
-          <span className="font-extrabold text-xs text-neutral-900 dark:text-white">API Reference</span>
+          <BookOpen className="w-4 h-4 text-(--accent-primary)" />
+          <span className="font-bold text-xs text-(--text-primary)">API Reference</span>
         </div>
-        <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 font-bold border border-blue-200 dark:border-blue-800">
+        <span className="text-xs font-mono px-2 py-0.5 rounded-(--radius-sm) bg-(--bg-secondary) text-(--text-primary) font-medium border border-(--border-subtle)">
           v1.2.4 (Latest)
         </span>
       </div>
 
       {/* 2. Fast Component Search Box */}
       <div className="relative">
-        <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" />
+        <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-(--text-secondary)" />
         <input
           type="text"
           placeholder="컴포넌트 검색 (Cmd + K)..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="w-full pl-9 pr-3 py-2 bg-neutral-100 dark:bg-neutral-850 border border-neutral-200 dark:border-neutral-800 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full pl-9 pr-3 py-2 bg-(--bg-secondary) border border-(--border-subtle) rounded-(--radius-sm) text-xs font-medium focus:outline-none focus:border-(--border-strong) text-(--text-primary) placeholder:text-(--text-muted)"
         />
       </div>
 
       {/* 3. Overview & Navigation */}
       <div className="flex flex-col gap-1">
-        <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider px-2">개요 및 갤러리</span>
+        <span className="text-xs font-medium text-(--text-secondary) uppercase tracking-wider px-2">개요 및 갤러리</span>
         <Link
           href="/components"
-          className={`px-3 py-1.5 rounded-xl text-left text-xs font-medium transition flex items-center justify-between ${
+          className={`px-3 py-1.5 rounded-(--radius-sm) text-left text-xs font-medium transition flex items-center justify-between ${
             activeId === 'overview'
-              ? 'bg-blue-600 text-white font-bold shadow-xs'
-              : 'text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-850 hover:text-neutral-900 dark:hover:text-white'
+              ? 'bg-(--text-primary) text-(--bg-primary) font-semibold shadow-xs'
+              : 'text-(--text-secondary) hover:bg-(--bg-secondary) hover:text-(--text-primary)'
           }`}
         >
           <div className="flex items-center gap-2">
             <Layers className="w-3.5 h-3.5" />
             <span>컴포넌트 갤러리 홈</span>
           </div>
-          <span className="text-[10px] font-mono opacity-60">10개</span>
+          <span className="text-xs font-mono opacity-60">10개</span>
         </Link>
       </div>
 
       {/* 4. Form & Inputs Group */}
       {formComps.length > 0 && (
         <div className="flex flex-col gap-1">
-          <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider px-2">Form & Inputs</span>
+          <span className="text-xs font-medium text-(--text-secondary) uppercase tracking-wider px-2">Form & Inputs</span>
           {formComps.map(renderCompItem)}
         </div>
       )}
@@ -116,7 +116,7 @@ export function DocsSidebar({
       {/* 5. Feedback & Overlays */}
       {feedbackComps.length > 0 && (
         <div className="flex flex-col gap-1">
-          <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider px-2">Feedback & Overlays</span>
+          <span className="text-xs font-medium text-(--text-secondary) uppercase tracking-wider px-2">Feedback & Overlays</span>
           {feedbackComps.map(renderCompItem)}
         </div>
       )}
@@ -124,7 +124,7 @@ export function DocsSidebar({
       {/* 6. Navigation & Layout */}
       {navComps.length > 0 && (
         <div className="flex flex-col gap-1">
-          <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider px-2">Navigation & Layout</span>
+          <span className="text-xs font-medium text-(--text-secondary) uppercase tracking-wider px-2">Navigation & Layout</span>
           {navComps.map(renderCompItem)}
         </div>
       )}
@@ -132,7 +132,7 @@ export function DocsSidebar({
       {/* 7. Data Display */}
       {dataComps.length > 0 && (
         <div className="flex flex-col gap-1">
-          <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider px-2">Data Display</span>
+          <span className="text-xs font-medium text-(--text-secondary) uppercase tracking-wider px-2">Data Display</span>
           {dataComps.map(renderCompItem)}
         </div>
       )}
