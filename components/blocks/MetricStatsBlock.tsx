@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { Card, Badge } from '@/components/ui';
 import {
   TrendingUp,
   TrendingDown,
@@ -8,7 +9,6 @@ import {
   Users,
   Target,
   Server,
-  ArrowUpRight,
 } from 'lucide-react';
 
 interface MetricItem {
@@ -25,9 +25,9 @@ interface MetricItem {
 const METRICS: MetricItem[] = [
   {
     id: 'm-arr',
-    label: '연간 반복 매출 (ARR)',
-    subLabel: '전체 유료 구독 합산',
-    value: '₩142,850,000',
+    label: '월간 반복 매출 (MRR)',
+    subLabel: '구독 플랜 총액',
+    value: '₩48,250,000',
     change: '+18.4%',
     isPositive: true,
     icon: 'dollar',
@@ -35,9 +35,9 @@ const METRICS: MetricItem[] = [
   },
   {
     id: 'm-mau',
-    label: '월간 활성 개발자 (MAU)',
-    subLabel: '토큰 CLI 호출 계정',
-    value: '49,210 명',
+    label: '활성 개발자 (MAU)',
+    subLabel: '토큰 CLI 활성 호출자',
+    value: '49,210명',
     change: '+12.6%',
     isPositive: true,
     icon: 'users',
@@ -45,23 +45,23 @@ const METRICS: MetricItem[] = [
   },
   {
     id: 'm-cvr',
-    label: '체험 가입 전환율 (CVR)',
-    subLabel: '스타터 → 프로 전환',
-    value: '4.92 %',
+    label: '유료 플랜 전환율',
+    subLabel: '무료에서 Pro 업그레이드',
+    value: '4.92%',
     change: '-0.3%',
     isPositive: false,
     icon: 'target',
-    sparkline: [60, 58, 62, 54, 52, 55, 48, 50],
+    sparkline: [60, 58, 62, 55, 50, 52, 48, 45],
   },
   {
-    id: 'm-sla',
-    label: 'API 응답 신뢰도 & 가동률',
-    subLabel: '글로벌 엣지 네트워크',
-    value: '99.99 %',
-    change: '+0.01%',
+    id: 'm-uptime',
+    label: 'API 가동률 & SLA',
+    subLabel: '엣지 컴파일 노드 헬스',
+    value: '99.98%',
+    change: '+0.02%',
     isPositive: true,
     icon: 'server',
-    sparkline: [98, 99, 99, 100, 99, 100, 100, 100],
+    sparkline: [95, 96, 98, 97, 99, 99, 100, 100],
   },
 ];
 
@@ -69,110 +69,82 @@ export function MetricStatsBlock() {
   const getIcon = (type: MetricItem['icon']) => {
     switch (type) {
       case 'dollar':
-        return <DollarSign className="w-4 h-4 text-emerald-500" />;
+        return <DollarSign className="w-3.5 h-3.5 text-(--accent-primary)" />;
       case 'users':
-        return <Users className="w-4 h-4 text-blue-500" />;
+        return <Users className="w-3.5 h-3.5 text-blue-500" />;
       case 'target':
-        return <Target className="w-4 h-4 text-amber-500" />;
+        return <Target className="w-3.5 h-3.5 text-amber-500" />;
       case 'server':
-        return <Server className="w-4 h-4 text-purple-500" />;
+        return <Server className="w-3.5 h-3.5 text-emerald-500" />;
     }
   };
 
-  const renderSparkline = (points: number[], isPositive: boolean) => {
-    const min = Math.min(...points);
-    const max = Math.max(...points);
-    const range = max - min || 1;
-    const width = 80;
-    const height = 28;
-
-    const coords = points.map((p, idx) => {
-      const x = (idx / (points.length - 1)) * width;
-      const y = height - ((p - min) / range) * (height - 6) - 3;
-      return `${idx === 0 ? 'M' : 'L'} ${x.toFixed(1)} ${y.toFixed(1)}`;
-    }).join(' ');
-
-    const strokeColor = isPositive ? 'var(--atom-success, #10b981)' : 'var(--atom-destructive, #f04452)';
-
-    return (
-      <svg width={width} height={height} className="overflow-visible">
-        <path
-          d={coords}
-          fill="none"
-          stroke={strokeColor}
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    );
-  };
-
   return (
-    <div className="w-full bg-(--bg-primary) rounded-2xl border border-(--border-subtle) shadow-sm p-5 sm:p-6 transition-colors">
-      {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-(--border-subtle) mb-5">
-        <div>
-          <span className="text-[11px] font-semibold text-(--accent-primary) uppercase tracking-wider">
-            경영 & 인프라 텔레메트리
-          </span>
-          <h3 className="text-lg font-bold text-(--text-primary) mt-0.5">
-            4대 핵심 비즈니스 KPI 지표 대시보드
-          </h3>
-        </div>
-        <div className="text-[11px] text-(--text-muted) flex items-center gap-1.5 mt-2 sm:mt-0">
-          <span className="w-2 h-2 rounded-full bg-emerald-500" />
-          <span>실시간 동기화 상태: 정상 (Latency 14ms)</span>
-        </div>
-      </div>
+    <Card className="overflow-hidden transition-colors">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-(--border-subtle)">
+        {METRICS.map((m) => {
+          const maxVal = Math.max(...m.sparkline);
+          const minVal = Math.min(...m.sparkline);
+          const range = maxVal - minVal || 1;
 
-      {/* 4 Cards Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {METRICS.map((metric) => (
-          <div
-            key={metric.id}
-            className="p-4 rounded-xl bg-(--bg-secondary)/50 hover:bg-(--bg-secondary) border border-(--border-subtle) hover:border-(--border-strong) transition-all duration-200 shadow-xs flex flex-col justify-between"
-          >
-            <div>
-              {/* Header inside card */}
-              <div className="flex items-center justify-between mb-2">
-                <div className="p-2 rounded-lg bg-(--bg-primary) border border-(--border-subtle)">
-                  {getIcon(metric.icon)}
+          const points = m.sparkline
+            .map((val, idx) => {
+              const x = (idx / (m.sparkline.length - 1)) * 70;
+              const y = 24 - ((val - minVal) / range) * 20;
+              return `${x},${y}`;
+            })
+            .join(' ');
+
+          return (
+            <div key={m.id} className="p-4 sm:p-5 flex flex-col justify-between space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="p-1.5 rounded-(--radius-sm) bg-(--bg-secondary) border border-(--border-subtle)">
+                    {getIcon(m.icon)}
+                  </div>
+                  <span className="text-xs text-(--text-secondary) font-medium">{m.label}</span>
                 </div>
-                <div
-                  className={`inline-flex items-center gap-0.5 text-xs font-bold px-2 py-0.5 rounded-md ${
-                    metric.isPositive
-                      ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
-                      : 'bg-rose-500/10 text-rose-600 dark:text-rose-400'
+              </div>
+
+              <div className="flex items-baseline justify-between">
+                <div>
+                  <div className="text-xl font-bold tracking-tight text-(--text-primary)">
+                    {m.value}
+                  </div>
+                  <div className="text-[11px] text-(--text-secondary) mt-0.5">{m.subLabel}</div>
+                </div>
+
+                {/* Mini SVG Sparkline */}
+                <div className="w-18 h-7">
+                  <svg className="w-full h-full overflow-visible" viewBox="0 0 70 24">
+                    <polyline
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      points={points}
+                      className={m.isPositive ? 'text-emerald-500' : 'text-rose-500'}
+                    />
+                  </svg>
+                </div>
+              </div>
+
+              <div className="pt-2 border-t border-(--border-subtle) flex items-center justify-between text-[11px]">
+                <span className="text-(--text-secondary)">전월 동기 대비</span>
+                <span
+                  className={`font-semibold flex items-center gap-0.5 ${
+                    m.isPositive ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'
                   }`}
                 >
-                  {metric.isPositive ? (
-                    <TrendingUp className="w-3 h-3" />
-                  ) : (
-                    <TrendingDown className="w-3 h-3" />
-                  )}
-                  <span>{metric.change}</span>
-                </div>
-              </div>
-
-              {/* Title & Sub */}
-              <div className="text-xs font-semibold text-(--text-secondary)">{metric.label}</div>
-              <div className="text-[10px] text-(--text-muted) mb-2">{metric.subLabel}</div>
-
-              {/* Value */}
-              <div className="text-xl sm:text-2xl font-black text-(--text-primary) tracking-tight">
-                {metric.value}
+                  {m.isPositive ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
+                  <span>{m.change}</span>
+                </span>
               </div>
             </div>
-
-            {/* Sparkline & Footer */}
-            <div className="flex items-end justify-between pt-4 mt-2 border-t border-(--border-subtle)">
-              <span className="text-[10px] text-(--text-muted)">지난 30일 추이</span>
-              <div>{renderSparkline(metric.sparkline, metric.isPositive)}</div>
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
-    </div>
+    </Card>
   );
 }

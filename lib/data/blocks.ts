@@ -23,6 +23,8 @@ export interface BlockItem {
   description: string;
   features: string[];
   tokensUsed: string[];
+  componentsUsed: string[];
+  templateUsage: string;
   codeSnippets: BlockCodeSnippet;
 }
 
@@ -102,6 +104,8 @@ export const BLOCKS_COLLECTION: BlockItem[] = [
       '고가/저가/거래량 KPI 요약 칩 제공'
     ],
     tokensUsed: ['--accent-primary', '--atom-success', '--atom-destructive', '--bg-secondary', '--border-subtle'],
+    componentsUsed: ['Card', 'Button', 'Badge'],
+    templateUsage: 'SaaS 대시보드 메인 캔버스, 금융/자산 모니터링 템플릿',
     codeSnippets: {
       react: `import React, { useState, useEffect } from 'react';
 
@@ -168,6 +172,8 @@ export function RealtimeChartBlock() {
       '키보드 Enter 단축키 전송 및 빈 입력 방지'
     ],
     tokensUsed: ['--accent-primary', '--bg-secondary', '--text-primary', '--border-subtle', '--atom-radius-lg'],
+    componentsUsed: ['Card', 'Button', 'Input', 'Badge'],
+    templateUsage: 'AI 어시스턴트 템플릿, 고객지원 플로팅 모달, 헬프센터 템플릿',
     codeSnippets: {
       react: `import React, { useState } from 'react';
 
@@ -235,6 +241,8 @@ export function ChatBlock() {
       '부드러운 호버 리프트(Lift) 및 보더 하이라이트 효과'
     ],
     tokensUsed: ['--bg-secondary', '--border-subtle', '--border-strong', '--text-primary', '--accent-primary'],
+    componentsUsed: ['Card', 'Button', 'Badge'],
+    templateUsage: '디자인 시스템 카탈로그, 이커머스 상품 목록, 토큰 브라우저 템플릿',
     codeSnippets: {
       react: `import React, { useState } from 'react';
 
@@ -297,6 +305,8 @@ export function CardListBlock() {
       '모바일 터치 및 키보드 화살표 정밀 조정 지원'
     ],
     tokensUsed: ['--accent-primary', '--accent-hover', '--bg-secondary', '--atom-radius-full'],
+    componentsUsed: ['Card', 'Slider', 'Button'],
+    templateUsage: 'B2B 요금 계산기, 리소스 시뮬레이터, 온보딩 견적 템플릿',
     codeSnippets: {
       react: `import React, { useState } from 'react';
 
@@ -364,6 +374,8 @@ export function CostSimulatorBlock() {
       '플랜 선택 즉시 피드백 및 원클릭 CTA'
     ],
     tokensUsed: ['--accent-primary', '--accent-hover', '--bg-secondary', '--border-subtle', '--border-strong'],
+    componentsUsed: ['Card', 'Button', 'Badge'],
+    templateUsage: '랜딩 페이지 요금표, 결제 업그레이드 모달, SaaS 구독 관리 템플릿',
     codeSnippets: {
       react: `import React, { useState } from 'react';
 
@@ -421,6 +433,8 @@ export function PricingBlock() {
       '호버 시 미세한 엘리베이션 및 시각 피드백'
     ],
     tokensUsed: ['--bg-secondary', '--border-subtle', '--atom-success', '--atom-destructive', '--accent-primary'],
+    componentsUsed: ['Card', 'Badge'],
+    templateUsage: 'SaaS 대시보드 KPI 헤더, 관리자 콘솔 현황판 템플릿',
     codeSnippets: {
       react: `import React from 'react';
 
@@ -471,6 +485,8 @@ export function MetricStatsBlock() {
       '우측 파일 실시간 인스펙터 (크기, 수정일, 해시, 코드/내용 프리뷰)'
     ],
     tokensUsed: ['--bg-secondary', '--border-subtle', '--border-strong', '--text-primary', '--accent-primary'],
+    componentsUsed: ['Card', 'Button', 'Badge'],
+    templateUsage: '개발자 도구 콘솔, 파일 및 자산 관리자, CMS 미디어 라이브러리 템플릿',
     codeSnippets: {
       react: `import React, { useState } from 'react';
 import { Folder, FileCode, FileText, Image, ChevronRight, ChevronDown } from 'lucide-react';

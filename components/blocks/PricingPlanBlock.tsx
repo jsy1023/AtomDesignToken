@@ -1,7 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Check, X, Sparkles, Zap, Shield, Building2 } from 'lucide-react';
+import { Card, Button, Badge } from '@/components/ui';
+import {
+  Check,
+  X,
+  Sparkles,
+} from 'lucide-react';
 
 interface PricingTier {
   id: string;
@@ -11,7 +16,6 @@ interface PricingTier {
   description: string;
   monthlyPrice: number;
   annualPrice: number;
-  icon: 'zap' | 'sparkles' | 'building';
   features: { text: string; included: boolean }[];
   ctaText: string;
 }
@@ -20,191 +24,134 @@ const TIERS: PricingTier[] = [
   {
     id: 'starter',
     name: 'Starter',
-    description: '개인 개발자 및 소규모 사이드 프로젝트를 위한 무료 스타터 팩',
+    description: '개인 개발자 및 오픈소스 프로젝트를 위한 플랜.',
     monthlyPrice: 0,
     annualPrice: 0,
-    icon: 'zap',
     ctaText: '무료로 시작하기',
     features: [
       { text: '최대 3개 프로젝트 연동', included: true },
-      { text: '기본 W3C DTCG 토큰 명세 제공', included: true },
-      { text: 'Tailwind v4 CSS 자동 컴파일', included: true },
-      { text: '커스텀 브랜드 테마 에디터', included: false },
-      { text: '우선순위 기술 지원 SLA', included: false },
-      { text: 'SSO 단일 로그인 및 감사 로그', included: false },
+      { text: 'W3C DTCG 표준 토큰 규격', included: true },
+      { text: 'Tailwind v4 CSS 즉시 컴파일', included: true },
+      { text: '실시간 커스텀 테마 에디터', included: false },
+      { text: '우선 기술 지원 SLA', included: false },
     ],
   },
   {
     id: 'pro',
     name: 'Pro',
     isPopular: true,
-    badge: '가장 인기 있는 플랜',
-    description: '성장하는 스타트업 및 디자인 시스템 팀을 위한 전문 도구 모음',
-    monthlyPrice: 29,
-    annualPrice: 22,
-    icon: 'sparkles',
+    badge: '추천 플랜',
+    description: '디자인 시스템 확장을 준비하는 프로덕트 팀.',
+    monthlyPrice: 29000,
+    annualPrice: 22000,
     ctaText: '14일 무료 체험 시작',
     features: [
       { text: '무제한 프로젝트 & 토큰 세트', included: true },
-      { text: '고급 실시간 차트 & 블록 전체 제공', included: true },
-      { text: 'Tailwind v4 / CSS / React 원클릭 내보내기', included: true },
-      { text: '커스텀 브랜드 테마 에디터 및 프리셋', included: true },
-      { text: '영업일 24시간 내 기술 지원 SLA', included: true },
-      { text: 'SSO 단일 로그인 및 감사 로그', included: false },
+      { text: 'W3C DTCG 표준 토큰 규격', included: true },
+      { text: 'Tailwind v4 CSS 즉시 컴파일', included: true },
+      { text: '실시간 커스텀 테마 에디터', included: true },
+      { text: 'Git 저장소 실시간 동기화', included: true },
     ],
   },
   {
     id: 'enterprise',
     name: 'Enterprise',
-    description: '엔터프라이즈 보안, 규정 준수, 대규모 팀을 위한 맞춤형 인프라',
-    monthlyPrice: 99,
-    annualPrice: 79,
-    icon: 'building',
-    ctaText: '영업팀 문의하기',
+    description: '엄격한 보안과 거버넌스가 필요한 엔터프라이즈.',
+    monthlyPrice: 99000,
+    annualPrice: 79000,
+    ctaText: '영업팀 문의',
     features: [
-      { text: '모든 Pro 기능 무제한 포함', included: true },
-      { text: '전담 솔루션 아키텍트 지원', included: true },
-      { text: '온프레미스 / VPC 프라이빗 배포', included: true },
-      { text: '99.99% 시스템 가동률 SLA 보증', included: true },
-      { text: 'SSO (SAML, Okta) & 상세 감사 로그', included: true },
-      { text: '맞춤형 계약 및 보안성 심사 지원', included: true },
+      { text: '무제한 프로젝트 & 전용 빌드 코어', included: true },
+      { text: 'W3C DTCG 표준 토큰 규격', included: true },
+      { text: 'Tailwind v4 CSS 즉시 컴파일', included: true },
+      { text: '실시간 커스텀 테마 에디터', included: true },
+      { text: 'SSO, 감사 로그 & 99.99% SLA', included: true },
     ],
   },
 ];
 
 export function PricingPlanBlock() {
-  const [isAnnual, setIsAnnual] = useState<boolean>(true);
-  const [selectedPlan, setSelectedPlan] = useState<string>('pro');
-
-  const getTierIcon = (icon: PricingTier['icon']) => {
-    switch (icon) {
-      case 'zap':
-        return <Zap className="w-5 h-5 text-blue-500" />;
-      case 'sparkles':
-        return <Sparkles className="w-5 h-5 text-amber-500" />;
-      case 'building':
-        return <Building2 className="w-5 h-5 text-purple-500" />;
-    }
-  };
+  const [billingCycle, setBillingCycle] = useState<'monthly' | 'annual'>('annual');
 
   return (
-    <div className="w-full bg-(--bg-primary) rounded-2xl border border-(--border-subtle) shadow-sm p-5 sm:p-8 transition-colors">
-      {/* Header & Billing Toggle */}
-      <div className="text-center max-w-2xl mx-auto mb-10">
-        <span className="text-xs font-semibold text-(--accent-primary) uppercase tracking-wider">
-          투명하고 예측 가능한 요금제
-        </span>
-        <h3 className="text-2xl sm:text-3xl font-extrabold text-(--text-primary) tracking-tight mt-1 mb-3">
-          팀의 규모에 꼭 맞는 유연한 플랜
-        </h3>
-        <p className="text-xs sm:text-sm text-(--text-secondary) leading-relaxed">
-          숨겨진 비용 없이 언제든 플랜을 변경하거나 해지할 수 있습니다. 연간 결제 시 20%의 추가 할인이 적용됩니다.
-        </p>
+    <Card className="p-5 sm:p-6 transition-colors">
+      {/* 1. Header & Billing Toggle (Using Button & Badge Component) */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+        <div>
+          <h3 className="text-base font-semibold text-(--text-primary)">
+            요금제 플랜 선택
+          </h3>
+          <p className="text-xs text-(--text-secondary) mt-0.5">
+            팀의 규모와 워크플로우에 맞는 플랜을 선택하세요.
+          </p>
+        </div>
 
-        {/* Toggle Switch */}
-        <div className="inline-flex items-center gap-3 p-1 rounded-full bg-(--bg-secondary) border border-(--border-subtle) mt-6">
-          <button
-            onClick={() => setIsAnnual(false)}
-            className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all ${
-              !isAnnual
-                ? 'bg-(--bg-primary) text-(--text-primary) shadow-xs'
-                : 'text-(--text-secondary) hover:text-(--text-primary)'
-            }`}
+        {/* Billing Switch composed with Button components */}
+        <div className="flex items-center gap-1 p-0.5 rounded-(--radius-sm) bg-(--bg-secondary) border border-(--border-subtle) text-xs self-start sm:self-auto">
+          <Button
+            size="sm"
+            variant={billingCycle === 'monthly' ? 'primary' : 'ghost'}
+            onClick={() => setBillingCycle('monthly')}
+            className="text-xs py-1 px-3 h-auto"
           >
             월간 결제
-          </button>
-          <button
-            onClick={() => setIsAnnual(true)}
-            className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold transition-all ${
-              isAnnual
-                ? 'bg-(--accent-primary) text-white shadow-xs'
-                : 'text-(--text-secondary) hover:text-(--text-primary)'
-            }`}
+          </Button>
+          <Button
+            size="sm"
+            variant={billingCycle === 'annual' ? 'primary' : 'ghost'}
+            onClick={() => setBillingCycle('annual')}
+            className="text-xs py-1 px-3 h-auto flex items-center gap-1"
           >
             <span>연간 결제</span>
-            <span
-              className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
-                isAnnual ? 'bg-white/20 text-white' : 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400'
-              }`}
-            >
-              20% OFF
-            </span>
-          </button>
+            <Badge variant="success" className="text-xs px-1.5 py-0 font-bold">
+              -20%
+            </Badge>
+          </Button>
         </div>
       </div>
 
-      {/* 3-Column Pricing Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+      {/* 2. Three Column Pricing Cards composed with Card & Button */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {TIERS.map((tier) => {
-          const isSelected = selectedPlan === tier.id;
-          const price = isAnnual ? tier.annualPrice : tier.monthlyPrice;
-
+          const price = billingCycle === 'annual' ? tier.annualPrice : tier.monthlyPrice;
           return (
-            <div
+            <Card
               key={tier.id}
-              onClick={() => setSelectedPlan(tier.id)}
-              className={`relative flex flex-col justify-between rounded-2xl p-6 transition-all duration-200 cursor-pointer ${
+              className={`p-5 flex flex-col justify-between transition-colors bg-(--bg-primary) ${
                 tier.isPopular
-                  ? 'border-2 border-(--accent-primary) bg-(--bg-secondary)/40 shadow-md ring-4 ring-(--accent-primary)/10'
-                  : 'border border-(--border-strong) bg-(--bg-primary) hover:border-(--accent-primary)/50 shadow-xs'
+                  ? 'border-(--text-primary)'
+                  : 'border-(--border-subtle)'
               }`}
             >
-              {/* Popular Badge */}
-              {tier.badge && (
-                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-[11px] font-bold bg-(--accent-primary) text-white shadow-sm flex items-center gap-1">
-                  <Sparkles className="w-3 h-3" />
-                  <span>{tier.badge}</span>
-                </div>
-              )}
-
               <div>
-                {/* Tier Title & Icon */}
-                <div className="flex items-center justify-between mb-4">
-                  <div className="p-2.5 rounded-xl bg-(--bg-secondary) border border-(--border-subtle)">
-                    {getTierIcon(tier.icon)}
-                  </div>
-                  {isSelected && (
-                    <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
-                      선택됨
-                    </span>
+                <div className="flex items-center justify-between mb-2">
+                  <h4 className="font-semibold text-sm text-(--text-primary)">{tier.name}</h4>
+                  {tier.badge && (
+                    <Badge variant="primary" className="text-xs">
+                      {tier.badge}
+                    </Badge>
                   )}
                 </div>
-
-                <h4 className="text-lg font-bold text-(--text-primary)">{tier.name}</h4>
-                <p className="text-xs text-(--text-secondary) mt-1 min-h-[32px] leading-relaxed">
+                <p className="text-xs text-(--text-secondary) mb-4 leading-relaxed">
                   {tier.description}
                 </p>
 
-                {/* Price Display */}
-                <div className="my-6 pb-6 border-b border-(--border-subtle)">
-                  <div className="flex items-baseline gap-1">
-                    <span className="text-3xl sm:text-4xl font-black text-(--text-primary)">
-                      \${price}
-                    </span>
-                    <span className="text-xs text-(--text-muted)">/월 (계정당)</span>
-                  </div>
-                  <div className="text-[11px] text-(--text-muted) mt-1">
-                    {isAnnual ? '연간 일괄 결제 기준' : '매월 자동 갱신'}
-                  </div>
+                <div className="flex items-baseline gap-1 mb-5">
+                  <span className="text-2xl font-bold tracking-tight text-(--text-primary)">
+                    ₩{price.toLocaleString()}
+                  </span>
+                  <span className="text-xs text-(--text-secondary)">/월</span>
                 </div>
 
-                {/* Feature Checklist */}
-                <div className="space-y-3 mb-6">
-                  <div className="text-[11px] font-semibold text-(--text-muted) uppercase tracking-wider">
-                    포함된 핵심 기능
-                  </div>
+                <div className="space-y-2.5 pt-4 border-t border-(--border-subtle) text-xs">
                   {tier.features.map((feat, idx) => (
-                    <div key={idx} className="flex items-center gap-2.5 text-xs">
+                    <div key={idx} className="flex items-center gap-2">
                       {feat.included ? (
-                        <div className="w-4 h-4 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
-                          <Check className="w-2.5 h-2.5 stroke-[3]" />
-                        </div>
+                        <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
                       ) : (
-                        <div className="w-4 h-4 rounded-full bg-(--bg-secondary) text-(--text-muted) flex items-center justify-center shrink-0">
-                          <X className="w-2.5 h-2.5" />
-                        </div>
+                        <X className="w-3.5 h-3.5 text-(--text-muted) shrink-0 opacity-40" />
                       )}
-                      <span className={feat.included ? 'text-(--text-primary)' : 'text-(--text-muted) line-through'}>
+                      <span className={feat.included ? 'text-(--text-primary)' : 'text-(--text-muted) line-through opacity-60'}>
                         {feat.text}
                       </span>
                     </div>
@@ -212,20 +159,17 @@ export function PricingPlanBlock() {
                 </div>
               </div>
 
-              {/* Action CTA */}
-              <button
-                className={`w-full py-2.5 rounded-xl font-bold text-xs tracking-wide transition-all shadow-xs ${
-                  tier.isPopular
-                    ? 'bg-(--accent-primary) hover:bg-(--accent-hover) text-white'
-                    : 'bg-(--bg-secondary) hover:bg-(--border-strong) text-(--text-primary) border border-(--border-subtle)'
-                }`}
+              <Button
+                variant={tier.isPopular ? 'primary' : 'secondary'}
+                size="md"
+                className="w-full mt-6 text-xs"
               >
                 {tier.ctaText}
-              </button>
-            </div>
+              </Button>
+            </Card>
           );
         })}
       </div>
-    </div>
+    </Card>
   );
 }
