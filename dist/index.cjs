@@ -272,6 +272,71 @@ var SHADOW_TOKENS = [
     description: "\uD654\uBA74 \uCD5C\uC0C1\uB2E8 \uB808\uC774\uC5B4\uC758 \uBAA8\uB2EC \uB2E4\uC774\uC5BC\uB85C\uADF8, \uBC14\uD140\uC2DC\uD2B8"
   }
 ];
+var LAYOUT_TOKENS = [
+  {
+    name: "Container Small (Narrow / Form)",
+    variable: "--atom-container-sm",
+    value: "640px",
+    description: "\uC778\uC99D \uD3FC, \uACB0\uC81C \uBAA8\uB2EC, \uB2E8\uC77C \uCEEC\uB7FC \uCF58\uD150\uCE20",
+    type: "container"
+  },
+  {
+    name: "Container Medium (Article / Content)",
+    variable: "--atom-container-md",
+    value: "768px",
+    description: "\uBE14\uB85C\uADF8 \uC544\uD2F0\uD074, \uD504\uB85C\uD544 \uBDF0\uC5B4, \uC124\uC815 \uD3FC",
+    type: "container"
+  },
+  {
+    name: "Container Large (Standard Catalog)",
+    variable: "--atom-container-lg",
+    value: "1024px",
+    description: "\uD45C\uC900 \uB7A9\uD0D1 \uBDF0, \uCE74\uD0C8\uB85C\uADF8 \uCE74\uB4DC \uADF8\uB9AC\uB4DC",
+    type: "container"
+  },
+  {
+    name: "Container Extra Large (Default Dashboard)",
+    variable: "--atom-container-xl",
+    value: "1280px",
+    description: "\uAE30\uBCF8 \uB370\uC2A4\uD06C\uD1B1 \uC640\uC774\uB4DC \uB808\uC774\uC544\uC6C3 \uBC0F \uB300\uC2DC\uBCF4\uB4DC \uD5C8\uBE0C",
+    type: "container"
+  },
+  {
+    name: "Container 2X Large (Ultra Wide Grid)",
+    variable: "--atom-container-2xl",
+    value: "1536px",
+    description: "\uCD08\uAD11\uD3ED \uACE0\uBC00\uB3C4 \uB370\uC774\uD130 \uADF8\uB9AC\uB4DC, \uD540\uD14C\uD06C \uCC28\uD2B8 \uC6CC\uD06C\uC2A4\uD398\uC774\uC2A4",
+    type: "container"
+  },
+  {
+    name: "Container Full (Fluid Fluid 100%)",
+    variable: "--atom-container-full",
+    value: "100%",
+    description: "\uC804\uCCB4 \uD654\uBA74 \uD50C\uB8E8\uC774\uB4DC \uC720\uC5F0 \uBDF0\uC5B4",
+    type: "container"
+  },
+  {
+    name: "Layout Gutter (Mobile / Base)",
+    variable: "--atom-layout-gutter",
+    value: "16px",
+    description: "\uD654\uBA74 \uC88C\uC6B0 \uAE30\uBCF8 \uC548\uC804 \uC5EC\uBC31 (Safe Padding)",
+    type: "gutter"
+  },
+  {
+    name: "Layout Gutter Large (Desktop)",
+    variable: "--atom-layout-gutter-lg",
+    value: "24px",
+    description: "\uB370\uC2A4\uD06C\uD1B1 \uD654\uBA74 \uC88C\uC6B0 \uC548\uC804 \uC5EC\uBC31",
+    type: "gutter"
+  },
+  {
+    name: "Layout Section Gap",
+    variable: "--atom-layout-gap",
+    value: "32px",
+    description: "\uC139\uC158\uACFC \uC139\uC158 \uAC04\uC758 \uAE30\uBCF8 \uB808\uC774\uC544\uC6C3 \uAC04\uACA9",
+    type: "gap"
+  }
+];
 
 // lib/data/components.ts
 var GALLERY_COMPONENTS = [
@@ -1677,6 +1742,113 @@ export function TextareaDemo() {
     vueSnippet: `<template>
   <AtomTree :data="treeData" v-model:selected="selectedId" :default-expanded="['src']" />
 </template>`
+  },
+  {
+    id: "container",
+    name: "\uCEE8\uD14C\uC774\uB108 (Container)",
+    category: "layout",
+    source: "AtomSystem Universal",
+    description: "\uB514\uC790\uC778 \uD1A0\uD070(--atom-container-*)\uACFC \uC5F0\uB3D9\uB418\uC5B4 \uD654\uBA74 \uD3ED\uC5D0 \uB9DE\uCD98 \uCD5C\uC801 \uB108\uBE44 \uBC0F \uBC18\uC751\uD615 \uC548\uC804 \uC5EC\uBC31(Gutter)\uC744 \uC81C\uACF5\uD558\uB294 \uB798\uD37C \uCEF4\uD3EC\uB10C\uD2B8",
+    callout: {
+      type: "tip",
+      title: "\uD1A0\uD070 \uAE30\uBC18 \uB108\uBE44 \uC81C\uC5B4",
+      text: '\uD558\uB4DC\uCF54\uB529\uB41C max-w-[1200px] \uB300\uC2E0 size="sm"|"md"|"lg"|"xl"|"2xl"|"full"\uC744 \uC0AC\uC6A9\uD558\uC5EC DTCG \uD45C\uC900 \uD1A0\uD070\uACFC 100% \uC5F0\uB3D9\uB429\uB2C8\uB2E4.'
+    },
+    propsSpec: [
+      { name: "size", type: "'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full'", defaultValue: "'xl'", description: "\uCEE8\uD14C\uC774\uB108 \uCD5C\uB300 \uB108\uBE44 \uADDC\uACA9 \uD1A0\uD070 (--atom-container-*)" },
+      { name: "gutters", type: "boolean", defaultValue: "true", description: "\uD654\uBA74 \uC88C\uC6B0 \uBC18\uC751\uD615 \uC548\uC804 \uD328\uB529 \uC801\uC6A9 \uC5EC\uBD80 (--atom-layout-gutter)" },
+      { name: "center", type: "boolean", defaultValue: "true", description: "\uC911\uC559 \uC815\uB82C(mx-auto) \uC801\uC6A9 \uC5EC\uBD80" },
+      { name: "as", type: "ElementType", defaultValue: "'div'", description: "\uB80C\uB354\uB9C1\uD560 \uC2DC\uB9E8\uD2F1 HTML \uD0DC\uADF8 (div, section, main \uB4F1)" },
+      { name: "className", type: "string", defaultValue: "''", description: "\uCD94\uAC00 \uCEE4\uC2A4\uD140 \uD074\uB798\uC2A4" }
+    ],
+    useCases: [
+      "\uB300\uC2DC\uBCF4\uB4DC \uBA54\uC778 \uBDF0\uC5B4 \uBC0F \uCE74\uD0C8\uB85C\uADF8\uC758 \uCD5C\uB300 \uAC00\uB85C\uD3ED \uD1B5\uC77C",
+      '\uB2E8\uC77C \uD3FC, \uACB0\uC81C \uD398\uC774\uC9C0, \uC778\uC99D \uD654\uBA74\uC758 \uC881\uC740 \uC911\uC559 \uC815\uB82C (size="sm")',
+      '\uBE14\uB85C\uADF8, \uC544\uD2F0\uD074, \uC9C0\uC2DD \uBCA0\uC774\uC2A4\uC758 \uAC00\uB3C5\uC131 \uC911\uC2EC \uCEE8\uD14C\uC774\uB108 (size="md")',
+      '\uCD08\uAD11\uD3ED \uB370\uC774\uD130 \uADF8\uB9AC\uB4DC \uBC0F \uD2B8\uB808\uC774\uB529 \uCC28\uD2B8\uC758 \uC640\uC774\uB4DC \uCEE8\uD14C\uC774\uB108 (size="2xl")'
+    ],
+    usagePatterns: [
+      "\uBAA8\uB4E0 \uD398\uC774\uC9C0 \uBDF0\uC5B4\uC758 \uCD5C\uC0C1\uC704 \uBCF8\uBB38 \uB798\uD37C\uB85C Container\uB97C \uC0AC\uC6A9\uD558\uC5EC \uBAA8\uBC14\uC77C/\uB370\uC2A4\uD06C\uD1B1 \uAC70\uD130\uB97C \uC77C\uAD00\uB418\uAC8C \uC720\uC9C0\uD569\uB2C8\uB2E4.",
+      "\uC911\uCCA9 \uCEE8\uD14C\uC774\uB108\uB97C \uD53C\uD558\uACE0, \uC139\uC158 \uB0B4\uBD80\uC5D0\uC11C\uB294 Grid \uB610\uB294 Stack\uC744 \uC0AC\uC6A9\uD558\uC5EC \uAD6C\uC870\uD654\uD569\uB2C8\uB2E4."
+    ],
+    dosAndDonts: [
+      {
+        do: "\uD398\uC774\uC9C0 \uC131\uACA9\uC5D0 \uB9DE\uB294 size \uD1A0\uD070(sm, md, lg, xl, 2xl)\uC744 \uC9C0\uC815\uD558\uC5EC \uC77C\uAD00\uB41C \uBDF0\uD3EC\uD2B8 \uACC4\uCE35\uC744 \uD615\uC131\uD569\uB2C8\uB2E4.",
+        dont: "\uD398\uC774\uC9C0\uB9C8\uB2E4 \uC784\uC758\uC758 max-w-[1140px], max-w-[1250px] \uB4F1 \uBE44\uD45C\uC900 \uD558\uB4DC\uCF54\uB529 \uAC12\uC744 \uB09C\uB9BD\uC2DC\uD0A4\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+      }
+    ],
+    relatedPatternIds: ["dashboard-overview", "checkout-flow"],
+    htmlSnippet: '<div class="atom-container atom-container-xl">\n  <h1>\uCEE8\uD14C\uC774\uB108 \uBCF8\uBB38</h1>\n</div>',
+    reactSnippet: `import { Container } from 'atomsystem/components/Container';
+
+export function ContainerDemo() {
+  return (
+    <Container size="xl">
+      <h1 className="text-xl font-bold">\uB300\uC2DC\uBCF4\uB4DC \uBDF0\uC5B4</h1>
+      <p>\uD1A0\uD070 \uC2DC\uC2A4\uD15C\uACFC \uC5F0\uB3D9\uB41C \uC548\uC804 \uD328\uB529\uACFC \uB108\uBE44\uAC00 \uC790\uB3D9 \uC801\uC6A9\uB429\uB2C8\uB2E4.</p>
+    </Container>
+  );
+}`,
+    vueSnippet: '<template>\n  <div class="atom-container atom-container-xl">\n    <slot />\n  </div>\n</template>'
+  },
+  {
+    id: "layout",
+    name: "\uB808\uC774\uC544\uC6C3 & \uC2A4\uD0DD (Layout & Stack)",
+    category: "layout",
+    source: "AtomSystem Universal",
+    description: "\uC804\uCCB4 \uD398\uC774\uC9C0 \uC258(Header, Sidebar, Content, Footer) \uBC0F \uC2A4\uD398\uC774\uC2F1 \uD1A0\uD070 \uAE30\uBC18\uC758 \uC120\uD615/\uACA9\uC790 \uC870\uB9BD \uB3C4\uAD6C(Stack, Grid, Section)",
+    callout: {
+      type: "tip",
+      title: "\uB808\uACE0 \uC870\uB9BD\uC758 \uBF08\uB300",
+      text: "Layout.Header, Layout.Sidebar, Layout.Content, Layout.Stack, Layout.Grid\uB97C \uD65C\uC6A9\uD558\uC5EC 100% \uD1A0\uD070\uD654\uB41C \uB808\uC774\uC544\uC6C3\uC744 \uAD6C\uCD95\uD569\uB2C8\uB2E4."
+    },
+    propsSpec: [
+      { name: "direction", type: "'vertical' | 'horizontal'", defaultValue: "'vertical'", description: "Stack \uBC30\uCE58 \uBC29\uD5A5" },
+      { name: "gap", type: "'1' | '2' | '3' | '4' | '6' | '8' | '12'", defaultValue: "'4'", description: "\uC2A4\uD398\uC774\uC2F1 \uD1A0\uD070 \uB2E8\uC704 \uAC04\uACA9 (--atom-space-*)" },
+      { name: "align", type: "'start' | 'center' | 'end' | 'stretch'", defaultValue: "'stretch'", description: "\uAD50\uCC28\uCD95 \uC815\uB82C" },
+      { name: "justify", type: "'start' | 'center' | 'end' | 'between' | 'around'", defaultValue: "'start'", description: "\uC8FC\uCD95 \uC815\uB82C" },
+      { name: "cols", type: "1 | 2 | 3 | 4 | 6 | 12", defaultValue: "3", description: "Grid \uCEEC\uB7FC \uC218" }
+    ],
+    useCases: [
+      "\uB300\uC2DC\uBCF4\uB4DC \uAE00\uB85C\uBC8C \uC258 (\uC0C1\uB2E8 \uB124\uBE44\uBC14 + \uC88C\uCE21 \uC0AC\uC774\uB4DC\uBC14 + \uBA54\uC778 \uBCF8\uBB38)",
+      '\uD3FC \uD544\uB4DC \uAC04\uC758 \uC218\uC9C1 \uC2A4\uD0DD \uC815\uB82C (gap="4")',
+      '\uBC84\uD2BC \uADF8\uB8F9 \uBC0F \uC561\uC158 \uD234\uBC14\uC758 \uC218\uD3C9 \uC2A4\uD0DD \uC815\uB82C (direction="horizontal", gap="2")',
+      '\uBC18\uC751\uD615 \uCE74\uB4DC \uB9AC\uC2A4\uD2B8\uC758 3\uC5F4 \uADF8\uB9AC\uB4DC \uBC30\uCE58 (Grid cols={3} gap="4")'
+    ],
+    usagePatterns: [
+      "\uC784\uC758\uC758 margin-bottom, padding-top \uB300\uC2E0 Stack\uC758 gap \uC18D\uC131\uC744 \uD1B5\uD574 \uD1A0\uD070 \uAE30\uBC18 \uC77C\uAD00\uB41C \uB9AC\uB4EC\uC744 \uC720\uC9C0\uD569\uB2C8\uB2E4.",
+      "\uCE74\uB4DC \uBAA9\uB85D\uC5D0\uB294 Grid \uCEF4\uD3EC\uB10C\uD2B8\uB97C \uC0AC\uC6A9\uD558\uC5EC \uBAA8\uBC14\uC77C(1\uC5F4) -> \uD0DC\uBE14\uB9BF(2\uC5F4) -> \uB370\uC2A4\uD06C\uD1B1(3\uC5F4) \uBC18\uC751\uD615 \uC804\uD658\uC744 \uBCF4\uC7A5\uD569\uB2C8\uB2E4."
+    ],
+    dosAndDonts: [
+      {
+        do: 'Stack\uACFC Grid\uC5D0 \uC815\uC758\uB41C \uD1A0\uD070 gap("2", "4", "6", "8")\uC744 \uC0AC\uC6A9\uD558\uC5EC \uC5EC\uBC31\uC744 \uCCB4\uACC4\uD654\uD569\uB2C8\uB2E4.',
+        dont: "\uC790\uC2DD \uC5D8\uB9AC\uBA3C\uD2B8\uB9C8\uB2E4 \uC81C\uAC01\uAC01 mb-[17px], mt-[23px] \uB4F1 \uBD88\uADDC\uCE59\uD55C \uC778\uB77C\uC778 \uB9C8\uC9C4\uC744 \uBD80\uC5EC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+      }
+    ],
+    relatedPatternIds: ["dashboard-overview", "filter-search"],
+    htmlSnippet: '<div class="atom-layout-shell">\n  <header class="atom-layout-header">\uD5E4\uB354</header>\n  <main class="atom-layout-content">\n    <div class="atom-stack-v atom-gap-4">\uC2A4\uD0DD \uBCF8\uBB38</div>\n  </main>\n</div>',
+    reactSnippet: `import { Layout, Container, Stack, Grid } from 'atomsystem/components/Layout';
+
+export function LayoutDemo() {
+  return (
+    <Layout>
+      <Layout.Header>\uD5E4\uB354</Layout.Header>
+      <Layout.Content>
+        <Container size="xl">
+          <Stack gap="6">
+            <h1 className="text-2xl font-bold">\uB300\uC2DC\uBCF4\uB4DC</h1>
+            <Grid cols={3} gap="4">
+              <div>\uCE74\uB4DC 1</div>
+              <div>\uCE74\uB4DC 2</div>
+              <div>\uCE74\uB4DC 3</div>
+            </Grid>
+          </Stack>
+        </Container>
+      </Layout.Content>
+    </Layout>
+  );
+}`,
+    vueSnippet: '<template>\n  <div class="atom-layout-shell">\n    <slot />\n  </div>\n</template>'
   }
 ];
 
@@ -8748,6 +8920,7 @@ exports.COLOR_PRESETS = COLOR_PRESETS;
 exports.DEFAULT_THEME_CONFIG = DEFAULT_THEME_CONFIG;
 exports.FONT_FAMILY_PRESETS = FONT_FAMILY_PRESETS;
 exports.GALLERY_COMPONENTS = GALLERY_COMPONENTS;
+exports.LAYOUT_TOKENS = LAYOUT_TOKENS;
 exports.PATTERNS_COLLECTION = PATTERNS_COLLECTION;
 exports.RADIUS_TOKENS = RADIUS_TOKENS;
 exports.SHADOW_TOKENS = SHADOW_TOKENS;

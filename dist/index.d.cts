@@ -1,6 +1,6 @@
 import { ClassValue } from 'clsx';
 
-type TokenCategory = 'color' | 'typography' | 'radius' | 'spacing' | 'shadow';
+type TokenCategory = 'color' | 'typography' | 'radius' | 'spacing' | 'shadow' | 'layout';
 interface BrandPreset {
     id: string;
     name: string;
@@ -41,14 +41,22 @@ interface ShadowToken {
     value: string;
     description: string;
 }
+interface LayoutToken {
+    name: string;
+    variable: string;
+    value: string;
+    description: string;
+    type: 'container' | 'gutter' | 'gap';
+}
 declare const BRAND_PRESETS: BrandPreset[];
 declare const BASE_COLOR_TOKENS: ColorToken[];
 declare const TYPOGRAPHY_TOKENS: TypographyToken[];
 declare const RADIUS_TOKENS: RadiusToken[];
 declare const SPACING_TOKENS: SpacingToken[];
 declare const SHADOW_TOKENS: ShadowToken[];
+declare const LAYOUT_TOKENS: LayoutToken[];
 
-type ComponentCategory = 'all' | 'form' | 'feedback' | 'navigation' | 'data';
+type ComponentCategory = 'all' | 'form' | 'feedback' | 'navigation' | 'data' | 'layout';
 interface PropItem {
     name: string;
     type: string;
@@ -215,4 +223,4 @@ declare const ATOM_UI_CSS_PATH = "atomsystem/css/atom-ui.css";
 declare const ATOM_VERSION = "0.4.3";
 declare const ATOM_LIB_NAME = "atomsystem";
 
-export { ATOM_LIB_NAME, ATOM_UI_CSS_PATH, ATOM_VERSION, AWESOME_CATEGORIES, AWESOME_DESIGN_MD_THEMES, type AwesomeDesignMdTheme, BASE_COLOR_TOKENS, BRAND_PRESETS, type BrandPreset, COLOR_PRESETS, type ColorConfig, type ColorPreset, type ColorToken, type ComponentCategory, DEFAULT_THEME_CONFIG, type DosAndDont, FONT_FAMILY_PRESETS, GALLERY_COMPONENTS, type GalleryComponent, PATTERNS_COLLECTION, type PatternItem, type PatternPlatform, type PatternVariant, type PropItem, RADIUS_TOKENS, type RadiusToken, SHADOW_TOKENS, SPACING_TOKENS, type ShadowToken, type SpacingToken, TYPOGRAPHY_TOKENS, type ThemeConfig, type TokenCategory, type TypographyConfig, type TypographyLevelConfig, type TypographyToken, applyThemeToDOM, cn, exportToCSS, exportToTailwind, exportToTokensJson, generateThemeCSS, isDarkColor };
+export { ATOM_LIB_NAME, ATOM_UI_CSS_PATH, ATOM_VERSION, AWESOME_CATEGORIES, AWESOME_DESIGN_MD_THEMES, type AwesomeDesignMdTheme, BASE_COLOR_TOKENS, BRAND_PRESETS, type BrandPreset, COLOR_PRESETS, type ColorConfig, type ColorPreset, type ColorToken, type ComponentCategory, DEFAULT_THEME_CONFIG, type DosAndDont, FONT_FAMILY_PRESETS, GALLERY_COMPONENTS, type GalleryComponent, LAYOUT_TOKENS, type LayoutToken, PATTERNS_COLLECTION, type PatternItem, type PatternPlatform, type PatternVariant, type PropItem, RADIUS_TOKENS, type RadiusToken, SHADOW_TOKENS, SPACING_TOKENS, type ShadowToken, type SpacingToken, TYPOGRAPHY_TOKENS, type ThemeConfig, type TokenCategory, type TypographyConfig, type TypographyLevelConfig, type TypographyToken, applyThemeToDOM, cn, exportToCSS, exportToTailwind, exportToTokensJson, generateThemeCSS, isDarkColor };

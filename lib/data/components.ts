@@ -1,4 +1,4 @@
-export type ComponentCategory = 'all' | 'form' | 'feedback' | 'navigation' | 'data';
+export type ComponentCategory = 'all' | 'form' | 'feedback' | 'navigation' | 'data' | 'layout';
 
 export interface PropItem {
   name: string;
@@ -1434,5 +1434,84 @@ export function TextareaDemo() {
     htmlSnippet: '<div class="atom-tree" role="tree">\n  <ul class="atom-tree-list">\n    <li class="atom-tree-item" role="treeitem" aria-expanded="true">\n      <div class="atom-tree-node is-selected">\n        <button class="atom-tree-toggle is-expanded">▶</button>\n        <span class="atom-tree-label">src</span>\n      </div>\n    </li>\n  </ul>\n</div>',
     reactSnippet: "import { Tree, TreeNode } from 'atomsystem/components/Tree';\nimport { useState } from 'react';\n\nconst treeData: TreeNode[] = [\n  {\n    id: 'src',\n    label: 'src',\n    children: [\n      { id: 'components', label: 'components', children: [{ id: 'Button.tsx', label: 'Button.tsx' }] },\n      { id: 'index.ts', label: 'index.ts' },\n    ],\n  },\n  { id: 'package.json', label: 'package.json' },\n];\n\nexport function TreeDemo() {\n  const [selectedId, setSelectedId] = useState('index.ts');\n  return <Tree data={treeData} selectedId={selectedId} onSelect={(node) => setSelectedId(node.id)} defaultExpandedIds={['src']} />;\n}",
     vueSnippet: '<template>\n  <AtomTree :data="treeData" v-model:selected="selectedId" :default-expanded="[\'src\']" />\n</template>'
+  },
+  {
+    id: 'container',
+    name: '컨테이너 (Container)',
+    category: 'layout',
+    source: 'AtomSystem Universal',
+    description: '디자인 토큰(--atom-container-*)과 연동되어 화면 폭에 맞춘 최적 너비 및 반응형 안전 여백(Gutter)을 제공하는 래퍼 컴포넌트',
+    callout: {
+      type: 'tip',
+      title: '토큰 기반 너비 제어',
+      text: '하드코딩된 max-w-[1200px] 대신 size="sm"|"md"|"lg"|"xl"|"2xl"|"full"을 사용하여 DTCG 표준 토큰과 100% 연동됩니다.'
+    },
+    propsSpec: [
+      { name: 'size', type: "'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full'", defaultValue: "'xl'", description: '컨테이너 최대 너비 규격 토큰 (--atom-container-*)' },
+      { name: 'gutters', type: 'boolean', defaultValue: 'true', description: '화면 좌우 반응형 안전 패딩 적용 여부 (--atom-layout-gutter)' },
+      { name: 'center', type: 'boolean', defaultValue: 'true', description: '중앙 정렬(mx-auto) 적용 여부' },
+      { name: 'as', type: 'ElementType', defaultValue: "'div'", description: '렌더링할 시맨틱 HTML 태그 (div, section, main 등)' },
+      { name: 'className', type: 'string', defaultValue: "''", description: '추가 커스텀 클래스' }
+    ],
+    useCases: [
+      '대시보드 메인 뷰어 및 카탈로그의 최대 가로폭 통일',
+      '단일 폼, 결제 페이지, 인증 화면의 좁은 중앙 정렬 (size="sm")',
+      '블로그, 아티클, 지식 베이스의 가독성 중심 컨테이너 (size="md")',
+      '초광폭 데이터 그리드 및 트레이딩 차트의 와이드 컨테이너 (size="2xl")'
+    ],
+    usagePatterns: [
+      '모든 페이지 뷰어의 최상위 본문 래퍼로 Container를 사용하여 모바일/데스크톱 거터를 일관되게 유지합니다.',
+      '중첩 컨테이너를 피하고, 섹션 내부에서는 Grid 또는 Stack을 사용하여 구조화합니다.'
+    ],
+    dosAndDonts: [
+      {
+        do: '페이지 성격에 맞는 size 토큰(sm, md, lg, xl, 2xl)을 지정하여 일관된 뷰포트 계층을 형성합니다.',
+        dont: '페이지마다 임의의 max-w-[1140px], max-w-[1250px] 등 비표준 하드코딩 값을 난립시키지 않습니다.'
+      }
+    ],
+    relatedPatternIds: ['dashboard-overview', 'checkout-flow'],
+    htmlSnippet: '<div class="atom-container atom-container-xl">\n  <h1>컨테이너 본문</h1>\n</div>',
+    reactSnippet: "import { Container } from 'atomsystem/components/Container';\n\nexport function ContainerDemo() {\n  return (\n    <Container size=\"xl\">\n      <h1 className=\"text-xl font-bold\">대시보드 뷰어</h1>\n      <p>토큰 시스템과 연동된 안전 패딩과 너비가 자동 적용됩니다.</p>\n    </Container>\n  );\n}",
+    vueSnippet: '<template>\n  <div class="atom-container atom-container-xl">\n    <slot />\n  </div>\n</template>'
+  },
+  {
+    id: 'layout',
+    name: '레이아웃 & 스택 (Layout & Stack)',
+    category: 'layout',
+    source: 'AtomSystem Universal',
+    description: '전체 페이지 쉘(Header, Sidebar, Content, Footer) 및 스페이싱 토큰 기반의 선형/격자 조립 도구(Stack, Grid, Section)',
+    callout: {
+      type: 'tip',
+      title: '레고 조립의 뼈대',
+      text: 'Layout.Header, Layout.Sidebar, Layout.Content, Layout.Stack, Layout.Grid를 활용하여 100% 토큰화된 레이아웃을 구축합니다.'
+    },
+    propsSpec: [
+      { name: 'direction', type: "'vertical' | 'horizontal'", defaultValue: "'vertical'", description: 'Stack 배치 방향' },
+      { name: 'gap', type: "'1' | '2' | '3' | '4' | '6' | '8' | '12'", defaultValue: "'4'", description: '스페이싱 토큰 단위 간격 (--atom-space-*)' },
+      { name: 'align', type: "'start' | 'center' | 'end' | 'stretch'", defaultValue: "'stretch'", description: '교차축 정렬' },
+      { name: 'justify', type: "'start' | 'center' | 'end' | 'between' | 'around'", defaultValue: "'start'", description: '주축 정렬' },
+      { name: 'cols', type: '1 | 2 | 3 | 4 | 6 | 12', defaultValue: '3', description: 'Grid 컬럼 수' }
+    ],
+    useCases: [
+      '대시보드 글로벌 쉘 (상단 네비바 + 좌측 사이드바 + 메인 본문)',
+      '폼 필드 간의 수직 스택 정렬 (gap="4")',
+      '버튼 그룹 및 액션 툴바의 수평 스택 정렬 (direction="horizontal", gap="2")',
+      '반응형 카드 리스트의 3열 그리드 배치 (Grid cols={3} gap="4")'
+    ],
+    usagePatterns: [
+      '임의의 margin-bottom, padding-top 대신 Stack의 gap 속성을 통해 토큰 기반 일관된 리듬을 유지합니다.',
+      '카드 목록에는 Grid 컴포넌트를 사용하여 모바일(1열) -> 태블릿(2열) -> 데스크톱(3열) 반응형 전환을 보장합니다.'
+    ],
+    dosAndDonts: [
+      {
+        do: 'Stack과 Grid에 정의된 토큰 gap("2", "4", "6", "8")을 사용하여 여백을 체계화합니다.',
+        dont: '자식 엘리먼트마다 제각각 mb-[17px], mt-[23px] 등 불규칙한 인라인 마진을 부여하지 않습니다.'
+      }
+    ],
+    relatedPatternIds: ['dashboard-overview', 'filter-search'],
+    htmlSnippet: '<div class="atom-layout-shell">\n  <header class="atom-layout-header">헤더</header>\n  <main class="atom-layout-content">\n    <div class="atom-stack-v atom-gap-4">스택 본문</div>\n  </main>\n</div>',
+    reactSnippet: "import { Layout, Container, Stack, Grid } from 'atomsystem/components/Layout';\n\nexport function LayoutDemo() {\n  return (\n    <Layout>\n      <Layout.Header>헤더</Layout.Header>\n      <Layout.Content>\n        <Container size=\"xl\">\n          <Stack gap=\"6\">\n            <h1 className=\"text-2xl font-bold\">대시보드</h1>\n            <Grid cols={3} gap=\"4\">\n              <div>카드 1</div>\n              <div>카드 2</div>\n              <div>카드 3</div>\n            </Grid>\n          </Stack>\n        </Container>\n      </Layout.Content>\n    </Layout>\n  );\n}",
+    vueSnippet: '<template>\n  <div class="atom-layout-shell">\n    <slot />\n  </div>\n</template>'
   }
 ];
+

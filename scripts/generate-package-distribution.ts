@@ -8,6 +8,7 @@ import {
   SPACING_TOKENS,
   SHADOW_TOKENS,
   BRAND_PRESETS,
+  LAYOUT_TOKENS,
 } from '../lib/data/tokens';
 import { PRINCIPLES_DATA } from '../lib/data/principles';
 import { PATTERNS_COLLECTION } from '../lib/data/patterns';
@@ -50,6 +51,11 @@ function generateTokenJson() {
     radius: {},
     spacing: {},
     shadow: {},
+    layout: {
+      container: {},
+      gutter: {},
+      gap: {},
+    },
     presets: {},
   };
 
@@ -104,6 +110,17 @@ function generateTokenJson() {
     tokenStructure.shadow[key] = {
       $value: t.value,
       $type: 'shadow',
+      $description: t.description,
+      variable: t.variable,
+    };
+  });
+
+  LAYOUT_TOKENS.forEach((t) => {
+    const key = t.variable.replace('--atom-', '').replace('container-', '').replace('layout-', '');
+    const targetGroup = tokenStructure.layout[t.type] || tokenStructure.layout.container;
+    targetGroup[key] = {
+      $value: t.value,
+      $type: 'dimension',
       $description: t.description,
       variable: t.variable,
     };
@@ -1178,6 +1195,11 @@ export * from './Breadcrumb';
 export * from './Separator';
 export * from './Textarea';
 export * from './Tree';
+export * from './Table';
+export * from './Tabs';
+export * from './Switch';
+export * from './Container';
+export * from './Layout';
 `;
   fs.writeFileSync(path.join(uiDir, 'index.ts'), indexCode, 'utf-8');
   console.log('✅ Generated components/ui ready-to-use React components');

@@ -33,6 +33,29 @@
   --atom-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --atom-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
   --atom-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+
+  /* Container & Layout Tokens */
+  --atom-container-sm: 640px;
+  --atom-container-md: 768px;
+  --atom-container-lg: 1024px;
+  --atom-container-xl: 1280px;
+  --atom-container-2xl: 1536px;
+  --atom-container-full: 100%;
+
+  --atom-layout-gutter: 16px;
+  --atom-layout-gutter-lg: 24px;
+  --atom-layout-gap: 32px;
+
+  /* Spacing Scale Tokens */
+  --atom-space-1: 4px;
+  --atom-space-2: 8px;
+  --atom-space-3: 12px;
+  --atom-space-4: 16px;
+  --atom-space-5: 20px;
+  --atom-space-6: 24px;
+  --atom-space-8: 32px;
+  --atom-space-12: 48px;
+  --atom-space-16: 64px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -55,6 +78,51 @@
 }
 
 /* === Universal Component Classes === */
+
+/* Container & Layout */
+.atom-container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--atom-layout-gutter);
+  padding-right: var(--atom-layout-gutter);
+}
+@media (min-width: 768px) {
+  .atom-container {
+    padding-left: var(--atom-layout-gutter-lg);
+    padding-right: var(--atom-layout-gutter-lg);
+  }
+}
+.atom-container-sm { max-width: var(--atom-container-sm); }
+.atom-container-md { max-width: var(--atom-container-md); }
+.atom-container-lg { max-width: var(--atom-container-lg); }
+.atom-container-xl { max-width: var(--atom-container-xl); }
+.atom-container-2xl { max-width: var(--atom-container-2xl); }
+.atom-container-full { max-width: 100%; }
+
+.atom-layout-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--atom-bg-primary);
+  color: var(--atom-text-primary);
+}
+
+.atom-stack-v {
+  display: flex;
+  flex-direction: column;
+}
+.atom-stack-h {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.atom-gap-1 { gap: var(--atom-space-1); }
+.atom-gap-2 { gap: var(--atom-space-2); }
+.atom-gap-3 { gap: var(--atom-space-3); }
+.atom-gap-4 { gap: var(--atom-space-4); }
+.atom-gap-6 { gap: var(--atom-space-6); }
+.atom-gap-8 { gap: var(--atom-space-8); }
 
 /* Buttons */
 .atom-btn {

@@ -17,3 +17,8 @@ export * from './Breadcrumb';
 export * from './Separator';
 export * from './Textarea';
 export * from './Tree';
+export * from './Table';
+export * from './Tabs';
+export * from './Switch';
+export * from './Container';
+export * from './Layout';

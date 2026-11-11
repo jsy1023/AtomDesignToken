@@ -1,4 +1,4 @@
-export type TokenCategory = 'color' | 'typography' | 'radius' | 'spacing' | 'shadow';
+export type TokenCategory = 'color' | 'typography' | 'radius' | 'spacing' | 'shadow' | 'layout';
 
 export interface BrandPreset {
   id: string;
@@ -44,6 +44,14 @@ export interface ShadowToken {
   variable: string;
   value: string;
   description: string;
+}
+
+export interface LayoutToken {
+  name: string;
+  variable: string;
+  value: string;
+  description: string;
+  type: 'container' | 'gutter' | 'gap';
 }
 
 export const BRAND_PRESETS: BrandPreset[] = [
@@ -319,3 +327,70 @@ export const SHADOW_TOKENS: ShadowToken[] = [
     description: '화면 최상단 레이어의 모달 다이얼로그, 바텀시트'
   }
 ];
+
+export const LAYOUT_TOKENS: LayoutToken[] = [
+  {
+    name: 'Container Small (Narrow / Form)',
+    variable: '--atom-container-sm',
+    value: '640px',
+    description: '인증 폼, 결제 모달, 단일 컬럼 콘텐츠',
+    type: 'container'
+  },
+  {
+    name: 'Container Medium (Article / Content)',
+    variable: '--atom-container-md',
+    value: '768px',
+    description: '블로그 아티클, 프로필 뷰어, 설정 폼',
+    type: 'container'
+  },
+  {
+    name: 'Container Large (Standard Catalog)',
+    variable: '--atom-container-lg',
+    value: '1024px',
+    description: '표준 랩탑 뷰, 카탈로그 카드 그리드',
+    type: 'container'
+  },
+  {
+    name: 'Container Extra Large (Default Dashboard)',
+    variable: '--atom-container-xl',
+    value: '1280px',
+    description: '기본 데스크톱 와이드 레이아웃 및 대시보드 허브',
+    type: 'container'
+  },
+  {
+    name: 'Container 2X Large (Ultra Wide Grid)',
+    variable: '--atom-container-2xl',
+    value: '1536px',
+    description: '초광폭 고밀도 데이터 그리드, 핀테크 차트 워크스페이스',
+    type: 'container'
+  },
+  {
+    name: 'Container Full (Fluid Fluid 100%)',
+    variable: '--atom-container-full',
+    value: '100%',
+    description: '전체 화면 플루이드 유연 뷰어',
+    type: 'container'
+  },
+  {
+    name: 'Layout Gutter (Mobile / Base)',
+    variable: '--atom-layout-gutter',
+    value: '16px',
+    description: '화면 좌우 기본 안전 여백 (Safe Padding)',
+    type: 'gutter'
+  },
+  {
+    name: 'Layout Gutter Large (Desktop)',
+    variable: '--atom-layout-gutter-lg',
+    value: '24px',
+    description: '데스크톱 화면 좌우 안전 여백',
+    type: 'gutter'
+  },
+  {
+    name: 'Layout Section Gap',
+    variable: '--atom-layout-gap',
+    value: '32px',
+    description: '섹션과 섹션 간의 기본 레이아웃 간격',
+    type: 'gap'
+  }
+];
+
