@@ -42,7 +42,7 @@ export const NAVIGATION_DEPTH: NavGroup[] = [
     items: [
       {
         title: '컴포넌트',
-        href: '/components',
+        href: '/components/button',
         description: '버튼, 인풋, 모달 등 시맨틱 토큰과 결합된 프로덕션 UI',
       },
       {

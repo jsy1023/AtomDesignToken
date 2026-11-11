@@ -55,10 +55,10 @@ export default function Home() {
       icon: Zap,
     },
     {
-      title: '컴포넌트 갤러리 (Components)',
+      title: '컴포넌트 가이드 & 명세 (Components)',
       desc: '버튼, 인풋, 모달, 바텀시트, 탭 등 시맨틱 토큰과 결합된 프로덕션 UI 컴포넌트.',
-      href: '/components',
-      linkText: '컴포넌트 보기',
+      href: '/components/button',
+      linkText: '컴포넌트 문서 보기',
       icon: Layers,
     },
     {
@@ -216,15 +216,15 @@ export default function Home() {
             <span>|</span>
             <Link href="/motion" className="hover:text-(--text-primary)">모션</Link>
             <span>|</span>
-            <Link href="/components" className="hover:text-(--text-primary)">컴포넌트</Link>
+            <Link href="/components/button" className="hover:text-(--text-primary)">컴포넌트</Link>
+            <span>|</span>
+            <Link href="/blocks" className="hover:text-(--text-primary)">디자인 블록</Link>
             <span>|</span>
             <Link href="/patterns" className="hover:text-(--text-primary)">UX패턴</Link>
             <span>|</span>
             <Link href="/dependencies" className="hover:text-(--text-primary)">디펜던시</Link>
             <span>|</span>
             <Link href="/guide" className="hover:text-(--text-primary)">가이드</Link>
-            <span>|</span>
-            <Link href="/studio" className="hover:text-(--text-primary)">스튜디오</Link>
             <span>|</span>
             <a
               href="https://www.designtokens.org/tr/2025.10/"

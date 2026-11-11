@@ -8,17 +8,13 @@ test.describe('신규 확장 컴포넌트(라디오, 캘린더, 아바타 등 24
     });
   });
 
-  test('1. 컴포넌트 갤러리(/components)에서 코어 컴포넌트 및 사이드바 내비게이션 노출 확인', async ({ page }) => {
-    await page.goto('/components', { waitUntil: 'domcontentloaded' });
+  test('1. 컴포넌트 페이지(/components) 진입 시 첫 컴포넌트로 리다이렉트 및 사이드바 내비게이션 노출 확인', async ({ page }) => {
+    await page.goto('/components', { waitUntil: 'networkidle' });
     
-    // 갤러리 메인 헤딩 확인
-    await expect(page.getByRole('heading', { name: /컴포넌트 갤러리/i })).toBeVisible();
-
-    // 갤러리 코어 컴포넌트 카드 헤딩 확인
-    await expect(page.getByRole('heading', { name: /버튼/i })).toBeVisible();
-    await expect(page.getByRole('heading', { name: /인풋 필드/i })).toBeVisible();
-    await expect(page.getByRole('heading', { name: /모달 다이얼로그/i })).toBeVisible();
-    await expect(page.getByRole('heading', { name: /데이터 테이블/i })).toBeVisible();
+    // 컴포넌트 상세 헤딩 확인
+    const h1 = page.locator('h1');
+    await expect(h1).toBeVisible();
+    await expect(h1).toContainText(/버튼/i);
 
     // 사이드바에서 확장 컴포넌트 링크(라디오, 슬라이더, 아바타, 캘린더) 노출 확인
     await expect(page.getByRole('link', { name: /라디오 그룹/i })).toBeVisible();

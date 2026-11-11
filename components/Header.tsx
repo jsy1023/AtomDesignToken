@@ -60,6 +60,7 @@ export function Header({ brandColor, rightExtra }: HeaderProps) {
       case '/motion':
         return t('nav.motion', fallback);
       case '/components':
+      case '/components/button':
         return t('nav.components', fallback);
       case '/blocks':
         return t('nav.blocks', fallback);

@@ -24,11 +24,13 @@ test.describe('전체 페이지 담백한 미니멀 디자인 및 렌더링 안�
     await expect(page.getByRole('button', { name: /색상/i })).toBeVisible();
   });
 
-  test('3. 컴포넌트 갤러리(/components) 카탈로그 렌더링', async ({ page }) => {
+  test('3. 컴포넌트 문서(/components/button) 상세 페이지 렌더링', async ({ page }) => {
     await page.goto('/components', { waitUntil: 'domcontentloaded' });
+    // /components 진입 시 /components/button으로 리다이렉트 확인
+    await page.waitForURL('**/components/button');
     const h1 = page.locator('h1');
     await expect(h1).toBeVisible();
-    await expect(h1).toContainText(/컴포넌트 갤러리/i);
+    await expect(h1).toContainText(/버튼/i);
   });
 
   test('4. UX 패턴 문서(/patterns) Docs 트리 및 탭 렌더링', async ({ page }) => {
@@ -38,11 +40,11 @@ test.describe('전체 페이지 담백한 미니멀 디자인 및 렌더링 안�
     await expect(page.getByRole('button', { name: /인터랙티브 데모/i })).toBeVisible();
   });
 
-  test('5. 프롬프트 빌더 스튜디오(/studio) 위저드 렌더링', async ({ page }) => {
-    await page.goto('/studio', { waitUntil: 'domcontentloaded' });
+  test('5. 디자인 블록 허브(/blocks) 카탈로그 렌더링', async ({ page }) => {
+    await page.goto('/blocks', { waitUntil: 'domcontentloaded' });
     const h1 = page.locator('h1');
     await expect(h1).toBeVisible();
-    await expect(h1).toContainText(/AI 프롬프트 빌더 스튜디오/i);
+    await expect(h1).toContainText(/디자인 블록/i);
   });
 
   test('6. 라이브러리 가이드(/guide) 기술 문서 렌더링', async ({ page }) => {
