@@ -35,6 +35,7 @@ interface ThemeEditorContextValue {
   resetTheme: () => void;
   isDirty: boolean;
   mounted: boolean;
+  isLocalOnly: boolean;
 }
 
 const ThemeEditorContext = createContext<ThemeEditorContextValue | null>(null);
@@ -42,10 +43,48 @@ const ThemeEditorContext = createContext<ThemeEditorContextValue | null>(null);
 const STORAGE_KEY = 'atom_design_system_theme_v2';
 
 export function ThemeEditorProvider({ children }: { children: React.ReactNode }) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpenState] = useState(false);
   const [activeTab, setActiveTab] = useState<EditorTab>('colors');
   const [theme, setTheme] = useState<ThemeConfig>(DEFAULT_THEME_CONFIG);
   const [mounted, setMounted] = useState(false);
+  const [isLocalOnly, setIsLocalOnly] = useState(false);
+
+  // 로컬 호스트 및 개발 환경 여부 감지
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const hostname = window.location.hostname;
+      const isDevEnv = process.env.NODE_ENV === 'development';
+      const isLocalhost =
+        hostname === 'localhost' ||
+        hostname === '127.0.0.1' ||
+        hostname.endsWith('.local') ||
+        hostname.startsWith('192.168.') ||
+        hostname.startsWith('10.');
+      const searchParams = new URLSearchParams(window.location.search);
+      const isForceEnabled = searchParams.get('dev_editor') === 'true';
+
+      setIsLocalOnly(isDevEnv || isLocalhost || isForceEnabled);
+    }
+  }, []);
+
+  const setIsOpen = useCallback((open: boolean) => {
+    // 로컬 환경이 아니면 에디터를 열지 않음
+    if (!open) {
+      setIsOpenState(false);
+      return;
+    }
+    if (isLocalOnly) {
+      setIsOpenState(true);
+    }
+  }, [isLocalOnly]);
+
+  const toggleOpen = useCallback(() => {
+    if (isOpen) {
+      setIsOpenState(false);
+    } else if (isLocalOnly) {
+      setIsOpenState(true);
+    }
+  }, [isOpen, isLocalOnly]);
 
   // 로컬 스토리지에서 초기 테마 로드
   useEffect(() => {
@@ -89,9 +128,6 @@ export function ThemeEditorProvider({ children }: { children: React.ReactNode })
     }
   }, []);
 
-  const toggleOpen = useCallback(() => {
-    setIsOpen((prev) => !prev);
-  }, []);
 
   const updateColor = useCallback(
     (key: keyof ColorConfig, value: string) => {
@@ -226,6 +262,7 @@ export function ThemeEditorProvider({ children }: { children: React.ReactNode })
         resetTheme,
         isDirty,
         mounted,
+        isLocalOnly,
       }}
     >
       {children}

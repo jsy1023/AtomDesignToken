@@ -21,7 +21,7 @@ import {
 } from 'lucide-react';
 
 export function ThemeEditorDrawer() {
-  const { isOpen, setIsOpen, activeTab, setActiveTab, resetTheme, isDirty, mounted } = useThemeEditor();
+  const { isOpen, setIsOpen, activeTab, setActiveTab, resetTheme, isDirty, mounted, isLocalOnly } = useThemeEditor();
 
   // Close on ESC key
   useEffect(() => {
@@ -34,7 +34,8 @@ export function ThemeEditorDrawer() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, setIsOpen]);
 
-  if (!mounted) return null;
+  // 로컬 개발 환경(localhost 등)에서만 렌더링
+  if (!mounted || !isLocalOnly) return null;
 
   const tabs: { id: EditorTab; label: string; icon: React.ElementType }[] = [
     { id: 'colors', label: '색상', icon: Palette },

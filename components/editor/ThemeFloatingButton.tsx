@@ -5,9 +5,10 @@ import { useThemeEditor } from './ThemeEditorProvider';
 import { SlidersHorizontal } from 'lucide-react';
 
 export function ThemeFloatingButton() {
-  const { isOpen, toggleOpen, mounted } = useThemeEditor();
+  const { isOpen, toggleOpen, mounted, isLocalOnly } = useThemeEditor();
 
-  if (!mounted) return null;
+  // 로컬 개발 환경(localhost, 127.0.0.1 등)에서만 렌더링
+  if (!mounted || !isLocalOnly) return null;
 
   return (
     <div className="fixed bottom-4 right-4 z-40">
