@@ -112,6 +112,38 @@ Impeccable 디자인 철학에 기반하여 LLM이 양산하는 클리셰적 디
 
 ---
 
+### 08. AI 운영 원칙: 4단계 레고 조립 파이프라인 (AI Agent Pipeline)
+> **토큰(Tokens) ➔ 컴포넌트(Components) ➔ 블록(Blocks) ➔ UX패턴(Patterns)**
+
+모든 AI 어시스턴트(Cursor, Claude Code, Antigravity, Copilot)는 복잡한 화면을 생성할 때 한 번에 거대한 코드를 작성하지 않고, 반드시 검증된 4단계 조립 파이프라인을 순차적으로 거쳐야 합니다. 새 UI 요소가 필요하면 기초 원자 컴포넌트부터 생성한 후 블록으로 합성하는 [컴포넌트 우선 원칙(Component-First)]을 엄수합니다.
+
+* **권장 실천 (DO)**:
+  - ✅ 새 UI를 만들 때 components/ui/에 원자 컴포넌트를 먼저 정의하고, 이를 import하여 조립합니다.
+  - ✅ 모든 스타일은 반드시 CSS 변수(var(--atom-*), var(--text-primary))를 사용합니다.
+  - ✅ 빈 데이터(Empty), 로딩(Skeleton), 에러, 키보드 접근성(A11y) 4대 상태를 필수로 구현합니다.
+* **지양 안티패턴 (DON'T)**:
+  - ❌ 컴포넌트 단계를 건너뛰고 블록이나 페이지에 임의의 원시 태그(<button>, <div class="rounded-lg...">)를 날림으로 하드코딩하지 않습니다.
+  - ❌ Tailwind 임의 컬러(text-blue-500, bg-gray-100 등)를 인라인으로 직접 작성하지 않습니다.
+* **표준 참조**: `AGENTS.md & W3C DTCG Component Composition Spec`
+
+---
+
+### 09. 4대 AI 전문 역할 & 에이전트 스킬 활용 체계 (AI Roles & Skills)
+> **token-guardian, component-architect, block-designer, docs-curator 협업 시스템**
+
+AtomSystem은 단일 모델의 환각을 방지하기 위해 4대 전문 역할로 책임을 분리합니다: 1) token-guardian(W3C 토큰 무결성 감시 및 하드코딩 차단), 2) component-architect(순수 원자 컴포넌트 설계), 3) block-designer(컴포넌트 조립 및 완성형 UX 블록 구축), 4) docs-curator(레고 조립 문서화 및 E2E 검증). `npx atomsystem init` 시 `.agents/skills/atomsystem/SKILL.md`가 자동 설치되어 AI가 이 모든 역할을 자율적으로 수행합니다.
+
+* **권장 실천 (DO)**:
+  - ✅ AI에게 작업 지시 시 "컴포넌트 우선 원칙으로 조립해줘" 또는 "atom.design.md 토큰을 준수해줘"라고 명시합니다.
+  - ✅ 코드 변경 후 `npm run audit:recursive` 및 `npm run lint:design`을 통해 AI 작업물의 무결성을 검증합니다.
+  - ✅ AI가 디자인 가이드 Markdown(토스, 당근, 커스텀)을 읽어 W3C tokens.json으로 빌드하도록 스킬을 호출합니다.
+* **지양 안티패턴 (DON'T)**:
+  - ❌ 500줄 이상의 거대한 모놀리식 단일 컴포넌트 작성을 AI에게 요구하거나 방치하지 않습니다.
+  - ❌ 도메인 데이터를 페이지 컴포넌트 내부에 직접 인라인으로 하드코딩하게 두지 않습니다.
+* **표준 참조**: `Universal AI Agent Guidelines (GEMINI.md & CLAUDE.md)`
+
+---
+
 ## 2. 디자인 토큰 사양 (Design Token Specifications)
 
 ### 🎨 시맨틱 컬러 토큰
