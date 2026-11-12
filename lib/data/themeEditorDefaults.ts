@@ -38,6 +38,7 @@ export interface ThemeConfig {
   color: ColorConfig;
   typography: TypographyConfig;
   borderRadius: string;
+  selectedIcon?: string;
 }
 
 export interface ColorPreset {
@@ -122,6 +123,7 @@ export const DEFAULT_THEME_CONFIG: ThemeConfig = {
     },
   },
   borderRadius: '14px',
+  selectedIcon: 'Sparkles',
 };
 
 export const COLOR_PRESETS: ColorPreset[] = [

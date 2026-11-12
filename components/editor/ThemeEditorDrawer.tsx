@@ -5,6 +5,7 @@ import { useThemeEditor, EditorTab } from './ThemeEditorProvider';
 import { ColorEditorTab } from './tabs/ColorEditorTab';
 import { TypographyEditorTab } from './tabs/TypographyEditorTab';
 import { TokensEditorTab } from './tabs/TokensEditorTab';
+import { IconsEditorTab } from './tabs/IconsEditorTab';
 import { LivePreviewTab } from './tabs/LivePreviewTab';
 import { ExportTab } from './tabs/ExportTab';
 import {
@@ -39,6 +40,7 @@ export function ThemeEditorDrawer() {
     { id: 'colors', label: '색상', icon: Palette },
     { id: 'typography', label: '타이포', icon: Type },
     { id: 'tokens', label: '곡률/간격', icon: Sliders },
+    { id: 'icons', label: '아이콘', icon: Sparkles },
     { id: 'preview', label: '미리보기', icon: Eye },
     { id: 'export', label: '내보내기', icon: Download },
   ];
@@ -145,6 +147,7 @@ export function ThemeEditorDrawer() {
           {activeTab === 'colors' && <ColorEditorTab />}
           {activeTab === 'typography' && <TypographyEditorTab />}
           {activeTab === 'tokens' && <TokensEditorTab />}
+          {activeTab === 'icons' && <IconsEditorTab />}
           {activeTab === 'preview' && <LivePreviewTab />}
           {activeTab === 'export' && <ExportTab />}
         </div>

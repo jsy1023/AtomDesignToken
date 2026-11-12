@@ -12,7 +12,7 @@ import {
 import { applyThemeToDOM, isDarkColor } from '@/lib/services/themeEngine';
 import { AWESOME_DESIGN_MD_THEMES } from '@/lib/data/awesomeThemes';
 
-export type EditorTab = 'colors' | 'typography' | 'tokens' | 'preview' | 'export';
+export type EditorTab = 'colors' | 'typography' | 'tokens' | 'icons' | 'preview' | 'export';
 
 interface ThemeEditorContextValue {
   isOpen: boolean;
@@ -29,6 +29,7 @@ interface ThemeEditorContextValue {
   ) => void;
   updateFontFamily: (fontFamily: string) => void;
   updateBorderRadius: (radius: string) => void;
+  updateSelectedIcon: (iconName: string) => void;
   applyColorPreset: (preset: ColorPreset) => void;
   applyFullTheme: (newTheme: ThemeConfig) => void;
   resetTheme: () => void;
@@ -164,6 +165,20 @@ export function ThemeEditorProvider({ children }: { children: React.ReactNode })
     [persistAndApply]
   );
 
+  const updateSelectedIcon = useCallback(
+    (iconName: string) => {
+      setTheme((prev) => {
+        const next: ThemeConfig = {
+          ...prev,
+          selectedIcon: iconName,
+        };
+        persistAndApply(next);
+        return next;
+      });
+    },
+    [persistAndApply]
+  );
+
   const applyColorPreset = useCallback(
     (preset: ColorPreset) => {
       setTheme((prev) => {
@@ -205,6 +220,7 @@ export function ThemeEditorProvider({ children }: { children: React.ReactNode })
         updateTypographyLevel,
         updateFontFamily,
         updateBorderRadius,
+        updateSelectedIcon,
         applyColorPreset,
         applyFullTheme,
         resetTheme,

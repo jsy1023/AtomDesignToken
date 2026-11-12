@@ -37,6 +37,7 @@ export interface TranslationDictionary {
     motion: string;
     library: string;
     components: string;
+    icons: string;
     blocks: string;
     patterns: string;
     engineering: string;

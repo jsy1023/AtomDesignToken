@@ -46,6 +46,12 @@ export const NAVIGATION_DEPTH: NavGroup[] = [
         description: '버튼, 인풋, 모달 등 시맨틱 토큰과 결합된 프로덕션 UI',
       },
       {
+        title: '아이콘',
+        href: '/icons',
+        description: '3,800+ 무료 오픈소스 아이콘 명세 및 테마 연동',
+        badge: 'New',
+      },
+      {
         title: '디자인 블록',
         href: '/blocks',
         description: '실시간차트, 챗, 카드리스트, 슬라이더, 가격 등 실무 완성형 모듈',
