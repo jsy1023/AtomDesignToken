@@ -89,13 +89,6 @@ export default function Home() {
       linkText: '활용 가이드 보기',
       icon: BookOpen,
     },
-    {
-      title: '프롬프트 빌더 스튜디오 (Studio)',
-      desc: '선택한 토큰과 패턴을 기반으로 AI에게 전달할 규격화된 프롬프트를 자동 생성.',
-      href: '/studio',
-      linkText: '스튜디오 바로가기',
-      icon: SlidersHorizontal,
-    },
   ];
 
   return (
@@ -184,24 +177,6 @@ export default function Home() {
               </Link>
             );
           })}
-        </section>
-
-        {/* Studio Link Callout - Minimal Bar */}
-        <section
-          style={{ borderRadius: radius }}
-          className="p-4 border border-(--border-subtle) bg-(--bg-secondary) flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
-        >
-          <div className="space-y-0.5">
-            <span className="font-semibold text-(--text-primary)">프롬프트 빌더 스튜디오</span>
-            <p className="text-neutral-400">선택한 토큰과 패턴을 기반으로 AI에게 전달할 규격화된 프롬프트를 자동 생성합니다.</p>
-          </div>
-          <Link
-            href="/studio"
-            className="text-xs font-semibold text-neutral-600 dark:text-neutral-300 hover:text-(--text-primary) flex items-center gap-1 shrink-0"
-          >
-            <span>스튜디오 바로가기</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
         </section>
       </main>
 
