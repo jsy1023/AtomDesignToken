@@ -116,9 +116,57 @@ export default function PrinciplesPage() {
                 </div>
 
                 {/* Description */}
-                <p className="text-xs text-(--text-secondary) leading-relaxed">
+                <p className="text-sm text-(--text-primary) leading-relaxed">
                   {description}
                 </p>
+
+                {/* AI Command & Prompt Card for Principle 08 & 09 */}
+                {item.id === 'ai-governance-pipeline' && (
+                  <div className="p-4 rounded-xl bg-(--bg-secondary)/50 border border-(--border-subtle) space-y-2.5">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-mono font-bold text-(--text-primary) flex items-center gap-1.5">
+                        <ShieldCheck className="w-4 h-4 text-emerald-500" />
+                        AI Agent 호출 및 지시 커맨드 (Prompts)
+                      </span>
+                      <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-(--bg-primary) border border-(--border-subtle) text-(--text-secondary)">
+                        Component-First Rule
+                      </span>
+                    </div>
+                    <div className="p-3 rounded-lg bg-(--bg-primary) border border-(--border-subtle) font-mono text-xs text-(--text-primary) leading-relaxed">
+                      <code>&quot;너는 AtomSystem 기반 UI 엔지니어다. AGENTS.md의 4단계 레고 조립 파이프라인에 따라 [컴포넌트 우선 원칙]으로 새 컴포넌트를 components/ui에 먼저 작성하고, 토큰(var(--atom-*))을 바인딩하여 조립해줘.&quot;</code>
+                    </div>
+                  </div>
+                )}
+
+                {item.id === 'ai-roles-skills' && (
+                  <div className="p-4 rounded-xl bg-(--bg-secondary)/50 border border-(--border-subtle) space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-mono font-bold text-(--text-primary) flex items-center gap-1.5">
+                        <ShieldCheck className="w-4 h-4 text-blue-500" />
+                        AI 에이전트 스킬 설치 및 로컬 스튜디오 실행 커맨드
+                      </span>
+                      <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-(--bg-primary) border border-(--border-subtle) text-(--text-secondary)">
+                        CLI Commands
+                      </span>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono">
+                      <div className="p-2.5 rounded bg-(--bg-primary) border border-(--border-subtle)">
+                        <div className="text-[11px] text-(--text-muted) mb-1"># 1. AI 스킬 및 규격 파일 자동 설치</div>
+                        <div className="font-bold text-(--text-primary)">npx atomsystem init</div>
+                      </div>
+                      <div className="p-2.5 rounded bg-(--bg-primary) border border-(--border-subtle)">
+                        <div className="text-[11px] text-(--text-muted) mb-1"># 2. 로컬 토큰 스튜디오 실행 (/studio)</div>
+                        <div className="font-bold text-(--text-primary)">npx atomsystem studio</div>
+                      </div>
+                    </div>
+                    <div className="p-3 rounded-lg bg-(--bg-primary) border border-(--border-subtle) font-mono text-xs text-(--text-secondary) leading-relaxed">
+                      <div><strong className="text-(--text-primary)">에이전트 역할별 호출 지침:</strong></div>
+                      <div>• <strong>token-guardian</strong>: &quot;W3C 토큰 무결성을 감사하고 인라인 하드코딩 색상을 전수 차단해줘.&quot;</div>
+                      <div>• <strong>component-architect</strong>: &quot;A11y 접근성을 준수하는 순수 원자 단위 컴포넌트를 설계해줘.&quot;</div>
+                      <div>• <strong>block-designer</strong>: &quot;원자 컴포넌트들을 조합하여 완성형 대시보드 블록을 구축해줘.&quot;</div>
+                    </div>
+                  </div>
+                )}
 
                 {/* Do & Don't Matrix */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 text-xs">

@@ -13,14 +13,17 @@ export function GuideLocalStudioSection() {
     setTimeout(() => setCopiedId(null), 2000);
   };
 
-  const cliWorkflowCode = `# 1. 패키지 설치 및 로컬 환경 초기화 (토큰 & 규격 파일 생성)
+  const cliWorkflowCode = `# 1. 패키지 설치 및 로컬 환경 초기화 (토큰 & AI 규격 파일 자동 생성)
 npx atomsystem init
 
-# 2. 로컬 웹 토큰 스튜디오(GUI) 실행
+# 2. 로컬 웹 토큰 스튜디오(GUI) 실행 (독립 서버 모드)
 npx atomsystem studio
 # 👉 브라우저에서 http://localhost:4000 접속
 
-# 3. CLI를 통해 수동으로 CSS 재컴파일할 경우
+# 3. Next.js / 웹 프로젝트 내장 스튜디오로 접속 시
+# 👉 개발 서버 구동 중 http://localhost:3000/studio 접속
+
+# 4. CLI를 통해 수동으로 CSS 재컴파일할 경우
 npx atomsystem build:tokens`;
 
   return (
@@ -42,6 +45,14 @@ npx atomsystem build:tokens`;
           </div>
 
           <div className="flex items-center gap-2">
+            <Link
+              href="/studio"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-(--radius-sm) bg-(--accent-primary) text-(--bg-primary) font-semibold text-xs shadow-xs hover:opacity-90 transition"
+            >
+              <ExternalLink className="w-3.5 h-3.5" />
+              <span>/studio 바로 열기</span>
+            </Link>
+
             <div className="flex items-center gap-2 px-3 py-1.5 rounded-(--radius-sm) bg-(--bg-primary) border border-(--border-subtle) font-mono text-xs">
               <Terminal className="w-3.5 h-3.5 text-(--accent-primary)" />
               <span>npx atomsystem studio</span>
