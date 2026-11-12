@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { Terminal, Copy, Check, Sliders, RefreshCw, Palette, ExternalLink, Sparkles, FileCode } from 'lucide-react';
 import { CodeHighlight } from '@/components/common/CodeHighlight';
 

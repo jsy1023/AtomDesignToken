@@ -205,19 +205,19 @@ export default function LocalStudioPage() {
 
                 <div>
                   <label className="text-xs font-semibold text-(--text-secondary) mb-1.5 block">
-                    Surface Background Color
+                    Secondary / Surface Background
                   </label>
                   <div className="flex items-center gap-2">
                     <input
                       type="color"
-                      value={theme?.color?.bgSurface || '#f8f9fa'}
-                      onChange={(e) => updateColor('bgSurface', e.target.value)}
+                      value={theme?.color?.bgSecondary || '#f8f9fa'}
+                      onChange={(e) => updateColor('bgSecondary', e.target.value)}
                       className="w-9 h-9 rounded cursor-pointer border border-(--border-subtle) bg-transparent"
                     />
                     <input
                       type="text"
-                      value={theme?.color?.bgSurface || '#f8f9fa'}
-                      onChange={(e) => updateColor('bgSurface', e.target.value)}
+                      value={theme?.color?.bgSecondary || '#f8f9fa'}
+                      onChange={(e) => updateColor('bgSecondary', e.target.value)}
                       className="flex-1 font-mono text-xs px-2.5 py-1.5 rounded border border-(--border-subtle) bg-(--bg-secondary) text-(--text-primary)"
                     />
                   </div>

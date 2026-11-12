@@ -29,7 +29,7 @@ import {
   Grid,
 } from '@/components/ui';
 import { CodeHighlight } from '@/components/common/CodeHighlight';
-import { COMPONENT_TOKEN_MAPPINGS } from '@/lib/data/componentTokens';
+import { COMPONENT_TOKEN_MAPPINGS, getComponentTokens } from '@/lib/data/componentTokens';
 import { useI18n } from '@/lib/i18n';
 import {
   ArrowLeft,
@@ -59,7 +59,9 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
   const radius = theme?.borderRadius || '16px';
 
   const [activeSnippetTab, setActiveSnippetTab] = useState<'react' | 'vue' | 'html'>('react');
+  const [previewMode, setPreviewMode] = useState<'preview' | 'tokens'>('preview');
   const [copied, setCopied] = useState(false);
+  const componentTokens = getComponentTokens(component.id);
 
   // Interactive Live Demo states
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -470,7 +472,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
           <div className="flex flex-col gap-4 pb-6 border-b border-[var(--border-subtle)]">
           <div className="flex flex-wrap items-center justify-between gap-4 mt-2">
             <div>
-              <div className="flex items-center gap-2 mb-2">
+              <div className="flex flex-wrap items-center gap-2 mb-2">
                 <span 
                   className="text-xs font-mono font-medium px-2.5 py-0.5 rounded-full bg-(--bg-secondary) text-(--text-primary) border border-(--border-subtle)"
                 >
@@ -482,6 +484,13 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                 <span className="text-xs font-medium uppercase tracking-wider px-2 py-0.5 rounded-(--radius-sm) bg-(--bg-secondary) text-(--text-secondary) border border-(--border-subtle)">
                   {component.source}
                 </span>
+                <a
+                  href="#tokens"
+                  className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 hover:bg-blue-500/20 transition flex items-center gap-1.5 cursor-pointer shadow-xs"
+                >
+                  <Coins className="w-3.5 h-3.5" />
+                  <span>W3C 디자인 토큰 {componentTokens.length}개 연동됨 ↓</span>
+                </a>
               </div>
               <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-(--text-primary)">
                 {component.name}
@@ -505,15 +514,136 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
 
         {/* 1. Interactive Live Preview */}
         <section id="preview" className="scroll-mt-28 flex flex-col gap-3">
-          <h2 className="text-sm font-semibold text-(--text-primary)">
-            {t('componentsDoc.previewTitle', '인터랙티브 라이브 프리뷰 (Interactive Preview)')}
-          </h2>
+          <div className="flex items-center justify-between">
+            <h2 className="text-sm font-semibold text-(--text-primary)">
+              {t('componentsDoc.previewTitle', '인터랙티브 라이브 프리뷰 (Interactive Preview)')}
+            </h2>
+            <div className="flex items-center gap-1 bg-(--bg-secondary) p-1 rounded-(--radius) border border-(--border-subtle)">
+              <button
+                type="button"
+                onClick={() => setPreviewMode('preview')}
+                className={`px-3 py-1 rounded-(--radius-sm) text-xs font-semibold transition ${
+                  previewMode === 'preview'
+                    ? 'bg-(--bg-primary) text-(--text-primary) shadow-xs'
+                    : 'text-(--text-secondary) hover:text-(--text-primary)'
+                }`}
+              >
+                👁️ 라이브 뷰
+              </button>
+              <button
+                type="button"
+                onClick={() => setPreviewMode('tokens')}
+                className={`px-3 py-1 rounded-(--radius-sm) text-xs font-semibold transition flex items-center gap-1.5 ${
+                  previewMode === 'tokens'
+                    ? 'bg-(--bg-primary) text-blue-600 dark:text-blue-400 shadow-xs'
+                    : 'text-(--text-secondary) hover:text-(--text-primary)'
+                }`}
+              >
+                <Coins className="w-3.5 h-3.5" />
+                <span>디자인 토큰값 조회 ({componentTokens.length})</span>
+              </button>
+            </div>
+          </div>
+
           <div className="w-full min-h-[220px] p-6 rounded-(--radius) bg-(--bg-secondary)/30 border border-(--border-subtle) flex items-center justify-center">
-            {renderPreview()}
+            {previewMode === 'preview' ? (
+              renderPreview()
+            ) : (
+              <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-3 animate-in fade-in">
+                {componentTokens.map((tm, idx) => (
+                  <div key={idx} className="p-3.5 rounded-(--radius-sm) bg-(--bg-primary) border border-(--border-subtle) flex flex-col gap-1.5 shadow-xs">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-xs font-bold text-(--text-primary)">{tm.role}</span>
+                      <span className="text-2xs font-mono px-1.5 py-0.5 rounded bg-(--bg-secondary) text-(--text-secondary) shrink-0">
+                        {tm.dtcgPath}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between mt-1">
+                      <code className="text-xs font-mono text-blue-600 dark:text-blue-400 font-semibold">{tm.variable}</code>
+                      <div className="flex items-center gap-1.5">
+                        {tm.type === 'color' && (
+                          <span
+                            className="w-3.5 h-3.5 rounded-full border border-(--border-subtle) shadow-xs shrink-0"
+                            style={{ backgroundColor: tm.defaultValue.startsWith('#') || tm.defaultValue.startsWith('rgb') ? tm.defaultValue : '#3182f6' }}
+                          />
+                        )}
+                        <span className="text-xs font-mono font-bold text-(--text-primary)">{tm.defaultValue}</span>
+                      </div>
+                    </div>
+                    <p className="text-xs text-(--text-secondary) leading-relaxed mt-0.5">{tm.description}</p>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </section>
 
-        {/* 2. Code Copy Section (React / Vue / HTML) */}
+        {/* 2. W3C DTCG Token Mapping Specification (컴포넌트 토큰값 상세 조회) */}
+        <section id="tokens" className="scroll-mt-28 flex flex-col gap-3">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <h2 className="text-sm font-semibold uppercase tracking-wider text-(--text-secondary) flex items-center gap-1.5">
+              <Coins className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+              <span className="text-(--text-primary)">{t('componentsDoc.tokensTitle', '연동된 W3C DTCG 디자인 토큰 (tokens/token.json)')}</span>
+              <span className="ml-1 px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 text-xs font-mono font-semibold">
+                {componentTokens.length} Tokens Bound
+              </span>
+            </h2>
+            <div className="flex items-center gap-3">
+              <Link
+                href="/studio"
+                className="text-xs font-semibold px-2.5 py-1 rounded-(--radius-sm) bg-(--bg-secondary) text-(--text-primary) border border-(--border-subtle) hover:bg-(--bg-primary) transition flex items-center gap-1 shadow-xs"
+              >
+                <span>🛠️ 테마 에디터에서 수정 (/studio)</span>
+              </Link>
+              <Link
+                href="/tokens"
+                className="text-xs font-mono text-(--text-secondary) hover:text-(--text-primary) underline"
+              >
+                {t('componentsDoc.tokensViewAll', '전체 토큰 명세 보기 →')}
+              </Link>
+            </div>
+          </div>
+
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-1/4">토큰 역할 (Role)</TableHead>
+                <TableHead className="w-1/4">CSS 변수 (Variable)</TableHead>
+                <TableHead className="w-1/4">DTCG JSON 경로</TableHead>
+                <TableHead className="w-1/4">기본값 및 기능 매핑</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {componentTokens.map((tm, idx) => (
+                <TableRow key={idx}>
+                  <TableCell className="font-semibold text-sm text-(--text-primary)">
+                    {tm.role}
+                  </TableCell>
+                  <TableCell className="font-mono text-xs text-blue-600 dark:text-blue-400">
+                    <code>{tm.variable}</code>
+                  </TableCell>
+                  <TableCell className="font-mono text-xs text-(--text-secondary)">
+                    {tm.dtcgPath}
+                  </TableCell>
+                  <TableCell className="text-sm text-(--text-secondary)">
+                    <div className="flex items-center gap-2">
+                      {tm.type === 'color' && (
+                        <span
+                          className="w-4 h-4 rounded-full border border-(--border-subtle) shrink-0 shadow-xs"
+                          style={{ backgroundColor: tm.defaultValue.startsWith('#') || tm.defaultValue.startsWith('rgb') ? tm.defaultValue : '#3182f6' }}
+                        />
+                      )}
+                      <span className="font-mono font-bold text-(--text-primary)">{tm.defaultValue}</span>
+                    </div>
+                    <p className="text-xs text-(--text-secondary) mt-0.5">{tm.description}</p>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </section>
+
+        {/* 3. Code Copy Section (React / Vue / HTML) */}
         <section id="code" className="scroll-mt-28 flex flex-col gap-3">
           <div className="flex items-center justify-between">
             <h2 className="text-sm font-semibold text-(--text-primary) flex items-center gap-1.5">
@@ -557,54 +687,6 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
             />
           </div>
         </section>
-
-        {/* 2-1. W3C DTCG Token Mapping Specification (컴포넌트 토큰 명세) */}
-        {COMPONENT_TOKEN_MAPPINGS[component.id] && (
-          <section id="tokens" className="scroll-mt-28 flex flex-col gap-3">
-            <div className="flex items-center justify-between">
-              <h2 className="text-sm font-semibold uppercase tracking-wider text-(--text-secondary) flex items-center gap-1.5">
-                <Coins className="w-4 h-4 text-(--accent-primary)" />
-                <span>{t('componentsDoc.tokensTitle', '연동된 W3C DTCG 디자인 토큰 (tokens/token.json)')}</span>
-              </h2>
-              <Link
-                href="/tokens"
-                className="text-xs font-mono text-(--text-secondary) hover:text-(--text-primary) underline"
-              >
-                {t('componentsDoc.tokensViewAll', '전체 토큰 명세 보기 →')}
-              </Link>
-            </div>
-
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-1/4">토큰 역할 (Role)</TableHead>
-                  <TableHead className="w-1/4">CSS 변수 (Variable)</TableHead>
-                  <TableHead className="w-1/4">DTCG JSON 경로</TableHead>
-                  <TableHead className="w-1/4">기본값 및 기능 매핑</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {COMPONENT_TOKEN_MAPPINGS[component.id].map((tm, idx) => (
-                  <TableRow key={idx}>
-                    <TableCell className="font-semibold text-sm text-(--text-primary)">
-                      {tm.role}
-                    </TableCell>
-                    <TableCell className="font-mono text-xs text-blue-600 dark:text-blue-400">
-                      <code>{tm.variable}</code>
-                    </TableCell>
-                    <TableCell className="font-mono text-xs text-(--text-secondary)">
-                      {tm.dtcgPath}
-                    </TableCell>
-                    <TableCell className="text-sm text-(--text-secondary)">
-                      <span className="font-mono font-bold text-(--text-primary) mr-2">{tm.defaultValue}</span>
-                      <span>({tm.description})</span>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </section>
-        )}
 
         {/* 3. Use Cases (사용 케이스) */}
         <section id="use-cases" className="scroll-mt-28 flex flex-col gap-3">
@@ -748,6 +830,12 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
             <li>
               <a href="#preview" className="text-(--text-secondary) hover:text-(--text-primary) py-1 block transition-colors">
                 {t('common.preview', '라이브 프리뷰')}
+              </a>
+            </li>
+            <li>
+              <a href="#tokens" className="text-blue-600 dark:text-blue-400 font-semibold py-1 block transition-colors flex items-center gap-1.5">
+                <Coins className="w-3 h-3" />
+                <span>{t('componentsDoc.tokensTitle', '디자인 토큰 명세')} ({componentTokens.length})</span>
               </a>
             </li>
             <li>
