@@ -230,7 +230,7 @@ export default function TokensPage() {
           <div className="pt-4 border-t border-(--border-subtle)">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs">
               <div className="space-y-1">
-                <div className="text-[10px] font-mono text-(--text-muted) uppercase">Tier 1 · Global / Raw</div>
+                <div className="text-[11px] font-mono text-(--text-muted) uppercase">Tier 1 · Global / Raw</div>
                 <h3 className="font-semibold text-sm text-(--text-primary)">원천 토큰</h3>
                 <p className="text-xs text-(--text-secondary) leading-relaxed">
                   특정 의도를 갖지 않는 순수 팔레트와 단위 (예: <code className="font-mono text-[11px]">blue-500: #3182F6</code>, <code className="font-mono text-[11px]">radius-16: 16px</code>).
@@ -238,7 +238,7 @@ export default function TokensPage() {
               </div>
 
               <div className="space-y-1 md:border-l md:border-(--border-subtle) md:pl-6">
-                <div className="text-[10px] font-mono text-blue-500 uppercase">Tier 2 · Semantic (핵심 표준)</div>
+                <div className="text-[11px] font-mono text-blue-500 uppercase">Tier 2 · Semantic (핵심 표준)</div>
                 <h3 className="font-semibold text-sm text-(--text-primary)">시맨틱 토큰</h3>
                 <p className="text-xs text-(--text-secondary) leading-relaxed">
                   &quot;어디에 쓰이는가&quot; 목적과 역할에 따른 명명 (예: <code className="font-mono text-[11px]">--atom-color-primary</code>, 테마 전환 시 자동 매핑).
@@ -246,7 +246,7 @@ export default function TokensPage() {
               </div>
 
               <div className="space-y-1 md:border-l md:border-(--border-subtle) md:pl-6">
-                <div className="text-[10px] font-mono text-(--text-muted) uppercase">Tier 3 · Component</div>
+                <div className="text-[11px] font-mono text-(--text-muted) uppercase">Tier 3 · Component</div>
                 <h3 className="font-semibold text-sm text-(--text-primary)">컴포넌트 토큰</h3>
                 <p className="text-xs text-(--text-secondary) leading-relaxed">
                   특정 UI 단위에 한정된 세밀한 스타일 값 (예: <code className="font-mono text-[11px]">.atom-btn-primary</code>).
@@ -277,7 +277,7 @@ export default function TokensPage() {
                     <Icon className="w-3.5 h-3.5" />
                     <span>{tab.label}</span>
                     {tab.count !== undefined && (
-                      <span className="text-[10px] font-mono opacity-60">
+                      <span className="text-[11px] font-mono opacity-60">
                         ({tab.count})
                       </span>
                     )}
@@ -360,7 +360,7 @@ export default function TokensPage() {
                           {token.description}
                         </td>
                         <td className="py-2.5 px-3 text-right">
-                          <span className="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded bg-(--bg-secondary) text-(--text-muted) border border-(--border-subtle)">
+                          <span className="text-[11px] uppercase font-mono px-1.5 py-0.5 rounded bg-(--bg-secondary) text-(--text-muted) border border-(--border-subtle)">
                             {token.category}
                           </span>
                         </td>
@@ -446,7 +446,7 @@ export default function TokensPage() {
                       <tr key={token.variable} className="hover:bg-(--bg-secondary)/60 transition-colors group">
                         <td className="py-2.5 px-3">
                           <div
-                            className="w-9 h-6 bg-blue-600/15 border border-blue-500/30 flex items-center justify-center text-[9px] font-mono text-blue-500"
+                            className="w-9 h-6 bg-blue-600/15 border border-blue-500/30 flex items-center justify-center text-[11px] font-mono text-blue-500"
                             style={{ borderRadius: token.value }}
                           >
                             {token.value}
@@ -562,7 +562,7 @@ export default function TokensPage() {
                       <tr key={token.variable} className="hover:bg-(--bg-secondary)/60 transition-colors group">
                         <td className="py-2.5 px-3">
                           <div
-                            className="w-14 py-1 px-1.5 bg-(--bg-primary) border border-(--border-subtle) rounded text-[9px] text-center text-(--text-primary)"
+                            className="w-14 py-1 px-1.5 bg-(--bg-primary) border border-(--border-subtle) rounded text-[11px] text-center text-(--text-primary)"
                             style={{ boxShadow: token.value }}
                           >
                             Shadow
@@ -585,7 +585,7 @@ export default function TokensPage() {
                             <span>var({token.variable})</span>
                           </button>
                         </td>
-                        <td className="py-2.5 px-3 font-mono text-[10px] text-(--text-muted) max-w-xs truncate">
+                        <td className="py-2.5 px-3 font-mono text-[11px] text-(--text-muted) max-w-xs truncate">
                           {token.value}
                         </td>
                         <td className="py-2.5 px-3 text-(--text-secondary) hidden md:table-cell">
@@ -622,7 +622,7 @@ export default function TokensPage() {
                     {filteredLayout.map((token) => (
                       <tr key={token.variable} className="hover:bg-(--bg-secondary)/60 transition-colors group">
                         <td className="py-2.5 px-3">
-                          <div className="h-4 rounded bg-(--bg-secondary) border border-(--border-subtle) flex items-center justify-center font-mono text-[9px] text-(--text-muted) px-1 overflow-hidden">
+                          <div className="h-4 rounded bg-(--bg-secondary) border border-(--border-subtle) flex items-center justify-center font-mono text-[11px] text-(--text-muted) px-1 overflow-hidden">
                             {token.value}
                           </div>
                         </td>
@@ -650,7 +650,7 @@ export default function TokensPage() {
                           {token.description}
                         </td>
                         <td className="py-2.5 px-3 text-right">
-                          <span className="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded bg-(--bg-secondary) text-(--text-muted) border border-(--border-subtle)">
+                          <span className="text-[11px] uppercase font-mono px-1.5 py-0.5 rounded bg-(--bg-secondary) text-(--text-muted) border border-(--border-subtle)">
                             {token.type}
                           </span>
                         </td>
@@ -775,7 +775,7 @@ export default function TokensPage() {
               <div className="text-xs text-(--text-muted) font-medium">3. 인풋 및 뱃지 컴포넌트</div>
               <div className="py-1 space-y-1.5 max-w-xs">
                 <span
-                  className="inline-block px-2 py-0.5 text-[10px] font-semibold text-white rounded-full"
+                  className="inline-block px-2 py-0.5 text-[11px] font-semibold text-white rounded-full"
                   style={{ backgroundColor: liveBrandColor }}
                 >
                   Vivid Pill

@@ -144,7 +144,7 @@ export default function MotionPage() {
             >
               Motion
             </div>
-            <div className="absolute right-4 bottom-2 text-[10px] font-mono text-(--text-muted)">
+            <div className="absolute right-4 bottom-2 text-[11px] font-mono text-(--text-muted)">
               transition: transform {selectedDuration} {selectedEasing};
             </div>
           </div>
@@ -290,7 +290,7 @@ export default function MotionPage() {
                   {/* Interactive Mini Box */}
                   <div className="h-16 bg-(--bg-primary) border border-(--border-subtle) rounded flex items-center justify-center overflow-hidden">
                     <div
-                      className="w-8 h-8 rounded bg-blue-500 text-white text-[10px] font-bold flex items-center justify-center transition-all"
+                      className="w-8 h-8 rounded bg-blue-500 text-white text-[11px] font-bold flex items-center justify-center transition-all"
                       style={{
                         transform: isTriggered
                           ? p.sampleType === 'scale'
@@ -307,7 +307,7 @@ export default function MotionPage() {
                     </div>
                   </div>
 
-                  <div className="text-[10px] font-mono text-(--text-muted) flex items-center justify-between">
+                  <div className="text-[11px] font-mono text-(--text-muted) flex items-center justify-between">
                     <span>클릭하여 테스트</span>
                     <RotateCcw className="w-3 h-3 group-hover:rotate-180 transition-transform" />
                   </div>

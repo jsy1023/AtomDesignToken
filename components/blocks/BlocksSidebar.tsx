@@ -37,7 +37,7 @@ export function BlocksSidebar({ activeId }: BlocksSidebarProps) {
             <Layers className="w-3.5 h-3.5" />
             <span>디자인 블록 카탈로그</span>
           </Link>
-          <span className="font-mono text-[10px] px-1.5 py-0.5 rounded-(--radius-sm) bg-(--bg-secondary) text-(--text-secondary) border border-(--border-subtle)">
+          <span className="font-mono text-[11px] px-1.5 py-0.5 rounded-(--radius-sm) bg-(--bg-secondary) text-(--text-secondary) border border-(--border-subtle)">
             {BLOCKS_COLLECTION.length}
           </span>
         </div>

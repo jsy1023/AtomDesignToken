@@ -51,7 +51,7 @@ export function DocsTOC({ activeId, onSelectId }: DocsTOCProps) {
 
   return (
     <aside className="w-56 shrink-0 sticky top-24 max-h-[calc(100vh-120px)] overflow-y-auto pl-4 border-l border-neutral-200/80 dark:border-neutral-800 select-none hidden xl:flex flex-col gap-3">
-      <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider">
+      <span className="text-[11px] font-bold text-neutral-400 uppercase tracking-wider">
         On this page
       </span>
 

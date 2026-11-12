@@ -272,7 +272,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
       case 'card':
         return (
           <Card className="p-5 max-w-xs w-full flex flex-col gap-2">
-            <Badge variant="primary" className="self-start text-[10px]">토큰 바인딩 서피스</Badge>
+            <Badge variant="primary" className="self-start text-[11px]">토큰 바인딩 서피스</Badge>
             <h4 className="text-base font-bold text-(--text-primary)">토스뱅크 자유적금</h4>
             <div className="text-xl font-bold text-(--text-primary)">₩ 12,450,000</div>
             <p className="text-xs text-(--text-secondary)">연 4.5% 최고 금리 적용 중</p>

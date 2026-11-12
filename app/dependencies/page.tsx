@@ -75,7 +75,7 @@ export default function DependenciesPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs font-mono">
             <div className="p-4 bg-(--bg-secondary) border border-(--border-subtle) rounded-lg space-y-1.5">
-              <div className="text-[10px] text-blue-500 uppercase font-bold">Step 1 · SSOT</div>
+              <div className="text-[11px] text-blue-500 uppercase font-bold">Step 1 · SSOT</div>
               <div className="font-bold text-sm text-(--text-primary)">Figma &amp; DTCG .md</div>
               <p className="text-[11px] text-(--text-secondary) font-sans">
                 마크다운 또는 tokens.json에 표준 W3C 포맷으로 디자인 결정 선언.
@@ -83,7 +83,7 @@ export default function DependenciesPage() {
             </div>
 
             <div className="p-4 bg-(--bg-secondary) border border-(--border-subtle) rounded-lg space-y-1.5">
-              <div className="text-[10px] text-purple-500 uppercase font-bold">Step 2 · Build</div>
+              <div className="text-[11px] text-purple-500 uppercase font-bold">Step 2 · Build</div>
               <div className="font-bold text-sm text-(--text-primary)">Atom Compiler</div>
               <p className="text-[11px] text-(--text-secondary) font-sans">
                 Style Dictionary &amp; Tailwind v4 엔진으로 변수 매핑 및 타입 생성.
@@ -91,7 +91,7 @@ export default function DependenciesPage() {
             </div>
 
             <div className="p-4 bg-(--bg-secondary) border border-(--border-subtle) rounded-lg space-y-1.5">
-              <div className="text-[10px] text-emerald-500 uppercase font-bold">Step 3 · Artifact</div>
+              <div className="text-[11px] text-emerald-500 uppercase font-bold">Step 3 · Artifact</div>
               <div className="font-bold text-sm text-(--text-primary)">Pure CSS Tokens</div>
               <p className="text-[11px] text-(--text-secondary) font-sans">
                 브라우저 네이티브 var(--atom-*) 및 정적 CSS 파일로 출력.
@@ -99,7 +99,7 @@ export default function DependenciesPage() {
             </div>
 
             <div className="p-4 bg-(--bg-secondary) border border-(--border-subtle) rounded-lg space-y-1.5">
-              <div className="text-[10px] text-amber-500 uppercase font-bold">Step 4 · Runtime</div>
+              <div className="text-[11px] text-amber-500 uppercase font-bold">Step 4 · Runtime</div>
               <div className="font-bold text-sm text-(--text-primary)">0 KB Runtime</div>
               <p className="text-[11px] text-(--text-secondary) font-sans">
                 React, Vue, Vanilla HTML 어디서나 0ms 지연으로 테마 즉시 적용.
@@ -154,10 +154,10 @@ export default function DependenciesPage() {
                   <tr key={item.name} className="hover:bg-(--bg-secondary)/60 transition-colors">
                     <td className="py-3 px-3">
                       <div className="font-semibold text-(--text-primary)">{item.name}</div>
-                      <span className="text-[10px] font-mono text-(--text-muted)">{item.version}</span>
+                      <span className="text-[11px] font-mono text-(--text-muted)">{item.version}</span>
                     </td>
                     <td className="py-3 px-3">
-                      <span className={`text-[10px] uppercase font-mono px-1.5 py-0.5 rounded border ${
+                      <span className={`text-[11px] uppercase font-mono px-1.5 py-0.5 rounded border ${
                         item.category === 'runtime'
                           ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/30 font-bold'
                           : 'bg-(--bg-secondary) text-(--text-muted) border-(--border-subtle)'
