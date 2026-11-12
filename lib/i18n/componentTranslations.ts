@@ -8,6 +8,64 @@ export interface ComponentI18nData {
 
 export const COMPONENT_TRANSLATIONS: Record<'en' | 'ja', Record<string, ComponentI18nData>> = {
   en: {
+    'layout-spacing': {
+      name: 'Layout & Spacing Specs',
+      description: 'Standard 8-point spacing scale, Container constraints, Stack distributions, and Grid responsive layouts.',
+      useCases: [
+        'Standardizing padding and margin scales across all UI components (4px to 64px)',
+        'Ensuring visual consistency across horizontal and vertical element gaps using Stack',
+        'Responsive container max-width constraints and column gutter alignment',
+      ],
+      usagePatterns: [
+        'Use standard CSS variables (var(--atom-space-*)) instead of arbitrary pixel values.',
+        'Apply 8px increments for standard element flow and 24px+ for section separation.',
+      ],
+      dosAndDonts: [
+        {
+          do: 'Adopt 8-point multiples (8px, 16px, 24px, 32px) as the first choice.',
+          dont: 'Do not use rogue utility values such as gap-[13px] or p-[7px].',
+        },
+      ],
+    },
+    'color-status': {
+      name: 'Color & System Status',
+      description: 'Brand identity colors, semantic status states (Success, Warning, Destructive, Info), and theme-reactive surface pairings.',
+      useCases: [
+        'Communicating core brand identity via Primary and Secondary CTA elements',
+        'Semantic status feedback mapping for Success (Green), Warning (Amber), and Destructive (Red)',
+        'Surface tokens (bg-primary, bg-secondary) enabling seamless light/dark mode transitions',
+      ],
+      usagePatterns: [
+        'Reference semantic intent tokens (var(--atom-color-*), var(--atom-status-*)) over raw hex values.',
+        'Maintain at least 4.5:1 contrast ratios across text and surface pairings adhering to WCAG 2.1 AA.',
+      ],
+      dosAndDonts: [
+        {
+          do: 'Map destructive actions strictly to Destructive danger tokens.',
+          dont: 'Do not sprinkle random neon red or arbitrary tailwind colors across standard interfaces.',
+        },
+      ],
+    },
+    typography: {
+      name: 'Font & Typography Scale',
+      description: 'Complete typography hierarchy scale ensuring legibility and Swiss modernist visual structure (Display, Heading, Body, Caption).',
+      useCases: [
+        'Prominent hero titles and promotional display text',
+        'Hierarchical document headings from H1 to H4',
+        'Body copy legibility with Body-1 (14px) and Body-2 (16px)',
+        'Metadata and timestamps using Caption (12px)',
+      ],
+      usagePatterns: [
+        'Use composite tokens binding font size, line height, letter spacing, and weight together.',
+        'Standardize UI body copy on 14px (var(--atom-font-body-1)).',
+      ],
+      dosAndDonts: [
+        {
+          do: 'Structure typographic ladders hierarchically: Display > H1 > H2 > Body > Caption.',
+          dont: 'Never use unreadable micro-fonts under 10px in mobile or compact views.',
+        },
+      ],
+    },
     button: {
       name: 'Button (Button Variants)',
       description: 'Production-ready button set combining 3-tier visual hierarchy (Primary, Secondary, Ghost/Icon) and semantic system states (Brand, Success, Warning, Destructive).',
@@ -222,6 +280,64 @@ export const COMPONENT_TRANSLATIONS: Record<'en' | 'ja', Record<string, Componen
     },
   },
   ja: {
+    'layout-spacing': {
+      name: 'レイアウト＆余白仕様 (Layout & Spacing)',
+      description: '8ポイント倍数に基づく一貫したSpacingスケールとContainer、Stack、Gridレイアウトの基本規格。',
+      useCases: [
+        '全UIコンポーネントにおけるパディングとマージンの統一 (4px〜64px)',
+        'StackとFlex Gapを活用した要素間隔の視覚的一貫性の担保',
+        'レスポンシブコンテナ最大幅および列間隔(Gutter)の統一',
+      ],
+      usagePatterns: [
+        '任意ピクセルの代わりに標準CSS変数(var(--atom-space-*))を使用します。',
+        '通常要素には8px刻み、セクション区切りには24px以上を推奨します。',
+      ],
+      dosAndDonts: [
+        {
+          do: '8の倍数トークン(8px, 16px, 24px, 32px)を基本単位として適用します。',
+          dont: 'gap-[13px]やp-[7px]などの非標準値を直接記述しないこと。',
+        },
+      ],
+    },
+    'color-status': {
+      name: 'カラー＆状態仕様 (Color & Status)',
+      description: 'ブランドPrimary/Secondaryとシステム状態色（Success、Warning、Destructive、Info）およびダークモード対応表面色。',
+      useCases: [
+        'ブランドアイデンティティを伝えるPrimary CTAと主要操作要素',
+        '成功(Success/緑)、警告(Warning/橙)、危険(Destructive/赤)の状態フィードバック',
+        'ライト/ダークモード自動切り替えに対応する表面色と文字色トークン',
+      ],
+      usagePatterns: [
+        '生の色コードではなくセマンティック意図トークン(var(--atom-color-*), var(--atom-status-*))を使用します。',
+        '文字と背景のコントラスト比はWCAG 2.1 AA準拠で4.5:1以上を維持します。',
+      ],
+      dosAndDonts: [
+        {
+          do: '削除や退会などの危険操作には必ずDestructive色を割り当てます。',
+          dont: '単なる強調のために赤色(Destructive)を一般UIに乱用しないこと。',
+        },
+      ],
+    },
+    typography: {
+      name: 'フォント＆タイポグラフィ (Font & Typography)',
+      description: '視認性と明確な視覚的優先度を保証する標準タイポグラフィ階層（Display、Heading、Body、Caption）。',
+      useCases: [
+        '最上部のプロモーションやヒーロータイトル用のDisplay',
+        'ドキュメント構造と情報区分を明確化するH1〜H4見出し',
+        '高い可読性を備えた本文用のBody-1 (14px) / Body-2 (16px)',
+        '補足メタデータやタイムスタンプ用のCaption (12px)',
+      ],
+      usagePatterns: [
+        'フォントサイズ、行間、字間、太さが一体となった複合トークンを使用します。',
+        '本文テキストの標準サイズは14px(var(--atom-font-body-1))を適用します。',
+      ],
+      dosAndDonts: [
+        {
+          do: '視覚的優先度（Display > H1 > H2 > Body > Caption）に沿ったセマンティックタグを使用します。',
+          dont: 'モバイルや狭い領域でも10px未満の極小フォントを多用しないこと。',
+        },
+      ],
+    },
     button: {
       name: 'ボタン (Button Variants)',
       description: '3段階の視覚的優先度（Primary, Secondary, Ghost/Icon）とシステム状態色（Brand, Success, Warning, Destructive）を統合した本番対応ボタンセット。',

@@ -104,38 +104,59 @@ export function DocsSidebar({
         
         {/* Layout & Spacing Guide */}
         <Link
-          href="/layout"
-          className="px-3 py-2 text-left text-sm font-medium rounded transition flex items-center justify-between text-(--text-secondary) hover:bg-(--bg-secondary) hover:text-(--text-primary)"
+          href="/components/layout-spacing"
+          style={activeId === 'layout-spacing' ? { backgroundColor: brandColor, borderRadius: radius } : { borderRadius: radius }}
+          className={`px-3 py-2 text-left text-sm font-medium transition flex items-center justify-between ${
+            activeId === 'layout-spacing'
+              ? 'text-(--bg-primary) bg-(--text-primary) font-semibold shadow-xs'
+              : 'text-(--text-secondary) hover:bg-(--bg-secondary) hover:text-(--text-primary)'
+          }`}
         >
           <span className="flex items-center gap-2">
-            <Layout className="w-4 h-4 text-blue-500" />
+            <Layout className={`w-4 h-4 ${activeId === 'layout-spacing' ? 'text-(--bg-primary)' : 'text-blue-500'}`} />
             <span>{t('sidebar.layoutAndSpacing', 'Layout & Spacing')}</span>
           </span>
-          <span className="text-xs font-mono opacity-60">/layout</span>
+          <span className={`text-xs font-mono ${activeId === 'layout-spacing' ? 'text-(--bg-primary)/80' : 'opacity-60'}`}>
+            .spacing
+          </span>
         </Link>
 
         {/* Color Tokens */}
         <Link
-          href="/tokens"
-          className="px-3 py-2 text-left text-sm font-medium rounded transition flex items-center justify-between text-(--text-secondary) hover:bg-(--bg-secondary) hover:text-(--text-primary)"
+          href="/components/color-status"
+          style={activeId === 'color-status' ? { backgroundColor: brandColor, borderRadius: radius } : { borderRadius: radius }}
+          className={`px-3 py-2 text-left text-sm font-medium transition flex items-center justify-between ${
+            activeId === 'color-status'
+              ? 'text-(--bg-primary) bg-(--text-primary) font-semibold shadow-xs'
+              : 'text-(--text-secondary) hover:bg-(--bg-secondary) hover:text-(--text-primary)'
+          }`}
         >
           <span className="flex items-center gap-2">
-            <Palette className="w-4 h-4 text-emerald-500" />
+            <Palette className={`w-4 h-4 ${activeId === 'color-status' ? 'text-(--bg-primary)' : 'text-emerald-500'}`} />
             <span>{t('sidebar.colorAndStatus', 'Color & Status')}</span>
           </span>
-          <span className="text-xs font-mono opacity-60">/tokens</span>
+          <span className={`text-xs font-mono ${activeId === 'color-status' ? 'text-(--bg-primary)/80' : 'opacity-60'}`}>
+            .color
+          </span>
         </Link>
 
         {/* Typography / Font Tokens */}
         <Link
-          href="/tokens"
-          className="px-3 py-2 text-left text-sm font-medium rounded transition flex items-center justify-between text-(--text-secondary) hover:bg-(--bg-secondary) hover:text-(--text-primary)"
+          href="/components/typography"
+          style={activeId === 'typography' ? { backgroundColor: brandColor, borderRadius: radius } : { borderRadius: radius }}
+          className={`px-3 py-2 text-left text-sm font-medium transition flex items-center justify-between ${
+            activeId === 'typography'
+              ? 'text-(--bg-primary) bg-(--text-primary) font-semibold shadow-xs'
+              : 'text-(--text-secondary) hover:bg-(--bg-secondary) hover:text-(--text-primary)'
+          }`}
         >
           <span className="flex items-center gap-2">
-            <Type className="w-4 h-4 text-purple-500" />
+            <Type className={`w-4 h-4 ${activeId === 'typography' ? 'text-(--bg-primary)' : 'text-purple-500'}`} />
             <span>{t('sidebar.fontAndTypography', 'Font & Typography')}</span>
           </span>
-          <span className="text-xs font-mono opacity-60">/tokens</span>
+          <span className={`text-xs font-mono ${activeId === 'typography' ? 'text-(--bg-primary)/80' : 'opacity-60'}`}>
+            .typography
+          </span>
         </Link>
 
         {/* Layout & Structure Components (Container, Layout) */}

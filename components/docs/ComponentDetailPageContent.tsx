@@ -96,6 +96,137 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
   // Render Live Preview
   const renderPreview = () => {
     switch (component.id) {
+      case 'layout-spacing':
+        return (
+          <div className="w-full max-w-2xl flex flex-col gap-6 py-2">
+            <div className="space-y-2">
+              <span className="text-xs font-mono font-semibold text-(--text-secondary) uppercase tracking-wider">
+                {locale === 'ja' ? '8ポイントグリッド 余白スケール (Spacing Scale)' : locale === 'en' ? '8-Point Grid Spacing Scale' : '8-Point 그리드 간격 스케일 (Spacing Scale)'}
+              </span>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 p-4 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle)">
+                {[
+                  { name: 'space-1', val: '4px', label: 'Micro (4px)' },
+                  { name: 'space-2', val: '8px', label: 'Base (8px)' },
+                  { name: 'space-3', val: '12px', label: 'Padding (12px)' },
+                  { name: 'space-4', val: '16px', label: 'Group (16px)' },
+                  { name: 'space-6', val: '24px', label: 'Section (24px)' },
+                  { name: 'space-8', val: '32px', label: 'Module (32px)' },
+                ].map((s) => (
+                  <div key={s.name} className="flex flex-col gap-1.5 p-3 rounded bg-(--bg-secondary)/60 border border-(--border-subtle)">
+                    <div className="flex items-center justify-between text-xs font-mono">
+                      <span className="font-bold text-(--text-primary)">{s.name}</span>
+                      <span className="text-(--text-secondary)">{s.val}</span>
+                    </div>
+                    <div className="h-3 rounded bg-blue-500/20 border border-blue-500/30 flex items-center justify-start overflow-hidden">
+                      <div className="h-full bg-blue-500" style={{ width: s.val }} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <span className="text-xs font-mono font-semibold text-(--text-secondary) uppercase tracking-wider">
+                {locale === 'ja' ? 'Stack & Gap レゴ組み立てプレビュー' : locale === 'en' ? 'Stack & Gap Assembly Preview' : 'Stack & Gap 조립 프리뷰'}
+              </span>
+              <div className="p-4 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) flex flex-col gap-3">
+                <div className="flex items-center gap-2 text-xs font-mono text-(--text-secondary)">
+                  <code>Stack gap=&quot;var(--atom-space-3)&quot;</code>
+                </div>
+                <div className="flex flex-wrap items-center gap-3">
+                  <div className="px-3 py-1.5 rounded-(--radius-sm) bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 text-sm font-medium">
+                    Item 1
+                  </div>
+                  <div className="px-3 py-1.5 rounded-(--radius-sm) bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 text-sm font-medium">
+                    Item 2
+                  </div>
+                  <div className="px-3 py-1.5 rounded-(--radius-sm) bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 text-sm font-medium">
+                    Item 3
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'color-status':
+        return (
+          <div className="w-full max-w-2xl flex flex-col gap-6 py-2">
+            <div className="space-y-2">
+              <span className="text-xs font-mono font-semibold text-(--text-secondary) uppercase tracking-wider">
+                {locale === 'ja' ? 'システム状態色＆機能マッピング' : locale === 'en' ? 'Semantic Status & Role Mapping' : '시스템 상태 색상 & 기능 매핑'}
+              </span>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div className="p-4 rounded-(--radius) bg-blue-600 text-white flex flex-col justify-between h-24 shadow-xs">
+                  <span className="text-xs font-mono opacity-80">Primary (Brand)</span>
+                  <span className="text-sm font-bold">#3182f6</span>
+                </div>
+                <div className="p-4 rounded-(--radius) bg-emerald-600 text-white flex flex-col justify-between h-24 shadow-xs">
+                  <span className="text-xs font-mono opacity-80">Success (Positive)</span>
+                  <span className="text-sm font-bold">#10b981</span>
+                </div>
+                <div className="p-4 rounded-(--radius) bg-amber-500 text-white flex flex-col justify-between h-24 shadow-xs">
+                  <span className="text-xs font-mono opacity-80">Warning (Caution)</span>
+                  <span className="text-sm font-bold">#f59e0b</span>
+                </div>
+                <div className="p-4 rounded-(--radius) bg-rose-600 text-white flex flex-col justify-between h-24 shadow-xs">
+                  <span className="text-xs font-mono opacity-80">Destructive (Danger)</span>
+                  <span className="text-sm font-bold">#ef4444</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <span className="text-xs font-mono font-semibold text-(--text-secondary) uppercase tracking-wider">
+                {locale === 'ja' ? 'テーマ対応 表面背景色 (Surface Tokens)' : locale === 'en' ? 'Surface Tokens Preview' : '표면 배경색 토큰 (Surface Tokens)'}
+              </span>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="p-4 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) flex items-center justify-between">
+                  <span className="text-sm font-bold text-(--text-primary)">var(--atom-bg-primary)</span>
+                  <span className="text-xs font-mono text-(--text-secondary)">Surface-1</span>
+                </div>
+                <div className="p-4 rounded-(--radius) bg-(--bg-secondary) border border-(--border-subtle) flex items-center justify-between">
+                  <span className="text-sm font-bold text-(--text-primary)">var(--atom-bg-secondary)</span>
+                  <span className="text-xs font-mono text-(--text-secondary)">Surface-2</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'typography':
+        return (
+          <div className="w-full max-w-2xl flex flex-col gap-5 py-2">
+            <div className="space-y-2">
+              <span className="text-xs font-mono font-semibold text-(--text-secondary) uppercase tracking-wider">
+                {locale === 'ja' ? 'タイポグラフィ階層スケール (Type Scale)' : locale === 'en' ? 'Typography Hierarchy Scale' : '타이포그래피 계층 스케일 (Type Scale)'}
+              </span>
+              <div className="flex flex-col gap-3 p-4 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle)">
+                <div className="pb-3 border-b border-(--border-subtle) flex items-baseline justify-between">
+                  <span className="text-2xl sm:text-3xl font-bold tracking-tight text-(--text-primary)">Display (36px)</span>
+                  <code className="text-xs font-mono text-(--text-secondary)">--atom-font-display</code>
+                </div>
+                <div className="pb-3 border-b border-(--border-subtle) flex items-baseline justify-between">
+                  <span className="text-xl sm:text-2xl font-bold text-(--text-primary)">Heading 1 (24px)</span>
+                  <code className="text-xs font-mono text-(--text-secondary)">--atom-font-heading-1</code>
+                </div>
+                <div className="pb-3 border-b border-(--border-subtle) flex items-baseline justify-between">
+                  <span className="text-lg font-semibold text-(--text-primary)">Heading 2 (20px)</span>
+                  <code className="text-xs font-mono text-(--text-secondary)">--atom-font-heading-2</code>
+                </div>
+                <div className="pb-3 border-b border-(--border-subtle) flex items-baseline justify-between">
+                  <span className="text-sm text-(--text-primary)">Body-1 Standard Copy (14px / 1.5)</span>
+                  <code className="text-xs font-mono text-(--text-secondary)">--atom-font-body-1</code>
+                </div>
+                <div className="flex items-baseline justify-between">
+                  <span className="text-xs text-(--text-muted)">Caption Supporting Metadata (12px / 1.4)</span>
+                  <code className="text-xs font-mono text-(--text-secondary)">--atom-font-caption-1</code>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+
       case 'button':
         return (
           <div className="w-full max-w-2xl flex flex-col gap-6 py-2">

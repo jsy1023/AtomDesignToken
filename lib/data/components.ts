@@ -1,4 +1,4 @@
-export type ComponentCategory = 'all' | 'form' | 'feedback' | 'navigation' | 'data' | 'layout';
+export type ComponentCategory = 'all' | 'form' | 'feedback' | 'navigation' | 'data' | 'layout' | 'foundation';
 
 export interface PropItem {
   name: string;
@@ -34,6 +34,183 @@ export interface GalleryComponent {
 }
 
 export const GALLERY_COMPONENTS: GalleryComponent[] = [
+  {
+    id: 'layout-spacing',
+    name: '레이아웃 & 간격 (Layout & Spacing)',
+    category: 'foundation',
+    source: 'W3C DTCG 8-Point Grid',
+    description: '8-Point 배수 기반 일관된 Spacing 스케일과 Container, Stack, Grid 레이아웃 기본 규격',
+    callout: {
+      type: 'tip',
+      title: '8-Point 그리드 간격 시스템',
+      text: '모든 컴포넌트의 패딩, 마진, 아이템 간격(gap)은 8px의 배수(4px, 8px, 12px, 16px, 24px, 32px 등)로 정의된 CSS 토큰을 사용하여 인지 일관성을 유지합니다.'
+    },
+    useCases: [
+      '모든 컴포넌트의 패딩(Padding) 및 마진(Margin) 표준화 (space-1: 4px ~ space-16: 64px)',
+      '수평/수직 요소 배치 시 Stack과 Flex Gap 일관성 확보',
+      '반응형 화면 분할을 위한 Container 최대 너비 및 Grid 열 간격(Gutter) 통일',
+      '카드, 모달 등 표면 컴포넌트 내부의 일관된 여백 조성'
+    ],
+    usagePatterns: [
+      '임의의 px 하드코딩 대신 반드시 CSS 변수(var(--atom-space-*)) 토큰을 사용합니다.',
+      '미세 조정은 4px(space-1), 기본 요소 간격은 8px(space-2), 컴포넌트 그룹 간격은 16px(space-4), 섹션 간격은 24px(space-6) 이상을 권장합니다.',
+      '모바일 환경에서는 패딩을 1단계 축소하여 뷰포트 공간을 최적화합니다.'
+    ],
+    dosAndDonts: [
+      {
+        do: '모든 요소 간격에 8의 배수 토큰(8px, 16px, 24px, 32px)을 우선 적용합니다.',
+        dont: 'gap-[13px], p-[7px] 등 디자인 시스템 범위를 벗어난 임의 인라인 값을 쓰지 마세요.'
+      },
+      {
+        do: 'Stack 컴포넌트의 gap 속성을 활용하여 자식 요소 간의 균일한 간격을 선언합니다.',
+        dont: '자식 요소마다 각각 다른 margin-bottom을 개별 부여하여 레이아웃 흐름을 복잡하게 만들지 마세요.'
+      }
+    ],
+    relatedPatternIds: ['saas-dashboard', 'developer-docs'],
+    propsSpec: [
+      { name: 'gap', type: 'string', defaultValue: "'var(--atom-space-4)'", description: '요소 간 간격 토큰' },
+      { name: 'padding', type: 'string', defaultValue: "'var(--atom-space-4)'", description: '컨테이너 내부 패딩 토큰' },
+      { name: 'maxWidth', type: 'string', defaultValue: "'1200px'", description: '반응형 컨테이너 최대 너비' }
+    ],
+    htmlSnippet: `<!-- Layout & Spacing Tokens -->
+<div style="display: flex; flex-direction: column; gap: var(--atom-space-4); padding: var(--atom-space-6);">
+  <div style="padding: var(--atom-space-3); background: var(--atom-bg-secondary); border-radius: var(--atom-radius-md);">
+    Space-3 (12px)
+  </div>
+  <div style="padding: var(--atom-space-4); background: var(--atom-bg-secondary); border-radius: var(--atom-radius-md);">
+    Space-4 (16px)
+  </div>
+</div>`,
+    reactSnippet: `import { Stack, Container } from '@/components/ui';
+
+export function SpacingDemo() {
+  return (
+    <Container size="md">
+      <Stack gap="4">
+        <div className="p-3 bg-(--bg-secondary) rounded-(--radius)">Space-3 (12px)</div>
+        <div className="p-4 bg-(--bg-secondary) rounded-(--radius)">Space-4 (16px)</div>
+        <div className="p-6 bg-(--bg-secondary) rounded-(--radius)">Space-6 (24px)</div>
+      </Stack>
+    </Container>
+  );
+}`
+  },
+  {
+    id: 'color-status',
+    name: '색상 & 상태 (Color & Status)',
+    category: 'foundation',
+    source: 'W3C DTCG Semantic Colors',
+    description: '브랜드 Primary/Secondary와 시스템 시맨틱 상태(Success, Warning, Destructive, Info) 및 다크모드 대응 표면 색상',
+    callout: {
+      type: 'tip',
+      title: '기능-색상 시맨틱 1:1 매핑',
+      text: '색상은 단순 장식이 아닙니다. 브랜드(Primary), 성공(Green), 경고(Amber), 위험(Red), 정보(Blue)로 사용자의 인지 반응과 정확히 일치하도록 매핑됩니다.'
+    },
+    useCases: [
+      '브랜드 아이덴티티를 전달하는 Primary CTA 및 키 인터랙션 요소',
+      '성공(Success/Green), 경고(Warning/Orange), 위험(Destructive/Red) 상태 피드백 매핑',
+      '라이트/다크 모드 자동 전환을 위한 표면 배경(bg-primary, bg-secondary) 및 텍스트(text-primary, text-secondary) 토큰',
+      'WCAG 2.1 AA 기준 4.5:1 이상의 높은 대비 가독성 보장'
+    ],
+    usagePatterns: [
+      '하드코딩된 hex 코드 대신 시맨틱 의도 토큰(var(--atom-color-*), var(--atom-status-*))을 사용합니다.',
+      '텍스트와 배경의 대비는 WCAG 2.1 AA 기준 4.5:1 이상을 충족하는 토큰 페어링을 따릅니다.',
+      '다크모드 전환 시 원시 색상을 바꾸는 대신 시맨틱 CSS 변수의 매핑값만 자동 전환됩니다.'
+    ],
+    dosAndDonts: [
+      {
+        do: '삭제나 탈퇴 등 파괴적 위험 액션에는 반드시 Destructive 상태 색상을 매핑합니다.',
+        dont: '단순 강조나 장식을 위해 빨간색(Destructive)을 일반 UI에 남발하지 마세요.'
+      },
+      {
+        do: '텍스트 색상에는 반드시 var(--text-primary), var(--text-secondary)를 사용하여 다크모드 가독성을 보장합니다.',
+        dont: 'Tailwind text-black, text-gray-800 등을 하드코딩하여 다크모드에서 텍스트가 사라지게 만들지 마세요.'
+      }
+    ],
+    relatedPatternIds: ['fintech-transfer', 'ecommerce-checkout'],
+    propsSpec: [
+      { name: 'color.brand.primary', type: 'color', defaultValue: '#3182f6', description: '주요 행동 브랜드 색상' },
+      { name: 'color.status.success', type: 'color', defaultValue: '#10b981', description: '긍정/완료 상태 색상' },
+      { name: 'color.status.warning', type: 'color', defaultValue: '#f59e0b', description: '주의/경고 상태 색상' },
+      { name: 'color.status.danger', type: 'color', defaultValue: '#ef4444', description: '위험/파괴 액션 색상' }
+    ],
+    htmlSnippet: `<!-- Semantic Color Tokens -->
+<div style="background-color: var(--atom-color-primary); color: #fff; padding: 12px; border-radius: 8px;">
+  Brand Primary (#3182f6)
+</div>
+<div style="background-color: var(--atom-status-success); color: #fff; padding: 12px; border-radius: 8px;">
+  Success (#10b981)
+</div>
+<div style="background-color: var(--atom-status-danger); color: #fff; padding: 12px; border-radius: 8px;">
+  Destructive (#ef4444)
+</div>`,
+    reactSnippet: `export function ColorStatusDemo() {
+  return (
+    <div className="grid grid-cols-2 gap-3">
+      <div className="p-3 bg-(--color-primary) text-white rounded">Brand Primary</div>
+      <div className="p-3 bg-(--status-success) text-white rounded">Success</div>
+      <div className="p-3 bg-(--status-warning) text-white rounded">Warning</div>
+      <div className="p-3 bg-(--status-danger) text-white rounded">Destructive</div>
+    </div>
+  );
+}`
+  },
+  {
+    id: 'typography',
+    name: '폰트 & 타이포그래피 (Font & Typography)',
+    category: 'foundation',
+    source: 'Swiss Modern Hierarchy',
+    description: '가독성과 시각적 위계를 보장하는 표준 타이포그래피 스케일 (Display, Heading, Body, Caption)',
+    callout: {
+      type: 'tip',
+      title: '스위스 모더니즘 타이포그래피 위계',
+      text: '정보의 중요도에 따라 Display > Heading 1~4 > Body 1~2 > Caption으로 명확한 시각적 사다리를 형성합니다. 모든 스케일은 폰트 크기, 행간, 자간, 굵기가 일체형으로 정밀 튜닝되어 있습니다.'
+    },
+    useCases: [
+      '화면의 최상단 강조를 위한 Display 및 Hero 타이틀',
+      '문서 구조와 정보 구획을 명확히 하는 계층형 H1 ~ H4 제목',
+      '본문 가독성을 위한 Body-1 (14px) / Body-2 (16px)',
+      '메타데이터, 타임스탬프, 부가 설명을 위한 Caption (12px)'
+    ],
+    usagePatterns: [
+      '텍스트 크기, 행간(line-height), 굵기(font-weight)가 묶인 복합 토큰을 사용합니다.',
+      '본문 기본 크기는 14px(var(--atom-font-body-1))을 표준으로 적용합니다.',
+      '제목과 본문 간의 충분한 행간(1.4~1.6)을 유지하여 긴 글 읽기 피로도를 낮춥니다.'
+    ],
+    dosAndDonts: [
+      {
+        do: '시각적 위계(H1 > H2 > Body > Caption)에 따라 올바른 시맨틱 HTML 태그를 사용합니다.',
+        dont: '모바일이나 좁은 공간이라고 해서 10px 이하의 극소 폰트를 남발하지 마세요.'
+      },
+      {
+        do: '숫자나 날짜, 코드 데이터는 고정폭(font-mono) 또는 표준 tabular-nums를 적용합니다.',
+        dont: '한 화면에 4개 이상의 서로 다른 폰트 굵기를 섞어 산만하게 만들지 마세요.'
+      }
+    ],
+    relatedPatternIds: ['developer-docs', 'saas-dashboard'],
+    propsSpec: [
+      { name: 'typography.font-display', type: 'font', defaultValue: '36px / 1.2 / 700', description: '대형 디스플레이 타이틀' },
+      { name: 'typography.font-heading-1', type: 'font', defaultValue: '24px / 1.3 / 700', description: 'H1 메인 제목' },
+      { name: 'typography.font-heading-2', type: 'font', defaultValue: '20px / 1.35 / 600', description: 'H2 섹션 제목' },
+      { name: 'typography.font-body-1', type: 'font', defaultValue: '14px / 1.5 / 400', description: '표준 본문 텍스트 (14px)' },
+      { name: 'typography.font-caption-1', type: 'font', defaultValue: '12px / 1.4 / 400', description: '캡션 및 부가 메타데이터 (12px)' }
+    ],
+    htmlSnippet: `<!-- Typography Scale -->
+<h1 style="font: var(--atom-font-heading-1); color: var(--atom-text-primary);">Heading 1 (24px)</h1>
+<h2 style="font: var(--atom-font-heading-2); color: var(--atom-text-primary);">Heading 2 (20px)</h2>
+<p style="font: var(--atom-font-body-1); color: var(--atom-text-secondary);">Body Text (14px)</p>
+<span style="font: var(--atom-font-caption-1); color: var(--atom-text-muted);">Caption (12px)</span>`,
+    reactSnippet: `export function TypographyDemo() {
+  return (
+    <div className="space-y-3">
+      <h1 className="text-2xl font-bold text-(--text-primary)">Heading 1 (24px)</h1>
+      <h2 className="text-xl font-semibold text-(--text-primary)">Heading 2 (20px)</h2>
+      <p className="text-sm text-(--text-secondary) leading-relaxed">Body Text (14px)</p>
+      <span className="text-xs text-(--text-muted)">Caption (12px)</span>
+    </div>
+  );
+}`
+  },
   {
     id: 'button',
     name: '버튼 (Button Variants)',
