@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';
 import { GALLERY_COMPONENTS } from '@/lib/data/components';
-import { Search, BookOpen, Layers } from 'lucide-react';
+import { Search, BookOpen, Layers, Layout, Palette, Type, Box } from 'lucide-react';
 
 interface DocsSidebarProps {
   searchQuery?: string;
@@ -87,6 +87,52 @@ export function DocsSidebar({
         />
       </div>
 
+      {/* 3. Foundational Essentials: Layout, Structure, Font, Color (맨 위에 배치) */}
+      <div className="flex flex-col gap-1 pb-2 border-b border-(--border-subtle)">
+        <span className="text-xs font-medium text-(--text-secondary) uppercase tracking-wider px-2">
+          Foundations (기초 규격)
+        </span>
+        
+        {/* Layout & Spacing Guide */}
+        <Link
+          href="/layout"
+          className="px-3 py-1.5 text-left text-xs font-medium rounded transition flex items-center justify-between text-(--text-secondary) hover:bg-(--bg-secondary) hover:text-(--text-primary)"
+        >
+          <span className="flex items-center gap-1.5">
+            <Layout className="w-3.5 h-3.5 text-blue-500" />
+            <span>Layout & Spacing</span>
+          </span>
+          <span className="text-[11px] font-mono opacity-60">/layout</span>
+        </Link>
+
+        {/* Color Tokens */}
+        <Link
+          href="/tokens"
+          className="px-3 py-1.5 text-left text-xs font-medium rounded transition flex items-center justify-between text-(--text-secondary) hover:bg-(--bg-secondary) hover:text-(--text-primary)"
+        >
+          <span className="flex items-center gap-1.5">
+            <Palette className="w-3.5 h-3.5 text-emerald-500" />
+            <span>Color & Status</span>
+          </span>
+          <span className="text-[11px] font-mono opacity-60">/tokens</span>
+        </Link>
+
+        {/* Typography / Font Tokens */}
+        <Link
+          href="/tokens"
+          className="px-3 py-1.5 text-left text-xs font-medium rounded transition flex items-center justify-between text-(--text-secondary) hover:bg-(--bg-secondary) hover:text-(--text-primary)"
+        >
+          <span className="flex items-center gap-1.5">
+            <Type className="w-3.5 h-3.5 text-purple-500" />
+            <span>Font & Typography</span>
+          </span>
+          <span className="text-[11px] font-mono opacity-60">/tokens</span>
+        </Link>
+
+        {/* Layout & Structure Components (Container, Layout) */}
+        {layoutComps.map(renderCompItem)}
+      </div>
+
       {/* 4. Form & Inputs Group */}
       {formComps.length > 0 && (
         <div className="flex flex-col gap-1">
@@ -103,10 +149,10 @@ export function DocsSidebar({
         </div>
       )}
 
-      {/* 6. Navigation & Layout */}
+      {/* 6. Navigation & Menus */}
       {navComps.length > 0 && (
         <div className="flex flex-col gap-1">
-          <span className="text-xs font-medium text-(--text-secondary) uppercase tracking-wider px-2">Navigation & Layout</span>
+          <span className="text-xs font-medium text-(--text-secondary) uppercase tracking-wider px-2">Navigation & Menus</span>
           {navComps.map(renderCompItem)}
         </div>
       )}
@@ -116,14 +162,6 @@ export function DocsSidebar({
         <div className="flex flex-col gap-1">
           <span className="text-xs font-medium text-(--text-secondary) uppercase tracking-wider px-2">Data Display</span>
           {dataComps.map(renderCompItem)}
-        </div>
-      )}
-
-      {/* 8. Layout & Structure */}
-      {layoutComps.length > 0 && (
-        <div className="flex flex-col gap-1">
-          <span className="text-xs font-medium text-(--text-secondary) uppercase tracking-wider px-2">Layout & Structure</span>
-          {layoutComps.map(renderCompItem)}
         </div>
       )}
     </aside>
