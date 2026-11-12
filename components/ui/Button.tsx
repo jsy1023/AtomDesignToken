@@ -1,26 +1,47 @@
 import React from 'react';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive';
+  variant?: 
+    | 'primary' 
+    | 'secondary' 
+    | 'outline' 
+    | 'ghost' 
+    | 'destructive' 
+    | 'success' 
+    | 'warning';
   size?: 'sm' | 'md' | 'lg';
+  isIconOnly?: boolean;
   loading?: boolean;
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ variant = 'primary', size = 'md', loading = false, disabled, className = '', children, ...props }, ref) => {
+  (
+    {
+      variant = 'primary',
+      size = 'md',
+      isIconOnly = false,
+      loading = false,
+      disabled,
+      className = '',
+      children,
+      ...props
+    },
+    ref
+  ) => {
     const variantClass = variant === 'primary' ? 'atom-btn-primary' : `atom-btn-${variant}`;
-    const sizeClass = size === 'sm' ? 'text-xs px-2.5 py-1.5' : size === 'lg' ? 'text-base px-5 py-3' : '';
+    const sizeClass = size === 'sm' ? 'atom-btn-sm' : size === 'lg' ? 'atom-btn-lg' : '';
+    const iconClass = isIconOnly ? 'atom-btn-icon' : '';
 
     return (
       <button
         ref={ref}
         disabled={disabled || loading}
         aria-disabled={disabled || loading}
-        className={`atom-btn ${variantClass} ${sizeClass} ${className}`}
+        className={`atom-btn ${variantClass} ${sizeClass} ${iconClass} ${className}`.trim()}
         {...props}
       >
         {loading && (
-          <svg className="animate-spin -ml-1 mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24">
+          <svg className={`animate-spin h-4 w-4 ${isIconOnly ? '' : '-ml-1 mr-2'}`} fill="none" viewBox="0 0 24 24">
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
           </svg>

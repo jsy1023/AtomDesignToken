@@ -39,27 +39,35 @@ export const GALLERY_COMPONENTS: GalleryComponent[] = [
     name: '버튼 (Button Variants)',
     category: 'form',
     source: 'shadcn + bootstrap',
-    description: 'Primary, Secondary, Outline, Ghost, Destructive, Loading 등 상태별 버튼 풀세트',
+    description: '3단계 시각적 위계(Primary, Secondary, Ghost/Icon)와 시스템 시맨틱 상태(Brand, Success, Warning, Destructive)를 결합한 완성형 버튼 풀세트',
     callout: {
       type: 'tip',
-      title: '접근성(A11y) 가이드',
-      text: '비활성화(Disabled) 상태일 때는 aria-disabled="true"와 함께 tabIndex={-1}을 지정하여 키보드 탐색 포커스를 방지하세요.'
+      title: '버튼 3계층 위계 & 시스템 색상 매핑',
+      text: '한 화면에는 단 1개의 Primary(주 행동) 버튼을 두고, 보조 행동은 Secondary/Outline, 부가 제어는 Ghost 또는 Icon-Only 버튼을 배치하세요. 색상은 임의 헥스가 아닌 브랜드(Primary), 성공(Green), 경고(Amber), 위험(Red) 시맨틱 토큰에 연동됩니다.'
     },
     useCases: [
-      '폼 제출, 송금, 회원가입 등 한 화면의 가장 핵심적인 단일 전환 행동 (Primary CTA)',
-      '다이얼로그 모달 내 취소, 이전 단계 등 보조 액션 (Secondary / Outline)',
-      '회원 탈퇴, 데이터 영구 삭제, 주문 취소 등 파괴적 액션 (Destructive)',
-      '비동기 API 요청 통신 중 중복 클릭을 방지하고 상태를 전달하는 로딩 스피너 (Loading)'
+      '화면의 가장 핵심적인 단일 전환 행동 - Primary CTA (저장, 결제, 회원가입 등 브랜드 색상)',
+      '다이얼로그 모달 내 취소, 이전 단계 등 중립 보조 행동 - Secondary / Outline',
+      '테이블 행 액션, 네비게이션 서브 메뉴, 툴바 등 시각적 부담을 줄여야 하는 부가 액션 - Ghost',
+      '좋아요, 즐겨찾기, 닫기(X), 더보기(...) 등 공간 절약형 원자 버튼 - Icon-Only Button',
+      '송금 완료, 승인, 상태 변경 등 긍정적 확정 행동 - Success (초록색)',
+      '데이터 영구 삭제, 회원 탈퇴, 결제 취소 등 불가역적 파괴적 액션 - Destructive (빨간색)',
+      '주의 확인, 임시 보관 파기 등 경고 수반 액션 - Warning (주황색)'
     ],
     usagePatterns: [
-      '화면(또는 뷰포트)당 단 1개의 Primary 버튼만 배치하여 사용자의 시각적 위계와 인지 과부하를 방지합니다.',
-      '확인/취소 버튼 그룹 배치 시 엄지손가락 접근성을 고려하여 우측(또는 모바일 최하단)에 주 액션을 배치합니다.',
-      '모바일 터치 타깃 영역은 최소 44x44px 이상을 보장하여 오터치를 예방합니다.'
+      '화면당 단 1개의 Primary 버튼만 배치하여 사용자의 시각적 위계와 인지 과부하를 방지합니다 (1-Primary 원칙).',
+      '3계층 위계 규칙: Primary(주 행동, 솔리드) > Secondary/Outline(보조 행동, 테두리) > Ghost(최저 시각적 가중치, 투명 배경).',
+      '시스템 상태 색상 규칙: 빨강=위험(Destructive), 주황=경고(Warning), 초록=성공(Success), Primary=브랜드(Primary CTA).',
+      '아이콘 단독 버튼(isIconOnly)은 반드시 aria-label 속성을 함께 지정하여 스크린리더 접근성을 보장합니다.'
     ],
     dosAndDonts: [
       {
         do: '"저장하기", "계좌로 송금하기", "장바구니 담기"와 같이 명확한 동사형 라벨을 사용합니다.',
         dont: '"확인", "클릭", "네"와 같이 사용자가 버튼 클릭 후 일어날 결과를 예측하기 어려운 모호한 라벨을 쓰지 마세요.'
+      },
+      {
+        do: '위험 행동(삭제)에는 Destructive(빨간색), 긍정 확정 행동에는 Success(초록색) 등 기능과 시맨틱 색상을 일치시킵니다.',
+        dont: '단순 강조를 위해 일반 확인 버튼에 빨간색(Destructive)을 남발하여 사용자에게 불안감을 주지 마세요.'
       },
       {
         do: '로딩 중일 때는 버튼 너비가 줄어들거나 텍스트가 깜빡이지 않도록 인라인 스피너를 유지합니다.',
@@ -68,24 +76,50 @@ export const GALLERY_COMPONENTS: GalleryComponent[] = [
     ],
     relatedPatternIds: ['fintech-transfer', 'ecommerce-checkout', 'saas-dashboard', 'developer-docs'],
     propsSpec: [
-      { name: 'variant', type: "'primary' | 'secondary' | 'outline' | 'destructive' | 'ghost'", defaultValue: "'primary'", description: '버튼의 시각적 강조 스타일' },
-      { name: 'size', type: "'sm' | 'md' | 'lg'", defaultValue: "'md'", description: '버튼 패딩 및 글자 크기' },
+      { name: 'variant', type: "'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive' | 'success' | 'warning'", defaultValue: "'primary'", description: '시각적 위계 및 시스템 상태 색상 스타일' },
+      { name: 'size', type: "'sm' | 'md' | 'lg'", defaultValue: "'md'", description: '버튼 패딩 및 글자 크기 스케일' },
+      { name: 'isIconOnly', type: 'boolean', defaultValue: 'false', description: '텍스트 없이 정사각형 아이콘 단독 버튼 모드 (패딩 및 곡률 최적화)' },
       { name: 'loading', type: 'boolean', defaultValue: 'false', description: '로딩 스피너 활성화 및 상호작용 차단' },
       { name: 'disabled', type: 'boolean', defaultValue: 'false', description: '클릭 차단 및 불투명도 축소' }
     ],
-    htmlSnippet: `<button class="atom-btn atom-btn-primary">Primary Action</button>
-<button class="atom-btn atom-btn-secondary">Secondary</button>
-<button class="atom-btn atom-btn-outline">Outline</button>
-<button class="atom-btn atom-btn-destructive">Delete</button>`,
+    htmlSnippet: `<!-- 1. 계층별 (Hierarchy) -->
+<button class="atom-btn atom-btn-primary">Primary (1계층)</button>
+<button class="atom-btn atom-btn-secondary">Secondary (2계층)</button>
+<button class="atom-btn atom-btn-ghost">Ghost (3계층)</button>
+
+<!-- 2. 시스템 시맨틱 색상 (System Status) -->
+<button class="atom-btn atom-btn-success">성공 (Success)</button>
+<button class="atom-btn atom-btn-warning">경고 (Warning)</button>
+<button class="atom-btn atom-btn-destructive">위험 (Destructive)</button>
+
+<!-- 3. 아이콘 단독 (Icon-Only) -->
+<button class="atom-btn atom-btn-icon atom-btn-secondary" aria-label="즐겨찾기">★</button>`,
     reactSnippet: `import { Button } from '@/components/ui/button';
+import { Star, Trash2, Check } from 'lucide-react';
 
 export function ButtonDemo() {
   return (
-    <div className="flex gap-2">
-      <Button variant="primary">저장하기</Button>
-      <Button variant="outline">취소</Button>
-      <Button variant="destructive">영구 삭제</Button>
-      <Button loading>처리 중...</Button>
+    <div className="flex flex-col gap-4">
+      {/* 3계층 위계 (Hierarchy) */}
+      <div className="flex gap-2">
+        <Button variant="primary">Primary (1계층)</Button>
+        <Button variant="secondary">Secondary (2계층)</Button>
+        <Button variant="ghost">Ghost (3계층)</Button>
+      </div>
+
+      {/* 시스템 상태 색상 (Semantic Status) */}
+      <div className="flex gap-2">
+        <Button variant="success">성공 완료</Button>
+        <Button variant="warning">주의 확인</Button>
+        <Button variant="destructive">영구 삭제</Button>
+      </div>
+
+      {/* 아이콘 버튼 & 로딩 */}
+      <div className="flex gap-2 items-center">
+        <Button isIconOnly variant="secondary" aria-label="즐겨찾기"><Star className="w-4 h-4" /></Button>
+        <Button isIconOnly variant="ghost" aria-label="삭제"><Trash2 className="w-4 h-4 text-rose-500" /></Button>
+        <Button loading>처리 중...</Button>
+      </div>
     </div>
   );
 }`,

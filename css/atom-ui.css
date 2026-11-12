@@ -177,12 +177,54 @@
   background-color: var(--atom-bg-secondary);
 }
 
+.atom-btn-ghost {
+  background-color: transparent;
+  color: var(--atom-text-primary);
+  border-color: transparent;
+}
+.atom-btn-ghost:hover:not(:disabled) {
+  background-color: var(--atom-bg-secondary);
+}
+
 .atom-btn-destructive {
   background-color: var(--atom-destructive);
   color: #ffffff;
 }
 .atom-btn-destructive:hover:not(:disabled) {
   background-color: var(--atom-destructive-hover);
+}
+
+.atom-btn-success {
+  background-color: var(--atom-success);
+  color: #ffffff;
+}
+.atom-btn-success:hover:not(:disabled) {
+  background-color: #059669;
+}
+
+.atom-btn-warning {
+  background-color: var(--atom-warning);
+  color: #ffffff;
+}
+.atom-btn-warning:hover:not(:disabled) {
+  background-color: #d97706;
+}
+
+.atom-btn-icon {
+  padding: 0.5rem;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: var(--atom-radius-md);
+}
+.atom-btn-icon.atom-btn-sm {
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0.25rem;
+}
+.atom-btn-icon.atom-btn-lg {
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0.75rem;
 }
 
 .atom-btn-sm {

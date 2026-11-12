@@ -29,6 +29,7 @@ import {
   Grid,
 } from '@/components/ui';
 import { CodeHighlight } from '@/components/common/CodeHighlight';
+import { COMPONENT_TOKEN_MAPPINGS } from '@/lib/data/componentTokens';
 import {
   ArrowLeft,
   Copy,
@@ -85,13 +86,55 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
     switch (component.id) {
       case 'button':
         return (
-          <div className="flex flex-wrap items-center justify-center gap-3">
-            <Button variant="primary">Primary Action</Button>
-            <Button variant="secondary">Secondary</Button>
-            <Button variant="outline">Outline</Button>
-            <Button variant="destructive">Destructive</Button>
-            <Button disabled>Disabled</Button>
-            <Button loading>로딩 중...</Button>
+          <div className="w-full max-w-2xl flex flex-col gap-6 py-2">
+            {/* 1. 계층별 (Hierarchy: 3-Tier) */}
+            <div className="space-y-2">
+              <span className="text-xs font-mono font-semibold text-(--text-secondary) uppercase tracking-wider">
+                1. 중요도에 따른 3계층 위계 (Hierarchy)
+              </span>
+              <div className="flex flex-wrap items-center gap-3 p-3 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle)">
+                <Button variant="primary">Primary (1계층 주행동)</Button>
+                <Button variant="secondary">Secondary (2계층 보조)</Button>
+                <Button variant="outline">Outline (경계선)</Button>
+                <Button variant="ghost">Ghost (3계층 부가)</Button>
+              </div>
+            </div>
+
+            {/* 2. 시스템 시맨틱 상태 색상 (Semantic Status) */}
+            <div className="space-y-2">
+              <span className="text-xs font-mono font-semibold text-(--text-secondary) uppercase tracking-wider">
+                2. 시스템 기능 매핑 상태 색상 (Semantic Status Colors)
+              </span>
+              <div className="flex flex-wrap items-center gap-3 p-3 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle)">
+                <Button variant="primary">Brand (Primary)</Button>
+                <Button variant="success">성공 (Success/Green)</Button>
+                <Button variant="warning">경고 (Warning/Orange)</Button>
+                <Button variant="destructive">위험 (Destructive/Red)</Button>
+              </div>
+            </div>
+
+            {/* 3. 아이콘 단독 & 피드백 상태 (Icon-Only & States) */}
+            <div className="space-y-2">
+              <span className="text-xs font-mono font-semibold text-(--text-secondary) uppercase tracking-wider">
+                3. 아이콘 버튼 & 상호작용 피드백 (Icon & States)
+              </span>
+              <div className="flex flex-wrap items-center gap-3 p-3 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle)">
+                <Button isIconOnly variant="primary" aria-label="즐겨찾기">
+                  <Sparkles className="w-4 h-4" />
+                </Button>
+                <Button isIconOnly variant="secondary" aria-label="설정">
+                  <Copy className="w-4 h-4" />
+                </Button>
+                <Button isIconOnly variant="ghost" aria-label="닫기">
+                  <X className="w-4 h-4" />
+                </Button>
+                <Button isIconOnly variant="destructive" aria-label="삭제">
+                  <XCircle className="w-4 h-4" />
+                </Button>
+                <Button disabled>Disabled</Button>
+                <Button loading>로딩 중...</Button>
+              </div>
+            </div>
           </div>
         );
 
@@ -512,6 +555,54 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
             />
           </div>
         </section>
+
+        {/* 2-1. W3C DTCG Token Mapping Specification (컴포넌트 토큰 명세) */}
+        {COMPONENT_TOKEN_MAPPINGS[component.id] && (
+          <section id="tokens" className="scroll-mt-28 flex flex-col gap-3">
+            <div className="flex items-center justify-between">
+              <h2 className="text-sm font-semibold uppercase tracking-wider text-(--text-secondary) flex items-center gap-1.5">
+                <Coins className="w-4 h-4 text-(--accent-primary)" />
+                <span>연동된 W3C DTCG 디자인 토큰 (tokens/token.json)</span>
+              </h2>
+              <Link
+                href="/tokens"
+                className="text-xs font-mono text-(--text-secondary) hover:text-(--text-primary) underline"
+              >
+                전체 토큰 명세 보기 →
+              </Link>
+            </div>
+
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-1/4">토큰 역할 (Role)</TableHead>
+                  <TableHead className="w-1/4">CSS 변수 (Variable)</TableHead>
+                  <TableHead className="w-1/4">DTCG JSON 경로</TableHead>
+                  <TableHead className="w-1/4">기본값 및 기능 매핑</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {COMPONENT_TOKEN_MAPPINGS[component.id].map((tm, idx) => (
+                  <TableRow key={idx}>
+                    <TableCell className="font-semibold text-sm text-(--text-primary)">
+                      {tm.role}
+                    </TableCell>
+                    <TableCell className="font-mono text-xs text-blue-600 dark:text-blue-400">
+                      <code>{tm.variable}</code>
+                    </TableCell>
+                    <TableCell className="font-mono text-xs text-(--text-secondary)">
+                      {tm.dtcgPath}
+                    </TableCell>
+                    <TableCell className="text-sm text-(--text-secondary)">
+                      <span className="font-mono font-bold text-(--text-primary) mr-2">{tm.defaultValue}</span>
+                      <span>({tm.description})</span>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </section>
+        )}
 
         {/* 3. Use Cases (사용 케이스) */}
         <section id="use-cases" className="scroll-mt-28 flex flex-col gap-3">

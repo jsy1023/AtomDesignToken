@@ -44,11 +44,25 @@ export const COMPONENT_TOKEN_MAPPINGS: Record<string, ComponentTokenMapping[]> =
       description: '보조 버튼 및 아웃라인 버튼의 배경 표면 색상',
     },
     {
-      role: 'Destructive 버튼 배경색',
+      role: 'Destructive 위험 배경색',
       variable: 'var(--atom-status-danger)',
       dtcgPath: 'color.status.status-danger',
       defaultValue: '#f43f5e',
-      description: '삭제, 취소 등 파괴적 액션 버튼의 경고 색상',
+      description: '삭제, 탈퇴, 취소 등 파괴적 위험 행동에 매핑된 시스템 색상',
+    },
+    {
+      role: 'Success 성공 확정 배경색',
+      variable: 'var(--atom-status-success)',
+      dtcgPath: 'color.status.status-success',
+      defaultValue: '#10b981',
+      description: '송금 완료, 승인, 확정 등 긍정적 성공 행동에 매핑된 시스템 색상',
+    },
+    {
+      role: 'Warning 주의 경고 배경색',
+      variable: 'var(--atom-status-warning)',
+      dtcgPath: 'color.status.status-warning',
+      defaultValue: '#f59e0b',
+      description: '주의 수반, 데이터 덮어쓰기 경고 행동에 매핑된 시스템 색상',
     },
   ],
   input: [
