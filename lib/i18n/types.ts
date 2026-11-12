@@ -122,4 +122,19 @@ export interface TranslationDictionary {
     searchPlaceholder: string;
     noResults: string;
   };
+  componentsDoc: {
+    previewTitle: string;
+    codeSnippetTitle: string;
+    copyCode: string;
+    copied: string;
+    useCasesTitle: string;
+    usagePatternsTitle: string;
+    dosAndDontsTitle: string;
+    propsSpecTitle: string;
+    relatedPatternsTitle: string;
+    tokensTitle: string;
+    tokensViewAll: string;
+    tocTitle: string;
+    searchPlaceholder: string;
+  };
 }

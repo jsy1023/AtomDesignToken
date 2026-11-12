@@ -30,6 +30,7 @@ import {
 } from '@/components/ui';
 import { CodeHighlight } from '@/components/common/CodeHighlight';
 import { COMPONENT_TOKEN_MAPPINGS } from '@/lib/data/componentTokens';
+import { useI18n } from '@/lib/i18n';
 import {
   ArrowLeft,
   Copy,
@@ -53,6 +54,7 @@ interface ComponentDetailPageContentProps {
 
 export function ComponentDetailPageContent({ component }: ComponentDetailPageContentProps) {
   const { theme } = useThemeEditor();
+  const { t, dictionary } = useI18n();
   const brandColor = theme?.color?.primary || '#3182f6';
   const radius = theme?.borderRadius || '16px';
 
@@ -504,7 +506,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
         {/* 1. Interactive Live Preview */}
         <section id="preview" className="scroll-mt-28 flex flex-col gap-3">
           <h2 className="text-sm font-semibold text-(--text-primary)">
-            인터랙티브 라이브 프리뷰 (Interactive Preview)
+            {t('componentsDoc.previewTitle', '인터랙티브 라이브 프리뷰 (Interactive Preview)')}
           </h2>
           <div className="w-full min-h-[220px] p-6 rounded-(--radius) bg-(--bg-secondary)/30 border border-(--border-subtle) flex items-center justify-center">
             {renderPreview()}
@@ -516,7 +518,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
           <div className="flex items-center justify-between">
             <h2 className="text-sm font-semibold text-(--text-primary) flex items-center gap-1.5">
               <Code2 className="w-4 h-4 text-(--accent-primary)" />
-              <span>컴포넌트 코드 스니펫 (Code Copy)</span>
+              <span>{t('componentsDoc.codeSnippetTitle', '컴포넌트 코드 스니펫 (Code Copy)')}</span>
             </h2>
             <span className="text-xs text-(--text-secondary) font-mono">Framework Agnostic</span>
           </div>
@@ -544,7 +546,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                 className="text-xs flex items-center gap-1.5 h-auto py-1"
               >
                 {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
-                <span>{copied ? '복사됨!' : '전체 코드 복사'}</span>
+                <span>{copied ? t('componentsDoc.copied', '복사됨!') : t('common.copy', '전체 코드 복사')}</span>
               </Button>
             </div>
 
@@ -562,13 +564,13 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
             <div className="flex items-center justify-between">
               <h2 className="text-sm font-semibold uppercase tracking-wider text-(--text-secondary) flex items-center gap-1.5">
                 <Coins className="w-4 h-4 text-(--accent-primary)" />
-                <span>연동된 W3C DTCG 디자인 토큰 (tokens/token.json)</span>
+                <span>{t('componentsDoc.tokensTitle', '연동된 W3C DTCG 디자인 토큰 (tokens/token.json)')}</span>
               </h2>
               <Link
                 href="/tokens"
                 className="text-xs font-mono text-(--text-secondary) hover:text-(--text-primary) underline"
               >
-                전체 토큰 명세 보기 →
+                {t('componentsDoc.tokensViewAll', '전체 토큰 명세 보기 →')}
               </Link>
             </div>
 
@@ -608,7 +610,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
         <section id="use-cases" className="scroll-mt-28 flex flex-col gap-3">
           <h2 className="text-sm font-semibold uppercase tracking-wider text-(--text-secondary) flex items-center gap-1.5">
             <Sparkles className="w-4 h-4 text-(--accent-primary)" />
-            <span>실무 주요 사용 케이스 (Use Cases)</span>
+            <span>{t('componentsDoc.useCasesTitle', '실무 주요 사용 케이스 (Use Cases)')}</span>
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {component.useCases.map((useCase, idx) => (
@@ -631,7 +633,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
         <section id="patterns" className="scroll-mt-28 flex flex-col gap-3">
           <h2 className="text-sm font-semibold uppercase tracking-wider text-(--text-secondary) flex items-center gap-1.5">
             <BookOpen className="w-4 h-4 text-(--accent-primary)" />
-            <span>권장 사용 패턴 및 설계 지침 (Usage Patterns)</span>
+            <span>{t('componentsDoc.usagePatternsTitle', '권장 사용 패턴 및 설계 지침 (Usage Patterns)')}</span>
           </h2>
           <Card className="p-4 flex flex-col gap-2.5">
             {component.usagePatterns.map((pattern, idx) => (
@@ -647,7 +649,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
         {component.dosAndDonts && component.dosAndDonts.length > 0 && (
           <section id="dos-donts" className="scroll-mt-28 flex flex-col gap-3">
             <h2 className="text-sm font-semibold uppercase tracking-wider text-(--text-secondary)">
-              올바른 사용법 & 안티패턴 방지 (Do's & Don'ts)
+              {t('componentsDoc.dosAndDontsTitle', "올바른 사용법 & 안티패턴 방지 (Do's & Don'ts)")}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {component.dosAndDonts.map((rule, idx) => (
@@ -681,7 +683,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
         {component.propsSpec && component.propsSpec.length > 0 && (
           <section id="props" className="scroll-mt-28 flex flex-col gap-3">
             <h2 className="text-sm font-semibold uppercase tracking-wider text-(--text-secondary)">
-              API Props 규격 명세 (API Reference)
+              {t('componentsDoc.propsSpecTitle', 'API Props 규격 명세 (API Reference)')}
             </h2>
             <Table>
               <TableHeader>
@@ -711,7 +713,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
           <section id="related" className="scroll-mt-28 flex flex-col gap-3 pt-4 border-t border-(--border-subtle)">
             <h2 className="text-sm font-semibold uppercase tracking-wider text-(--text-secondary) flex items-center gap-1.5">
               <Layers className="w-4 h-4 text-(--accent-primary)" />
-              <span>이 컴포넌트가 사용되는 실무 UX 패턴</span>
+              <span>{t('componentsDoc.relatedPatternsTitle', '이 컴포넌트가 사용되는 실무 UX 패턴')}</span>
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
               {relatedPatterns.map((pattern) => (
@@ -740,47 +742,47 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
         {/* 3. Right Column: Quick On-Page Section TOC */}
         <aside className="w-52 shrink-0 sticky top-24 max-h-[calc(100vh-120px)] overflow-y-auto pl-4 border-l border-(--border-subtle) select-none hidden xl:flex flex-col gap-3 text-xs">
           <span className="text-xs font-medium text-(--text-secondary) uppercase tracking-wider">
-            이 페이지 목차
+            {t('componentsDoc.tocTitle', '이 페이지 목차')}
           </span>
           <ul className="flex flex-col gap-1 text-xs">
             <li>
               <a href="#preview" className="text-(--text-secondary) hover:text-(--text-primary) py-1 block transition-colors">
-                라이브 프리뷰
+                {t('common.preview', '라이브 프리뷰')}
               </a>
             </li>
             <li>
               <a href="#code" className="text-(--text-secondary) hover:text-(--text-primary) py-1 block transition-colors">
-                코드 스니펫
+                {t('componentsDoc.codeSnippetTitle', '코드 스니펫')}
               </a>
             </li>
             <li>
               <a href="#use-cases" className="text-(--text-secondary) hover:text-(--text-primary) py-1 block transition-colors">
-                실무 사용 케이스
+                {t('componentsDoc.useCasesTitle', '실무 사용 케이스')}
               </a>
             </li>
             <li>
               <a href="#patterns" className="text-(--text-secondary) hover:text-(--text-primary) py-1 block transition-colors">
-                권장 사용 패턴
+                {t('componentsDoc.usagePatternsTitle', '권장 사용 패턴')}
               </a>
             </li>
             {component.dosAndDonts && component.dosAndDonts.length > 0 && (
               <li>
                 <a href="#dos-donts" className="text-(--text-secondary) hover:text-(--text-primary) py-1 block transition-colors">
-                  Do's & Don'ts
+                  {t('componentsDoc.dosAndDontsTitle', "Do's & Don'ts")}
                 </a>
               </li>
             )}
             {component.propsSpec && component.propsSpec.length > 0 && (
               <li>
                 <a href="#props" className="text-(--text-secondary) hover:text-(--text-primary) py-1 block transition-colors">
-                  API Props 명세
+                  {t('componentsDoc.propsSpecTitle', 'API Props 명세')}
                 </a>
               </li>
             )}
             {relatedPatterns.length > 0 && (
               <li>
                 <a href="#related" className="text-(--text-secondary) hover:text-(--text-primary) py-1 block transition-colors">
-                  관련 UX 패턴
+                  {t('componentsDoc.relatedPatternsTitle', '관련 UX 패턴')}
                 </a>
               </li>
             )}
