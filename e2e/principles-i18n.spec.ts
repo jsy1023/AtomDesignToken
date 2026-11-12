@@ -18,8 +18,7 @@ test.describe('설계 원칙(/principles) 및 주요 페이지 EN/JA 다국어 �
     await expect(page.getByRole('button', { name: '전체 원칙' })).toBeVisible();
 
     // 상단 EN 버튼 클릭
-    const enBtn = page.getByRole('button', { name: 'EN' });
-    await enBtn.click();
+    await page.getByTestId('lang-btn-en').click();
 
     // H1이 영어로 전환 확인
     await expect(h1).toHaveText(/Design System Principles/);
@@ -38,8 +37,7 @@ test.describe('설계 원칙(/principles) 및 주요 페이지 EN/JA 다국어 �
     await page.goto('/principles', { waitUntil: 'domcontentloaded' });
 
     // 상단 JA 버튼 클릭
-    const jaBtn = page.getByRole('button', { name: 'JA' });
-    await jaBtn.click();
+    await page.getByTestId('lang-btn-ja').click();
 
     // H1이 일본어로 전환 확인
     const h1 = page.locator('h1');
@@ -51,7 +49,7 @@ test.describe('설계 원칙(/principles) 및 주요 페이지 EN/JA 다국어 �
 
     // 01번 원칙 카드 제목 및 DO/DONT 뱃지 일본어 전환 확인
     await expect(page.getByRole('heading', { name: /単一真実源/i })).toBeVisible();
-    await expect(page.getByText('推奨指針 (DO)').first()).toBeVisible();
-    await expect(page.getByText("アンチパターン (DON'T)").first()).toBeVisible();
+    await expect(page.getByText('推奨 (DO)').first()).toBeVisible();
+    await expect(page.getByText("非推奨 (DON'T)").first()).toBeVisible();
   });
 });

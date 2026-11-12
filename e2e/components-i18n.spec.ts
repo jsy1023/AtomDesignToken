@@ -17,8 +17,7 @@ test.describe('컴포넌트 상세 페이지(/components/button) 및 주요 페�
     await expect(h1).toHaveText(/버튼/);
 
     // 상단 JA 버튼 클릭
-    const jaBtn = page.getByRole('button', { name: 'JA' });
-    await jaBtn.click();
+    await page.getByTestId('lang-btn-ja').click();
 
     // 1. 헤더: 버튼 제목 및 설명 일본어 번역 확인
     await expect(h1).toHaveText(/ボタン/);
@@ -52,8 +51,7 @@ test.describe('컴포넌트 상세 페이지(/components/button) 및 주요 페�
     await page.goto('/components/button', { waitUntil: 'domcontentloaded' });
 
     // 상단 EN 버튼 클릭
-    const enBtn = page.getByRole('button', { name: 'EN' });
-    await enBtn.click();
+    await page.getByTestId('lang-btn-en').click();
 
     // 1. 헤더: 버튼 제목 및 배지 영어 확인
     const h1 = page.locator('h1');

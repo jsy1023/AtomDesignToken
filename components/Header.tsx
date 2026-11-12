@@ -238,11 +238,12 @@ export function Header({ brandColor, rightExtra }: HeaderProps) {
           {rightExtra}
 
           {/* Language Switcher: KO | EN | JA */}
-          <div className="flex items-center rounded-md border border-(--border-subtle) bg-(--bg-secondary) p-0.5 text-xs font-mono">
+          <div data-testid="language-switcher" className="flex items-center rounded-md border border-(--border-subtle) bg-(--bg-secondary) p-0.5 text-xs font-mono">
             {LOCALES.map((l) => (
               <button
                 key={l.code}
                 type="button"
+                data-testid={`lang-btn-${l.code}`}
                 onClick={() => setLocale(l.code)}
                 className={`px-2 py-0.5 rounded text-xs transition-colors cursor-pointer ${
                   locale === l.code

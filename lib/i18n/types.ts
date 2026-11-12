@@ -30,6 +30,35 @@ export interface TranslationDictionary {
     category: string;
     variable: string;
   };
+  home: {
+    heroTitle: string;
+    heroSubtitle: string;
+    getStarted: string;
+    principlesTitle: string;
+    principlesDesc: string;
+    principlesLink: string;
+    tokensTitle: string;
+    tokensDesc: string;
+    tokensLink: string;
+    motionTitle: string;
+    motionDesc: string;
+    motionLink: string;
+    componentsTitle: string;
+    componentsDesc: string;
+    componentsLink: string;
+    blocksTitle: string;
+    blocksDesc: string;
+    blocksLink: string;
+    patternsTitle: string;
+    patternsDesc: string;
+    patternsLink: string;
+    dependenciesTitle: string;
+    dependenciesDesc: string;
+    dependenciesLink: string;
+    guideTitle: string;
+    guideDesc: string;
+    guideLink: string;
+  };
   nav: {
     foundations: string;
     principles: string;

@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { Header } from '@/components/Header';
 import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';
+import { useI18n } from '@/lib/i18n';
 import {
   Copy,
   Check,
@@ -16,12 +17,12 @@ import {
   ShieldCheck,
   Zap,
   Cpu,
-  SlidersHorizontal,
   Box,
 } from 'lucide-react';
 
 export default function Home() {
   const { theme } = useThemeEditor();
+  const { t, dictionary } = useI18n();
   const brandColor = theme?.color?.primary || '#18181b';
   const radius = theme?.borderRadius || '8px';
   const [copiedCli, setCopiedCli] = useState(false);
@@ -34,62 +35,65 @@ export default function Home() {
 
   const features = [
     {
-      title: '설계 원칙 (Principles)',
-      desc: '단일 진실 공급원(SSOT), 제로 런타임, 3계층 아키텍처 등 6대 핵심 설계 규격.',
+      title: t('home.principlesTitle', '설계 원칙 (Principles)'),
+      desc: t('home.principlesDesc', '단일 진실 공급원(SSOT), 제로 런타임, 3계층 아키텍처 등 6대 핵심 설계 규격.'),
       href: '/principles',
-      linkText: '원칙 가이드 보기',
+      linkText: t('home.principlesLink', '원칙 가이드 보기'),
       icon: ShieldCheck,
     },
     {
-      title: '디자인 토큰 명세 (Tokens)',
-      desc: 'W3C DTCG 표준 기반 색상, 타이포그래피, 곡률, 간격, 그림자 CSS 변수 카탈로그.',
+      title: t('home.tokensTitle', '디자인 토큰 명세 (Tokens)'),
+      desc: t('home.tokensDesc', 'W3C DTCG 표준 기반 색상, 타이포그래피, 곡률, 간격, 그림자 CSS 변수 카탈로그.'),
       href: '/tokens',
-      linkText: '토큰 명세서 보기',
+      linkText: t('home.tokensLink', '토큰 명세서 보기'),
       icon: Palette,
     },
     {
-      title: '모션 및 트랜지션 (Motion)',
-      desc: '지속 시간(Duration)과 이징(Easing) 큐빅 베지에 타이밍 토큰 및 실시간 테스트.',
+      title: t('home.motionTitle', '모션 및 트랜지션 (Motion)'),
+      desc: t('home.motionDesc', '지속 시간(Duration)과 이징(Easing) 큐빅 베지에 타이밍 토큰 및 실시간 테스트.'),
       href: '/motion',
-      linkText: '모션 명세 보기',
+      linkText: t('home.motionLink', '모션 명세 보기'),
       icon: Zap,
     },
     {
-      title: '컴포넌트 가이드 & 명세 (Components)',
-      desc: '버튼, 인풋, 모달, 바텀시트, 탭 등 시맨틱 토큰과 결합된 프로덕션 UI 컴포넌트.',
+      title: t('home.componentsTitle', '컴포넌트 가이드 & 명세 (Components)'),
+      desc: t('home.componentsDesc', '버튼, 인풋, 모달, 바텀시트, 탭 등 시맨틱 토큰과 결합된 프로덕션 UI 컴포넌트.'),
       href: '/components/button',
-      linkText: '컴포넌트 문서 보기',
+      linkText: t('home.componentsLink', '컴포넌트 문서 보기'),
       icon: Layers,
     },
     {
-      title: '디자인 블록 (Blocks)',
-      desc: '실시간 차트, AI 대화형 메신저, 카드 리스트, 슬라이더, 요금제 등 완성형 프로덕션 모듈.',
+      title: t('home.blocksTitle', '디자인 블록 (Blocks)'),
+      desc: t('home.blocksDesc', '실시간 차트, AI 대화형 메신저, 카드 리스트, 슬라이더, 요금제 등 완성형 프로덕션 모듈.'),
       href: '/blocks',
-      linkText: '디자인 블록 탐색',
+      linkText: t('home.blocksLink', '디자인 블록 탐색'),
       icon: Box,
     },
     {
-      title: 'UX 인터랙션 패턴 (Patterns)',
-      desc: '대시보드, 폼 유효성, 결제, 온보딩 등 검증된 실무 UX 패턴 및 안티패턴 체크리스트.',
+      title: t('home.patternsTitle', 'UX 인터랙션 패턴 (Patterns)'),
+      desc: t('home.patternsDesc', '대시보드, 폼 유효성, 결제, 온보딩 등 검증된 실무 UX 패턴 및 안티패턴 체크리스트.'),
       href: '/patterns',
-      linkText: 'UX패턴 탐색',
+      linkText: t('home.patternsLink', 'UX패턴 탐색'),
       icon: Code2,
     },
     {
-      title: '디펜던시 매트릭스 (Dependencies)',
-      desc: '0KB 런타임 아키텍처, 패키지 의존성 및 프레임워크 간 크로스 플랫폼 호환성.',
+      title: t('home.dependenciesTitle', '디펜던시 매트릭스 (Dependencies)'),
+      desc: t('home.dependenciesDesc', '0KB 런타임 아키텍처, 패키지 의존성 및 프레임워크 간 크로스 플랫폼 호환성.'),
       href: '/dependencies',
-      linkText: '디펜던시 확인',
+      linkText: t('home.dependenciesLink', '디펜던시 확인'),
       icon: Cpu,
     },
     {
-      title: '라이브러리 활용 가이드 (Guide)',
-      desc: 'React, Vue, Vanilla HTML 어디서나 의존성 없이 스타일을 공유하고 빌드하는 실전 지침.',
+      title: t('home.guideTitle', '라이브러리 활용 가이드 (Guide)'),
+      desc: t('home.guideDesc', 'React, Vue, Vanilla HTML 어디서나 의존성 없이 스타일을 공유하고 빌드하는 실전 지침.'),
       href: '/guide',
-      linkText: '활용 가이드 보기',
+      linkText: t('home.guideLink', '활용 가이드 보기'),
       icon: BookOpen,
     },
   ];
+
+  const heroTitle = t('home.heroTitle', '플랫폼에 독립적인 디자인 토큰과\n실무 UX 패턴 라이브러리');
+  const heroLines = heroTitle.split('\n');
 
   return (
     <div className="min-h-screen bg-(--bg-primary) text-(--text-primary) flex flex-col justify-between transition-colors">
@@ -115,12 +119,16 @@ export default function Home() {
           </div>
 
           <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-(--text-primary) leading-snug">
-            플랫폼에 독립적인 디자인 토큰과<br />
-            실무 UX 패턴 라이브러리
+            {heroLines.map((line, i) => (
+              <React.Fragment key={i}>
+                {line}
+                {i < heroLines.length - 1 && <br />}
+              </React.Fragment>
+            ))}
           </h1>
 
           <p className="text-xs sm:text-sm text-(--text-secondary) leading-relaxed">
-            AtomDesignToken은 피그마 및 마크다운 기반의 디자인 결정을 단일 진실 공급원(SSOT)으로 관리하고, CSS 변수와 프레임워크 독립적 시맨틱 클래스로 컴파일하여 일관된 제품 경험을 구축합니다.
+            {t('home.heroSubtitle', 'AtomDesignToken은 피그마 및 마크다운 기반의 디자인 결정을 단일 진실 공급원(SSOT)으로 관리하고, CSS 변수와 프레임워크 독립적 시맨틱 클래스로 컴파일하여 일관된 제품 경험을 구축합니다.')}
           </p>
 
           {/* Quickstart Command */}
@@ -131,8 +139,8 @@ export default function Home() {
               <button
                 type="button"
                 onClick={copyCli}
-                className="text-neutral-400 hover:text-(--text-primary) transition ml-2"
-                title="명령어 복사"
+                className="text-neutral-400 hover:text-(--text-primary) transition ml-2 cursor-pointer"
+                title={t('common.copy', '명령어 복사')}
               >
                 {copiedCli ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
               </button>
@@ -143,7 +151,7 @@ export default function Home() {
               style={{ borderRadius: radius }}
               className="inline-flex items-center gap-1.5 px-4 py-2 bg-(--text-primary) text-(--bg-primary) text-xs font-semibold hover:opacity-90 transition shadow-xs"
             >
-              <span>시작하기</span>
+              <span>{t('home.getStarted', '시작하기')}</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
@@ -185,21 +193,21 @@ export default function Home() {
         <div className="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
           <span>AtomDesignToken — Single Source of Truth for Design Tokens & Patterns</span>
           <div className="flex flex-wrap items-center gap-2 text-xs text-neutral-500">
-            <Link href="/principles" className="hover:text-(--text-primary)">원칙</Link>
+            <Link href="/principles" className="hover:text-(--text-primary)">{t('nav.principles', '원칙')}</Link>
             <span>|</span>
-            <Link href="/tokens" className="hover:text-(--text-primary)">디자인 토큰</Link>
+            <Link href="/tokens" className="hover:text-(--text-primary)">{t('nav.tokens', '디자인 토큰')}</Link>
             <span>|</span>
-            <Link href="/motion" className="hover:text-(--text-primary)">모션</Link>
+            <Link href="/motion" className="hover:text-(--text-primary)">{t('nav.motion', '모션')}</Link>
             <span>|</span>
-            <Link href="/components/button" className="hover:text-(--text-primary)">컴포넌트</Link>
+            <Link href="/components/button" className="hover:text-(--text-primary)">{t('nav.components', '컴포넌트')}</Link>
             <span>|</span>
-            <Link href="/blocks" className="hover:text-(--text-primary)">디자인 블록</Link>
+            <Link href="/blocks" className="hover:text-(--text-primary)">{t('nav.blocks', '디자인 블록')}</Link>
             <span>|</span>
-            <Link href="/patterns" className="hover:text-(--text-primary)">UX패턴</Link>
+            <Link href="/patterns" className="hover:text-(--text-primary)">{t('nav.patterns', 'UX패턴')}</Link>
             <span>|</span>
-            <Link href="/dependencies" className="hover:text-(--text-primary)">디펜던시</Link>
+            <Link href="/dependencies" className="hover:text-(--text-primary)">{t('nav.dependencies', '디펜던시')}</Link>
             <span>|</span>
-            <Link href="/guide" className="hover:text-(--text-primary)">가이드</Link>
+            <Link href="/guide" className="hover:text-(--text-primary)">{t('nav.guide', '가이드')}</Link>
             <span>|</span>
             <a
               href="https://www.designtokens.org/tr/2025.10/"
