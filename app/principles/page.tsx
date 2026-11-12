@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { Header } from '@/components/Header';
 import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';
+import { useI18n } from '@/lib/i18n';
 import { PRINCIPLES_DATA } from '@/lib/data/principles';
 import {
   ShieldCheck,
@@ -16,18 +17,19 @@ import {
 
 export default function PrinciplesPage() {
   const { theme } = useThemeEditor();
+  const { t, dictionary } = useI18n();
   const brandColor = theme?.color?.primary || '#3182f6';
   const radius = theme?.borderRadius || '8px';
 
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
   const categories = [
-    { id: 'all', label: '전체 원칙' },
-    { id: 'agent', label: '🤖 AI 운영 원칙' },
-    { id: 'core', label: '핵심 원칙' },
-    { id: 'architecture', label: '아키텍처' },
-    { id: 'token', label: '토큰 규격' },
-    { id: 'accessibility', label: '접근성' },
+    { id: 'all', label: t('principles.categoryAll', '전체 원칙') },
+    { id: 'agent', label: t('principles.categoryAgent', '🤖 AI 운영 원칙') },
+    { id: 'core', label: t('principles.categoryCore', '핵심 원칙') },
+    { id: 'architecture', label: t('principles.categoryArchitecture', '아키텍처') },
+    { id: 'token', label: t('principles.categoryToken', '토큰 규격') },
+    { id: 'accessibility', label: t('principles.categoryAccessibility', '접근성') },
   ];
 
   const filteredPrinciples = selectedCategory === 'all'
@@ -53,23 +55,23 @@ export default function PrinciplesPage() {
           </div>
 
           <h1 className="docs-h1">
-            디자인 시스템 설계 원칙 (Principles)
+            {t('principles.title', '디자인 시스템 설계 원칙 (Principles)')}
           </h1>
 
           <p className="text-xs sm:text-sm text-(--text-secondary) leading-relaxed max-w-3xl">
-            AtomDesignToken은 임시방편적인 절차적 하드코딩을 배제하고, 플랫폼에 독립적인 단일 진실 공급원(SSOT)과 브라우저 네이티브 기술, 그리고 4단계 AI 레고 조립 파이프라인을 결합하여 고품질 엔터프라이즈 UI를 구축하기 위한 핵심 규격을 따릅니다.
+            {t('principles.subtitle', 'AtomDesignToken은 임시방편적인 절차적 하드코딩을 배제하고, 플랫폼에 독립적인 단일 진실 공급원(SSOT)과 브라우저 네이티브 기술, 그리고 4단계 AI 레고 조립 파이프라인을 결합하여 고품질 엔터프라이즈 UI를 구축하기 위한 핵심 규격을 따릅니다.')}
           </p>
 
-          {/* Category Filter Tabs */}
-          <div className="flex items-center gap-1 overflow-x-auto pt-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {/* Category Filter Pills */}
+          <div className="flex flex-wrap items-center gap-1.5 pt-3">
             {categories.map((cat) => (
               <button
                 key={cat.id}
                 onClick={() => setSelectedCategory(cat.id)}
-                className={`px-3 py-1.5 rounded-md text-xs transition-colors whitespace-nowrap ${
+                className={`px-3 py-1.5 rounded-(--radius-sm) text-xs font-medium transition-colors cursor-pointer ${
                   selectedCategory === cat.id
-                    ? 'bg-(--bg-secondary) text-(--text-primary) font-bold'
-                    : 'text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary)/50'
+                    ? 'bg-(--text-primary) text-(--bg-primary) font-semibold'
+                    : 'bg-(--bg-secondary) text-(--text-secondary) hover:text-(--text-primary) border border-(--border-subtle)'
                 }`}
               >
                 {cat.label}
@@ -80,123 +82,117 @@ export default function PrinciplesPage() {
 
         {/* Principles Flat Specification List */}
         <section className="divide-y divide-(--border-subtle)">
-          {filteredPrinciples.map((item) => (
-            <article key={item.id} className="py-8 space-y-4">
-              {/* Header */}
-              <div className="space-y-1">
-                <div className="flex items-center gap-2 text-xs font-mono text-(--text-muted)">
-                  <span className="font-bold text-(--text-primary)">{item.number}</span>
-                  <span>/</span>
-                  <span className="uppercase">{item.category}</span>
-                  {item.w3cRef && (
-                    <>
-                      <span>•</span>
-                      <span className="text-blue-500 font-sans">{item.w3cRef}</span>
-                    </>
-                  )}
+          {filteredPrinciples.map((item) => {
+            // Get translated item if available in current dictionary
+            const localizedItem = dictionary?.principles?.items?.[item.id];
+            const title = localizedItem?.title || item.title;
+            const subtitle = localizedItem?.subtitle || item.subtitle;
+            const description = localizedItem?.description || item.description;
+            const dos = localizedItem?.dos || item.dos;
+            const donts = localizedItem?.donts || item.donts;
+
+            return (
+              <article key={item.id} className="py-8 space-y-4">
+                {/* Header */}
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2 text-xs font-mono text-(--text-muted)">
+                    <span className="font-bold text-(--text-primary)">{item.number}</span>
+                    <span>/</span>
+                    <span className="uppercase">{item.category}</span>
+                    {item.w3cRef && (
+                      <>
+                        <span>•</span>
+                        <span className="text-blue-500 font-sans">{item.w3cRef}</span>
+                      </>
+                    )}
+                  </div>
+
+                  <h2 className="docs-h2">
+                    {title}
+                  </h2>
+                  <p className="text-xs font-medium text-(--text-secondary)">
+                    {subtitle}
+                  </p>
                 </div>
 
-                <h2 className="docs-h2">
-                  {item.title}
-                </h2>
-                <p className="text-xs font-medium text-(--text-secondary)">
-                  {item.subtitle}
+                {/* Description */}
+                <p className="text-xs text-(--text-secondary) leading-relaxed">
+                  {description}
                 </p>
-              </div>
 
-              {/* Description */}
-              <p className="text-xs text-(--text-secondary) leading-relaxed">
-                {item.description}
-              </p>
-
-              {/* Do & Don't Matrix */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 text-xs">
-                {/* DO */}
-                <div className="p-4 rounded-lg bg-emerald-500/5 border border-emerald-500/20 space-y-2">
-                  <div className="flex items-center gap-1.5 font-bold text-emerald-600 dark:text-emerald-400">
-                    <Check className="w-4 h-4" />
-                    <span>권장 지침 (DO)</span>
+                {/* Do & Don't Matrix */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 text-xs">
+                  {/* DO */}
+                  <div className="p-4 rounded-lg bg-emerald-500/5 border border-emerald-500/20 space-y-2">
+                    <div className="flex items-center gap-1.5 font-bold text-emerald-600 dark:text-emerald-400">
+                      <Check className="w-4 h-4" />
+                      <span>{t('principles.badgeDo', '권장 지침 (DO)')}</span>
+                    </div>
+                    <ul className="space-y-1.5 text-(--text-secondary) pl-1">
+                      {dos.map((d, i) => (
+                        <li key={i} className="flex items-start gap-2">
+                          <span className="text-emerald-500 font-mono text-[11px] mt-0.5">•</span>
+                          <span>{d}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                  <ul className="space-y-1.5 text-(--text-secondary) pl-1">
-                    {item.dos.map((d, i) => (
-                      <li key={i} className="flex items-start gap-2">
-                        <span className="text-emerald-500 font-mono text-[11px] mt-0.5">•</span>
-                        <span>{d}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
 
-                {/* DONT */}
-                <div className="p-4 rounded-lg bg-rose-500/5 border border-rose-500/20 space-y-2">
-                  <div className="flex items-center gap-1.5 font-bold text-rose-600 dark:text-rose-400">
-                    <X className="w-4 h-4" />
-                    <span>지양 패턴 (DON&apos;T)</span>
+                  {/* DONT */}
+                  <div className="p-4 rounded-lg bg-rose-500/5 border border-rose-500/20 space-y-2">
+                    <div className="flex items-center gap-1.5 font-bold text-rose-600 dark:text-rose-400">
+                      <X className="w-4 h-4" />
+                      <span>{t('principles.badgeDont', '지양 패턴 (DON\'T)')}</span>
+                    </div>
+                    <ul className="space-y-1.5 text-(--text-secondary) pl-1">
+                      {donts.map((d, i) => (
+                        <li key={i} className="flex items-start gap-2">
+                          <span className="text-rose-500 font-mono text-[11px] mt-0.5">•</span>
+                          <span>{d}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                  <ul className="space-y-1.5 text-(--text-secondary) pl-1">
-                    {item.donts.map((d, i) => (
-                      <li key={i} className="flex items-start gap-2">
-                        <span className="text-rose-500 font-mono text-[11px] mt-0.5">•</span>
-                        <span>{d}</span>
-                      </li>
-                    ))}
-                  </ul>
                 </div>
-              </div>
-            </article>
-          ))}
+              </article>
+            );
+          })}
         </section>
 
-        {/* Bottom Banner */}
-        <section className="pt-6 border-t border-(--border-subtle) flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="space-y-1 max-w-xl">
-            <h3 className="text-base font-bold text-(--text-primary)">
-              토큰 명세서 및 UX 패턴 가이드 살펴보기
-            </h3>
-            <p className="text-xs text-(--text-secondary)">
-              설계 원칙이 실제 코드 및 UI 컴포넌트에 어떻게 구체화되었는지 직접 확인할 수 있습니다.
-            </p>
-          </div>
+        {/* Bottom Navigation */}
+        <div className="pt-6 border-t border-(--border-subtle) flex items-center justify-between text-xs">
+          <Link
+            href="/tokens"
+            className="text-neutral-500 hover:text-(--text-primary) flex items-center gap-1 transition-colors"
+          >
+            <span>디자인 토큰 명세 바로가기</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
 
-          <div className="flex items-center gap-3 shrink-0">
-            <Link
-              href="/tokens"
-              style={{ borderRadius: radius }}
-              className="inline-flex items-center gap-1.5 px-4 py-2 bg-(--bg-secondary) border border-(--border-strong) text-(--text-primary) text-xs font-semibold hover:border-(--text-primary) transition-colors"
-            >
-              <span>토큰 명세서</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
-            <Link
-              href="/guide"
-              style={{ backgroundColor: brandColor, borderRadius: radius }}
-              className="inline-flex items-center gap-1.5 px-4 py-2 text-white text-xs font-semibold hover:opacity-90 transition-opacity"
-            >
-              <BookOpen className="w-3.5 h-3.5" />
-              <span>활용 가이드</span>
-            </Link>
-          </div>
-        </section>
+          <a
+            href="https://www.designtokens.org/tr/2025.10/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-neutral-500 hover:text-(--text-primary) inline-flex items-center gap-1 transition-colors"
+          >
+            <span>W3C DTCG 공식 표준서</span>
+            <ExternalLink className="w-3.5 h-3.5" />
+          </a>
+        </div>
       </main>
 
       {/* Footer */}
       <footer className="border-t border-(--border-subtle) py-6 text-xs text-neutral-400">
         <div className="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <span>AtomDesignToken — Core Principles & Architecture</span>
-          <div className="flex items-center gap-4 text-neutral-500">
-            <Link href="/" className="hover:text-(--text-primary)">홈으로</Link>
+          <span>AtomDesignToken — Single Source of Truth for Design Tokens</span>
+          <div className="flex items-center gap-3">
+            <Link href="/" className="hover:text-(--text-primary)">홈</Link>
+            <span>•</span>
             <Link href="/tokens" className="hover:text-(--text-primary)">토큰</Link>
+            <span>•</span>
             <Link href="/motion" className="hover:text-(--text-primary)">모션</Link>
-            <Link href="/dependencies" className="hover:text-(--text-primary)">디펜던시</Link>
-            <a
-              href="https://www.designtokens.org/tr/2025.10/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-(--text-primary) inline-flex items-center gap-1 transition-colors"
-            >
-              <span>W3C DTCG</span>
-              <ExternalLink className="w-3 h-3" />
-            </a>
+            <span>•</span>
+            <Link href="/components/button" className="hover:text-(--text-primary)">컴포넌트</Link>
           </div>
         </div>
       </footer>

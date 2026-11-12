@@ -44,6 +44,28 @@ export interface TranslationDictionary {
     dependencies: string;
     guide: string;
   };
+  principles: {
+    title: string;
+    subtitle: string;
+    categoryAll: string;
+    categoryAgent: string;
+    categoryCore: string;
+    categoryArchitecture: string;
+    categoryToken: string;
+    categoryAccessibility: string;
+    badgeDo: string;
+    badgeDont: string;
+    items: Record<
+      string,
+      {
+        title: string;
+        subtitle: string;
+        description: string;
+        dos: string[];
+        donts: string[];
+      }
+    >;
+  };
   tokens: {
     title: string;
     description: string;
@@ -65,6 +87,26 @@ export interface TranslationDictionary {
     jsonDownload: string;
     jsonCliGuide: string;
     emptySearch: string;
+  };
+  motion: {
+    title: string;
+    description: string;
+    tabDuration: string;
+    tabEasing: string;
+    tabInteractive: string;
+    previewTitle: string;
+    speedTitle: string;
+    copyVariable: string;
+  };
+  dependencies: {
+    title: string;
+    description: string;
+    filterAll: string;
+    filterRuntime: string;
+    filterBuild: string;
+    filterTypes: string;
+    filterQA: string;
+    matrixTitle: string;
   };
   blocks: {
     title: string;

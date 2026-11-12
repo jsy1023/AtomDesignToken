@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { Header } from '@/components/Header';
 import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';
+import { useI18n } from '@/lib/i18n';
 import {
   DURATION_TOKENS,
   EASING_TOKENS,
@@ -21,6 +22,7 @@ import {
 
 export default function MotionPage() {
   const { theme } = useThemeEditor();
+  const { t } = useI18n();
   const brandColor = theme?.color?.primary || '#3182f6';
   const radius = theme?.borderRadius || '8px';
 
@@ -65,11 +67,11 @@ export default function MotionPage() {
           </div>
 
           <h1 className="docs-h1">
-            모션 및 트랜지션 명세 (Motion)
+            {t('motion.title', '모션 및 트랜지션 명세 (Motion)')}
           </h1>
 
           <p className="text-sm text-(--text-secondary) leading-relaxed max-w-3xl">
-            디자인 시스템의 모션은 단순한 시각적 효과가 아닌, 사용자의 시선을 유도하고 시스템 상태 변화를 직관적으로 전달하는 인터랙션 문법입니다. 일관된 지속 시간(Duration)과 가속도 곡선(Easing) 토큰을 통해 자연스러운 사용자 경험을 제공합니다.
+            {t('motion.description', '디자인 시스템의 모션은 단순한 시각적 효과가 아닌, 사용자의 시선을 유도하고 시스템 상태 변화를 직관적으로 전달하는 인터랙션 문법입니다. 일관된 지속 시간(Duration)과 가속도 곡선(Easing) 토큰을 통해 자연스러운 사용자 경험을 제공합니다.')}
           </p>
         </section>
 

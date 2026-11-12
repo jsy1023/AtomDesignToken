@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { Header } from '@/components/Header';
 import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';
+import { useI18n } from '@/lib/i18n';
 import {
   DEPENDENCY_ITEMS,
   COMPATIBILITY_MATRIX,
@@ -18,16 +19,17 @@ import {
 
 export default function DependenciesPage() {
   const { theme } = useThemeEditor();
+  const { t } = useI18n();
   const brandColor = theme?.color?.primary || '#3182f6';
 
   const [selectedFilter, setSelectedFilter] = useState<string>('all');
 
   const filterTabs = [
-    { id: 'all', label: '전체 의존성' },
-    { id: 'runtime', label: '런타임 (Runtime: 0KB)' },
-    { id: 'build', label: '빌드 도구 (Build)' },
-    { id: 'type', label: '타입 안정성 (Types)' },
-    { id: 'dev', label: '테스팅 및 품질 (QA)' },
+    { id: 'all', label: t('dependencies.filterAll', '전체 의존성') },
+    { id: 'runtime', label: t('dependencies.filterRuntime', '런타임 (Runtime: 0KB)') },
+    { id: 'build', label: t('dependencies.filterBuild', '빌드 도구 (Build)') },
+    { id: 'type', label: t('dependencies.filterTypes', '타입 안정성 (Types)') },
+    { id: 'dev', label: t('dependencies.filterQA', '테스팅 및 품질 (QA)') },
   ];
 
   const filteredItems = selectedFilter === 'all'
@@ -53,11 +55,11 @@ export default function DependenciesPage() {
           </div>
 
           <h1 className="docs-h1">
-            의존성 및 아키텍처 매트릭스 (Dependencies)
+            {t('dependencies.title', '의존성 및 아키텍처 매트릭스 (Dependencies)')}
           </h1>
 
           <p className="text-xs sm:text-sm text-(--text-secondary) leading-relaxed max-w-3xl">
-            AtomDesignToken은 사용자 브라우저에 불필요한 자바스크립트 런타임 라이브러리를 단 1바이트도 강제하지 않습니다. 토큰 파싱과 컴파일은 빌드 타임에 완료되며, 실행 시점에는 브라우저 네이티브 CSS 변수만을 사용합니다.
+            {t('dependencies.description', 'AtomDesignToken은 사용자 브라우저에 불필요한 자바스크립트 런타임 라이브러리를 단 1바이트도 강제하지 않습니다. 토큰 파싱과 컴파일은 빌드 타임에 완료되며, 실행 시점에는 브라우저 네이티브 CSS 변수만을 사용합니다.')}
           </p>
         </section>
 
