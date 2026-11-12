@@ -11,6 +11,7 @@ import {
   Menu,
   X,
   Globe,
+  Star,
 } from 'lucide-react';
 import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';
 import { NAVIGATION_DEPTH, NavGroup } from '@/lib/data/navigation';
@@ -29,8 +30,26 @@ export function Header({ brandColor, rightExtra }: HeaderProps) {
   const [copiedCli, setCopiedCli] = useState(false);
   const [openGroup, setOpenGroup] = useState<string | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [starCount, setStarCount] = useState<number | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Fetch GitHub Star Count
+  useEffect(() => {
+    fetch('https://api.github.com/repos/jsy1023/AtomDesignToken')
+      .then((res) => {
+        if (!res.ok) throw new Error('Network error');
+        return res.json();
+      })
+      .then((data) => {
+        if (typeof data.stargazers_count === 'number') {
+          setStarCount(data.stargazers_count);
+        }
+      })
+      .catch(() => {
+        // Fallback gracefully
+      });
+  }, []);
 
   const copyCli = () => {
     navigator.clipboard.writeText('npx atomsystem init');
@@ -230,6 +249,21 @@ export function Header({ brandColor, rightExtra }: HeaderProps) {
               </button>
             ))}
           </div>
+
+          {/* GitHub Star Link */}
+          <a
+            href="https://github.com/jsy1023/AtomDesignToken"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 px-2 py-1 rounded-md border border-(--border-subtle) bg-(--bg-secondary) hover:bg-(--bg-primary) text-xs font-medium text-(--text-secondary) hover:text-(--text-primary) transition-colors group"
+            title="GitHub에서 Star 누르기"
+          >
+            <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-500 group-hover:scale-110 transition-transform" />
+            <span className="hidden sm:inline">Star</span>
+            <span className="font-mono text-[11px] px-1 py-0.2 rounded bg-(--bg-primary) border border-(--border-subtle) text-(--text-primary) font-semibold">
+              {starCount !== null ? starCount : '★'}
+            </span>
+          </a>
 
           <button 
             type="button"
