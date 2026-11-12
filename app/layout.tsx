@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import '../css/atom-ui.css';
 import './globals.css';
 import { ThemeEditorRoot } from '@/components/editor/ThemeEditorRoot';
 import { I18nProvider } from '@/lib/i18n';
