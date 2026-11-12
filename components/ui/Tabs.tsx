@@ -14,7 +14,7 @@ export const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(
   ({ className = '', children, ...props }, ref) => (
     <div
       ref={ref}
-      className={`inline-flex items-center p-1 rounded-(--radius) bg-(--bg-secondary) text-xs border border-(--border-subtle) ${className}`}
+      className={`inline-flex items-center p-1 rounded-(--radius) bg-(--bg-secondary) text-sm border border-(--border-subtle) ${className}`}
       {...props}
     >
       {children}
@@ -28,7 +28,7 @@ export const TabsTrigger = React.forwardRef<HTMLButtonElement, TabsTriggerProps>
     <button
       ref={ref}
       type="button"
-      className={`px-3 py-1.5 rounded-(--radius-sm) font-medium text-xs transition-colors ${
+      className={`px-3 py-1.5 rounded-(--radius-sm) font-medium text-sm transition-colors ${
         active
           ? 'bg-(--bg-primary) text-(--text-primary) shadow-xs font-semibold'
           : 'text-(--text-secondary) hover:text-(--text-primary)'
@@ -47,7 +47,7 @@ export const TabsContent = React.forwardRef<HTMLDivElement, TabsContentProps>(
     return (
       <div
         ref={ref}
-        className={`p-4 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) text-xs ${className}`}
+        className={`p-4 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) text-sm leading-relaxed ${className}`}
         {...props}
       >
         {children}

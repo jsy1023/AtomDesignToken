@@ -48,7 +48,7 @@ export function DocsSidebar({
         key={comp.id}
         href={`/components/${comp.id}`}
         style={isActive ? { backgroundColor: brandColor, borderRadius: radius } : { borderRadius: radius }}
-        className={`px-3 py-1.5 text-left text-xs font-medium transition flex items-center justify-between ${
+        className={`px-3 py-2 text-left text-sm font-medium transition flex items-center justify-between ${
           isActive
             ? 'text-(--bg-primary) bg-(--text-primary) font-semibold shadow-xs'
             : 'text-(--text-secondary) hover:bg-(--bg-secondary) hover:text-(--text-primary)'
@@ -68,7 +68,7 @@ export function DocsSidebar({
       <div className="flex items-center justify-between pb-3 border-b border-(--border-subtle)">
         <div className="flex items-center gap-2">
           <BookOpen className="w-4 h-4 text-(--accent-primary)" />
-          <span className="font-bold text-xs text-(--text-primary)">API Reference</span>
+          <span className="font-bold text-sm text-(--text-primary)">API Reference</span>
         </div>
         <span className="text-xs font-mono px-2 py-0.5 rounded-(--radius-sm) bg-(--bg-secondary) text-(--text-primary) font-medium border border-(--border-subtle)">
           v1.2.4 (Latest)
@@ -77,56 +77,56 @@ export function DocsSidebar({
 
       {/* 2. Fast Component Search Box */}
       <div className="relative">
-        <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-(--text-secondary)" />
+        <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-(--text-secondary)" />
         <input
           type="text"
           placeholder="컴포넌트 검색 (Cmd + K)..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="w-full pl-9 pr-3 py-2 bg-(--bg-secondary) border border-(--border-subtle) rounded-(--radius-sm) text-xs font-medium focus:outline-none focus:border-(--border-strong) text-(--text-primary) placeholder:text-(--text-muted)"
+          className="w-full pl-9 pr-3 py-2 bg-(--bg-secondary) border border-(--border-subtle) rounded-(--radius-sm) text-sm font-medium focus:outline-none focus:border-(--border-strong) text-(--text-primary) placeholder:text-(--text-muted)"
         />
       </div>
 
       {/* 3. Foundational Essentials: Layout, Structure, Font, Color (맨 위에 배치) */}
       <div className="flex flex-col gap-1 pb-2 border-b border-(--border-subtle)">
-        <span className="text-xs font-medium text-(--text-secondary) uppercase tracking-wider px-2">
+        <span className="text-xs font-semibold text-(--text-secondary) uppercase tracking-wider px-2">
           Foundations (기초 규격)
         </span>
         
         {/* Layout & Spacing Guide */}
         <Link
           href="/layout"
-          className="px-3 py-1.5 text-left text-xs font-medium rounded transition flex items-center justify-between text-(--text-secondary) hover:bg-(--bg-secondary) hover:text-(--text-primary)"
+          className="px-3 py-2 text-left text-sm font-medium rounded transition flex items-center justify-between text-(--text-secondary) hover:bg-(--bg-secondary) hover:text-(--text-primary)"
         >
-          <span className="flex items-center gap-1.5">
-            <Layout className="w-3.5 h-3.5 text-blue-500" />
+          <span className="flex items-center gap-2">
+            <Layout className="w-4 h-4 text-blue-500" />
             <span>Layout & Spacing</span>
           </span>
-          <span className="text-[11px] font-mono opacity-60">/layout</span>
+          <span className="text-xs font-mono opacity-60">/layout</span>
         </Link>
 
         {/* Color Tokens */}
         <Link
           href="/tokens"
-          className="px-3 py-1.5 text-left text-xs font-medium rounded transition flex items-center justify-between text-(--text-secondary) hover:bg-(--bg-secondary) hover:text-(--text-primary)"
+          className="px-3 py-2 text-left text-sm font-medium rounded transition flex items-center justify-between text-(--text-secondary) hover:bg-(--bg-secondary) hover:text-(--text-primary)"
         >
-          <span className="flex items-center gap-1.5">
-            <Palette className="w-3.5 h-3.5 text-emerald-500" />
+          <span className="flex items-center gap-2">
+            <Palette className="w-4 h-4 text-emerald-500" />
             <span>Color & Status</span>
           </span>
-          <span className="text-[11px] font-mono opacity-60">/tokens</span>
+          <span className="text-xs font-mono opacity-60">/tokens</span>
         </Link>
 
         {/* Typography / Font Tokens */}
         <Link
           href="/tokens"
-          className="px-3 py-1.5 text-left text-xs font-medium rounded transition flex items-center justify-between text-(--text-secondary) hover:bg-(--bg-secondary) hover:text-(--text-primary)"
+          className="px-3 py-2 text-left text-sm font-medium rounded transition flex items-center justify-between text-(--text-secondary) hover:bg-(--bg-secondary) hover:text-(--text-primary)"
         >
-          <span className="flex items-center gap-1.5">
-            <Type className="w-3.5 h-3.5 text-purple-500" />
+          <span className="flex items-center gap-2">
+            <Type className="w-4 h-4 text-purple-500" />
             <span>Font & Typography</span>
           </span>
-          <span className="text-[11px] font-mono opacity-60">/tokens</span>
+          <span className="text-xs font-mono opacity-60">/tokens</span>
         </Link>
 
         {/* Layout & Structure Components (Container, Layout) */}

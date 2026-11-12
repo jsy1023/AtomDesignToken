@@ -119,15 +119,15 @@ export function Header({ brandColor, rightExtra }: HeaderProps) {
 
   return (
     <header className="sticky top-0 z-40 bg-(--bg-primary)/95 backdrop-blur-md border-b border-(--border-subtle) transition-colors">
-      <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 h-11 flex items-center justify-between">
+      <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 h-12 flex items-center justify-between">
         {/* Left: Brand Logo & 2-Depth Navigation */}
         <div className="flex items-center gap-6">
           <Link href="/" className="flex items-center gap-2 group shrink-0">
             <span 
-              className="w-3 h-3 rounded-[3px] flex items-center justify-center shrink-0"
+              className="w-3.5 h-3.5 rounded-[4px] flex items-center justify-center shrink-0"
               style={{ backgroundColor: activeBrandColor }}
             />
-            <span className="font-semibold text-xs tracking-tight text-(--text-primary)">
+            <span className="font-semibold text-sm tracking-tight text-(--text-primary)">
               AtomDesignToken
             </span>
           </Link>
@@ -135,7 +135,7 @@ export function Header({ brandColor, rightExtra }: HeaderProps) {
           {/* Desktop 2-Depth Navigation */}
           <nav
             ref={dropdownRef}
-            className="hidden md:flex items-center gap-0.5 text-xs"
+            className="hidden md:flex items-center gap-1 text-sm"
             onMouseLeave={handleMouseLeave}
           >
             {NAVIGATION_DEPTH.map((group) => {
@@ -151,15 +151,15 @@ export function Header({ brandColor, rightExtra }: HeaderProps) {
                   <Link
                     key={group.id}
                     href={singleItem.href}
-                    className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md transition-colors ${
+                    className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm transition-colors ${
                       isSingleActive
-                        ? 'text-(--text-primary) font-medium bg-(--bg-secondary)'
+                        ? 'text-(--text-primary) font-semibold bg-(--bg-secondary)'
                         : 'text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary)/50'
                     }`}
                   >
                     <span>{group.label}</span>
                     {singleItem.badge && (
-                      <span className="text-[11px] px-1.5 py-0.5 rounded font-mono bg-(--bg-secondary) text-(--text-primary) font-medium border border-(--border-subtle)">
+                      <span className="text-xs px-1.5 py-0.5 rounded font-mono bg-(--bg-secondary) text-(--text-primary) font-medium border border-(--border-subtle)">
                         {singleItem.badge}
                       </span>
                     )}
@@ -176,15 +176,15 @@ export function Header({ brandColor, rightExtra }: HeaderProps) {
                   <button
                     type="button"
                     onClick={() => setOpenGroup(isOpen ? null : group.id)}
-                    className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md transition-colors ${
+                    className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm transition-colors ${
                       active || isOpen
-                        ? 'text-(--text-primary) font-medium bg-(--bg-secondary)'
+                        ? 'text-(--text-primary) font-semibold bg-(--bg-secondary)'
                         : 'text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary)/50'
                     }`}
                   >
                     <span>{getNavLabel(group.id, group.label)}</span>
                     <ChevronDown
-                      className={`w-3 h-3 transition-transform duration-200 ${
+                      className={`w-3.5 h-3.5 transition-transform duration-200 ${
                         isOpen ? 'rotate-180' : 'opacity-60'
                       }`}
                     />
@@ -194,7 +194,7 @@ export function Header({ brandColor, rightExtra }: HeaderProps) {
                   {isOpen && (
                     <div className="absolute left-0 top-full pt-1.5 w-64 z-50">
                       <div className="p-1.5 rounded-lg bg-(--bg-primary) border border-(--border-subtle) shadow-md space-y-0.5">
-                        <div className="px-2.5 py-1 text-[11px] font-mono text-(--text-secondary) uppercase tracking-wider">
+                        <div className="px-2.5 py-1 text-xs font-mono text-(--text-secondary) uppercase tracking-wider">
                           {group.englishLabel}
                         </div>
                         {group.items.map((sub) => {
@@ -203,16 +203,16 @@ export function Header({ brandColor, rightExtra }: HeaderProps) {
                             <Link
                               key={sub.href}
                               href={sub.href}
-                              className={`block px-2.5 py-1.5 rounded-md transition-colors ${
+                              className={`block px-2.5 py-2 rounded-md transition-colors ${
                                 isSubActive
                                   ? 'bg-(--bg-secondary) text-(--text-primary)'
                                   : 'hover:bg-(--bg-secondary)/60 text-(--text-secondary) hover:text-(--text-primary)'
                               }`}
                             >
-                              <div className="font-medium text-xs text-(--text-primary)">
+                              <div className="font-semibold text-sm text-(--text-primary)">
                                 {getSubNavTitle(sub.href, sub.title)}
                               </div>
-                              <p className="text-xs text-(--text-secondary) leading-snug line-clamp-1">
+                              <p className="text-xs text-(--text-secondary) leading-snug line-clamp-1 mt-0.5">
                                 {sub.description}
                               </p>
                             </Link>
@@ -238,7 +238,7 @@ export function Header({ brandColor, rightExtra }: HeaderProps) {
                 key={l.code}
                 type="button"
                 onClick={() => setLocale(l.code)}
-                className={`px-1.5 py-0.5 rounded text-[11px] transition-colors cursor-pointer ${
+                className={`px-2 py-0.5 rounded text-xs transition-colors cursor-pointer ${
                   locale === l.code
                     ? 'bg-(--bg-primary) text-(--text-primary) font-bold shadow-xs'
                     : 'text-(--text-muted) hover:text-(--text-primary)'
@@ -255,12 +255,12 @@ export function Header({ brandColor, rightExtra }: HeaderProps) {
             href="https://github.com/jsy1023/AtomDesignToken"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 px-2 py-1 rounded-md border border-(--border-subtle) bg-(--bg-secondary) hover:bg-(--bg-primary) text-xs font-medium text-(--text-secondary) hover:text-(--text-primary) transition-colors group"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border border-(--border-subtle) bg-(--bg-secondary) hover:bg-(--bg-primary) text-sm font-medium text-(--text-secondary) hover:text-(--text-primary) transition-colors group"
             title="GitHub에서 Star 누르기"
           >
-            <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-500 group-hover:scale-110 transition-transform" />
+            <Star className="w-4 h-4 text-amber-500 fill-amber-500 group-hover:scale-110 transition-transform" />
             <span className="hidden sm:inline">Star</span>
-            <span className="font-mono text-[11px] px-1 py-0.2 rounded bg-(--bg-primary) border border-(--border-subtle) text-(--text-primary) font-semibold">
+            <span className="font-mono text-xs px-1.5 py-0.2 rounded bg-(--bg-primary) border border-(--border-subtle) text-(--text-primary) font-semibold">
               {starCount !== null ? starCount : '★'}
             </span>
           </a>
@@ -268,16 +268,16 @@ export function Header({ brandColor, rightExtra }: HeaderProps) {
           <button 
             type="button"
             onClick={copyCli}
-            className="flex items-center gap-1.5 px-2 py-1 rounded-md border border-(--border-subtle) bg-(--bg-secondary) hover:bg-(--bg-primary) text-xs font-mono text-(--text-secondary) hover:text-(--text-primary) transition-colors"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border border-(--border-subtle) bg-(--bg-secondary) hover:bg-(--bg-primary) text-sm font-mono text-(--text-secondary) hover:text-(--text-primary) transition-colors"
             title="명령어 복사"
           >
-            <Terminal className="w-3 h-3 text-(--text-secondary)" />
+            <Terminal className="w-3.5 h-3.5 text-(--text-secondary)" />
             <span className="hidden sm:inline">npx atomsystem init</span>
             <span className="sm:hidden">CLI</span>
             {copiedCli ? (
-              <Check className="w-2.5 h-2.5 text-emerald-500" />
+              <Check className="w-3 h-3 text-emerald-500" />
             ) : (
-              <Copy className="w-2.5 h-2.5 text-(--text-muted)" />
+              <Copy className="w-3 h-3 text-(--text-muted)" />
             )}
           </button>
 
@@ -285,10 +285,10 @@ export function Header({ brandColor, rightExtra }: HeaderProps) {
           <button
             type="button"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-1 rounded text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary)"
+            className="md:hidden p-1.5 rounded text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary)"
             aria-label="메뉴 열기"
           >
-            {isMobileMenuOpen ? <X className="w-3.5 h-3.5" /> : <Menu className="w-3.5 h-3.5" />}
+            {isMobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
           </button>
         </div>
       </div>
@@ -298,7 +298,7 @@ export function Header({ brandColor, rightExtra }: HeaderProps) {
         <div className="md:hidden border-t border-(--border-subtle) bg-(--bg-primary) px-6 py-4 space-y-5 max-h-[80vh] overflow-y-auto">
           {NAVIGATION_DEPTH.map((group) => (
             <div key={group.id} className="space-y-1.5">
-              <div className="text-[11px] font-mono text-(--text-muted) uppercase font-semibold">
+              <div className="text-xs font-mono text-(--text-muted) uppercase font-semibold">
                 {group.label} ({group.englishLabel})
               </div>
               <div className="grid grid-cols-1 gap-1 pl-2 border-l border-(--border-subtle)">
@@ -308,14 +308,14 @@ export function Header({ brandColor, rightExtra }: HeaderProps) {
                     <Link
                       key={sub.href}
                       href={sub.href}
-                      className={`py-1.5 px-2 rounded-md text-xs transition-colors ${
+                      className={`py-2 px-2.5 rounded-md text-sm transition-colors ${
                         isActive
                           ? 'font-bold text-(--text-primary) bg-(--bg-secondary)'
                           : 'text-(--text-secondary) hover:text-(--text-primary)'
                       }`}
                     >
-                      <span>{sub.title}</span>
-                      <span className="text-[11px] text-(--text-muted) ml-2">
+                      <span className="font-medium">{sub.title}</span>
+                      <span className="text-xs text-(--text-muted) ml-2">
                         {sub.description}
                       </span>
                     </Link>

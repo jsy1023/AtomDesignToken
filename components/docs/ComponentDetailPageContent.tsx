@@ -166,7 +166,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                 checked={switchState}
                 onCheckedChange={setSwitchState}
               />
-              <span className="text-xs font-medium text-(--text-primary)">
+              <span className="text-sm font-medium text-(--text-primary)">
                 {switchState ? '야간 푸시 알림 켜짐' : '야간 푸시 알림 꺼짐'}
               </span>
             </label>
@@ -178,7 +178,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                 onChange={(e) => setCheckboxState(e.target.checked)}
                 className="w-4 h-4 rounded border-neutral-300 text-blue-600 focus:ring-blue-500 cursor-pointer"
               />
-              <span className="text-xs font-medium text-(--text-primary)">
+              <span className="text-sm font-medium text-(--text-primary)">
                 이용약관 및 개인정보 처리방침 전체 동의
               </span>
             </label>
@@ -190,7 +190,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
           <div className="flex flex-col items-center gap-3">
             <button
               onClick={() => setIsModalOpen(true)}
-              className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-md transition"
+              className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-md transition"
             >
               모달 다이얼로그 열기
             </button>
@@ -204,20 +204,20 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                       <X className="w-4 h-4" />
                     </button>
                   </div>
-                  <p className="text-xs text-neutral-500 leading-relaxed">
+                  <p className="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
                     받는 분: 김토스 (토스뱅크 1002-***-4921)<br />
                     보낼 금액: <strong>₩500,000</strong> (수수료 면제)
                   </p>
                   <div className="flex justify-end gap-2 pt-2">
                     <button
                       onClick={() => setIsModalOpen(false)}
-                      className="px-4 py-2 rounded-xl border border-neutral-200 dark:border-neutral-700 text-xs font-semibold"
+                      className="px-4 py-2 rounded-xl border border-neutral-200 dark:border-neutral-700 text-sm font-semibold"
                     >
                       취소
                     </button>
                     <button
                       onClick={() => setIsModalOpen(false)}
-                      className="px-4 py-2 rounded-xl bg-blue-600 text-white text-xs font-bold hover:bg-blue-700"
+                      className="px-4 py-2 rounded-xl bg-blue-600 text-white text-sm font-bold hover:bg-blue-700"
                     >
                       송금 완료
                     </button>
@@ -233,7 +233,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
           <div className="flex flex-col items-center gap-3">
             <button
               onClick={() => setIsSheetOpen(true)}
-              className="px-5 py-2.5 rounded-xl bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 font-bold text-xs shadow-md transition"
+              className="px-5 py-2.5 rounded-xl bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 font-bold text-sm shadow-md transition"
             >
               바텀시트 드로어 열기
             </button>
@@ -248,13 +248,13 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                       <X className="w-4 h-4" />
                     </button>
                   </div>
-                  <div className="p-3 rounded-xl bg-neutral-50 dark:bg-neutral-850 text-xs">
+                  <div className="p-3 rounded-xl bg-neutral-50 dark:bg-neutral-850 text-sm">
                     <div className="font-bold">블루보틀 성수 카페</div>
                     <div className="text-emerald-600 mt-1">● 현재 영업 중 (21:00 마감)</div>
                   </div>
                   <button
                     onClick={() => setIsSheetOpen(false)}
-                    className="w-full py-2.5 rounded-xl bg-blue-600 text-white text-xs font-bold"
+                    className="w-full py-2.5 rounded-xl bg-blue-600 text-white text-sm font-bold"
                   >
                     길찾기 실행
                   </button>
@@ -266,12 +266,12 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
 
       case 'alert':
         return showAlert ? (
-          <div className="w-full max-w-md p-4 rounded-2xl bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-900 text-blue-900 dark:text-blue-100 flex items-start justify-between gap-3 text-xs">
+          <div className="w-full max-w-md p-4 rounded-2xl bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-900 text-blue-900 dark:text-blue-100 flex items-start justify-between gap-3 text-sm">
             <div className="flex items-start gap-2.5">
               <Bell className="w-4 h-4 text-blue-600 dark:text-blue-400 mt-0.5 shrink-0" />
               <div>
                 <span className="font-bold block">새로운 버전 v1.2 업데이트</span>
-                <span className="text-[11px] text-blue-700 dark:text-blue-300">
+                <span className="text-xs text-blue-700 dark:text-blue-300">
                   W3C DTCG 호환 스타일 딕셔너리 컴파일러가 추가되었습니다.
                 </span>
               </div>
@@ -281,7 +281,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
             </button>
           </div>
         ) : (
-          <button onClick={() => setShowAlert(true)} className="text-xs text-blue-600 font-semibold underline">
+          <button onClick={() => setShowAlert(true)} className="text-sm text-blue-600 font-semibold underline">
             알림 다시 열기
           </button>
         );
@@ -320,10 +320,10 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
       case 'card':
         return (
           <Card className="p-5 max-w-xs w-full flex flex-col gap-2">
-            <Badge variant="primary" className="self-start text-[11px]">토큰 바인딩 서피스</Badge>
+            <Badge variant="primary" className="self-start text-xs">토큰 바인딩 서피스</Badge>
             <h4 className="text-base font-bold text-(--text-primary)">토스뱅크 자유적금</h4>
             <div className="text-xl font-bold text-(--text-primary)">₩ 12,450,000</div>
-            <p className="text-xs text-(--text-secondary)">연 4.5% 최고 금리 적용 중</p>
+            <p className="text-sm text-(--text-secondary)">연 4.5% 최고 금리 적용 중</p>
           </Card>
         );
 
@@ -407,13 +407,13 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
         return (
           <div className="w-full space-y-4">
             <Container size="sm" className="p-4 rounded-(--radius) border border-(--border-subtle) bg-(--bg-secondary)/50 text-center">
-              <span className="text-xs font-mono text-(--text-secondary)">Container size="sm" (640px)</span>
+              <span className="text-sm font-mono text-(--text-secondary)">Container size="sm" (640px)</span>
             </Container>
             <Container size="md" className="p-4 rounded-(--radius) border border-(--border-subtle) bg-(--bg-secondary)/50 text-center">
-              <span className="text-xs font-mono text-(--text-secondary)">Container size="md" (768px)</span>
+              <span className="text-sm font-mono text-(--text-secondary)">Container size="md" (768px)</span>
             </Container>
             <Container size="lg" className="p-4 rounded-(--radius) border border-(--border-strong) bg-(--bg-secondary)/50 text-center">
-              <span className="text-xs font-mono font-semibold text-(--text-primary)">Container size="lg" (1024px)</span>
+              <span className="text-sm font-mono font-semibold text-(--text-primary)">Container size="lg" (1024px)</span>
             </Container>
           </div>
         );
@@ -421,25 +421,25 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
       case 'layout':
         return (
           <div className="w-full p-4 rounded-(--radius) border border-(--border-subtle) bg-(--bg-primary) space-y-4">
-            <div className="text-xs font-semibold text-(--text-secondary) uppercase tracking-wider mb-2">
+            <div className="text-sm font-semibold text-(--text-secondary) uppercase tracking-wider mb-2">
               Stack & Grid 토큰 연동 프리뷰
             </div>
             <Stack gap="3">
-              <div className="p-2.5 rounded-(--radius-sm) bg-(--bg-secondary) text-xs font-mono">
+              <div className="p-2.5 rounded-(--radius-sm) bg-(--bg-secondary) text-sm font-mono">
                 Stack gap="3" (12px) 아이템 1
               </div>
-              <div className="p-2.5 rounded-(--radius-sm) bg-(--bg-secondary) text-xs font-mono">
+              <div className="p-2.5 rounded-(--radius-sm) bg-(--bg-secondary) text-sm font-mono">
                 Stack gap="3" (12px) 아이템 2
               </div>
             </Stack>
             <Grid cols={3} gap="2" className="mt-3">
-              <div className="p-3 text-center rounded-(--radius-sm) border border-(--border-subtle) text-xs font-mono">
+              <div className="p-3 text-center rounded-(--radius-sm) border border-(--border-subtle) text-sm font-mono">
                 Col 1
               </div>
-              <div className="p-3 text-center rounded-(--radius-sm) border border-(--border-subtle) text-xs font-mono">
+              <div className="p-3 text-center rounded-(--radius-sm) border border-(--border-subtle) text-sm font-mono">
                 Col 2
               </div>
-              <div className="p-3 text-center rounded-(--radius-sm) border border-(--border-subtle) text-xs font-mono">
+              <div className="p-3 text-center rounded-(--radius-sm) border border-(--border-subtle) text-sm font-mono">
                 Col 3
               </div>
             </Grid>
@@ -504,7 +504,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
               variant="primary"
               size="md"
               onClick={handleCopyCode}
-              className="text-xs flex items-center gap-2"
+              className="text-sm font-medium flex items-center gap-2"
             >
               {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
               <span>{copied ? '복사 완료!' : '컴포넌트 코드 복사'}</span>
@@ -515,14 +515,14 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
         {/* 1. Interactive Live Preview */}
         <section id="preview" className="scroll-mt-28 flex flex-col gap-3">
           <div className="flex items-center justify-between">
-            <h2 className="text-sm font-semibold text-(--text-primary)">
+            <h2 className="text-base font-semibold text-(--text-primary)">
               {t('componentsDoc.previewTitle', '인터랙티브 라이브 프리뷰 (Interactive Preview)')}
             </h2>
             <div className="flex items-center gap-1 bg-(--bg-secondary) p-1 rounded-(--radius) border border-(--border-subtle)">
               <button
                 type="button"
                 onClick={() => setPreviewMode('preview')}
-                className={`px-3 py-1 rounded-(--radius-sm) text-xs font-semibold transition ${
+                className={`px-3 py-1.5 rounded-(--radius-sm) text-sm font-semibold transition ${
                   previewMode === 'preview'
                     ? 'bg-(--bg-primary) text-(--text-primary) shadow-xs'
                     : 'text-(--text-secondary) hover:text-(--text-primary)'
@@ -533,13 +533,13 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
               <button
                 type="button"
                 onClick={() => setPreviewMode('tokens')}
-                className={`px-3 py-1 rounded-(--radius-sm) text-xs font-semibold transition flex items-center gap-1.5 ${
+                className={`px-3 py-1.5 rounded-(--radius-sm) text-sm font-semibold transition flex items-center gap-1.5 ${
                   previewMode === 'tokens'
                     ? 'bg-(--bg-primary) text-blue-600 dark:text-blue-400 shadow-xs'
                     : 'text-(--text-secondary) hover:text-(--text-primary)'
                 }`}
               >
-                <Coins className="w-3.5 h-3.5" />
+                <Coins className="w-4 h-4" />
                 <span>디자인 토큰값 조회 ({componentTokens.length})</span>
               </button>
             </div>
@@ -551,26 +551,26 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
             ) : (
               <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-3 animate-in fade-in">
                 {componentTokens.map((tm, idx) => (
-                  <div key={idx} className="p-3.5 rounded-(--radius-sm) bg-(--bg-primary) border border-(--border-subtle) flex flex-col gap-1.5 shadow-xs">
+                  <div key={idx} className="p-4 rounded-(--radius-sm) bg-(--bg-primary) border border-(--border-subtle) flex flex-col gap-2 shadow-xs">
                     <div className="flex items-center justify-between gap-2">
-                      <span className="text-xs font-bold text-(--text-primary)">{tm.role}</span>
-                      <span className="text-2xs font-mono px-1.5 py-0.5 rounded bg-(--bg-secondary) text-(--text-secondary) shrink-0">
+                      <span className="text-sm font-bold text-(--text-primary)">{tm.role}</span>
+                      <span className="text-xs font-mono px-2 py-0.5 rounded bg-(--bg-secondary) text-(--text-secondary) shrink-0">
                         {tm.dtcgPath}
                       </span>
                     </div>
                     <div className="flex items-center justify-between mt-1">
-                      <code className="text-xs font-mono text-blue-600 dark:text-blue-400 font-semibold">{tm.variable}</code>
-                      <div className="flex items-center gap-1.5">
+                      <code className="text-sm font-mono text-blue-600 dark:text-blue-400 font-semibold">{tm.variable}</code>
+                      <div className="flex items-center gap-2">
                         {tm.type === 'color' && (
                           <span
-                            className="w-3.5 h-3.5 rounded-full border border-(--border-subtle) shadow-xs shrink-0"
+                            className="w-4 h-4 rounded-full border border-(--border-subtle) shadow-xs shrink-0"
                             style={{ backgroundColor: tm.defaultValue.startsWith('#') || tm.defaultValue.startsWith('rgb') ? tm.defaultValue : '#3182f6' }}
                           />
                         )}
-                        <span className="text-xs font-mono font-bold text-(--text-primary)">{tm.defaultValue}</span>
+                        <span className="text-sm font-mono font-bold text-(--text-primary)">{tm.defaultValue}</span>
                       </div>
                     </div>
-                    <p className="text-xs text-(--text-secondary) leading-relaxed mt-0.5">{tm.description}</p>
+                    <p className="text-sm text-(--text-secondary) leading-relaxed mt-0.5">{tm.description}</p>
                   </div>
                 ))}
               </div>
@@ -584,20 +584,20 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
             <h2 className="text-sm font-semibold uppercase tracking-wider text-(--text-secondary) flex items-center gap-1.5">
               <Coins className="w-4 h-4 text-blue-600 dark:text-blue-400" />
               <span className="text-(--text-primary)">{t('componentsDoc.tokensTitle', '연동된 W3C DTCG 디자인 토큰 (tokens/token.json)')}</span>
-              <span className="ml-1 px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 text-xs font-mono font-semibold">
+              <span className="ml-1 px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 text-xs font-mono font-semibold">
                 {componentTokens.length} Tokens Bound
               </span>
             </h2>
             <div className="flex items-center gap-3">
               <Link
                 href="/studio"
-                className="text-xs font-semibold px-2.5 py-1 rounded-(--radius-sm) bg-(--bg-secondary) text-(--text-primary) border border-(--border-subtle) hover:bg-(--bg-primary) transition flex items-center gap-1 shadow-xs"
+                className="text-sm font-semibold px-3 py-1.5 rounded-(--radius-sm) bg-(--bg-secondary) text-(--text-primary) border border-(--border-subtle) hover:bg-(--bg-primary) transition flex items-center gap-1.5 shadow-xs"
               >
                 <span>🛠️ 테마 에디터에서 수정 (/studio)</span>
               </Link>
               <Link
                 href="/tokens"
-                className="text-xs font-mono text-(--text-secondary) hover:text-(--text-primary) underline"
+                className="text-sm font-medium text-(--text-secondary) hover:text-(--text-primary) underline"
               >
                 {t('componentsDoc.tokensViewAll', '전체 토큰 명세 보기 →')}
               </Link>
@@ -619,10 +619,10 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                   <TableCell className="font-semibold text-sm text-(--text-primary)">
                     {tm.role}
                   </TableCell>
-                  <TableCell className="font-mono text-xs text-blue-600 dark:text-blue-400">
+                  <TableCell className="font-mono text-sm text-blue-600 dark:text-blue-400 font-semibold">
                     <code>{tm.variable}</code>
                   </TableCell>
-                  <TableCell className="font-mono text-xs text-(--text-secondary)">
+                  <TableCell className="font-mono text-sm text-(--text-secondary)">
                     {tm.dtcgPath}
                   </TableCell>
                   <TableCell className="text-sm text-(--text-secondary)">
@@ -635,7 +635,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                       )}
                       <span className="font-mono font-bold text-(--text-primary)">{tm.defaultValue}</span>
                     </div>
-                    <p className="text-xs text-(--text-secondary) mt-0.5">{tm.description}</p>
+                    <p className="text-sm text-(--text-secondary) mt-0.5">{tm.description}</p>
                   </TableCell>
                 </TableRow>
               ))}
@@ -646,15 +646,15 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
         {/* 3. Code Copy Section (React / Vue / HTML) */}
         <section id="code" className="scroll-mt-28 flex flex-col gap-3">
           <div className="flex items-center justify-between">
-            <h2 className="text-sm font-semibold text-(--text-primary) flex items-center gap-1.5">
+            <h2 className="text-base font-semibold text-(--text-primary) flex items-center gap-1.5">
               <Code2 className="w-4 h-4 text-(--accent-primary)" />
               <span>{t('componentsDoc.codeSnippetTitle', '컴포넌트 코드 스니펫 (Code Copy)')}</span>
             </h2>
-            <span className="text-xs text-(--text-secondary) font-mono">Framework Agnostic</span>
+            <span className="text-sm text-(--text-secondary) font-mono">Framework Agnostic</span>
           </div>
 
           <div className="rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) overflow-hidden text-(--text-primary)">
-            <div className="flex items-center justify-between px-4 py-2 border-b border-(--border-subtle) bg-(--bg-secondary)/40 text-xs font-semibold">
+            <div className="flex items-center justify-between px-4 py-2 border-b border-(--border-subtle) bg-(--bg-secondary)/40 text-sm font-semibold">
               <div className="flex items-center gap-1">
                 {(['react', 'vue', 'html'] as const).map((tab) => (
                   <Button
@@ -662,7 +662,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                     variant={activeSnippetTab === tab ? 'primary' : 'ghost'}
                     size="sm"
                     onClick={() => setActiveSnippetTab(tab)}
-                    className="text-xs px-2.5 py-1 h-auto"
+                    className="text-sm font-medium px-3 py-1.5 h-auto"
                   >
                     {tab === 'react' ? 'React / Next.js' : tab === 'vue' ? 'Vue 3' : 'Vanilla HTML'}
                   </Button>
@@ -673,9 +673,9 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                 variant="outline"
                 size="sm"
                 onClick={handleCopyCode}
-                className="text-xs flex items-center gap-1.5 h-auto py-1"
+                className="text-sm font-medium flex items-center gap-1.5 h-auto py-1.5"
               >
-                {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+                {copied ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}
                 <span>{copied ? t('componentsDoc.copied', '복사됨!') : t('common.copy', '전체 코드 복사')}</span>
               </Button>
             </div>
@@ -822,11 +822,11 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
         </div>
 
         {/* 3. Right Column: Quick On-Page Section TOC */}
-        <aside className="w-52 shrink-0 sticky top-24 max-h-[calc(100vh-120px)] overflow-y-auto pl-4 border-l border-(--border-subtle) select-none hidden xl:flex flex-col gap-3 text-xs">
-          <span className="text-xs font-medium text-(--text-secondary) uppercase tracking-wider">
+        <aside className="w-52 shrink-0 sticky top-24 max-h-[calc(100vh-120px)] overflow-y-auto pl-4 border-l border-(--border-subtle) select-none hidden xl:flex flex-col gap-3 text-sm">
+          <span className="text-xs font-semibold text-(--text-secondary) uppercase tracking-wider">
             {t('componentsDoc.tocTitle', '이 페이지 목차')}
           </span>
-          <ul className="flex flex-col gap-1 text-xs">
+          <ul className="flex flex-col gap-1.5 text-sm">
             <li>
               <a href="#preview" className="text-(--text-secondary) hover:text-(--text-primary) py-1 block transition-colors">
                 {t('common.preview', '라이브 프리뷰')}
@@ -834,7 +834,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
             </li>
             <li>
               <a href="#tokens" className="text-blue-600 dark:text-blue-400 font-semibold py-1 block transition-colors flex items-center gap-1.5">
-                <Coins className="w-3 h-3" />
+                <Coins className="w-3.5 h-3.5" />
                 <span>{t('componentsDoc.tokensTitle', '디자인 토큰 명세')} ({componentTokens.length})</span>
               </a>
             </li>
