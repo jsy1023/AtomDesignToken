@@ -142,6 +142,7 @@ export interface TranslationDictionary {
     previewTitle: string;
     codeSnippetTitle: string;
     copyCode: string;
+    copyComponentCode: string;
     copied: string;
     useCasesTitle: string;
     usagePatternsTitle: string;
@@ -150,6 +151,20 @@ export interface TranslationDictionary {
     relatedPatternsTitle: string;
     tokensTitle: string;
     tokensViewAll: string;
+    tokensBoundBadge: string;
+    tokensEditInStudio: string;
+    tabLivePreview: string;
+    tabInspectTokens: string;
+    thRole: string;
+    thVariable: string;
+    thDtcgPath: string;
+    thDefaultValue: string;
+    propName: string;
+    propType: string;
+    propDefault: string;
+    propDescription: string;
+    doLabel: string;
+    dontLabel: string;
     tocTitle: string;
     searchPlaceholder: string;
   };

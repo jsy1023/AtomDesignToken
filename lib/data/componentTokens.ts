@@ -5,6 +5,10 @@ export interface ComponentTokenMapping {
   defaultValue: string;
   description: string;
   type?: 'color' | 'dimension' | 'shadow' | 'typography';
+  roleEn?: string;
+  descEn?: string;
+  roleJa?: string;
+  descJa?: string;
 }
 
 export const COMPONENT_TOKEN_MAPPINGS: Record<string, ComponentTokenMapping[]> = {
@@ -925,4 +929,262 @@ const DEFAULT_BASE_TOKENS: ComponentTokenMapping[] = [
 
 export function getComponentTokens(componentId: string): ComponentTokenMapping[] {
   return COMPONENT_TOKEN_MAPPINGS[componentId] || DEFAULT_BASE_TOKENS;
+}
+
+const COMMON_ROLE_MAP: Record<string, { en: string; ja: string; descEn?: string; descJa?: string }> = {
+  'Primary 배경색 (Brand CTA)': {
+    en: 'Primary Background (Brand CTA)',
+    ja: 'Primary 背景色 (Brand CTA)',
+    descEn: 'Default background color for primary call-to-action buttons (W3C DTCG Type: color)',
+    descJa: '主要アクションボタンの基本背景色 (W3C DTCG Type: color)',
+  },
+  'Primary 마우스 호버색': {
+    en: 'Primary Hover State Color',
+    ja: 'Primary マウスホバー色',
+    descEn: 'Highlight color applied on mouse hover over Primary components',
+    descJa: 'Primaryコンポーネントにマウスホバー時に適用される強調色',
+  },
+  'Secondary 버튼 배경색': {
+    en: 'Secondary Button Surface',
+    ja: 'Secondary ボタン背景色',
+    descEn: 'Neutral surface color for secondary action buttons',
+    descJa: '中立的な補助アクションボタンの背景表面色',
+  },
+  'Destructive 위험 배경색': {
+    en: 'Destructive Danger Background',
+    ja: 'Destructive 危険背景色',
+    descEn: 'System color for destructive actions (Delete, Cancel Order, Close Account)',
+    descJa: '永久削除、アカウント解約、注文キャンセルなどの破壊的アクション色',
+  },
+  'Success 성공 확정 배경색': {
+    en: 'Success Confirmation Color',
+    ja: 'Success 成功確定背景色',
+    descEn: 'System color for positive success actions (Complete Transfer, Approve, Active)',
+    descJa: '送金完了、承認、状態変更などの成功アクション色',
+  },
+  'Warning 주의 경고 배경색': {
+    en: 'Warning Cautionary Color',
+    ja: 'Warning 注意警告背景色',
+    descEn: 'System color for warnings and cautionary actions (Data overwrite alert)',
+    descJa: '注意喚起、上書き警告アクションの色',
+  },
+  '버튼 모서리 곡률 (Radius)': {
+    en: 'Button Corner Radius',
+    ja: 'ボタン角丸 (Radius)',
+    descEn: 'Fillet curvature for buttons (W3C DTCG Type: dimension)',
+    descJa: 'ボタンの角丸寸法 (W3C DTCG Type: dimension)',
+  },
+  '버튼 폰트 규격': {
+    en: 'Button Typography Scale',
+    ja: 'ボタンフォント規格',
+    descEn: 'Standard typography scale for button label text',
+    descJa: 'ボタンテキストの標準タイポグラフィスケール',
+  },
+  '인풋 필드 배경색': {
+    en: 'Input Surface Background',
+    ja: '入力フィールド背景色',
+    descEn: 'Default base background color for input fields',
+    descJa: 'フォーム入力フィールドの基本背景色',
+  },
+  '인풋 테두리 (기본)': {
+    en: 'Input Border (Default)',
+    ja: '入力枠線 (標準)',
+    descEn: 'Standard outer border color for input fields',
+    descJa: '入力フィールドの基本外枠線色',
+  },
+  '인풋 포커스 링 (Focus)': {
+    en: 'Input Focus Ring',
+    ja: 'フォーカスリング (Focus)',
+    descEn: 'High-contrast outline ring activated on keyboard focus',
+    descJa: 'キーボードフォーカス時にアクティブになる強調リング色',
+  },
+  '에러 상태 테두리': {
+    en: 'Error State Border',
+    ja: 'エラー状態の枠線',
+    descEn: 'Warning border color displayed when validation fails',
+    descJa: 'バリデーション失敗時の警告枠線色',
+  },
+  '인풋 모서리 곡률': {
+    en: 'Input Corner Radius',
+    ja: '入力枠の角丸',
+    descEn: 'Border curvature scale for input containers',
+    descJa: '入力コンテナの角丸寸法',
+  },
+  '스위치/체크 활성 배경색': {
+    en: 'Switch/Check Active Color',
+    ja: 'スイッチ・チェック有効背景色',
+    descEn: 'Brand highlight background for Switch and Checkbox in active state',
+    descJa: 'スイッチおよびチェックボックスのON状態ブランド背景色',
+  },
+  '스위치 비활성 트랙': {
+    en: 'Switch Inactive Track',
+    ja: 'スイッチ非アクティブトラック',
+    descEn: 'Neutral track surface color for Switch in inactive state',
+    descJa: 'スイッチのOFF状態ニュートラルトラック色',
+  },
+  '모달 다이얼로그 배경색': {
+    en: 'Modal Dialog Background',
+    ja: 'モーダルダイアログ背景色',
+    descEn: 'Base surface color for modal popup containers',
+    descJa: 'モーダルポップアップの表面背景色',
+  },
+  '모달 테두리 곡률': {
+    en: 'Modal Corner Radius',
+    ja: 'モーダル枠の角丸',
+    descEn: 'Floating rounded fillet scale for modal dialogs',
+    descJa: 'モーダルダイアログの角丸寸法',
+  },
+  '모달 입체 그림자': {
+    en: 'Modal Elevation Shadow',
+    ja: 'モーダル立体シャドウ',
+    descEn: 'Deep drop shadow elevating the dialog layer above viewport',
+    descJa: 'ダイアログを浮かび上がらせるドロップシャドウ',
+  },
+  '바텀시트 표면 배경색': {
+    en: 'Bottom Sheet Surface',
+    ja: 'ボトムシート表面背景色',
+    descEn: 'Surface background color for mobile drawer sheets',
+    descJa: 'モバイルボトムドロワーの表面背景色',
+  },
+  '상단 모서리 곡률': {
+    en: 'Top Corner Radius',
+    ja: '上部角丸',
+    descEn: 'Rounded top corners for sheet containers',
+    descJa: 'シート上部の角丸寸法',
+  },
+  '에러 알림 배경 및 틴트': {
+    en: 'Error Alert Tint',
+    ja: 'エラー通知背景・ティント',
+    descEn: 'Callout background and tint for critical system errors',
+    descJa: '致命的システムエラーのコールアウト背景色',
+  },
+  '경고 알림 배경 및 틴트': {
+    en: 'Warning Alert Tint',
+    ja: '警告通知背景・ティント',
+    descEn: 'Callout background and tint for cautionary notices',
+    descJa: '注意喚起のコールアウト背景色',
+  },
+  '성공 알림 배경 및 틴트': {
+    en: 'Success Alert Tint',
+    ja: '成功通知背景・ティント',
+    descEn: 'Callout background and tint for positive completion states',
+    descJa: '正常完了のコールアウト背景色',
+  },
+  '정보 알림 브랜드 컬러': {
+    en: 'Info Alert Brand Color',
+    ja: '情報通知ブランドカラー',
+    descEn: 'General tip and instructional callout brand color',
+    descJa: '一般的なヒント・案内用ブランド色',
+  },
+  '탭 세그먼트 배경 트랙': {
+    en: 'Tab Track Background',
+    ja: 'タブトラック背景色',
+    descEn: 'Base surface track for segmented tab buttons',
+    descJa: 'セグメントタブのトラック背景色',
+  },
+  '활성 탭 인디케이터 색상': {
+    en: 'Active Tab Indicator',
+    ja: 'アクティブタブインジケーター色',
+    descEn: 'Highlight line and text color for currently active tab',
+    descJa: '選択されたアクティブタブの強調色',
+  },
+  '뱃지 틴트 배경색': {
+    en: 'Badge Tint Background',
+    ja: 'バッジティント背景色',
+    descEn: 'Tinted background for primary tags and badges',
+    descJa: 'Primaryタグ・バッジのティント背景色',
+  },
+  '뱃지 텍스트 색상': {
+    en: 'Badge Text Color',
+    ja: 'バッジテキスト色',
+    descEn: 'High-contrast typography color inside badges',
+    descJa: 'バッジ内の強調フォント色',
+  },
+  '카드 표면 배경색': {
+    en: 'Card Surface Background',
+    ja: 'カード表面背景色',
+    descEn: 'Base surface color for card containers',
+    descJa: 'カードコンテナの表面背景色',
+  },
+  '카드 외곽선 보더': {
+    en: 'Card Border Line',
+    ja: 'カード境界枠線',
+    descEn: 'Subtle boundary border separating card content',
+    descJa: 'カード領域を分ける境界線',
+  },
+  '카드 모서리 곡률': {
+    en: 'Card Corner Radius',
+    ja: 'カード角丸',
+    descEn: 'W3C standard curvature scale for card containers',
+    descJa: 'カードコンテナの角丸寸法',
+  },
+  '카드 그림자 (Elevation)': {
+    en: 'Card Elevation Shadow',
+    ja: 'カードシャドウ',
+    descEn: 'Subtle drop shadow imparting card depth',
+    descJa: 'カードに立体感を与えるシャドウ',
+  },
+  '테이블 경계선': {
+    en: 'Table Border Line',
+    ja: 'テーブル境界線',
+    descEn: 'Standard border separating rows and columns',
+    descJa: '行と列を区切る標準ボーダー',
+  },
+  '헤더 셀 배경색': {
+    en: 'Header Cell Background',
+    ja: 'ヘッダーセル背景色',
+    descEn: 'Surface background color for column headers',
+    descJa: 'カラムヘッダーの背景色',
+  },
+  '모바일 최대 너비 (sm)': {
+    en: 'Mobile Max Width (sm)',
+    ja: 'モバイル最大幅 (sm)',
+    descEn: 'Width scale for mobile forms and narrow dialogs',
+    descJa: 'モバイルフォームおよびダイアログの最大幅',
+  },
+  '태블릿 본문 너비 (md)': {
+    en: 'Tablet Content Width (md)',
+    ja: 'タブレット本文幅 (md)',
+    descEn: 'Optimized width for document reading and article content',
+    descJa: 'ドキュメント閲覧に最適な本文幅',
+  },
+  '데스크톱 기본 너비 (xl)': {
+    en: 'Desktop Width (xl)',
+    ja: 'デスクトップ標準幅 (xl)',
+    descEn: 'Standard desktop width for dashboards and data tables',
+    descJa: 'デスクトップダッシュボードの標準幅',
+  },
+  '기본 레이아웃 갭 (Gap)': {
+    en: 'Default Layout Gap',
+    ja: '基本レイアウト余白 (Gap)',
+    descEn: 'Standard spacing between major page sections',
+    descJa: '主要セクション間の標準余白',
+  },
+  '스택 표준 간격 (gap="4")': {
+    en: 'Stack Standard Gap (gap="4")',
+    ja: 'スタック標準余白 (gap="4")',
+    descEn: 'Default vertical spacing between form fields and cards',
+    descJa: 'フォームやカード間の標準スタック余白',
+  },
+};
+
+export function getLocalizedToken(
+  tm: ComponentTokenMapping,
+  locale: 'ko' | 'en' | 'ja'
+): { role: string; description: string } {
+  if (locale === 'ko') {
+    return { role: tm.role, description: tm.description };
+  }
+  const customRole = locale === 'en' ? tm.roleEn : tm.roleJa;
+  const customDesc = locale === 'en' ? tm.descEn : tm.descJa;
+  if (customRole) {
+    return { role: customRole, description: customDesc || tm.description };
+  }
+  const mapped = COMMON_ROLE_MAP[tm.role];
+  if (mapped) {
+    const role = locale === 'en' ? mapped.en : mapped.ja;
+    const desc = locale === 'en' ? (mapped.descEn || tm.description) : (mapped.descJa || tm.description);
+    return { role, description: desc };
+  }
+  return { role: tm.role, description: tm.description };
 }

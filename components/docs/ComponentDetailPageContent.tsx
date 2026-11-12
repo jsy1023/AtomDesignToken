@@ -29,7 +29,8 @@ import {
   Grid,
 } from '@/components/ui';
 import { CodeHighlight } from '@/components/common/CodeHighlight';
-import { COMPONENT_TOKEN_MAPPINGS, getComponentTokens } from '@/lib/data/componentTokens';
+import { COMPONENT_TOKEN_MAPPINGS, getComponentTokens, getLocalizedToken } from '@/lib/data/componentTokens';
+import { getComponentLocalizedData } from '@/lib/i18n/componentTranslations';
 import { useI18n } from '@/lib/i18n';
 import {
   ArrowLeft,
@@ -54,9 +55,16 @@ interface ComponentDetailPageContentProps {
 
 export function ComponentDetailPageContent({ component }: ComponentDetailPageContentProps) {
   const { theme } = useThemeEditor();
-  const { t, dictionary } = useI18n();
+  const { t, dictionary, locale } = useI18n();
   const brandColor = theme?.color?.primary || '#3182f6';
   const radius = theme?.borderRadius || '16px';
+
+  const localizedData = getComponentLocalizedData(component.id, locale);
+  const displayName = localizedData?.name || component.name;
+  const displayDescription = localizedData?.description || component.description;
+  const displayUseCases = localizedData?.useCases || component.useCases;
+  const displayUsagePatterns = localizedData?.usagePatterns || component.usagePatterns;
+  const displayDosAndDonts = localizedData?.dosAndDonts || component.dosAndDonts;
 
   const [activeSnippetTab, setActiveSnippetTab] = useState<'react' | 'vue' | 'html'>('react');
   const [previewMode, setPreviewMode] = useState<'preview' | 'tokens'>('preview');
@@ -94,49 +102,75 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
             {/* 1. 계층별 (Hierarchy: 3-Tier) */}
             <div className="space-y-2">
               <span className="text-xs font-mono font-semibold text-(--text-secondary) uppercase tracking-wider">
-                1. 중요도에 따른 3계층 위계 (Hierarchy)
+                {locale === 'ja'
+                  ? '1. 重要度に応じた3段階ヒエラルキー (HIERARCHY)'
+                  : locale === 'en'
+                  ? '1. 3-Tier Visual Hierarchy (HIERARCHY)'
+                  : '1. 중요도에 따른 3계층 위계 (HIERARCHY)'}
               </span>
               <div className="flex flex-wrap items-center gap-3 p-3 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle)">
-                <Button variant="primary">Primary (1계층 주행동)</Button>
-                <Button variant="secondary">Secondary (2계층 보조)</Button>
-                <Button variant="outline">Outline (경계선)</Button>
-                <Button variant="ghost">Ghost (3계층 부가)</Button>
+                <Button variant="primary">
+                  {locale === 'ja' ? 'Primary (第1階層 主行動)' : locale === 'en' ? 'Primary (Tier 1 Action)' : 'Primary (1계층 주행동)'}
+                </Button>
+                <Button variant="secondary">
+                  {locale === 'ja' ? 'Secondary (第2階層 補助)' : locale === 'en' ? 'Secondary (Tier 2 Action)' : 'Secondary (2계층 보조)'}
+                </Button>
+                <Button variant="outline">
+                  {locale === 'ja' ? 'Outline (境界線)' : locale === 'en' ? 'Outline (Border)' : 'Outline (경계선)'}
+                </Button>
+                <Button variant="ghost">
+                  {locale === 'ja' ? 'Ghost (第3階層 付加)' : locale === 'en' ? 'Ghost (Tier 3 Action)' : 'Ghost (3계층 부가)'}
+                </Button>
               </div>
             </div>
 
             {/* 2. 시스템 시맨틱 상태 색상 (Semantic Status) */}
             <div className="space-y-2">
               <span className="text-xs font-mono font-semibold text-(--text-secondary) uppercase tracking-wider">
-                2. 시스템 기능 매핑 상태 색상 (Semantic Status Colors)
+                {locale === 'ja'
+                  ? '2. システム機能マッピング状態色 (SEMANTIC STATUS COLORS)'
+                  : locale === 'en'
+                  ? '2. Semantic Status Colors (SEMANTIC STATUS COLORS)'
+                  : '2. 시스템 기능 매핑 상태 색상 (SEMANTIC STATUS COLORS)'}
               </span>
               <div className="flex flex-wrap items-center gap-3 p-3 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle)">
                 <Button variant="primary">Brand (Primary)</Button>
-                <Button variant="success">성공 (Success/Green)</Button>
-                <Button variant="warning">경고 (Warning/Orange)</Button>
-                <Button variant="destructive">위험 (Destructive/Red)</Button>
+                <Button variant="success">
+                  {locale === 'ja' ? '成功 (Success/Green)' : locale === 'en' ? 'Success (Green)' : '성공 (Success/Green)'}
+                </Button>
+                <Button variant="warning">
+                  {locale === 'ja' ? '警告 (Warning/Orange)' : locale === 'en' ? 'Warning (Orange)' : '경고 (Warning/Orange)'}
+                </Button>
+                <Button variant="destructive">
+                  {locale === 'ja' ? '危険 (Destructive/Red)' : locale === 'en' ? 'Destructive (Red)' : '위험 (Destructive/Red)'}
+                </Button>
               </div>
             </div>
 
             {/* 3. 아이콘 단독 & 피드백 상태 (Icon-Only & States) */}
             <div className="space-y-2">
               <span className="text-xs font-mono font-semibold text-(--text-secondary) uppercase tracking-wider">
-                3. 아이콘 버튼 & 상호작용 피드백 (Icon & States)
+                {locale === 'ja'
+                  ? '3. アイコンボタン & 状態フィードバック (ICON & STATES)'
+                  : locale === 'en'
+                  ? '3. Icon Buttons & States (ICON & STATES)'
+                  : '3. 아이콘 버튼 & 상호작용 피드백 (ICON & STATES)'}
               </span>
               <div className="flex flex-wrap items-center gap-3 p-3 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle)">
-                <Button isIconOnly variant="primary" aria-label="즐겨찾기">
+                <Button isIconOnly variant="primary" aria-label={locale === 'ja' ? 'お気に入り' : locale === 'en' ? 'Favorite' : '즐겨찾기'}>
                   <Sparkles className="w-4 h-4" />
                 </Button>
-                <Button isIconOnly variant="secondary" aria-label="설정">
+                <Button isIconOnly variant="secondary" aria-label={locale === 'ja' ? 'コピー' : locale === 'en' ? 'Copy' : '복사'}>
                   <Copy className="w-4 h-4" />
                 </Button>
-                <Button isIconOnly variant="ghost" aria-label="닫기">
+                <Button isIconOnly variant="ghost" aria-label={locale === 'ja' ? '閉じる' : locale === 'en' ? 'Close' : '닫기'}>
                   <X className="w-4 h-4" />
                 </Button>
-                <Button isIconOnly variant="destructive" aria-label="삭제">
+                <Button isIconOnly variant="destructive" aria-label={locale === 'ja' ? '削除' : locale === 'en' ? 'Delete' : '삭제'}>
                   <XCircle className="w-4 h-4" />
                 </Button>
                 <Button disabled>Disabled</Button>
-                <Button loading>로딩 중...</Button>
+                <Button loading>{locale === 'ja' ? '読み込み中...' : locale === 'en' ? 'Loading...' : '로딩 중...'}</Button>
               </div>
             </div>
           </div>
@@ -489,14 +523,14 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                   className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 hover:bg-blue-500/20 transition flex items-center gap-1.5 cursor-pointer shadow-xs"
                 >
                   <Coins className="w-3.5 h-3.5" />
-                  <span>W3C 디자인 토큰 {componentTokens.length}개 연동됨 ↓</span>
+                  <span>{t('componentsDoc.tokensBoundBadge', 'W3C 디자인 토큰 {n}개 연동됨 ↓').replace('{n}', String(componentTokens.length))}</span>
                 </a>
               </div>
               <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-(--text-primary)">
-                {component.name}
+                {displayName}
               </h1>
               <p className="text-sm sm:text-base text-(--text-secondary) mt-1.5 max-w-2xl leading-relaxed">
-                {component.description}
+                {displayDescription}
               </p>
             </div>
 
@@ -507,7 +541,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
               className="text-sm font-medium flex items-center gap-2"
             >
               {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-              <span>{copied ? '복사 완료!' : '컴포넌트 코드 복사'}</span>
+              <span>{copied ? t('common.copied', '복사 완료!') : t('componentsDoc.copyComponentCode', '컴포넌트 코드 복사')}</span>
             </Button>
           </div>
         </div>
@@ -528,7 +562,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                     : 'text-(--text-secondary) hover:text-(--text-primary)'
                 }`}
               >
-                👁️ 라이브 뷰
+                {t('componentsDoc.tabLivePreview', '👁️ 라이브 뷰')}
               </button>
               <button
                 type="button"
@@ -540,7 +574,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                 }`}
               >
                 <Coins className="w-4 h-4" />
-                <span>디자인 토큰값 조회 ({componentTokens.length})</span>
+                <span>{t('componentsDoc.tabInspectTokens', '디자인 토큰값 조회')} ({componentTokens.length})</span>
               </button>
             </div>
           </div>
@@ -550,29 +584,32 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
               renderPreview()
             ) : (
               <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-3 animate-in fade-in">
-                {componentTokens.map((tm, idx) => (
-                  <div key={idx} className="p-4 rounded-(--radius-sm) bg-(--bg-primary) border border-(--border-subtle) flex flex-col gap-2 shadow-xs">
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="text-sm font-bold text-(--text-primary)">{tm.role}</span>
-                      <span className="text-xs font-mono px-2 py-0.5 rounded bg-(--bg-secondary) text-(--text-secondary) shrink-0">
-                        {tm.dtcgPath}
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-between mt-1">
-                      <code className="text-sm font-mono text-blue-600 dark:text-blue-400 font-semibold">{tm.variable}</code>
-                      <div className="flex items-center gap-2">
-                        {tm.type === 'color' && (
-                          <span
-                            className="w-4 h-4 rounded-full border border-(--border-subtle) shadow-xs shrink-0"
-                            style={{ backgroundColor: tm.defaultValue.startsWith('#') || tm.defaultValue.startsWith('rgb') ? tm.defaultValue : '#3182f6' }}
-                          />
-                        )}
-                        <span className="text-sm font-mono font-bold text-(--text-primary)">{tm.defaultValue}</span>
+                {componentTokens.map((tm, idx) => {
+                  const locToken = getLocalizedToken(tm, locale);
+                  return (
+                    <div key={idx} className="p-4 rounded-(--radius-sm) bg-(--bg-primary) border border-(--border-subtle) flex flex-col gap-2 shadow-xs">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="text-sm font-bold text-(--text-primary)">{locToken.role}</span>
+                        <span className="text-xs font-mono px-2 py-0.5 rounded bg-(--bg-secondary) text-(--text-secondary) shrink-0">
+                          {tm.dtcgPath}
+                        </span>
                       </div>
+                      <div className="flex items-center justify-between mt-1">
+                        <code className="text-sm font-mono text-blue-600 dark:text-blue-400 font-semibold">{tm.variable}</code>
+                        <div className="flex items-center gap-2">
+                          {tm.type === 'color' && (
+                            <span
+                              className="w-4 h-4 rounded-full border border-(--border-subtle) shadow-xs shrink-0"
+                              style={{ backgroundColor: tm.defaultValue.startsWith('#') || tm.defaultValue.startsWith('rgb') ? tm.defaultValue : '#3182f6' }}
+                            />
+                          )}
+                          <span className="text-sm font-mono font-bold text-(--text-primary)">{tm.defaultValue}</span>
+                        </div>
+                      </div>
+                      <p className="text-sm text-(--text-secondary) leading-relaxed mt-0.5">{locToken.description}</p>
                     </div>
-                    <p className="text-sm text-(--text-secondary) leading-relaxed mt-0.5">{tm.description}</p>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             )}
           </div>
@@ -593,7 +630,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                 href="/studio"
                 className="text-sm font-semibold px-3 py-1.5 rounded-(--radius-sm) bg-(--bg-secondary) text-(--text-primary) border border-(--border-subtle) hover:bg-(--bg-primary) transition flex items-center gap-1.5 shadow-xs"
               >
-                <span>🛠️ 테마 에디터에서 수정 (/studio)</span>
+                <span>{t('componentsDoc.tokensEditInStudio', '🛠️ 테마 에디터에서 수정 (/studio)')}</span>
               </Link>
               <Link
                 href="/tokens"
@@ -607,38 +644,41 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-1/4">토큰 역할 (Role)</TableHead>
-                <TableHead className="w-1/4">CSS 변수 (Variable)</TableHead>
-                <TableHead className="w-1/4">DTCG JSON 경로</TableHead>
-                <TableHead className="w-1/4">기본값 및 기능 매핑</TableHead>
+                <TableHead className="w-1/4">{t('componentsDoc.thRole', '토큰 역할 (Role)')}</TableHead>
+                <TableHead className="w-1/4">{t('componentsDoc.thVariable', 'CSS 변수 (Variable)')}</TableHead>
+                <TableHead className="w-1/4">{t('componentsDoc.thDtcgPath', 'DTCG JSON 경로')}</TableHead>
+                <TableHead className="w-1/4">{t('componentsDoc.thDefaultValue', '기본값 및 기능 매핑')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {componentTokens.map((tm, idx) => (
-                <TableRow key={idx}>
-                  <TableCell className="font-semibold text-sm text-(--text-primary)">
-                    {tm.role}
-                  </TableCell>
-                  <TableCell className="font-mono text-sm text-blue-600 dark:text-blue-400 font-semibold">
-                    <code>{tm.variable}</code>
-                  </TableCell>
-                  <TableCell className="font-mono text-sm text-(--text-secondary)">
-                    {tm.dtcgPath}
-                  </TableCell>
-                  <TableCell className="text-sm text-(--text-secondary)">
-                    <div className="flex items-center gap-2">
-                      {tm.type === 'color' && (
-                        <span
-                          className="w-4 h-4 rounded-full border border-(--border-subtle) shrink-0 shadow-xs"
-                          style={{ backgroundColor: tm.defaultValue.startsWith('#') || tm.defaultValue.startsWith('rgb') ? tm.defaultValue : '#3182f6' }}
-                        />
-                      )}
-                      <span className="font-mono font-bold text-(--text-primary)">{tm.defaultValue}</span>
-                    </div>
-                    <p className="text-sm text-(--text-secondary) mt-0.5">{tm.description}</p>
-                  </TableCell>
-                </TableRow>
-              ))}
+              {componentTokens.map((tm, idx) => {
+                const locToken = getLocalizedToken(tm, locale);
+                return (
+                  <TableRow key={idx}>
+                    <TableCell className="font-semibold text-sm text-(--text-primary)">
+                      {locToken.role}
+                    </TableCell>
+                    <TableCell className="font-mono text-sm text-blue-600 dark:text-blue-400 font-semibold">
+                      <code>{tm.variable}</code>
+                    </TableCell>
+                    <TableCell className="font-mono text-sm text-(--text-secondary)">
+                      {tm.dtcgPath}
+                    </TableCell>
+                    <TableCell className="text-sm text-(--text-secondary)">
+                      <div className="flex items-center gap-2">
+                        {tm.type === 'color' && (
+                          <span
+                            className="w-4 h-4 rounded-full border border-(--border-subtle) shrink-0 shadow-xs"
+                            style={{ backgroundColor: tm.defaultValue.startsWith('#') || tm.defaultValue.startsWith('rgb') ? tm.defaultValue : '#3182f6' }}
+                          />
+                        )}
+                        <span className="font-mono font-bold text-(--text-primary)">{tm.defaultValue}</span>
+                      </div>
+                      <p className="text-sm text-(--text-secondary) mt-0.5">{locToken.description}</p>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
             </TableBody>
           </Table>
         </section>
@@ -695,7 +735,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
             <span>{t('componentsDoc.useCasesTitle', '실무 주요 사용 케이스 (Use Cases)')}</span>
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {component.useCases.map((useCase, idx) => (
+            {displayUseCases.map((useCase, idx) => (
               <Card
                 key={idx}
                 className="p-4 flex items-start gap-3 shadow-xs"
@@ -718,7 +758,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
             <span>{t('componentsDoc.usagePatternsTitle', '권장 사용 패턴 및 설계 지침 (Usage Patterns)')}</span>
           </h2>
           <Card className="p-4 flex flex-col gap-2.5">
-            {component.usagePatterns.map((pattern, idx) => (
+            {displayUsagePatterns.map((pattern, idx) => (
               <div key={idx} className="flex items-start gap-2.5 text-sm text-(--text-primary)">
                 <span className="w-1.5 h-1.5 rounded-full bg-(--accent-primary) mt-2 shrink-0" />
                 <p className="leading-relaxed">{pattern}</p>
@@ -728,18 +768,18 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
         </section>
 
         {/* 5. Do's & Don'ts */}
-        {component.dosAndDonts && component.dosAndDonts.length > 0 && (
+        {displayDosAndDonts && displayDosAndDonts.length > 0 && (
           <section id="dos-donts" className="scroll-mt-28 flex flex-col gap-3">
             <h2 className="text-sm font-semibold uppercase tracking-wider text-(--text-secondary)">
               {t('componentsDoc.dosAndDontsTitle', "올바른 사용법 & 안티패턴 방지 (Do's & Don'ts)")}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {component.dosAndDonts.map((rule, idx) => (
+              {displayDosAndDonts.map((rule, idx) => (
                 <React.Fragment key={idx}>
                   <Card className="p-4 border-emerald-500/20 bg-emerald-500/5 flex flex-col gap-1.5">
                     <div className="flex items-center gap-1.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
                       <CheckCircle2 className="w-4 h-4" />
-                      <span>DO (권장)</span>
+                      <span>{t('componentsDoc.doLabel', 'DO (권장)')}</span>
                     </div>
                     <p className="text-sm text-(--text-primary) leading-relaxed">
                       {rule.do}
@@ -749,7 +789,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                   <Card className="p-4 border-rose-500/20 bg-rose-500/5 flex flex-col gap-1.5">
                     <div className="flex items-center gap-1.5 text-xs font-semibold text-rose-600 dark:text-rose-400">
                       <XCircle className="w-4 h-4" />
-                      <span>DON'T (지양)</span>
+                      <span>{t('componentsDoc.dontLabel', "DON'T (지양)")}</span>
                     </div>
                     <p className="text-sm text-(--text-primary) leading-relaxed">
                       {rule.dont}
@@ -770,10 +810,10 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-1/4">Property</TableHead>
-                  <TableHead className="w-1/3">Type</TableHead>
-                  <TableHead className="w-1/6">Default</TableHead>
-                  <TableHead>Description</TableHead>
+                  <TableHead className="w-1/4">{t('componentsDoc.propName', 'Property')}</TableHead>
+                  <TableHead className="w-1/3">{t('componentsDoc.propType', 'Type')}</TableHead>
+                  <TableHead className="w-1/6">{t('componentsDoc.propDefault', 'Default')}</TableHead>
+                  <TableHead>{t('componentsDoc.propDescription', 'Description')}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -811,7 +851,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                     </h3>
                   </div>
                   <div className="flex items-center gap-1 text-sm font-medium text-(--accent-primary)">
-                    <span>패턴 상세 보기</span>
+                    <span>{locale === 'ja' ? 'パターン詳細を見る' : locale === 'en' ? 'View Pattern Detail' : '패턴 상세 보기'}</span>
                     <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
                   </div>
                 </Link>

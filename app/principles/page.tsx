@@ -17,7 +17,7 @@ import {
 
 export default function PrinciplesPage() {
   const { theme } = useThemeEditor();
-  const { t, dictionary } = useI18n();
+  const { t, dictionary, locale } = useI18n();
   const brandColor = theme?.color?.primary || '#3182f6';
   const radius = theme?.borderRadius || '8px';
 
@@ -126,14 +126,24 @@ export default function PrinciplesPage() {
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-mono font-bold text-(--text-primary) flex items-center gap-1.5">
                         <ShieldCheck className="w-4 h-4 text-emerald-500" />
-                        AI Agent 호출 및 지시 커맨드 (Prompts)
+                        {locale === 'ja'
+                          ? 'AI Agent 呼び出し & 指示プロンプト (Prompts)'
+                          : locale === 'en'
+                          ? 'AI Agent Invocation & Directive Prompts'
+                          : 'AI Agent 호출 및 지시 커맨드 (Prompts)'}
                       </span>
                       <span className="text-xs font-mono px-2 py-0.5 rounded bg-(--bg-primary) border border-(--border-subtle) text-(--text-secondary)">
                         Component-First Rule
                       </span>
                     </div>
                     <div className="p-3.5 rounded-lg bg-(--bg-primary) border border-(--border-subtle) font-mono text-sm text-(--text-primary) leading-relaxed">
-                      <code>&quot;너는 AtomSystem 기반 UI 엔지니어다. AGENTS.md의 4단계 레고 조립 파이프라인에 따라 [컴포넌트 우선 원칙]으로 새 컴포넌트를 components/ui에 먼저 작성하고, 토큰(var(--atom-*))을 바인딩하여 조립해줘.&quot;</code>
+                      <code>
+                        {locale === 'ja'
+                          ? '"あなたはAtomSystem基盤のUIエンジニアです。AGENTS.mdの4段階レゴ組み立てパイプラインに従い、[コンポーネント優先原則]で新しいコンポーネントをcomponents/uiに先に作成し、トークン(var(--atom-*))をバインドして組み立ててください。"'
+                          : locale === 'en'
+                          ? '"You are an AtomSystem-based UI engineer. Follow the 4-tier assembly pipeline in AGENTS.md with the [Component-First] rule: define atomic components in components/ui first, bind tokens (var(--atom-*)), and assemble into higher-order blocks."'
+                          : '"너는 AtomSystem 기반 UI 엔지니어다. AGENTS.md의 4단계 레고 조립 파이프라인에 따라 [컴포넌트 우선 원칙]으로 새 컴포넌트를 components/ui에 먼저 작성하고, 토큰(var(--atom-*))을 바인딩하여 조립해줘."'}
+                      </code>
                     </div>
                   </div>
                 )}
@@ -143,7 +153,11 @@ export default function PrinciplesPage() {
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-mono font-bold text-(--text-primary) flex items-center gap-1.5">
                         <ShieldCheck className="w-4 h-4 text-blue-500" />
-                        AI 에이전트 스킬 설치 및 로컬 스튜디오 실행 커맨드
+                        {locale === 'ja'
+                          ? 'AIエージェントスキルのインストール & ローカルStudio起動コマンド'
+                          : locale === 'en'
+                          ? 'AI Agent Skill Installation & Local Studio Execution'
+                          : 'AI 에이전트 스킬 설치 및 로컬 스튜디오 실행 커맨드'}
                       </span>
                       <span className="text-xs font-mono px-2 py-0.5 rounded bg-(--bg-primary) border border-(--border-subtle) text-(--text-secondary)">
                         CLI Commands
@@ -151,19 +165,27 @@ export default function PrinciplesPage() {
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm font-mono">
                       <div className="p-3 rounded bg-(--bg-primary) border border-(--border-subtle)">
-                        <div className="text-xs text-(--text-muted) mb-1"># 1. AI 스킬 및 규격 파일 자동 설치</div>
+                        <div className="text-xs text-(--text-muted) mb-1">
+                          {locale === 'ja' ? '# 1. AIスキルおよび仕様書の自動インストール' : locale === 'en' ? '# 1. Auto-install AI skills and guidelines' : '# 1. AI 스킬 및 규격 파일 자동 설치'}
+                        </div>
                         <div className="font-bold text-(--text-primary)">npx atomsystem init</div>
                       </div>
                       <div className="p-3 rounded bg-(--bg-primary) border border-(--border-subtle)">
-                        <div className="text-xs text-(--text-muted) mb-1"># 2. 로컬 토큰 스튜디오 실행 (/studio)</div>
+                        <div className="text-xs text-(--text-muted) mb-1">
+                          {locale === 'ja' ? '# 2. ローカルトークンStudioの起動 (/studio)' : locale === 'en' ? '# 2. Run Local Token Studio (/studio)' : '# 2. 로컬 토큰 스튜디오 실행 (/studio)'}
+                        </div>
                         <div className="font-bold text-(--text-primary)">npx atomsystem studio</div>
                       </div>
                     </div>
                     <div className="p-3.5 rounded-lg bg-(--bg-primary) border border-(--border-subtle) font-mono text-sm text-(--text-secondary) leading-relaxed space-y-1">
-                      <div><strong className="text-(--text-primary)">에이전트 역할별 호출 지침:</strong></div>
-                      <div>• <strong>token-guardian</strong>: &quot;W3C 토큰 무결성을 감사하고 인라인 하드코딩 색상을 전수 차단해줘.&quot;</div>
-                      <div>• <strong>component-architect</strong>: &quot;A11y 접근성을 준수하는 순수 원자 단위 컴포넌트를 설계해줘.&quot;</div>
-                      <div>• <strong>block-designer</strong>: &quot;원자 컴포넌트들을 조합하여 완성형 대시보드 블록을 구축해줘.&quot;</div>
+                      <div>
+                        <strong className="text-(--text-primary)">
+                          {locale === 'ja' ? '役割別エージェント呼び出しガイド:' : locale === 'en' ? 'Directives by Specialized Agent Role:' : '에이전트 역할별 호출 지침:'}
+                        </strong>
+                      </div>
+                      <div>• <strong>token-guardian</strong>: {locale === 'ja' ? '"W3Cトークンの整合性を監査し、インラインのハードコード色をすべて遮断してください。"' : locale === 'en' ? '"Audit W3C token integrity and prevent inline hardcoded colors."' : '"W3C 토큰 무결성을 감사하고 인라인 하드코딩 색상을 전수 차단해줘."'}</div>
+                      <div>• <strong>component-architect</strong>: {locale === 'ja' ? '"A11yアクセシビリティに準拠した純粋な原子コンポーネントを設計してください。"' : locale === 'en' ? '"Design pure atomic components adhering to strict A11y accessibility standards."' : '"A11y 접근성을 준수하는 순수 원자 단위 컴포넌트를 설계해줘."'}</div>
+                      <div>• <strong>block-designer</strong>: {locale === 'ja' ? '"原子コンポーネントを組み合わせて完成型ダッシュボードブロックを構築してください。"' : locale === 'en' ? '"Compose atomic components into complete dashboard blocks and UX patterns."' : '"원자 컴포넌트들을 조합하여 완성형 대시보드 블록을 구축해줘."'}</div>
                     </div>
                   </div>
                 )}
@@ -213,7 +235,7 @@ export default function PrinciplesPage() {
             href="/tokens"
             className="text-neutral-500 hover:text-(--text-primary) flex items-center gap-1 transition-colors"
           >
-            <span>디자인 토큰 명세 바로가기</span>
+            <span>{locale === 'ja' ? 'デザイントークン仕様書を見る →' : locale === 'en' ? 'View Design Tokens Specification →' : '디자인 토큰 명세 바로가기'}</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
 
@@ -223,7 +245,7 @@ export default function PrinciplesPage() {
             rel="noopener noreferrer"
             className="text-neutral-500 hover:text-(--text-primary) inline-flex items-center gap-1 transition-colors"
           >
-            <span>W3C DTCG 공식 표준서</span>
+            <span>{locale === 'ja' ? 'W3C DTCG 公式標準仕様' : locale === 'en' ? 'W3C DTCG Official Standard' : 'W3C DTCG 공식 표준서'}</span>
             <ExternalLink className="w-3.5 h-3.5" />
           </a>
         </div>
@@ -234,13 +256,15 @@ export default function PrinciplesPage() {
         <div className="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
           <span>AtomDesignToken — Single Source of Truth for Design Tokens</span>
           <div className="flex items-center gap-3">
-            <Link href="/" className="hover:text-(--text-primary)">홈</Link>
+            <Link href="/" className="hover:text-(--text-primary)">{t('common.home', '홈')}</Link>
             <span>•</span>
-            <Link href="/tokens" className="hover:text-(--text-primary)">토큰</Link>
+            <Link href="/tokens" className="hover:text-(--text-primary)">{t('nav.tokens', '토큰')}</Link>
             <span>•</span>
-            <Link href="/motion" className="hover:text-(--text-primary)">모션</Link>
+            <Link href="/guide" className="hover:text-(--text-primary)">{t('nav.guide', '가이드')}</Link>
             <span>•</span>
-            <Link href="/components/button" className="hover:text-(--text-primary)">컴포넌트</Link>
+            <Link href="/motion" className="hover:text-(--text-primary)">{t('nav.motion', '모션')}</Link>
+            <span>•</span>
+            <Link href="/components/button" className="hover:text-(--text-primary)">{t('nav.components', '컴포넌트')}</Link>
           </div>
         </div>
       </footer>
