@@ -311,14 +311,14 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
         return (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-lg">
             <Input
-              label="이메일 주소 (기본)"
+              label={locale === 'ja' ? 'メールアドレス (基本)' : locale === 'en' ? 'Email Address (Default)' : '이메일 주소 (기본)'}
               type="email"
               placeholder="name@company.com"
             />
             <Input
-              label="에러 상태 인풋"
+              label={locale === 'ja' ? 'エラー状態入力' : locale === 'en' ? 'Error State Input' : '에러 상태 인풋'}
               defaultValue="invalid_email"
-              error="유효한 이메일 형식을 입력하세요."
+              error={locale === 'ja' ? '有効なメール形式を入力してください。' : locale === 'en' ? 'Please enter a valid email address.' : '유효한 이메일 형식을 입력하세요.'}
             />
           </div>
         );
@@ -332,7 +332,9 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                 onCheckedChange={setSwitchState}
               />
               <span className="text-sm font-medium text-(--text-primary)">
-                {switchState ? '야간 푸시 알림 켜짐' : '야간 푸시 알림 꺼짐'}
+                {switchState
+                  ? (locale === 'ja' ? '夜間プッシュ通知 ON' : locale === 'en' ? 'Night Push Notifications ON' : '야간 푸시 알림 켜짐')
+                  : (locale === 'ja' ? '夜間プッシュ通知 OFF' : locale === 'en' ? 'Night Push Notifications OFF' : '야간 푸시 알림 꺼짐')}
               </span>
             </label>
 
@@ -344,7 +346,11 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                 className="w-4 h-4 rounded border-neutral-300 text-blue-600 focus:ring-blue-500 cursor-pointer"
               />
               <span className="text-sm font-medium text-(--text-primary)">
-                이용약관 및 개인정보 처리방침 전체 동의
+                {locale === 'ja'
+                  ? '利用規約およびプライバシーポリシーに同意'
+                  : locale === 'en'
+                  ? 'Agree to Terms of Service & Privacy Policy'
+                  : '이용약관 및 개인정보 처리방침 전체 동의'}
               </span>
             </label>
           </div>
@@ -357,34 +363,41 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
               onClick={() => setIsModalOpen(true)}
               className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-md transition"
             >
-              모달 다이얼로그 열기
+              {locale === 'ja' ? 'モーダルを開く' : locale === 'en' ? 'Open Modal Dialog' : '모달 다이얼로그 열기'}
             </button>
 
             {isModalOpen && (
               <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
                 <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-3xl p-6 max-w-sm w-full shadow-2xl flex flex-col gap-4 animate-in fade-in zoom-in-95">
                   <div className="flex items-center justify-between">
-                    <h3 className="text-base font-bold text-neutral-900 dark:text-white">정말 송금하시겠습니까?</h3>
+                    <h3 className="text-base font-bold text-neutral-900 dark:text-white">
+                      {locale === 'ja' ? '送金を確定しますか？' : locale === 'en' ? 'Confirm Money Transfer?' : '정말 송금하시겠습니까?'}
+                    </h3>
                     <button onClick={() => setIsModalOpen(false)} className="text-neutral-400 hover:text-neutral-600">
                       <X className="w-4 h-4" />
                     </button>
                   </div>
                   <p className="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                    받는 분: 김토스 (토스뱅크 1002-***-4921)<br />
-                    보낼 금액: <strong>₩500,000</strong> (수수료 면제)
+                    {locale === 'ja' ? (
+                      <>受取人: 田中 太郎 (三菱UFJ 1002-***-4921)<br />送金金額: <strong>¥50,000</strong> (手数料無料)</>
+                    ) : locale === 'en' ? (
+                      <>Recipient: Alex Min (Global Bank 1002-***-4921)<br />Amount: <strong>$500.00</strong> (Fee waived)</>
+                    ) : (
+                      <>받는 분: 김토스 (토스뱅크 1002-***-4921)<br />보낼 금액: <strong>₩500,000</strong> (수수료 면제)</>
+                    )}
                   </p>
                   <div className="flex justify-end gap-2 pt-2">
                     <button
                       onClick={() => setIsModalOpen(false)}
                       className="px-4 py-2 rounded-xl border border-neutral-200 dark:border-neutral-700 text-sm font-semibold"
                     >
-                      취소
+                      {locale === 'ja' ? 'キャンセル' : locale === 'en' ? 'Cancel' : '취소'}
                     </button>
                     <button
                       onClick={() => setIsModalOpen(false)}
                       className="px-4 py-2 rounded-xl bg-blue-600 text-white text-sm font-bold hover:bg-blue-700"
                     >
-                      송금 완료
+                      {locale === 'ja' ? '送金完了' : locale === 'en' ? 'Confirm Transfer' : '송금 완료'}
                     </button>
                   </div>
                 </div>
@@ -400,7 +413,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
               onClick={() => setIsSheetOpen(true)}
               className="px-5 py-2.5 rounded-xl bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 font-bold text-sm shadow-md transition"
             >
-              바텀시트 드로어 열기
+              {locale === 'ja' ? 'ボトムシートを開く' : locale === 'en' ? 'Open Bottom Sheet' : '바텀시트 드로어 열기'}
             </button>
 
             {isSheetOpen && (
@@ -408,20 +421,26 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                 <div className="bg-white dark:bg-neutral-900 border-t border-neutral-200 dark:border-neutral-800 rounded-t-3xl p-6 max-w-md w-full shadow-2xl flex flex-col gap-4">
                   <div className="w-12 h-1 bg-neutral-300 dark:bg-neutral-700 rounded-full mx-auto" />
                   <div className="flex items-center justify-between">
-                    <h3 className="text-base font-bold text-neutral-900 dark:text-white">매장 상세 정보</h3>
+                    <h3 className="text-base font-bold text-neutral-900 dark:text-white">
+                      {locale === 'ja' ? '店舗詳細情報' : locale === 'en' ? 'Store Details' : '매장 상세 정보'}
+                    </h3>
                     <button onClick={() => setIsSheetOpen(false)} className="text-neutral-400">
                       <X className="w-4 h-4" />
                     </button>
                   </div>
                   <div className="p-3 rounded-xl bg-neutral-50 dark:bg-neutral-850 text-sm">
-                    <div className="font-bold">블루보틀 성수 카페</div>
-                    <div className="text-emerald-600 mt-1">● 현재 영업 중 (21:00 마감)</div>
+                    <div className="font-bold">
+                      {locale === 'ja' ? 'ブルーボトルコーヒー 渋谷カフェ' : locale === 'en' ? 'Blue Bottle Coffee Roastery' : '블루보틀 성수 카페'}
+                    </div>
+                    <div className="text-emerald-600 mt-1">
+                      {locale === 'ja' ? '● 営業中 (21:00 閉店)' : locale === 'en' ? '● Open Now (Closes 21:00)' : '● 현재 영업 중 (21:00 마감)'}
+                    </div>
                   </div>
                   <button
                     onClick={() => setIsSheetOpen(false)}
                     className="w-full py-2.5 rounded-xl bg-blue-600 text-white text-sm font-bold"
                   >
-                    길찾기 실행
+                    {locale === 'ja' ? 'ルート検索' : locale === 'en' ? 'Get Directions' : '길찾기 실행'}
                   </button>
                 </div>
               </div>
@@ -435,9 +454,15 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
             <div className="flex items-start gap-2.5">
               <Bell className="w-4 h-4 text-blue-600 dark:text-blue-400 mt-0.5 shrink-0" />
               <div>
-                <span className="font-bold block">새로운 버전 v1.2 업데이트</span>
+                <span className="font-bold block">
+                  {locale === 'ja' ? '新バージョン v1.2 アップデート' : locale === 'en' ? 'New Version v1.2 Release' : '새로운 버전 v1.2 업데이트'}
+                </span>
                 <span className="text-xs text-blue-700 dark:text-blue-300">
-                  W3C DTCG 호환 스타일 딕셔너리 컴파일러가 추가되었습니다.
+                  {locale === 'ja'
+                    ? 'W3C DTCG準拠スタイルディクショナリコンパイラが追加されました。'
+                    : locale === 'en'
+                    ? 'W3C DTCG-compliant style dictionary compiler has been integrated.'
+                    : 'W3C DTCG 호환 스타일 딕셔너리 컴파일러가 추가되었습니다.'}
                 </span>
               </div>
             </div>
@@ -447,7 +472,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
           </div>
         ) : (
           <button onClick={() => setShowAlert(true)} className="text-sm text-blue-600 font-semibold underline">
-            알림 다시 열기
+            {locale === 'ja' ? 'アラートを再表示' : locale === 'en' ? 'Reopen Alert' : '알림 다시 열기'}
           </button>
         );
 
@@ -467,7 +492,8 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
               ))}
             </TabsList>
             <TabsContent active className="text-center text-(--text-secondary)">
-              선택된 탭: <strong className="text-(--text-primary)">{activeTab}</strong>
+              {locale === 'ja' ? '選択中のタブ: ' : locale === 'en' ? 'Selected Tab: ' : '선택된 탭: '}
+              <strong className="text-(--text-primary)">{activeTab}</strong>
             </TabsContent>
           </div>
         );
@@ -476,19 +502,27 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
         return (
           <div className="flex flex-wrap items-center justify-center gap-2">
             <Badge variant="primary">NEW Feature</Badge>
-            <Badge variant="success">온라인 연결됨</Badge>
-            <Badge variant="warning">대기중</Badge>
-            <Badge variant="destructive">오류 발생</Badge>
+            <Badge variant="success">{locale === 'ja' ? 'オンライン接続' : locale === 'en' ? 'Online' : '온라인 연결됨'}</Badge>
+            <Badge variant="warning">{locale === 'ja' ? '待機中' : locale === 'en' ? 'Pending' : '대기중'}</Badge>
+            <Badge variant="destructive">{locale === 'ja' ? 'エラー発生' : locale === 'en' ? 'Error' : '오류 발생'}</Badge>
           </div>
         );
 
       case 'card':
         return (
           <Card className="p-5 max-w-xs w-full flex flex-col gap-2">
-            <Badge variant="primary" className="self-start text-xs">토큰 바인딩 서피스</Badge>
-            <h4 className="text-base font-bold text-(--text-primary)">토스뱅크 자유적금</h4>
-            <div className="text-xl font-bold text-(--text-primary)">₩ 12,450,000</div>
-            <p className="text-sm text-(--text-secondary)">연 4.5% 최고 금리 적용 중</p>
+            <Badge variant="primary" className="self-start text-xs">
+              {locale === 'ja' ? 'トークン連携サーフェス' : locale === 'en' ? 'Token Surface' : '토큰 바인딩 서피스'}
+            </Badge>
+            <h4 className="text-base font-bold text-(--text-primary)">
+              {locale === 'ja' ? '定期預金スマート口座' : locale === 'en' ? 'High-Yield Savings' : '토스뱅크 자유적금'}
+            </h4>
+            <div className="text-xl font-bold text-(--text-primary)">
+              {locale === 'ja' ? '¥ 1,245,000' : locale === 'en' ? '$ 12,450.00' : '₩ 12,450,000'}
+            </div>
+            <p className="text-sm text-(--text-secondary)">
+              {locale === 'ja' ? '年利 4.5% 最高金利適用中' : locale === 'en' ? '4.5% APY Prime Interest Rate' : '연 4.5% 최고 금리 적용 중'}
+            </p>
           </Card>
         );
 
@@ -498,25 +532,25 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>멤버</TableHead>
-                  <TableHead>상태</TableHead>
-                  <TableHead>역할</TableHead>
+                  <TableHead>{locale === 'ja' ? 'メンバー' : locale === 'en' ? 'Member' : '멤버'}</TableHead>
+                  <TableHead>{locale === 'ja' ? '状態' : locale === 'en' ? 'Status' : '상태'}</TableHead>
+                  <TableHead>{locale === 'ja' ? '権限' : locale === 'en' ? 'Role' : '역할'}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 <TableRow>
-                  <TableCell className="font-semibold">김민수</TableCell>
+                  <TableCell className="font-semibold">{locale === 'ja' ? '佐藤 健' : locale === 'en' ? 'Alex Min' : '김민수'}</TableCell>
                   <TableCell>
-                    <Badge variant="success">정상 가동</Badge>
+                    <Badge variant="success">{locale === 'ja' ? '稼働中' : locale === 'en' ? 'Active' : '정상 가동'}</Badge>
                   </TableCell>
-                  <TableCell className="text-(--text-secondary)">소유자 (Admin)</TableCell>
+                  <TableCell className="text-(--text-secondary)">{locale === 'ja' ? '所有者 (Admin)' : locale === 'en' ? 'Owner (Admin)' : '소유자 (Admin)'}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell className="font-semibold">이지은</TableCell>
+                  <TableCell className="font-semibold">{locale === 'ja' ? '鈴木 華' : locale === 'en' ? 'Emma Lee' : '이지은'}</TableCell>
                   <TableCell>
-                    <Badge variant="primary">초대 수락</Badge>
+                    <Badge variant="primary">{locale === 'ja' ? '承認済' : locale === 'en' ? 'Accepted' : '초대 수락'}</Badge>
                   </TableCell>
-                  <TableCell className="text-(--text-secondary)">디자이너</TableCell>
+                  <TableCell className="text-(--text-secondary)">{locale === 'ja' ? 'デザイナー' : locale === 'en' ? 'Designer' : '디자이너'}</TableCell>
                 </TableRow>
               </TableBody>
             </Table>
@@ -556,7 +590,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
           <div className="w-full max-w-sm p-4 rounded-xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 shadow-sm space-y-3">
             <div className="flex items-center justify-between text-xs text-neutral-500 font-mono pb-2 border-b border-neutral-200 dark:border-neutral-800">
               <span>EXPLORER</span>
-              <span>선택: <strong className="text-blue-500">{selectedTreeId}</strong></span>
+              <span>{locale === 'ja' ? '選択: ' : locale === 'en' ? 'Selected: ' : '선택: '}<strong className="text-blue-500">{selectedTreeId}</strong></span>
             </div>
             <Tree
               data={demoTreeData}
@@ -587,14 +621,14 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
         return (
           <div className="w-full p-4 rounded-(--radius) border border-(--border-subtle) bg-(--bg-primary) space-y-4">
             <div className="text-sm font-semibold text-(--text-secondary) uppercase tracking-wider mb-2">
-              Stack & Grid 토큰 연동 프리뷰
+              {locale === 'ja' ? 'Stack & Grid トークン連携プレビュー' : locale === 'en' ? 'Stack & Grid Token Preview' : 'Stack & Grid 토큰 연동 프리뷰'}
             </div>
             <Stack gap="3">
               <div className="p-2.5 rounded-(--radius-sm) bg-(--bg-secondary) text-sm font-mono">
-                Stack gap="3" (12px) 아이템 1
+                {locale === 'ja' ? 'Stack gap="3" (12px) アイテム 1' : locale === 'en' ? 'Stack gap="3" (12px) Item 1' : 'Stack gap="3" (12px) 아이템 1'}
               </div>
               <div className="p-2.5 rounded-(--radius-sm) bg-(--bg-secondary) text-sm font-mono">
-                Stack gap="3" (12px) 아이템 2
+                {locale === 'ja' ? 'Stack gap="3" (12px) アイテム 2' : locale === 'en' ? 'Stack gap="3" (12px) Item 2' : 'Stack gap="3" (12px) 아이템 2'}
               </div>
             </Stack>
             <Grid cols={3} gap="2" className="mt-3">
@@ -847,7 +881,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                 className="text-sm font-medium flex items-center gap-1.5 h-auto py-1.5"
               >
                 {copied ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}
-                <span>{copied ? t('componentsDoc.copied', '복사됨!') : t('common.copy', '전체 코드 복사')}</span>
+                <span>{copied ? t('componentsDoc.copied', '복사됨!') : t('componentsDoc.copyCode', '전체 코드 복사')}</span>
               </Button>
             </div>
 

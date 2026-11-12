@@ -29,6 +29,7 @@ export interface TranslationDictionary {
     description: string;
     category: string;
     variable: string;
+    themeEditor?: string;
   };
   home: {
     heroTitle: string;

@@ -21,6 +21,16 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
+  // Security Guard: Restrict file modification to local development environments only
+  const host = req.headers.get('host') || '';
+  const isLocal = host.includes('localhost') || host.includes('127.0.0.1') || process.env.NODE_ENV === 'development';
+
+  if (!isLocal) {
+    return NextResponse.json({
+      error: 'Forbidden: Studio token modification is only available in local development environments (npx atomsystem studio).',
+    }, { status: 403 });
+  }
+
   const cwd = process.cwd();
   const tokenJsonPath = path.join(cwd, 'tokens', 'token.json');
   const tokensJsonAltPath = path.join(cwd, 'tokens', 'tokens.json');

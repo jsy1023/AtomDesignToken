@@ -2,10 +2,12 @@
 
 import React from 'react';
 import { useThemeEditor } from './ThemeEditorProvider';
+import { useI18n } from '@/lib/i18n';
 import { SlidersHorizontal } from 'lucide-react';
 
 export function ThemeFloatingButton() {
   const { isOpen, toggleOpen, mounted, isLocalOnly } = useThemeEditor();
+  const { t } = useI18n();
 
   // 로컬 개발 환경(localhost, 127.0.0.1 등)에서만 렌더링
   if (!mounted || !isLocalOnly) return null;
@@ -15,9 +17,9 @@ export function ThemeFloatingButton() {
       <button
         type="button"
         onClick={toggleOpen}
-        aria-label="디자인 시스템 스타일 에디터 열기"
+        aria-label={t('common.themeEditor', '테마 에디터')}
         aria-expanded={isOpen}
-        title="테마 에디터"
+        title={t('common.themeEditor', '테마 에디터')}
         className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-(--radius-sm) border text-xs font-medium transition-colors ${
           isOpen
             ? 'bg-(--text-primary) text-(--bg-primary) border-(--text-primary)'
@@ -25,7 +27,7 @@ export function ThemeFloatingButton() {
         }`}
       >
         <SlidersHorizontal className="w-3.5 h-3.5" />
-        <span className="hidden sm:inline">테마 에디터</span>
+        <span className="hidden sm:inline">{t('common.themeEditor', '테마 에디터')}</span>
       </button>
     </div>
   );

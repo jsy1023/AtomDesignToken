@@ -85,6 +85,12 @@ export const NAVIGATION_DEPTH: NavGroup[] = [
         href: '/guide',
         description: 'React, Vue, Vanilla HTML 어디서나 의존성 없는 연동 실전 지침',
       },
+      {
+        title: '로컬 스튜디오',
+        href: '/studio',
+        description: '로컬 프로젝트의 tokens/token.json과 css를 실시간 편집하는 GUI 도구',
+        badge: 'Local Only',
+      },
     ],
   },
 ];

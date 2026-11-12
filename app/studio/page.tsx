@@ -30,6 +30,24 @@ export default function LocalStudioPage() {
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
+  const [isLocalHost, setIsLocalHost] = useState<boolean | null>(null);
+  const [hostname, setHostname] = useState<string>('');
+  const [copiedCli, setCopiedCli] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const host = window.location.hostname;
+      setHostname(host);
+      const isLocal = host === 'localhost' || host === '127.0.0.1' || host === '0.0.0.0' || host.endsWith('.local');
+      setIsLocalHost(isLocal);
+    }
+  }, []);
+
+  const copyStudioCommand = () => {
+    navigator.clipboard.writeText('npx atomsystem studio');
+    setCopiedCli(true);
+    setTimeout(() => setCopiedCli(false), 2000);
+  };
 
   // Brand Color & Radius
   const brandColor = theme?.color?.primary || '#3182f6';
@@ -69,57 +87,126 @@ export default function LocalStudioPage() {
     <div className="min-h-screen bg-(--bg-primary) text-(--text-primary) flex flex-col font-sans transition-colors">
       <Header brandColor={brandColor} />
 
-      <main className="max-w-6xl w-full mx-auto px-4 sm:px-6 py-8 flex-1 flex flex-col gap-8">
-        {/* Studio Hero Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-(--border-subtle) pb-6">
-          <div>
-            <div className="flex items-center gap-2 mb-1.5">
-              <span className="font-mono text-xs px-2 py-0.5 rounded bg-(--bg-secondary) text-emerald-600 dark:text-emerald-400 font-bold border border-(--border-subtle) flex items-center gap-1">
-                <ShieldCheck className="w-3.5 h-3.5" />
-                Local Token Studio
-              </span>
-              <span className="text-xs text-(--text-muted) font-mono">http://localhost:3000/studio</span>
+      {/* Case 1: Remote Production Web Environment Guard */}
+      {isLocalHost === false ? (
+        <main className="max-w-4xl w-full mx-auto px-4 sm:px-6 py-12 flex-1 flex flex-col items-center justify-center text-center gap-6 animate-in fade-in">
+          <div className="w-14 h-14 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center shadow-xs">
+            <Terminal className="w-7 h-7" />
+          </div>
+
+          <div className="space-y-2 max-w-xl">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 text-amber-700 dark:text-amber-300 text-xs font-mono font-semibold border border-amber-500/20">
+              <ShieldCheck className="w-3.5 h-3.5" />
+              <span>로컬 프로젝트 전용 개발 도구 (Local-Only Feature)</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-(--text-primary)">
-              로컬 디자인 토큰 & 컴포넌트 스튜디오 (Studio)
+              /studio는 로컬 환경에서만 동작합니다
             </h1>
-            <p className="text-sm text-(--text-secondary) mt-1">
-              GUI 테마 에디터에서 시각적으로 토큰을 조정한 뒤, 클릭 한 번으로 프로젝트의 <code className="font-mono text-xs">tokens/token.json</code>과 <code className="font-mono text-xs">css/atom-ui.css</code>에 영구 반영합니다.
+            <p className="text-sm text-(--text-secondary) leading-relaxed">
+              이 스튜디오는 라이브러리 사용자의 로컬 프로젝트 파일(<code className="font-mono text-xs px-1 py-0.5 rounded bg-(--bg-secondary)">tokens/token.json</code> 및 <code className="font-mono text-xs px-1 py-0.5 rounded bg-(--bg-secondary)">css/atom-ui.css</code>)과 직접 통신하여 토큰을 영구 저장하는 <strong>로컬 개발자 전용 GUI 도구</strong>입니다.
+              <br />
+              원격 배포 웹 환경({hostname})에서는 보안 및 격리 정책상 로컬 파일시스템에 접근할 수 없습니다.
             </p>
           </div>
 
-          <div className="flex items-center gap-2 shrink-0">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={resetTheme}
-              className="flex items-center gap-1.5"
-            >
-              <RotateCcw className="w-3.5 h-3.5" />
-              <span>초기화</span>
-            </Button>
-
-            <Button
-              variant="primary"
-              size="sm"
-              onClick={handleSaveToProject}
-              disabled={isSaving}
-              className="flex items-center gap-2 bg-(--accent-primary) text-(--bg-primary)"
-            >
-              {saveSuccess ? (
-                <>
-                  <Check className="w-4 h-4 text-emerald-400" />
-                  <span>반영 완료!</span>
-                </>
-              ) : (
-                <>
-                  <Save className="w-4 h-4" />
-                  <span>{isSaving ? '프로젝트 저장 중...' : '프로젝트에 즉시 반영하기'}</span>
-                </>
-              )}
-            </Button>
+          {/* Quick Command Execution Card */}
+          <div className="w-full max-w-md p-5 rounded-xl bg-(--bg-secondary) border border-(--border-subtle) flex flex-col gap-3 shadow-xs text-left">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-mono font-bold text-(--text-secondary) uppercase tracking-wider">
+                로컬 프로젝트에서 스튜디오 실행 커맨드
+              </span>
+              <span className="text-xs font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 font-semibold">
+                CLI Command
+              </span>
+            </div>
+            <div className="p-3.5 rounded-lg bg-(--bg-primary) border border-(--border-subtle) flex items-center justify-between font-mono text-sm">
+              <span className="text-(--text-primary)">$ npx atomsystem studio</span>
+              <button
+                type="button"
+                onClick={copyStudioCommand}
+                className="text-neutral-400 hover:text-(--text-primary) transition cursor-pointer ml-2"
+                title="커맨드 복사"
+              >
+                {copiedCli ? <Check className="w-4 h-4 text-emerald-500" /> : <Save className="w-4 h-4" />}
+              </button>
+            </div>
+            <p className="text-xs text-(--text-muted) leading-relaxed">
+              💡 터미널에서 위 명령어를 실행하면 사용 중인 프로젝트의 토큰과 컴포넌트를 로컬 브라우저(<code className="font-mono">http://localhost:3000/studio</code>)에서 즉시 조회 및 편집할 수 있습니다.
+            </p>
           </div>
-        </div>
+
+          {/* Action Links */}
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+            <Link
+              href="/guide"
+              className="px-4 py-2 rounded-(--radius-sm) bg-(--text-primary) text-(--bg-primary) text-xs font-semibold hover:opacity-90 transition shadow-xs flex items-center gap-1.5"
+            >
+              <span>스튜디오 활용 가이드 읽기</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </Link>
+            <Link
+              href="/components/button"
+              className="px-4 py-2 rounded-(--radius-sm) bg-(--bg-secondary) text-(--text-primary) border border-(--border-subtle) text-xs font-semibold hover:bg-(--bg-primary) transition shadow-xs"
+            >
+              컴포넌트 카탈로그 조회
+            </Link>
+          </div>
+        </main>
+      ) : (
+        /* Case 2: Local Development Environment (localhost / 127.0.0.1) */
+        <main className="max-w-6xl w-full mx-auto px-4 sm:px-6 py-8 flex-1 flex flex-col gap-8 animate-in fade-in">
+          {/* Studio Hero Header */}
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-(--border-subtle) pb-6">
+            <div>
+              <div className="flex items-center gap-2 mb-1.5">
+                <span className="font-mono text-xs px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold border border-emerald-500/20 flex items-center gap-1 shadow-xs">
+                  <ShieldCheck className="w-3.5 h-3.5" />
+                  🟢 LOCALHOST CONNECTED
+                </span>
+                <span className="text-xs font-mono px-2 py-0.5 rounded bg-(--bg-secondary) text-(--text-secondary) border border-(--border-subtle)">
+                  로컬 파일시스템 연동 (/studio)
+                </span>
+              </div>
+              <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-(--text-primary)">
+                로컬 디자인 토큰 & 컴포넌트 스튜디오 (Studio)
+              </h1>
+              <p className="text-sm text-(--text-secondary) mt-1">
+                GUI 테마 에디터에서 시각적으로 토큰을 조정한 뒤, 클릭 한 번으로 내 로컬 프로젝트의 <code className="font-mono text-xs">tokens/token.json</code>과 <code className="font-mono text-xs">css/atom-ui.css</code>에 영구 반영합니다.
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2 shrink-0">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={resetTheme}
+                className="flex items-center gap-1.5"
+              >
+                <RotateCcw className="w-3.5 h-3.5" />
+                <span>초기화</span>
+              </Button>
+
+              <Button
+                variant="primary"
+                size="sm"
+                onClick={handleSaveToProject}
+                disabled={isSaving}
+                className="flex items-center gap-2 bg-(--accent-primary) text-(--bg-primary)"
+              >
+                {saveSuccess ? (
+                  <>
+                    <Check className="w-4 h-4 text-emerald-400" />
+                    <span>반영 완료!</span>
+                  </>
+                ) : (
+                  <>
+                    <Save className="w-4 h-4" />
+                    <span>{isSaving ? '프로젝트 저장 중...' : '프로젝트에 즉시 반영하기'}</span>
+                  </>
+                )}
+              </Button>
+            </div>
+          </div>
 
         {/* Status notification banner */}
         {statusMessage && (
@@ -352,6 +439,7 @@ export default function LocalStudioPage() {
           </div>
         )}
       </main>
+      )}
     </div>
   );
 }
