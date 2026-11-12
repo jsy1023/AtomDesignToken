@@ -5,6 +5,7 @@ import { GuideHero } from '@/components/guide/GuideHero';
 import { GuideAgentMechanism } from '@/components/guide/GuideAgentMechanism';
 import { GuideBestPractices } from '@/components/guide/GuideBestPractices';
 import { GuideFrameworkTabs } from '@/components/guide/GuideFrameworkTabs';
+import { GuideLocalStudioSection } from '@/components/guide/GuideLocalStudioSection';
 import { GuideInteractivePlayground } from '@/components/guide/GuideInteractivePlayground';
 import { GuideWorkflowSection } from '@/components/guide/GuideWorkflowSection';
 
@@ -22,7 +23,9 @@ export default function GuidePage() {
       {/* Main Content Sections */}
       <main>
         <GuideHero />
-        {/* 2nd Section: AI Agent Library Reference Mechanism */}
+        {/* 2nd Section: Local Token Studio & Customizer Guide */}
+        <GuideLocalStudioSection />
+        {/* 3rd Section: AI Agent Library Reference Mechanism */}
         <GuideAgentMechanism />
         <GuideBestPractices />
         <GuideFrameworkTabs />

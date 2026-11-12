@@ -151,6 +151,7 @@ interface ThemeConfig {
     color: ColorConfig;
     typography: TypographyConfig;
     borderRadius: string;
+    selectedIcon?: string;
 }
 interface ColorPreset {
     id: string;

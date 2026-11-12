@@ -8351,7 +8351,8 @@ var DEFAULT_THEME_CONFIG = {
       letterSpacing: "0.01em"
     }
   },
-  borderRadius: "14px"
+  borderRadius: "14px",
+  selectedIcon: "Sparkles"
 };
 var COLOR_PRESETS = [
   {

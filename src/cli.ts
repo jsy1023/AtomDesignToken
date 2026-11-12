@@ -2,6 +2,8 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { startLocalTokenStudio } from './studioServer';
+import { compileTokensToCss } from './tokenCompiler';
 
 function getPkgRoot(): string {
   try {
@@ -76,6 +78,9 @@ function handleInit() {
   }
 
   console.log('\n✨ AtomSystem initialization completed successfully!');
+  console.log('\n🎨 Local Token Studio Available:');
+  console.log('  Run "npx atomsystem studio" to launch the local web customizer GUI.');
+  console.log('  You can visually edit tokens and immediately recompile css/atom-ui.css.');
   console.log('\n📌 How AI Coding Works Now:');
   console.log('  Any AI assistant (Claude Code, Cursor, Copilot, Antigravity) will now');
   console.log('  AUTOMATICALLY detect the design tokens, components, and UX patterns.');
@@ -190,6 +195,34 @@ Install any item:
 `);
 }
 
+function handleBuildTokens() {
+  const cwd = process.cwd();
+  const tokenJsonPath = path.join(cwd, 'tokens', 'token.json');
+  const cssPath = path.join(cwd, 'css', 'atom-ui.css');
+
+  if (!fs.existsSync(tokenJsonPath)) {
+    console.error(`\n❌ tokens/token.json not found at ${tokenJsonPath}. Run 'npx atomsystem init' first.\n`);
+    return;
+  }
+
+  try {
+    const tokens = JSON.parse(fs.readFileSync(tokenJsonPath, 'utf-8'));
+    const css = compileTokensToCss(tokens);
+    const cssDir = path.dirname(cssPath);
+    if (!fs.existsSync(cssDir)) fs.mkdirSync(cssDir, { recursive: true });
+    fs.writeFileSync(cssPath, css, 'utf-8');
+    console.log(`\n✨ Successfully compiled tokens to ${path.relative(cwd, cssPath)}!\n`);
+  } catch (err: any) {
+    console.error(`\n❌ Failed to compile tokens: ${err.message}\n`);
+  }
+}
+
+function handleStudio() {
+  const portArg = args.find((a) => a.startsWith('--port='));
+  const port = portArg ? parseInt(portArg.split('=')[1], 10) : 4000;
+  startLocalTokenStudio({ port, cwd: process.cwd() });
+}
+
 function showHelp() {
   console.log(`
 AtomSystem CLI - Universal Design Token & Agentic UI System
@@ -199,10 +232,15 @@ Usage:
 
 Commands:
   init            Initialize AI guidelines, tokens, specs, and CSS in your project
+  studio          Launch Local Web Token Studio GUI (interactive token customizer)
+  build:tokens    Compile tokens/token.json into zero-runtime css/atom-ui.css
   add <name>      Add a component or block directly to your project
   list            List all available components and blocks
   help            Display this help message
   version         Print version info
+
+Options for studio:
+  --port=<port>   Port for the local studio server (default: 4000)
 `);
 }
 
@@ -219,6 +257,14 @@ function showVersion() {
 switch (command) {
   case 'init':
     handleInit();
+    break;
+  case 'studio':
+  case 'editor':
+    handleStudio();
+    break;
+  case 'build:tokens':
+  case 'compile':
+    handleBuildTokens();
     break;
   case 'add':
     handleAdd(targetName);
