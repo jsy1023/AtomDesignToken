@@ -25,7 +25,7 @@ interface HeaderProps {
 export function Header({ brandColor, rightExtra }: HeaderProps) {
   const pathname = usePathname();
   const { theme } = useThemeEditor();
-  const { locale, setLocale, t } = useI18n();
+  const { locale, setLocale, t, dictionary } = useI18n();
   const activeBrandColor = brandColor || theme?.color?.primary || '#18181b';
   const [copiedCli, setCopiedCli] = useState(false);
   const [openGroup, setOpenGroup] = useState<string | null>(null);
@@ -78,6 +78,8 @@ export function Header({ brandColor, rightExtra }: HeaderProps) {
         return t('nav.tokens', fallback);
       case '/motion':
         return t('nav.motion', fallback);
+      case '/layout':
+        return t('nav.layout', fallback);
       case '/components':
       case '/components/button':
         return t('nav.components', fallback);
@@ -94,6 +96,10 @@ export function Header({ brandColor, rightExtra }: HeaderProps) {
       default:
         return fallback;
     }
+  };
+
+  const getSubNavDescription = (href: string, fallback: string) => {
+    return dictionary?.nav?.subDescriptions?.[href] || fallback;
   };
 
   // Close dropdown on outside click or route change
@@ -213,7 +219,7 @@ export function Header({ brandColor, rightExtra }: HeaderProps) {
                                 {getSubNavTitle(sub.href, sub.title)}
                               </div>
                               <p className="text-xs text-(--text-secondary) leading-snug line-clamp-1 mt-0.5">
-                                {sub.description}
+                                {getSubNavDescription(sub.href, sub.description)}
                               </p>
                             </Link>
                           );
@@ -314,9 +320,9 @@ export function Header({ brandColor, rightExtra }: HeaderProps) {
                           : 'text-(--text-secondary) hover:text-(--text-primary)'
                       }`}
                     >
-                      <span className="font-medium">{sub.title}</span>
+                      <span className="font-medium">{getSubNavTitle(sub.href, sub.title)}</span>
                       <span className="text-xs text-(--text-muted) ml-2">
-                        {sub.description}
+                        {getSubNavDescription(sub.href, sub.description)}
                       </span>
                     </Link>
                   );

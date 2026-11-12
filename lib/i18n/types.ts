@@ -36,6 +36,7 @@ export interface TranslationDictionary {
     tokens: string;
     motion: string;
     library: string;
+    layout: string;
     components: string;
     icons: string;
     blocks: string;
@@ -43,6 +44,21 @@ export interface TranslationDictionary {
     engineering: string;
     dependencies: string;
     guide: string;
+    subDescriptions: Record<string, string>;
+  };
+  sidebar: {
+    apiReference: string;
+    searchPlaceholder: string;
+    foundationsGroup: string;
+    layoutAndSpacing: string;
+    colorAndStatus: string;
+    fontAndTypography: string;
+    formGroup: string;
+    feedbackGroup: string;
+    navGroup: string;
+    dataGroup: string;
+    layoutGroup: string;
+    components: Record<string, string>;
   };
   principles: {
     title: string;
