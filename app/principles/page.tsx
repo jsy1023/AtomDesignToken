@@ -23,6 +23,7 @@ export default function PrinciplesPage() {
 
   const categories = [
     { id: 'all', label: '전체 원칙' },
+    { id: 'agent', label: '🤖 AI 운영 원칙' },
     { id: 'core', label: '핵심 원칙' },
     { id: 'architecture', label: '아키텍처' },
     { id: 'token', label: '토큰 규격' },
@@ -56,7 +57,7 @@ export default function PrinciplesPage() {
           </h1>
 
           <p className="text-xs sm:text-sm text-(--text-secondary) leading-relaxed max-w-3xl">
-            AtomDesignToken은 임시방편적인 절차적 하드코딩을 배제하고, 플랫폼에 독립적인 단일 진실 공급원(SSOT)과 브라우저 네이티브 기술을 결합하여 유지보수 가능하고 확장성 높은 엔터프라이즈 UI를 구축하기 위한 6대 핵심 규격을 따릅니다.
+            AtomDesignToken은 임시방편적인 절차적 하드코딩을 배제하고, 플랫폼에 독립적인 단일 진실 공급원(SSOT)과 브라우저 네이티브 기술, 그리고 4단계 AI 레고 조립 파이프라인을 결합하여 고품질 엔터프라이즈 UI를 구축하기 위한 핵심 규격을 따릅니다.
           </p>
 
           {/* Category Filter Tabs */}
