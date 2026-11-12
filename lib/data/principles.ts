@@ -166,7 +166,7 @@ export const PRINCIPLES_DATA: DesignPrinciple[] = [
       'AtomSystem은 단일 모델의 환각을 방지하기 위해 4대 전문 역할로 책임을 분리합니다: 1) token-guardian(W3C 토큰 무결성 감시 및 하드코딩 차단), 2) component-architect(순수 원자 컴포넌트 설계), 3) block-designer(컴포넌트 조립 및 완성형 UX 블록 구축), 4) docs-curator(레고 조립 문서화 및 E2E 검증). `npx atomsystem init` 시 `.agents/skills/atomsystem/SKILL.md`가 자동 설치되어 AI가 이 모든 역할을 자율적으로 수행합니다.',
     dos: [
       'AI에게 작업 지시 시 "컴포넌트 우선 원칙으로 조립해줘" 또는 "atom.design.md 토큰을 준수해줘"라고 명시합니다.',
-      '코드 변경 후 `npm run audit:recursive` 및 `npm run lint:design`을 통해 AI 작업물의 무결성을 검증합니다.',
+      '코드 변경 후 공식 `npm run lint:design` (impeccable detect)을 통해 AI 작업물의 무결성과 디자인 품질을 정적 검증합니다.',
       'AI가 디자인 가이드 Markdown(토스, 당근, 커스텀)을 읽어 W3C tokens.json으로 빌드하도록 스킬을 호출합니다.',
     ],
     donts: [

@@ -167,7 +167,7 @@ export const TRANSLATIONS: Record<'ko' | 'en' | 'ja', TranslationDictionary> = {
             'AtomSystem은 단일 모델의 환각을 방지하기 위해 4대 전문 역할로 책임을 분리합니다: 1) token-guardian(W3C 토큰 무결성 감시 및 하드코딩 차단), 2) component-architect(순수 원자 컴포넌트 설계), 3) block-designer(컴포넌트 조립 및 완성형 UX 블록 구축), 4) docs-curator(레고 조립 문서화 및 E2E 검증). `npx atomsystem init` 시 `.agents/skills/atomsystem/SKILL.md`가 자동 설치되어 AI가 이 모든 역할을 자율적으로 수행합니다.',
           dos: [
             'AI에게 작업 지시 시 "컴포넌트 우선 원칙으로 조립해줘" 또는 "atom.design.md 토큰을 준수해줘"라고 명시합니다.',
-            '코드 변경 후 `npm run audit:recursive` 및 `npm run lint:design`을 통해 AI 작업물의 무결성을 검증합니다.',
+            '코드 변경 후 공식 `npm run lint:design` (impeccable detect)을 통해 AI 작업물의 무결성과 디자인 품질을 정적 검증합니다.',
             'AI가 디자인 가이드 Markdown(토스, 당근, 커스텀)을 읽어 W3C tokens.json으로 빌드하도록 스킬을 호출합니다.',
           ],
           donts: [
@@ -401,7 +401,7 @@ export const TRANSLATIONS: Record<'ko' | 'en' | 'ja', TranslationDictionary> = {
             'AtomSystem delegates responsibilities across 4 roles to prevent LLM hallucinations: token-guardian (token integrity), component-architect (atomic UI), block-designer (content blocks & patterns), and docs-curator (E2E & docs). `npx atomsystem init` installs the skill automatically.',
           dos: [
             'Instruct your AI using "Follow the Component-First rule" or "Respect atom.design.md tokens".',
-            'Verify code modifications with `npm run audit:recursive` and `npm run lint:design`.',
+            'Verify code modifications with official `npm run lint:design` (impeccable detect).',
             'Let the AI convert design guide markdowns into DTCG tokens.json via the atomsystem skill.',
           ],
           donts: [
@@ -635,7 +635,7 @@ export const TRANSLATIONS: Record<'ko' | 'en' | 'ja', TranslationDictionary> = {
             'AtomSystemは単一モデルのハルシネーションを防ぐため、4つの専門役割に責任を分離します: 1) token-guardian(トークン整合性監視), 2) component-architect(原子コンポーネント設計), 3) block-designer(完成型ブロック構築), 4) docs-curator(E2E検証と文書化)。`npx atomsystem init`時にスキルが自動配置されます。',
           dos: [
             'AIへの指示時に「Component-First原則で組み立てて」「atom.design.mdトークンを遵守して」と明示します。',
-            'コード変更後は`npm run audit:recursive`および`npm run lint:design`でAIの成果物を静的検証します。',
+            'コード変更後は公式`npm run lint:design` (impeccable detect)でAIの成果物を静的検証します。',
             'AIがデザインガイドMarkdownを読み取り、DTCG tokens.jsonに自動ビルドできるようにスキルを活用します。',
           ],
           donts: [

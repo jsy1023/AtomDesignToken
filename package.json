@@ -58,9 +58,6 @@
     "start": "next start",
     "lint": "next lint",
     "lint:design": "impeccable detect app components css",
-    "lint:slop": "tsx scripts/clean-slop.ts",
-    "lint:slop:fix": "tsx scripts/clean-slop.ts --fix",
-    "audit:recursive": "tsx scripts/audit-recursive.ts",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:report": "playwright show-report"
