@@ -39,6 +39,7 @@ export function DocsSidebar({
   const feedbackComps = filtered.filter((c) => c.category === 'feedback');
   const navComps = filtered.filter((c) => c.category === 'navigation');
   const dataComps = filtered.filter((c) => c.category === 'data');
+  const layoutComps = filtered.filter((c) => c.category === 'layout');
 
   const renderCompItem = (comp: (typeof GALLERY_COMPONENTS)[number]) => {
     const isActive = activeId === comp.id;
@@ -115,6 +116,14 @@ export function DocsSidebar({
         <div className="flex flex-col gap-1">
           <span className="text-xs font-medium text-(--text-secondary) uppercase tracking-wider px-2">Data Display</span>
           {dataComps.map(renderCompItem)}
+        </div>
+      )}
+
+      {/* 8. Layout & Structure */}
+      {layoutComps.length > 0 && (
+        <div className="flex flex-col gap-1">
+          <span className="text-xs font-medium text-(--text-secondary) uppercase tracking-wider px-2">Layout & Structure</span>
+          {layoutComps.map(renderCompItem)}
         </div>
       )}
     </aside>

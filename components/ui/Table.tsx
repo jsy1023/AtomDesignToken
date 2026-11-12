@@ -7,7 +7,7 @@ export const Table = React.forwardRef<HTMLTableElement, TableProps>(
     <div className="w-full overflow-auto rounded-(--radius) border border-(--border-subtle)">
       <table
         ref={ref}
-        className={`w-full caption-bottom text-xs text-left ${className}`}
+        className={`w-full caption-bottom text-sm text-left ${className}`}
         {...props}
       >
         {children}

@@ -42,7 +42,8 @@ import {
   BookOpen,
   RefreshCw,
   X,
-  Bell
+  Bell,
+  Coins,
 } from 'lucide-react';
 
 interface ComponentDetailPageContentProps {
@@ -514,7 +515,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
 
         {/* 3. Use Cases (사용 케이스) */}
         <section id="use-cases" className="scroll-mt-28 flex flex-col gap-3">
-          <h2 className="text-xs font-semibold uppercase tracking-wider text-(--text-secondary) flex items-center gap-1.5">
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-(--text-secondary) flex items-center gap-1.5">
             <Sparkles className="w-4 h-4 text-(--accent-primary)" />
             <span>실무 주요 사용 케이스 (Use Cases)</span>
           </h2>
@@ -524,10 +525,10 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                 key={idx}
                 className="p-4 flex items-start gap-3 shadow-xs"
               >
-                <div className="w-5 h-5 rounded-full bg-(--bg-secondary) text-(--text-primary) font-bold text-xs flex items-center justify-center shrink-0 mt-0.5 border border-(--border-subtle)">
+                <div className="w-6 h-6 rounded-full bg-(--bg-secondary) text-(--text-primary) font-bold text-xs flex items-center justify-center shrink-0 mt-0.5 border border-(--border-subtle)">
                   {idx + 1}
                 </div>
-                <p className="text-xs text-(--text-secondary) leading-relaxed">
+                <p className="text-sm text-(--text-primary) leading-relaxed">
                   {useCase}
                 </p>
               </Card>
@@ -537,14 +538,14 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
 
         {/* 4. Usage Patterns & Best Practices */}
         <section id="patterns" className="scroll-mt-28 flex flex-col gap-3">
-          <h2 className="text-xs font-semibold uppercase tracking-wider text-(--text-secondary) flex items-center gap-1.5">
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-(--text-secondary) flex items-center gap-1.5">
             <BookOpen className="w-4 h-4 text-(--accent-primary)" />
             <span>권장 사용 패턴 및 설계 지침 (Usage Patterns)</span>
           </h2>
-          <Card className="p-4 flex flex-col gap-2">
+          <Card className="p-4 flex flex-col gap-2.5">
             {component.usagePatterns.map((pattern, idx) => (
-              <div key={idx} className="flex items-start gap-2.5 text-xs text-(--text-secondary)">
-                <span className="w-1.5 h-1.5 rounded-full bg-(--accent-primary) mt-1.5 shrink-0" />
+              <div key={idx} className="flex items-start gap-2.5 text-sm text-(--text-primary)">
+                <span className="w-1.5 h-1.5 rounded-full bg-(--accent-primary) mt-2 shrink-0" />
                 <p className="leading-relaxed">{pattern}</p>
               </div>
             ))}
@@ -554,7 +555,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
         {/* 5. Do's & Don'ts */}
         {component.dosAndDonts && component.dosAndDonts.length > 0 && (
           <section id="dos-donts" className="scroll-mt-28 flex flex-col gap-3">
-            <h2 className="text-xs font-semibold uppercase tracking-wider text-(--text-secondary)">
+            <h2 className="text-sm font-semibold uppercase tracking-wider text-(--text-secondary)">
               올바른 사용법 & 안티패턴 방지 (Do's & Don'ts)
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -562,20 +563,20 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                 <React.Fragment key={idx}>
                   <Card className="p-4 border-emerald-500/20 bg-emerald-500/5 flex flex-col gap-1.5">
                     <div className="flex items-center gap-1.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
-                      <CheckCircle2 className="w-3.5 h-3.5" />
+                      <CheckCircle2 className="w-4 h-4" />
                       <span>DO (권장)</span>
                     </div>
-                    <p className="text-xs text-(--text-primary) leading-relaxed">
+                    <p className="text-sm text-(--text-primary) leading-relaxed">
                       {rule.do}
                     </p>
                   </Card>
 
                   <Card className="p-4 border-rose-500/20 bg-rose-500/5 flex flex-col gap-1.5">
                     <div className="flex items-center gap-1.5 text-xs font-semibold text-rose-600 dark:text-rose-400">
-                      <XCircle className="w-3.5 h-3.5" />
+                      <XCircle className="w-4 h-4" />
                       <span>DON'T (지양)</span>
                     </div>
-                    <p className="text-xs text-(--text-primary) leading-relaxed">
+                    <p className="text-sm text-(--text-primary) leading-relaxed">
                       {rule.dont}
                     </p>
                   </Card>
@@ -588,7 +589,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
         {/* 6. API Props Reference */}
         {component.propsSpec && component.propsSpec.length > 0 && (
           <section id="props" className="scroll-mt-28 flex flex-col gap-3">
-            <h2 className="text-xs font-semibold uppercase tracking-wider text-(--text-secondary)">
+            <h2 className="text-sm font-semibold uppercase tracking-wider text-(--text-secondary)">
               API Props 규격 명세 (API Reference)
             </h2>
             <Table>
@@ -603,10 +604,10 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
               <TableBody>
                 {component.propsSpec.map((prop, idx) => (
                   <TableRow key={idx}>
-                    <TableCell className="font-mono font-semibold text-(--text-primary)">{prop.name}</TableCell>
-                    <TableCell className="font-mono text-xs text-(--text-secondary)">{prop.type}</TableCell>
-                    <TableCell className="font-mono text-(--text-muted)">{prop.defaultValue}</TableCell>
-                    <TableCell className="text-(--text-secondary)">{prop.description}</TableCell>
+                    <TableCell className="font-mono font-semibold text-(--text-primary) text-sm">{prop.name}</TableCell>
+                    <TableCell className="font-mono text-sm text-(--text-secondary)">{prop.type}</TableCell>
+                    <TableCell className="font-mono text-sm text-(--text-muted)">{prop.defaultValue}</TableCell>
+                    <TableCell className="text-sm text-(--text-primary)">{prop.description}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -617,7 +618,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
         {/* 7. Related UX Patterns */}
         {relatedPatterns.length > 0 && (
           <section id="related" className="scroll-mt-28 flex flex-col gap-3 pt-4 border-t border-(--border-subtle)">
-            <h2 className="text-xs font-semibold uppercase tracking-wider text-(--text-secondary) flex items-center gap-1.5">
+            <h2 className="text-sm font-semibold uppercase tracking-wider text-(--text-secondary) flex items-center gap-1.5">
               <Layers className="w-4 h-4 text-(--accent-primary)" />
               <span>이 컴포넌트가 사용되는 실무 UX 패턴</span>
             </h2>
@@ -630,13 +631,13 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                 >
                   <div>
                     <span className="text-xs font-medium text-(--text-secondary) uppercase">{pattern.categoryName}</span>
-                    <h3 className="text-sm font-semibold text-(--text-primary) group-hover:text-(--accent-primary) transition-colors mt-0.5">
+                    <h3 className="text-base font-semibold text-(--text-primary) group-hover:text-(--accent-primary) transition-colors mt-0.5">
                       {pattern.title}
                     </h3>
                   </div>
-                  <div className="flex items-center gap-1 text-xs font-medium text-(--accent-primary)">
+                  <div className="flex items-center gap-1 text-sm font-medium text-(--accent-primary)">
                     <span>패턴 상세 보기</span>
-                    <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
                   </div>
                 </Link>
               ))}

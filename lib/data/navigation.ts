@@ -41,6 +41,12 @@ export const NAVIGATION_DEPTH: NavGroup[] = [
     englishLabel: 'Library',
     items: [
       {
+        title: '레이아웃 & 간격',
+        href: '/layout',
+        description: '컨테이너(Container), 스택(Stack), 그리드(Grid) 및 간격(Spacing) 표준 가이드',
+        badge: 'Core',
+      },
+      {
         title: '컴포넌트',
         href: '/components/button',
         description: '버튼, 인풋, 모달 등 시맨틱 토큰과 결합된 프로덕션 UI',
