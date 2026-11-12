@@ -832,7 +832,7 @@ export default function TokensPage() {
           <div className="flex items-center gap-4">
             <Link href="/" className="hover:text-(--text-primary) transition-colors">홈으로</Link>
             <Link href="/patterns" className="hover:text-(--text-primary) transition-colors">UX 패턴</Link>
-            <Link href="/components" className="hover:text-(--text-primary) transition-colors">컴포넌트 갤러리</Link>
+            <Link href="/components/button" className="hover:text-(--text-primary) transition-colors">컴포넌트 문서</Link>
             <a
               href="https://www.designtokens.org/tr/2025.10/"
               target="_blank"

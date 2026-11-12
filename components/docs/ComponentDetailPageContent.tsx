@@ -422,14 +422,6 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
         <div className="flex-1 min-w-0 flex flex-col gap-8">
           {/* Navigation & Header */}
           <div className="flex flex-col gap-4 pb-6 border-b border-[var(--border-subtle)]">
-          <Link
-            href="/components"
-            className="inline-flex items-center gap-2 text-xs font-bold text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition w-fit"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            <span>전체 컴포넌트 갤러리로 돌아가기</span>
-          </Link>
-
           <div className="flex flex-wrap items-center justify-between gap-4 mt-2">
             <div>
               <div className="flex items-center gap-2 mb-2">

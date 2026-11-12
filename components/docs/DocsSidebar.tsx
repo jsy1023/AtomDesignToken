@@ -86,25 +86,6 @@ export function DocsSidebar({
         />
       </div>
 
-      {/* 3. Overview & Navigation */}
-      <div className="flex flex-col gap-1">
-        <span className="text-xs font-medium text-(--text-secondary) uppercase tracking-wider px-2">개요 및 갤러리</span>
-        <Link
-          href="/components"
-          className={`px-3 py-1.5 rounded-(--radius-sm) text-left text-xs font-medium transition flex items-center justify-between ${
-            activeId === 'overview'
-              ? 'bg-(--text-primary) text-(--bg-primary) font-semibold shadow-xs'
-              : 'text-(--text-secondary) hover:bg-(--bg-secondary) hover:text-(--text-primary)'
-          }`}
-        >
-          <div className="flex items-center gap-2">
-            <Layers className="w-3.5 h-3.5" />
-            <span>컴포넌트 갤러리 홈</span>
-          </div>
-          <span className="text-xs font-mono opacity-60">10개</span>
-        </Link>
-      </div>
-
       {/* 4. Form & Inputs Group */}
       {formComps.length > 0 && (
         <div className="flex flex-col gap-1">
