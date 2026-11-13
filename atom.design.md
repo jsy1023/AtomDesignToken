@@ -135,7 +135,7 @@ AtomSystem은 단일 모델의 환각을 방지하기 위해 4대 전문 역할�
 
 * **권장 실천 (DO)**:
   - ✅ AI에게 작업 지시 시 "컴포넌트 우선 원칙으로 조립해줘" 또는 "atom.design.md 토큰을 준수해줘"라고 명시합니다.
-  - ✅ 코드 변경 후 `npm run audit:recursive` 및 `npm run lint:design`을 통해 AI 작업물의 무결성을 검증합니다.
+  - ✅ 코드 변경 후 공식 `npm run lint:design` (impeccable detect)을 통해 AI 작업물의 무결성과 디자인 품질을 정적 검증합니다.
   - ✅ AI가 디자인 가이드 Markdown(토스, 당근, 커스텀)을 읽어 W3C tokens.json으로 빌드하도록 스킬을 호출합니다.
 * **지양 안티패턴 (DON'T)**:
   - ❌ 500줄 이상의 거대한 모놀리식 단일 컴포넌트 작성을 AI에게 요구하거나 방치하지 않습니다.

@@ -341,31 +341,216 @@ var LAYOUT_TOKENS = [
 // lib/data/components.ts
 var GALLERY_COMPONENTS = [
   {
+    id: "layout-spacing",
+    name: "\uB808\uC774\uC544\uC6C3 & \uAC04\uACA9 (Layout & Spacing)",
+    category: "foundation",
+    source: "W3C DTCG 8-Point Grid",
+    description: "8-Point \uBC30\uC218 \uAE30\uBC18 \uC77C\uAD00\uB41C Spacing \uC2A4\uCF00\uC77C\uACFC Container, Stack, Grid \uB808\uC774\uC544\uC6C3 \uAE30\uBCF8 \uADDC\uACA9",
+    callout: {
+      type: "tip",
+      title: "8-Point \uADF8\uB9AC\uB4DC \uAC04\uACA9 \uC2DC\uC2A4\uD15C",
+      text: "\uBAA8\uB4E0 \uCEF4\uD3EC\uB10C\uD2B8\uC758 \uD328\uB529, \uB9C8\uC9C4, \uC544\uC774\uD15C \uAC04\uACA9(gap)\uC740 8px\uC758 \uBC30\uC218(4px, 8px, 12px, 16px, 24px, 32px \uB4F1)\uB85C \uC815\uC758\uB41C CSS \uD1A0\uD070\uC744 \uC0AC\uC6A9\uD558\uC5EC \uC778\uC9C0 \uC77C\uAD00\uC131\uC744 \uC720\uC9C0\uD569\uB2C8\uB2E4."
+    },
+    useCases: [
+      "\uBAA8\uB4E0 \uCEF4\uD3EC\uB10C\uD2B8\uC758 \uD328\uB529(Padding) \uBC0F \uB9C8\uC9C4(Margin) \uD45C\uC900\uD654 (space-1: 4px ~ space-16: 64px)",
+      "\uC218\uD3C9/\uC218\uC9C1 \uC694\uC18C \uBC30\uCE58 \uC2DC Stack\uACFC Flex Gap \uC77C\uAD00\uC131 \uD655\uBCF4",
+      "\uBC18\uC751\uD615 \uD654\uBA74 \uBD84\uD560\uC744 \uC704\uD55C Container \uCD5C\uB300 \uB108\uBE44 \uBC0F Grid \uC5F4 \uAC04\uACA9(Gutter) \uD1B5\uC77C",
+      "\uCE74\uB4DC, \uBAA8\uB2EC \uB4F1 \uD45C\uBA74 \uCEF4\uD3EC\uB10C\uD2B8 \uB0B4\uBD80\uC758 \uC77C\uAD00\uB41C \uC5EC\uBC31 \uC870\uC131"
+    ],
+    usagePatterns: [
+      "\uC784\uC758\uC758 px \uD558\uB4DC\uCF54\uB529 \uB300\uC2E0 \uBC18\uB4DC\uC2DC CSS \uBCC0\uC218(var(--atom-space-*)) \uD1A0\uD070\uC744 \uC0AC\uC6A9\uD569\uB2C8\uB2E4.",
+      "\uBBF8\uC138 \uC870\uC815\uC740 4px(space-1), \uAE30\uBCF8 \uC694\uC18C \uAC04\uACA9\uC740 8px(space-2), \uCEF4\uD3EC\uB10C\uD2B8 \uADF8\uB8F9 \uAC04\uACA9\uC740 16px(space-4), \uC139\uC158 \uAC04\uACA9\uC740 24px(space-6) \uC774\uC0C1\uC744 \uAD8C\uC7A5\uD569\uB2C8\uB2E4.",
+      "\uBAA8\uBC14\uC77C \uD658\uACBD\uC5D0\uC11C\uB294 \uD328\uB529\uC744 1\uB2E8\uACC4 \uCD95\uC18C\uD558\uC5EC \uBDF0\uD3EC\uD2B8 \uACF5\uAC04\uC744 \uCD5C\uC801\uD654\uD569\uB2C8\uB2E4."
+    ],
+    dosAndDonts: [
+      {
+        do: "\uBAA8\uB4E0 \uC694\uC18C \uAC04\uACA9\uC5D0 8\uC758 \uBC30\uC218 \uD1A0\uD070(8px, 16px, 24px, 32px)\uC744 \uC6B0\uC120 \uC801\uC6A9\uD569\uB2C8\uB2E4.",
+        dont: "gap-[13px], p-[7px] \uB4F1 \uB514\uC790\uC778 \uC2DC\uC2A4\uD15C \uBC94\uC704\uB97C \uBC97\uC5B4\uB09C \uC784\uC758 \uC778\uB77C\uC778 \uAC12\uC744 \uC4F0\uC9C0 \uB9C8\uC138\uC694."
+      },
+      {
+        do: "Stack \uCEF4\uD3EC\uB10C\uD2B8\uC758 gap \uC18D\uC131\uC744 \uD65C\uC6A9\uD558\uC5EC \uC790\uC2DD \uC694\uC18C \uAC04\uC758 \uADE0\uC77C\uD55C \uAC04\uACA9\uC744 \uC120\uC5B8\uD569\uB2C8\uB2E4.",
+        dont: "\uC790\uC2DD \uC694\uC18C\uB9C8\uB2E4 \uAC01\uAC01 \uB2E4\uB978 margin-bottom\uC744 \uAC1C\uBCC4 \uBD80\uC5EC\uD558\uC5EC \uB808\uC774\uC544\uC6C3 \uD750\uB984\uC744 \uBCF5\uC7A1\uD558\uAC8C \uB9CC\uB4E4\uC9C0 \uB9C8\uC138\uC694."
+      }
+    ],
+    relatedPatternIds: ["saas-dashboard", "developer-docs"],
+    propsSpec: [
+      { name: "gap", type: "string", defaultValue: "'var(--atom-space-4)'", description: "\uC694\uC18C \uAC04 \uAC04\uACA9 \uD1A0\uD070" },
+      { name: "padding", type: "string", defaultValue: "'var(--atom-space-4)'", description: "\uCEE8\uD14C\uC774\uB108 \uB0B4\uBD80 \uD328\uB529 \uD1A0\uD070" },
+      { name: "maxWidth", type: "string", defaultValue: "'1200px'", description: "\uBC18\uC751\uD615 \uCEE8\uD14C\uC774\uB108 \uCD5C\uB300 \uB108\uBE44" }
+    ],
+    htmlSnippet: `<!-- Layout & Spacing Tokens -->
+<div style="display: flex; flex-direction: column; gap: var(--atom-space-4); padding: var(--atom-space-6);">
+  <div style="padding: var(--atom-space-3); background: var(--atom-bg-secondary); border-radius: var(--atom-radius-md);">
+    Space-3 (12px)
+  </div>
+  <div style="padding: var(--atom-space-4); background: var(--atom-bg-secondary); border-radius: var(--atom-radius-md);">
+    Space-4 (16px)
+  </div>
+</div>`,
+    reactSnippet: `import { Stack, Container } from '@/components/ui';
+
+export function SpacingDemo() {
+  return (
+    <Container size="md">
+      <Stack gap="4">
+        <div className="p-3 bg-(--bg-secondary) rounded-(--radius)">Space-3 (12px)</div>
+        <div className="p-4 bg-(--bg-secondary) rounded-(--radius)">Space-4 (16px)</div>
+        <div className="p-6 bg-(--bg-secondary) rounded-(--radius)">Space-6 (24px)</div>
+      </Stack>
+    </Container>
+  );
+}`
+  },
+  {
+    id: "color-status",
+    name: "\uC0C9\uC0C1 & \uC0C1\uD0DC (Color & Status)",
+    category: "foundation",
+    source: "W3C DTCG Semantic Colors",
+    description: "\uBE0C\uB79C\uB4DC Primary/Secondary\uC640 \uC2DC\uC2A4\uD15C \uC2DC\uB9E8\uD2F1 \uC0C1\uD0DC(Success, Warning, Destructive, Info) \uBC0F \uB2E4\uD06C\uBAA8\uB4DC \uB300\uC751 \uD45C\uBA74 \uC0C9\uC0C1",
+    callout: {
+      type: "tip",
+      title: "\uAE30\uB2A5-\uC0C9\uC0C1 \uC2DC\uB9E8\uD2F1 1:1 \uB9E4\uD551",
+      text: "\uC0C9\uC0C1\uC740 \uB2E8\uC21C \uC7A5\uC2DD\uC774 \uC544\uB2D9\uB2C8\uB2E4. \uBE0C\uB79C\uB4DC(Primary), \uC131\uACF5(Green), \uACBD\uACE0(Amber), \uC704\uD5D8(Red), \uC815\uBCF4(Blue)\uB85C \uC0AC\uC6A9\uC790\uC758 \uC778\uC9C0 \uBC18\uC751\uACFC \uC815\uD655\uD788 \uC77C\uCE58\uD558\uB3C4\uB85D \uB9E4\uD551\uB429\uB2C8\uB2E4."
+    },
+    useCases: [
+      "\uBE0C\uB79C\uB4DC \uC544\uC774\uB374\uD2F0\uD2F0\uB97C \uC804\uB2EC\uD558\uB294 Primary CTA \uBC0F \uD0A4 \uC778\uD130\uB799\uC158 \uC694\uC18C",
+      "\uC131\uACF5(Success/Green), \uACBD\uACE0(Warning/Orange), \uC704\uD5D8(Destructive/Red) \uC0C1\uD0DC \uD53C\uB4DC\uBC31 \uB9E4\uD551",
+      "\uB77C\uC774\uD2B8/\uB2E4\uD06C \uBAA8\uB4DC \uC790\uB3D9 \uC804\uD658\uC744 \uC704\uD55C \uD45C\uBA74 \uBC30\uACBD(bg-primary, bg-secondary) \uBC0F \uD14D\uC2A4\uD2B8(text-primary, text-secondary) \uD1A0\uD070",
+      "WCAG 2.1 AA \uAE30\uC900 4.5:1 \uC774\uC0C1\uC758 \uB192\uC740 \uB300\uBE44 \uAC00\uB3C5\uC131 \uBCF4\uC7A5"
+    ],
+    usagePatterns: [
+      "\uD558\uB4DC\uCF54\uB529\uB41C hex \uCF54\uB4DC \uB300\uC2E0 \uC2DC\uB9E8\uD2F1 \uC758\uB3C4 \uD1A0\uD070(var(--atom-color-*), var(--atom-status-*))\uC744 \uC0AC\uC6A9\uD569\uB2C8\uB2E4.",
+      "\uD14D\uC2A4\uD2B8\uC640 \uBC30\uACBD\uC758 \uB300\uBE44\uB294 WCAG 2.1 AA \uAE30\uC900 4.5:1 \uC774\uC0C1\uC744 \uCDA9\uC871\uD558\uB294 \uD1A0\uD070 \uD398\uC5B4\uB9C1\uC744 \uB530\uB985\uB2C8\uB2E4.",
+      "\uB2E4\uD06C\uBAA8\uB4DC \uC804\uD658 \uC2DC \uC6D0\uC2DC \uC0C9\uC0C1\uC744 \uBC14\uAFB8\uB294 \uB300\uC2E0 \uC2DC\uB9E8\uD2F1 CSS \uBCC0\uC218\uC758 \uB9E4\uD551\uAC12\uB9CC \uC790\uB3D9 \uC804\uD658\uB429\uB2C8\uB2E4."
+    ],
+    dosAndDonts: [
+      {
+        do: "\uC0AD\uC81C\uB098 \uD0C8\uD1F4 \uB4F1 \uD30C\uAD34\uC801 \uC704\uD5D8 \uC561\uC158\uC5D0\uB294 \uBC18\uB4DC\uC2DC Destructive \uC0C1\uD0DC \uC0C9\uC0C1\uC744 \uB9E4\uD551\uD569\uB2C8\uB2E4.",
+        dont: "\uB2E8\uC21C \uAC15\uC870\uB098 \uC7A5\uC2DD\uC744 \uC704\uD574 \uBE68\uAC04\uC0C9(Destructive)\uC744 \uC77C\uBC18 UI\uC5D0 \uB0A8\uBC1C\uD558\uC9C0 \uB9C8\uC138\uC694."
+      },
+      {
+        do: "\uD14D\uC2A4\uD2B8 \uC0C9\uC0C1\uC5D0\uB294 \uBC18\uB4DC\uC2DC var(--text-primary), var(--text-secondary)\uB97C \uC0AC\uC6A9\uD558\uC5EC \uB2E4\uD06C\uBAA8\uB4DC \uAC00\uB3C5\uC131\uC744 \uBCF4\uC7A5\uD569\uB2C8\uB2E4.",
+        dont: "Tailwind text-black, text-gray-800 \uB4F1\uC744 \uD558\uB4DC\uCF54\uB529\uD558\uC5EC \uB2E4\uD06C\uBAA8\uB4DC\uC5D0\uC11C \uD14D\uC2A4\uD2B8\uAC00 \uC0AC\uB77C\uC9C0\uAC8C \uB9CC\uB4E4\uC9C0 \uB9C8\uC138\uC694."
+      }
+    ],
+    relatedPatternIds: ["fintech-transfer", "ecommerce-checkout"],
+    propsSpec: [
+      { name: "color.brand.primary", type: "color", defaultValue: "#3182f6", description: "\uC8FC\uC694 \uD589\uB3D9 \uBE0C\uB79C\uB4DC \uC0C9\uC0C1" },
+      { name: "color.status.success", type: "color", defaultValue: "#10b981", description: "\uAE0D\uC815/\uC644\uB8CC \uC0C1\uD0DC \uC0C9\uC0C1" },
+      { name: "color.status.warning", type: "color", defaultValue: "#f59e0b", description: "\uC8FC\uC758/\uACBD\uACE0 \uC0C1\uD0DC \uC0C9\uC0C1" },
+      { name: "color.status.danger", type: "color", defaultValue: "#ef4444", description: "\uC704\uD5D8/\uD30C\uAD34 \uC561\uC158 \uC0C9\uC0C1" }
+    ],
+    htmlSnippet: `<!-- Semantic Color Tokens -->
+<div style="background-color: var(--atom-color-primary); color: #fff; padding: 12px; border-radius: 8px;">
+  Brand Primary (#3182f6)
+</div>
+<div style="background-color: var(--atom-status-success); color: #fff; padding: 12px; border-radius: 8px;">
+  Success (#10b981)
+</div>
+<div style="background-color: var(--atom-status-danger); color: #fff; padding: 12px; border-radius: 8px;">
+  Destructive (#ef4444)
+</div>`,
+    reactSnippet: `export function ColorStatusDemo() {
+  return (
+    <div className="grid grid-cols-2 gap-3">
+      <div className="p-3 bg-(--color-primary) text-white rounded">Brand Primary</div>
+      <div className="p-3 bg-(--status-success) text-white rounded">Success</div>
+      <div className="p-3 bg-(--status-warning) text-white rounded">Warning</div>
+      <div className="p-3 bg-(--status-danger) text-white rounded">Destructive</div>
+    </div>
+  );
+}`
+  },
+  {
+    id: "typography",
+    name: "\uD3F0\uD2B8 & \uD0C0\uC774\uD3EC\uADF8\uB798\uD53C (Font & Typography)",
+    category: "foundation",
+    source: "Swiss Modern Hierarchy",
+    description: "\uAC00\uB3C5\uC131\uACFC \uC2DC\uAC01\uC801 \uC704\uACC4\uB97C \uBCF4\uC7A5\uD558\uB294 \uD45C\uC900 \uD0C0\uC774\uD3EC\uADF8\uB798\uD53C \uC2A4\uCF00\uC77C (Display, Heading, Body, Caption)",
+    callout: {
+      type: "tip",
+      title: "\uC2A4\uC704\uC2A4 \uBAA8\uB354\uB2C8\uC998 \uD0C0\uC774\uD3EC\uADF8\uB798\uD53C \uC704\uACC4",
+      text: "\uC815\uBCF4\uC758 \uC911\uC694\uB3C4\uC5D0 \uB530\uB77C Display > Heading 1~4 > Body 1~2 > Caption\uC73C\uB85C \uBA85\uD655\uD55C \uC2DC\uAC01\uC801 \uC0AC\uB2E4\uB9AC\uB97C \uD615\uC131\uD569\uB2C8\uB2E4. \uBAA8\uB4E0 \uC2A4\uCF00\uC77C\uC740 \uD3F0\uD2B8 \uD06C\uAE30, \uD589\uAC04, \uC790\uAC04, \uAD75\uAE30\uAC00 \uC77C\uCCB4\uD615\uC73C\uB85C \uC815\uBC00 \uD29C\uB2DD\uB418\uC5B4 \uC788\uC2B5\uB2C8\uB2E4."
+    },
+    useCases: [
+      "\uD654\uBA74\uC758 \uCD5C\uC0C1\uB2E8 \uAC15\uC870\uB97C \uC704\uD55C Display \uBC0F Hero \uD0C0\uC774\uD2C0",
+      "\uBB38\uC11C \uAD6C\uC870\uC640 \uC815\uBCF4 \uAD6C\uD68D\uC744 \uBA85\uD655\uD788 \uD558\uB294 \uACC4\uCE35\uD615 H1 ~ H4 \uC81C\uBAA9",
+      "\uBCF8\uBB38 \uAC00\uB3C5\uC131\uC744 \uC704\uD55C Body-1 (14px) / Body-2 (16px)",
+      "\uBA54\uD0C0\uB370\uC774\uD130, \uD0C0\uC784\uC2A4\uD0EC\uD504, \uBD80\uAC00 \uC124\uBA85\uC744 \uC704\uD55C Caption (12px)"
+    ],
+    usagePatterns: [
+      "\uD14D\uC2A4\uD2B8 \uD06C\uAE30, \uD589\uAC04(line-height), \uAD75\uAE30(font-weight)\uAC00 \uBB36\uC778 \uBCF5\uD569 \uD1A0\uD070\uC744 \uC0AC\uC6A9\uD569\uB2C8\uB2E4.",
+      "\uBCF8\uBB38 \uAE30\uBCF8 \uD06C\uAE30\uB294 14px(var(--atom-font-body-1))\uC744 \uD45C\uC900\uC73C\uB85C \uC801\uC6A9\uD569\uB2C8\uB2E4.",
+      "\uC81C\uBAA9\uACFC \uBCF8\uBB38 \uAC04\uC758 \uCDA9\uBD84\uD55C \uD589\uAC04(1.4~1.6)\uC744 \uC720\uC9C0\uD558\uC5EC \uAE34 \uAE00 \uC77D\uAE30 \uD53C\uB85C\uB3C4\uB97C \uB0AE\uCDA5\uB2C8\uB2E4."
+    ],
+    dosAndDonts: [
+      {
+        do: "\uC2DC\uAC01\uC801 \uC704\uACC4(H1 > H2 > Body > Caption)\uC5D0 \uB530\uB77C \uC62C\uBC14\uB978 \uC2DC\uB9E8\uD2F1 HTML \uD0DC\uADF8\uB97C \uC0AC\uC6A9\uD569\uB2C8\uB2E4.",
+        dont: "\uBAA8\uBC14\uC77C\uC774\uB098 \uC881\uC740 \uACF5\uAC04\uC774\uB77C\uACE0 \uD574\uC11C 10px \uC774\uD558\uC758 \uADF9\uC18C \uD3F0\uD2B8\uB97C \uB0A8\uBC1C\uD558\uC9C0 \uB9C8\uC138\uC694."
+      },
+      {
+        do: "\uC22B\uC790\uB098 \uB0A0\uC9DC, \uCF54\uB4DC \uB370\uC774\uD130\uB294 \uACE0\uC815\uD3ED(font-mono) \uB610\uB294 \uD45C\uC900 tabular-nums\uB97C \uC801\uC6A9\uD569\uB2C8\uB2E4.",
+        dont: "\uD55C \uD654\uBA74\uC5D0 4\uAC1C \uC774\uC0C1\uC758 \uC11C\uB85C \uB2E4\uB978 \uD3F0\uD2B8 \uAD75\uAE30\uB97C \uC11E\uC5B4 \uC0B0\uB9CC\uD558\uAC8C \uB9CC\uB4E4\uC9C0 \uB9C8\uC138\uC694."
+      }
+    ],
+    relatedPatternIds: ["developer-docs", "saas-dashboard"],
+    propsSpec: [
+      { name: "typography.font-display", type: "font", defaultValue: "36px / 1.2 / 700", description: "\uB300\uD615 \uB514\uC2A4\uD50C\uB808\uC774 \uD0C0\uC774\uD2C0" },
+      { name: "typography.font-heading-1", type: "font", defaultValue: "24px / 1.3 / 700", description: "H1 \uBA54\uC778 \uC81C\uBAA9" },
+      { name: "typography.font-heading-2", type: "font", defaultValue: "20px / 1.35 / 600", description: "H2 \uC139\uC158 \uC81C\uBAA9" },
+      { name: "typography.font-body-1", type: "font", defaultValue: "14px / 1.5 / 400", description: "\uD45C\uC900 \uBCF8\uBB38 \uD14D\uC2A4\uD2B8 (14px)" },
+      { name: "typography.font-caption-1", type: "font", defaultValue: "12px / 1.4 / 400", description: "\uCEA1\uC158 \uBC0F \uBD80\uAC00 \uBA54\uD0C0\uB370\uC774\uD130 (12px)" }
+    ],
+    htmlSnippet: `<!-- Typography Scale -->
+<h1 style="font: var(--atom-font-heading-1); color: var(--atom-text-primary);">Heading 1 (24px)</h1>
+<h2 style="font: var(--atom-font-heading-2); color: var(--atom-text-primary);">Heading 2 (20px)</h2>
+<p style="font: var(--atom-font-body-1); color: var(--atom-text-secondary);">Body Text (14px)</p>
+<span style="font: var(--atom-font-caption-1); color: var(--atom-text-muted);">Caption (12px)</span>`,
+    reactSnippet: `export function TypographyDemo() {
+  return (
+    <div className="space-y-3">
+      <h1 className="text-2xl font-bold text-(--text-primary)">Heading 1 (24px)</h1>
+      <h2 className="text-xl font-semibold text-(--text-primary)">Heading 2 (20px)</h2>
+      <p className="text-sm text-(--text-secondary) leading-relaxed">Body Text (14px)</p>
+      <span className="text-xs text-(--text-muted)">Caption (12px)</span>
+    </div>
+  );
+}`
+  },
+  {
     id: "button",
     name: "\uBC84\uD2BC (Button Variants)",
     category: "form",
     source: "shadcn + bootstrap",
-    description: "Primary, Secondary, Outline, Ghost, Destructive, Loading \uB4F1 \uC0C1\uD0DC\uBCC4 \uBC84\uD2BC \uD480\uC138\uD2B8",
+    description: "3\uB2E8\uACC4 \uC2DC\uAC01\uC801 \uC704\uACC4(Primary, Secondary, Ghost/Icon)\uC640 \uC2DC\uC2A4\uD15C \uC2DC\uB9E8\uD2F1 \uC0C1\uD0DC(Brand, Success, Warning, Destructive)\uB97C \uACB0\uD569\uD55C \uC644\uC131\uD615 \uBC84\uD2BC \uD480\uC138\uD2B8",
     callout: {
       type: "tip",
-      title: "\uC811\uADFC\uC131(A11y) \uAC00\uC774\uB4DC",
-      text: '\uBE44\uD65C\uC131\uD654(Disabled) \uC0C1\uD0DC\uC77C \uB54C\uB294 aria-disabled="true"\uC640 \uD568\uAED8 tabIndex={-1}\uC744 \uC9C0\uC815\uD558\uC5EC \uD0A4\uBCF4\uB4DC \uD0D0\uC0C9 \uD3EC\uCEE4\uC2A4\uB97C \uBC29\uC9C0\uD558\uC138\uC694.'
+      title: "\uBC84\uD2BC 3\uACC4\uCE35 \uC704\uACC4 & \uC2DC\uC2A4\uD15C \uC0C9\uC0C1 \uB9E4\uD551",
+      text: "\uD55C \uD654\uBA74\uC5D0\uB294 \uB2E8 1\uAC1C\uC758 Primary(\uC8FC \uD589\uB3D9) \uBC84\uD2BC\uC744 \uB450\uACE0, \uBCF4\uC870 \uD589\uB3D9\uC740 Secondary/Outline, \uBD80\uAC00 \uC81C\uC5B4\uB294 Ghost \uB610\uB294 Icon-Only \uBC84\uD2BC\uC744 \uBC30\uCE58\uD558\uC138\uC694. \uC0C9\uC0C1\uC740 \uC784\uC758 \uD5E5\uC2A4\uAC00 \uC544\uB2CC \uBE0C\uB79C\uB4DC(Primary), \uC131\uACF5(Green), \uACBD\uACE0(Amber), \uC704\uD5D8(Red) \uC2DC\uB9E8\uD2F1 \uD1A0\uD070\uC5D0 \uC5F0\uB3D9\uB429\uB2C8\uB2E4."
     },
     useCases: [
-      "\uD3FC \uC81C\uCD9C, \uC1A1\uAE08, \uD68C\uC6D0\uAC00\uC785 \uB4F1 \uD55C \uD654\uBA74\uC758 \uAC00\uC7A5 \uD575\uC2EC\uC801\uC778 \uB2E8\uC77C \uC804\uD658 \uD589\uB3D9 (Primary CTA)",
-      "\uB2E4\uC774\uC5BC\uB85C\uADF8 \uBAA8\uB2EC \uB0B4 \uCDE8\uC18C, \uC774\uC804 \uB2E8\uACC4 \uB4F1 \uBCF4\uC870 \uC561\uC158 (Secondary / Outline)",
-      "\uD68C\uC6D0 \uD0C8\uD1F4, \uB370\uC774\uD130 \uC601\uAD6C \uC0AD\uC81C, \uC8FC\uBB38 \uCDE8\uC18C \uB4F1 \uD30C\uAD34\uC801 \uC561\uC158 (Destructive)",
-      "\uBE44\uB3D9\uAE30 API \uC694\uCCAD \uD1B5\uC2E0 \uC911 \uC911\uBCF5 \uD074\uB9AD\uC744 \uBC29\uC9C0\uD558\uACE0 \uC0C1\uD0DC\uB97C \uC804\uB2EC\uD558\uB294 \uB85C\uB529 \uC2A4\uD53C\uB108 (Loading)"
+      "\uD654\uBA74\uC758 \uAC00\uC7A5 \uD575\uC2EC\uC801\uC778 \uB2E8\uC77C \uC804\uD658 \uD589\uB3D9 - Primary CTA (\uC800\uC7A5, \uACB0\uC81C, \uD68C\uC6D0\uAC00\uC785 \uB4F1 \uBE0C\uB79C\uB4DC \uC0C9\uC0C1)",
+      "\uB2E4\uC774\uC5BC\uB85C\uADF8 \uBAA8\uB2EC \uB0B4 \uCDE8\uC18C, \uC774\uC804 \uB2E8\uACC4 \uB4F1 \uC911\uB9BD \uBCF4\uC870 \uD589\uB3D9 - Secondary / Outline",
+      "\uD14C\uC774\uBE14 \uD589 \uC561\uC158, \uB124\uBE44\uAC8C\uC774\uC158 \uC11C\uBE0C \uBA54\uB274, \uD234\uBC14 \uB4F1 \uC2DC\uAC01\uC801 \uBD80\uB2F4\uC744 \uC904\uC5EC\uC57C \uD558\uB294 \uBD80\uAC00 \uC561\uC158 - Ghost",
+      "\uC88B\uC544\uC694, \uC990\uACA8\uCC3E\uAE30, \uB2EB\uAE30(X), \uB354\uBCF4\uAE30(...) \uB4F1 \uACF5\uAC04 \uC808\uC57D\uD615 \uC6D0\uC790 \uBC84\uD2BC - Icon-Only Button",
+      "\uC1A1\uAE08 \uC644\uB8CC, \uC2B9\uC778, \uC0C1\uD0DC \uBCC0\uACBD \uB4F1 \uAE0D\uC815\uC801 \uD655\uC815 \uD589\uB3D9 - Success (\uCD08\uB85D\uC0C9)",
+      "\uB370\uC774\uD130 \uC601\uAD6C \uC0AD\uC81C, \uD68C\uC6D0 \uD0C8\uD1F4, \uACB0\uC81C \uCDE8\uC18C \uB4F1 \uBD88\uAC00\uC5ED\uC801 \uD30C\uAD34\uC801 \uC561\uC158 - Destructive (\uBE68\uAC04\uC0C9)",
+      "\uC8FC\uC758 \uD655\uC778, \uC784\uC2DC \uBCF4\uAD00 \uD30C\uAE30 \uB4F1 \uACBD\uACE0 \uC218\uBC18 \uC561\uC158 - Warning (\uC8FC\uD669\uC0C9)"
     ],
     usagePatterns: [
-      "\uD654\uBA74(\uB610\uB294 \uBDF0\uD3EC\uD2B8)\uB2F9 \uB2E8 1\uAC1C\uC758 Primary \uBC84\uD2BC\uB9CC \uBC30\uCE58\uD558\uC5EC \uC0AC\uC6A9\uC790\uC758 \uC2DC\uAC01\uC801 \uC704\uACC4\uC640 \uC778\uC9C0 \uACFC\uBD80\uD558\uB97C \uBC29\uC9C0\uD569\uB2C8\uB2E4.",
-      "\uD655\uC778/\uCDE8\uC18C \uBC84\uD2BC \uADF8\uB8F9 \uBC30\uCE58 \uC2DC \uC5C4\uC9C0\uC190\uAC00\uB77D \uC811\uADFC\uC131\uC744 \uACE0\uB824\uD558\uC5EC \uC6B0\uCE21(\uB610\uB294 \uBAA8\uBC14\uC77C \uCD5C\uD558\uB2E8)\uC5D0 \uC8FC \uC561\uC158\uC744 \uBC30\uCE58\uD569\uB2C8\uB2E4.",
-      "\uBAA8\uBC14\uC77C \uD130\uCE58 \uD0C0\uAE43 \uC601\uC5ED\uC740 \uCD5C\uC18C 44x44px \uC774\uC0C1\uC744 \uBCF4\uC7A5\uD558\uC5EC \uC624\uD130\uCE58\uB97C \uC608\uBC29\uD569\uB2C8\uB2E4."
+      "\uD654\uBA74\uB2F9 \uB2E8 1\uAC1C\uC758 Primary \uBC84\uD2BC\uB9CC \uBC30\uCE58\uD558\uC5EC \uC0AC\uC6A9\uC790\uC758 \uC2DC\uAC01\uC801 \uC704\uACC4\uC640 \uC778\uC9C0 \uACFC\uBD80\uD558\uB97C \uBC29\uC9C0\uD569\uB2C8\uB2E4 (1-Primary \uC6D0\uCE59).",
+      "3\uACC4\uCE35 \uC704\uACC4 \uADDC\uCE59: Primary(\uC8FC \uD589\uB3D9, \uC194\uB9AC\uB4DC) > Secondary/Outline(\uBCF4\uC870 \uD589\uB3D9, \uD14C\uB450\uB9AC) > Ghost(\uCD5C\uC800 \uC2DC\uAC01\uC801 \uAC00\uC911\uCE58, \uD22C\uBA85 \uBC30\uACBD).",
+      "\uC2DC\uC2A4\uD15C \uC0C1\uD0DC \uC0C9\uC0C1 \uADDC\uCE59: \uBE68\uAC15=\uC704\uD5D8(Destructive), \uC8FC\uD669=\uACBD\uACE0(Warning), \uCD08\uB85D=\uC131\uACF5(Success), Primary=\uBE0C\uB79C\uB4DC(Primary CTA).",
+      "\uC544\uC774\uCF58 \uB2E8\uB3C5 \uBC84\uD2BC(isIconOnly)\uC740 \uBC18\uB4DC\uC2DC aria-label \uC18D\uC131\uC744 \uD568\uAED8 \uC9C0\uC815\uD558\uC5EC \uC2A4\uD06C\uB9B0\uB9AC\uB354 \uC811\uADFC\uC131\uC744 \uBCF4\uC7A5\uD569\uB2C8\uB2E4."
     ],
     dosAndDonts: [
       {
         do: '"\uC800\uC7A5\uD558\uAE30", "\uACC4\uC88C\uB85C \uC1A1\uAE08\uD558\uAE30", "\uC7A5\uBC14\uAD6C\uB2C8 \uB2F4\uAE30"\uC640 \uAC19\uC774 \uBA85\uD655\uD55C \uB3D9\uC0AC\uD615 \uB77C\uBCA8\uC744 \uC0AC\uC6A9\uD569\uB2C8\uB2E4.',
         dont: '"\uD655\uC778", "\uD074\uB9AD", "\uB124"\uC640 \uAC19\uC774 \uC0AC\uC6A9\uC790\uAC00 \uBC84\uD2BC \uD074\uB9AD \uD6C4 \uC77C\uC5B4\uB0A0 \uACB0\uACFC\uB97C \uC608\uCE21\uD558\uAE30 \uC5B4\uB824\uC6B4 \uBAA8\uD638\uD55C \uB77C\uBCA8\uC744 \uC4F0\uC9C0 \uB9C8\uC138\uC694.'
+      },
+      {
+        do: "\uC704\uD5D8 \uD589\uB3D9(\uC0AD\uC81C)\uC5D0\uB294 Destructive(\uBE68\uAC04\uC0C9), \uAE0D\uC815 \uD655\uC815 \uD589\uB3D9\uC5D0\uB294 Success(\uCD08\uB85D\uC0C9) \uB4F1 \uAE30\uB2A5\uACFC \uC2DC\uB9E8\uD2F1 \uC0C9\uC0C1\uC744 \uC77C\uCE58\uC2DC\uD0B5\uB2C8\uB2E4.",
+        dont: "\uB2E8\uC21C \uAC15\uC870\uB97C \uC704\uD574 \uC77C\uBC18 \uD655\uC778 \uBC84\uD2BC\uC5D0 \uBE68\uAC04\uC0C9(Destructive)\uC744 \uB0A8\uBC1C\uD558\uC5EC \uC0AC\uC6A9\uC790\uC5D0\uAC8C \uBD88\uC548\uAC10\uC744 \uC8FC\uC9C0 \uB9C8\uC138\uC694."
       },
       {
         do: "\uB85C\uB529 \uC911\uC77C \uB54C\uB294 \uBC84\uD2BC \uB108\uBE44\uAC00 \uC904\uC5B4\uB4E4\uAC70\uB098 \uD14D\uC2A4\uD2B8\uAC00 \uAE5C\uBE61\uC774\uC9C0 \uC54A\uB3C4\uB85D \uC778\uB77C\uC778 \uC2A4\uD53C\uB108\uB97C \uC720\uC9C0\uD569\uB2C8\uB2E4.",
@@ -374,24 +559,52 @@ var GALLERY_COMPONENTS = [
     ],
     relatedPatternIds: ["fintech-transfer", "ecommerce-checkout", "saas-dashboard", "developer-docs"],
     propsSpec: [
-      { name: "variant", type: "'primary' | 'secondary' | 'outline' | 'destructive' | 'ghost'", defaultValue: "'primary'", description: "\uBC84\uD2BC\uC758 \uC2DC\uAC01\uC801 \uAC15\uC870 \uC2A4\uD0C0\uC77C" },
-      { name: "size", type: "'sm' | 'md' | 'lg'", defaultValue: "'md'", description: "\uBC84\uD2BC \uD328\uB529 \uBC0F \uAE00\uC790 \uD06C\uAE30" },
+      { name: "variant", type: "'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive' | 'success' | 'warning'", defaultValue: "'primary'", description: "\uC2DC\uAC01\uC801 \uC704\uACC4 \uBC0F \uC2DC\uC2A4\uD15C \uC0C1\uD0DC \uC0C9\uC0C1 \uC2A4\uD0C0\uC77C" },
+      { name: "size", type: "'sm' | 'md' | 'lg'", defaultValue: "'md'", description: "\uBC84\uD2BC \uD328\uB529 \uBC0F \uAE00\uC790 \uD06C\uAE30 \uC2A4\uCF00\uC77C" },
+      { name: "paddingY", type: "string", defaultValue: "'var(--atom-btn-py)'", description: "\uBC84\uD2BC \uC0C1\uD558\uB2E8 \uB0B4\uBD80 \uC5EC\uBC31 \uCEE4\uC2A4\uD140 \uD1A0\uD070\uAC12 (Vertical Padding)" },
+      { name: "paddingX", type: "string", defaultValue: "'var(--atom-btn-px)'", description: "\uBC84\uD2BC \uC88C\uC6B0 \uB0B4\uBD80 \uC5EC\uBC31 \uCEE4\uC2A4\uD140 \uD1A0\uD070\uAC12 (Horizontal Padding)" },
+      { name: "isIconOnly", type: "boolean", defaultValue: "false", description: "\uD14D\uC2A4\uD2B8 \uC5C6\uC774 \uC815\uC0AC\uAC01\uD615 \uC544\uC774\uCF58 \uB2E8\uB3C5 \uBC84\uD2BC \uBAA8\uB4DC (\uD328\uB529 \uBC0F \uACE1\uB960 \uCD5C\uC801\uD654)" },
       { name: "loading", type: "boolean", defaultValue: "false", description: "\uB85C\uB529 \uC2A4\uD53C\uB108 \uD65C\uC131\uD654 \uBC0F \uC0C1\uD638\uC791\uC6A9 \uCC28\uB2E8" },
       { name: "disabled", type: "boolean", defaultValue: "false", description: "\uD074\uB9AD \uCC28\uB2E8 \uBC0F \uBD88\uD22C\uBA85\uB3C4 \uCD95\uC18C" }
     ],
-    htmlSnippet: `<button class="atom-btn atom-btn-primary">Primary Action</button>
-<button class="atom-btn atom-btn-secondary">Secondary</button>
-<button class="atom-btn atom-btn-outline">Outline</button>
-<button class="atom-btn atom-btn-destructive">Delete</button>`,
+    htmlSnippet: `<!-- 1. \uACC4\uCE35\uBCC4 (Hierarchy) -->
+<button class="atom-btn atom-btn-primary">Primary (1\uACC4\uCE35)</button>
+<button class="atom-btn atom-btn-secondary">Secondary (2\uACC4\uCE35)</button>
+<button class="atom-btn atom-btn-ghost">Ghost (3\uACC4\uCE35)</button>
+
+<!-- 2. \uC2DC\uC2A4\uD15C \uC2DC\uB9E8\uD2F1 \uC0C9\uC0C1 (System Status) -->
+<button class="atom-btn atom-btn-success">\uC131\uACF5 (Success)</button>
+<button class="atom-btn atom-btn-warning">\uACBD\uACE0 (Warning)</button>
+<button class="atom-btn atom-btn-destructive">\uC704\uD5D8 (Destructive)</button>
+
+<!-- 3. \uC544\uC774\uCF58 \uB2E8\uB3C5 (Icon-Only) -->
+<button class="atom-btn atom-btn-icon atom-btn-secondary" aria-label="\uC990\uACA8\uCC3E\uAE30">\u2605</button>`,
     reactSnippet: `import { Button } from '@/components/ui/button';
+import { Star, Trash2, Check } from 'lucide-react';
 
 export function ButtonDemo() {
   return (
-    <div className="flex gap-2">
-      <Button variant="primary">\uC800\uC7A5\uD558\uAE30</Button>
-      <Button variant="outline">\uCDE8\uC18C</Button>
-      <Button variant="destructive">\uC601\uAD6C \uC0AD\uC81C</Button>
-      <Button loading>\uCC98\uB9AC \uC911...</Button>
+    <div className="flex flex-col gap-4">
+      {/* 3\uACC4\uCE35 \uC704\uACC4 (Hierarchy) */}
+      <div className="flex gap-2">
+        <Button variant="primary">Primary (1\uACC4\uCE35)</Button>
+        <Button variant="secondary">Secondary (2\uACC4\uCE35)</Button>
+        <Button variant="ghost">Ghost (3\uACC4\uCE35)</Button>
+      </div>
+
+      {/* \uC2DC\uC2A4\uD15C \uC0C1\uD0DC \uC0C9\uC0C1 (Semantic Status) */}
+      <div className="flex gap-2">
+        <Button variant="success">\uC131\uACF5 \uC644\uB8CC</Button>
+        <Button variant="warning">\uC8FC\uC758 \uD655\uC778</Button>
+        <Button variant="destructive">\uC601\uAD6C \uC0AD\uC81C</Button>
+      </div>
+
+      {/* \uC544\uC774\uCF58 \uBC84\uD2BC & \uB85C\uB529 */}
+      <div className="flex gap-2 items-center">
+        <Button isIconOnly variant="secondary" aria-label="\uC990\uACA8\uCC3E\uAE30"><Star className="w-4 h-4" /></Button>
+        <Button isIconOnly variant="ghost" aria-label="\uC0AD\uC81C"><Trash2 className="w-4 h-4 text-rose-500" /></Button>
+        <Button loading>\uCC98\uB9AC \uC911...</Button>
+      </div>
     </div>
   );
 }`,
@@ -8354,6 +8567,10 @@ var DEFAULT_THEME_CONFIG = {
     }
   },
   borderRadius: "14px",
+  buttonSpacing: {
+    paddingY: "8px",
+    paddingX: "16px"
+  },
   selectedIcon: "Sparkles"
 };
 var COLOR_PRESETS = [
@@ -8560,6 +8777,12 @@ ${fontImportCSS}/* [AtomDesignToken] Live Injected Theme Variables */
 
   /* All Atom UI Component CSS Variable Mappings */
   --atom-btn-radius: ${borderRadius};
+  --atom-btn-py: ${theme.buttonSpacing?.paddingY || "8px"};
+  --atom-btn-px: ${theme.buttonSpacing?.paddingX || "16px"};
+  --atom-btn-py-sm: calc((${theme.buttonSpacing?.paddingY || "8px"}) * 0.5);
+  --atom-btn-px-sm: calc((${theme.buttonSpacing?.paddingX || "16px"}) * 0.625);
+  --atom-btn-py-lg: calc((${theme.buttonSpacing?.paddingY || "8px"}) * 1.5);
+  --atom-btn-px-lg: calc((${theme.buttonSpacing?.paddingX || "16px"}) * 1.5);
   --atom-input-radius: ${borderRadius};
   --atom-card-radius: ${borderRadius};
   --atom-card-bg: ${color.bgSecondary};
@@ -8907,7 +9130,7 @@ function cn(...inputs) {
 
 // src/index.ts
 var ATOM_UI_CSS_PATH = "atomsystem/css/atom-ui.css";
-var ATOM_VERSION = "0.6.0";
+var ATOM_VERSION = "0.6.1";
 var ATOM_LIB_NAME = "atomsystem";
 
 exports.ATOM_LIB_NAME = ATOM_LIB_NAME;
