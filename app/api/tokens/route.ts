@@ -59,13 +59,16 @@ export async function POST(req: NextRequest) {
     // 2. Auto-compile into css/atom-ui.css
     try {
       const compiledCss = compileTokensToCss(newTokens);
+      const customCss = typeof body.css === 'string' ? body.css : '';
+      let combinedCss = customCss ? `${customCss}\n\n${compiledCss}` : compiledCss;
+
       // Read existing css/atom-ui.css to preserve semantic UI classes
-      let fullCss = compiledCss;
+      let fullCss = combinedCss;
       if (fs.existsSync(cssPath)) {
         const existingCss = fs.readFileSync(cssPath, 'utf-8');
         const splitIndex = existingCss.indexOf('/* === Universal Component Classes === */');
         if (splitIndex !== -1) {
-          fullCss = compiledCss + '\n' + existingCss.slice(splitIndex);
+          fullCss = combinedCss + '\n' + existingCss.slice(splitIndex);
         }
       }
       fs.writeFileSync(cssPath, fullCss, 'utf-8');

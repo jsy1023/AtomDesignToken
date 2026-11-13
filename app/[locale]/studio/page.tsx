@@ -1,32 +1,75 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
+import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/routing';
 import { Header } from '@/components/Header';
 import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';
-import { exportToTokensJson, exportToCSS } from '@/lib/services/themeEngine';
 import { CodeHighlight } from '@/components/common/CodeHighlight';
 import { Button, Card, Badge, Input } from '@/components/ui';
+import {
+  PaletteVariable,
+  ComponentVariable,
+  StudioComponentDefinition,
+  INITIAL_PALETTE_VARIABLES,
+  INITIAL_STUDIO_COMPONENTS,
+} from '@/lib/data/studioData';
+import {
+  exportStudioToTokensJson,
+  exportStudioToCSS,
+} from '@/lib/services/studioEngine';
 import {
   Sliders,
   Sparkles,
   Save,
   Check,
   RotateCcw,
-  Layers,
-  Component,
   Palette,
-  Type,
   FileCode,
   ShieldCheck,
   Eye,
+  Plus,
+  Trash2,
+  Edit2,
   Terminal,
   ExternalLink,
+  Layers,
+  Component,
+  Search,
 } from 'lucide-react';
 
 export default function LocalStudioPage() {
-  const { theme, updateColor, updateBorderRadius, resetTheme } = useThemeEditor();
-  const [activeTab, setActiveTab] = useState<'tokens' | 'components' | 'preview'>('tokens');
+  const t = useTranslations('studioPage');
+  const { theme, resetTheme } = useThemeEditor();
+  const brandColor = theme?.color?.primary || '#3182f6';
+
+  // State
+  const [activeTab, setActiveTab] = useState<'components' | 'palette' | 'preview'>('components');
+  const [paletteVariables, setPaletteVariables] = useState<PaletteVariable[]>(INITIAL_PALETTE_VARIABLES);
+  const [components, setComponents] = useState<StudioComponentDefinition[]>(INITIAL_STUDIO_COMPONENTS);
+  const [selectedComponentId, setSelectedComponentId] = useState<string>('button');
+  const [selectedVariableId, setSelectedVariableId] = useState<string>('primary');
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [categoryFilter, setCategoryFilter] = useState<string>('all');
+
+  // Modals / Dialogs
+  const [isAddVariableOpen, setIsAddVariableOpen] = useState(false);
+  const [newVariableName, setNewVariableName] = useState('');
+  const [newVariableKey, setNewVariableKey] = useState('');
+  const [newVariableDesc, setNewVariableDesc] = useState('');
+
+  const [isAddPaletteOpen, setIsAddPaletteOpen] = useState(false);
+  const [newPaletteName, setNewPaletteName] = useState('');
+  const [newPaletteId, setNewPaletteId] = useState('');
+  const [newPaletteCategory, setNewPaletteCategory] = useState<'color' | 'radius' | 'spacing'>('color');
+  const [newPaletteValue, setNewPaletteValue] = useState('#3182f6');
+  const [newPaletteDesc, setNewPaletteDesc] = useState('');
+
+  // Editing Variable Name
+  const [editingVariableId, setEditingVariableId] = useState<string | null>(null);
+  const [editingVariableName, setEditingVariableName] = useState('');
+
+  // Status & Environment Guard
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
@@ -49,20 +92,145 @@ export default function LocalStudioPage() {
     setTimeout(() => setCopiedCli(false), 2000);
   };
 
-  // Brand Color & Radius
-  const brandColor = theme?.color?.primary || '#3182f6';
-  const borderRadius = theme?.borderRadius || '16px';
+  // Active Component & Variable
+  const currentComponent = components.find((c) => c.id === selectedComponentId) || components[0];
+  const currentVariable = currentComponent.variables.find((v) => v.id === selectedVariableId) || currentComponent.variables[0];
+
+  // Helper to resolve palette value
+  const getPaletteValue = (paletteId: string): string => {
+    return paletteVariables.find((p) => p.id === paletteId)?.value || paletteId;
+  };
+
+  // Update token binding for current component variable
+  const handleUpdateBinding = (propertyKey: string, newPaletteId: string) => {
+    setComponents((prev) =>
+      prev.map((comp) => {
+        if (comp.id !== currentComponent.id) return comp;
+        return {
+          ...comp,
+          variables: comp.variables.map((v) => {
+            if (v.id !== currentVariable.id) return v;
+            return {
+              ...v,
+              tokenBindings: {
+                ...v.tokenBindings,
+                [propertyKey]: newPaletteId,
+              },
+            };
+          }),
+        };
+      })
+    );
+  };
+
+  // Add new variable to current component
+  const handleCreateVariable = () => {
+    if (!newVariableName.trim() || !newVariableKey.trim()) return;
+    const cleanKey = newVariableKey.trim().toLowerCase().replace(/\s+/g, '-');
+
+    // Default bindings from current variable or properties
+    const initialBindings: Record<string, string> = {};
+    currentComponent.properties.forEach((prop) => {
+      initialBindings[prop.key] = currentVariable?.tokenBindings[prop.key] || prop.defaultPaletteId;
+    });
+
+    const newVar: ComponentVariable = {
+      id: cleanKey,
+      name: newVariableName.trim(),
+      description: newVariableDesc.trim(),
+      tokenBindings: initialBindings,
+    };
+
+    setComponents((prev) =>
+      prev.map((comp) => {
+        if (comp.id !== currentComponent.id) return comp;
+        return {
+          ...comp,
+          variables: [...comp.variables, newVar],
+        };
+      })
+    );
+
+    setSelectedVariableId(cleanKey);
+    setIsAddVariableOpen(false);
+    setNewVariableName('');
+    setNewVariableKey('');
+    setNewVariableDesc('');
+  };
+
+  // Delete variable
+  const handleDeleteVariable = (varId: string) => {
+    if (currentComponent.variables.length <= 1) return;
+    setComponents((prev) =>
+      prev.map((comp) => {
+        if (comp.id !== currentComponent.id) return comp;
+        const filtered = comp.variables.filter((v) => v.id !== varId);
+        return { ...comp, variables: filtered };
+      })
+    );
+    if (selectedVariableId === varId) {
+      const remaining = currentComponent.variables.filter((v) => v.id !== varId);
+      setSelectedVariableId(remaining[0].id);
+    }
+  };
+
+  // Save renamed variable
+  const handleSaveRename = (varId: string) => {
+    if (!editingVariableName.trim()) return;
+    setComponents((prev) =>
+      prev.map((comp) => {
+        if (comp.id !== currentComponent.id) return comp;
+        return {
+          ...comp,
+          variables: comp.variables.map((v) =>
+            v.id === varId ? { ...v, name: editingVariableName.trim() } : v
+          ),
+        };
+      })
+    );
+    setEditingVariableId(null);
+  };
+
+  // Add new Palette Variable
+  const handleCreatePalette = () => {
+    if (!newPaletteName.trim() || !newPaletteId.trim()) return;
+    let cleanId = newPaletteId.trim();
+    if (!cleanId.startsWith('--atom-')) {
+      cleanId = `--atom-${cleanId}`;
+    }
+
+    const newPal: PaletteVariable = {
+      id: cleanId,
+      name: newPaletteName.trim(),
+      category: newPaletteCategory,
+      value: newPaletteValue.trim(),
+      description: newPaletteDesc.trim(),
+    };
+
+    setPaletteVariables((prev) => [...prev, newPal]);
+    setIsAddPaletteOpen(false);
+    setNewPaletteName('');
+    setNewPaletteId('');
+    setNewPaletteValue('#3182f6');
+    setNewPaletteDesc('');
+  };
+
+  // Delete Palette Variable
+  const handleDeletePalette = (id: string) => {
+    setPaletteVariables((prev) => prev.filter((p) => p.id !== id));
+  };
 
   // Save changes directly to tokens/token.json & css/atom-ui.css via /api/tokens
   const handleSaveToProject = async () => {
     setIsSaving(true);
     setStatusMessage(null);
     try {
-      const generatedTokensJson = JSON.parse(exportToTokensJson(theme));
+      const tokensJson = JSON.parse(exportStudioToTokensJson(paletteVariables, components));
+      const customCss = exportStudioToCSS(paletteVariables, components);
       const res = await fetch('/api/tokens', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tokens: generatedTokensJson }),
+        body: JSON.stringify({ tokens: tokensJson, css: customCss }),
       });
 
       if (!res.ok) {
@@ -71,17 +239,24 @@ export default function LocalStudioPage() {
       }
 
       setSaveSuccess(true);
-      setStatusMessage('tokens/token.json 및 css/atom-ui.css에 실시간 반영되었습니다!');
+      setStatusMessage(t('saveSuccessMsg'));
       setTimeout(() => {
         setSaveSuccess(false);
         setStatusMessage(null);
       }, 4000);
     } catch (err: any) {
-      setStatusMessage('저장 실패: ' + err.message);
+      setStatusMessage(t('saveFailMsg') + err.message);
     } finally {
       setIsSaving(false);
     }
   };
+
+  // Filtered components
+  const filteredComponents = components.filter((comp) => {
+    const matchesSearch = comp.name.toLowerCase().includes(searchQuery.toLowerCase()) || comp.id.includes(searchQuery.toLowerCase());
+    const matchesCategory = categoryFilter === 'all' || comp.category.toLowerCase() === categoryFilter.toLowerCase();
+    return matchesSearch && matchesCategory;
+  });
 
   return (
     <div className="min-h-screen bg-(--bg-primary) text-(--text-primary) flex flex-col font-sans transition-colors">
@@ -97,15 +272,13 @@ export default function LocalStudioPage() {
           <div className="space-y-2 max-w-xl">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 text-amber-700 dark:text-amber-300 text-xs font-mono font-semibold border border-amber-500/20">
               <ShieldCheck className="w-3.5 h-3.5" />
-              <span>로컬 프로젝트 전용 개발 도구 (Local-Only Feature)</span>
+              <span>{t('remoteGuardBadge')}</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-(--text-primary)">
-              /studio는 로컬 환경에서만 동작합니다
+              {t('remoteGuardTitle')}
             </h1>
-            <p className="text-sm text-(--text-secondary) leading-relaxed">
-              이 스튜디오는 라이브러리 사용자의 로컬 프로젝트 파일(<code className="font-mono text-xs px-1 py-0.5 rounded bg-(--bg-secondary)">tokens/token.json</code> 및 <code className="font-mono text-xs px-1 py-0.5 rounded bg-(--bg-secondary)">css/atom-ui.css</code>)과 직접 통신하여 토큰을 영구 저장하는 <strong>로컬 개발자 전용 GUI 도구</strong>입니다.
-              <br />
-              원격 배포 웹 환경({hostname})에서는 보안 및 격리 정책상 로컬 파일시스템에 접근할 수 없습니다.
+            <p className="text-sm text-(--text-secondary) leading-relaxed whitespace-pre-line">
+              {t('remoteGuardDesc', { hostname })}
             </p>
           </div>
 
@@ -113,7 +286,7 @@ export default function LocalStudioPage() {
           <div className="w-full max-w-md p-5 rounded-xl bg-(--bg-secondary) border border-(--border-subtle) flex flex-col gap-3 shadow-xs text-left">
             <div className="flex items-center justify-between">
               <span className="text-xs font-mono font-bold text-(--text-secondary) uppercase tracking-wider">
-                로컬 프로젝트에서 스튜디오 실행 커맨드
+                {t('remoteCliTitle')}
               </span>
               <span className="text-xs font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 font-semibold">
                 CLI Command
@@ -125,13 +298,13 @@ export default function LocalStudioPage() {
                 type="button"
                 onClick={copyStudioCommand}
                 className="text-neutral-400 hover:text-(--text-primary) transition cursor-pointer ml-2"
-                title="커맨드 복사"
+                title={t('copyCommand')}
               >
                 {copiedCli ? <Check className="w-4 h-4 text-emerald-500" /> : <Save className="w-4 h-4" />}
               </button>
             </div>
             <p className="text-xs text-(--text-muted) leading-relaxed">
-              💡 터미널에서 위 명령어를 실행하면 사용 중인 프로젝트의 토큰과 컴포넌트를 로컬 브라우저(<code className="font-mono">http://localhost:3000/studio</code>)에서 즉시 조회 및 편집할 수 있습니다.
+              {t('remoteCliTip')}
             </p>
           </div>
 
@@ -141,37 +314,37 @@ export default function LocalStudioPage() {
               href="/guide"
               className="px-4 py-2 rounded-(--radius-sm) bg-(--text-primary) text-(--bg-primary) text-xs font-semibold hover:opacity-90 transition shadow-xs flex items-center gap-1.5"
             >
-              <span>스튜디오 활용 가이드 읽기</span>
+              <span>{t('guideBtn')}</span>
               <ExternalLink className="w-3.5 h-3.5" />
             </Link>
             <Link
               href="/components/button"
               className="px-4 py-2 rounded-(--radius-sm) bg-(--bg-secondary) text-(--text-primary) border border-(--border-subtle) text-xs font-semibold hover:bg-(--bg-primary) transition shadow-xs"
             >
-              컴포넌트 카탈로그 조회
+              {t('componentsBtn')}
             </Link>
           </div>
         </main>
       ) : (
-        /* Case 2: Local Development Environment (localhost / 127.0.0.1) */
-        <main className="max-w-6xl w-full mx-auto px-4 sm:px-6 py-8 flex-1 flex flex-col gap-8 animate-in fade-in">
-          {/* Studio Hero Header */}
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-(--border-subtle) pb-6">
+        /* Case 2: Local Studio Environment */
+        <main className="max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 flex-1 flex flex-col gap-6 animate-in fade-in">
+          {/* Header Bar */}
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-(--border-subtle) pb-5">
             <div>
               <div className="flex items-center gap-2 mb-1.5">
-                <span className="font-mono text-xs px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold border border-emerald-500/20 flex items-center gap-1 shadow-xs">
-                  <ShieldCheck className="w-3.5 h-3.5" />
-                  🟢 LOCALHOST CONNECTED
+                <span className="font-mono text-xs px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold border border-emerald-500/20 flex items-center gap-1.5 shadow-xs">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" />
+                  {t('badgeConnected')}
                 </span>
                 <span className="text-xs font-mono px-2 py-0.5 rounded bg-(--bg-secondary) text-(--text-secondary) border border-(--border-subtle)">
-                  로컬 파일시스템 연동 (/studio)
+                  {t('badgeFs')}
                 </span>
               </div>
-              <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-(--text-primary)">
-                로컬 디자인 토큰 & 컴포넌트 스튜디오 (Studio)
+              <h1 className="text-2xl font-extrabold tracking-tight text-(--text-primary)">
+                {t('title')}
               </h1>
-              <p className="text-sm text-(--text-secondary) mt-1">
-                GUI 테마 에디터에서 시각적으로 토큰을 조정한 뒤, 클릭 한 번으로 내 로컬 프로젝트의 <code className="font-mono text-xs">tokens/token.json</code>과 <code className="font-mono text-xs">css/atom-ui.css</code>에 영구 반영합니다.
+              <p className="text-xs sm:text-sm text-(--text-secondary) mt-0.5">
+                {t('desc')}
               </p>
             </div>
 
@@ -179,11 +352,15 @@ export default function LocalStudioPage() {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={resetTheme}
+                onClick={() => {
+                  setPaletteVariables(INITIAL_PALETTE_VARIABLES);
+                  setComponents(INITIAL_STUDIO_COMPONENTS);
+                  resetTheme();
+                }}
                 className="flex items-center gap-1.5"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
-                <span>초기화</span>
+                <span>{t('reset')}</span>
               </Button>
 
               <Button
@@ -196,249 +373,817 @@ export default function LocalStudioPage() {
                 {saveSuccess ? (
                   <>
                     <Check className="w-4 h-4 text-emerald-400" />
-                    <span>반영 완료!</span>
+                    <span>{t('saveSuccess')}</span>
                   </>
                 ) : (
                   <>
                     <Save className="w-4 h-4" />
-                    <span>{isSaving ? '프로젝트 저장 중...' : '프로젝트에 즉시 반영하기'}</span>
+                    <span>{isSaving ? t('saving') : t('saveToProject')}</span>
                   </>
                 )}
               </Button>
             </div>
           </div>
 
-        {/* Status notification banner */}
-        {statusMessage && (
-          <div className={`p-3.5 rounded-(--radius) text-sm font-medium flex items-center gap-2 ${
-            saveSuccess 
-              ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20' 
-              : 'bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20'
-          }`}>
-            <Sparkles className="w-4 h-4 shrink-0" />
-            <span>{statusMessage}</span>
+          {/* Status notification banner */}
+          {statusMessage && (
+            <div
+              className={`p-3 rounded-(--radius) text-xs font-medium flex items-center gap-2 ${
+                saveSuccess
+                  ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20'
+                  : 'bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20'
+              }`}
+            >
+              <Sparkles className="w-4 h-4 shrink-0" />
+              <span>{statusMessage}</span>
+            </div>
+          )}
+
+          {/* Studio Navigation Tabs */}
+          <div className="flex items-center gap-2 border-b border-(--border-subtle) pb-2">
+            <button
+              onClick={() => setActiveTab('components')}
+              className={`px-4 py-2 rounded-(--radius-sm) text-xs sm:text-sm font-semibold transition cursor-pointer flex items-center gap-2 ${
+                activeTab === 'components'
+                  ? 'bg-(--text-primary) text-(--bg-primary)'
+                  : 'text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary)'
+              }`}
+            >
+              <Component className="w-4 h-4" />
+              <span>{t('tabComponents')}</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('palette')}
+              className={`px-4 py-2 rounded-(--radius-sm) text-xs sm:text-sm font-semibold transition cursor-pointer flex items-center gap-2 ${
+                activeTab === 'palette'
+                  ? 'bg-(--text-primary) text-(--bg-primary)'
+                  : 'text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary)'
+              }`}
+            >
+              <Palette className="w-4 h-4" />
+              <span>{t('tabPalette')}</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('preview')}
+              className={`px-4 py-2 rounded-(--radius-sm) text-xs sm:text-sm font-semibold transition cursor-pointer flex items-center gap-2 ${
+                activeTab === 'preview'
+                  ? 'bg-(--text-primary) text-(--bg-primary)'
+                  : 'text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary)'
+              }`}
+            >
+              <FileCode className="w-4 h-4" />
+              <span>{t('tabJson')}</span>
+            </button>
           </div>
-        )}
 
-        {/* Studio Mode Tabs */}
-        <div className="flex items-center gap-2 border-b border-(--border-subtle) pb-2">
-          <button
-            onClick={() => setActiveTab('tokens')}
-            className={`px-4 py-2 rounded-(--radius-sm) text-sm font-semibold transition cursor-pointer flex items-center gap-2 ${
-              activeTab === 'tokens'
-                ? 'bg-(--text-primary) text-(--bg-primary)'
-                : 'text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary)'
-            }`}
-          >
-            <Sliders className="w-4 h-4" />
-            <span>토큰 실시간 편집 (Token Editor)</span>
-          </button>
-
-          <button
-            onClick={() => setActiveTab('components')}
-            className={`px-4 py-2 rounded-(--radius-sm) text-sm font-semibold transition cursor-pointer flex items-center gap-2 ${
-              activeTab === 'components'
-                ? 'bg-(--text-primary) text-(--bg-primary)'
-                : 'text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary)'
-            }`}
-          >
-            <Component className="w-4 h-4" />
-            <span>컴포넌트 실시간 조회 (Live Components)</span>
-          </button>
-
-          <button
-            onClick={() => setActiveTab('preview')}
-            className={`px-4 py-2 rounded-(--radius-sm) text-sm font-semibold transition cursor-pointer flex items-center gap-2 ${
-              activeTab === 'preview'
-                ? 'bg-(--text-primary) text-(--bg-primary)'
-                : 'text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary)'
-            }`}
-          >
-            <FileCode className="w-4 h-4" />
-            <span>컴파일된 W3C JSON & CSS 보기</span>
-          </button>
-        </div>
-
-        {/* Tab 1: Token Editor Controls */}
-        {activeTab === 'tokens' && (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Color Controls */}
-            <Card className="p-5 flex flex-col gap-4 shadow-xs">
-              <div className="flex items-center gap-2 border-b border-(--border-subtle) pb-3">
-                <Palette className="w-4 h-4 text-(--accent-primary)" />
-                <h3 className="font-bold text-sm text-(--text-primary)">브랜드 & 서피스 컬러</h3>
-              </div>
-
-              <div className="space-y-3">
-                <div>
-                  <label className="text-xs font-semibold text-(--text-secondary) mb-1.5 block">
-                    Primary Brand Color (주요 액션)
-                  </label>
-                  <div className="flex items-center gap-2">
-                    <input
-                      type="color"
-                      value={brandColor}
-                      onChange={(e) => updateColor('primary', e.target.value)}
-                      className="w-9 h-9 rounded cursor-pointer border border-(--border-subtle) bg-transparent"
-                    />
-                    <input
-                      type="text"
-                      value={brandColor}
-                      onChange={(e) => updateColor('primary', e.target.value)}
-                      className="flex-1 font-mono text-xs px-2.5 py-1.5 rounded border border-(--border-subtle) bg-(--bg-secondary) text-(--text-primary)"
-                    />
-                  </div>
+          {/* TAB 1: Component Studio (3-Column Layout: Sidebar / Stage / Inspector) */}
+          {activeTab === 'components' && (
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+              {/* Left Column: Components File Explorer (3 cols) */}
+              <div className="lg:col-span-3 flex flex-col gap-3 p-4 rounded-(--radius) bg-(--bg-secondary)/40 border border-(--border-subtle)">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-mono font-bold text-(--text-secondary) uppercase tracking-wider flex items-center gap-1.5">
+                    <Layers className="w-3.5 h-3.5 text-(--accent-primary)" />
+                    UI Components
+                  </span>
+                  <span className="text-[11px] font-mono px-1.5 py-0.5 rounded bg-(--bg-secondary) text-(--text-muted)">
+                    {filteredComponents.length}
+                  </span>
                 </div>
 
-                <div>
-                  <label className="text-xs font-semibold text-(--text-secondary) mb-1.5 block">
-                    Secondary / Surface Background
-                  </label>
-                  <div className="flex items-center gap-2">
-                    <input
-                      type="color"
-                      value={theme?.color?.bgSecondary || '#f8f9fa'}
-                      onChange={(e) => updateColor('bgSecondary', e.target.value)}
-                      className="w-9 h-9 rounded cursor-pointer border border-(--border-subtle) bg-transparent"
-                    />
-                    <input
-                      type="text"
-                      value={theme?.color?.bgSecondary || '#f8f9fa'}
-                      onChange={(e) => updateColor('bgSecondary', e.target.value)}
-                      className="flex-1 font-mono text-xs px-2.5 py-1.5 rounded border border-(--border-subtle) bg-(--bg-secondary) text-(--text-primary)"
-                    />
-                  </div>
+                {/* Search & Filter */}
+                <div className="relative">
+                  <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-(--text-muted)" />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder={t('searchComponent')}
+                    className="w-full text-xs pl-8 pr-3 py-1.5 rounded border border-(--border-subtle) bg-(--bg-primary) text-(--text-primary) placeholder:text-(--text-muted)"
+                  />
                 </div>
-              </div>
-            </Card>
 
-            {/* Radius & Border Controls */}
-            <Card className="p-5 flex flex-col gap-4 shadow-xs">
-              <div className="flex items-center gap-2 border-b border-(--border-subtle) pb-3">
-                <Sliders className="w-4 h-4 text-(--accent-primary)" />
-                <h3 className="font-bold text-sm text-(--text-primary)">모서리 곡률 (Border Radius)</h3>
-              </div>
+                {/* Category Pills */}
+                <div className="flex flex-wrap gap-1">
+                  {['all', 'Form', 'Layout', 'Feedback'].map((cat) => (
+                    <button
+                      key={cat}
+                      onClick={() => setCategoryFilter(cat)}
+                      className={`text-[10px] font-mono px-2 py-0.5 rounded cursor-pointer transition ${
+                        categoryFilter === cat
+                          ? 'bg-(--text-primary) text-(--bg-primary) font-semibold'
+                          : 'bg-(--bg-secondary) text-(--text-secondary) hover:text-(--text-primary)'
+                      }`}
+                    >
+                      {cat === 'all' ? t('categoryAll') : cat}
+                    </button>
+                  ))}
+                </div>
 
-              <div className="space-y-3">
-                <div>
-                  <label className="text-xs font-semibold text-(--text-secondary) mb-1.5 block">
-                    기본 곡률 프리셋
-                  </label>
-                  <div className="grid grid-cols-4 gap-1.5">
-                    {['4px', '8px', '12px', '16px', '20px', '24px', '9999px'].map((r) => (
+                {/* Component List Items */}
+                <div className="flex flex-col gap-1 mt-1 max-h-[520px] overflow-y-auto">
+                  {filteredComponents.map((comp) => {
+                    const isSelected = comp.id === selectedComponentId;
+                    return (
                       <button
-                        key={r}
-                        onClick={() => updateBorderRadius(r)}
-                        className={`px-2 py-1.5 text-xs font-mono rounded cursor-pointer ${
-                          borderRadius === r
-                            ? 'bg-(--text-primary) text-(--bg-primary) font-bold'
-                            : 'bg-(--bg-secondary) text-(--text-secondary) hover:text-(--text-primary)'
+                        key={comp.id}
+                        onClick={() => {
+                          setSelectedComponentId(comp.id);
+                          setSelectedVariableId(comp.variables[0]?.id || 'default');
+                        }}
+                        className={`text-left p-2.5 rounded-(--radius-sm) text-xs font-medium transition cursor-pointer flex items-center justify-between ${
+                          isSelected
+                            ? 'bg-(--text-primary) text-(--bg-primary) font-semibold shadow-xs'
+                            : 'hover:bg-(--bg-secondary) text-(--text-primary)'
                         }`}
                       >
-                        {r}
+                        <span className="truncate">{comp.name}</span>
+                        <span className="text-[10px] font-mono opacity-60 ml-2">
+                          {comp.variables.length} vars
+                        </span>
                       </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Middle Column: Variable Selector & Live Preview Stage (5 cols) */}
+              <div className="lg:col-span-5 flex flex-col gap-4">
+                {/* Variable Selector Bar */}
+                <div className="p-4 rounded-(--radius) bg-(--bg-secondary)/30 border border-(--border-subtle) flex flex-col gap-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold text-(--text-secondary) uppercase tracking-wider flex items-center gap-1.5">
+                      <Sliders className="w-3.5 h-3.5 text-(--accent-primary)" />
+                      {t('variableLabel')}
+                    </span>
+                    <button
+                      onClick={() => setIsAddVariableOpen(true)}
+                      className="text-xs font-semibold text-(--accent-primary) hover:underline flex items-center gap-1 cursor-pointer"
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                      <span>{t('addVariableBtn')}</span>
+                    </button>
+                  </div>
+
+                  {/* Variable Tabs */}
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    {currentComponent.variables.map((v) => {
+                      const isVarSelected = v.id === currentVariable?.id;
+                      const isEditing = editingVariableId === v.id;
+
+                      if (isEditing) {
+                        return (
+                          <div key={v.id} className="flex items-center gap-1">
+                            <input
+                              type="text"
+                              value={editingVariableName}
+                              onChange={(e) => setEditingVariableName(e.target.value)}
+                              className="text-xs px-2 py-1 rounded border border-(--border-subtle) bg-(--bg-primary)"
+                              autoFocus
+                            />
+                            <button
+                              onClick={() => handleSaveRename(v.id)}
+                              className="p-1 rounded bg-emerald-500 text-white text-xs cursor-pointer"
+                            >
+                              <Check className="w-3 h-3" />
+                            </button>
+                          </div>
+                        );
+                      }
+
+                      return (
+                        <div
+                          key={v.id}
+                          className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-(--radius-sm) text-xs font-medium transition cursor-pointer border ${
+                            isVarSelected
+                              ? 'bg-(--text-primary) text-(--bg-primary) border-(--text-primary) font-semibold shadow-xs'
+                              : 'bg-(--bg-primary) text-(--text-secondary) border-(--border-subtle) hover:text-(--text-primary)'
+                          }`}
+                        >
+                          <span onClick={() => setSelectedVariableId(v.id)}>
+                            {v.name}
+                          </span>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setEditingVariableId(v.id);
+                              setEditingVariableName(v.name);
+                            }}
+                            className="opacity-50 hover:opacity-100 p-0.5 cursor-pointer"
+                            title="Rename Variable"
+                          >
+                            <Edit2 className="w-2.5 h-2.5" />
+                          </button>
+                          {currentComponent.variables.length > 1 && (
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDeleteVariable(v.id);
+                              }}
+                              className="opacity-50 hover:opacity-100 hover:text-rose-400 p-0.5 cursor-pointer"
+                              title={t('deleteVariable')}
+                            >
+                              <Trash2 className="w-2.5 h-2.5" />
+                            </button>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  {currentVariable?.description && (
+                    <p className="text-[11px] text-(--text-muted) italic pt-1 border-t border-(--border-subtle)">
+                      {currentVariable.description}
+                    </p>
+                  )}
+                </div>
+
+                {/* Live Preview Stage */}
+                <div className="p-6 rounded-(--radius) bg-(--bg-secondary)/20 border border-(--border-subtle) flex flex-col gap-4">
+                  <div className="flex items-center justify-between text-xs font-mono font-bold text-(--text-secondary)">
+                    <span className="flex items-center gap-1.5">
+                      <Eye className="w-3.5 h-3.5 text-(--accent-primary)" />
+                      {t('livePreview')}
+                    </span>
+                    <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-(--bg-secondary)">
+                      variable="{currentVariable?.id}"
+                    </span>
+                  </div>
+
+                  {/* Render preview dynamically according to token bindings */}
+                  <div className="p-8 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) flex items-center justify-center min-h-[200px] transition-all">
+                    {/* BUTTON PREVIEW */}
+                    {currentComponent.id === 'button' && (
+                      <button
+                        style={{
+                          backgroundColor: getPaletteValue(currentVariable?.tokenBindings.background || ''),
+                          color: getPaletteValue(currentVariable?.tokenBindings.textColor || ''),
+                          border: `1px solid ${getPaletteValue(currentVariable?.tokenBindings.borderColor || '')}`,
+                          borderRadius: getPaletteValue(currentVariable?.tokenBindings.borderRadius || ''),
+                          paddingLeft: getPaletteValue(currentVariable?.tokenBindings.paddingX || ''),
+                          paddingRight: getPaletteValue(currentVariable?.tokenBindings.paddingX || ''),
+                          paddingTop: getPaletteValue(currentVariable?.tokenBindings.paddingY || ''),
+                          paddingBottom: getPaletteValue(currentVariable?.tokenBindings.paddingY || ''),
+                        }}
+                        className="font-medium text-sm transition-transform active:scale-95 cursor-pointer shadow-xs"
+                      >
+                        {currentVariable?.name || 'Button'}
+                      </button>
+                    )}
+
+                    {/* BADGE PREVIEW */}
+                    {currentComponent.id === 'badge' && (
+                      <span
+                        style={{
+                          backgroundColor: getPaletteValue(currentVariable?.tokenBindings.background || ''),
+                          color: getPaletteValue(currentVariable?.tokenBindings.textColor || ''),
+                          border: `1px solid ${getPaletteValue(currentVariable?.tokenBindings.borderColor || '')}`,
+                          borderRadius: getPaletteValue(currentVariable?.tokenBindings.borderRadius || ''),
+                          paddingLeft: getPaletteValue(currentVariable?.tokenBindings.paddingX || ''),
+                          paddingRight: getPaletteValue(currentVariable?.tokenBindings.paddingX || ''),
+                          paddingTop: getPaletteValue(currentVariable?.tokenBindings.paddingY || ''),
+                          paddingBottom: getPaletteValue(currentVariable?.tokenBindings.paddingY || ''),
+                        }}
+                        className="text-xs font-mono font-bold inline-block"
+                      >
+                        {currentVariable?.name}
+                      </span>
+                    )}
+
+                    {/* CARD PREVIEW */}
+                    {currentComponent.id === 'card' && (
+                      <div
+                        style={{
+                          backgroundColor: getPaletteValue(currentVariable?.tokenBindings.background || ''),
+                          border: `1px solid ${getPaletteValue(currentVariable?.tokenBindings.borderColor || '')}`,
+                          borderRadius: getPaletteValue(currentVariable?.tokenBindings.borderRadius || ''),
+                          padding: getPaletteValue(currentVariable?.tokenBindings.padding || ''),
+                        }}
+                        className="w-full max-w-sm flex flex-col gap-2 shadow-xs"
+                      >
+                        <h4 className="font-bold text-sm text-(--text-primary)">Card Title</h4>
+                        <p className="text-xs text-(--text-secondary) leading-relaxed">
+                          This card reflects the "{currentVariable?.name}" design token variable mappings.
+                        </p>
+                      </div>
+                    )}
+
+                    {/* INPUT PREVIEW */}
+                    {currentComponent.id === 'input' && (
+                      <input
+                        type="text"
+                        defaultValue="Sample Input Value"
+                        style={{
+                          backgroundColor: getPaletteValue(currentVariable?.tokenBindings.background || ''),
+                          color: getPaletteValue(currentVariable?.tokenBindings.textColor || ''),
+                          border: `1px solid ${getPaletteValue(currentVariable?.tokenBindings.borderColor || '')}`,
+                          borderRadius: getPaletteValue(currentVariable?.tokenBindings.borderRadius || ''),
+                          paddingLeft: getPaletteValue(currentVariable?.tokenBindings.paddingX || ''),
+                          paddingRight: getPaletteValue(currentVariable?.tokenBindings.paddingX || ''),
+                          paddingTop: getPaletteValue(currentVariable?.tokenBindings.paddingY || ''),
+                          paddingBottom: getPaletteValue(currentVariable?.tokenBindings.paddingY || ''),
+                        }}
+                        className="w-full max-w-sm text-sm outline-none font-mono"
+                      />
+                    )}
+
+                    {/* MODAL PREVIEW */}
+                    {currentComponent.id === 'modal' && (
+                      <div
+                        style={{
+                          backgroundColor: getPaletteValue(currentVariable?.tokenBindings.background || ''),
+                          border: `1px solid ${getPaletteValue(currentVariable?.tokenBindings.borderColor || '')}`,
+                          borderRadius: getPaletteValue(currentVariable?.tokenBindings.borderRadius || ''),
+                          padding: getPaletteValue(currentVariable?.tokenBindings.padding || ''),
+                        }}
+                        className="w-full max-w-sm flex flex-col gap-3 shadow-lg"
+                      >
+                        <h4 className="font-bold text-sm text-(--text-primary)">Dialog Modal Window</h4>
+                        <p className="text-xs text-(--text-secondary)">
+                          Dynamic radius and surface padding bound to "{currentVariable?.name}".
+                        </p>
+                        <div className="flex justify-end gap-2 pt-2">
+                          <button className="px-3 py-1 rounded text-xs bg-(--bg-secondary) text-(--text-primary)">
+                            Dismiss
+                          </button>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* TEXTAREA PREVIEW */}
+                    {currentComponent.id === 'textarea' && (
+                      <textarea
+                        defaultValue="Sample multi-line textarea with dynamic radius & borders."
+                        rows={3}
+                        style={{
+                          backgroundColor: getPaletteValue(currentVariable?.tokenBindings.background || ''),
+                          border: `1px solid ${getPaletteValue(currentVariable?.tokenBindings.borderColor || '')}`,
+                          borderRadius: getPaletteValue(currentVariable?.tokenBindings.borderRadius || ''),
+                          padding: getPaletteValue(currentVariable?.tokenBindings.padding || ''),
+                        }}
+                        className="w-full max-w-sm text-sm outline-none font-mono"
+                      />
+                    )}
+
+                    {/* SWITCH PREVIEW */}
+                    {currentComponent.id === 'switch' && (
+                      <div className="flex items-center gap-3">
+                        <div
+                          style={{
+                            backgroundColor: getPaletteValue(currentVariable?.tokenBindings.activeBackground || ''),
+                            borderRadius: getPaletteValue(currentVariable?.tokenBindings.borderRadius || ''),
+                          }}
+                          className="w-12 h-6 p-0.5 flex items-center justify-end cursor-pointer shadow-xs transition-colors"
+                        >
+                          <div
+                            style={{
+                              backgroundColor: getPaletteValue(currentVariable?.tokenBindings.thumbColor || ''),
+                              borderRadius: getPaletteValue(currentVariable?.tokenBindings.borderRadius || ''),
+                            }}
+                            className="w-5 h-5 shadow-xs"
+                          />
+                        </div>
+                        <span className="text-xs font-semibold text-(--text-primary)">
+                          {currentVariable?.name}
+                        </span>
+                      </div>
+                    )}
+
+                    {/* TABS PREVIEW */}
+                    {currentComponent.id === 'tabs' && (
+                      <div className="flex items-center gap-2 p-1.5 rounded-(--radius) bg-(--bg-secondary)/60 border border-(--border-subtle)">
+                        <button
+                          style={{
+                            backgroundColor: currentVariable?.id === 'pills' ? getPaletteValue(currentVariable?.tokenBindings.activeIndicator || '') : 'transparent',
+                            color: getPaletteValue(currentVariable?.tokenBindings.activeText || ''),
+                            borderRadius: getPaletteValue(currentVariable?.tokenBindings.borderRadius || ''),
+                            borderBottom: currentVariable?.id === 'underlined' ? `2px solid ${getPaletteValue(currentVariable?.tokenBindings.activeIndicator || '')}` : 'none',
+                          }}
+                          className="px-3 py-1.5 text-xs font-bold"
+                        >
+                          Active Tab
+                        </button>
+                        <button
+                          style={{
+                            color: getPaletteValue(currentVariable?.tokenBindings.inactiveText || ''),
+                          }}
+                          className="px-3 py-1.5 text-xs font-medium"
+                        >
+                          Inactive Tab
+                        </button>
+                      </div>
+                    )}
+
+                    {/* TABLE PREVIEW */}
+                    {currentComponent.id === 'table' && (
+                      <div
+                        style={{
+                          borderRadius: getPaletteValue(currentVariable?.tokenBindings.borderRadius || ''),
+                          border: `1px solid ${getPaletteValue(currentVariable?.tokenBindings.borderColor || '')}`,
+                        }}
+                        className="w-full max-w-md overflow-hidden text-xs"
+                      >
+                        <div
+                          style={{
+                            backgroundColor: getPaletteValue(currentVariable?.tokenBindings.headerBackground || ''),
+                            borderBottom: `1px solid ${getPaletteValue(currentVariable?.tokenBindings.borderColor || '')}`,
+                            padding: getPaletteValue(currentVariable?.tokenBindings.cellPadding || ''),
+                          }}
+                          className="font-bold flex justify-between"
+                        >
+                          <span>Header Column 1</span>
+                          <span>Header Column 2</span>
+                        </div>
+                        <div
+                          style={{
+                            padding: getPaletteValue(currentVariable?.tokenBindings.cellPadding || ''),
+                          }}
+                          className="flex justify-between bg-(--bg-primary)"
+                        >
+                          <span>Row 1 Data A</span>
+                          <span className="font-mono">1,024</span>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* AVATAR PREVIEW */}
+                    {currentComponent.id === 'avatar' && (
+                      <div
+                        style={{
+                          backgroundColor: getPaletteValue(currentVariable?.tokenBindings.background || ''),
+                          color: getPaletteValue(currentVariable?.tokenBindings.textColor || ''),
+                          borderRadius: getPaletteValue(currentVariable?.tokenBindings.borderRadius || ''),
+                        }}
+                        className="w-14 h-14 flex items-center justify-center font-bold text-base shadow-xs"
+                      >
+                        AT
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Code Snippet for this variable */}
+                  <div className="space-y-1">
+                    <span className="text-[11px] font-mono text-(--text-muted)">
+                      {t('codeSnippet')}:
+                    </span>
+                    <pre className="p-2.5 rounded-(--radius-sm) bg-(--bg-secondary) text-(--text-primary) font-mono text-xs overflow-x-auto">
+                      &lt;{currentComponent.name.split(' ')[0]} variable="{currentVariable?.id}" /&gt;
+                    </pre>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Column: Token ↔ Palette Binding Inspector (4 cols) */}
+              <div className="lg:col-span-4 p-5 rounded-(--radius) bg-(--bg-secondary)/30 border border-(--border-subtle) flex flex-col gap-4">
+                <div>
+                  <h3 className="font-bold text-sm text-(--text-primary) flex items-center gap-1.5">
+                    <Sliders className="w-4 h-4 text-(--accent-primary)" />
+                    {t('bindingPanelTitle')}
+                  </h3>
+                  <p className="text-xs text-(--text-secondary) mt-0.5">
+                    {t('bindingPanelDesc')}
+                  </p>
+                </div>
+
+                {/* Property Bindings List */}
+                <div className="space-y-3.5 pt-2 border-t border-(--border-subtle)">
+                  {currentComponent.properties.map((prop) => {
+                    const boundPaletteId = currentVariable?.tokenBindings[prop.key] || prop.defaultPaletteId;
+                    const matchedPalette = paletteVariables.find((p) => p.id === boundPaletteId);
+                    const relevantPalettes = paletteVariables.filter((p) => p.category === prop.category);
+
+                    return (
+                      <div key={prop.key} className="space-y-1">
+                        <div className="flex items-center justify-between text-xs">
+                          <span className="font-semibold text-(--text-primary)">
+                            {prop.label}
+                          </span>
+                          <span className="font-mono text-[10px] text-(--text-muted)">
+                            {t('boundPaletteValue')}{matchedPalette?.value}
+                          </span>
+                        </div>
+
+                        {/* Palette Selector Dropdown */}
+                        <div className="flex items-center gap-2">
+                          {prop.category === 'color' && (
+                            <span
+                              style={{ backgroundColor: matchedPalette?.value || '#ccc' }}
+                              className="w-5 h-5 rounded border border-(--border-subtle) shrink-0 shadow-xs"
+                            />
+                          )}
+                          <select
+                            value={boundPaletteId}
+                            onChange={(e) => handleUpdateBinding(prop.key, e.target.value)}
+                            className="flex-1 text-xs font-mono p-1.5 rounded border border-(--border-subtle) bg-(--bg-primary) text-(--text-primary) cursor-pointer"
+                          >
+                            <option value="" disabled>
+                              {t('selectPalettePlaceholder')}
+                            </option>
+                            {relevantPalettes.map((pal) => (
+                              <option key={pal.id} value={pal.id}>
+                                {pal.name} ({pal.value})
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* TAB 2: Palette Management Page */}
+          {activeTab === 'palette' && (
+            <div className="flex flex-col gap-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-5 rounded-(--radius) bg-(--bg-secondary)/30 border border-(--border-subtle)">
+                <div>
+                  <h2 className="text-base font-bold text-(--text-primary) flex items-center gap-2">
+                    <Palette className="w-5 h-5 text-(--accent-primary)" />
+                    <span>{t('paletteManagerTitle')}</span>
+                  </h2>
+                  <p className="text-xs sm:text-sm text-(--text-secondary) mt-1">
+                    {t('paletteManagerDesc')}
+                  </p>
+                </div>
+
+                <Button
+                  variant="primary"
+                  size="sm"
+                  onClick={() => setIsAddPaletteOpen(true)}
+                  className="flex items-center gap-1.5 bg-(--accent-primary) text-(--bg-primary) shrink-0"
+                >
+                  <Plus className="w-4 h-4" />
+                  <span>{t('addPaletteBtn')}</span>
+                </Button>
+              </div>
+
+              {/* Palette Variables Table */}
+              <div className="overflow-x-auto rounded-(--radius) border border-(--border-subtle)">
+                <table className="w-full text-left text-xs sm:text-sm">
+                  <thead className="bg-(--bg-secondary)/60 border-b border-(--border-subtle) text-xs font-semibold text-(--text-secondary)">
+                    <tr>
+                      <th className="p-3">{t('thPaletteName')}</th>
+                      <th className="p-3">{t('thPaletteCategory')}</th>
+                      <th className="p-3">{t('thPaletteValue')}</th>
+                      <th className="p-3">{t('paletteDescLabel')}</th>
+                      <th className="p-3 text-right">{t('thPaletteAction')}</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-(--border-subtle)">
+                    {paletteVariables.map((pal) => (
+                      <tr key={pal.id} className="hover:bg-(--bg-secondary)/30 transition-colors">
+                        <td className="p-3">
+                          <div className="font-semibold text-(--text-primary)">{pal.name}</div>
+                          <div className="font-mono text-xs text-(--text-muted)">{pal.id}</div>
+                        </td>
+                        <td className="p-3">
+                          <span className="font-mono text-[11px] px-2 py-0.5 rounded bg-(--bg-secondary) text-(--text-secondary) border border-(--border-subtle)">
+                            {pal.category}
+                          </span>
+                        </td>
+                        <td className="p-3">
+                          <div className="flex items-center gap-2">
+                            {pal.category === 'color' && (
+                              <span
+                                style={{ backgroundColor: pal.value }}
+                                className="w-4 h-4 rounded border border-(--border-subtle) shrink-0 shadow-xs"
+                              />
+                            )}
+                            <span className="font-mono font-semibold text-(--text-primary)">
+                              {pal.value}
+                            </span>
+                          </div>
+                        </td>
+                        <td className="p-3 text-xs text-(--text-secondary)">
+                          {pal.description || '-'}
+                        </td>
+                        <td className="p-3 text-right">
+                          <button
+                            onClick={() => handleDeletePalette(pal.id)}
+                            className="text-xs text-rose-500 hover:text-rose-700 cursor-pointer font-medium p-1"
+                          >
+                            {t('deleteBtn')}
+                          </button>
+                        </td>
+                      </tr>
                     ))}
-                  </div>
-                </div>
-
-                <div className="p-4 rounded border border-(--border-subtle) bg-(--bg-secondary)/40 flex items-center justify-center min-h-[90px]">
-                  <div
-                    style={{ borderRadius, backgroundColor: brandColor }}
-                    className="w-24 h-12 flex items-center justify-center text-white text-xs font-mono font-bold shadow-xs transition-all duration-200"
-                  >
-                    {borderRadius}
-                  </div>
-                </div>
+                  </tbody>
+                </table>
               </div>
-            </Card>
+            </div>
+          )}
 
-            {/* Quick Live Preview Box */}
-            <Card className="p-5 flex flex-col justify-between shadow-xs">
+          {/* TAB 3: Compiled W3C JSON & CSS Export View */}
+          {activeTab === 'preview' && (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <div className="flex items-center justify-between text-xs font-mono font-bold text-(--text-secondary)">
+                  <span>tokens/token.json (W3C DTCG Format)</span>
+                </div>
+                <CodeHighlight
+                  code={exportStudioToTokensJson(paletteVariables, components)}
+                  language="json"
+                  className="max-h-[520px] text-xs"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <div className="flex items-center justify-between text-xs font-mono font-bold text-(--text-secondary)">
+                  <span>css/atom-ui.css (Scoped Variable CSS)</span>
+                </div>
+                <CodeHighlight
+                  code={exportStudioToCSS(paletteVariables, components)}
+                  language="css"
+                  className="max-h-[520px] text-xs"
+                />
+              </div>
+            </div>
+          )}
+        </main>
+      )}
+
+      {/* MODAL 1: Add Component Variable */}
+      {isAddVariableOpen && (
+        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="w-full max-w-md p-6 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) shadow-xl flex flex-col gap-4 animate-in fade-in">
+            <h3 className="font-bold text-base text-(--text-primary)">
+              {t('addVariableBtn')} ({currentComponent.name})
+            </h3>
+
+            <div className="space-y-3 text-xs">
               <div>
-                <div className="flex items-center gap-2 border-b border-(--border-subtle) pb-3 mb-4">
-                  <Eye className="w-4 h-4 text-(--accent-primary)" />
-                  <h3 className="font-bold text-sm text-(--text-primary)">즉시 컴포넌트 반응</h3>
-                </div>
-
-                <div className="space-y-3">
-                  <div className="flex gap-2">
-                    <Button variant="primary" size="sm" className="flex-1">
-                      Primary CTA
-                    </Button>
-                    <Button variant="outline" size="sm">
-                      Outline
-                    </Button>
-                  </div>
-                  <Input placeholder="실시간 토큰 연동 인풋..." defaultValue="AtomDesignToken" />
-                  <div className="flex items-center gap-2">
-                    <Badge variant="primary">Active Badge</Badge>
-                    <Badge variant="neutral">Neutral Tag</Badge>
-                  </div>
-                </div>
+                <label className="font-semibold text-(--text-secondary) block mb-1">
+                  {t('variableNameLabel')} (Display Name)
+                </label>
+                <input
+                  type="text"
+                  value={newVariableName}
+                  onChange={(e) => setNewVariableName(e.target.value)}
+                  placeholder="예: 완전 둥근 버튼 (Pill CTA)"
+                  className="w-full p-2 rounded border border-(--border-subtle) bg-(--bg-secondary) text-(--text-primary)"
+                  autoFocus
+                />
               </div>
 
-              <p className="text-xs text-(--text-muted) mt-4 pt-2 border-t border-(--border-subtle)">
-                상단 [프로젝트에 즉시 반영하기]를 누르면 저장소의 모든 토큰 파일에 자동 기록됩니다.
-              </p>
-            </Card>
+              <div>
+                <label className="font-semibold text-(--text-secondary) block mb-1">
+                  {t('variableKeyLabel')} (Code Identifier)
+                </label>
+                <input
+                  type="text"
+                  value={newVariableKey}
+                  onChange={(e) => setNewVariableKey(e.target.value)}
+                  placeholder="예: pill-cta"
+                  className="w-full p-2 rounded border border-(--border-subtle) bg-(--bg-secondary) font-mono text-(--text-primary)"
+                />
+              </div>
+
+              <div>
+                <label className="font-semibold text-(--text-secondary) block mb-1">
+                  {t('variableDescLabel')}
+                </label>
+                <input
+                  type="text"
+                  value={newVariableDesc}
+                  onChange={(e) => setNewVariableDesc(e.target.value)}
+                  placeholder="예: 랜딩 페이지 전용 라운드 디자인"
+                  className="w-full p-2 rounded border border-(--border-subtle) bg-(--bg-secondary) text-(--text-primary)"
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-2 pt-2 border-t border-(--border-subtle)">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setIsAddVariableOpen(false)}
+              >
+                {t('cancel')}
+              </Button>
+              <Button
+                variant="primary"
+                size="sm"
+                onClick={handleCreateVariable}
+                disabled={!newVariableName.trim() || !newVariableKey.trim()}
+              >
+                {t('saveVariable')}
+              </Button>
+            </div>
           </div>
-        )}
+        </div>
+      )}
 
-        {/* Tab 2: Live Components Browser */}
-        {activeTab === 'components' && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Card className="p-5 flex flex-col gap-3">
-              <span className="font-bold text-sm text-(--text-primary)">Button 컴포넌트 패밀리</span>
-              <p className="text-xs text-(--text-secondary)">Primary, Secondary, Outline, Destructive 상태</p>
-              <div className="flex flex-wrap gap-2 pt-2">
-                <Button variant="primary">저장하기</Button>
-                <Button variant="secondary">취소</Button>
-                <Button variant="outline">미리보기</Button>
-                <Button variant="destructive">삭제</Button>
+      {/* MODAL 2: Add Palette Variable */}
+      {isAddPaletteOpen && (
+        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="w-full max-w-md p-6 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) shadow-xl flex flex-col gap-4 animate-in fade-in">
+            <h3 className="font-bold text-base text-(--text-primary)">
+              {t('addPaletteBtn')}
+            </h3>
+
+            <div className="space-y-3 text-xs">
+              <div>
+                <label className="font-semibold text-(--text-secondary) block mb-1">
+                  {t('paletteCategoryLabel')}
+                </label>
+                <select
+                  value={newPaletteCategory}
+                  onChange={(e) => setNewPaletteCategory(e.target.value as any)}
+                  className="w-full p-2 rounded border border-(--border-subtle) bg-(--bg-secondary) text-(--text-primary)"
+                >
+                  <option value="color">Color (색상)</option>
+                  <option value="radius">Radius (모서리 곡률)</option>
+                  <option value="spacing">Spacing (여백/패딩)</option>
+                </select>
               </div>
-            </Card>
 
-            <Card className="p-5 flex flex-col gap-3">
-              <span className="font-bold text-sm text-(--text-primary)">Form Inputs & Selection</span>
-              <p className="text-xs text-(--text-secondary)">W3C 토큰 기반 반응형 폼 필드</p>
-              <div className="space-y-2 pt-1">
-                <Input placeholder="이메일 주소 입력" />
+              <div>
+                <label className="font-semibold text-(--text-secondary) block mb-1">
+                  {t('paletteNameLabel')}
+                </label>
+                <input
+                  type="text"
+                  value={newPaletteName}
+                  onChange={(e) => setNewPaletteName(e.target.value)}
+                  placeholder="예: Indigo 500 (Hero Accent)"
+                  className="w-full p-2 rounded border border-(--border-subtle) bg-(--bg-secondary) text-(--text-primary)"
+                  autoFocus
+                />
+              </div>
+
+              <div>
+                <label className="font-semibold text-(--text-secondary) block mb-1">
+                  {t('paletteIdLabel')}
+                </label>
+                <input
+                  type="text"
+                  value={newPaletteId}
+                  onChange={(e) => setNewPaletteId(e.target.value)}
+                  placeholder="예: --atom-palette-indigo-500"
+                  className="w-full p-2 rounded border border-(--border-subtle) bg-(--bg-secondary) font-mono text-(--text-primary)"
+                />
+              </div>
+
+              <div>
+                <label className="font-semibold text-(--text-secondary) block mb-1">
+                  {t('paletteValueLabel')}
+                </label>
                 <div className="flex items-center gap-2">
-                  <Badge variant="primary">NEW</Badge>
-                  <span className="text-xs text-(--text-secondary)">토큰 규격 자동 반영 중</span>
+                  {newPaletteCategory === 'color' && (
+                    <input
+                      type="color"
+                      value={newPaletteValue}
+                      onChange={(e) => setNewPaletteValue(e.target.value)}
+                      className="w-8 h-8 rounded border border-(--border-subtle) cursor-pointer"
+                    />
+                  )}
+                  <input
+                    type="text"
+                    value={newPaletteValue}
+                    onChange={(e) => setNewPaletteValue(e.target.value)}
+                    placeholder={newPaletteCategory === 'color' ? '#6366f1' : '16px'}
+                    className="flex-1 p-2 rounded border border-(--border-subtle) bg-(--bg-secondary) font-mono text-(--text-primary)"
+                  />
                 </div>
               </div>
-            </Card>
-          </div>
-        )}
 
-        {/* Tab 3: Generated JSON & CSS */}
-        {activeTab === 'preview' && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <div className="flex items-center justify-between text-xs font-mono font-bold text-(--text-secondary)">
-                <span>tokens/token.json (W3C DTCG Format)</span>
+              <div>
+                <label className="font-semibold text-(--text-secondary) block mb-1">
+                  {t('paletteDescLabel')}
+                </label>
+                <input
+                  type="text"
+                  value={newPaletteDesc}
+                  onChange={(e) => setNewPaletteDesc(e.target.value)}
+                  placeholder="예: 주요 히어로 섹션 전용 액센트 컬러"
+                  className="w-full p-2 rounded border border-(--border-subtle) bg-(--bg-secondary) text-(--text-primary)"
+                />
               </div>
-              <CodeHighlight
-                code={exportToTokensJson(theme)}
-                language="json"
-                className="max-h-[460px] text-xs"
-              />
             </div>
 
-            <div className="space-y-2">
-              <div className="flex items-center justify-between text-xs font-mono font-bold text-(--text-secondary)">
-                <span>css/atom-ui.css (Zero-Runtime CSS Variables)</span>
-              </div>
-              <CodeHighlight
-                code={exportToCSS(theme)}
-                language="css"
-                className="max-h-[460px] text-xs"
-              />
+            <div className="flex justify-end gap-2 pt-2 border-t border-(--border-subtle)">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setIsAddPaletteOpen(false)}
+              >
+                {t('cancel')}
+              </Button>
+              <Button
+                variant="primary"
+                size="sm"
+                onClick={handleCreatePalette}
+                disabled={!newPaletteName.trim() || !newPaletteId.trim()}
+              >
+                {t('saveVariable')}
+              </Button>
             </div>
           </div>
-        )}
-      </main>
+        </div>
       )}
     </div>
   );
