@@ -1,0 +1,1029 @@
+{
+  "common": {
+    "copy": "Copy",
+    "copied": "Copied!",
+    "download": "Download",
+    "search": "Search...",
+    "close": "Close",
+    "home": "Home",
+    "docs": "Docs",
+    "language": "Language",
+    "initCommand": "Install Command: npx atomsystem init",
+    "preview": "Preview",
+    "name": "Token Name",
+    "value": "Raw Value",
+    "description": "Usage & Description",
+    "category": "Category",
+    "variable": "CSS Variable (Click to copy)",
+    "themeEditor": "Theme Editor (Local Only)"
+  },
+  "home": {
+    "heroTitle": "Platform-Agnostic Design Tokens &\nProduction UX Pattern Library",
+    "heroSubtitle": "AtomDesignToken manages Figma and Markdown-based design decisions as a Single Source of Truth (SSOT), compiling into CSS custom variables and framework-agnostic semantic classes for consistent product experiences.",
+    "getStarted": "Get Started",
+    "principlesTitle": "Design Principles",
+    "principlesDesc": "6 core architectural standards including Single Source of Truth (SSOT), zero runtime overhead, and 3-tier layering.",
+    "principlesLink": "View Principles",
+    "tokensTitle": "Design Tokens Specification",
+    "tokensDesc": "Standard CSS variables catalog for colors, typography, radius, spacing, and shadows aligned with W3C DTCG.",
+    "tokensLink": "View Tokens",
+    "motionTitle": "Motion & Transitions",
+    "motionDesc": "Duration and easing cubic-bezier timing tokens with interactive real-time test playground.",
+    "motionLink": "View Motion",
+    "componentsTitle": "Components Guide & Specs",
+    "componentsDesc": "Production UI components bound to semantic DTCG design tokens: Button, Input, Modal, Sheet, and Tabs.",
+    "componentsLink": "View Components",
+    "blocksTitle": "Design Content Blocks",
+    "blocksDesc": "Production-ready modules assembled from tokens: Realtime Chart, AI Chat, Pricing Table, and Card List.",
+    "blocksLink": "Explore Blocks",
+    "patternsTitle": "UX Interaction Patterns",
+    "patternsDesc": "Battle-tested production UX patterns: Dashboard, Form Validation, Checkout, and Anti-pattern checklists.",
+    "patternsLink": "Explore Patterns",
+    "dependenciesTitle": "Dependency Matrix",
+    "dependenciesDesc": "0KB runtime bundle overhead architecture, package dependencies, and cross-framework compatibility.",
+    "dependenciesLink": "View Dependencies",
+    "guideTitle": "Library Usage Guide",
+    "guideDesc": "Practical instructions for sharing and building tokens across React, Vue, and Vanilla HTML without lock-in.",
+    "guideLink": "View Guide"
+  },
+  "nav": {
+    "foundations": "Foundations",
+    "principles": "Principles",
+    "tokens": "Design Tokens",
+    "motion": "Motion",
+    "library": "UI Library",
+    "layout": "Layout & Spacing",
+    "components": "Components",
+    "icons": "Icons",
+    "blocks": "Design Blocks",
+    "patterns": "UX Patterns",
+    "engineering": "Engineering",
+    "dependencies": "Dependencies",
+    "guide": "Guide",
+    "subDescriptions": {
+      "/principles": "6 core architectural standards including SSOT, zero runtime, and 3-tier layering",
+      "/tokens": "W3C DTCG standard specs for colors, typography, radius, spacing, and shadows",
+      "/motion": "Duration and easing timing tokens with interactive real-time playground",
+      "/layout": "Standard guides for Container, Stack, Grid, and Spacing scale",
+      "/components/button": "Production UI components bound to semantic DTCG design tokens",
+      "/icons": "3,800+ open-source icon specifications with instant theme binding",
+      "/blocks": "Ready-to-use functional blocks: charts, chat, card lists, sliders, pricing",
+      "/patterns": "Battle-tested interaction patterns: dashboards, checkout flows, form validation",
+      "/dependencies": "0KB runtime architecture and cross-framework compatibility matrix",
+      "/guide": "Zero-dependency integration guides for React, Next.js, Vue, and Vanilla HTML",
+      "/studio": "GUI editor for real-time editing of local tokens/token.json and css [Local Only]"
+    }
+  },
+  "sidebar": {
+    "apiReference": "API Reference",
+    "searchPlaceholder": "Search components (Cmd + K)...",
+    "foundationsGroup": "Foundations",
+    "layoutAndSpacing": "Layout & Spacing",
+    "colorAndStatus": "Color & Status",
+    "fontAndTypography": "Font & Typography",
+    "formGroup": "Form & Inputs",
+    "feedbackGroup": "Feedback & Overlays",
+    "navGroup": "Navigation & Menus",
+    "dataGroup": "Data Display",
+    "layoutGroup": "Structure & Layout",
+    "components": {
+      "button": "Button",
+      "input": "Input Field",
+      "selection": "Switch & Checkbox",
+      "dialog": "Modal Dialog",
+      "sheet": "Bottom Sheet Drawer",
+      "alert": "Alert Callout",
+      "tabs": "Segmented Tabs",
+      "badge": "Badge & Tag",
+      "card": "Content Card",
+      "table": "Data Table",
+      "calendar": "Calendar & Date Picker",
+      "select": "Custom Select",
+      "accordion": "Accordion",
+      "tooltip": "Tooltip & Popover",
+      "toast": "Toast Notification",
+      "pagination": "Pagination",
+      "radio": "Radio Group",
+      "slider": "Slider",
+      "avatar": "Avatar Profile",
+      "progress": "Progress Bar",
+      "skeleton": "Skeleton Loader",
+      "breadcrumb": "Breadcrumb",
+      "separator": "Separator",
+      "textarea": "Textarea",
+      "tree": "Tree View",
+      "container": "Container",
+      "layout": "Layout & Stack",
+      "layout-spacing": "Layout & Spacing",
+      "color-status": "Color & Status",
+      "typography": "Font & Typography"
+    }
+  },
+  "principles": {
+    "title": "Design System Principles",
+    "subtitle": "AtomDesignToken eliminates temporary procedural hardcoding, combining platform-agnostic Single Source of Truth (SSOT), browser-native standards, and a 4-tier AI Lego Assembly Pipeline to build enterprise-grade UI.",
+    "categoryAll": "All Principles",
+    "categoryAgent": "🤖 AI Governance",
+    "categoryCore": "Core Principles",
+    "categoryArchitecture": "Architecture",
+    "categoryToken": "Token Specs",
+    "categoryAccessibility": "Accessibility",
+    "badgeDo": "RECOMMENDED (DO)",
+    "badgeDont": "ANTI-PATTERNS (DON'T)",
+    "items": {
+      "ssot": {
+        "title": "Single Source of Truth (SSOT)",
+        "subtitle": "All design decisions derive from a single unified data specification.",
+        "description": "When Figma, Markdown guidelines, or token JSON files serve as the benchmark, the entire codebase must auto-generate. Developers are strictly prohibited from hardcoding raw HEX values or magic numbers inside components.",
+        "dos": [
+          "All colors, spacing, and radiuses must reference var(--atom-*) semantic tokens.",
+          "When a new style is required, define it inside the token specification (tokens.json) first."
+        ],
+        "donts": [
+          "Do not inline raw values like #3182F6 or 16px into component CSS or Tailwind classes.",
+          "Do not duplicate independent theme variables across different pages."
+        ]
+      },
+      "zero-runtime": {
+        "title": "Zero Runtime Overhead",
+        "subtitle": "Minimize browser runtime calculations and leverage native platform capabilities.",
+        "description": "Prevents CSS-in-JS runtime parsing costs and JS bundle bloat. Pre-compiled with native CSS Custom Properties (--*) and static classes for instant 0ms style injection.",
+        "dos": [
+          "Utilize CSS standard variables to achieve instant theme switching at the browser engine level.",
+          "Bundle into static CSS files to maximize First Contentful Paint (FCP) performance."
+        ],
+        "donts": [
+          "Do not depend on heavy runtime style injection libraries that parse style objects on every render.",
+          "Avoid global state subscriptions that trigger full component tree re-renders upon theme changes."
+        ]
+      },
+      "three-tier": {
+        "title": "3-Tier Token Hierarchy",
+        "subtitle": "Global Palette -> Semantic Intention -> Component Scoped Tokens",
+        "description": "Always maintain an intentional semantic tier between raw palette values and components. This layer enables multi-brand, dark mode, and high-contrast switches without touching component code.",
+        "dos": [
+          "Prioritize Tier 2 (Semantic: --atom-bg-surface, --atom-color-primary) for all UI styling.",
+          "In dark themes, switch Tier 2 reference mappings rather than mutating Tier 1 base palettes."
+        ],
+        "donts": [
+          "Never reference Tier 1 raw values (var(--blue-500)) directly in component code.",
+          "Avoid using Tier 3 component tokens inside generic layout containers."
+        ]
+      },
+      "framework-agnostic": {
+        "title": "Framework-Agnostic Design",
+        "subtitle": "Operates identically across React, Vue, Svelte, Angular, and pure Vanilla HTML.",
+        "description": "A design system must never be coupled to a specific JS framework. Built on open web and CSS standards to maintain 100% visual consistency across polyglot stacks.",
+        "dos": [
+          "Author layouts against standard CSS custom variables and semantic HTML5 elements.",
+          "Enable legacy HTML or jQuery environments to achieve identical styling purely via class names."
+        ],
+        "donts": [
+          "Never create non-standard dependencies that break styling without specific framework runtimes."
+        ]
+      },
+      "predictable-naming": {
+        "title": "Predictable Naming Convention",
+        "subtitle": "Strictly structured hierarchy: [Namespace]-[Category]-[Concept]-[Variant]-[State].",
+        "description": "Tokens must clearly communicate their purpose and scope to both developers and designers at a glance, adhering to W3C DTCG token naming recommendations.",
+        "dos": [
+          "Use standardized descriptive names (e.g., --atom-color-primary-hover, --atom-space-4).",
+          "Prioritize explicit semantic meaning over cryptic abbreviations."
+        ],
+        "donts": [
+          "Do not invent ad-hoc abbreviations (e.g., --at-clr-pr-h).",
+          "Do not declare ambiguous or context-free names (e.g., --atom-color-1, --atom-size-box)."
+        ]
+      },
+      "accessibility": {
+        "title": "Accessibility by Default (A11y)",
+        "subtitle": "All semantic color pairings satisfy WCAG 2.1 AA 4.5:1 contrast ratios.",
+        "description": "Accessibility is an intrinsic foundation validated at token generation, not an afterthought. Standard pairings guarantee immediate contrast and legibility.",
+        "dos": [
+          "Validate 4.5:1 (normal text) and 3:1 (large text) contrast ratios across text/surface token pairings.",
+          "Supplement color cues with accessible visual indicators (icons, underlines, luminance contrast)."
+        ],
+        "donts": [
+          "Never strip focus rings or outline accessibility cues (outline: none).",
+          "Do not use low-contrast muted gray tokens for essential body copy."
+        ]
+      },
+      "anti-pattern-prevention": {
+        "title": "Anti-Pattern Prevention & Polish",
+        "subtitle": "Eliminate AI Slop and unnecessary noise in favor of Swiss minimalist restraint.",
+        "description": "Defends against LLM visual clichés like garish neon gradients, thick side borders, and excessive bounce animations in accordance with Impeccable standards.",
+        "dos": [
+          "Use subtle 1px borders, status dots, and soft tints instead of heavy unilateral borders.",
+          "Apply natural deceleration curves (ease-out, 200-300ms) with micro-fades instead of cartoonish bounces.",
+          "Run `npm run lint:design` (impeccable detect) before commits for zero-token static validation."
+        ],
+        "donts": [
+          "Avoid side-tab tells such as thick left borders (border-l-4) on cards or sidebars.",
+          "Do not inline gratuitous purple gradients or heavy drop shadows.",
+          "Avoid wrapping every element in floating cards regardless of visual hierarchy."
+        ]
+      },
+      "ai-governance-pipeline": {
+        "title": "AI Governance: 4-Tier Assembly Pipeline",
+        "subtitle": "Tokens ➔ Components ➔ Blocks ➔ UX Patterns (Component-First Assembly)",
+        "description": "All AI coding assistants (Cursor, Claude Code, Antigravity, Copilot) must follow the verified 4-tier assembly pipeline. When a new UI element is required, create atomic components in components/ui/ first before assembling higher-order blocks.",
+        "dos": [
+          "Define pure atomic components in components/ui/ first, then import them to build blocks.",
+          "Strictly use semantic CSS variables (var(--atom-*), var(--text-primary)) for all styles.",
+          "Provide complete empty, loading/skeleton, error, and keyboard accessible states."
+        ],
+        "donts": [
+          "Never bypass the component tier by writing inline raw tags (<button>, <div class=\"rounded-lg...\">) directly in blocks or pages.",
+          "Never hardcode raw Tailwind color utilities (text-blue-500, bg-gray-100)."
+        ]
+      },
+      "ai-roles-skills": {
+        "title": "4 AI Specialized Roles & Agent Skills",
+        "subtitle": "Collaborative task force: token-guardian, component-architect, block-designer, docs-curator",
+        "description": "AtomSystem delegates responsibilities across 4 roles to prevent LLM hallucinations: token-guardian (token integrity), component-architect (atomic UI), block-designer (content blocks & patterns), and docs-curator (E2E & docs). `npx atomsystem init` installs the skill automatically.",
+        "dos": [
+          "Instruct your AI using \"Follow the Component-First rule\" or \"Respect atom.design.md tokens\".",
+          "Verify code modifications with official `npm run lint:design` (impeccable detect).",
+          "Let the AI convert design guide markdowns into DTCG tokens.json via the atomsystem skill."
+        ],
+        "donts": [
+          "Never allow the AI to generate monolithic single-file components exceeding 500 lines.",
+          "Never inline domain datasets directly inside view-layer components."
+        ]
+      }
+    }
+  },
+  "tokens": {
+    "title": "Design Tokens Standard CSS Variables Specification",
+    "description": "Defines all UI design decisions—colors, fonts, spaces, and radiuses—as platform-agnostic atomic data. Fully compliant with the W3C DTCG standard as zero-runtime CSS variables.",
+    "brandColor": "Brand:",
+    "radius": "Radius:",
+    "w3cSpec": "W3C DTCG 2025.10 Spec",
+    "ssot": "Single Source of Truth (SSOT)",
+    "architecture": "3-Tier Token Architecture",
+    "tabColors": "Color",
+    "tabTypography": "Typography",
+    "tabRadius": "Radius",
+    "tabSpacing": "Spacing",
+    "tabShadow": "Shadow",
+    "tabLayout": "Layout",
+    "tabJson": "View Full token.json",
+    "jsonTitle": "tokens/token.json",
+    "jsonBadge": "W3C DTCG Format",
+    "jsonCopy": "Copy All",
+    "jsonDownload": "Download File",
+    "jsonCliGuide": "Zero-Runtime 0KB CSS Variables & Tailwind v4 Ready",
+    "emptySearch": "No design tokens found."
+  },
+  "motion": {
+    "title": "Motion & Interaction Timing Tokens",
+    "description": "Specifications for duration and easing curve timing tokens ensuring smooth, purposeful micro-interactions.",
+    "tabDuration": "Duration Tokens",
+    "tabEasing": "Easing Curves",
+    "tabInteractive": "Interactive Pattern Playground",
+    "previewTitle": "Live Motion Sandbox",
+    "speedTitle": "Animation Speed Ratio",
+    "copyVariable": "Copy Token Variable"
+  },
+  "dependencies": {
+    "title": "Dependency Matrix & Zero-Runtime Architecture",
+    "description": "AtomSystem is architected purely with browser-native CSS custom properties, achieving 0KB runtime bundle overhead.",
+    "filterAll": "All Dependencies",
+    "filterRuntime": "Runtime (0KB Overhead)",
+    "filterBuild": "Build Tools",
+    "filterTypes": "Type Safety",
+    "filterQA": "Testing & Quality",
+    "matrixTitle": "Cross-Framework Platform Compatibility Matrix"
+  },
+  "blocks": {
+    "title": "Design Blocks",
+    "description": "Production-ready UI content blocks composed strictly of design tokens.",
+    "allBlocks": "All Blocks",
+    "realtimeChart": "Realtime Chart",
+    "chat": "Chat & Messenger",
+    "cardList": "Card List",
+    "slider": "Slider & Carousel",
+    "pricing": "Pricing UX",
+    "kpi": "Stats & KPI Metrics",
+    "fileExplorer": "File Explorer",
+    "searchPlaceholder": "Search by block name, keyword, or ID...",
+    "noResults": "No design blocks found."
+  },
+  "componentsDoc": {
+    "previewTitle": "Interactive Live Preview",
+    "codeSnippetTitle": "Component Code Snippet (Code Copy)",
+    "copyCode": "Copy Code",
+    "copyComponentCode": "Copy Component Code",
+    "copied": "Copied!",
+    "useCasesTitle": "Key Production Use Cases",
+    "usagePatternsTitle": "Recommended Usage Patterns & Design Guidelines",
+    "dosAndDontsTitle": "Best Practices & Anti-Pattern Prevention (Do's & Don'ts)",
+    "propsSpecTitle": "API Props Specification (API Reference)",
+    "relatedPatternsTitle": "Production UX Patterns Using This Component",
+    "tokensTitle": "Bound W3C DTCG Design Tokens (tokens/token.json)",
+    "tokensViewAll": "View Full Token Specs →",
+    "tokensBoundBadge": "Bound to {n} W3C Design Tokens ↓",
+    "tokensEditInStudio": "Edit in Theme Editor (/studio)",
+    "tabLivePreview": "Live View",
+    "tabInspectTokens": "Inspect Design Tokens",
+    "thRole": "Token Role",
+    "thVariable": "CSS Variable",
+    "thDtcgPath": "DTCG JSON Path",
+    "thDefaultValue": "Default Value & Role Mapping",
+    "propName": "Property",
+    "propType": "Type",
+    "propDefault": "Default",
+    "propDescription": "Description",
+    "doLabel": "RECOMMENDED (DO)",
+    "dontLabel": "ANTI-PATTERNS (DON'T)",
+    "tocTitle": "On This Page",
+    "searchPlaceholder": "Search components (Cmd + K)..."
+  },
+  "componentsData": {
+    "layout-spacing": {
+      "name": "Layout & Spacing Specs",
+      "description": "Standard 8-point spacing scale, Container constraints, Stack distributions, and Grid responsive layouts.",
+      "useCases": [
+        "Standardizing padding and margin scales across all UI components (4px to 64px)",
+        "Ensuring visual consistency across horizontal and vertical element gaps using Stack",
+        "Responsive container max-width constraints and column gutter alignment"
+      ],
+      "usagePatterns": [
+        "Use standard CSS variables (var(--atom-space-*)) instead of arbitrary pixel values.",
+        "Apply 8px increments for standard element flow and 24px+ for section separation."
+      ],
+      "dosAndDonts": [
+        {
+          "do": "Adopt 8-point multiples (8px, 16px, 24px, 32px) as the first choice.",
+          "dont": "Do not use rogue utility values such as gap-[13px] or p-[7px]."
+        }
+      ]
+    },
+    "color-status": {
+      "name": "Color & System Status",
+      "description": "Brand identity colors, semantic status states (Success, Warning, Destructive, Info), and theme-reactive surface pairings.",
+      "useCases": [
+        "Communicating core brand identity via Primary and Secondary CTA elements",
+        "Semantic status feedback mapping for Success (Green), Warning (Amber), and Destructive (Red)",
+        "Surface tokens (bg-primary, bg-secondary) enabling seamless light/dark mode transitions"
+      ],
+      "usagePatterns": [
+        "Reference semantic intent tokens (var(--atom-color-*), var(--atom-status-*)) over raw hex values.",
+        "Maintain at least 4.5:1 contrast ratios across text and surface pairings adhering to WCAG 2.1 AA."
+      ],
+      "dosAndDonts": [
+        {
+          "do": "Map destructive actions strictly to Destructive danger tokens.",
+          "dont": "Do not sprinkle random neon red or arbitrary tailwind colors across standard interfaces."
+        }
+      ]
+    },
+    "typography": {
+      "name": "Font & Typography Scale",
+      "description": "Complete typography hierarchy scale ensuring legibility and Swiss modernist visual structure (Display, Heading, Body, Caption).",
+      "useCases": [
+        "Prominent hero titles and promotional display text",
+        "Hierarchical document headings from H1 to H4",
+        "Body copy legibility with Body-1 (14px) and Body-2 (16px)",
+        "Metadata and timestamps using Caption (12px)"
+      ],
+      "usagePatterns": [
+        "Use composite tokens binding font size, line height, letter spacing, and weight together.",
+        "Standardize UI body copy on 14px (var(--atom-font-body-1))."
+      ],
+      "dosAndDonts": [
+        {
+          "do": "Structure typographic ladders hierarchically: Display > H1 > H2 > Body > Caption.",
+          "dont": "Never use unreadable micro-fonts under 10px in mobile or compact views."
+        }
+      ]
+    },
+    "button": {
+      "name": "Button (Button Variants)",
+      "description": "Production-ready button set combining 3-tier visual hierarchy (Primary, Secondary, Ghost/Icon) and semantic system states (Brand, Success, Warning, Destructive).",
+      "useCases": [
+        "Single primary conversion action per screen - Primary CTA (Save, Checkout, Sign up in brand color)",
+        "Neutral secondary actions in dialog modals - Cancel, Back, Previous step with Secondary / Outline",
+        "High-density table toolbars & filter bars - Icon-Only & Ghost buttons to minimize visual noise",
+        "Irreversible or critical actions - Destructive buttons for Delete, Cancel Order, Close Account"
+      ],
+      "usagePatterns": [
+        "Place at most one Primary action per viewport to guide unambiguous user focus.",
+        "Always provide aria-label for Icon-Only buttons to ensure screen reader accessibility.",
+        "When displaying loading spinners, keep width fixed and disable pointer events to prevent layout shifts."
+      ],
+      "dosAndDonts": [
+        {
+          "do": "Structure visual hierarchy logically: Primary > Secondary > Ghost.",
+          "dont": "Do not place multiple Primary brand buttons side-by-side, causing decision paralysis."
+        },
+        {
+          "do": "Use semantic status colors (Red, Orange, Green) mapped to user action consequences.",
+          "dont": "Do not use random inline color hex codes like bg-[#ff0000] instead of system tokens."
+        }
+      ]
+    },
+    "input": {
+      "name": "Input Field (Input)",
+      "description": "Single-line text input field bound to standard border, surface, focus ring, and validation error tokens.",
+      "useCases": [
+        "User authentication flows (Email, password, verification code)",
+        "Search query inputs and autocomplete fields",
+        "Checkout and billing information entry forms"
+      ],
+      "usagePatterns": [
+        "Always connect explicit <label> with htmlFor and input id for keyboard/screen reader accessibility.",
+        "Display inline validation error messages with aria-invalid when input is invalid."
+      ],
+      "dosAndDonts": [
+        {
+          "do": "Provide clear visual focus ring tokens when user tabs into the input.",
+          "dont": "Do not hide labels or replace them solely with placeholder text."
+        }
+      ]
+    },
+    "selection": {
+      "name": "Selection (Switch & Checkbox)",
+      "description": "Interactive selection controls for immediate state toggling (Switch) and multi-selection agreements (Checkbox).",
+      "useCases": [
+        "Immediate configuration toggles (Push notifications, Dark mode, Biometric login)",
+        "Terms of Service and Privacy Policy agreement checkboxes",
+        "Batch multi-row selection in data tables"
+      ],
+      "usagePatterns": [
+        "Use Switch for immediate on/off toggles without requiring a separate save button.",
+        "Use Checkbox when selection is part of a form that requires submission."
+      ],
+      "dosAndDonts": [
+        {
+          "do": "Ensure accessible tap target of at least 44x44px for touch screens.",
+          "dont": "Do not use Switch when the action requires an explicit confirmation or submit click."
+        }
+      ]
+    },
+    "dialog": {
+      "name": "Modal Dialog (Dialog)",
+      "description": "Modal window overlay requiring explicit user confirmation or presenting focused sub-workflows.",
+      "useCases": [
+        "Financial transfer confirmations, final checkout steps, destructive delete confirmations",
+        "Focused single-task input wizards"
+      ],
+      "usagePatterns": [
+        "Trap keyboard focus inside the modal and allow dismissal with the Escape key."
+      ],
+      "dosAndDonts": [
+        {
+          "do": "Provide clear primary and secondary action buttons with distinct visual weights.",
+          "dont": "Do not open multiple stacked modals simultaneously, disorienting users."
+        }
+      ]
+    },
+    "sheet": {
+      "name": "Bottom Sheet (Sheet)",
+      "description": "Mobile-first drawer panel sliding from the bottom for quick contextual details and actions.",
+      "useCases": [
+        "Mobile detail inspection, bottom action sheet filters, payment method selector"
+      ],
+      "usagePatterns": [
+        "Support swipe-to-dismiss drag gestures and backdrop tap to close."
+      ],
+      "dosAndDonts": [
+        {
+          "do": "Use smooth slide-in transitions with standard easing tokens.",
+          "dont": "Do not overflow bottom sheets beyond viewport height without internal scrolling."
+        }
+      ]
+    },
+    "alert": {
+      "name": "Alert Callout (Alert)",
+      "description": "Contextual notification banner communicating system status, tips, or warning alerts.",
+      "useCases": [
+        "Form submission error summaries, system maintenance notices, promotional banners"
+      ],
+      "usagePatterns": [
+        "Use semantic status colors (danger, warning, success, info) aligned with message severity."
+      ],
+      "dosAndDonts": [
+        {
+          "do": "Pair status colors with meaningful icons for colorblind accessibility.",
+          "dont": "Do not use flashing or overly intrusive alerts for routine information."
+        }
+      ]
+    },
+    "tabs": {
+      "name": "Segmented Tabs (Tabs)",
+      "description": "Segmented navigation control switching between views within the same context.",
+      "useCases": [
+        "Account settings categories, framework code snippet switchers, dashboard period filters"
+      ],
+      "usagePatterns": [
+        "Support keyboard left/right arrow navigation between tab items."
+      ],
+      "dosAndDonts": [
+        {
+          "do": "Keep tab labels concise (1-2 words) for clean responsive wrapping.",
+          "dont": "Do not use tabs for cross-page navigation; use global links instead."
+        }
+      ]
+    },
+    "badge": {
+      "name": "Status Badge (Badge)",
+      "description": "Compact pill badge for categorization, numerical counts, and real-time status indicators.",
+      "useCases": [
+        "Order status (Pending, Shipped, Delivered), subscription tiers, new feature tags"
+      ],
+      "usagePatterns": [
+        "Keep badge content short and strictly secondary to primary text."
+      ],
+      "dosAndDonts": [
+        {
+          "do": "Use subtle background tints with high-contrast text for optimal legibility.",
+          "dont": "Do not clutter cards with excessive badges competing for visual attention."
+        }
+      ]
+    },
+    "card": {
+      "name": "Content Card (Card)",
+      "description": "Structured surface container grouping related information with subtle borders and elevation tokens.",
+      "useCases": [
+        "Dashboard metric cards, product listing grids, account balance overview"
+      ],
+      "usagePatterns": [
+        "Maintain consistent padding tokens (var(--atom-space-4)) across card grids."
+      ],
+      "dosAndDonts": [
+        {
+          "do": "Establish clear internal typography hierarchy from header to body.",
+          "dont": "Do not nest cards within cards more than 2 levels deep."
+        }
+      ]
+    },
+    "table": {
+      "name": "Data Table (Table)",
+      "description": "W3C token-bound data grid for displaying structured records with hover and border states.",
+      "useCases": [
+        "Transaction histories, member lists, administrative audit logs"
+      ],
+      "usagePatterns": [
+        "Align numerical and monetary columns to the right for easy scanning."
+      ],
+      "dosAndDonts": [
+        {
+          "do": "Provide responsive horizontal scroll containers for mobile viewports.",
+          "dont": "Do not truncate essential data without providing a full tooltip or detail view."
+        }
+      ]
+    },
+    "layout": {
+      "name": "Layout & Stack (Layout & Stack)",
+      "description": "Page-level structure shells (Header, Sidebar, Content) and spacing token assembly tools (Stack, Grid).",
+      "useCases": [
+        "Global enterprise dashboard shell (Top nav + Left sidebar + Main content)",
+        "Vertical stack alignment with standardized spacing tokens (gap=\"4\")",
+        "Responsive card grid layouts (cols={3} gap=\"4\")"
+      ],
+      "usagePatterns": [
+        "Compose layouts using Layout.Header, Layout.Sidebar, Stack, and Grid."
+      ],
+      "dosAndDonts": [
+        {
+          "do": "Use standardized gap tokens instead of arbitrary margin utilities.",
+          "dont": "Do not use non-standard inline values like mb-[17px] or mt-[23px]."
+        }
+      ]
+    },
+    "container": {
+      "name": "Responsive Container (Container)",
+      "description": "Centered responsive container constraining max-width and applying automatic gutter padding.",
+      "useCases": [
+        "Centered article reading views (size=\"md\")",
+        "Standard web application main body (size=\"lg\")",
+        "Enterprise data dashboard grids (size=\"xl\")"
+      ],
+      "usagePatterns": [
+        "Choose container sizes matching page content density."
+      ],
+      "dosAndDonts": [
+        {
+          "do": "Use standard container size tokens (sm, md, lg, xl, 2xl).",
+          "dont": "Do not hardcode arbitrary max-width styles like max-w-[1140px]."
+        }
+      ]
+    },
+    "calendar": {
+      "name": "Calendar & DatePicker",
+      "description": "Monthly calendar navigation, single and date range selection, today indicators, and disabled dates adhering to W3C accessibility standards.",
+      "useCases": [
+        "Check-in and check-out date picking in reservation flows (hotels, flights, appointments)",
+        "Filtering financial and dashboard transactions by date periods (last 7 days, this month, custom ranges)",
+        "Date-of-birth and document expiration date input forms",
+        "Setting deadlines for task tracking and project milestones"
+      ],
+      "usagePatterns": [
+        "Visually distinguish between the selected date and \"Today\" so users quickly understand the current reference point.",
+        "Disable past or unavailable dates with reduced contrast to intuitively prevent invalid choices.",
+        "Provide a touch target of at least 36x36px for calendar date cells on mobile viewports."
+      ],
+      "dosAndDonts": [
+        {
+          "do": "Immediately reflect selected year/month/day in an input field or top header with clear formatting (YYYY-MM-DD).",
+          "dont": "Do not wait until form submission to trigger error toasts for past dates; disable past date cells in the calendar."
+        },
+        {
+          "do": "Provide intuitive navigation arrows alongside year and month selector dropdowns.",
+          "dont": "Do not force users to click previous month arrows 120 times when picking a birth date; provide decade or year jumpers."
+        }
+      ]
+    },
+    "select": {
+      "name": "Select & Dropdown",
+      "description": "Custom dropdown picker with full keyboard navigation, fuzzy search filtering, and categorized group labels.",
+      "useCases": [
+        "Country and region codes, currency (KRW/USD/EUR), and bank account selection",
+        "Product sorting options (Newest, Popular, Price: Low to High, Most Reviewed)",
+        "Admin dashboard date ranges and role-based access assignment",
+        "Quantity and shipping delivery memo dropdowns"
+      ],
+      "usagePatterns": [
+        "Use dropdown selects instead of radio buttons when there are 5 or more options to preserve screen real estate.",
+        "Include an inline search filter inside the dropdown when the list exceeds 15 items for rapid discovery.",
+        "Display the selected label and icon clearly on the trigger button after an option is chosen."
+      ],
+      "dosAndDonts": [
+        {
+          "do": "Provide a helpful placeholder like \"Select an option...\" when no value is selected.",
+          "dont": "Do not bury only 2 or 3 choices inside a dropdown; segmented tabs or radio groups provide a much better experience."
+        }
+      ]
+    },
+    "accordion": {
+      "name": "Accordion & Collapse",
+      "description": "Vertical expandable content panels for FAQs, terms of service, and dense configuration panels, reducing visual clutter.",
+      "useCases": [
+        "Frequently Asked Questions (FAQ) and help center guides",
+        "Checkout step breakdowns (discount coupons, shipping address, payment methods)",
+        "Mobile settings and permissions toggles",
+        "Collapsible legal disclosures, terms of service, and privacy policies"
+      ],
+      "usagePatterns": [
+        "Place a rotating chevron icon on the right edge of each header to convey expansion state.",
+        "Ensure smooth height transitions to prevent jarring content shifts (CLS)."
+      ],
+      "dosAndDonts": [
+        {
+          "do": "Formulate header titles as concise questions or key nouns so users can scan effectively.",
+          "dont": "Do not leave every accordion panel open by default on page load, which creates unnecessary scroll fatigue."
+        }
+      ]
+    },
+    "tooltip": {
+      "name": "Tooltip & Popover",
+      "description": "Floating contextual overlay displaying supplementary tips when users hover or focus on icons or truncated content.",
+      "useCases": [
+        "Viewing truncated text hidden behind ellipsis (...)",
+        "Helper explanations adjacent to complex financial terms (APR, DSR, amortization)",
+        "Describing icon-only buttons (Copy, Download, Settings, Refresh)",
+        "Explaining disabled button reasons on hover, such as \"Insufficient permissions\""
+      ],
+      "usagePatterns": [
+        "Introduce a subtle 150-200ms delay to prevent accidental flashing when the mouse grazes the trigger.",
+        "Use collision detection to automatically flip tooltip placement when reaching viewport boundaries."
+      ],
+      "dosAndDonts": [
+        {
+          "do": "Keep tooltip text concise (1-2 sentences) and focused on supplementary context.",
+          "dont": "Do not hide crucial action buttons or forms inside fleeting hover-only tooltips."
+        }
+      ]
+    },
+    "toast": {
+      "name": "Toast Notifications",
+      "description": "Non-blocking floating feedback notifications for success, warning, error, and background task updates.",
+      "useCases": [
+        "Confirmation upon copying links or tokens to clipboard (\"Copied to clipboard\")",
+        "Save, delete, or update feedback messages in background workflows",
+        "Network reconnect or background sync failure warnings",
+        "Undo action confirmations (\"Item moved to trash. Undo\")"
+      ],
+      "usagePatterns": [
+        "Place toasts consistently at the top-right or bottom-center of the screen.",
+        "Auto-dismiss informational or success toasts after 3 to 5 seconds.",
+        "Keep persistent or explicit close buttons on destructive or critical error toasts."
+      ],
+      "dosAndDonts": [
+        {
+          "do": "Include an action button (e.g., \"Undo\", \"Retry\") when a reversible mistake occurs.",
+          "dont": "Do not stack 10 consecutive toasts flooding the screen; cap simultaneous visible toasts to 3."
+        }
+      ]
+    },
+    "pagination": {
+      "name": "Pagination",
+      "description": "Page-based navigation controls for browsing large data sets, supporting jump-to-page, prev/next, and ellipsis truncations.",
+      "useCases": [
+        "Browsing product lists in e-commerce catalogs",
+        "Data tables with dozens or hundreds of ledger records",
+        "Forum discussion boards and search results",
+        "Audit log and transaction history feeds"
+      ],
+      "usagePatterns": [
+        "Clearly emphasize the currently active page with solid primary or accent styling.",
+        "Collapse large page ranges with ellipsis (...) while keeping first and last pages accessible.",
+        "Disable Prev on page 1 and Next on the final page."
+      ],
+      "dosAndDonts": [
+        {
+          "do": "Provide generous touch targets (at least 36x36px) for finger taps.",
+          "dont": "Do not show pagination controls when the entire dataset fits on a single page."
+        }
+      ]
+    },
+    "radio": {
+      "name": "Radio Group",
+      "description": "Single-choice option selectors within mutually exclusive option lists, supporting keyboard arrow navigation.",
+      "useCases": [
+        "Payment method selection (Credit Card, Bank Transfer, Apple Pay, PayPal)",
+        "Delivery speed options (Standard 3-5 days, Express Next-Day, Same-Day)",
+        "Language or locale switching in preferences",
+        "Single-answer quiz or survey questions"
+      ],
+      "usagePatterns": [
+        "Use radio groups instead of dropdowns when there are 2 to 4 options so all choices remain visible.",
+        "Support arrow key navigation (Up/Down or Left/Right) to switch active selections."
+      ],
+      "dosAndDonts": [
+        {
+          "do": "Ensure the accompanying text label is clickable together with the circular radio button.",
+          "dont": "Do not use radio buttons for multiple selections; use checkboxes instead."
+        }
+      ]
+    },
+    "slider": {
+      "name": "Slider",
+      "description": "Continuous or discrete range selector for numeric inputs like price, volume, and percentage ratings.",
+      "useCases": [
+        "Price range filters in e-commerce search results (e.g., $10 - $500)",
+        "Volume, brightness, and audio media player controls",
+        "Loan calculation sliders for term (months) and principal amounts",
+        "Font size and opacity adjustments in visual design editors"
+      ],
+      "usagePatterns": [
+        "Display the current numeric value in real-time above the thumb or in an adjacent badge.",
+        "Provide discrete tick steps for distinct increments (e.g., steps of 5 or 10)."
+      ],
+      "dosAndDonts": [
+        {
+          "do": "Support keyboard arrow adjustments (Left/Right arrow) for accessible fine-tuning.",
+          "dont": "Do not rely solely on tiny thumbs without direct text input fields when exact numbers matter."
+        }
+      ]
+    },
+    "avatar": {
+      "name": "Avatar & Profile",
+      "description": "Circular or rounded visual identity component displaying user photos, initial letter fallbacks, and presence badges.",
+      "useCases": [
+        "User profile icons in header navigation bars",
+        "Sender avatars in chat messenger and comment threads",
+        "Team member facepiles in collaborative document editors",
+        "Contact lists and assignees on Kanban project cards"
+      ],
+      "usagePatterns": [
+        "Render uppercase initials when no image URL is provided or when image loading fails.",
+        "Support status indicators (online green dot, busy red dot, offline grey ring) at the bottom-right corner."
+      ],
+      "dosAndDonts": [
+        {
+          "do": "Always provide descriptive aria-label or alt text with the person’s full name.",
+          "dont": "Do not let broken image icon outlines appear when avatars fail to load; use smooth initial fallbacks."
+        }
+      ]
+    },
+    "progress": {
+      "name": "Progress Bar",
+      "description": "Deterministic and indeterminate progress indicators visualizing file uploads, multi-step forms, and system tasks.",
+      "useCases": [
+        "File upload and asset downloading progress bars (0% to 100%)",
+        "Onboarding multi-step signup wizards (Step 2 of 4)",
+        "Storage quota utilization monitors (e.g., 42GB of 100GB used)",
+        "Crowdfunding goal completion meters"
+      ],
+      "usagePatterns": [
+        "Display percentage figures alongside progress bars to eliminate ambiguity.",
+        "Use indeterminate pulse or shimmer animations when exact duration cannot be calculated."
+      ],
+      "dosAndDonts": [
+        {
+          "do": "Include aria-valuenow, aria-valuemin, and aria-valuemax for assistive screen readers.",
+          "dont": "Do not use flashing neon colors; keep progress bar styling aligned with system semantic accents."
+        }
+      ]
+    },
+    "skeleton": {
+      "name": "Skeleton Loader",
+      "description": "Low-fidelity placeholder previewing content shapes while data loads, minimizing perceived latency and preventing layout shift.",
+      "useCases": [
+        "Initial content placeholders for dashboard charts, cards, and profile headers",
+        "Feed and article card loading states in social platforms",
+        "Table row placeholders while API queries are in flight",
+        "E-commerce product grid loading placeholders"
+      ],
+      "usagePatterns": [
+        "Match skeleton geometry precisely to the anticipated final component dimensions.",
+        "Use a gentle shimmer gradient moving left-to-right rather than harsh flashing."
+      ],
+      "dosAndDonts": [
+        {
+          "do": "Set the width of paragraph text skeleton lines to roughly 60% on the final line to mimic real paragraphs.",
+          "dont": "Do not make skeleton animations overly rapid or intense, which causes eye strain."
+        }
+      ]
+    },
+    "breadcrumb": {
+      "name": "Breadcrumb Navigation",
+      "description": "Hierarchical navigation trail illustrating the user’s current location within an Information Architecture (IA).",
+      "useCases": [
+        "E-commerce category trees (Home > Women > Outerwear > Trench Coats)",
+        "Developer documentation structures (Docs > Components > Form > Calendar)",
+        "Admin dashboard directory and workspace browsing",
+        "Real estate listing locations (State > City > District)"
+      ],
+      "usagePatterns": [
+        "Use clean separators such as a slash (/) or right chevron (>) to guide reading direction.",
+        "Truncate deep middle path steps with ellipsis (...) or dropdowns on mobile viewports."
+      ],
+      "dosAndDonts": [
+        {
+          "do": "Treat the last item in the path as the active page; render it as non-clickable plain text.",
+          "dont": "Do not overuse breadcrumbs on shallow single-depth screens."
+        }
+      ]
+    },
+    "separator": {
+      "name": "Separator & Divider",
+      "description": "Clean horizontal and vertical semantic dividers segmenting distinct content sections and UI action clusters.",
+      "useCases": [
+        "Dividing account settings from destructive sign-out items in menus",
+        "Separator with \"OR\" label between social SSO and email password form inputs",
+        "Vertical bars (|) between header utility links",
+        "Demarcating card headers, content bodies, and footer buttons"
+      ],
+      "usagePatterns": [
+        "Use subtle border tokens rather than heavy black lines to preserve modern minimalist elegance."
+      ],
+      "dosAndDonts": [
+        {
+          "do": "Ensure appropriate vertical and horizontal margins based on orientation.",
+          "dont": "Do not make dividers heavier or more prominent than actual content."
+        }
+      ]
+    },
+    "textarea": {
+      "name": "Textarea with Counter",
+      "description": "Multi-line input field supporting live character counts, auto-resizing, and form validation states.",
+      "useCases": [
+        "Customer support tickets and detailed feedback submissions",
+        "Community discussion posts and comment reply boxes",
+        "Delivery instruction notes and custom checkout requests",
+        "Multi-line AI prompt and markdown editors"
+      ],
+      "usagePatterns": [
+        "Display live character count feedback (\"34 / 500\") at the bottom-right when constraints apply.",
+        "Provide concise instructional placeholder text when the field is empty."
+      ],
+      "dosAndDonts": [
+        {
+          "do": "Reflect invalid error states with red border tokens and assistive error messages below the field.",
+          "dont": "Do not configure min-height so small on mobile that only two words can be read at a time."
+        }
+      ]
+    },
+    "tree": {
+      "name": "Tree View",
+      "description": "Accessible hierarchical tree component representing nested directories, organization charts, and taxonomy branches.",
+      "useCases": [
+        "IDE code file and folder workspace explorer trees",
+        "Organization charts, departments, and role-based access trees",
+        "Multi-level e-commerce catalog category trees",
+        "Documentation and knowledge base chapter indexes"
+      ],
+      "usagePatterns": [
+        "Provide clear expansion toggles (▶) on parent nodes with rotation animations upon opening.",
+        "Highlight selected items with gentle brand tints and semibold weight rather than clunky hard borders.",
+        "Draw subtle dashed vertical guide lines to clarify parent-child depth across deep trees."
+      ],
+      "dosAndDonts": [
+        {
+          "do": "Expand only 1 or 2 levels by default and allow users to drill down on demand.",
+          "dont": "Do not expand thousands of deeply nested nodes at once, causing infinite vertical scrolling."
+        },
+        {
+          "do": "Support keyboard navigation with Space, Enter, and Arrow keys.",
+          "dont": "Do not remove focus rings (outline: none) or rely solely on double-clicking."
+        }
+      ]
+    }
+  },
+  "propsData": {},
+  "patternsData": {
+    "saas-dashboard": {
+      "title": "SaaS Analytics & KPI Dashboard",
+      "categoryName": "Analytics & SaaS"
+    },
+    "chat-support": {
+      "title": "1:1 Support & AI Chatbot Stream",
+      "categoryName": "Support & AI"
+    },
+    "kyc-verification": {
+      "title": "Identity Verification & KYC Flow",
+      "categoryName": "Auth & KYC"
+    },
+    "blog-editor": {
+      "title": "Article Authoring & Publishing Editor",
+      "categoryName": "Content & Editor"
+    },
+    "map-location": {
+      "title": "Map & Location-Based POI Search",
+      "categoryName": "Location & Map"
+    },
+    "flight-booking": {
+      "title": "Flight & Travel Reservation Flow",
+      "categoryName": "Travel & Booking"
+    },
+    "onboarding-wizard": {
+      "title": "Onboarding Tutorial & Step Wizard",
+      "categoryName": "Onboarding"
+    },
+    "file-uploader": {
+      "title": "Drag & Drop File Uploader & Media",
+      "categoryName": "Media & Files"
+    },
+    "bank-transfer": {
+      "title": "Bank Transfer & Fast Payment Flow",
+      "categoryName": "Fintech & Pay"
+    },
+    "cart-checkout": {
+      "title": "Shopping Cart & Order Checkout",
+      "categoryName": "Commerce & Order"
+    },
+    "realtime-search": {
+      "title": "Realtime Search & Empty UX Pattern",
+      "categoryName": "Search & Data"
+    },
+    "api-docs": {
+      "title": "Developer Technical Docs & API Specs",
+      "categoryName": "Documentation & DX"
+    },
+    "complex-form-settings": {
+      "title": "Enterprise Settings & Multi-Step Form",
+      "categoryName": "Settings & Admin"
+    }
+  },
+  "layoutPage": {
+    "badgeArchitecture": "Foundational Layout Architecture",
+    "badgeStandard": "W3C DTCG Standard",
+    "badgeZeroRuntime": "Zero Runtime CSS",
+    "title": "Layout & Spacing System",
+    "description": "Do not hardcode arbitrary pixel values (padding: 13px, gap: 27px) when building web screens. Build consistent rhythm and robust responsive layouts using AtomDesignToken's Container, Stack, Grid, and W3C DTCG spacing tokens.",
+    "containerTitle": "1. Container Architecture (Container)",
+    "containerDesc": "Automatically controls optimal center-aligned width and responsive safety gutters to match screen width.",
+    "containerTest": "Container Size Test:",
+    "containerMaxWidthNotice": "Max width: {width} (Horizontal gutter: auto 16px mobile, 24px desktop)",
+    "thSize": "Size Spec",
+    "thToken": "W3C DTCG Token",
+    "thMaxWidth": "Max Width",
+    "thUsage": "Recommended Usage",
+    "containerSm": "Mobile forms, single login/signup cards, narrow dialogs",
+    "containerMd": "Tablet body, blog posts, document reading views (readability optimized)",
+    "containerLg": "Standard web apps, settings pages, profile management screens",
+    "containerXl": "Standard desktop dashboards, 4-column card grids, data tables",
+    "container2Xl": "Wide monitor monitoring consoles, financial chart feeds",
+    "spacingTitle": "2. 4-Point Grid Spacing Scale",
+    "spacingDesc": "AtomDesignToken provides a 9-step spacing scale based on a 4px grid to eliminate random numbers.",
+    "space1": "Inline icon & text gap, badge padding",
+    "space2": "Button internal gap, compact list row gap",
+    "space3": "Input field padding, small card internal padding",
+    "space4": "Default mobile gutter, standard card padding, component base margin",
+    "space5": "Medium card padding, modal section gap",
+    "space6": "Tablet/desktop default gutter, header/footer padding",
+    "space8": "Document section margin, main layout gap",
+    "space12": "Landing page main block spacing",
+    "space16": "Large hero section vertical padding",
+    "copied": "Copied",
+    "tokenBtn": "Token",
+    "stackGridTitle": "3. Stack & Grid Components",
+    "stackGridDesc": "Easily compose layouts with token-based <Stack> and <Grid> without manually writing raw flex/grid CSS.",
+    "stackTitle": "Stack (Vertical Stack Composition)",
+    "gridTitle": "Grid (Responsive Multi-Column Grid)",
+    "dosDontsTitle": "Layout Design Rules & Anti-Pattern Prevention (Do's & Don'ts)",
+    "doTitle": "DO (Recommended)",
+    "doItem1": "Always adhere to var(--atom-space-*) or gap=\"4\" token units for all spacing.",
+    "doItem2": "Always wrap the top-level content of a page with <Container> to secure safe gutters.",
+    "doItem3": "Assemble responsive card lists using <Grid cols={3}> without manual CSS media queries.",
+    "dontTitle": "DON'T (Anti-Patterns)",
+    "dontItem1": "Do not write arbitrary magic numbers inline such as p-[13px] or margin-top: 27px.",
+    "dontItem2": "Do not fix container width to width: 1200px to avoid causing horizontal scroll on mobile.",
+    "dontItem3": "Do not break vertical rhythm by giving different margins to sibling elements inside a stack.",
+    "linkToTokens": "← View Design Token Specs",
+    "linkToComponents": "View Base Component Library →"
+  }
+}
