@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import { Header } from '@/components/Header';
 import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';
 import { useI18n } from '@/lib/i18n';

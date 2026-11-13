@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { usePathname } from 'next/navigation';
+import { usePathname } from '@/i18n/routing';
 import { Header } from '@/components/Header';
 import { DocsSidebar } from '@/components/docs/DocsSidebar';
 import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';

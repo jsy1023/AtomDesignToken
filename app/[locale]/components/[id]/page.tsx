@@ -1,10 +1,11 @@
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
+import { setRequestLocale } from 'next-intl/server';
 import { GALLERY_COMPONENTS } from '@/lib/data/components';
 import { ComponentDetailPageContent } from '@/components/docs/ComponentDetailPageContent';
 
 interface Props {
-  params: Promise<{ id: string }>;
+  params: Promise<{ id: string; locale: string }>;
 }
 
 export async function generateStaticParams() {
@@ -30,7 +31,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function ComponentDetailPage({ params }: Props) {
-  const { id } = await params;
+  const { id, locale } = await params;
+  if (locale) {
+    setRequestLocale(locale);
+  }
   const component = GALLERY_COMPONENTS.find((c) => c.id === id);
 
   if (!component) {
