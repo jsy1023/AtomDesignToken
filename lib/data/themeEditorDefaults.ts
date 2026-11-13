@@ -34,10 +34,16 @@ export interface ColorConfig {
   statusWarning: string;
 }
 
+export interface ButtonSpacingConfig {
+  paddingY: string; // e.g. '8px'
+  paddingX: string; // e.g. '16px'
+}
+
 export interface ThemeConfig {
   color: ColorConfig;
   typography: TypographyConfig;
   borderRadius: string;
+  buttonSpacing?: ButtonSpacingConfig;
   selectedIcon?: string;
 }
 
@@ -123,6 +129,10 @@ export const DEFAULT_THEME_CONFIG: ThemeConfig = {
     },
   },
   borderRadius: '14px',
+  buttonSpacing: {
+    paddingY: '8px',
+    paddingX: '16px',
+  },
   selectedIcon: 'Sparkles',
 };
 

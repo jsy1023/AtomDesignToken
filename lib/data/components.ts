@@ -255,6 +255,8 @@ export function SpacingDemo() {
     propsSpec: [
       { name: 'variant', type: "'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive' | 'success' | 'warning'", defaultValue: "'primary'", description: '시각적 위계 및 시스템 상태 색상 스타일' },
       { name: 'size', type: "'sm' | 'md' | 'lg'", defaultValue: "'md'", description: '버튼 패딩 및 글자 크기 스케일' },
+      { name: 'paddingY', type: 'string', defaultValue: "'var(--atom-btn-py)'", description: '버튼 상하단 내부 여백 커스텀 토큰값 (Vertical Padding)' },
+      { name: 'paddingX', type: 'string', defaultValue: "'var(--atom-btn-px)'", description: '버튼 좌우 내부 여백 커스텀 토큰값 (Horizontal Padding)' },
       { name: 'isIconOnly', type: 'boolean', defaultValue: 'false', description: '텍스트 없이 정사각형 아이콘 단독 버튼 모드 (패딩 및 곡률 최적화)' },
       { name: 'loading', type: 'boolean', defaultValue: 'false', description: '로딩 스피너 활성화 및 상호작용 차단' },
       { name: 'disabled', type: 'boolean', defaultValue: 'false', description: '클릭 차단 및 불투명도 축소' }

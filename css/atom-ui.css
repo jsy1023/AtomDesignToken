@@ -25,6 +25,14 @@
   --atom-success: #10b981;
   --atom-warning: #f59e0b;
 
+  /* Button Spacing Tokens */
+  --atom-btn-py: 8px;
+  --atom-btn-px: 16px;
+  --atom-btn-py-sm: 4px;
+  --atom-btn-px-sm: 10px;
+  --atom-btn-py-lg: 12px;
+  --atom-btn-px-lg: 24px;
+
   /* Typography & Radius */
   --atom-radius-sm: 8px;
   --atom-radius-md: 12px;
@@ -133,7 +141,7 @@
   font-family: var(--font-sans);
   font-size: 0.875rem;
   font-weight: 600;
-  padding: 0.5rem 1rem;
+  padding: var(--atom-btn-py, 8px) var(--atom-btn-px, 16px);
   border-radius: var(--atom-radius-md);
   border: 1px solid transparent;
   cursor: pointer;
@@ -229,12 +237,12 @@
 
 .atom-btn-sm {
   font-size: 0.75rem;
-  padding: 0.25rem 0.625rem;
+  padding: var(--atom-btn-py-sm, 4px) var(--atom-btn-px-sm, 10px);
   border-radius: var(--atom-radius-sm);
 }
 .atom-btn-lg {
   font-size: 1rem;
-  padding: 0.75rem 1.5rem;
+  padding: var(--atom-btn-py-lg, 12px) var(--atom-btn-px-lg, 24px);
   border-radius: var(--atom-radius-lg);
 }
 

@@ -318,6 +318,78 @@ export const COMPONENT_TOKEN_MAPPINGS: Record<string, ComponentTokenMapping[]> =
       "roleJa": "ボタンフォント仕様",
       "descEn": "Standard typography scale and weight for button labels",
       "descJa": "ボタンテキストの標準タイポグラフィスケールおよび太さ"
+    },
+    {
+      "role": "버튼 상하단 간격 (Padding Y)",
+      "variable": "var(--atom-btn-py)",
+      "dtcgPath": "component.button.padding-y",
+      "defaultValue": "8px",
+      "description": "버튼 상하단 내부 여백을 조절하는 디자인 토큰 (W3C DTCG Type: dimension)",
+      "type": "dimension",
+      "roleEn": "Button Vertical Spacing (Padding Y)",
+      "roleJa": "ボタン垂直余白 (Padding Y)",
+      "descEn": "Design token controlling button vertical padding (W3C DTCG Type: dimension)",
+      "descJa": "ボタンの上下内部余白を調整するデザイントークン (W3C DTCG Type: dimension)"
+    },
+    {
+      "role": "버튼 좌우 간격 (Padding X)",
+      "variable": "var(--atom-btn-px)",
+      "dtcgPath": "component.button.padding-x",
+      "defaultValue": "16px",
+      "description": "버튼 좌우 내부 여백을 조절하는 디자인 토큰 (W3C DTCG Type: dimension)",
+      "type": "dimension",
+      "roleEn": "Button Horizontal Spacing (Padding X)",
+      "roleJa": "ボタン水平余白 (Padding X)",
+      "descEn": "Design token controlling button horizontal padding (W3C DTCG Type: dimension)",
+      "descJa": "ボタンの左右内部余白を調整するデザイントークン (W3C DTCG Type: dimension)"
+    },
+    {
+      "role": "스몰 버튼 상하 간격 (Padding Y SM)",
+      "variable": "var(--atom-btn-py-sm)",
+      "dtcgPath": "component.button.padding-y-sm",
+      "defaultValue": "4px",
+      "description": "sm 사이즈 버튼의 상하단 내부 여백 (W3C DTCG Type: dimension)",
+      "type": "dimension",
+      "roleEn": "Small Button Vertical Spacing (Padding Y SM)",
+      "roleJa": "スモールボタン垂直余白 (Padding Y SM)",
+      "descEn": "Vertical padding for sm size buttons (W3C DTCG Type: dimension)",
+      "descJa": "smサイズボタンの上下内部余白 (W3C DTCG Type: dimension)"
+    },
+    {
+      "role": "스몰 버튼 좌우 간격 (Padding X SM)",
+      "variable": "var(--atom-btn-px-sm)",
+      "dtcgPath": "component.button.padding-x-sm",
+      "defaultValue": "10px",
+      "description": "sm 사이즈 버튼의 좌우 내부 여백 (W3C DTCG Type: dimension)",
+      "type": "dimension",
+      "roleEn": "Small Button Horizontal Spacing (Padding X SM)",
+      "roleJa": "スモールボタン水平余白 (Padding X SM)",
+      "descEn": "Horizontal padding for sm size buttons (W3C DTCG Type: dimension)",
+      "descJa": "smサイズボタンの左右内部余白 (W3C DTCG Type: dimension)"
+    },
+    {
+      "role": "라지 버튼 상하 간격 (Padding Y LG)",
+      "variable": "var(--atom-btn-py-lg)",
+      "dtcgPath": "component.button.padding-y-lg",
+      "defaultValue": "12px",
+      "description": "lg 사이즈 버튼의 상하단 내부 여백 (W3C DTCG Type: dimension)",
+      "type": "dimension",
+      "roleEn": "Large Button Vertical Spacing (Padding Y LG)",
+      "roleJa": "ラージボタン垂直余白 (Padding Y LG)",
+      "descEn": "Vertical padding for lg size buttons (W3C DTCG Type: dimension)",
+      "descJa": "lgサイズボタンの上下内部余白 (W3C DTCG Type: dimension)"
+    },
+    {
+      "role": "라지 버튼 좌우 간격 (Padding X LG)",
+      "variable": "var(--atom-btn-px-lg)",
+      "dtcgPath": "component.button.padding-x-lg",
+      "defaultValue": "24px",
+      "description": "lg 사이즈 버튼의 좌우 내부 여백 (W3C DTCG Type: dimension)",
+      "type": "dimension",
+      "roleEn": "Large Button Horizontal Spacing (Padding X LG)",
+      "roleJa": "ラージボタン水平余白 (Padding X LG)",
+      "descEn": "Horizontal padding for lg size buttons (W3C DTCG Type: dimension)",
+      "descJa": "lgサイズボタンの左右内部余白 (W3C DTCG Type: dimension)"
     }
   ],
   "input": [

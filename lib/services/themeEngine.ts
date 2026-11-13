@@ -59,6 +59,12 @@ ${fontImportCSS}/* [AtomDesignToken] Live Injected Theme Variables */
 
   /* All Atom UI Component CSS Variable Mappings */
   --atom-btn-radius: ${borderRadius};
+  --atom-btn-py: ${theme.buttonSpacing?.paddingY || '8px'};
+  --atom-btn-px: ${theme.buttonSpacing?.paddingX || '16px'};
+  --atom-btn-py-sm: calc((${theme.buttonSpacing?.paddingY || '8px'}) * 0.5);
+  --atom-btn-px-sm: calc((${theme.buttonSpacing?.paddingX || '16px'}) * 0.625);
+  --atom-btn-py-lg: calc((${theme.buttonSpacing?.paddingY || '8px'}) * 1.5);
+  --atom-btn-px-lg: calc((${theme.buttonSpacing?.paddingX || '16px'}) * 1.5);
   --atom-input-radius: ${borderRadius};
   --atom-card-radius: ${borderRadius};
   --atom-card-bg: ${color.bgSecondary};

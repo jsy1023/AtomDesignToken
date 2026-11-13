@@ -29,6 +29,7 @@ interface ThemeEditorContextValue {
   ) => void;
   updateFontFamily: (fontFamily: string) => void;
   updateBorderRadius: (radius: string) => void;
+  updateButtonSpacing: (field: 'paddingY' | 'paddingX', value: string) => void;
   updateSelectedIcon: (iconName: string) => void;
   applyColorPreset: (preset: ColorPreset) => void;
   applyFullTheme: (newTheme: ThemeConfig) => void;
@@ -201,6 +202,24 @@ export function ThemeEditorProvider({ children }: { children: React.ReactNode })
     [persistAndApply]
   );
 
+  const updateButtonSpacing = useCallback(
+    (field: 'paddingY' | 'paddingX', value: string) => {
+      setTheme((prev) => {
+        const next: ThemeConfig = {
+          ...prev,
+          buttonSpacing: {
+            paddingY: prev.buttonSpacing?.paddingY || '8px',
+            paddingX: prev.buttonSpacing?.paddingX || '16px',
+            [field]: value,
+          },
+        };
+        persistAndApply(next);
+        return next;
+      });
+    },
+    [persistAndApply]
+  );
+
   const updateSelectedIcon = useCallback(
     (iconName: string) => {
       setTheme((prev) => {
@@ -256,6 +275,7 @@ export function ThemeEditorProvider({ children }: { children: React.ReactNode })
         updateTypographyLevel,
         updateFontFamily,
         updateBorderRadius,
+        updateButtonSpacing,
         updateSelectedIcon,
         applyColorPreset,
         applyFullTheme,

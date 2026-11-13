@@ -12,6 +12,10 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   size?: 'sm' | 'md' | 'lg';
   isIconOnly?: boolean;
   loading?: boolean;
+  /** 버튼 상하단 내부 여백 커스텀 토큰값 (예: var(--atom-space-2), 8px) */
+  paddingY?: string;
+  /** 버튼 좌우 내부 여백 커스텀 토큰값 (예: var(--atom-space-4), 16px) */
+  paddingX?: string;
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -21,8 +25,11 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       size = 'md',
       isIconOnly = false,
       loading = false,
+      paddingY,
+      paddingX,
       disabled,
       className = '',
+      style,
       children,
       ...props
     },
@@ -32,12 +39,19 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const sizeClass = size === 'sm' ? 'atom-btn-sm' : size === 'lg' ? 'atom-btn-lg' : '';
     const iconClass = isIconOnly ? 'atom-btn-icon' : '';
 
+    const customStyle: React.CSSProperties = {
+      ...(paddingY ? { paddingTop: paddingY, paddingBottom: paddingY } : {}),
+      ...(paddingX ? { paddingLeft: paddingX, paddingRight: paddingX } : {}),
+      ...style,
+    };
+
     return (
       <button
         ref={ref}
         disabled={disabled || loading}
         aria-disabled={disabled || loading}
         className={`atom-btn ${variantClass} ${sizeClass} ${iconClass} ${className}`.trim()}
+        style={customStyle}
         {...props}
       >
         {loading && (
