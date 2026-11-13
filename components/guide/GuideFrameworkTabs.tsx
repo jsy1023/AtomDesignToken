@@ -145,7 +145,7 @@ export function GuideFrameworkTabs() {
             {/* Quick Box */}
             <div className="rounded-3xl p-5 border border-dashed border-neutral-300 dark:border-neutral-700 bg-neutral-50/50 dark:bg-neutral-900/30 text-xs">
               <span className="font-bold text-neutral-800 dark:text-neutral-200 block mb-1">
-                💡 프레임워크가 바뀌어도 스타일은 그대로
+                프레임워크가 바뀌어도 스타일은 그대로
               </span>
               <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed">
                 컴포넌트의 HTML 마크업 구조와 클래스명(<code className="font-mono text-blue-600 dark:text-blue-400">.atom-btn</code> 등)이 프레임워크에 구애받지 않으므로, React 코드를 Vue나 순수 HTML로 옮겨도 CSS 수정이 전혀 필요 없습니다.

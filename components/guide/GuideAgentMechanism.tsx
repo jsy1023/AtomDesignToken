@@ -152,7 +152,7 @@ export function GuideAgentMechanism() {
               {/* Referenced Files List */}
               <div>
                 <span className="text-[11px] font-bold text-neutral-400 uppercase tracking-wider block mb-2.5">
-                  📂 AI가 직접 스캔/참조하는 원천 파일 (SSOT)
+                  AI가 직접 스캔/참조하는 원천 파일 (SSOT)
                 </span>
                 <div className="space-y-2">
                   {activeStep.referencedFiles.map((f, i) => (
@@ -211,7 +211,7 @@ export function GuideAgentMechanism() {
               </div>
 
               <div className="mt-4 pt-3 border-t border-neutral-800 text-[11px] text-neutral-400 flex items-center justify-between">
-                <span>✨ 임의 헥스코드 하드코딩 0건 (100% 라이브러리 토큰 기반)</span>
+                <span>임의 헥스코드 하드코딩 0건 (100% 라이브러리 토큰 기반)</span>
                 <span className="text-neutral-500 font-mono">단계 {activeStep.step} / 04</span>
               </div>
             </div>

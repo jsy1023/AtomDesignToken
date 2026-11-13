@@ -25,7 +25,7 @@ export default function PrinciplesPage() {
 
   const categories = [
     { id: 'all', label: t('principles.categoryAll', '전체 원칙') },
-    { id: 'agent', label: t('principles.categoryAgent', '🤖 AI 운영 원칙') },
+    { id: 'agent', label: t('principles.categoryAgent', 'AI 운영 원칙') },
     { id: 'core', label: t('principles.categoryCore', '핵심 원칙') },
     { id: 'architecture', label: t('principles.categoryArchitecture', '아키텍처') },
     { id: 'token', label: t('principles.categoryToken', '토큰 규격') },

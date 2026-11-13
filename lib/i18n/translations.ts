@@ -126,7 +126,7 @@ export const TRANSLATIONS: Record<'ko' | 'en' | 'ja', TranslationDictionary> = {
       "title": "디자인 시스템 설계 원칙 (Principles)",
       "subtitle": "AtomDesignToken은 임시방편적인 절차적 하드코딩을 배제하고, 플랫폼에 독립적인 단일 진실 공급원(SSOT)과 브라우저 네이티브 기술, 그리고 4단계 AI 레고 조립 파이프라인을 결합하여 고품질 엔터프라이즈 UI를 구축하기 위한 핵심 규격을 따릅니다.",
       "categoryAll": "전체 원칙",
-      "categoryAgent": "🤖 AI 운영 원칙",
+      "categoryAgent": "AI 운영 원칙",
       "categoryCore": "핵심 원칙",
       "categoryArchitecture": "아키텍처",
       "categoryToken": "토큰 규격",
@@ -228,7 +228,7 @@ export const TRANSLATIONS: Record<'ko' | 'en' | 'ja', TranslationDictionary> = {
         },
         "ai-governance-pipeline": {
           "title": "AI 운영 원칙: 4단계 레고 조립 파이프라인 (AI Agent Pipeline)",
-          "subtitle": "토큰(Tokens) ➔ 컴포넌트(Components) ➔ 블록(Blocks) ➔ UX패턴(Patterns)",
+          "subtitle": "토큰(Tokens) → 컴포넌트(Components) → 블록(Blocks) → UX패턴(Patterns)",
           "description": "모든 AI 어시스턴트(Cursor, Claude Code, Antigravity, Copilot)는 복잡한 화면을 생성할 때 한 번에 거대한 코드를 작성하지 않고, 반드시 검증된 4단계 조립 파이프라인을 순차적으로 거쳐야 합니다. 새 UI 요소가 필요하면 기초 원자 컴포넌트부터 생성한 후 블록으로 합성하는 [컴포넌트 우선 원칙(Component-First)]을 엄수합니다.",
           "dos": [
             "새 UI를 만들 때 components/ui/에 원자 컴포넌트를 먼저 정의하고, 이를 import하여 조립합니다.",
@@ -468,7 +468,7 @@ export const TRANSLATIONS: Record<'ko' | 'en' | 'ja', TranslationDictionary> = {
       "title": "Design System Principles",
       "subtitle": "AtomDesignToken eliminates temporary procedural hardcoding, combining platform-agnostic Single Source of Truth (SSOT), browser-native standards, and a 4-tier AI Lego Assembly Pipeline to build enterprise-grade UI.",
       "categoryAll": "All Principles",
-      "categoryAgent": "🤖 AI Governance",
+      "categoryAgent": "AI Governance",
       "categoryCore": "Core Principles",
       "categoryArchitecture": "Architecture",
       "categoryToken": "Token Specs",
@@ -570,7 +570,7 @@ export const TRANSLATIONS: Record<'ko' | 'en' | 'ja', TranslationDictionary> = {
         },
         "ai-governance-pipeline": {
           "title": "AI Governance: 4-Tier Assembly Pipeline",
-          "subtitle": "Tokens ➔ Components ➔ Blocks ➔ UX Patterns (Component-First Assembly)",
+          "subtitle": "Tokens → Components → Blocks → UX Patterns (Component-First Assembly)",
           "description": "All AI coding assistants (Cursor, Claude Code, Antigravity, Copilot) must follow the verified 4-tier assembly pipeline. When a new UI element is required, create atomic components in components/ui/ first before assembling higher-order blocks.",
           "dos": [
             "Define pure atomic components in components/ui/ first, then import them to build blocks.",
@@ -810,7 +810,7 @@ export const TRANSLATIONS: Record<'ko' | 'en' | 'ja', TranslationDictionary> = {
       "title": "デザインシステム設計原則 (Principles)",
       "subtitle": "AtomDesignTokenは、場当たり的な手続き的ハードコーディングを排除し、プラットフォーム非依存の単一真実源(SSOT)、ブラウザネイティブ標準、そして4段階AIレゴ組み立てパイプラインを統合してエンタープライズUIを構築します。",
       "categoryAll": "全原則",
-      "categoryAgent": "🤖 AI運用原則",
+      "categoryAgent": "AI運用原則",
       "categoryCore": "コア原則",
       "categoryArchitecture": "アーキテクチャ",
       "categoryToken": "トークン仕様",
@@ -846,7 +846,7 @@ export const TRANSLATIONS: Record<'ko' | 'en' | 'ja', TranslationDictionary> = {
         },
         "three-tier": {
           "title": "3階層トークンアーキテクチャ (3-Tier Token Hierarchy)",
-          "subtitle": "グローバルトークン ➔ セマンティック意図 ➔ コンポーネントトークン",
+          "subtitle": "グローバルトークン → セマンティック意図 → コンポーネントトークン",
           "description": "パレット値とコンポーネントスタイルの間に必ず「意図(Semantic)」層を設けます。このセマンティック層により、コンポーネントコードを一行も修正せずにマルチブランド、ダークモード、高コントラストテーマを一括変換できます。",
           "dos": [
             "UIスタイリング時は常にTier 2(Semantic: --atom-bg-surface, --atom-color-primary)を最優先で使用します。",
@@ -912,7 +912,7 @@ export const TRANSLATIONS: Record<'ko' | 'en' | 'ja', TranslationDictionary> = {
         },
         "ai-governance-pipeline": {
           "title": "AI運用原則: 4段階レゴ組み立てパイプライン (AI Agent Pipeline)",
-          "subtitle": "トークン ➔ コンポーネント ➔ ブロック ➔ UXパターン (Component-First原則)",
+          "subtitle": "トークン → コンポーネント → ブロック → UXパターン (Component-First原則)",
           "description": "すべてのAIアシスタント(Cursor, Claude Code, Antigravity, Copilot)は、複雑な画面を作成する際に一度に巨大なコードを書かず、検証された4段階パイプラインに従います。新しいUI要素が必要な場合は最小原子コンポーネントから先に作成して組み立てます。",
           "dos": [
             "新しいUIを作成する際はcomponents/ui/に最小コンポーネントを先に定義し、インポートして組み立てます。",

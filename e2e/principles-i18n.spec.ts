@@ -25,7 +25,7 @@ test.describe('설계 원칙(/principles) 및 주요 페이지 EN/JA 다국어 �
 
     // 카테고리 탭 전환 확인
     await expect(page.getByRole('button', { name: 'All Principles' })).toBeVisible();
-    await expect(page.getByRole('button', { name: '🤖 AI Governance' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'AI Governance' })).toBeVisible();
 
     // 01번 원칙 카드 제목 및 DO/DONT 뱃지 영어 전환 확인
     await expect(page.getByRole('heading', { name: /Single Source of Truth/i })).toBeVisible();
@@ -45,7 +45,7 @@ test.describe('설계 원칙(/principles) 및 주요 페이지 EN/JA 다국어 �
 
     // 카테고리 탭 전환 확인
     await expect(page.getByRole('button', { name: '全原則' })).toBeVisible();
-    await expect(page.getByRole('button', { name: '🤖 AI運用原則' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'AI運用原則' })).toBeVisible();
 
     // 01번 원칙 카드 제목 및 DO/DONT 뱃지 일본어 전환 확인
     await expect(page.getByRole('heading', { name: /単一真実源/i })).toBeVisible();

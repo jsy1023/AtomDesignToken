@@ -19,10 +19,10 @@ npx atomsystem init
 
 # 2. 로컬 웹 토큰 스튜디오(GUI) 실행 (독립 서버 모드)
 npx atomsystem studio
-# 👉 브라우저에서 http://localhost:4000 접속
+# 브라우저에서 http://localhost:4000 접속
 
 # 3. Next.js / 웹 프로젝트 내장 스튜디오로 접속 시
-# 👉 개발 서버 구동 중 http://localhost:3000/studio 접속
+# 개발 서버 구동 중 http://localhost:3000/studio 접속
 
 # 4. CLI를 통해 수동으로 CSS 재컴파일할 경우
 npx atomsystem build:tokens`;
