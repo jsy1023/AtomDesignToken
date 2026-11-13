@@ -6,7 +6,7 @@ import { Link } from '@/i18n/routing';
 import { Header } from '@/components/Header';
 import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';
 import { CodeHighlight } from '@/components/common/CodeHighlight';
-import { Button, Card, Badge, Input } from '@/components/ui';
+import { Button } from '@/components/ui';
 import {
   PaletteVariable,
   ComponentVariable,
@@ -128,7 +128,6 @@ export default function LocalStudioPage() {
     if (!newVariableName.trim() || !newVariableKey.trim()) return;
     const cleanKey = newVariableKey.trim().toLowerCase().replace(/\s+/g, '-');
 
-    // Default bindings from current variable or properties
     const initialBindings: Record<string, string> = {};
     currentComponent.properties.forEach((prop) => {
       initialBindings[prop.key] = currentVariable?.tokenBindings[prop.key] || prop.defaultPaletteId;
@@ -326,134 +325,68 @@ export default function LocalStudioPage() {
           </div>
         </main>
       ) : (
-        /* Case 2: Local Studio Environment */
-        <main className="max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 flex-1 flex flex-col gap-6 animate-in fade-in">
-          {/* Header Bar */}
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-(--border-subtle) pb-5">
-            <div>
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="font-mono text-xs px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold border border-emerald-500/20 flex items-center gap-1.5 shadow-xs">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" />
-                  {t('badgeConnected')}
-                </span>
-                <span className="text-xs font-mono px-2 py-0.5 rounded bg-(--bg-secondary) text-(--text-secondary) border border-(--border-subtle)">
-                  {t('badgeFs')}
-                </span>
+        /* Case 2: Unified Sidebar + Main Studio Layout */
+        <div className="flex-1 w-full max-w-[1600px] mx-auto flex flex-col md:flex-row border-t border-(--border-subtle) animate-in fade-in">
+          {/* ================= LEFT SIDEBAR (All Menus in Left Area) ================= */}
+          <aside className="w-full md:w-72 lg:w-80 shrink-0 border-r border-(--border-subtle) bg-(--bg-secondary)/30 flex flex-col gap-5 p-4 sm:p-5">
+            {/* 1. Main Studio Mode Navigation Menu */}
+            <div className="space-y-1.5">
+              <span className="text-[11px] font-mono font-bold text-(--text-muted) uppercase tracking-wider block px-2">
+                Studio Menu
+              </span>
+              <div className="flex flex-col gap-1">
+                <button
+                  onClick={() => setActiveTab('components')}
+                  className={`w-full text-left px-3 py-2 rounded-(--radius-sm) text-xs sm:text-sm font-semibold transition cursor-pointer flex items-center gap-2.5 ${
+                    activeTab === 'components'
+                      ? 'bg-(--text-primary) text-(--bg-primary) shadow-xs'
+                      : 'text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary)'
+                  }`}
+                >
+                  <Component className="w-4 h-4" />
+                  <span>{t('tabComponents')}</span>
+                </button>
+
+                <button
+                  onClick={() => setActiveTab('palette')}
+                  className={`w-full text-left px-3 py-2 rounded-(--radius-sm) text-xs sm:text-sm font-semibold transition cursor-pointer flex items-center gap-2.5 ${
+                    activeTab === 'palette'
+                      ? 'bg-(--text-primary) text-(--bg-primary) shadow-xs'
+                      : 'text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary)'
+                  }`}
+                >
+                  <Palette className="w-4 h-4" />
+                  <span>{t('tabPalette')}</span>
+                </button>
+
+                <button
+                  onClick={() => setActiveTab('preview')}
+                  className={`w-full text-left px-3 py-2 rounded-(--radius-sm) text-xs sm:text-sm font-semibold transition cursor-pointer flex items-center gap-2.5 ${
+                    activeTab === 'preview'
+                      ? 'bg-(--text-primary) text-(--bg-primary) shadow-xs'
+                      : 'text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary)'
+                  }`}
+                >
+                  <FileCode className="w-4 h-4" />
+                  <span>{t('tabJson')}</span>
+                </button>
               </div>
-              <h1 className="text-2xl font-extrabold tracking-tight text-(--text-primary)">
-                {t('title')}
-              </h1>
-              <p className="text-xs sm:text-sm text-(--text-secondary) mt-0.5">
-                {t('desc')}
-              </p>
             </div>
 
-            <div className="flex items-center gap-2 shrink-0">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => {
-                  setPaletteVariables(INITIAL_PALETTE_VARIABLES);
-                  setComponents(INITIAL_STUDIO_COMPONENTS);
-                  resetTheme();
-                }}
-                className="flex items-center gap-1.5"
-              >
-                <RotateCcw className="w-3.5 h-3.5" />
-                <span>{t('reset')}</span>
-              </Button>
-
-              <Button
-                variant="primary"
-                size="sm"
-                onClick={handleSaveToProject}
-                disabled={isSaving}
-                className="flex items-center gap-2 bg-(--accent-primary) text-(--bg-primary)"
-              >
-                {saveSuccess ? (
-                  <>
-                    <Check className="w-4 h-4 text-emerald-400" />
-                    <span>{t('saveSuccess')}</span>
-                  </>
-                ) : (
-                  <>
-                    <Save className="w-4 h-4" />
-                    <span>{isSaving ? t('saving') : t('saveToProject')}</span>
-                  </>
-                )}
-              </Button>
-            </div>
-          </div>
-
-          {/* Status notification banner */}
-          {statusMessage && (
-            <div
-              className={`p-3 rounded-(--radius) text-xs font-medium flex items-center gap-2 ${
-                saveSuccess
-                  ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20'
-                  : 'bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20'
-              }`}
-            >
-              <Sparkles className="w-4 h-4 shrink-0" />
-              <span>{statusMessage}</span>
-            </div>
-          )}
-
-          {/* Studio Navigation Tabs */}
-          <div className="flex items-center gap-2 border-b border-(--border-subtle) pb-2">
-            <button
-              onClick={() => setActiveTab('components')}
-              className={`px-4 py-2 rounded-(--radius-sm) text-xs sm:text-sm font-semibold transition cursor-pointer flex items-center gap-2 ${
-                activeTab === 'components'
-                  ? 'bg-(--text-primary) text-(--bg-primary)'
-                  : 'text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary)'
-              }`}
-            >
-              <Component className="w-4 h-4" />
-              <span>{t('tabComponents')}</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab('palette')}
-              className={`px-4 py-2 rounded-(--radius-sm) text-xs sm:text-sm font-semibold transition cursor-pointer flex items-center gap-2 ${
-                activeTab === 'palette'
-                  ? 'bg-(--text-primary) text-(--bg-primary)'
-                  : 'text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary)'
-              }`}
-            >
-              <Palette className="w-4 h-4" />
-              <span>{t('tabPalette')}</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab('preview')}
-              className={`px-4 py-2 rounded-(--radius-sm) text-xs sm:text-sm font-semibold transition cursor-pointer flex items-center gap-2 ${
-                activeTab === 'preview'
-                  ? 'bg-(--text-primary) text-(--bg-primary)'
-                  : 'text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary)'
-              }`}
-            >
-              <FileCode className="w-4 h-4" />
-              <span>{t('tabJson')}</span>
-            </button>
-          </div>
-
-          {/* TAB 1: Component Studio (3-Column Layout: Sidebar / Stage / Inspector) */}
-          {activeTab === 'components' && (
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-              {/* Left Column: Components File Explorer (3 cols) */}
-              <div className="lg:col-span-3 flex flex-col gap-3 p-4 rounded-(--radius) bg-(--bg-secondary)/40 border border-(--border-subtle)">
-                <div className="flex items-center justify-between">
+            {/* 2. UI Components Tree/List (Active when in Component Studio) */}
+            {activeTab === 'components' && (
+              <div className="flex-1 flex flex-col gap-3 pt-4 border-t border-(--border-subtle)">
+                <div className="flex items-center justify-between px-1">
                   <span className="text-xs font-mono font-bold text-(--text-secondary) uppercase tracking-wider flex items-center gap-1.5">
                     <Layers className="w-3.5 h-3.5 text-(--accent-primary)" />
                     UI Components
                   </span>
-                  <span className="text-[11px] font-mono px-1.5 py-0.5 rounded bg-(--bg-secondary) text-(--text-muted)">
+                  <span className="text-[11px] font-mono px-1.5 py-0.5 rounded bg-(--bg-secondary) text-(--text-muted) border border-(--border-subtle)">
                     {filteredComponents.length}
                   </span>
                 </div>
 
-                {/* Search & Filter */}
+                {/* Search */}
                 <div className="relative">
                   <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-(--text-muted)" />
                   <input
@@ -465,7 +398,7 @@ export default function LocalStudioPage() {
                   />
                 </div>
 
-                {/* Category Pills */}
+                {/* Category Filter Pills */}
                 <div className="flex flex-wrap gap-1">
                   {['all', 'Form', 'Layout', 'Feedback'].map((cat) => (
                     <button
@@ -474,7 +407,7 @@ export default function LocalStudioPage() {
                       className={`text-[10px] font-mono px-2 py-0.5 rounded cursor-pointer transition ${
                         categoryFilter === cat
                           ? 'bg-(--text-primary) text-(--bg-primary) font-semibold'
-                          : 'bg-(--bg-secondary) text-(--text-secondary) hover:text-(--text-primary)'
+                          : 'bg-(--bg-secondary) text-(--text-secondary) hover:text-(--text-primary) border border-(--border-subtle)'
                       }`}
                     >
                       {cat === 'all' ? t('categoryAll') : cat}
@@ -483,7 +416,7 @@ export default function LocalStudioPage() {
                 </div>
 
                 {/* Component List Items */}
-                <div className="flex flex-col gap-1 mt-1 max-h-[520px] overflow-y-auto">
+                <div className="flex flex-col gap-1 overflow-y-auto max-h-[calc(100vh-340px)] pr-1">
                   {filteredComponents.map((comp) => {
                     const isSelected = comp.id === selectedComponentId;
                     return (
@@ -508,77 +441,155 @@ export default function LocalStudioPage() {
                   })}
                 </div>
               </div>
+            )}
+          </aside>
 
-              {/* Middle Column: Variable Selector & Live Preview Stage (5 cols) */}
-              <div className="lg:col-span-5 flex flex-col gap-4">
-                {/* Variable Selector Bar */}
-                <div className="p-4 rounded-(--radius) bg-(--bg-secondary)/30 border border-(--border-subtle) flex flex-col gap-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-(--text-secondary) uppercase tracking-wider flex items-center gap-1.5">
-                      <Sliders className="w-3.5 h-3.5 text-(--accent-primary)" />
-                      {t('variableLabel')}
-                    </span>
-                    <button
-                      onClick={() => setIsAddVariableOpen(true)}
-                      className="text-xs font-semibold text-(--accent-primary) hover:underline flex items-center gap-1 cursor-pointer"
-                    >
-                      <Plus className="w-3.5 h-3.5" />
-                      <span>{t('addVariableBtn')}</span>
-                    </button>
-                  </div>
+          {/* ================= RIGHT MAIN WORKSPACE ================= */}
+          <main className="flex-1 flex flex-col p-5 sm:p-7 gap-6 overflow-hidden">
+            {/* Header & Global Project Save Bar */}
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-(--border-subtle) pb-5">
+              <div>
+                <div className="flex items-center gap-2 mb-1.5">
+                  <span className="font-mono text-xs px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold border border-emerald-500/20 flex items-center gap-1.5 shadow-xs">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" />
+                    {t('badgeConnected')}
+                  </span>
+                  <span className="text-xs font-mono px-2 py-0.5 rounded bg-(--bg-secondary) text-(--text-secondary) border border-(--border-subtle)">
+                    {t('badgeFs')}
+                  </span>
+                </div>
+                <h1 className="text-2xl font-extrabold tracking-tight text-(--text-primary)">
+                  {t('title')}
+                </h1>
+                <p className="text-xs sm:text-sm text-(--text-secondary) mt-0.5">
+                  {t('desc')}
+                </p>
+              </div>
 
-                  {/* Variable Tabs */}
-                  <div className="flex flex-wrap items-center gap-1.5">
-                    {currentComponent.variables.map((v) => {
-                      const isVarSelected = v.id === currentVariable?.id;
-                      const isEditing = editingVariableId === v.id;
+              <div className="flex items-center gap-2 shrink-0">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    setPaletteVariables(INITIAL_PALETTE_VARIABLES);
+                    setComponents(INITIAL_STUDIO_COMPONENTS);
+                    resetTheme();
+                  }}
+                  className="flex items-center gap-1.5"
+                >
+                  <RotateCcw className="w-3.5 h-3.5" />
+                  <span>{t('reset')}</span>
+                </Button>
 
-                      if (isEditing) {
+                <Button
+                  variant="primary"
+                  size="sm"
+                  onClick={handleSaveToProject}
+                  disabled={isSaving}
+                  className="flex items-center gap-2 bg-(--accent-primary) text-(--bg-primary)"
+                >
+                  {saveSuccess ? (
+                    <>
+                      <Check className="w-4 h-4 text-emerald-400" />
+                      <span>{t('saveSuccess')}</span>
+                    </>
+                  ) : (
+                    <>
+                      <Save className="w-4 h-4" />
+                      <span>{isSaving ? t('saving') : t('saveToProject')}</span>
+                    </>
+                  )}
+                </Button>
+              </div>
+            </div>
+
+            {/* Status notification banner */}
+            {statusMessage && (
+              <div
+                className={`p-3 rounded-(--radius) text-xs font-medium flex items-center gap-2 ${
+                  saveSuccess
+                    ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20'
+                    : 'bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20'
+                }`}
+              >
+                <Sparkles className="w-4 h-4 shrink-0" />
+                <span>{statusMessage}</span>
+              </div>
+            )}
+
+            {/* TAB 1: Component Studio (Stage & Token Inspector) */}
+            {activeTab === 'components' && (
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                {/* Central Stage: Variable Selector & Live Component Stage (7 cols) */}
+                <div className="lg:col-span-7 flex flex-col gap-4">
+                  {/* Variable Selector Bar */}
+                  <div className="p-4 rounded-(--radius) bg-(--bg-secondary)/30 border border-(--border-subtle) flex flex-col gap-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold text-(--text-secondary) uppercase tracking-wider flex items-center gap-1.5">
+                        <Sliders className="w-3.5 h-3.5 text-(--accent-primary)" />
+                        {t('variableLabel')}
+                      </span>
+                      <button
+                        onClick={() => setIsAddVariableOpen(true)}
+                        className="text-xs font-semibold text-(--accent-primary) hover:underline flex items-center gap-1 cursor-pointer"
+                      >
+                        <Plus className="w-3.5 h-3.5" />
+                        <span>{t('addVariableBtn')}</span>
+                      </button>
+                    </div>
+
+                    {/* Variable Tabs */}
+                    <div className="flex flex-wrap items-center gap-1.5">
+                      {currentComponent.variables.map((v) => {
+                        const isVarSelected = v.id === currentVariable?.id;
+                        const isEditing = editingVariableId === v.id;
+
+                        if (isEditing) {
+                          return (
+                            <div key={v.id} className="flex items-center gap-1">
+                              <input
+                                type="text"
+                                value={editingVariableName}
+                                onChange={(e) => setEditingVariableName(e.target.value)}
+                                className="text-xs px-2 py-1 rounded border border-(--border-subtle) bg-(--bg-primary)"
+                                autoFocus
+                              />
+                              <button
+                                onClick={() => handleSaveRename(v.id)}
+                                className="p-1 rounded bg-emerald-500 text-white text-xs cursor-pointer"
+                              >
+                                <Check className="w-3 h-3" />
+                              </button>
+                            </div>
+                          );
+                        }
+
                         return (
-                          <div key={v.id} className="flex items-center gap-1">
-                            <input
-                              type="text"
-                              value={editingVariableName}
-                              onChange={(e) => setEditingVariableName(e.target.value)}
-                              className="text-xs px-2 py-1 rounded border border-(--border-subtle) bg-(--bg-primary)"
-                              autoFocus
-                            />
-                            <button
-                              onClick={() => handleSaveRename(v.id)}
-                              className="p-1 rounded bg-emerald-500 text-white text-xs cursor-pointer"
-                            >
-                              <Check className="w-3 h-3" />
-                            </button>
-                          </div>
-                        );
-                      }
-
-                      return (
-                        <div
-                          key={v.id}
-                          className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-(--radius-sm) text-xs font-medium transition cursor-pointer border ${
-                            isVarSelected
-                              ? 'bg-(--text-primary) text-(--bg-primary) border-(--text-primary) font-semibold shadow-xs'
-                              : 'bg-(--bg-primary) text-(--text-secondary) border-(--border-subtle) hover:text-(--text-primary)'
-                          }`}
-                        >
-                          <span onClick={() => setSelectedVariableId(v.id)}>
-                            {v.name}
-                          </span>
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setEditingVariableId(v.id);
-                              setEditingVariableName(v.name);
-                            }}
-                            className="opacity-50 hover:opacity-100 p-0.5 cursor-pointer"
-                            title="Rename Variable"
+                          <div
+                            key={v.id}
+                            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-(--radius-sm) text-xs font-medium transition cursor-pointer border ${
+                              isVarSelected
+                                ? 'bg-(--text-primary) text-(--bg-primary) border-(--text-primary) font-semibold shadow-xs'
+                                : 'bg-(--bg-primary) text-(--text-secondary) border-(--border-subtle) hover:text-(--text-primary)'
+                            }`}
                           >
-                            <Edit2 className="w-2.5 h-2.5" />
-                          </button>
-                          {currentComponent.variables.length > 1 && (
+                            <span onClick={() => setSelectedVariableId(v.id)}>
+                              {v.name}
+                            </span>
                             <button
                               onClick={(e) => {
+                                e.stopPropagation();
+                                setEditingVariableId(v.id);
+                                setEditingVariableName(v.name);
+                              }}
+                              className="opacity-50 hover:opacity-100 p-0.5 cursor-pointer"
+                              title="Rename Variable"
+                            >
+                              <Edit2 className="w-2.5 h-2.5" />
+                            </button>
+                            {currentComponent.variables.length > 1 && (
+                              <button
+                                onClick={(e) => {
                                 e.stopPropagation();
                                 handleDeleteVariable(v.id);
                               }}
@@ -612,8 +623,8 @@ export default function LocalStudioPage() {
                     </span>
                   </div>
 
-                  {/* Render preview dynamically according to token bindings */}
-                  <div className="p-8 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) flex items-center justify-center min-h-[200px] transition-all">
+                  {/* Dynamic Render based on token bindings */}
+                  <div className="p-8 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) flex items-center justify-center min-h-[220px] transition-all">
                     {/* BUTTON PREVIEW */}
                     {currentComponent.id === 'button' && (
                       <button
@@ -835,12 +846,12 @@ export default function LocalStudioPage() {
                 </div>
               </div>
 
-              {/* Right Column: Token ↔ Palette Binding Inspector (4 cols) */}
-              <div className="lg:col-span-4 p-5 rounded-(--radius) bg-(--bg-secondary)/30 border border-(--border-subtle) flex flex-col gap-4">
+              {/* Right Column: Token ↔ Palette Binding Inspector (5 cols with comfortable width) */}
+              <div className="lg:col-span-5 p-5 rounded-(--radius) bg-(--bg-secondary)/30 border border-(--border-subtle) flex flex-col gap-4">
                 <div>
-                  <h3 className="font-bold text-sm text-(--text-primary) flex items-center gap-1.5">
-                    <Sliders className="w-4 h-4 text-(--accent-primary)" />
-                    {t('bindingPanelTitle')}
+                  <h3 className="font-bold text-sm sm:text-base text-(--text-primary) flex items-center gap-1.5 whitespace-nowrap">
+                    <Sliders className="w-4 h-4 text-(--accent-primary) shrink-0" />
+                    <span>{t('bindingPanelTitle')}</span>
                   </h3>
                   <p className="text-xs text-(--text-secondary) mt-0.5">
                     {t('bindingPanelDesc')}
@@ -1004,6 +1015,7 @@ export default function LocalStudioPage() {
             </div>
           )}
         </main>
+      </div>
       )}
 
       {/* MODAL 1: Add Component Variable */}
