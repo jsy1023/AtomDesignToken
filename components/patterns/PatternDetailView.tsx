@@ -103,7 +103,7 @@ export function PatternDetailView({
             }`}
           >
             {isWeb ? <Monitor className="w-3.5 h-3.5" /> : <Smartphone className="w-3.5 h-3.5" />}
-            <span>{isWeb ? '🖥️ WEB 전용 화면' : '📱 모바일 전용 화면'}</span>
+            <span>{isWeb ? 'WEB 전용 화면' : '모바일 전용 화면'}</span>
           </span>
           <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300">
             {pattern.categoryName}

@@ -2,9 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Header } from '@/components/Header';
 import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';
-import { DocsSidebar } from '@/components/docs/DocsSidebar';
 import { GalleryComponent } from '@/lib/data/components';
 import { PATTERNS_COLLECTION } from '@/lib/data/patterns';
 import { Tree, TreeNode } from '@/components/ui/Tree';
@@ -30,7 +28,12 @@ import {
 } from '@/components/ui';
 import { CodeHighlight } from '@/components/common/CodeHighlight';
 import { COMPONENT_TOKEN_MAPPINGS, getComponentTokens, getLocalizedToken } from '@/lib/data/componentTokens';
-import { getComponentLocalizedData } from '@/lib/i18n/componentTranslations';
+import {
+  getComponentLocalizedData,
+  getLocalizedPropDescription,
+  getLocalizedSnippet,
+  getLocalizedPattern,
+} from '@/lib/i18n/componentTranslations';
 import { useI18n } from '@/lib/i18n';
 import {
   ArrowLeft,
@@ -46,7 +49,8 @@ import {
   RefreshCw,
   X,
   Bell,
-  Coins,
+  Eye,
+  Sliders,
 } from 'lucide-react';
 
 interface ComponentDetailPageContentProps {
@@ -80,12 +84,13 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
   const [showAlert, setShowAlert] = useState(true);
   const [selectedTreeId, setSelectedTreeId] = useState<string>('Button.tsx');
 
-  const activeSnippet =
+  const rawSnippet =
     activeSnippetTab === 'react'
       ? component.reactSnippet
       : activeSnippetTab === 'vue'
       ? component.vueSnippet || component.reactSnippet
       : component.htmlSnippet;
+  const activeSnippet = getLocalizedSnippet(rawSnippet, locale);
 
   const handleCopyCode = () => {
     navigator.clipboard.writeText(activeSnippet);
@@ -302,6 +307,28 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                 </Button>
                 <Button disabled>Disabled</Button>
                 <Button loading>{locale === 'ja' ? '読み込み中...' : locale === 'en' ? 'Loading...' : '로딩 중...'}</Button>
+              </div>
+            </div>
+
+            {/* 4. 버튼 상하/좌우 여백 토큰 제어 (Button Spacing Tokens) */}
+            <div className="space-y-2">
+              <span className="text-xs font-mono font-semibold text-(--text-secondary) uppercase tracking-wider">
+                {locale === 'ja'
+                  ? '4. ボタン上下・左右余白トークン制御 (SPACING TOKENS)'
+                  : locale === 'en'
+                  ? '4. Button Vertical & Horizontal Spacing Tokens (SPACING TOKENS)'
+                  : '4. 버튼 상하단 및 좌우 여백 토큰 제어 (SPACING TOKENS)'}
+              </span>
+              <div className="flex flex-wrap items-center gap-3 p-3 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle)">
+                <Button variant="primary">
+                  {locale === 'ja' ? '標準 (--atom-btn-py: 8px / px: 16px)' : locale === 'en' ? 'Default (py: 8px, px: 16px)' : '기본 규격 (py: 8px, px: 16px)'}
+                </Button>
+                <Button variant="secondary" paddingY="4px" paddingX="10px">
+                  {locale === 'ja' ? 'コンパクト (py: 4px / px: 10px)' : locale === 'en' ? 'Compact (py: 4px, px: 10px)' : '콤팩트 (py: 4px, px: 10px)'}
+                </Button>
+                <Button variant="outline" paddingY="12px" paddingX="24px">
+                  {locale === 'ja' ? 'ワイド (py: 12px / px: 24px)' : locale === 'en' ? 'Wide (py: 12px, px: 24px)' : '와이드 (py: 12px, px: 24px)'}
+                </Button>
               </div>
             </div>
           </div>
@@ -656,17 +683,9 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
   );
 
   return (
-    <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] flex flex-col justify-between transition-colors">
-      {/* Global Header */}
-      <Header brandColor={brandColor} />
-
-      {/* Main 3-Column Documentation Container */}
-      <main className="max-w-7xl w-full mx-auto px-6 py-8 flex-1 flex gap-8 items-start">
-        {/* 1. Left Column: Components Sidebar */}
-        <DocsSidebar activeId={component.id} />
-
-        {/* 2. Center Column: Main Component Content */}
-        <div className="flex-1 min-w-0 flex flex-col gap-8">
+    <>
+      {/* Center Column: Main Component Content */}
+      <div className="flex-1 min-w-0 flex flex-col gap-8">
           {/* Navigation & Header */}
           <div className="flex flex-col gap-4 pb-6 border-b border-[var(--border-subtle)]">
           <div className="flex flex-wrap items-center justify-between gap-4 mt-2">
@@ -687,7 +706,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                   href="#tokens"
                   className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 hover:bg-blue-500/20 transition flex items-center gap-1.5 cursor-pointer shadow-xs"
                 >
-                  <Coins className="w-3.5 h-3.5" />
+                  <Layers className="w-3.5 h-3.5" />
                   <span>{t('componentsDoc.tokensBoundBadge', 'W3C 디자인 토큰 {n}개 연동됨 ↓').replace('{n}', String(componentTokens.length))}</span>
                 </a>
               </div>
@@ -721,13 +740,14 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
               <button
                 type="button"
                 onClick={() => setPreviewMode('preview')}
-                className={`px-3 py-1.5 rounded-(--radius-sm) text-sm font-semibold transition ${
+                className={`px-3 py-1.5 rounded-(--radius-sm) text-sm font-semibold transition flex items-center gap-1.5 ${
                   previewMode === 'preview'
                     ? 'bg-(--bg-primary) text-(--text-primary) shadow-xs'
                     : 'text-(--text-secondary) hover:text-(--text-primary)'
                 }`}
               >
-                {t('componentsDoc.tabLivePreview', '👁️ 라이브 뷰')}
+                <Eye className="w-3.5 h-3.5" />
+                <span>{t('componentsDoc.tabLivePreview', '라이브 뷰')}</span>
               </button>
               <button
                 type="button"
@@ -738,7 +758,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                     : 'text-(--text-secondary) hover:text-(--text-primary)'
                 }`}
               >
-                <Coins className="w-4 h-4" />
+                <Layers className="w-3.5 h-3.5" />
                 <span>{t('componentsDoc.tabInspectTokens', '디자인 토큰값 조회')} ({componentTokens.length})</span>
               </button>
             </div>
@@ -784,7 +804,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
         <section id="tokens" className="scroll-mt-28 flex flex-col gap-3">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <h2 className="text-sm font-semibold uppercase tracking-wider text-(--text-secondary) flex items-center gap-1.5">
-              <Coins className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+              <Layers className="w-4 h-4 text-blue-600 dark:text-blue-400" />
               <span className="text-(--text-primary)">{t('componentsDoc.tokensTitle', '연동된 W3C DTCG 디자인 토큰 (tokens/token.json)')}</span>
               <span className="ml-1 px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 text-xs font-mono font-semibold">
                 {componentTokens.length} Tokens Bound
@@ -795,7 +815,8 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                 href="/studio"
                 className="text-sm font-semibold px-3 py-1.5 rounded-(--radius-sm) bg-(--bg-secondary) text-(--text-primary) border border-(--border-subtle) hover:bg-(--bg-primary) transition flex items-center gap-1.5 shadow-xs"
               >
-                <span>{t('componentsDoc.tokensEditInStudio', '🛠️ 테마 에디터에서 수정 (/studio)')}</span>
+                <Sliders className="w-3.5 h-3.5 text-(--accent-primary)" />
+                <span>{t('componentsDoc.tokensEditInStudio', '테마 에디터에서 수정 (/studio)')}</span>
               </Link>
               <Link
                 href="/tokens"
@@ -987,7 +1008,9 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                     <TableCell className="font-mono font-semibold text-(--text-primary) text-sm">{prop.name}</TableCell>
                     <TableCell className="font-mono text-sm text-(--text-secondary)">{prop.type}</TableCell>
                     <TableCell className="font-mono text-sm text-(--text-muted)">{prop.defaultValue}</TableCell>
-                    <TableCell className="text-sm text-(--text-primary)">{prop.description}</TableCell>
+                    <TableCell className="text-sm text-(--text-primary)">
+                      {getLocalizedPropDescription(prop.name, prop.description, locale)}
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -1003,24 +1026,27 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
               <span>{t('componentsDoc.relatedPatternsTitle', '이 컴포넌트가 사용되는 실무 UX 패턴')}</span>
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-              {relatedPatterns.map((pattern) => (
-                <Link
-                  key={pattern.id}
-                  href={`/patterns`}
-                  className="p-4 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) hover:border-(--border-strong) transition-colors flex flex-col justify-between gap-2 shadow-xs group"
-                >
-                  <div>
-                    <span className="text-xs font-medium text-(--text-secondary) uppercase">{pattern.categoryName}</span>
-                    <h3 className="text-base font-semibold text-(--text-primary) group-hover:text-(--accent-primary) transition-colors mt-0.5">
-                      {pattern.title}
-                    </h3>
-                  </div>
-                  <div className="flex items-center gap-1 text-sm font-medium text-(--accent-primary)">
-                    <span>{locale === 'ja' ? 'パターン詳細を見る' : locale === 'en' ? 'View Pattern Detail' : '패턴 상세 보기'}</span>
-                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-                  </div>
-                </Link>
-              ))}
+              {relatedPatterns.map((pattern) => {
+                const localizedPattern = getLocalizedPattern(pattern.id, pattern.title, pattern.categoryName, locale);
+                return (
+                  <Link
+                    key={pattern.id}
+                    href={`/patterns`}
+                    className="p-4 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) hover:border-(--border-strong) transition-colors flex flex-col justify-between gap-2 shadow-xs group"
+                  >
+                    <div>
+                      <span className="text-xs font-medium text-(--text-secondary) uppercase">{localizedPattern.categoryName}</span>
+                      <h3 className="text-base font-semibold text-(--text-primary) group-hover:text-(--accent-primary) transition-colors mt-0.5">
+                        {localizedPattern.title}
+                      </h3>
+                    </div>
+                    <div className="flex items-center gap-1 text-sm font-medium text-(--accent-primary)">
+                      <span>{locale === 'ja' ? 'パターン詳細を見る' : locale === 'en' ? 'View Pattern Detail' : '패턴 상세 보기'}</span>
+                      <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
           </section>
         )}
@@ -1039,7 +1065,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
             </li>
             <li>
               <a href="#tokens" className="text-blue-600 dark:text-blue-400 font-semibold py-1 block transition-colors flex items-center gap-1.5">
-                <Coins className="w-3.5 h-3.5" />
+                <Layers className="w-3.5 h-3.5" />
                 <span>{t('componentsDoc.tokensTitle', '디자인 토큰 명세')} ({componentTokens.length})</span>
               </a>
             </li>
@@ -1081,12 +1107,6 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
             )}
           </ul>
         </aside>
-      </main>
-
-      {/* Footer */}
-      <footer className="border-t border-neutral-200/80 dark:border-neutral-800 bg-white dark:bg-neutral-900 mt-12 py-6 px-6 text-center text-xs text-neutral-500">
-        <p>© 2026 AtomDesignToken · W3C Design Tokens Community Group Standard</p>
-      </footer>
-    </div>
+    </>
   );
 }
