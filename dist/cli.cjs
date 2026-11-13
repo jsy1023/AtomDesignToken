@@ -660,7 +660,7 @@ function showVersion() {
     const pkg = JSON.parse(fs2__default.default.readFileSync(pkgPath, "utf-8"));
     console.log(`atomsystem v${pkg.version}`);
   } else {
-    console.log("atomsystem v0.7.0");
+    console.log("atomsystem v0.7.1");
   }
 }
 switch (command) {

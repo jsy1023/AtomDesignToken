@@ -1,48 +1,22 @@
 import React from 'react';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive' | 'success' | 'warning';
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive';
   size?: 'sm' | 'md' | 'lg';
   loading?: boolean;
-  isIconOnly?: boolean;
-  paddingX?: string;
-  paddingY?: string;
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  (
-    {
-      variant = 'primary',
-      size = 'md',
-      loading = false,
-      isIconOnly = false,
-      paddingX,
-      paddingY,
-      disabled,
-      className = '',
-      style,
-      children,
-      ...props
-    },
-    ref
-  ) => {
+  ({ variant = 'primary', size = 'md', loading = false, disabled, className = '', children, ...props }, ref) => {
     const variantClass = variant === 'primary' ? 'atom-btn-primary' : `atom-btn-${variant}`;
     const sizeClass = size === 'sm' ? 'text-xs px-2.5 py-1.5' : size === 'lg' ? 'text-base px-5 py-3' : '';
-    const iconClass = isIconOnly ? 'p-2 aspect-square inline-flex items-center justify-center' : '';
-
-    const customStyle: React.CSSProperties = {
-      ...style,
-      ...(paddingX ? { paddingLeft: paddingX, paddingRight: paddingX } : {}),
-      ...(paddingY ? { paddingTop: paddingY, paddingBottom: paddingY } : {}),
-    };
 
     return (
       <button
         ref={ref}
         disabled={disabled || loading}
         aria-disabled={disabled || loading}
-        className={`atom-btn ${variantClass} ${sizeClass} ${iconClass} ${className}`}
-        style={customStyle}
+        className={`atom-btn ${variantClass} ${sizeClass} ${className}`}
         {...props}
       >
         {loading && (
