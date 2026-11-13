@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { Link } from '@/i18n/routing';
+import { usePathname } from '@/i18n/routing';
 import {
   Terminal,
   Check,

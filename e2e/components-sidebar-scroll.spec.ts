@@ -20,8 +20,8 @@ test.describe('Components Layout & Sidebar Scroll Preservation', () => {
     const scrollBefore = await sidebar.evaluate((el) => el.scrollTop);
     expect(scrollBefore).toBeGreaterThanOrEqual(380);
 
-    // 4. Click a component link
-    const targetLink = sidebar.locator('a[href="/components/table"]').first();
+    // 4. Click a component link (supports locale prefixes like /en/components/table)
+    const targetLink = sidebar.locator('a[href*="/components/table"]').first();
     await expect(targetLink).toBeVisible();
     await targetLink.evaluate((el) => (el as HTMLElement).click());
 
