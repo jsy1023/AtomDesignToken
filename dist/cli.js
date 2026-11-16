@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { scanAndRefactorDirectory } from './chunk-DWGXPQK5.js';
+import { scanAndRefactorDirectory } from './chunk-CVOGJG4Z.js';
 import fs2 from 'fs';
 import path2 from 'path';
 import { fileURLToPath } from 'url';
@@ -724,7 +724,7 @@ function showVersion() {
     const pkg = JSON.parse(fs2.readFileSync(pkgPath, "utf-8"));
     console.log(`atomsystem v${pkg.version}`);
   } else {
-    console.log("atomsystem v0.13.0");
+    console.log("atomsystem v0.14.0");
   }
 }
 switch (command) {
