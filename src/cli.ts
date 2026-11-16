@@ -4,6 +4,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { startLocalTokenStudio } from './studioServer';
 import { compileTokensToCss } from './tokenCompiler';
+import { scanAndRefactorDirectory } from './refactorEngine';
 
 function getPkgRoot(): string {
   try {
@@ -223,6 +224,56 @@ function handleStudio() {
   startLocalTokenStudio({ port, cwd: process.cwd() });
 }
 
+function handleRefactor() {
+  const cwd = process.cwd();
+  const shouldFix = args.includes('--fix');
+  const targetDirs = args.filter((a) => !a.startsWith('--') && a !== 'refactor');
+  const scanDirs = targetDirs.length > 0 ? targetDirs : ['app', 'components', 'css', 'lib'];
+
+  console.log('\n🔍 AtomSystem Zero-Hardcoding Refactor Engine');
+  console.log(`Mode: ${shouldFix ? '⚡ FIX (Automatic Token Replacement)' : '👀 DRY RUN (Scan & Report Only)'}`);
+  console.log(`Target Directories: ${scanDirs.join(', ')}\n`);
+
+  let grandScanned = 0;
+  let grandMatches = 0;
+  let grandFixed = 0;
+
+  scanDirs.forEach((dirName) => {
+    const fullDir = path.resolve(cwd, dirName);
+    if (!fs.existsSync(fullDir)) return;
+
+    const report = scanAndRefactorDirectory(fullDir, { fix: shouldFix });
+    grandScanned += report.scannedFiles;
+    grandMatches += report.totalMatches;
+    grandFixed += report.fixedFiles;
+
+    if (report.matches.length > 0) {
+      console.log(`📁 In [${dirName}]: Found ${report.matches.length} hardcoding pattern(s)`);
+      // Display first 15 matches as preview
+      const previewMatches = report.matches.slice(0, 15);
+      previewMatches.forEach((m) => {
+        console.log(`   ${m.file}:${m.line} -> [${m.original}] ➔ [${m.replacement}] (${m.type})`);
+      });
+      if (report.matches.length > 15) {
+        console.log(`   ...and ${report.matches.length - 15} more pattern(s)`);
+      }
+      console.log('');
+    }
+  });
+
+  console.log('───────────────────────────────────────────────────────');
+  console.log(`📊 Refactor Summary:`);
+  console.log(`  - Files Scanned: ${grandScanned}`);
+  console.log(`  - Hardcoding Patterns Found: ${grandMatches}`);
+  if (shouldFix) {
+    console.log(`  - Files Successfully Fixed: ${grandFixed}`);
+    console.log(`\n✨ Hardcoded styles successfully converted to design tokens!\n`);
+  } else {
+    console.log(`\n💡 To automatically replace these hardcoded patterns with tokens, run:`);
+    console.log(`   npx atomsystem refactor --fix\n`);
+  }
+}
+
 function showHelp() {
   console.log(`
 AtomSystem CLI - Universal Design Token & Agentic UI System
@@ -232,12 +283,16 @@ Usage:
 
 Commands:
   init            Initialize AI guidelines, tokens, specs, and CSS in your project
+  refactor        Scan & replace hardcoded HEX/px/Tailwind colors with tokens (--fix)
   studio          Launch Local Web Token Studio GUI (interactive token customizer)
   build:tokens    Compile tokens/token.json into zero-runtime css/atom-ui.css
   add <name>      Add a component or block directly to your project
   list            List all available components and blocks
   help            Display this help message
   version         Print version info
+
+Options for refactor:
+  --fix           Automatically replace hardcoded values with semantic tokens
 
 Options for studio:
   --port=<port>   Port for the local studio server (default: 4000)
@@ -257,6 +312,9 @@ function showVersion() {
 switch (command) {
   case 'init':
     handleInit();
+    break;
+  case 'refactor':
+    handleRefactor();
     break;
   case 'studio':
   case 'editor':

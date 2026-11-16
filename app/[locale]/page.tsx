@@ -104,7 +104,7 @@ export default function Home() {
       <main className="max-w-5xl w-full mx-auto px-4 sm:px-6 py-8 sm:py-10 flex-1 flex flex-col gap-8 sm:gap-10">
         {/* Hero Section - Minimalist & Content-first */}
         <section className="space-y-3 max-w-2xl">
-          <div className="flex flex-wrap items-center gap-2 text-[11px] font-mono text-neutral-400">
+          <div className="flex flex-wrap items-center gap-2 text-[11px] font-mono text-(--text-muted)">
             <a
               href="https://www.designtokens.org/tr/2025.10/"
               target="_blank"
@@ -134,12 +134,12 @@ export default function Home() {
           {/* Quickstart Command */}
           <div className="pt-2 flex items-center gap-3">
             <div className="inline-flex items-center gap-3 px-3.5 py-2 rounded-lg bg-(--bg-secondary) border border-(--border-strong) text-xs font-mono">
-              <span className="text-neutral-400">$</span>
+              <span className="text-(--text-muted)">$</span>
               <span className="text-(--text-primary)">npx atomsystem init</span>
               <button
                 type="button"
                 onClick={copyCli}
-                className="text-neutral-400 hover:text-(--text-primary) transition ml-2 cursor-pointer"
+                className="text-(--text-muted) hover:text-(--text-primary) transition ml-2 cursor-pointer"
                 title={t('common.copy', '명령어 복사')}
               >
                 {copiedCli ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
@@ -170,7 +170,7 @@ export default function Home() {
               >
                 <div className="space-y-2">
                   <div className="flex items-center gap-2 text-(--text-primary) font-semibold text-sm">
-                    <Icon className="w-4 h-4 text-neutral-400 group-hover:text-(--text-primary) transition-colors" />
+                    <Icon className="w-4 h-4 text-(--text-muted) group-hover:text-(--text-primary) transition-colors" />
                     <span>{f.title}</span>
                   </div>
                   <p className="text-xs text-(--text-secondary) leading-relaxed">
@@ -178,7 +178,7 @@ export default function Home() {
                   </p>
                 </div>
 
-                <div className="text-xs font-medium text-neutral-400 group-hover:text-(--text-primary) transition-colors flex items-center gap-1">
+                <div className="text-xs font-medium text-(--text-muted) group-hover:text-(--text-primary) transition-colors flex items-center gap-1">
                   <span>{f.linkText}</span>
                   <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
                 </div>
@@ -189,10 +189,10 @@ export default function Home() {
       </main>
 
       {/* Minimal Clean Footer */}
-      <footer className="border-t border-(--border-subtle) py-6 text-xs text-neutral-400">
+      <footer className="border-t border-(--border-subtle) py-6 text-xs text-(--text-muted)">
         <div className="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
           <span>AtomDesignToken — Single Source of Truth for Design Tokens & Patterns</span>
-          <div className="flex flex-wrap items-center gap-2 text-xs text-neutral-500">
+          <div className="flex flex-wrap items-center gap-2 text-xs text-(--text-secondary)">
             <Link href="/principles" className="hover:text-(--text-primary)">{t('nav.principles', '원칙')}</Link>
             <span>|</span>
             <Link href="/tokens" className="hover:text-(--text-primary)">{t('nav.tokens', '디자인 토큰')}</Link>

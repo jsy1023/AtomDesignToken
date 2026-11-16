@@ -71,7 +71,7 @@ export function MetricStatsBlock() {
       case 'dollar':
         return <DollarSign className="w-3.5 h-3.5 text-(--accent-primary)" />;
       case 'users':
-        return <Users className="w-3.5 h-3.5 text-blue-500" />;
+        return <Users className="w-3.5 h-3.5 text-(--accent-primary)" />;
       case 'target':
         return <Target className="w-3.5 h-3.5 text-amber-500" />;
       case 'server':

@@ -138,7 +138,7 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
   };
 
   return (
-    <div className="w-full h-full text-neutral-900 dark:text-neutral-100 p-4 overflow-y-auto">
+    <div className="w-full h-full text-(--text-primary) dark:text-neutral-100 p-4 overflow-y-auto">
       {/* 1. SaaS Dashboard (Web) */}
       {patternId === 'saas-dashboard' && (
         <div className="flex flex-col gap-6">
@@ -161,19 +161,19 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
       {patternId === 'kyc-verification' && (
         <div className="flex flex-col gap-4 max-w-sm mx-auto">
           <div>
-            <span className="text-[10px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider">Step 2 of 3</span>
-            <h2 className="text-base font-bold text-neutral-900 dark:text-white mt-0.5">신분증 및 본인인증</h2>
-            <p className="text-xs text-neutral-500">안전한 금융 거래를 위해 주민등록증 또는 운전면허증을 준비해주세요.</p>
+            <span className="text-[10px] font-bold text-(--accent-primary) dark:text-blue-400 uppercase tracking-wider">Step 2 of 3</span>
+            <h2 className="text-base font-bold text-(--text-primary) dark:text-white mt-0.5">신분증 및 본인인증</h2>
+            <p className="text-xs text-(--text-secondary)">안전한 금융 거래를 위해 주민등록증 또는 운전면허증을 준비해주세요.</p>
           </div>
 
           {/* ID Scanner Box */}
-          <div className="border-2 border-dashed border-blue-400 dark:border-blue-600/60 rounded-2xl p-6 bg-blue-50/40 dark:bg-blue-950/20 text-center flex flex-col items-center justify-center gap-2">
-            <div className="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/60 text-blue-600 flex items-center justify-center">
+          <div className="border-2 border-dashed border-blue-400 dark:border-(--accent-primary)/60 rounded-2xl p-6 bg-blue-50/40 dark:bg-blue-950/20 text-center flex flex-col items-center justify-center gap-2">
+            <div className="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/60 text-(--accent-primary) flex items-center justify-center">
               <ShieldCheck className="w-6 h-6" />
             </div>
             <span className="text-xs font-bold text-neutral-800 dark:text-neutral-200">신분증 앞면 촬영하기</span>
-            <p className="text-[11px] text-neutral-400 leading-tight">빛 반사에 주의하며 프레임 영역에 맞춰주세요.</p>
-            <button className="px-3 py-1.5 rounded-lg bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-xs font-semibold shadow-sm mt-1">
+            <p className="text-[11px] text-(--text-muted) leading-tight">빛 반사에 주의하며 프레임 영역에 맞춰주세요.</p>
+            <button className="px-3 py-1.5 rounded-lg bg-white dark:bg-neutral-800 border border-(--border-subtle) dark:border-neutral-700 text-xs font-semibold shadow-sm mt-1">
               카메라 실행
             </button>
           </div>
@@ -196,24 +196,24 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
                     newOtp[i] = e.target.value;
                     setOtp(newOtp);
                   }}
-                  className="h-10 text-center text-sm font-bold rounded-xl bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="h-10 text-center text-sm font-bold rounded-xl bg-(--bg-secondary) dark:bg-neutral-800 border border-(--border-subtle) dark:border-neutral-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               ))}
             </div>
           </div>
 
           {/* Agreement Check */}
-          <label className="flex items-center gap-2 p-2.5 rounded-xl bg-neutral-50 dark:bg-neutral-800/60 border border-neutral-200 dark:border-neutral-800 text-xs cursor-pointer">
+          <label className="flex items-center gap-2 p-2.5 rounded-xl bg-neutral-50 dark:bg-neutral-800/60 border border-(--border-subtle) dark:border-neutral-800 text-xs cursor-pointer">
             <input
               type="checkbox"
               checked={agreedAll}
               onChange={(e) => setAgreedAll(e.target.checked)}
-              className="rounded text-blue-600"
+              className="rounded text-(--accent-primary)"
             />
             <span className="font-semibold">[필수] 본인확인 및 고유식별정보 처리 동의</span>
           </label>
 
-          <button className="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-md shadow-blue-500/20">
+          <button className="w-full py-2.5 rounded-xl bg-(--accent-primary) hover:bg-blue-700 text-white text-xs font-bold shadow-md shadow-blue-500/20">
             인증 완료하고 다음 단계
           </button>
         </div>
@@ -222,23 +222,23 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
       {/* 4. Blog Editor (Web) */}
       {patternId === 'blog-editor' && (
         <div className="flex flex-col gap-3 h-full">
-          <div className="flex items-center justify-between pb-2 border-b border-neutral-200 dark:border-neutral-800">
+          <div className="flex items-center justify-between pb-2 border-b border-(--border-subtle) dark:border-neutral-800">
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
-              <span className="text-xs text-neutral-400 font-medium">자동 저장됨 ({autoSavedTime})</span>
+              <span className="text-xs text-(--text-muted) font-medium">자동 저장됨 ({autoSavedTime})</span>
             </div>
             <div className="flex gap-2">
-              <button className="px-3 py-1.5 rounded-lg border border-neutral-200 dark:border-neutral-700 text-xs font-semibold hover:bg-neutral-100 dark:hover:bg-neutral-800">
+              <button className="px-3 py-1.5 rounded-lg border border-(--border-subtle) dark:border-neutral-700 text-xs font-semibold hover:bg-(--bg-secondary) dark:hover:bg-neutral-800">
                 임시저장
               </button>
-              <button className="px-3.5 py-1.5 rounded-lg bg-blue-600 text-white text-xs font-bold hover:bg-blue-700">
+              <button className="px-3.5 py-1.5 rounded-lg bg-(--accent-primary) text-white text-xs font-bold hover:bg-blue-700">
                 발행하기
               </button>
             </div>
           </div>
 
           {/* Formatting Bar */}
-          <div className="flex items-center gap-2 p-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-800 text-xs font-bold text-neutral-600 dark:text-neutral-300">
+          <div className="flex items-center gap-2 p-1.5 rounded-xl bg-(--bg-secondary) dark:bg-neutral-800 text-xs font-bold text-(--text-secondary) dark:text-neutral-300">
             {['H1', 'H2', 'B', 'I', 'U', 'Quote', 'Code', 'Link', 'Image'].map((fmt) => (
               <button key={fmt} className="px-2 py-1 rounded hover:bg-white dark:hover:bg-neutral-700 transition">
                 {fmt}
@@ -264,11 +264,11 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
 
       {/* 5. Map Location (Mobile) */}
       {patternId === 'map-location' && (
-        <div className="relative h-full flex flex-col justify-between rounded-xl overflow-hidden bg-emerald-50 dark:bg-emerald-950/40 border border-neutral-200 dark:border-neutral-800">
+        <div className="relative h-full flex flex-col justify-between rounded-xl overflow-hidden bg-emerald-50 dark:bg-emerald-950/40 border border-(--border-subtle) dark:border-neutral-800">
           {/* Top Search Bar */}
           <div className="p-3 z-10">
-            <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white dark:bg-neutral-900 shadow-md border border-neutral-200 dark:border-neutral-800">
-              <Search className="w-4 h-4 text-neutral-400" />
+            <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white dark:bg-neutral-900 shadow-md border border-(--border-subtle) dark:border-neutral-800">
+              <Search className="w-4 h-4 text-(--text-muted)" />
               <input type="text" placeholder="장소, 주소, 매장 검색" className="w-full text-xs bg-transparent focus:outline-none" />
             </div>
           </div>
@@ -286,21 +286,21 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
           </div>
 
           {/* Sliding Bottom Sheet */}
-          <div className="bg-white dark:bg-neutral-900 border-t border-neutral-200 dark:border-neutral-800 p-4 rounded-t-2xl shadow-2xl z-10 flex flex-col gap-2.5">
+          <div className="bg-white dark:bg-neutral-900 border-t border-(--border-subtle) dark:border-neutral-800 p-4 rounded-t-2xl shadow-2xl z-10 flex flex-col gap-2.5">
             <div className="w-8 h-1 bg-neutral-300 dark:bg-neutral-700 rounded-full mx-auto"></div>
             <div className="flex items-start justify-between">
               <div>
-                <h3 className="font-bold text-sm text-neutral-900 dark:text-white">{selectedPlace}</h3>
+                <h3 className="font-bold text-sm text-(--text-primary) dark:text-white">{selectedPlace}</h3>
                 <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold">● 영업 중 (21:00 마감)</span>
               </div>
-              <span className="text-xs font-bold text-blue-600">320m</span>
+              <span className="text-xs font-bold text-(--accent-primary)">320m</span>
             </div>
             <div className="grid grid-cols-2 gap-2 mt-1">
-              <button className="py-2 rounded-xl bg-blue-600 text-white text-xs font-bold flex items-center justify-center gap-1.5">
+              <button className="py-2 rounded-xl bg-(--accent-primary) text-white text-xs font-bold flex items-center justify-center gap-1.5">
                 <Navigation2 className="w-3.5 h-3.5" />
                 <span>길찾기</span>
               </button>
-              <button className="py-2 rounded-xl bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-xs font-bold flex items-center justify-center gap-1.5">
+              <button className="py-2 rounded-xl bg-(--bg-secondary) dark:bg-neutral-800 border border-(--border-subtle) dark:border-neutral-700 text-xs font-bold flex items-center justify-center gap-1.5">
                 <Phone className="w-3.5 h-3.5" />
                 <span>전화걸기</span>
               </button>
@@ -313,15 +313,15 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
       {patternId === 'flight-booking' && (
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-2">
-            <span className="px-3 py-1 rounded-full bg-blue-600 text-white text-xs font-bold">왕복</span>
-            <span className="px-3 py-1 rounded-full bg-neutral-100 dark:bg-neutral-800 text-xs font-semibold text-neutral-500">편도</span>
-            <span className="px-3 py-1 rounded-full bg-neutral-100 dark:bg-neutral-800 text-xs font-semibold text-neutral-500">다구간</span>
+            <span className="px-3 py-1 rounded-full bg-(--accent-primary) text-white text-xs font-bold">왕복</span>
+            <span className="px-3 py-1 rounded-full bg-(--bg-secondary) dark:bg-neutral-800 text-xs font-semibold text-(--text-secondary)">편도</span>
+            <span className="px-3 py-1 rounded-full bg-(--bg-secondary) dark:bg-neutral-800 text-xs font-semibold text-(--text-secondary)">다구간</span>
           </div>
 
           {/* Route Swap Bar */}
           <div className="grid grid-cols-1 md:grid-cols-5 gap-2 items-center">
-            <div className="md:col-span-2 p-3 rounded-xl bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700">
-              <span className="text-[10px] text-neutral-400 font-medium block">출발지</span>
+            <div className="md:col-span-2 p-3 rounded-xl bg-(--bg-secondary) dark:bg-neutral-800 border border-(--border-subtle) dark:border-neutral-700">
+              <span className="text-[10px] text-(--text-muted) font-medium block">출발지</span>
               <span className="text-sm font-bold">{flightDep}</span>
             </div>
 
@@ -332,31 +332,31 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
                   setFlightDep(flightArr);
                   setFlightArr(t);
                 }}
-                className="p-2.5 rounded-full bg-blue-600 hover:bg-blue-700 text-white transition active:rotate-180"
+                className="p-2.5 rounded-full bg-(--accent-primary) hover:bg-blue-700 text-white transition active:rotate-180"
               >
                 <ArrowRightLeft className="w-4 h-4" />
               </button>
             </div>
 
-            <div className="md:col-span-2 p-3 rounded-xl bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700">
-              <span className="text-[10px] text-neutral-400 font-medium block">도착지</span>
+            <div className="md:col-span-2 p-3 rounded-xl bg-(--bg-secondary) dark:bg-neutral-800 border border-(--border-subtle) dark:border-neutral-700">
+              <span className="text-[10px] text-(--text-muted) font-medium block">도착지</span>
               <span className="text-sm font-bold">{flightArr}</span>
             </div>
           </div>
 
           {/* Date & Passengers */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            <div className="p-3 rounded-xl bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 flex items-center justify-between">
+            <div className="p-3 rounded-xl bg-(--bg-secondary) dark:bg-neutral-800 border border-(--border-subtle) dark:border-neutral-700 flex items-center justify-between">
               <div>
-                <span className="text-[10px] text-neutral-400 font-medium block">가는날 - 오는날</span>
+                <span className="text-[10px] text-(--text-muted) font-medium block">가는날 - 오는날</span>
                 <span className="text-xs font-bold">2026.11.12 (목) - 2026.11.16 (월)</span>
               </div>
-              <Calendar className="w-4 h-4 text-blue-500" />
+              <Calendar className="w-4 h-4 text-(--accent-primary)" />
             </div>
 
-            <div className="p-3 rounded-xl bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 flex items-center justify-between">
+            <div className="p-3 rounded-xl bg-(--bg-secondary) dark:bg-neutral-800 border border-(--border-subtle) dark:border-neutral-700 flex items-center justify-between">
               <div>
-                <span className="text-[10px] text-neutral-400 font-medium block">탑승객 수</span>
+                <span className="text-[10px] text-(--text-muted) font-medium block">탑승객 수</span>
                 <span className="text-xs font-bold">성인 {passengers}명 · 일반석</span>
               </div>
               <div className="flex items-center gap-1.5">
@@ -376,7 +376,7 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
             </div>
           </div>
 
-          <button className="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-md shadow-blue-500/20">
+          <button className="w-full py-3 rounded-xl bg-(--accent-primary) hover:bg-blue-700 text-white text-xs font-bold shadow-md shadow-blue-500/20">
             최저가 항공권 검색하기 (26건 발견)
           </button>
         </div>
@@ -386,16 +386,16 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
       {patternId === 'onboarding-wizard' && (
         <div className="flex flex-col gap-4 max-w-sm mx-auto justify-between h-full">
           <div>
-            <div className="flex justify-between items-center mb-1 text-xs text-neutral-400">
+            <div className="flex justify-between items-center mb-1 text-xs text-(--text-muted)">
               <span>온보딩 단계</span>
-              <span className="font-bold text-blue-600">{onboardingStep}/3단계</span>
+              <span className="font-bold text-(--accent-primary)">{onboardingStep}/3단계</span>
             </div>
-            <div className="h-1.5 w-full bg-neutral-200 dark:bg-neutral-800 rounded-full overflow-hidden">
-              <div style={{ width: `${(onboardingStep / 3) * 100}%` }} className="h-full bg-blue-600 rounded-full transition-all"></div>
+            <div className="h-1.5 w-full bg-(--bg-tertiary) dark:bg-neutral-800 rounded-full overflow-hidden">
+              <div style={{ width: `${(onboardingStep / 3) * 100}%` }} className="h-full bg-(--accent-primary) rounded-full transition-all"></div>
             </div>
 
-            <h2 className="text-base font-bold text-neutral-900 dark:text-white mt-4">어떤 역할을 주로 담당하시나요?</h2>
-            <p className="text-xs text-neutral-500 mt-1">선택하신 직무에 꼭 맞는 토큰 프리셋과 UX 패턴을 추천해 드립니다.</p>
+            <h2 className="text-base font-bold text-(--text-primary) dark:text-white mt-4">어떤 역할을 주로 담당하시나요?</h2>
+            <p className="text-xs text-(--text-secondary) mt-1">선택하신 직무에 꼭 맞는 토큰 프리셋과 UX 패턴을 추천해 드립니다.</p>
           </div>
 
           {/* Role Cards */}
@@ -410,12 +410,12 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
                 onClick={() => setSelectedRole(role.id)}
                 className={`p-3 rounded-xl border cursor-pointer transition ${
                   selectedRole === role.id
-                    ? 'border-blue-500 bg-blue-50/60 dark:bg-blue-950/40 ring-2 ring-blue-500/20'
-                    : 'border-neutral-200 dark:border-neutral-800 hover:bg-neutral-50 dark:hover:bg-neutral-800'
+                    ? 'border-(--accent-primary) bg-blue-50/60 dark:bg-blue-950/40 ring-2 ring-blue-500/20'
+                    : 'border-(--border-subtle) dark:border-neutral-800 hover:bg-neutral-50 dark:hover:bg-neutral-800'
                 }`}
               >
                 <div className="font-bold text-xs">{role.title}</div>
-                <div className="text-[11px] text-neutral-500">{role.desc}</div>
+                <div className="text-[11px] text-(--text-secondary)">{role.desc}</div>
               </div>
             ))}
           </div>
@@ -423,13 +423,13 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
           <div className="flex gap-2">
             <button
               onClick={() => setOnboardingStep(Math.max(1, onboardingStep - 1))}
-              className="px-4 py-2.5 rounded-xl border border-neutral-200 dark:border-neutral-700 text-xs font-semibold"
+              className="px-4 py-2.5 rounded-xl border border-(--border-subtle) dark:border-neutral-700 text-xs font-semibold"
             >
               이전
             </button>
             <button
               onClick={() => setOnboardingStep(Math.min(3, onboardingStep + 1))}
-              className="flex-1 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-md shadow-blue-500/20"
+              className="flex-1 py-2.5 rounded-xl bg-(--accent-primary) hover:bg-blue-700 text-white text-xs font-bold shadow-md shadow-blue-500/20"
             >
               다음 단계로
             </button>
@@ -440,30 +440,30 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
       {/* 8. File Uploader (Web) */}
       {patternId === 'file-uploader' && (
         <div className="flex flex-col gap-4">
-          <div className="border-2 border-dashed border-blue-400 dark:border-blue-600/70 rounded-2xl p-8 bg-blue-50/30 dark:bg-blue-950/20 text-center flex flex-col items-center justify-center gap-2">
-            <div className="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/60 text-blue-600 flex items-center justify-center">
+          <div className="border-2 border-dashed border-blue-400 dark:border-(--accent-primary)/70 rounded-2xl p-8 bg-blue-50/30 dark:bg-blue-950/20 text-center flex flex-col items-center justify-center gap-2">
+            <div className="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/60 text-(--accent-primary) flex items-center justify-center">
               <UploadCloud className="w-6 h-6" />
             </div>
             <div className="text-sm font-bold">파일을 이곳으로 드래그하거나 클릭하여 업로드</div>
-            <span className="text-xs text-neutral-400">PDF, JPG, PNG 파일 (개별 최대 20MB)</span>
+            <span className="text-xs text-(--text-muted)">PDF, JPG, PNG 파일 (개별 최대 20MB)</span>
           </div>
 
           {/* Uploaded File List */}
           <div className="flex flex-col gap-2">
             {uploadedFiles.map((f, i) => (
-              <div key={i} className="p-3 rounded-xl bg-neutral-50 dark:bg-neutral-850 border border-neutral-200 dark:border-neutral-800 flex items-center justify-between">
+              <div key={i} className="p-3 rounded-xl bg-neutral-50 dark:bg-neutral-850 border border-(--border-subtle) dark:border-neutral-800 flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
-                  <FileCheck className="w-4 h-4 text-blue-600" />
+                  <FileCheck className="w-4 h-4 text-(--accent-primary)" />
                   <div>
                     <span className="text-xs font-bold block">{f.name}</span>
-                    <span className="text-[10px] text-neutral-400">{f.size}</span>
+                    <span className="text-[10px] text-(--text-muted)">{f.size}</span>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="w-20 h-1.5 bg-neutral-200 dark:bg-neutral-700 rounded-full overflow-hidden">
-                    <div style={{ width: `${f.progress}%` }} className="h-full bg-blue-600 rounded-full"></div>
+                  <div className="w-20 h-1.5 bg-(--bg-tertiary) dark:bg-neutral-700 rounded-full overflow-hidden">
+                    <div style={{ width: `${f.progress}%` }} className="h-full bg-(--accent-primary) rounded-full"></div>
                   </div>
-                  <span className="text-[10px] font-bold text-neutral-500">{f.progress}%</span>
+                  <span className="text-[10px] font-bold text-(--text-secondary)">{f.progress}%</span>
                 </div>
               </div>
             ))}
@@ -475,20 +475,20 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
       {patternId === 'fintech-transfer' && (
         <div className="flex flex-col gap-4 max-w-sm mx-auto justify-between h-full">
           <div>
-            <div className="p-3 rounded-xl bg-neutral-50 dark:bg-neutral-850 border border-neutral-200 dark:border-neutral-800 flex justify-between items-center mb-3">
+            <div className="p-3 rounded-xl bg-neutral-50 dark:bg-neutral-850 border border-(--border-subtle) dark:border-neutral-800 flex justify-between items-center mb-3">
               <div>
-                <span className="text-[10px] text-neutral-400 block">출금 계좌</span>
+                <span className="text-[10px] text-(--text-muted) block">출금 계좌</span>
                 <span className="text-xs font-bold">토스뱅크 · 1002-***-4921</span>
               </div>
               <span className="text-xs font-bold text-emerald-500">잔액 ₩3,450,000</span>
             </div>
 
             <div className="text-center py-4">
-              <span className="text-[11px] text-neutral-400 font-medium">보낼 금액</span>
-              <div className="text-3xl font-black text-neutral-900 dark:text-white mt-1">
+              <span className="text-[11px] text-(--text-muted) font-medium">보낼 금액</span>
+              <div className="text-3xl font-black text-(--text-primary) dark:text-white mt-1">
                 ₩{Number(amount).toLocaleString()}
               </div>
-              <span className="text-xs font-semibold text-blue-600 dark:text-blue-400 mt-1 block">
+              <span className="text-xs font-semibold text-(--accent-primary) dark:text-blue-400 mt-1 block">
                 오십만 원
               </span>
             </div>
@@ -499,7 +499,7 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
             {['+1만', '+5만', '+10만', '전액'].map((q) => (
               <button
                 key={q}
-                className="flex-1 py-1.5 rounded-lg bg-neutral-100 dark:bg-neutral-800 text-xs font-bold hover:bg-neutral-200 dark:hover:bg-neutral-700"
+                className="flex-1 py-1.5 rounded-lg bg-(--bg-secondary) dark:bg-neutral-800 text-xs font-bold hover:bg-(--bg-tertiary) dark:hover:bg-neutral-700"
               >
                 {q}
               </button>
@@ -508,7 +508,7 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
 
           <button
             onClick={() => setIsTransferModalOpen(true)}
-            className="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-md shadow-blue-500/20"
+            className="w-full py-3 rounded-xl bg-(--accent-primary) hover:bg-blue-700 text-white text-xs font-bold shadow-md shadow-blue-500/20"
           >
             김토스님에게 송금하기 (수수료 면제)
           </button>
@@ -521,14 +521,14 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
           <div>
             <h3 className="font-bold text-sm mb-2">장바구니 주문서</h3>
             {/* Item Card */}
-            <div className="p-3 rounded-xl bg-neutral-50 dark:bg-neutral-850 border border-neutral-200 dark:border-neutral-800 flex gap-3">
-              <div className="w-14 h-14 rounded-lg bg-neutral-200 dark:bg-neutral-700 flex items-center justify-center font-bold text-xs text-neutral-400">
+            <div className="p-3 rounded-xl bg-neutral-50 dark:bg-neutral-850 border border-(--border-subtle) dark:border-neutral-800 flex gap-3">
+              <div className="w-14 h-14 rounded-lg bg-(--bg-tertiary) dark:bg-neutral-700 flex items-center justify-center font-bold text-xs text-(--text-muted)">
                 ITEM
               </div>
               <div className="flex-1 flex flex-col justify-between">
                 <span className="text-xs font-bold">프리미엄 미니멀 무선 키보드</span>
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-black text-blue-600">₩{(unitPrice * cartCount).toLocaleString()}</span>
+                  <span className="text-xs font-black text-(--accent-primary)">₩{(unitPrice * cartCount).toLocaleString()}</span>
                   <div className="flex items-center gap-1.5 bg-white dark:bg-neutral-800 rounded border px-1">
                     <button onClick={() => setCartCount(Math.max(1, cartCount - 1))} className="text-xs px-1">-</button>
                     <span className="text-xs font-bold px-1">{cartCount}</span>
@@ -540,23 +540,23 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
           </div>
 
           {/* Order Summary */}
-          <div className="p-3 rounded-xl bg-neutral-50 dark:bg-neutral-850 border border-neutral-200 dark:border-neutral-800 flex flex-col gap-1.5 text-xs">
-            <div className="flex justify-between text-neutral-500">
+          <div className="p-3 rounded-xl bg-neutral-50 dark:bg-neutral-850 border border-(--border-subtle) dark:border-neutral-800 flex flex-col gap-1.5 text-xs">
+            <div className="flex justify-between text-(--text-secondary)">
               <span>상품금액</span>
               <span>₩{(unitPrice * cartCount).toLocaleString()}</span>
             </div>
-            <div className="flex justify-between text-neutral-500">
+            <div className="flex justify-between text-(--text-secondary)">
               <span>배송비</span>
               <span className="text-emerald-500 font-semibold">무료 배송</span>
             </div>
-            <div className="flex justify-between font-bold text-sm pt-2 border-t border-neutral-200 dark:border-neutral-700">
+            <div className="flex justify-between font-bold text-sm pt-2 border-t border-(--border-subtle) dark:border-neutral-700">
               <span>총 결제금액</span>
-              <span className="text-blue-600 font-black">₩{(unitPrice * cartCount).toLocaleString()}</span>
+              <span className="text-(--accent-primary) font-black">₩{(unitPrice * cartCount).toLocaleString()}</span>
             </div>
           </div>
 
           {/* Sticky Pay CTA */}
-          <button className="w-full py-3 rounded-xl bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 text-xs font-bold shadow-lg">
+          <button className="w-full py-3 rounded-xl bg-neutral-900 dark:bg-white text-white dark:text-(--text-primary) text-xs font-bold shadow-lg">
             ₩{(unitPrice * cartCount).toLocaleString()} 원클릭 간편결제
           </button>
         </div>
@@ -566,17 +566,17 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
       {patternId === 'search-empty' && (
         <div className="flex flex-col gap-4">
           <div className="relative">
-            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" />
+            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-(--text-muted)" />
             <input
               type="text"
               value={searchVal}
               onChange={(e) => setSearchVal(e.target.value)}
-              className="w-full pl-9 pr-8 py-2.5 rounded-xl bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full pl-9 pr-8 py-2.5 rounded-xl bg-(--bg-secondary) dark:bg-neutral-800 border border-(--border-subtle) dark:border-neutral-700 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             {searchVal && (
               <button
                 onClick={() => setSearchVal('')}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-700"
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-(--text-muted) hover:text-neutral-700"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -584,22 +584,22 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
           </div>
 
           {/* Zero Results Feedback */}
-          <div className="p-8 rounded-2xl bg-neutral-50 dark:bg-neutral-850 border border-neutral-200 dark:border-neutral-800 text-center flex flex-col items-center justify-center gap-2">
-            <div className="w-12 h-12 rounded-full bg-neutral-200 dark:bg-neutral-800 text-neutral-400 flex items-center justify-center">
+          <div className="p-8 rounded-2xl bg-neutral-50 dark:bg-neutral-850 border border-(--border-subtle) dark:border-neutral-800 text-center flex flex-col items-center justify-center gap-2">
+            <div className="w-12 h-12 rounded-full bg-(--bg-tertiary) dark:bg-neutral-800 text-(--text-muted) flex items-center justify-center">
               <Search className="w-6 h-6" />
             </div>
             <h3 className="font-bold text-sm">'{searchVal}'에 대한 검색 결과가 없습니다</h3>
-            <p className="text-xs text-neutral-400 max-w-xs">
+            <p className="text-xs text-(--text-muted) max-w-xs">
               단어의 철자가 정확한지 확인하시거나, 아래 추천 인기 키워드를 확인해보세요.
             </p>
 
             <div className="flex flex-wrap items-center justify-center gap-1.5 mt-2">
-              <span className="text-[11px] text-neutral-400 mr-1 font-semibold">추천 검색어:</span>
+              <span className="text-[11px] text-(--text-muted) mr-1 font-semibold">추천 검색어:</span>
               {['디자인 토큰', '반응형 헤더', 'SaaS 대시보드', '토스 송금'].map((rec) => (
                 <button
                   key={rec}
                   onClick={() => setSearchVal(rec)}
-                  className="px-2.5 py-1 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-900 text-blue-600 dark:text-blue-400 text-xs font-semibold hover:bg-blue-100"
+                  className="px-2.5 py-1 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-900 text-(--accent-primary) dark:text-blue-400 text-xs font-semibold hover:bg-blue-100"
                 >
                   {rec}
                 </button>
@@ -613,14 +613,14 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
       {patternId === 'developer-docs' && (
         <div className="flex gap-4 h-full">
           {/* Left Documentation Sidebar (Navigation Tree) */}
-          <div className="w-48 shrink-0 bg-neutral-50 dark:bg-neutral-850/60 border border-neutral-200/80 dark:border-neutral-800 rounded-xl p-3 flex flex-col gap-3 text-xs">
-            <div className="flex items-center gap-1.5 pb-2 border-b border-neutral-200/60 dark:border-neutral-700">
-              <BookOpen className="w-4 h-4 text-blue-600" />
-              <span className="font-bold text-neutral-900 dark:text-white">DOCS v1.2</span>
+          <div className="w-48 shrink-0 bg-neutral-50 dark:bg-neutral-850/60 border border-(--border-subtle)/80 dark:border-neutral-800 rounded-xl p-3 flex flex-col gap-3 text-xs">
+            <div className="flex items-center gap-1.5 pb-2 border-b border-(--border-subtle)/60 dark:border-neutral-700">
+              <BookOpen className="w-4 h-4 text-(--accent-primary)" />
+              <span className="font-bold text-(--text-primary) dark:text-white">DOCS v1.2</span>
             </div>
 
             <div className="flex flex-col gap-1">
-              <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider">시작하기</span>
+              <span className="text-[10px] font-bold text-(--text-muted) uppercase tracking-wider">시작하기</span>
               {[
                 { id: 'quickstart', label: '빠른 시작 가이드' },
                 { id: 'installation', label: 'CLI 라이브러리 설치' },
@@ -631,8 +631,8 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
                   onClick={() => setActiveDocNav(item.id)}
                   className={`px-2.5 py-1.5 rounded-lg text-left transition font-medium ${
                     activeDocNav === item.id
-                      ? 'bg-blue-600 text-white font-bold shadow-xs'
-                      : 'text-neutral-600 dark:text-neutral-400 hover:bg-neutral-200/60 dark:hover:bg-neutral-800'
+                      ? 'bg-(--accent-primary) text-white font-bold shadow-xs'
+                      : 'text-(--text-secondary) dark:text-(--text-muted) hover:bg-(--bg-tertiary)/60 dark:hover:bg-neutral-800'
                   }`}
                 >
                   {item.label}
@@ -640,8 +640,8 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
               ))}
             </div>
 
-            <div className="flex flex-col gap-1 pt-1 border-t border-neutral-200/50 dark:border-neutral-800">
-              <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider">API 레퍼런스</span>
+            <div className="flex flex-col gap-1 pt-1 border-t border-(--border-subtle)/50 dark:border-neutral-800">
+              <span className="text-[10px] font-bold text-(--text-muted) uppercase tracking-wider">API 레퍼런스</span>
               {[
                 { id: 'button-api', label: 'Button API' },
                 { id: 'input-api', label: 'Input API' },
@@ -652,8 +652,8 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
                   onClick={() => setActiveDocNav(item.id)}
                   className={`px-2.5 py-1.5 rounded-lg text-left transition font-medium ${
                     activeDocNav === item.id
-                      ? 'bg-blue-600 text-white font-bold shadow-xs'
-                      : 'text-neutral-600 dark:text-neutral-400 hover:bg-neutral-200/60 dark:hover:bg-neutral-800'
+                      ? 'bg-(--accent-primary) text-white font-bold shadow-xs'
+                      : 'text-(--text-secondary) dark:text-(--text-muted) hover:bg-(--bg-tertiary)/60 dark:hover:bg-neutral-800'
                   }`}
                 >
                   {item.label}
@@ -665,31 +665,31 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
           {/* Center Main Content Area */}
           <div className="flex-1 overflow-y-auto pr-2 flex flex-col gap-4 text-xs">
             {/* Breadcrumb */}
-            <div className="flex items-center gap-1.5 text-[11px] text-neutral-400 font-medium">
+            <div className="flex items-center gap-1.5 text-[11px] text-(--text-muted) font-medium">
               <span>Docs</span>
               <span>/</span>
               <span>Getting Started</span>
               <span>/</span>
-              <span className="text-blue-600 dark:text-blue-400 font-bold">Quickstart</span>
+              <span className="text-(--accent-primary) dark:text-blue-400 font-bold">Quickstart</span>
             </div>
 
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="text-xl font-black text-neutral-900 dark:text-white">
+                <h1 className="text-xl font-black text-(--text-primary) dark:text-white">
                   개발자 빠른 시작 가이드 (Quickstart)
                 </h1>
                 <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 font-bold border border-emerald-200 dark:border-emerald-800">
                   Latest v1.2.4
                 </span>
               </div>
-              <p className="text-neutral-500 mt-1 leading-relaxed">
+              <p className="text-(--text-secondary) mt-1 leading-relaxed">
                 AtomSystem은 React, Vue, 바닐라 웹 등 모든 프론트엔드 환경에서 디자인 토큰과 UI 컴포넌트를 즉시 바인딩할 수 있도록 표준 CSS 변수와 사전 컴파일된 스타일 딕셔너리를 제공합니다.
               </p>
             </div>
 
             {/* CLI Installation Box with Copy */}
             <div className="p-3.5 rounded-xl bg-neutral-900 text-white flex flex-col gap-2 font-mono">
-              <div className="flex items-center justify-between text-[11px] text-neutral-400 pb-1.5 border-b border-neutral-800">
+              <div className="flex items-center justify-between text-[11px] text-(--text-muted) pb-1.5 border-b border-neutral-800">
                 <span className="flex items-center gap-1">
                   <Terminal className="w-3.5 h-3.5 text-emerald-400" />
                   Terminal CLI
@@ -715,7 +715,7 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
             <div className="flex flex-col gap-1.5">
               <span className="font-bold text-neutral-800 dark:text-neutral-200">2. 컴포넌트 임포트 및 사용</span>
               <div className="p-3.5 rounded-xl bg-neutral-900 text-neutral-200 font-mono text-[11px] leading-relaxed overflow-x-auto">
-                <div className="text-neutral-400">// React / Next.js 프로젝트</div>
+                <div className="text-(--text-muted)">// React / Next.js 프로젝트</div>
                 <div><span className="text-purple-400">import</span> &#123; Button, Input &#125; <span className="text-purple-400">from</span> <span className="text-emerald-400">'@atomsystem/ui'</span>;</div>
                 <div className="mt-1"><span className="text-blue-400">&lt;Button</span> variant=<span className="text-emerald-400">"primary"</span> size=<span className="text-emerald-400">"lg"</span>&gt;</div>
                 <div className="pl-4">지금 시작하기</div>
@@ -726,9 +726,9 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
             {/* API Parameters Spec Table */}
             <div className="flex flex-col gap-2">
               <span className="font-bold text-neutral-800 dark:text-neutral-200">Button Props 규격</span>
-              <div className="border border-neutral-200 dark:border-neutral-800 rounded-xl overflow-hidden">
+              <div className="border border-(--border-subtle) dark:border-neutral-800 rounded-xl overflow-hidden">
                 <table className="w-full text-left border-collapse text-[11px]">
-                  <thead className="bg-neutral-100 dark:bg-neutral-850 text-neutral-600 dark:text-neutral-300 font-bold border-b border-neutral-200 dark:border-neutral-800">
+                  <thead className="bg-(--bg-secondary) dark:bg-neutral-850 text-(--text-secondary) dark:text-neutral-300 font-bold border-b border-(--border-subtle) dark:border-neutral-800">
                     <tr>
                       <th className="p-2">Property</th>
                       <th className="p-2">Type</th>
@@ -738,16 +738,16 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
                   </thead>
                   <tbody className="divide-y divide-neutral-200 dark:divide-neutral-800">
                     <tr>
-                      <td className="p-2 font-mono font-bold text-blue-600">variant</td>
-                      <td className="p-2 font-mono text-neutral-400">'primary' | 'secondary' | 'outline'</td>
+                      <td className="p-2 font-mono font-bold text-(--accent-primary)">variant</td>
+                      <td className="p-2 font-mono text-(--text-muted)">'primary' | 'secondary' | 'outline'</td>
                       <td className="p-2 font-mono">'primary'</td>
-                      <td className="p-2 text-neutral-600 dark:text-neutral-400">버튼 시각적 스타일 배리언트</td>
+                      <td className="p-2 text-(--text-secondary) dark:text-(--text-muted)">버튼 시각적 스타일 배리언트</td>
                     </tr>
                     <tr>
-                      <td className="p-2 font-mono font-bold text-blue-600">loading</td>
-                      <td className="p-2 font-mono text-neutral-400">boolean</td>
+                      <td className="p-2 font-mono font-bold text-(--accent-primary)">loading</td>
+                      <td className="p-2 font-mono text-(--text-muted)">boolean</td>
                       <td className="p-2 font-mono">false</td>
-                      <td className="p-2 text-neutral-600 dark:text-neutral-400">로딩 스피너 및 비활성화 상태 토글</td>
+                      <td className="p-2 text-(--text-secondary) dark:text-(--text-muted)">로딩 스피너 및 비활성화 상태 토글</td>
                     </tr>
                   </tbody>
                 </table>
@@ -756,13 +756,13 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
           </div>
 
           {/* Right TOC Column (On this page) */}
-          <div className="w-40 shrink-0 border-l border-neutral-200/80 dark:border-neutral-800 pl-3 flex flex-col gap-2 text-xs">
-            <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider">On this page</span>
+          <div className="w-40 shrink-0 border-l border-(--border-subtle)/80 dark:border-neutral-800 pl-3 flex flex-col gap-2 text-xs">
+            <span className="text-[10px] font-bold text-(--text-muted) uppercase tracking-wider">On this page</span>
             <ul className="flex flex-col gap-1.5 text-[11px]">
-              <li className="font-bold text-blue-600 dark:text-blue-400 cursor-pointer">빠른 시작 개요</li>
-              <li className="text-neutral-500 hover:text-neutral-900 dark:hover:text-white cursor-pointer">1. CLI 라이브러리 설치</li>
-              <li className="text-neutral-500 hover:text-neutral-900 dark:hover:text-white cursor-pointer">2. 컴포넌트 임포트</li>
-              <li className="text-neutral-500 hover:text-neutral-900 dark:hover:text-white cursor-pointer">3. Button Props 규격</li>
+              <li className="font-bold text-(--accent-primary) dark:text-blue-400 cursor-pointer">빠른 시작 개요</li>
+              <li className="text-(--text-secondary) hover:text-(--text-primary) dark:hover:text-white cursor-pointer">1. CLI 라이브러리 설치</li>
+              <li className="text-(--text-secondary) hover:text-(--text-primary) dark:hover:text-white cursor-pointer">2. 컴포넌트 임포트</li>
+              <li className="text-(--text-secondary) hover:text-(--text-primary) dark:hover:text-white cursor-pointer">3. Button Props 규격</li>
             </ul>
           </div>
         </div>
@@ -772,17 +772,17 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
       {patternId === 'complex-form-settings' && (
         <div className="relative flex flex-col h-full gap-4 text-xs">
           {/* Header */}
-          <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-neutral-200 dark:border-neutral-800 shrink-0">
+          <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-(--border-subtle) dark:border-neutral-800 shrink-0">
             <div>
               <div className="flex items-center gap-2">
-                <h2 className="text-base font-bold text-neutral-900 dark:text-neutral-100">
+                <h2 className="text-base font-bold text-(--text-primary) dark:text-neutral-100">
                   엔터프라이즈 프로젝트 환경설정
                 </h2>
-                <span className="text-[10px] px-2 py-0.5 rounded-full font-bold bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800">
+                <span className="text-[10px] px-2 py-0.5 rounded-full font-bold bg-blue-50 dark:bg-blue-950 text-(--accent-primary) dark:text-blue-400 border border-blue-200 dark:border-blue-800">
                   Best UX Form
                 </span>
               </div>
-              <p className="text-[11px] text-neutral-500 mt-0.5">
+              <p className="text-[11px] text-(--text-secondary) mt-0.5">
                 섹션 청킹, 점진적 공개, 인라인 유효성 검사, 하단 플로팅 세이브 바가 결합된 모범 사례입니다.
               </p>
             </div>
@@ -800,7 +800,7 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
                   저장되지 않은 변경사항 있음
                 </span>
               ) : (
-                <span className="flex items-center gap-1 text-neutral-400 px-2 py-1">
+                <span className="flex items-center gap-1 text-(--text-muted) px-2 py-1">
                   <Check className="w-3 h-3" />
                   모든 변경사항 최신 동기화됨
                 </span>
@@ -811,8 +811,8 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
           {/* 2-Column Section Layout */}
           <div className="flex-1 flex gap-5 overflow-hidden">
             {/* Left Nav: Section Chunking */}
-            <div className="w-44 shrink-0 flex flex-col gap-1 border-r border-neutral-200/80 dark:border-neutral-800 pr-3">
-              <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider mb-1 px-2">
+            <div className="w-44 shrink-0 flex flex-col gap-1 border-r border-(--border-subtle)/80 dark:border-neutral-800 pr-3">
+              <span className="text-[10px] font-bold text-(--text-muted) uppercase tracking-wider mb-1 px-2">
                 설정 카테고리
               </span>
               {[
@@ -829,8 +829,8 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
                     onClick={() => setActiveFormTab(tab.id as any)}
                     className={`flex items-center gap-2 px-3 py-2 rounded-xl text-left font-medium transition text-xs ${
                       isActive
-                        ? 'bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 font-bold shadow-xs'
-                        : 'text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:text-neutral-900 dark:hover:text-white'
+                        ? 'bg-blue-50 dark:bg-blue-950 text-(--accent-primary) dark:text-blue-400 font-bold shadow-xs'
+                        : 'text-(--text-secondary) dark:text-(--text-muted) hover:bg-(--bg-secondary) dark:hover:bg-neutral-800 hover:text-(--text-primary) dark:hover:text-white'
                     } ${tab.id === 'danger' && !isActive ? 'hover:text-rose-500' : ''}`}
                   >
                     <Icon className="w-3.5 h-3.5" />
@@ -846,14 +846,14 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
               {activeFormTab === 'general' && (
                 <div className="space-y-4">
                   {/* Field 1: Project Name */}
-                  <div className="p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 space-y-2">
+                  <div className="p-4 rounded-xl border border-(--border-subtle) dark:border-neutral-800 bg-white dark:bg-neutral-900 space-y-2">
                     <div className="flex items-center justify-between">
-                      <label className="font-bold text-neutral-900 dark:text-neutral-100">
+                      <label className="font-bold text-(--text-primary) dark:text-neutral-100">
                         프로젝트 식별자 (Project Name)
                       </label>
-                      <span className="text-[10px] font-mono text-neutral-400">필수</span>
+                      <span className="text-[10px] font-mono text-(--text-muted)">필수</span>
                     </div>
-                    <p className="text-[11px] text-neutral-500">
+                    <p className="text-[11px] text-(--text-secondary)">
                       API 엔드포인트와 내부 리소스 네임스페이스에 고유하게 사용되는 식별자입니다.
                     </p>
                     <input
@@ -862,13 +862,13 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
                       onChange={(e) =>
                         setFormValues({ ...formValues, projectName: e.target.value })
                       }
-                      className="w-full px-3 py-2 text-xs rounded-lg border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-850 font-mono text-neutral-900 dark:text-neutral-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 text-xs rounded-lg border border-(--border-subtle) dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-850 font-mono text-(--text-primary) dark:text-neutral-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
 
                   {/* Field 2: Environment Card Selection */}
-                  <div className="p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 space-y-2.5">
-                    <label className="font-bold text-neutral-900 dark:text-neutral-100 block">
+                  <div className="p-4 rounded-xl border border-(--border-subtle) dark:border-neutral-800 bg-white dark:bg-neutral-900 space-y-2.5">
+                    <label className="font-bold text-(--text-primary) dark:text-neutral-100 block">
                       배포 환경 (Deployment Environment)
                     </label>
                     <div className="grid grid-cols-3 gap-2">
@@ -883,12 +883,12 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
                           onClick={() => setFormValues({ ...formValues, environment: env.id })}
                           className={`p-2.5 rounded-xl border text-left transition ${
                             formValues.environment === env.id
-                              ? 'border-blue-600 bg-blue-50/60 dark:bg-blue-950/40 text-blue-900 dark:text-blue-300 font-bold shadow-xs'
-                              : 'border-neutral-200 dark:border-neutral-700 hover:border-neutral-300'
+                              ? 'border-(--accent-primary) bg-blue-50/60 dark:bg-blue-950/40 text-blue-900 dark:text-blue-300 font-bold shadow-xs'
+                              : 'border-(--border-subtle) dark:border-neutral-700 hover:border-(--border-strong)'
                           }`}
                         >
                           <div className="font-bold text-xs">{env.name}</div>
-                          <div className="text-[10px] text-neutral-400 font-normal mt-0.5 line-clamp-1">
+                          <div className="text-[10px] text-(--text-muted) font-normal mt-0.5 line-clamp-1">
                             {env.desc}
                           </div>
                         </button>
@@ -897,15 +897,15 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
                   </div>
 
                   {/* Field 3: Custom Domain with Real-time Inline Validation */}
-                  <div className="p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 space-y-2">
+                  <div className="p-4 rounded-xl border border-(--border-subtle) dark:border-neutral-800 bg-white dark:bg-neutral-900 space-y-2">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-1.5">
-                        <label className="font-bold text-neutral-900 dark:text-neutral-100">
+                        <label className="font-bold text-(--text-primary) dark:text-neutral-100">
                           커스텀 도메인 (Custom Domain)
                         </label>
-                        <span className="text-[10px] text-neutral-400">(선택)</span>
+                        <span className="text-[10px] text-(--text-muted)">(선택)</span>
                       </div>
-                      <span className="text-[10px] text-blue-600 dark:text-blue-400 flex items-center gap-1">
+                      <span className="text-[10px] text-(--accent-primary) dark:text-blue-400 flex items-center gap-1">
                         <HelpCircle className="w-3 h-3" />
                         CNAME DNS 레코드 안내
                       </span>
@@ -921,7 +921,7 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
                         className={`w-full px-3 py-2 text-xs rounded-lg border font-mono transition ${
                           domainError
                             ? 'border-rose-500 bg-rose-50/30 dark:bg-rose-950/20 text-rose-900 dark:text-rose-200 focus:ring-rose-500'
-                            : 'border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-850 text-neutral-900 dark:text-neutral-100 focus:ring-blue-500'
+                            : 'border-(--border-subtle) dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-850 text-(--text-primary) dark:text-neutral-100 focus:ring-blue-500'
                         } focus:outline-none focus:ring-2`}
                       />
                       <div className="absolute right-3 top-1/2 -translate-y-1/2">
@@ -938,7 +938,7 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
                         {domainError}
                       </p>
                     ) : (
-                      <p className="text-[11px] text-neutral-400">
+                      <p className="text-[11px] text-(--text-muted)">
                         HTTPS SSL 인증서가 무료로 자동 발급 및 갱신됩니다.
                       </p>
                     )}
@@ -950,13 +950,13 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
               {activeFormTab === 'security' && (
                 <div className="space-y-4">
                   {/* 2FA Toggle Row */}
-                  <div className="p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 flex items-center justify-between">
+                  <div className="p-4 rounded-xl border border-(--border-subtle) dark:border-neutral-800 bg-white dark:bg-neutral-900 flex items-center justify-between">
                     <div>
-                      <div className="font-bold text-neutral-900 dark:text-neutral-100 flex items-center gap-1.5">
-                        <ShieldCheck className="w-4 h-4 text-blue-500" />
+                      <div className="font-bold text-(--text-primary) dark:text-neutral-100 flex items-center gap-1.5">
+                        <ShieldCheck className="w-4 h-4 text-(--accent-primary)" />
                         조직원 2단계 인증(2FA) 강제
                       </div>
-                      <p className="text-[11px] text-neutral-500 mt-0.5">
+                      <p className="text-[11px] text-(--text-secondary) mt-0.5">
                         모든 팀원이 로그인 시 OTP 또는 하드웨어 보안키를 필수로 인증합니다.
                       </p>
                     </div>
@@ -966,7 +966,7 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
                         setFormValues({ ...formValues, enable2FA: !formValues.enable2FA })
                       }
                       className={`w-11 h-6 rounded-full transition-colors relative flex items-center px-0.5 ${
-                        formValues.enable2FA ? 'bg-blue-600' : 'bg-neutral-300 dark:bg-neutral-700'
+                        formValues.enable2FA ? 'bg-(--accent-primary)' : 'bg-neutral-300 dark:bg-neutral-700'
                       }`}
                     >
                       <span
@@ -978,8 +978,8 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
                   </div>
 
                   {/* Session Timeout */}
-                  <div className="p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 space-y-2">
-                    <label className="font-bold text-neutral-900 dark:text-neutral-100 block">
+                  <div className="p-4 rounded-xl border border-(--border-subtle) dark:border-neutral-800 bg-white dark:bg-neutral-900 space-y-2">
+                    <label className="font-bold text-(--text-primary) dark:text-neutral-100 block">
                       유휴 세션 자동 로그아웃 시간
                     </label>
                     <select
@@ -987,7 +987,7 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
                       onChange={(e) =>
                         setFormValues({ ...formValues, sessionTimeout: e.target.value })
                       }
-                      className="w-full px-3 py-2 text-xs rounded-lg border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-850 text-neutral-800 dark:text-neutral-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 text-xs rounded-lg border border-(--border-subtle) dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-850 text-neutral-800 dark:text-neutral-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                       <option value="15m">15분 (가장 엄격)</option>
                       <option value="30m">30분 (권장)</option>
@@ -1002,13 +1002,13 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
               {activeFormTab === 'webhooks' && (
                 <div className="space-y-4">
                   {/* Master Toggle */}
-                  <div className="p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 flex items-center justify-between">
+                  <div className="p-4 rounded-xl border border-(--border-subtle) dark:border-neutral-800 bg-white dark:bg-neutral-900 flex items-center justify-between">
                     <div>
-                      <div className="font-bold text-neutral-900 dark:text-neutral-100 flex items-center gap-1.5">
+                      <div className="font-bold text-(--text-primary) dark:text-neutral-100 flex items-center gap-1.5">
                         <Globe className="w-4 h-4 text-emerald-500" />
                         실시간 웹훅(Webhooks) 이벤트 발송
                       </div>
-                      <p className="text-[11px] text-neutral-500 mt-0.5">
+                      <p className="text-[11px] text-(--text-secondary) mt-0.5">
                         주문, 결제, 회원 상태 변경 시 외부 서버로 HTTP POST 요청을 보냅니다.
                       </p>
                     </div>
@@ -1053,7 +1053,7 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
                           onChange={(e) =>
                             setFormValues({ ...formValues, webhookUrl: e.target.value })
                           }
-                          className="w-full px-3 py-2 text-xs font-mono rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                          className="w-full px-3 py-2 text-xs font-mono rounded-lg border border-(--border-subtle) dark:border-neutral-700 bg-white dark:bg-neutral-900 text-(--text-primary) dark:text-neutral-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                         />
                       </div>
 
@@ -1079,7 +1079,7 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
                           type="text"
                           readOnly
                           value={formValues.secretKey}
-                          className="w-full px-3 py-2 text-xs font-mono rounded-lg border border-neutral-200 dark:border-neutral-700 bg-neutral-100 dark:bg-neutral-800 text-neutral-500 cursor-not-allowed"
+                          className="w-full px-3 py-2 text-xs font-mono rounded-lg border border-(--border-subtle) dark:border-neutral-700 bg-(--bg-secondary) dark:bg-neutral-800 text-(--text-secondary) cursor-not-allowed"
                         />
                       </div>
 
@@ -1096,7 +1096,7 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
                               onChange={(e) =>
                                 setFormValues({ ...formValues, eventOrders: e.target.checked })
                               }
-                              className="rounded border-neutral-300 text-emerald-600"
+                              className="rounded border-(--border-strong) text-emerald-600"
                             />
                             <span>order.created / order.paid</span>
                           </label>
@@ -1107,7 +1107,7 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
                               onChange={(e) =>
                                 setFormValues({ ...formValues, eventUsers: e.target.checked })
                               }
-                              className="rounded border-neutral-300 text-emerald-600"
+                              className="rounded border-(--border-strong) text-emerald-600"
                             />
                             <span>user.signup / user.deleted</span>
                           </label>
@@ -1115,7 +1115,7 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
                       </div>
                     </div>
                   ) : (
-                    <div className="p-4 rounded-xl border border-dashed border-neutral-200 dark:border-neutral-800 text-center text-[11px] text-neutral-400 py-6">
+                    <div className="p-4 rounded-xl border border-dashed border-(--border-subtle) dark:border-neutral-800 text-center text-[11px] text-(--text-muted) py-6">
                       웹훅 기능을 활성화하면 엔드포인트 URL 및 시크릿 키 설정이 노출됩니다.
                     </div>
                   )}
@@ -1130,7 +1130,7 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
                       <AlertCircle className="w-4 h-4" />
                       <span>프로젝트 영구 삭제 (Danger Zone)</span>
                     </div>
-                    <p className="text-[11px] text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                    <p className="text-[11px] text-(--text-secondary) dark:text-(--text-muted) leading-relaxed">
                       이 작업은 즉시 모든 프로덕션 데이터베이스, API 키, 결제 연동 내역을 삭제하며 되돌릴 수 없습니다.
                     </p>
                     <div className="space-y-1.5 pt-1">
@@ -1187,7 +1187,7 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
                 type="button"
                 onClick={handleSaveForm}
                 disabled={isSaving || !!domainError}
-                className="px-4 py-1.5 text-xs font-bold bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition shadow-xs flex items-center gap-1.5 disabled:opacity-50"
+                className="px-4 py-1.5 text-xs font-bold bg-(--accent-primary) hover:bg-(--accent-primary) text-white rounded-lg transition shadow-xs flex items-center gap-1.5 disabled:opacity-50"
               >
                 {isSaving ? (
                   <>

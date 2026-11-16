@@ -103,15 +103,15 @@ export function TypographyEditorTab() {
       {/* 1. Font Family Selector */}
       <div>
         <div className="flex items-center gap-1.5 mb-2">
-          <Type className="w-4 h-4 text-blue-500" />
-          <h3 className="text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-neutral-400">
+          <Type className="w-4 h-4 text-(--accent-primary)" />
+          <h3 className="text-xs font-bold uppercase tracking-wider text-(--text-secondary) dark:text-(--text-muted)">
             글꼴 서체 (Font Family)
           </h3>
         </div>
         <select
           value={theme.typography.fontFamily}
           onChange={(e) => updateFontFamily(e.target.value)}
-          className="w-full px-3 py-2 text-xs font-medium rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-800 dark:text-neutral-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-3 py-2 text-xs font-medium rounded-xl border border-(--border-subtle) dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-800 dark:text-neutral-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           {FONT_FAMILY_PRESETS.map((font) => (
             <option key={font.name} value={font.value}>
@@ -124,10 +124,10 @@ export function TypographyEditorTab() {
       {/* 2. Level Selector Chips */}
       <div>
         <div className="flex items-center justify-between mb-2">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-neutral-400">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-(--text-secondary) dark:text-(--text-muted)">
             편집 대상 텍스트 태그
           </h3>
-          <span className="text-[11px] text-blue-600 dark:text-blue-400 font-semibold">
+          <span className="text-[11px] text-(--accent-primary) dark:text-blue-400 font-semibold">
             {currentMeta.label}
           </span>
         </div>
@@ -142,8 +142,8 @@ export function TypographyEditorTab() {
                 onClick={() => setSelectedLevel(lvl)}
                 className={`py-2 px-1 text-center rounded-xl border transition-all flex flex-col items-center gap-0.5 ${
                   isSelected
-                    ? 'border-blue-600 bg-blue-50 dark:bg-blue-950/50 text-blue-700 dark:text-blue-300 font-bold shadow-xs'
-                    : 'border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-neutral-600 dark:text-neutral-400 hover:border-neutral-300'
+                    ? 'border-(--accent-primary) bg-blue-50 dark:bg-blue-950/50 text-blue-700 dark:text-blue-300 font-bold shadow-xs'
+                    : 'border-(--border-subtle) dark:border-neutral-800 bg-white dark:bg-neutral-900 text-(--text-secondary) dark:text-(--text-muted) hover:border-(--border-strong)'
                 }`}
               >
                 <span className="text-xs uppercase">{lvl}</span>
@@ -155,15 +155,15 @@ export function TypographyEditorTab() {
       </div>
 
       {/* 3. Level Detail Controls */}
-      <div className="p-4 rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50/60 dark:bg-neutral-850/60 space-y-4">
-        <div className="flex items-center justify-between border-b border-neutral-200/80 dark:border-neutral-800 pb-2.5">
+      <div className="p-4 rounded-2xl border border-(--border-subtle) dark:border-neutral-800 bg-neutral-50/60 dark:bg-neutral-850/60 space-y-4">
+        <div className="flex items-center justify-between border-b border-(--border-subtle)/80 dark:border-neutral-800 pb-2.5">
           <div className="flex items-center gap-2">
-            <Sliders className="w-4 h-4 text-neutral-500" />
+            <Sliders className="w-4 h-4 text-(--text-secondary)" />
             <span className="text-xs font-bold text-neutral-800 dark:text-neutral-200">
               {currentMeta.label} ({currentMeta.tag.toUpperCase()}) 스타일 설정
             </span>
           </div>
-          <span className="text-[11px] px-2 py-0.5 rounded-md bg-neutral-200 dark:bg-neutral-700 text-neutral-700 dark:text-neutral-300 font-mono">
+          <span className="text-[11px] px-2 py-0.5 rounded-md bg-(--bg-tertiary) dark:bg-neutral-700 text-neutral-700 dark:text-neutral-300 font-mono">
             {currentLevelConfig.fontSize}px / {currentLevelConfig.lineHeight} / w{currentLevelConfig.fontWeight}
           </span>
         </div>
@@ -171,7 +171,7 @@ export function TypographyEditorTab() {
         {/* Font Size */}
         <div>
           <div className="flex items-center justify-between text-xs mb-1.5">
-            <span className="text-neutral-600 dark:text-neutral-400 font-medium">크기 (Font Size)</span>
+            <span className="text-(--text-secondary) dark:text-(--text-muted) font-medium">크기 (Font Size)</span>
             <div className="flex items-center gap-1">
               <input
                 type="number"
@@ -181,9 +181,9 @@ export function TypographyEditorTab() {
                 onChange={(e) =>
                   updateTypographyLevel(selectedLevel, 'fontSize', Number(e.target.value) || 12)
                 }
-                className="w-14 px-1.5 py-0.5 text-right font-mono text-xs rounded border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900"
+                className="w-14 px-1.5 py-0.5 text-right font-mono text-xs rounded border border-(--border-strong) dark:border-neutral-700 bg-white dark:bg-neutral-900"
               />
-              <span className="text-neutral-400 text-xs">px</span>
+              <span className="text-(--text-muted) text-xs">px</span>
             </div>
           </div>
           <input
@@ -202,7 +202,7 @@ export function TypographyEditorTab() {
         {/* Line Height */}
         <div>
           <div className="flex items-center justify-between text-xs mb-1.5">
-            <span className="text-neutral-600 dark:text-neutral-400 font-medium">행간 (Line Height)</span>
+            <span className="text-(--text-secondary) dark:text-(--text-muted) font-medium">행간 (Line Height)</span>
             <span className="font-mono text-xs text-neutral-800 dark:text-neutral-200">
               {currentLevelConfig.lineHeight}
             </span>
@@ -222,7 +222,7 @@ export function TypographyEditorTab() {
 
         {/* Font Weight */}
         <div>
-          <span className="block text-xs text-neutral-600 dark:text-neutral-400 font-medium mb-1.5">
+          <span className="block text-xs text-(--text-secondary) dark:text-(--text-muted) font-medium mb-1.5">
             굵기 (Font Weight)
           </span>
           <div className="grid grid-cols-3 gap-1.5">
@@ -233,8 +233,8 @@ export function TypographyEditorTab() {
                 onClick={() => updateTypographyLevel(selectedLevel, 'fontWeight', w.value)}
                 className={`py-1.5 px-2 text-[11px] rounded-lg border transition-all text-center ${
                   currentLevelConfig.fontWeight === w.value
-                    ? 'border-blue-600 bg-blue-600 text-white font-bold'
-                    : 'border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-700 dark:text-neutral-300 hover:border-neutral-300'
+                    ? 'border-(--accent-primary) bg-(--accent-primary) text-white font-bold'
+                    : 'border-(--border-subtle) dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-700 dark:text-neutral-300 hover:border-(--border-strong)'
                 }`}
               >
                 {w.label.split(' ')[0]} ({w.value})
@@ -246,7 +246,7 @@ export function TypographyEditorTab() {
         {/* Letter Spacing */}
         <div>
           <div className="flex items-center justify-between text-xs mb-1.5">
-            <span className="text-neutral-600 dark:text-neutral-400 font-medium">자간 (Letter Spacing)</span>
+            <span className="text-(--text-secondary) dark:text-(--text-muted) font-medium">자간 (Letter Spacing)</span>
             <span className="font-mono text-xs text-neutral-800 dark:text-neutral-200">
               {currentLevelConfig.letterSpacing}
             </span>
@@ -259,8 +259,8 @@ export function TypographyEditorTab() {
                 onClick={() => updateTypographyLevel(selectedLevel, 'letterSpacing', sp)}
                 className={`py-1 text-[11px] font-mono rounded-lg border transition-all ${
                   currentLevelConfig.letterSpacing === sp
-                    ? 'border-blue-600 bg-blue-600 text-white font-bold'
-                    : 'border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-700 dark:text-neutral-300'
+                    ? 'border-(--accent-primary) bg-(--accent-primary) text-white font-bold'
+                    : 'border-(--border-subtle) dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-700 dark:text-neutral-300'
                 }`}
               >
                 {sp}
@@ -274,11 +274,11 @@ export function TypographyEditorTab() {
       <div>
         <div className="flex items-center gap-1.5 mb-2">
           <Eye className="w-4 h-4 text-emerald-500" />
-          <h3 className="text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-neutral-400">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-(--text-secondary) dark:text-(--text-muted)">
             실시간 렌더링 미리보기
           </h3>
         </div>
-        <div className="p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-xs overflow-hidden">
+        <div className="p-4 rounded-xl border border-(--border-subtle) dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-xs overflow-hidden">
           <div
             style={{
               fontFamily: theme.typography.fontFamily,

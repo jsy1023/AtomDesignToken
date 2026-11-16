@@ -46,7 +46,7 @@ export function PatternSplitLayout({
   onSwitchToGrid,
 }: PatternSplitLayoutProps) {
   const { theme } = useThemeEditor();
-  const brandColor = theme?.color?.primary || '#3182f6';
+  const brandColor = theme?.color?.primary || 'var(--accent-primary)';
   const radius = theme?.borderRadius || '16px';
   const [platformFilter, setPlatformFilter] = useState<'all' | PatternPlatform>('all');
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
@@ -113,25 +113,25 @@ export function PatternSplitLayout({
         {/* Search & Platform Filters */}
         <div className="space-y-3">
           <div className="relative">
-            <Search className="w-4 h-4 text-neutral-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <Search className="w-4 h-4 text-(--text-muted) absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="패턴 검색 (대시보드, 폼, 송금...)"
-              className="w-full pl-9 pr-3 py-2 text-xs font-medium rounded-xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-850 text-neutral-900 dark:text-neutral-100 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-neutral-400"
+              className="w-full pl-9 pr-3 py-2 text-xs font-medium rounded-xl border border-(--border-subtle) dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-850 text-(--text-primary) dark:text-neutral-100 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-(--text-muted)"
             />
           </div>
 
           {/* Platform Segmented Buttons */}
-          <div className="grid grid-cols-3 gap-1 p-1 rounded-xl bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-xs font-bold">
+          <div className="grid grid-cols-3 gap-1 p-1 rounded-xl bg-(--bg-secondary) dark:bg-neutral-800 border border-(--border-subtle) dark:border-neutral-700 text-xs font-bold">
             <button
               type="button"
               onClick={() => setPlatformFilter('all')}
               className={`py-1.5 rounded-lg transition text-center ${
                 platformFilter === 'all'
-                  ? 'bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white shadow-xs'
-                  : 'text-neutral-500 hover:text-neutral-900 dark:hover:text-white'
+                  ? 'bg-white dark:bg-neutral-900 text-(--text-primary) dark:text-white shadow-xs'
+                  : 'text-(--text-secondary) hover:text-(--text-primary) dark:hover:text-white'
               }`}
             >
               전체 ({patterns.length})
@@ -141,8 +141,8 @@ export function PatternSplitLayout({
               onClick={() => setPlatformFilter('web')}
               className={`py-1.5 rounded-lg transition text-center flex items-center justify-center gap-1 ${
                 platformFilter === 'web'
-                  ? 'bg-white dark:bg-neutral-900 text-blue-600 dark:text-blue-400 shadow-xs'
-                  : 'text-neutral-500 hover:text-neutral-900 dark:hover:text-white'
+                  ? 'bg-white dark:bg-neutral-900 text-(--accent-primary) dark:text-blue-400 shadow-xs'
+                  : 'text-(--text-secondary) hover:text-(--text-primary) dark:hover:text-white'
               }`}
             >
               <Monitor className="w-3 h-3" />
@@ -154,7 +154,7 @@ export function PatternSplitLayout({
               className={`py-1.5 rounded-lg transition text-center flex items-center justify-center gap-1 ${
                 platformFilter === 'mobile'
                   ? 'bg-white dark:bg-neutral-900 text-emerald-600 dark:text-emerald-400 shadow-xs'
-                  : 'text-neutral-500 hover:text-neutral-900 dark:hover:text-white'
+                  : 'text-(--text-secondary) hover:text-(--text-primary) dark:hover:text-white'
               }`}
             >
               <Smartphone className="w-3 h-3" />
@@ -173,7 +173,7 @@ export function PatternSplitLayout({
                 className={`px-2.5 py-1 rounded-lg whitespace-nowrap transition font-medium ${
                   categoryFilter === cat.id
                     ? 'font-bold shadow-xs'
-                    : 'bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 hover:bg-neutral-200/80'
+                    : 'bg-(--bg-secondary) dark:bg-neutral-800 text-(--text-secondary) dark:text-(--text-muted) hover:bg-(--bg-tertiary)/80'
                 }`}
               >
                 {cat.label}
@@ -183,13 +183,13 @@ export function PatternSplitLayout({
         </div>
 
         {/* Pattern List Counter */}
-        <div className="flex items-center justify-between text-[11px] text-neutral-400 border-t border-neutral-100 dark:border-neutral-800/80 pt-2">
+        <div className="flex items-center justify-between text-[11px] text-(--text-muted) border-t border-neutral-100 dark:border-neutral-800/80 pt-2">
           <span>검색 결과 {filteredPatterns.length}개</span>
           {onSwitchToGrid && (
             <button
               type="button"
               onClick={onSwitchToGrid}
-              className="hover:text-blue-600 dark:hover:text-blue-400 transition"
+              className="hover:text-(--accent-primary) dark:hover:text-blue-400 transition"
             >
               그리드 모드로 보기
             </button>
@@ -266,7 +266,7 @@ export function PatternSplitLayout({
           })}
 
           {filteredPatterns.length === 0 && (
-            <div className="text-center py-10 text-xs text-neutral-400">
+            <div className="text-center py-10 text-xs text-(--text-muted)">
               조건에 맞는 UX 패턴이 없습니다.
             </div>
           )}
@@ -295,7 +295,7 @@ export function PatternSplitLayout({
                   <span
                     className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold border ${
                       selectedPattern.platform === 'web'
-                        ? 'bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 border-blue-200/80'
+                        ? 'bg-blue-50 dark:bg-blue-950/60 text-(--accent-primary) dark:text-blue-400 border-blue-200/80'
                         : 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border-emerald-200/80'
                     }`}
                   >
@@ -306,14 +306,14 @@ export function PatternSplitLayout({
                     )}
                     <span>{selectedPattern.platform === 'web' ? 'WEB 브라우저 패턴' : '모바일 앱 패턴'}</span>
                   </span>
-                  <span className="text-xs font-semibold text-neutral-500">
+                  <span className="text-xs font-semibold text-(--text-secondary)">
                     {selectedPattern.categoryName}
                   </span>
                 </div>
-                <h1 className="text-xl sm:text-2xl font-black text-neutral-900 dark:text-white">
+                <h1 className="text-xl sm:text-2xl font-black text-(--text-primary) dark:text-white">
                   {selectedPattern.title}
                 </h1>
-                <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 mt-1.5 leading-relaxed max-w-2xl">
+                <p className="text-xs sm:text-sm text-(--text-secondary) dark:text-(--text-muted) mt-1.5 leading-relaxed max-w-2xl">
                   {selectedPattern.summary}
                 </p>
               </div>
@@ -323,7 +323,7 @@ export function PatternSplitLayout({
                 <button
                   type="button"
                   onClick={handleCopyMarkdown}
-                  className="flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold rounded-xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 hover:bg-neutral-100 transition active:scale-95 shadow-xs"
+                  className="flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold rounded-xl border border-(--border-subtle) dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 hover:bg-(--bg-secondary) transition active:scale-95 shadow-xs"
                 >
                   {copiedMd ? (
                     <>
@@ -332,7 +332,7 @@ export function PatternSplitLayout({
                     </>
                   ) : (
                     <>
-                      <Copy className="w-3.5 h-3.5 text-neutral-500" />
+                      <Copy className="w-3.5 h-3.5 text-(--text-secondary)" />
                       <span>명세 복사</span>
                     </>
                   )}
@@ -340,7 +340,7 @@ export function PatternSplitLayout({
                 <button
                   type="button"
                   onClick={handleDownloadMarkdown}
-                  className="flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold rounded-xl bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 hover:opacity-90 transition active:scale-95 shadow-xs"
+                  className="flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold rounded-xl bg-neutral-900 dark:bg-white text-white dark:text-(--text-primary) hover:opacity-90 transition active:scale-95 shadow-xs"
                 >
                   <Download className="w-3.5 h-3.5" />
                   <span>.md 다운로드</span>
@@ -359,7 +359,7 @@ export function PatternSplitLayout({
             {/* Checklist & Anti-Patterns 2-Column Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               {/* Checklist */}
-              <div className="p-5 rounded-3xl bg-white dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800 shadow-sm flex flex-col gap-3">
+              <div className="p-5 rounded-3xl bg-white dark:bg-neutral-900 border border-(--border-subtle)/80 dark:border-neutral-800 shadow-sm flex flex-col gap-3">
                 <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-bold text-sm">
                   <CheckCircle2 className="w-4 h-4" />
                   <span>필수 구현 베스트 UX 체크리스트</span>
@@ -392,7 +392,7 @@ export function PatternSplitLayout({
             </div>
           </>
         ) : (
-          <div className="p-12 text-center text-neutral-400">패턴을 선택해주세요.</div>
+          <div className="p-12 text-center text-(--text-muted)">패턴을 선택해주세요.</div>
         )}
       </section>
     </div>

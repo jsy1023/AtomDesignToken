@@ -433,14 +433,14 @@ export function SpacingDemo() {
     ],
     relatedPatternIds: ["fintech-transfer", "ecommerce-checkout"],
     propsSpec: [
-      { name: "color.brand.primary", type: "color", defaultValue: "#3182f6", description: "\uC8FC\uC694 \uD589\uB3D9 \uBE0C\uB79C\uB4DC \uC0C9\uC0C1" },
+      { name: "color.brand.primary", type: "color", defaultValue: "var(--accent-primary)", description: "\uC8FC\uC694 \uD589\uB3D9 \uBE0C\uB79C\uB4DC \uC0C9\uC0C1" },
       { name: "color.status.success", type: "color", defaultValue: "#10b981", description: "\uAE0D\uC815/\uC644\uB8CC \uC0C1\uD0DC \uC0C9\uC0C1" },
       { name: "color.status.warning", type: "color", defaultValue: "#f59e0b", description: "\uC8FC\uC758/\uACBD\uACE0 \uC0C1\uD0DC \uC0C9\uC0C1" },
       { name: "color.status.danger", type: "color", defaultValue: "#ef4444", description: "\uC704\uD5D8/\uD30C\uAD34 \uC561\uC158 \uC0C9\uC0C1" }
     ],
     htmlSnippet: `<!-- Semantic Color Tokens -->
 <div style="background-color: var(--atom-color-primary); color: #fff; padding: 12px; border-radius: 8px;">
-  Brand Primary (#3182f6)
+  Brand Primary (var(--accent-primary))
 </div>
 <div style="background-color: var(--atom-status-success); color: #fff; padding: 12px; border-radius: 8px;">
   Success (#10b981)
@@ -781,7 +781,7 @@ export function ModalDemo({ isOpen, onClose }) {
         <DialogHeader>
           <DialogTitle>\uC1A1\uAE08 \uC815\uBCF4\uB97C \uD655\uC778\uD574\uC8FC\uC138\uC694</DialogTitle>
         </DialogHeader>
-        <p className="text-sm text-neutral-500">\uAE40\uD1A0\uC2A4\uB2D8\uC5D0\uAC8C 500,000\uC6D0\uC744 \uC1A1\uAE08\uD569\uB2C8\uB2E4.</p>
+        <p className="text-sm text-(--text-secondary)">\uAE40\uD1A0\uC2A4\uB2D8\uC5D0\uAC8C 500,000\uC6D0\uC744 \uC1A1\uAE08\uD569\uB2C8\uB2E4.</p>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}>\uCDE8\uC18C</Button>
           <Button variant="primary" onClick={onClose}>\uC1A1\uAE08 \uC2E4\uD589</Button>
@@ -1057,7 +1057,7 @@ export function CardDemo() {
       </CardHeader>
       <CardContent>
         <div className="text-2xl font-bold">\u20A9 12,450,000</div>
-        <p className="text-xs text-neutral-500">\uC5F0 4.5% \uCD5C\uACE0 \uAE08\uB9AC \uC801\uC6A9 \uC911</p>
+        <p className="text-xs text-(--text-secondary)">\uC5F0 4.5% \uCD5C\uACE0 \uAE08\uB9AC \uC801\uC6A9 \uC911</p>
       </CardContent>
     </Card>
   );
@@ -8493,8 +8493,8 @@ var AWESOME_CATEGORIES = [
 // lib/data/themeEditorDefaults.ts
 var DEFAULT_THEME_CONFIG = {
   color: {
-    primary: "#3182f6",
-    primaryHover: "#1b64da",
+    primary: "var(--accent-primary)",
+    primaryHover: "var(--accent-primary-hover)",
     primaryLight: "#e8f3ff",
     bgPrimary: "#ffffff",
     bgSecondary: "#f8f9fa",
@@ -8578,8 +8578,8 @@ var COLOR_PRESETS = [
     description: "\uCCAD\uB7C9\uD55C \uBE44\uBE44\uB4DC \uBE14\uB8E8\uC640 \uBCFC\uB4DC \uB77C\uC6B4\uB529",
     borderRadius: "16px",
     colors: {
-      primary: "#3182f6",
-      primaryHover: "#1b64da",
+      primary: "var(--accent-primary)",
+      primaryHover: "var(--accent-primary-hover)",
       primaryLight: "#e8f3ff",
       bgPrimary: "#ffffff",
       bgSecondary: "#f8f9fa",
@@ -8949,8 +8949,8 @@ html.dark .bg-white:not([data-keep-white]):not([role="switch"]):not([aria-hidden
   background-color: ${color.bgSecondary} !important;
 }
 
-html.dark .border-neutral-200,
-html.dark .border-neutral-200\\/80 {
+html.dark .border-(--border-subtle),
+html.dark .border-(--border-subtle)\\/80 {
   border-color: ${color.borderSubtle} !important;
 }
 

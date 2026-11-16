@@ -130,7 +130,7 @@ export function Header({ brandColor, rightExtra }: HeaderProps) {
         <div className="flex items-center gap-6">
           <Link href="/" className="flex items-center gap-2 group shrink-0">
             <span 
-              className="w-3.5 h-3.5 rounded-[4px] flex items-center justify-center shrink-0"
+              className="w-3.5 h-3.5 rounded-(--radius-sm) flex items-center justify-center shrink-0"
               style={{ backgroundColor: activeBrandColor }}
             />
             <span className="font-semibold text-sm tracking-tight text-(--text-primary)">

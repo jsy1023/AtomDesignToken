@@ -100,7 +100,7 @@ export function FileExplorerBlock() {
     switch (ext) {
       case 'tsx':
       case 'ts':
-        return <FileCode className="w-3.5 h-3.5 text-blue-500" />;
+        return <FileCode className="w-3.5 h-3.5 text-(--accent-primary)" />;
       case 'json':
         return <FileJson className="w-3.5 h-3.5 text-amber-500" />;
       case 'md':

@@ -233,8 +233,8 @@ html.dark .bg-white:not([data-keep-white]):not([role="switch"]):not([aria-hidden
   background-color: ${color.bgSecondary} !important;
 }
 
-html.dark .border-neutral-200,
-html.dark .border-neutral-200\\/80 {
+html.dark .border-(--border-subtle),
+html.dark .border-(--border-subtle)\\/80 {
   border-color: ${color.borderSubtle} !important;
 }
 

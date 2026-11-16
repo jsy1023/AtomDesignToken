@@ -21,7 +21,7 @@ const PAGE_SIZE = 120;
 
 export default function IconsCatalogPage() {
   const { theme, updateSelectedIcon, setIsOpen, setActiveTab } = useThemeEditor();
-  const brandColor = theme?.color?.primary || '#3182f6';
+  const brandColor = theme?.color?.primary || 'var(--accent-primary)';
   const currentIcon = theme.selectedIcon || 'Sparkles';
 
   const [searchQuery, setSearchQuery] = useState('');

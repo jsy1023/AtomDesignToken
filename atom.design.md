@@ -16,7 +16,7 @@ Figma, 마크다운 가이드, JSON 토큰 파일 중 어느 하나가 기준이
   - ✅ 모든 색상, 여백, 곡률은 반드시 var(--atom-*) 시맨틱 토큰을 참조합니다.
   - ✅ 신규 스타일이 필요할 경우 토큰 명세서(tokens.json)에 먼저 추가합니다.
 * **지양 안티패턴 (DON'T)**:
-  - ❌ 컴포넌트 CSS/Tailwind에 #3182F6, 16px 등의 원천 값을 인라인으로 직접 작성하지 않습니다.
+  - ❌ 컴포넌트 CSS/Tailwind에 var(--accent-primary), 16px 등의 원천 값을 인라인으로 직접 작성하지 않습니다.
   - ❌ 페이지별로 유사한 역할을 하는 독립적인 테마 변수를 중복 선언하지 않습니다.
 * **표준 참조**: `W3C DTCG Format Specification §1.1`
 
@@ -123,7 +123,7 @@ Impeccable 디자인 철학에 기반하여 LLM이 양산하는 클리셰적 디
   - ✅ 빈 데이터(Empty), 로딩(Skeleton), 에러, 키보드 접근성(A11y) 4대 상태를 필수로 구현합니다.
 * **지양 안티패턴 (DON'T)**:
   - ❌ 컴포넌트 단계를 건너뛰고 블록이나 페이지에 임의의 원시 태그(<button>, <div class="rounded-lg...">)를 날림으로 하드코딩하지 않습니다.
-  - ❌ Tailwind 임의 컬러(text-blue-500, bg-gray-100 등)를 인라인으로 직접 작성하지 않습니다.
+  - ❌ Tailwind 임의 컬러(text-(--accent-primary), bg-(--bg-secondary) 등)를 인라인으로 직접 작성하지 않습니다.
 * **표준 참조**: `AGENTS.md & W3C DTCG Component Composition Spec`
 
 ---

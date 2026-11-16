@@ -44,18 +44,18 @@ export function TokensEditorTab() {
       {/* 1. Border Radius Tokens */}
       <div>
         <div className="flex items-center gap-1.5 mb-2.5">
-          <Box className="w-4 h-4 text-blue-500" />
-          <h3 className="text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-neutral-400">
+          <Box className="w-4 h-4 text-(--accent-primary)" />
+          <h3 className="text-xs font-bold uppercase tracking-wider text-(--text-secondary) dark:text-(--text-muted)">
             곡률 토큰 (Border Radius)
           </h3>
         </div>
 
-        <div className="p-3.5 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-800/40 space-y-3">
+        <div className="p-3.5 rounded-xl border border-(--border-subtle) dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-800/40 space-y-3">
           <div className="flex justify-between items-center text-xs">
             <span className="font-semibold text-neutral-800 dark:text-neutral-200">
               기본 컴포넌트 곡률 (--atom-radius-md)
             </span>
-            <span className="font-mono font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/60 px-2 py-0.5 rounded-md">
+            <span className="font-mono font-bold text-(--accent-primary) dark:text-blue-400 bg-blue-50 dark:bg-blue-950/60 px-2 py-0.5 rounded-md">
               {theme.borderRadius || '10px'}
             </span>
           </div>
@@ -70,8 +70,8 @@ export function TokensEditorTab() {
                   onClick={() => updateBorderRadius(r.value)}
                   className={`py-2 px-2.5 text-xs rounded-lg border font-medium transition-all ${
                     isSelected
-                      ? 'border-blue-600 dark:border-blue-500 bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400 font-bold shadow-xs'
-                      : 'border-neutral-200 dark:border-neutral-700 hover:border-neutral-300 dark:hover:border-neutral-600 text-neutral-700 dark:text-neutral-300 bg-white dark:bg-neutral-900'
+                      ? 'border-(--accent-primary) dark:border-(--accent-primary) bg-blue-50 dark:bg-blue-950/50 text-(--accent-primary) dark:text-blue-400 font-bold shadow-xs'
+                      : 'border-(--border-subtle) dark:border-neutral-700 hover:border-(--border-strong) dark:hover:border-neutral-600 text-neutral-700 dark:text-neutral-300 bg-white dark:bg-neutral-900'
                   }`}
                 >
                   {r.label}
@@ -95,20 +95,20 @@ export function TokensEditorTab() {
       {/* 2. Button Spacing Tokens (상하단 & 좌우) */}
       <div>
         <div className="flex items-center gap-1.5 mb-2.5">
-          <Sliders className="w-4 h-4 text-blue-500" />
-          <h3 className="text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-neutral-400">
+          <Sliders className="w-4 h-4 text-(--accent-primary)" />
+          <h3 className="text-xs font-bold uppercase tracking-wider text-(--text-secondary) dark:text-(--text-muted)">
             {locale === 'ja' ? 'ボタン余白トークン (Button Spacing)' : locale === 'en' ? 'Button Spacing Tokens' : '버튼 여백 토큰 (Button Spacing)'}
           </h3>
         </div>
 
-        <div className="p-3.5 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-800/40 space-y-4">
+        <div className="p-3.5 rounded-xl border border-(--border-subtle) dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-800/40 space-y-4">
           {/* Vertical Padding (Y) */}
           <div className="space-y-2">
             <div className="flex justify-between items-center text-xs">
               <span className="font-semibold text-neutral-800 dark:text-neutral-200">
                 {locale === 'ja' ? '上下余白 (--atom-btn-py)' : locale === 'en' ? 'Vertical Padding (--atom-btn-py)' : '상하단 여백 (--atom-btn-py)'}
               </span>
-              <span className="font-mono font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/60 px-2 py-0.5 rounded-md">
+              <span className="font-mono font-bold text-(--accent-primary) dark:text-blue-400 bg-blue-50 dark:bg-blue-950/60 px-2 py-0.5 rounded-md">
                 {currentPy}
               </span>
             </div>
@@ -122,8 +122,8 @@ export function TokensEditorTab() {
                     onClick={() => updateButtonSpacing('paddingY', p.value)}
                     className={`py-1.5 px-2 text-xs rounded-lg border font-medium transition-all ${
                       isSelected
-                        ? 'border-blue-600 dark:border-blue-500 bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400 font-bold shadow-xs'
-                        : 'border-neutral-200 dark:border-neutral-700 hover:border-neutral-300 dark:hover:border-neutral-600 text-neutral-700 dark:text-neutral-300 bg-white dark:bg-neutral-900'
+                        ? 'border-(--accent-primary) dark:border-(--accent-primary) bg-blue-50 dark:bg-blue-950/50 text-(--accent-primary) dark:text-blue-400 font-bold shadow-xs'
+                        : 'border-(--border-subtle) dark:border-neutral-700 hover:border-(--border-strong) dark:hover:border-neutral-600 text-neutral-700 dark:text-neutral-300 bg-white dark:bg-neutral-900'
                     }`}
                   >
                     {p.label}
@@ -134,12 +134,12 @@ export function TokensEditorTab() {
           </div>
 
           {/* Horizontal Padding (X) */}
-          <div className="space-y-2 pt-2 border-t border-neutral-200/60 dark:border-neutral-700/60">
+          <div className="space-y-2 pt-2 border-t border-(--border-subtle)/60 dark:border-neutral-700/60">
             <div className="flex justify-between items-center text-xs">
               <span className="font-semibold text-neutral-800 dark:text-neutral-200">
                 {locale === 'ja' ? '左右余白 (--atom-btn-px)' : locale === 'en' ? 'Horizontal Padding (--atom-btn-px)' : '좌우 여백 (--atom-btn-px)'}
               </span>
-              <span className="font-mono font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/60 px-2 py-0.5 rounded-md">
+              <span className="font-mono font-bold text-(--accent-primary) dark:text-blue-400 bg-blue-50 dark:bg-blue-950/60 px-2 py-0.5 rounded-md">
                 {currentPx}
               </span>
             </div>
@@ -153,8 +153,8 @@ export function TokensEditorTab() {
                     onClick={() => updateButtonSpacing('paddingX', p.value)}
                     className={`py-1.5 px-2 text-xs rounded-lg border font-medium transition-all ${
                       isSelected
-                        ? 'border-blue-600 dark:border-blue-500 bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400 font-bold shadow-xs'
-                        : 'border-neutral-200 dark:border-neutral-700 hover:border-neutral-300 dark:hover:border-neutral-600 text-neutral-700 dark:text-neutral-300 bg-white dark:bg-neutral-900'
+                        ? 'border-(--accent-primary) dark:border-(--accent-primary) bg-blue-50 dark:bg-blue-950/50 text-(--accent-primary) dark:text-blue-400 font-bold shadow-xs'
+                        : 'border-(--border-subtle) dark:border-neutral-700 hover:border-(--border-strong) dark:hover:border-neutral-600 text-neutral-700 dark:text-neutral-300 bg-white dark:bg-neutral-900'
                     }`}
                   >
                     {p.label}
@@ -165,8 +165,8 @@ export function TokensEditorTab() {
           </div>
 
           {/* Interactive Button Spacing Visualizer Preview */}
-          <div className="pt-2 flex flex-col items-center justify-center gap-2 p-3 rounded-lg bg-neutral-100/70 dark:bg-neutral-900/70 border border-neutral-200 dark:border-neutral-800">
-            <span className="text-[11px] text-neutral-500 font-mono">
+          <div className="pt-2 flex flex-col items-center justify-center gap-2 p-3 rounded-lg bg-(--bg-secondary)/70 dark:bg-neutral-900/70 border border-(--border-subtle) dark:border-neutral-800">
+            <span className="text-[11px] text-(--text-secondary) font-mono">
               {locale === 'ja' ? `リアルタイムボタンサイズ: padding ${currentPy} ${currentPx}` : locale === 'en' ? `Live Button Size: padding ${currentPy} ${currentPx}` : `실시간 버튼 크기: padding ${currentPy} ${currentPx}`}
             </span>
             <button
@@ -174,7 +174,7 @@ export function TokensEditorTab() {
               style={{
                 padding: `${currentPy} ${currentPx}`,
                 borderRadius: theme.borderRadius || '10px',
-                backgroundColor: theme.color.primary || '#3182f6',
+                backgroundColor: theme.color.primary || 'var(--accent-primary)',
               }}
               className="text-white text-xs font-semibold shadow-xs transition-all duration-200 flex items-center gap-1.5"
             >
@@ -189,12 +189,12 @@ export function TokensEditorTab() {
       <div>
         <div className="flex items-center gap-1.5 mb-2.5">
           <Maximize2 className="w-4 h-4 text-purple-500" />
-          <h3 className="text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-neutral-400">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-(--text-secondary) dark:text-(--text-muted)">
             {locale === 'ja' ? 'スペーシングスケールトークン (4pt Scale)' : locale === 'en' ? 'Spacing Scale Tokens (4pt Scale)' : '간격 척도 토큰 (4pt Spacing Scale)'}
           </h3>
         </div>
 
-        <div className="p-3.5 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-800/40 space-y-2 text-xs">
+        <div className="p-3.5 rounded-xl border border-(--border-subtle) dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-800/40 space-y-2 text-xs">
           {[
             { token: '--atom-space-1', px: '4px', desc: '초소형 패딩, 칩 여백' },
             { token: '--atom-space-2', px: '8px', desc: '버튼 내부 아이콘 간격' },
@@ -216,8 +216,8 @@ export function TokensEditorTab() {
                 </span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-[11px] text-neutral-400">{s.desc}</span>
-                <span className="font-mono font-bold text-neutral-800 dark:text-neutral-100 bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">
+                <span className="text-[11px] text-(--text-muted)">{s.desc}</span>
+                <span className="font-mono font-bold text-neutral-800 dark:text-neutral-100 bg-(--bg-secondary) dark:bg-neutral-800 px-1.5 py-0.5 rounded">
                   {s.px}
                 </span>
               </div>
@@ -230,7 +230,7 @@ export function TokensEditorTab() {
       <div>
         <div className="flex items-center gap-1.5 mb-2.5">
           <Shield className="w-4 h-4 text-emerald-500" />
-          <h3 className="text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-neutral-400">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-(--text-secondary) dark:text-(--text-muted)">
             그림자 엘리베이션 토큰 (Elevation Shadows)
           </h3>
         </div>
@@ -246,7 +246,7 @@ export function TokensEditorTab() {
               className={`p-3 rounded-xl bg-white dark:bg-neutral-900 border border-neutral-100 dark:border-neutral-800 text-center ${sh.class}`}
             >
               <div className="text-xs font-bold text-neutral-800 dark:text-neutral-200">{sh.name}</div>
-              <div className="text-[10px] text-neutral-400 mt-0.5">{sh.desc}</div>
+              <div className="text-[10px] text-(--text-muted) mt-0.5">{sh.desc}</div>
             </div>
           ))}
         </div>

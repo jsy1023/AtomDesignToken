@@ -18,7 +18,7 @@ import {
 export default function PrinciplesPage() {
   const { theme } = useThemeEditor();
   const { t, dictionary, locale } = useI18n();
-  const brandColor = theme?.color?.primary || '#3182f6';
+  const brandColor = theme?.color?.primary || 'var(--accent-primary)';
   const radius = theme?.borderRadius || '8px';
 
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -43,7 +43,7 @@ export default function PrinciplesPage() {
       <main className="max-w-5xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8 flex-1 flex flex-col gap-6 sm:gap-8">
         {/* Hero Section */}
         <section className="space-y-2.5 border-b border-(--border-subtle) pb-4 sm:pb-5">
-          <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-mono text-neutral-400">
+          <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-mono text-(--text-muted)">
             <span className="text-emerald-500 font-semibold flex items-center gap-1">
               <ShieldCheck className="w-3 h-3" />
               Core Philosophy
@@ -102,7 +102,7 @@ export default function PrinciplesPage() {
                     {item.w3cRef && (
                       <>
                         <span>•</span>
-                        <span className="text-blue-500 font-sans">{item.w3cRef}</span>
+                        <span className="text-(--accent-primary) font-sans">{item.w3cRef}</span>
                       </>
                     )}
                   </div>
@@ -152,7 +152,7 @@ export default function PrinciplesPage() {
                   <div className="p-4 rounded-xl bg-(--bg-secondary)/50 border border-(--border-subtle) space-y-3">
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-mono font-bold text-(--text-primary) flex items-center gap-1.5">
-                        <ShieldCheck className="w-4 h-4 text-blue-500" />
+                        <ShieldCheck className="w-4 h-4 text-(--accent-primary)" />
                         {locale === 'ja'
                           ? 'AIエージェントスキルのインストール & ローカルStudio起動コマンド'
                           : locale === 'en'
@@ -233,7 +233,7 @@ export default function PrinciplesPage() {
         <div className="pt-6 border-t border-(--border-subtle) flex items-center justify-between text-xs">
           <Link
             href="/tokens"
-            className="text-neutral-500 hover:text-(--text-primary) flex items-center gap-1 transition-colors"
+            className="text-(--text-secondary) hover:text-(--text-primary) flex items-center gap-1 transition-colors"
           >
             <span>{locale === 'ja' ? 'デザイントークン仕様書を見る →' : locale === 'en' ? 'View Design Tokens Specification →' : '디자인 토큰 명세 바로가기'}</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -243,7 +243,7 @@ export default function PrinciplesPage() {
             href="https://www.designtokens.org/tr/2025.10/"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-neutral-500 hover:text-(--text-primary) inline-flex items-center gap-1 transition-colors"
+            className="text-(--text-secondary) hover:text-(--text-primary) inline-flex items-center gap-1 transition-colors"
           >
             <span>{locale === 'ja' ? 'W3C DTCG 公式標準仕様' : locale === 'en' ? 'W3C DTCG Official Standard' : 'W3C DTCG 공식 표준서'}</span>
             <ExternalLink className="w-3.5 h-3.5" />
@@ -252,7 +252,7 @@ export default function PrinciplesPage() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-(--border-subtle) py-6 text-xs text-neutral-400">
+      <footer className="border-t border-(--border-subtle) py-6 text-xs text-(--text-muted)">
         <div className="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
           <span>AtomDesignToken — Single Source of Truth for Design Tokens</span>
           <div className="flex items-center gap-3">

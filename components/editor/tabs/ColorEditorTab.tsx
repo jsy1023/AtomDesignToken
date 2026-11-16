@@ -21,7 +21,7 @@ function ColorField({ label, fieldKey, value, description, onChange }: ColorFiel
           {label}
         </span>
         {description && (
-          <span className="text-[11px] text-neutral-400 dark:text-neutral-500 truncate">
+          <span className="text-[11px] text-(--text-muted) dark:text-(--text-secondary) truncate">
             {description}
           </span>
         )}
@@ -31,12 +31,12 @@ function ColorField({ label, fieldKey, value, description, onChange }: ColorFiel
           type="text"
           value={value}
           onChange={(e) => onChange(fieldKey, e.target.value)}
-          className="w-20 px-2 py-1 text-xs font-mono font-medium rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-800 dark:text-neutral-200 focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
+          className="w-20 px-2 py-1 text-xs font-mono font-medium rounded-lg border border-(--border-subtle) dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-800 dark:text-neutral-200 focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
         />
-        <label className="relative w-8 h-8 rounded-lg overflow-hidden border border-neutral-300 dark:border-neutral-600 shadow-xs cursor-pointer shrink-0">
+        <label className="relative w-8 h-8 rounded-lg overflow-hidden border border-(--border-strong) dark:border-neutral-600 shadow-xs cursor-pointer shrink-0">
           <input
             type="color"
-            value={value.startsWith('#') ? value : '#3182f6'}
+            value={value.startsWith('#') ? value : 'var(--accent-primary)'}
             onChange={(e) => onChange(fieldKey, e.target.value)}
             className="absolute -top-2 -left-2 w-12 h-12 cursor-pointer border-0"
           />
@@ -54,8 +54,8 @@ export function ColorEditorTab() {
       {/* 1. Brand Accent Colors */}
       <div>
         <div className="flex items-center gap-1.5 mb-2.5">
-          <Palette className="w-4 h-4 text-blue-500" />
-          <h3 className="text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-neutral-400">
+          <Palette className="w-4 h-4 text-(--accent-primary)" />
+          <h3 className="text-xs font-bold uppercase tracking-wider text-(--text-secondary) dark:text-(--text-muted)">
             브랜드 액센트 (Brand Accent)
           </h3>
         </div>
@@ -88,7 +88,7 @@ export function ColorEditorTab() {
       <div>
         <div className="flex items-center gap-1.5 mb-2.5">
           <Layers className="w-4 h-4 text-emerald-500" />
-          <h3 className="text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-neutral-400">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-(--text-secondary) dark:text-(--text-muted)">
             배경 및 표면 (Surface)
           </h3>
         </div>
@@ -113,7 +113,7 @@ export function ColorEditorTab() {
       {/* 4. Text & Border */}
       <div>
         <div className="flex items-center gap-1.5 mb-2.5">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-neutral-400">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-(--text-secondary) dark:text-(--text-muted)">
             텍스트 & 테두리 (Text & Border)
           </h3>
         </div>

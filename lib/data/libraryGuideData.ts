@@ -113,11 +113,11 @@ export function PaymentSummaryCard() {
           <Sparkles className="w-3.5 h-3.5" />
           VIP 구독 플랜
         </span>
-        <span className="atom-caption text-neutral-400">월간 자동 결제</span>
+        <span className="atom-caption text-(--text-muted)">월간 자동 결제</span>
       </div>
 
       <h3 className="atom-title-2 mb-2">프리미엄 워크스페이스</h3>
-      <p className="atom-body-2 text-neutral-600 dark:text-neutral-400 mb-6">
+      <p className="atom-body-2 text-(--text-secondary) dark:text-(--text-muted) mb-6">
         AI 에이전트 무제한 토큰 생성 및 실시간 협업 도구를 제공합니다.
       </p>
 
@@ -150,7 +150,7 @@ export function PaymentSummaryCard() {
     code: `<template>
   <div class="atom-card p-6 max-w-sm">
     <div class="flex items-center gap-4 mb-4">
-      <div class="atom-avatar w-12 h-12 rounded-full bg-blue-500/10 flex items-center justify-center font-bold text-blue-600">
+      <div class="atom-avatar w-12 h-12 rounded-full bg-(--accent-primary)/10 flex items-center justify-center font-bold text-(--accent-primary)">
         SY
       </div>
       <div>
@@ -328,11 +328,11 @@ export const AI_REFERENCE_PIPELINE: {
         { name: "GEMINI.md", path: "GEMINI.md", role: "SOLID 원칙 및 컴포넌트 분할/테스트 아키텍처 규칙" }
       ],
       inputPrompt: "사용자: '토스 스타일로 간편 송금 확인 모달 컴포넌트를 만들어줘.'",
-      aiThinking: "Agent 추론: presets/toss.md를 스캔하여 Primary Color(#3182f6), 라운딩 16px, 볼드 타이포그래피 규칙을 로드하고, GEMINI.md의 SRP 원칙에 따라 데이터와 뷰를 분리할 계획을 세웁니다.",
+      aiThinking: "Agent 추론: presets/toss.md를 스캔하여 Primary Color(var(--accent-primary)), 라운딩 16px, 볼드 타이포그래피 규칙을 로드하고, GEMINI.md의 SRP 원칙에 따라 데이터와 뷰를 분리할 계획을 세웁니다.",
       outputCode: `// 1. Agent가 로드한 토스 프리셋 가이드 컨텍스트
 {
   "brand": "toss",
-  "primaryColor": "#3182f6",
+  "primaryColor": "var(--accent-primary)",
   "borderRadius": "16px",
   "typography": { "title": "24px / bold", "body": "15px / regular" }
 }`,

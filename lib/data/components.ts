@@ -129,14 +129,14 @@ export function SpacingDemo() {
     ],
     relatedPatternIds: ['fintech-transfer', 'ecommerce-checkout'],
     propsSpec: [
-      { name: 'color.brand.primary', type: 'color', defaultValue: '#3182f6', description: '주요 행동 브랜드 색상' },
+      { name: 'color.brand.primary', type: 'color', defaultValue: 'var(--accent-primary)', description: '주요 행동 브랜드 색상' },
       { name: 'color.status.success', type: 'color', defaultValue: '#10b981', description: '긍정/완료 상태 색상' },
       { name: 'color.status.warning', type: 'color', defaultValue: '#f59e0b', description: '주의/경고 상태 색상' },
       { name: 'color.status.danger', type: 'color', defaultValue: '#ef4444', description: '위험/파괴 액션 색상' }
     ],
     htmlSnippet: `<!-- Semantic Color Tokens -->
 <div style="background-color: var(--atom-color-primary); color: #fff; padding: 12px; border-radius: 8px;">
-  Brand Primary (#3182f6)
+  Brand Primary (var(--accent-primary))
 </div>
 <div style="background-color: var(--atom-status-success); color: #fff; padding: 12px; border-radius: 8px;">
   Success (#10b981)
@@ -477,7 +477,7 @@ export function ModalDemo({ isOpen, onClose }) {
         <DialogHeader>
           <DialogTitle>송금 정보를 확인해주세요</DialogTitle>
         </DialogHeader>
-        <p className="text-sm text-neutral-500">김토스님에게 500,000원을 송금합니다.</p>
+        <p className="text-sm text-(--text-secondary)">김토스님에게 500,000원을 송금합니다.</p>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}>취소</Button>
           <Button variant="primary" onClick={onClose}>송금 실행</Button>
@@ -753,7 +753,7 @@ export function CardDemo() {
       </CardHeader>
       <CardContent>
         <div className="text-2xl font-bold">₩ 12,450,000</div>
-        <p className="text-xs text-neutral-500">연 4.5% 최고 금리 적용 중</p>
+        <p className="text-xs text-(--text-secondary)">연 4.5% 최고 금리 적용 중</p>
       </CardContent>
     </Card>
   );

@@ -18,13 +18,13 @@ export function DeviceMockupView({ patternId, defaultPlatform }: DeviceMockupVie
     <div className="flex flex-col items-center w-full">
       {/* Device Viewport Toggle Toolbar */}
       <div className="flex items-center justify-between w-full mb-3 px-1">
-        <div className="inline-flex items-center gap-1 p-1 rounded-xl bg-neutral-200/60 dark:bg-neutral-800 border border-neutral-300/60 dark:border-neutral-700">
+        <div className="inline-flex items-center gap-1 p-1 rounded-xl bg-(--bg-tertiary)/60 dark:bg-neutral-800 border border-(--border-strong)/60 dark:border-neutral-700">
           <button
             onClick={() => setDeviceMode('web')}
             className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
               isWeb
-                ? 'bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 shadow-xs'
-                : 'text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200'
+                ? 'bg-white dark:bg-neutral-900 text-(--text-primary) dark:text-neutral-100 shadow-xs'
+                : 'text-(--text-secondary) hover:text-neutral-800 dark:hover:text-neutral-200'
             }`}
           >
             <Monitor className="w-3.5 h-3.5" />
@@ -34,8 +34,8 @@ export function DeviceMockupView({ patternId, defaultPlatform }: DeviceMockupVie
             onClick={() => setDeviceMode('mobile')}
             className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
               !isWeb
-                ? 'bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 shadow-xs'
-                : 'text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200'
+                ? 'bg-white dark:bg-neutral-900 text-(--text-primary) dark:text-neutral-100 shadow-xs'
+                : 'text-(--text-secondary) hover:text-neutral-800 dark:hover:text-neutral-200'
             }`}
           >
             <Smartphone className="w-3.5 h-3.5" />
@@ -43,7 +43,7 @@ export function DeviceMockupView({ patternId, defaultPlatform }: DeviceMockupVie
           </button>
         </div>
 
-        <span className="text-[11px] text-neutral-400">
+        <span className="text-[11px] text-(--text-muted)">
           {isWeb ? '데스크톱 뷰포트' : '모바일 뷰포트 (375px)'}
         </span>
       </div>
@@ -51,9 +51,9 @@ export function DeviceMockupView({ patternId, defaultPlatform }: DeviceMockupVie
       {/* Frame Container */}
       {isWeb ? (
         /* WEB BROWSER FRAME */
-        <div className="w-full rounded-xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 shadow-xs overflow-hidden flex flex-col">
+        <div className="w-full rounded-xl bg-white dark:bg-neutral-900 border border-(--border-subtle) dark:border-neutral-800 shadow-xs overflow-hidden flex flex-col">
           {/* Browser Top Navigation Bar */}
-          <div className="h-10 bg-neutral-100 dark:bg-neutral-850 border-b border-neutral-200 dark:border-neutral-800 px-4 flex items-center justify-between gap-3">
+          <div className="h-10 bg-(--bg-secondary) dark:bg-neutral-850 border-b border-(--border-subtle) dark:border-neutral-800 px-4 flex items-center justify-between gap-3">
             <div className="flex items-center gap-2">
               <span className="w-3 h-3 rounded-full bg-rose-500/80"></span>
               <span className="w-3 h-3 rounded-full bg-amber-500/80"></span>
@@ -61,12 +61,12 @@ export function DeviceMockupView({ patternId, defaultPlatform }: DeviceMockupVie
             </div>
 
             {/* URL Address Bar */}
-            <div className="flex-1 max-w-lg h-6 rounded-lg bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-750 px-3 flex items-center justify-between text-[11px] text-neutral-500 font-mono">
+            <div className="flex-1 max-w-lg h-6 rounded-lg bg-white dark:bg-neutral-900 border border-(--border-subtle) dark:border-neutral-750 px-3 flex items-center justify-between text-[11px] text-(--text-secondary) font-mono">
               <span className="truncate">https://app.atomsystem.design/patterns/{patternId}</span>
               <span className="text-emerald-500 font-bold text-[10px]">SSL 보안</span>
             </div>
 
-            <div className="flex items-center gap-2 text-neutral-400 text-xs">
+            <div className="flex items-center gap-2 text-(--text-muted) text-xs">
               <RotateCcw className="w-3.5 h-3.5 cursor-pointer hover:text-neutral-700 dark:hover:text-neutral-200" />
             </div>
           </div>
@@ -91,7 +91,7 @@ export function DeviceMockupView({ patternId, defaultPlatform }: DeviceMockupVie
               <span>09:41</span>
               {/* Dynamic Island Pill */}
               <div className="w-24 h-4 rounded-full bg-neutral-900 dark:bg-black mx-auto flex items-center justify-end px-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-blue-500/80 animate-pulse"></span>
+                <span className="w-1.5 h-1.5 rounded-full bg-(--accent-primary)/80 animate-pulse"></span>
               </div>
               <div className="flex items-center gap-1">
                 <span>5G</span>

@@ -14,20 +14,20 @@ const ICON_MAP: Record<string, React.ReactNode> = {
 
 export function GuideBestPractices() {
   const { theme } = useThemeEditor();
-  const primaryColor = theme?.color?.primary || '#3182f6';
+  const primaryColor = theme?.color?.primary || 'var(--accent-primary)';
 
   return (
     <section className="py-14 md:py-20 border-b border-[var(--border-subtle)] bg-[var(--bg-primary)]">
       <div className="max-w-6xl mx-auto px-6">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-14">
-          <span className="inline-block text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 mb-3">
+          <span className="inline-block text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-(--bg-secondary) dark:bg-neutral-800 text-(--text-secondary) dark:text-neutral-300 mb-3">
             Core Principles
           </span>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-neutral-900 dark:text-white tracking-tight mb-4">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-(--text-primary) dark:text-white tracking-tight mb-4">
             라이브러리를 제대로 쓰는 4가지 황금률
           </h2>
-          <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400 leading-relaxed">
+          <p className="text-sm sm:text-base text-(--text-secondary) dark:text-(--text-muted) leading-relaxed">
             {LIBRARY_PHILOSOPHY.introText}
           </p>
         </div>
@@ -48,15 +48,15 @@ export function GuideBestPractices() {
                   >
                     {ICON_MAP[item.icon] || <Sparkles className="w-5 h-5" />}
                   </div>
-                  <span className="text-[11px] font-bold px-2.5 py-1 rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300">
+                  <span className="text-[11px] font-bold px-2.5 py-1 rounded-full bg-(--bg-secondary) dark:bg-neutral-800 text-(--text-secondary) dark:text-neutral-300">
                     {item.badge}
                   </span>
                 </div>
 
-                <h3 className="text-lg font-bold text-neutral-900 dark:text-white mb-1">
+                <h3 className="text-lg font-bold text-(--text-primary) dark:text-white mb-1">
                   {item.title}
                 </h3>
-                <p className="text-xs text-neutral-500 dark:text-neutral-400 mb-5 font-medium">
+                <p className="text-xs text-(--text-secondary) dark:text-(--text-muted) mb-5 font-medium">
                   {item.subtitle}
                 </p>
 
@@ -88,8 +88,8 @@ export function GuideBestPractices() {
                 </div>
 
                 {/* Golden Key Rule Footer */}
-                <div className="pt-3 border-t border-[var(--border-subtle)] flex items-center justify-between text-xs text-neutral-600 dark:text-neutral-400 font-medium">
-                  <span className="text-[11px] text-neutral-400 font-semibold">실천 수칙</span>
+                <div className="pt-3 border-t border-[var(--border-subtle)] flex items-center justify-between text-xs text-(--text-secondary) dark:text-(--text-muted) font-medium">
+                  <span className="text-[11px] text-(--text-muted) font-semibold">실천 수칙</span>
                   <span className="text-right font-mono text-[11px] text-neutral-800 dark:text-neutral-200">
                     {item.keyRule}
                   </span>

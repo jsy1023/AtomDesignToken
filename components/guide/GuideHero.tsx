@@ -7,7 +7,7 @@ import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';
 
 export function GuideHero() {
   const { theme } = useThemeEditor();
-  const primaryColor = theme?.color?.primary || '#3182f6';
+  const primaryColor = theme?.color?.primary || 'var(--accent-primary)';
   const [copied, setCopied] = useState<string | null>(null);
 
   const copyText = (text: string, id: string) => {
@@ -19,7 +19,7 @@ export function GuideHero() {
   return (
     <section className="py-6 sm:py-8 border-b border-[var(--border-subtle)]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <div className="text-[11px] font-mono text-neutral-400 mb-2">
+        <div className="text-[11px] font-mono text-(--text-muted) mb-2">
           공식 활용 가이드 · W3C DTCG & CSS 표준 준수
         </div>
 
@@ -43,7 +43,7 @@ export function GuideHero() {
             </div>
             <button
               onClick={() => copyText('npm i atomsystem', 'npm')}
-              className="p-1 rounded-md hover:bg-neutral-800 text-neutral-400 hover:text-white transition"
+              className="p-1 rounded-md hover:bg-neutral-800 text-(--text-muted) hover:text-white transition"
               title="복사하기"
             >
               {copied === 'npm' ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
@@ -58,7 +58,7 @@ export function GuideHero() {
             </div>
             <button
               onClick={() => copyText('npx atomsystem init', 'init')}
-              className="p-1 rounded-md hover:bg-neutral-800 text-neutral-400 hover:text-white transition"
+              className="p-1 rounded-md hover:bg-neutral-800 text-(--text-muted) hover:text-white transition"
               title="복사하기"
             >
               {copied === 'init' ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}

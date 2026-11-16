@@ -15,7 +15,7 @@ const TAB_ICONS: Record<string, React.ReactNode> = {
 
 export function GuideFrameworkTabs() {
   const { theme } = useThemeEditor();
-  const primaryColor = theme?.color?.primary || '#3182f6';
+  const primaryColor = theme?.color?.primary || 'var(--accent-primary)';
 
   const [activeTabId, setActiveTabId] = useState<string>(FRAMEWORK_SNIPPETS[0].id);
   const [copiedSnippet, setCopiedSnippet] = useState(false);
@@ -34,19 +34,19 @@ export function GuideFrameworkTabs() {
       <div className="max-w-6xl mx-auto px-6">
         {/* Section Header */}
         <div className="max-w-3xl mb-10">
-          <span className="inline-block text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 mb-3">
+          <span className="inline-block text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-(--accent-primary)/10 text-(--accent-primary) dark:text-blue-400 mb-3">
             Implementation Guides
           </span>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-neutral-900 dark:text-white tracking-tight mb-3">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-(--text-primary) dark:text-white tracking-tight mb-3">
             프레임워크별 실전 도입 가이드
           </h2>
-          <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400">
+          <p className="text-sm sm:text-base text-(--text-secondary) dark:text-(--text-muted)">
             프로젝트 환경에 맞는 탭을 선택하고 복사해 즉시 사용하세요. CSS 한 줄이면 어떤 환경이든 동일한 고품질 UI가 렌더링됩니다.
           </p>
         </div>
 
         {/* Tab Headers */}
-        <div className="flex flex-wrap gap-2 p-1.5 rounded-2xl bg-neutral-200/60 dark:bg-neutral-800/60 backdrop-blur-xs max-w-fit mb-6">
+        <div className="flex flex-wrap gap-2 p-1.5 rounded-2xl bg-(--bg-tertiary)/60 dark:bg-neutral-800/60 backdrop-blur-xs max-w-fit mb-6">
           {FRAMEWORK_SNIPPETS.map((tab) => {
             const isActive = tab.id === activeTabId;
             return (
@@ -58,16 +58,16 @@ export function GuideFrameworkTabs() {
                 }}
                 className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
                   isActive
-                    ? 'bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white shadow-xs'
-                    : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white'
+                    ? 'bg-white dark:bg-neutral-900 text-(--text-primary) dark:text-white shadow-xs'
+                    : 'text-(--text-secondary) dark:text-(--text-muted) hover:text-(--text-primary) dark:hover:text-white'
                 }`}
               >
-                <span className={isActive ? 'text-blue-600 dark:text-blue-400' : 'text-neutral-400'}>
+                <span className={isActive ? 'text-(--accent-primary) dark:text-blue-400' : 'text-(--text-muted)'}>
                   {TAB_ICONS[tab.icon] || <Atom className="w-4 h-4" />}
                 </span>
                 <span>{tab.name}</span>
                 {isActive && (
-                  <span className="ml-1 text-[10px] px-1.5 py-0.2 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 font-semibold">
+                  <span className="ml-1 text-[10px] px-1.5 py-0.2 rounded-full bg-(--accent-primary)/10 text-(--accent-primary) dark:text-blue-400 font-semibold">
                     {tab.badge}
                   </span>
                 )}
@@ -82,7 +82,7 @@ export function GuideFrameworkTabs() {
           <div className="lg:col-span-8 rounded-3xl overflow-hidden border border-neutral-800 bg-neutral-950 shadow-xl">
             {/* Window Topbar */}
             <div className="flex items-center justify-between px-5 py-3.5 bg-neutral-900/90 border-b border-neutral-800 text-xs font-mono">
-              <div className="flex items-center gap-2 text-neutral-400">
+              <div className="flex items-center gap-2 text-(--text-muted)">
                 <FileCode className="w-4 h-4 text-blue-400" />
                 <span className="font-semibold text-neutral-200">{activeSnippet.fileName}</span>
               </div>
@@ -97,7 +97,7 @@ export function GuideFrameworkTabs() {
                   </>
                 ) : (
                   <>
-                    <Copy className="w-3.5 h-3.5 text-neutral-400" />
+                    <Copy className="w-3.5 h-3.5 text-(--text-muted)" />
                     <span>코드 복사</span>
                   </>
                 )}
@@ -116,14 +116,14 @@ export function GuideFrameworkTabs() {
           {/* Right: Key Tips & Guidelines */}
           <div className="lg:col-span-4 space-y-4">
             <div className="rounded-3xl p-6 border border-[var(--border-subtle)] bg-[var(--bg-card)] shadow-xs">
-              <div className="flex items-center gap-2 text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider mb-2">
+              <div className="flex items-center gap-2 text-xs font-bold text-(--accent-primary) dark:text-blue-400 uppercase tracking-wider mb-2">
                 <Info className="w-4 h-4" />
                 도입 핵심 팁
               </div>
-              <h4 className="text-base font-bold text-neutral-900 dark:text-white mb-4">
+              <h4 className="text-base font-bold text-(--text-primary) dark:text-white mb-4">
                 {activeSnippet.name} 사용 시 유의사항
               </h4>
-              <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed mb-4">
+              <p className="text-xs text-(--text-secondary) dark:text-(--text-muted) leading-relaxed mb-4">
                 {activeSnippet.description}
               </p>
 
@@ -143,12 +143,12 @@ export function GuideFrameworkTabs() {
             </div>
 
             {/* Quick Box */}
-            <div className="rounded-3xl p-5 border border-dashed border-neutral-300 dark:border-neutral-700 bg-neutral-50/50 dark:bg-neutral-900/30 text-xs">
+            <div className="rounded-3xl p-5 border border-dashed border-(--border-strong) dark:border-neutral-700 bg-neutral-50/50 dark:bg-neutral-900/30 text-xs">
               <span className="font-bold text-neutral-800 dark:text-neutral-200 block mb-1">
                 프레임워크가 바뀌어도 스타일은 그대로
               </span>
-              <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                컴포넌트의 HTML 마크업 구조와 클래스명(<code className="font-mono text-blue-600 dark:text-blue-400">.atom-btn</code> 등)이 프레임워크에 구애받지 않으므로, React 코드를 Vue나 순수 HTML로 옮겨도 CSS 수정이 전혀 필요 없습니다.
+              <p className="text-(--text-secondary) dark:text-(--text-muted) leading-relaxed">
+                컴포넌트의 HTML 마크업 구조와 클래스명(<code className="font-mono text-(--accent-primary) dark:text-blue-400">.atom-btn</code> 등)이 프레임워크에 구애받지 않으므로, React 코드를 Vue나 순수 HTML로 옮겨도 CSS 수정이 전혀 필요 없습니다.
               </p>
             </div>
           </div>

@@ -13,7 +13,7 @@ export default function ComponentsLayout({
 }) {
   const pathname = usePathname();
   const { theme } = useThemeEditor();
-  const brandColor = theme?.color?.primary || '#3182f6';
+  const brandColor = theme?.color?.primary || 'var(--accent-primary)';
 
   // Extract activeId: /components/[id] -> id
   const match = pathname?.match(/^\/components\/([^\/?#]+)/);
@@ -34,7 +34,7 @@ export default function ComponentsLayout({
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-neutral-200/80 dark:border-neutral-800 bg-white dark:bg-neutral-900 mt-12 py-6 px-6 text-center text-xs text-neutral-500">
+      <footer className="border-t border-(--border-subtle)/80 dark:border-neutral-800 bg-white dark:bg-neutral-900 mt-12 py-6 px-6 text-center text-xs text-(--text-secondary)">
         <p>© 2026 AtomDesignToken · W3C Design Tokens Community Group Standard</p>
       </footer>
     </div>

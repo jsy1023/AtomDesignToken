@@ -58,6 +58,8 @@
     "start": "next start",
     "lint": "next lint",
     "lint:design": "impeccable detect app components css",
+    "refactor": "tsx src/cli.ts refactor",
+    "refactor:fix": "tsx src/cli.ts refactor --fix",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:report": "playwright show-report"

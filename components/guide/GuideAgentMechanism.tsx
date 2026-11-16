@@ -28,7 +28,7 @@ const STEP_ICONS: Record<string, React.ReactNode> = {
 
 export function GuideAgentMechanism() {
   const { theme } = useThemeEditor();
-  const primaryColor = theme?.color?.primary || '#3182f6';
+  const primaryColor = theme?.color?.primary || 'var(--accent-primary)';
 
   const [activeStepIdx, setActiveStepIdx] = useState<number>(0);
   const [copiedCode, setCopiedCode] = useState(false);
@@ -46,13 +46,13 @@ export function GuideAgentMechanism() {
       <div className="max-w-6xl mx-auto px-6">
         {/* Section Header */}
         <div className="max-w-3xl mb-8 space-y-2">
-          <div className="text-xs font-mono text-neutral-400">
+          <div className="text-xs font-mono text-(--text-muted)">
             AI Agent Reference Pipeline
           </div>
           <h2 className="text-xl sm:text-2xl font-bold text-[var(--text-primary)] tracking-tight">
             AI Agent 동작 메커니즘
           </h2>
-          <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400 leading-relaxed">
+          <p className="text-sm sm:text-base text-(--text-secondary) dark:text-(--text-muted) leading-relaxed">
             {AI_REFERENCE_PIPELINE.description}
           </p>
         </div>
@@ -70,7 +70,7 @@ export function GuideAgentMechanism() {
                 }}
                 className={`relative text-left p-5 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between ${
                   isSelected
-                    ? 'bg-[var(--bg-card)] border-blue-500/60 shadow-lg ring-2 ring-blue-500/20'
+                    ? 'bg-[var(--bg-card)] border-(--accent-primary)/60 shadow-lg ring-2 ring-blue-500/20'
                     : 'bg-[var(--bg-card)]/70 border-[var(--border-subtle)] hover:border-neutral-400/40 dark:hover:border-neutral-600/40'
                 }`}
               >
@@ -82,24 +82,24 @@ export function GuideAgentMechanism() {
                     >
                       {item.step}
                     </span>
-                    <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400">
+                    <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-(--bg-secondary) dark:bg-neutral-800 text-(--text-secondary) dark:text-(--text-muted)">
                       {item.stageName.split(' ')[0]}
                     </span>
                   </div>
 
-                  <h3 className="text-sm font-bold text-neutral-900 dark:text-white mb-1.5 leading-snug">
+                  <h3 className="text-sm font-bold text-(--text-primary) dark:text-white mb-1.5 leading-snug">
                     {item.title}
                   </h3>
-                  <p className="text-xs text-neutral-500 dark:text-neutral-400 line-clamp-2 leading-relaxed">
+                  <p className="text-xs text-(--text-secondary) dark:text-(--text-muted) line-clamp-2 leading-relaxed">
                     {item.summary}
                   </p>
                 </div>
 
                 <div className="mt-4 pt-3 border-t border-[var(--border-subtle)] flex items-center justify-between text-[11px]">
-                  <span className={isSelected ? 'text-blue-600 dark:text-blue-400 font-bold' : 'text-neutral-400'}>
+                  <span className={isSelected ? 'text-(--accent-primary) dark:text-blue-400 font-bold' : 'text-(--text-muted)'}>
                     {isSelected ? '상세 분석 중' : '클릭하여 확인'}
                   </span>
-                  <ArrowRight className={`w-3.5 h-3.5 transition-transform ${isSelected ? 'translate-x-1 text-blue-500' : 'text-neutral-400'}`} />
+                  <ArrowRight className={`w-3.5 h-3.5 transition-transform ${isSelected ? 'translate-x-1 text-(--accent-primary)' : 'text-(--text-muted)'}`} />
                 </div>
               </button>
             );
@@ -138,7 +138,7 @@ export function GuideAgentMechanism() {
                 </>
               ) : (
                 <>
-                  <Copy className="w-3.5 h-3.5 text-neutral-400" />
+                  <Copy className="w-3.5 h-3.5 text-(--text-muted)" />
                   <span>예제 코드 복사</span>
                 </>
               )}
@@ -151,7 +151,7 @@ export function GuideAgentMechanism() {
             <div className="lg:col-span-5 p-6 space-y-5">
               {/* Referenced Files List */}
               <div>
-                <span className="text-[11px] font-bold text-neutral-400 uppercase tracking-wider block mb-2.5">
+                <span className="text-[11px] font-bold text-(--text-muted) uppercase tracking-wider block mb-2.5">
                   AI가 직접 스캔/참조하는 원천 파일 (SSOT)
                 </span>
                 <div className="space-y-2">
@@ -164,7 +164,7 @@ export function GuideAgentMechanism() {
                         <FileCode className="w-3.5 h-3.5 text-blue-400" />
                         <span>{f.name}</span>
                       </div>
-                      <p className="text-[11px] text-neutral-400 leading-relaxed">
+                      <p className="text-[11px] text-(--text-muted) leading-relaxed">
                         {f.role}
                       </p>
                     </div>
@@ -196,7 +196,7 @@ export function GuideAgentMechanism() {
             {/* Right 7 Cols: Output Code Preview */}
             <div className="lg:col-span-7 p-6 flex flex-col justify-between bg-neutral-950">
               <div>
-                <div className="flex items-center justify-between text-xs text-neutral-400 mb-3 font-mono">
+                <div className="flex items-center justify-between text-xs text-(--text-muted) mb-3 font-mono">
                   <span>실제 합성/참조된 산출물 ({activeStep.outputLanguage})</span>
                   <span className="text-[10px] px-2 py-0.5 rounded-full bg-neutral-800 text-neutral-300">
                     Deterministic Output
@@ -210,9 +210,9 @@ export function GuideAgentMechanism() {
                 </div>
               </div>
 
-              <div className="mt-4 pt-3 border-t border-neutral-800 text-[11px] text-neutral-400 flex items-center justify-between">
+              <div className="mt-4 pt-3 border-t border-neutral-800 text-[11px] text-(--text-muted) flex items-center justify-between">
                 <span>임의 헥스코드 하드코딩 0건 (100% 라이브러리 토큰 기반)</span>
-                <span className="text-neutral-500 font-mono">단계 {activeStep.step} / 04</span>
+                <span className="text-(--text-secondary) font-mono">단계 {activeStep.step} / 04</span>
               </div>
             </div>
           </div>

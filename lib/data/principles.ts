@@ -24,7 +24,7 @@ export const PRINCIPLES_DATA: DesignPrinciple[] = [
       '신규 스타일이 필요할 경우 토큰 명세서(tokens.json)에 먼저 추가합니다.',
     ],
     donts: [
-      '컴포넌트 CSS/Tailwind에 #3182F6, 16px 등의 원천 값을 인라인으로 직접 작성하지 않습니다.',
+      '컴포넌트 CSS/Tailwind에 var(--accent-primary), 16px 등의 원천 값을 인라인으로 직접 작성하지 않습니다.',
       '페이지별로 유사한 역할을 하는 독립적인 테마 변수를 중복 선언하지 않습니다.',
     ],
     w3cRef: 'W3C DTCG Format Specification §1.1',
@@ -152,7 +152,7 @@ export const PRINCIPLES_DATA: DesignPrinciple[] = [
     ],
     donts: [
       '컴포넌트 단계를 건너뛰고 블록이나 페이지에 임의의 원시 태그(<button>, <div class="rounded-lg...">)를 날림으로 하드코딩하지 않습니다.',
-      'Tailwind 임의 컬러(text-blue-500, bg-gray-100 등)를 인라인으로 직접 작성하지 않습니다.',
+      'Tailwind 임의 컬러(text-(--accent-primary), bg-(--bg-secondary) 등)를 인라인으로 직접 작성하지 않습니다.',
     ],
     w3cRef: 'AGENTS.md & W3C DTCG Component Composition Spec',
   },

@@ -41,7 +41,7 @@ import {
 export default function LocalStudioPage() {
   const t = useTranslations('studioPage');
   const { theme, resetTheme } = useThemeEditor();
-  const brandColor = theme?.color?.primary || '#3182f6';
+  const brandColor = theme?.color?.primary || 'var(--accent-primary)';
 
   // State
   const [activeTab, setActiveTab] = useState<'components' | 'palette' | 'preview'>('components');
@@ -62,7 +62,7 @@ export default function LocalStudioPage() {
   const [newPaletteName, setNewPaletteName] = useState('');
   const [newPaletteId, setNewPaletteId] = useState('');
   const [newPaletteCategory, setNewPaletteCategory] = useState<'color' | 'radius' | 'spacing'>('color');
-  const [newPaletteValue, setNewPaletteValue] = useState('#3182f6');
+  const [newPaletteValue, setNewPaletteValue] = useState('var(--accent-primary)');
   const [newPaletteDesc, setNewPaletteDesc] = useState('');
 
   // Editing Variable Name
@@ -210,7 +210,7 @@ export default function LocalStudioPage() {
     setIsAddPaletteOpen(false);
     setNewPaletteName('');
     setNewPaletteId('');
-    setNewPaletteValue('#3182f6');
+    setNewPaletteValue('var(--accent-primary)');
     setNewPaletteDesc('');
   };
 
@@ -298,7 +298,7 @@ export default function LocalStudioPage() {
               <button
                 type="button"
                 onClick={copyStudioCommand}
-                className="text-neutral-400 hover:text-(--text-primary) transition cursor-pointer ml-2"
+                className="text-(--text-muted) hover:text-(--text-primary) transition cursor-pointer ml-2"
                 title={t('copyCommand')}
               >
                 {copiedCli ? <Check className="w-4 h-4 text-emerald-500" /> : <Save className="w-4 h-4" />}

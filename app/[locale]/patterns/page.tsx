@@ -10,7 +10,7 @@ import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';
 
 function PatternsDocsContent() {
   const { theme } = useThemeEditor();
-  const brandColor = theme?.color?.primary || '#3182f6';
+  const brandColor = theme?.color?.primary || 'var(--accent-primary)';
 
   const searchParams = useSearchParams();
   const urlPatternId = searchParams.get('id');
@@ -67,7 +67,7 @@ function PatternsDocsContent() {
       </main>
 
       {/* Clean Docs Footer */}
-      <footer className="border-t border-[var(--border-subtle)] py-6 text-center text-xs text-neutral-500">
+      <footer className="border-t border-[var(--border-subtle)] py-6 text-center text-xs text-(--text-secondary)">
         <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div>
             <span className="font-bold text-[var(--text-primary)]">AtomSystem</span> - 실무 검증 UX 인터랙션 패턴 가이드
@@ -89,7 +89,7 @@ export default function PatternsPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex items-center justify-center bg-[var(--bg-primary)] text-neutral-400 text-xs">
+        <div className="min-h-screen flex items-center justify-center bg-[var(--bg-primary)] text-(--text-muted) text-xs">
           UX 패턴 가이드 문서를 불러오는 중...
         </div>
       }

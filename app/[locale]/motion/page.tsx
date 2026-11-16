@@ -23,7 +23,7 @@ import {
 export default function MotionPage() {
   const { theme } = useThemeEditor();
   const { t } = useI18n();
-  const brandColor = theme?.color?.primary || '#3182f6';
+  const brandColor = theme?.color?.primary || 'var(--accent-primary)';
   const radius = theme?.borderRadius || '8px';
 
   const [copiedVar, setCopiedVar] = useState<string | null>(null);
@@ -55,8 +55,8 @@ export default function MotionPage() {
       <main className="max-w-5xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8 flex-1 flex flex-col gap-6 sm:gap-8">
         {/* Hero Section */}
         <section className="space-y-2.5 border-b border-(--border-subtle) pb-4 sm:pb-5">
-          <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-mono text-neutral-400">
-            <span className="text-blue-500 font-semibold flex items-center gap-1">
+          <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-mono text-(--text-muted)">
+            <span className="text-(--accent-primary) font-semibold flex items-center gap-1">
               <Zap className="w-3.5 h-3.5" />
               Motion &amp; Timing Tokens
             </span>
@@ -193,7 +193,7 @@ export default function MotionPage() {
                         <span>var({t.variable})</span>
                       </button>
                     </td>
-                    <td className="py-3 px-3 font-mono font-bold text-blue-500">
+                    <td className="py-3 px-3 font-mono font-bold text-(--accent-primary)">
                       {t.value}
                     </td>
                     <td className="py-3 px-3 text-(--text-secondary) hidden sm:table-cell">
@@ -281,7 +281,7 @@ export default function MotionPage() {
                   className="p-4 bg-(--bg-secondary) border border-(--border-subtle) hover:border-(--border-strong) rounded-lg cursor-pointer transition-colors space-y-3 flex flex-col justify-between group"
                 >
                   <div className="space-y-1">
-                    <span className="font-semibold text-(--text-primary) group-hover:text-blue-500 transition-colors">
+                    <span className="font-semibold text-(--text-primary) group-hover:text-(--accent-primary) transition-colors">
                       {p.title}
                     </span>
                     <p className="text-[11px] text-(--text-secondary) leading-relaxed">
@@ -292,7 +292,7 @@ export default function MotionPage() {
                   {/* Interactive Mini Box */}
                   <div className="h-16 bg-(--bg-primary) border border-(--border-subtle) rounded flex items-center justify-center overflow-hidden">
                     <div
-                      className="w-8 h-8 rounded bg-blue-500 text-white text-[11px] font-bold flex items-center justify-center transition-all"
+                      className="w-8 h-8 rounded bg-(--accent-primary) text-white text-[11px] font-bold flex items-center justify-center transition-all"
                       style={{
                         transform: isTriggered
                           ? p.sampleType === 'scale'
@@ -321,10 +321,10 @@ export default function MotionPage() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-(--border-subtle) py-6 text-xs text-neutral-400">
+      <footer className="border-t border-(--border-subtle) py-6 text-xs text-(--text-muted)">
         <div className="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
           <span>AtomDesignToken — Motion &amp; Transition Specifications</span>
-          <div className="flex items-center gap-4 text-neutral-500">
+          <div className="flex items-center gap-4 text-(--text-secondary)">
             <Link href="/" className="hover:text-(--text-primary)">홈으로</Link>
             <Link href="/principles" className="hover:text-(--text-primary)">원칙</Link>
             <Link href="/tokens" className="hover:text-(--text-primary)">토큰</Link>

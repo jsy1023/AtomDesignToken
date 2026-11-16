@@ -50,8 +50,8 @@ export function DocsTOC({ activeId, onSelectId }: DocsTOCProps) {
   };
 
   return (
-    <aside className="w-56 shrink-0 sticky top-24 max-h-[calc(100vh-120px)] overflow-y-auto pl-4 border-l border-neutral-200/80 dark:border-neutral-800 select-none hidden xl:flex flex-col gap-3">
-      <span className="text-[11px] font-bold text-neutral-400 uppercase tracking-wider">
+    <aside className="w-56 shrink-0 sticky top-24 max-h-[calc(100vh-120px)] overflow-y-auto pl-4 border-l border-(--border-subtle)/80 dark:border-neutral-800 select-none hidden xl:flex flex-col gap-3">
+      <span className="text-[11px] font-bold text-(--text-muted) uppercase tracking-wider">
         On this page
       </span>
 
@@ -61,8 +61,8 @@ export function DocsTOC({ activeId, onSelectId }: DocsTOCProps) {
             onClick={() => scrollTo('getting-started')}
             className={`text-left transition font-medium truncate w-full ${
               currentActive === 'getting-started'
-                ? 'text-blue-600 dark:text-blue-400 font-bold translate-x-1'
-                : 'text-neutral-500 hover:text-neutral-900 dark:hover:text-white'
+                ? 'text-(--accent-primary) dark:text-blue-400 font-bold translate-x-1'
+                : 'text-(--text-secondary) hover:text-(--text-primary) dark:hover:text-white'
             }`}
           >
             시작하기 (Quickstart)
@@ -77,12 +77,12 @@ export function DocsTOC({ activeId, onSelectId }: DocsTOCProps) {
                 onClick={() => scrollTo(comp.id)}
                 className={`text-left transition font-medium truncate w-full flex items-center justify-between ${
                   isActive
-                    ? 'text-blue-600 dark:text-blue-400 font-bold translate-x-1'
-                    : 'text-neutral-500 hover:text-neutral-900 dark:hover:text-white'
+                    ? 'text-(--accent-primary) dark:text-blue-400 font-bold translate-x-1'
+                    : 'text-(--text-secondary) hover:text-(--text-primary) dark:hover:text-white'
                 }`}
               >
                 <span>{comp.name.split(' (')[0]}</span>
-                {isActive && <span className="w-1.5 h-1.5 rounded-full bg-blue-600"></span>}
+                {isActive && <span className="w-1.5 h-1.5 rounded-full bg-(--accent-primary)"></span>}
               </button>
             </li>
           );

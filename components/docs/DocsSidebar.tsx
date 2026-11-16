@@ -20,7 +20,7 @@ export function DocsSidebar({
 }: DocsSidebarProps) {
   const { theme } = useThemeEditor();
   const { t, dictionary, locale } = useI18n();
-  const brandColor = theme?.color?.primary || '#3182f6';
+  const brandColor = theme?.color?.primary || 'var(--accent-primary)';
   const radius = theme?.borderRadius || '12px';
 
   const [internalQuery, setInternalQuery] = useState('');
@@ -113,7 +113,7 @@ export function DocsSidebar({
           }`}
         >
           <span className="flex items-center gap-2">
-            <Layout className={`w-4 h-4 ${activeId === 'layout-spacing' ? 'text-(--bg-primary)' : 'text-blue-500'}`} />
+            <Layout className={`w-4 h-4 ${activeId === 'layout-spacing' ? 'text-(--bg-primary)' : 'text-(--accent-primary)'}`} />
             <span>{t('sidebar.layoutAndSpacing', 'Layout & Spacing')}</span>
           </span>
           <span className={`text-xs font-mono ${activeId === 'layout-spacing' ? 'text-(--bg-primary)/80' : 'opacity-60'}`}>

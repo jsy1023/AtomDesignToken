@@ -14,7 +14,7 @@ const WORKFLOW_ICONS: Record<string, React.ReactNode> = {
 
 export function GuideWorkflowSection() {
   const { theme } = useThemeEditor();
-  const primaryColor = theme?.color?.primary || '#3182f6';
+  const primaryColor = theme?.color?.primary || 'var(--accent-primary)';
   const [copiedCmd, setCopiedCmd] = useState<string | null>(null);
 
   const copyCommand = (cmd: string, idx: string) => {
@@ -31,10 +31,10 @@ export function GuideWorkflowSection() {
           <span className="inline-block text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-violet-500/10 text-violet-600 dark:text-violet-400 mb-3">
             Quick 3-Steps
           </span>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-neutral-900 dark:text-white tracking-tight mb-4">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-(--text-primary) dark:text-white tracking-tight mb-4">
             3단계로 끝내는 라이브러리 도입 로드맵
           </h2>
-          <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400">
+          <p className="text-sm sm:text-base text-(--text-secondary) dark:text-(--text-muted)">
             복잡한 환경설정 없이 단 3분 만에 실무 프로젝트에 토큰 기반 UI를 배포할 수 있습니다.
           </p>
         </div>
@@ -51,7 +51,7 @@ export function GuideWorkflowSection() {
                   <span className="text-3xl font-black text-neutral-300 dark:text-neutral-700 font-mono">
                     {item.step}
                   </span>
-                  <span className="text-[11px] font-bold px-2.5 py-1 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400">
+                  <span className="text-[11px] font-bold px-2.5 py-1 rounded-full bg-(--accent-primary)/10 text-(--accent-primary) dark:text-blue-400">
                     {item.badge}
                   </span>
                 </div>
@@ -63,10 +63,10 @@ export function GuideWorkflowSection() {
                   {WORKFLOW_ICONS[item.icon] || <CheckCircle className="w-6 h-6" />}
                 </div>
 
-                <h3 className="text-lg font-bold text-neutral-900 dark:text-white mb-2">
+                <h3 className="text-lg font-bold text-(--text-primary) dark:text-white mb-2">
                   {item.title}
                 </h3>
-                <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed mb-6">
+                <p className="text-xs text-(--text-secondary) dark:text-(--text-muted) leading-relaxed mb-6">
                   {item.desc}
                 </p>
               </div>
@@ -77,7 +77,7 @@ export function GuideWorkflowSection() {
                     <span className="truncate">{item.command}</span>
                     <button
                       onClick={() => copyCommand(item.command!, item.step)}
-                      className="shrink-0 p-1 hover:text-white text-neutral-400"
+                      className="shrink-0 p-1 hover:text-white text-(--text-muted)"
                       title="명령어 복사"
                     >
                       {copiedCmd === item.step ? (
@@ -110,7 +110,7 @@ export function GuideWorkflowSection() {
             <div className="flex flex-wrap gap-3">
               <Link
                 href="/tokens"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold bg-white text-neutral-900 hover:bg-neutral-100 transition"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold bg-white text-(--text-primary) hover:bg-(--bg-secondary) transition"
               >
                 <span>토큰 카탈로그 탐색</span>
                 <ArrowRight className="w-3.5 h-3.5" />

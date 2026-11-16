@@ -143,7 +143,7 @@ export const TRANSLATIONS: Record<'ko' | 'en' | 'ja', TranslationDictionary> = {
             "신규 스타일이 필요할 경우 토큰 명세서(tokens.json)에 먼저 추가합니다."
           ],
           "donts": [
-            "컴포넌트 CSS/Tailwind에 #3182F6, 16px 등의 원천 값을 인라인으로 직접 작성하지 않습니다.",
+            "컴포넌트 CSS/Tailwind에 var(--accent-primary), 16px 등의 원천 값을 인라인으로 직접 작성하지 않습니다.",
             "페이지별로 유사한 역할을 하는 독립적인 테마 변수를 중복 선언하지 않습니다."
           ]
         },
@@ -237,7 +237,7 @@ export const TRANSLATIONS: Record<'ko' | 'en' | 'ja', TranslationDictionary> = {
           ],
           "donts": [
             "컴포넌트 단계를 건너뛰고 블록이나 페이지에 임의의 원시 태그(<button>, <div class=\"rounded-lg...\">)를 날림으로 하드코딩하지 않습니다.",
-            "Tailwind 임의 컬러(text-blue-500, bg-gray-100 등)를 인라인으로 직접 작성하지 않습니다."
+            "Tailwind 임의 컬러(text-(--accent-primary), bg-(--bg-secondary) 등)를 인라인으로 직접 작성하지 않습니다."
           ]
         },
         "ai-roles-skills": {
@@ -485,7 +485,7 @@ export const TRANSLATIONS: Record<'ko' | 'en' | 'ja', TranslationDictionary> = {
             "When a new style is required, define it inside the token specification (tokens.json) first."
           ],
           "donts": [
-            "Do not inline raw values like #3182F6 or 16px into component CSS or Tailwind classes.",
+            "Do not inline raw values like var(--accent-primary) or 16px into component CSS or Tailwind classes.",
             "Do not duplicate independent theme variables across different pages."
           ]
         },
@@ -579,7 +579,7 @@ export const TRANSLATIONS: Record<'ko' | 'en' | 'ja', TranslationDictionary> = {
           ],
           "donts": [
             "Never bypass the component tier by writing inline raw tags (<button>, <div class=\"rounded-lg...\">) directly in blocks or pages.",
-            "Never hardcode raw Tailwind color utilities (text-blue-500, bg-gray-100)."
+            "Never hardcode raw Tailwind color utilities (text-(--accent-primary), bg-(--bg-secondary))."
           ]
         },
         "ai-roles-skills": {
@@ -827,7 +827,7 @@ export const TRANSLATIONS: Record<'ko' | 'en' | 'ja', TranslationDictionary> = {
             "新規スタイルが必要な場合は、トークン仕様書(tokens.json)に最初に追加します。"
           ],
           "donts": [
-            "コンポーネントCSSやTailwindに#3182F6、16pxなどの生の値をインラインで直接記述しません。",
+            "コンポーネントCSSやTailwindにvar(--accent-primary)、16pxなどの生の値をインラインで直接記述しません。",
             "ページごとに類似した役割を持つ独立したテーマ変数を重複宣言しません。"
           ]
         },
@@ -921,7 +921,7 @@ export const TRANSLATIONS: Record<'ko' | 'en' | 'ja', TranslationDictionary> = {
           ],
           "donts": [
             "コンポーネント段階を飛ばして、ブロックやページに直接生のタグ(<button>, <div class=\"rounded-lg...\">)を雑に記述しません。",
-            "Tailwindの任意カラー(text-blue-500, bg-gray-100など)を直接ハードコードしません。"
+            "Tailwindの任意カラー(text-(--accent-primary), bg-(--bg-secondary)など)を直接ハードコードしません。"
           ]
         },
         "ai-roles-skills": {

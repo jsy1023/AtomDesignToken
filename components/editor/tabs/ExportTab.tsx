@@ -34,7 +34,7 @@ export function ExportTab() {
   return (
     <div className="space-y-6">
       <div className="p-3.5 rounded-xl bg-blue-50/60 dark:bg-blue-950/40 border border-blue-200/60 dark:border-blue-900/40 text-xs text-blue-800 dark:text-blue-300 flex items-start gap-2">
-        <Sparkles className="w-4 h-4 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />
+        <Sparkles className="w-4 h-4 text-(--accent-primary) dark:text-blue-400 shrink-0 mt-0.5" />
         <p>
           편집한 색상과 h1~h6 텍스트 스타일을 바로 복사하여 본 프로젝트나 외부 디자인 시스템(Figma Tokens Studio, Tailwind, 바닐라 CSS)에 붙여넣을 수 있습니다.
         </p>
@@ -44,7 +44,7 @@ export function ExportTab() {
       <div className="space-y-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1.5">
-            <FileCode className="w-4 h-4 text-neutral-500" />
+            <FileCode className="w-4 h-4 text-(--text-secondary)" />
             <h4 className="text-xs font-bold text-neutral-800 dark:text-neutral-200">
               CSS Variables (:root)
             </h4>
@@ -52,7 +52,7 @@ export function ExportTab() {
           <button
             type="button"
             onClick={() => copyToClipboard(cssCode, 'css')}
-            className="flex items-center gap-1 px-2.5 py-1 text-xs font-semibold rounded-lg border border-neutral-200 dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-850 transition-colors"
+            className="flex items-center gap-1 px-2.5 py-1 text-xs font-semibold rounded-lg border border-(--border-subtle) dark:border-neutral-700 hover:bg-(--bg-secondary) dark:hover:bg-neutral-850 transition-colors"
           >
             {copiedType === 'css' ? (
               <>
@@ -61,7 +61,7 @@ export function ExportTab() {
               </>
             ) : (
               <>
-                <Copy className="w-3.5 h-3.5 text-neutral-400" />
+                <Copy className="w-3.5 h-3.5 text-(--text-muted)" />
                 <span>CSS 복사</span>
               </>
             )}
@@ -85,15 +85,15 @@ export function ExportTab() {
             <button
               type="button"
               onClick={downloadJson}
-              className="flex items-center gap-1 px-2 py-1 text-xs font-semibold rounded-lg border border-neutral-200 dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-850 transition-colors"
+              className="flex items-center gap-1 px-2 py-1 text-xs font-semibold rounded-lg border border-(--border-subtle) dark:border-neutral-700 hover:bg-(--bg-secondary) dark:hover:bg-neutral-850 transition-colors"
             >
-              <Download className="w-3 h-3 text-neutral-500" />
+              <Download className="w-3 h-3 text-(--text-secondary)" />
               <span>다운로드</span>
             </button>
             <button
               type="button"
               onClick={() => copyToClipboard(tokensJson, 'json')}
-              className="flex items-center gap-1 px-2.5 py-1 text-xs font-semibold rounded-lg border border-neutral-200 dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-850 transition-colors"
+              className="flex items-center gap-1 px-2.5 py-1 text-xs font-semibold rounded-lg border border-(--border-subtle) dark:border-neutral-700 hover:bg-(--bg-secondary) dark:hover:bg-neutral-850 transition-colors"
             >
               {copiedType === 'json' ? (
                 <>
@@ -102,7 +102,7 @@ export function ExportTab() {
                 </>
               ) : (
                 <>
-                  <Copy className="w-3.5 h-3.5 text-neutral-400" />
+                  <Copy className="w-3.5 h-3.5 text-(--text-muted)" />
                   <span>JSON 복사</span>
                 </>
               )}
@@ -126,7 +126,7 @@ export function ExportTab() {
           <button
             type="button"
             onClick={() => copyToClipboard(tailwindCode, 'tailwind')}
-            className="flex items-center gap-1 px-2.5 py-1 text-xs font-semibold rounded-lg border border-neutral-200 dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-850 transition-colors"
+            className="flex items-center gap-1 px-2.5 py-1 text-xs font-semibold rounded-lg border border-(--border-subtle) dark:border-neutral-700 hover:bg-(--bg-secondary) dark:hover:bg-neutral-850 transition-colors"
           >
             {copiedType === 'tailwind' ? (
               <>
@@ -135,7 +135,7 @@ export function ExportTab() {
               </>
             ) : (
               <>
-                <Copy className="w-3.5 h-3.5 text-neutral-400" />
+                <Copy className="w-3.5 h-3.5 text-(--text-muted)" />
                 <span>Config 복사</span>
               </>
             )}

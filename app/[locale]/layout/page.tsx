@@ -21,7 +21,7 @@ import {
 export default function LayoutGuidePage() {
   const { theme } = useThemeEditor();
   const t = useTranslations('layoutPage');
-  const brandColor = theme?.color?.primary || '#3182f6';
+  const brandColor = theme?.color?.primary || 'var(--accent-primary)';
 
   const [copiedToken, setCopiedToken] = useState<string | null>(null);
   const [activeStackGap, setActiveStackGap] = useState<'2' | '4' | '6' | '8'>('4');

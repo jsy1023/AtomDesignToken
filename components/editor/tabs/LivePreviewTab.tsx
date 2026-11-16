@@ -12,7 +12,7 @@ export function LivePreviewTab() {
     <div className="space-y-6">
       {/* 1. Typography Hierarchy Showcase */}
       <div>
-        <h3 className="text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-neutral-400 mb-3">
+        <h3 className="text-xs font-bold uppercase tracking-wider text-(--text-secondary) dark:text-(--text-muted) mb-3">
           타이포그래피 계층 (h1 ~ h6)
         </h3>
         <div
@@ -24,7 +24,7 @@ export function LivePreviewTab() {
           className="space-y-3 p-4 border shadow-xs transition-colors"
         >
           <div>
-            <span className="text-[10px] font-mono text-neutral-400 block mb-1">
+            <span className="text-[10px] font-mono text-(--text-muted) block mb-1">
               H1 ({typography.h1.fontSize}px / w{typography.h1.fontWeight})
             </span>
             <h1
@@ -41,7 +41,7 @@ export function LivePreviewTab() {
           </div>
 
           <div className="border-t border-neutral-100 dark:border-neutral-800 pt-2">
-            <span className="text-[10px] font-mono text-neutral-400 block mb-1">
+            <span className="text-[10px] font-mono text-(--text-muted) block mb-1">
               H2 ({typography.h2.fontSize}px / w{typography.h2.fontWeight})
             </span>
             <h2
@@ -58,7 +58,7 @@ export function LivePreviewTab() {
           </div>
 
           <div className="border-t border-neutral-100 dark:border-neutral-800 pt-2">
-            <span className="text-[10px] font-mono text-neutral-400 block mb-1">
+            <span className="text-[10px] font-mono text-(--text-muted) block mb-1">
               H3 ({typography.h3.fontSize}px / w{typography.h3.fontWeight})
             </span>
             <h3
@@ -75,7 +75,7 @@ export function LivePreviewTab() {
           </div>
 
           <div className="border-t border-neutral-100 dark:border-neutral-800 pt-2">
-            <span className="text-[10px] font-mono text-neutral-400 block mb-1">
+            <span className="text-[10px] font-mono text-(--text-muted) block mb-1">
               H4 ({typography.h4.fontSize}px / w{typography.h4.fontWeight})
             </span>
             <h4
@@ -92,7 +92,7 @@ export function LivePreviewTab() {
           </div>
 
           <div className="border-t border-neutral-100 dark:border-neutral-800 pt-2">
-            <span className="text-[10px] font-mono text-neutral-400 block mb-1">
+            <span className="text-[10px] font-mono text-(--text-muted) block mb-1">
               H5 ({typography.h5.fontSize}px / w{typography.h5.fontWeight})
             </span>
             <h5
@@ -109,7 +109,7 @@ export function LivePreviewTab() {
           </div>
 
           <div className="border-t border-neutral-100 dark:border-neutral-800 pt-2">
-            <span className="text-[10px] font-mono text-neutral-400 block mb-1">
+            <span className="text-[10px] font-mono text-(--text-muted) block mb-1">
               H6 ({typography.h6.fontSize}px / w{typography.h6.fontWeight})
             </span>
             <h6
@@ -129,7 +129,7 @@ export function LivePreviewTab() {
 
       {/* 2. Body & Small Texts */}
       <div>
-        <h3 className="text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-neutral-400 mb-3">
+        <h3 className="text-xs font-bold uppercase tracking-wider text-(--text-secondary) dark:text-(--text-muted) mb-3">
           본문 및 서브 텍스트
         </h3>
         <div
@@ -141,7 +141,7 @@ export function LivePreviewTab() {
           className="space-y-3 p-4 border shadow-xs transition-colors"
         >
           <div>
-            <span className="text-[10px] font-mono text-neutral-400 block mb-1">
+            <span className="text-[10px] font-mono text-(--text-muted) block mb-1">
               Body ({typography.body.fontSize}px / w{typography.body.fontWeight})
             </span>
             <p
@@ -158,7 +158,7 @@ export function LivePreviewTab() {
           </div>
 
           <div className="border-t border-neutral-100 dark:border-neutral-800 pt-2">
-            <span className="text-[10px] font-mono text-neutral-400 block mb-1">
+            <span className="text-[10px] font-mono text-(--text-muted) block mb-1">
               Small ({typography.sm.fontSize}px / w{typography.sm.fontWeight})
             </span>
             <p
@@ -175,7 +175,7 @@ export function LivePreviewTab() {
           </div>
 
           <div className="border-t border-neutral-100 dark:border-neutral-800 pt-2">
-            <span className="text-[10px] font-mono text-neutral-400 block mb-1">
+            <span className="text-[10px] font-mono text-(--text-muted) block mb-1">
               Micro / XS ({typography.xs.fontSize}px / w{typography.xs.fontWeight})
             </span>
             <p
@@ -195,7 +195,7 @@ export function LivePreviewTab() {
 
       {/* 3. Integrated Component Card Preview */}
       <div>
-        <h3 className="text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-neutral-400 mb-3">
+        <h3 className="text-xs font-bold uppercase tracking-wider text-(--text-secondary) dark:text-(--text-muted) mb-3">
           통합 컴포넌트 렌더링
         </h3>
         <div

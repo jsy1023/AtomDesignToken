@@ -46,7 +46,7 @@ export default function TokensPage() {
   const [searchQuery, setSearchQuery] = useState('');
 
   // Live Token Customizer State linked to ThemeEditor
-  const liveBrandColor = theme?.color?.primary || '#3182f6';
+  const liveBrandColor = theme?.color?.primary || 'var(--accent-primary)';
   const liveRadius = theme?.borderRadius || '16px';
 
   const handleCopy = (variable: string) => {
@@ -151,7 +151,7 @@ export default function TokensPage() {
       <main className="max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-7 flex-1 flex flex-col gap-6 sm:gap-7">
         {/* 1. Hero & Concept Section */}
         <section className="flex flex-col gap-3 border-b border-(--border-subtle) pb-4 sm:pb-5">
-          <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-mono text-neutral-400">
+          <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-mono text-(--text-muted)">
             <a
               href="https://www.designtokens.org/tr/2025.10/"
               target="_blank"
@@ -182,7 +182,7 @@ export default function TokensPage() {
               <div className="flex items-center gap-2">
                 <span className="text-(--text-muted)">{t('tokens.brandColor')}</span>
                 <div className="flex items-center gap-1.5">
-                  {['#3182f6', '#ff6f0f', '#10b981', '#7c3aed'].map((c) => (
+                  {['var(--accent-primary)', '#ff6f0f', '#10b981', '#7c3aed'].map((c) => (
                     <button
                       key={c}
                       onClick={() => updateColor('primary', c)}
@@ -233,12 +233,12 @@ export default function TokensPage() {
                 <div className="text-[11px] font-mono text-(--text-muted) uppercase">Tier 1 · Global / Raw</div>
                 <h3 className="font-semibold text-sm text-(--text-primary)">원천 토큰</h3>
                 <p className="text-xs text-(--text-secondary) leading-relaxed">
-                  특정 의도를 갖지 않는 순수 팔레트와 단위 (예: <code className="font-mono text-[11px]">blue-500: #3182F6</code>, <code className="font-mono text-[11px]">radius-16: 16px</code>).
+                  특정 의도를 갖지 않는 순수 팔레트와 단위 (예: <code className="font-mono text-[11px]">blue-500: var(--accent-primary)</code>, <code className="font-mono text-[11px]">radius-16: 16px</code>).
                 </p>
               </div>
 
               <div className="space-y-1 md:border-l md:border-(--border-subtle) md:pl-6">
-                <div className="text-[11px] font-mono text-blue-500 uppercase">Tier 2 · Semantic (핵심 표준)</div>
+                <div className="text-[11px] font-mono text-(--accent-primary) uppercase">Tier 2 · Semantic (핵심 표준)</div>
                 <h3 className="font-semibold text-sm text-(--text-primary)">시맨틱 토큰</h3>
                 <p className="text-xs text-(--text-secondary) leading-relaxed">
                   &quot;어디에 쓰이는가&quot; 목적과 역할에 따른 명명 (예: <code className="font-mono text-[11px]">--atom-color-primary</code>, 테마 전환 시 자동 매핑).
@@ -446,7 +446,7 @@ export default function TokensPage() {
                       <tr key={token.variable} className="hover:bg-(--bg-secondary)/60 transition-colors group">
                         <td className="py-2.5 px-3">
                           <div
-                            className="w-9 h-6 bg-blue-600/15 border border-blue-500/30 flex items-center justify-center text-[11px] font-mono text-blue-500"
+                            className="w-9 h-6 bg-(--accent-primary)/15 border border-(--accent-primary)/30 flex items-center justify-center text-[11px] font-mono text-(--accent-primary)"
                             style={{ borderRadius: token.value }}
                           >
                             {token.value}
@@ -455,7 +455,7 @@ export default function TokensPage() {
                         <td className="py-2.5 px-3 font-semibold text-(--text-primary)">
                           {token.name}
                         </td>
-                        <td className="py-2.5 px-3 font-mono text-[11px] font-bold text-blue-500">
+                        <td className="py-2.5 px-3 font-mono text-[11px] font-bold text-(--accent-primary)">
                           {token.value}
                         </td>
                         <td className="py-2.5 px-3">
@@ -730,7 +730,7 @@ export default function TokensPage() {
         <section className="space-y-4 pt-6 border-t border-(--border-subtle)">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div>
-              <div className="text-xs font-mono text-neutral-400">Live Token Binding Showcase</div>
+              <div className="text-xs font-mono text-(--text-muted)">Live Token Binding Showcase</div>
               <h3 className="text-lg font-bold text-(--text-primary)">실제 UI 컴포넌트에 토큰이 주입되는 방식</h3>
             </div>
             <span className="text-xs text-(--text-muted) font-mono">React · Vue · HTML 호환</span>
@@ -798,7 +798,7 @@ export default function TokensPage() {
         {/* 4. AI Prompt & Usage Guide - Flat Banner */}
         <section className="pt-6 border-t border-(--border-subtle) flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="space-y-1 max-w-2xl">
-            <div className="flex items-center gap-1.5 text-xs font-mono text-neutral-400">
+            <div className="flex items-center gap-1.5 text-xs font-mono text-(--text-muted)">
               <Terminal className="w-3.5 h-3.5" />
               <span>AI Agent 프롬프트 연동</span>
             </div>

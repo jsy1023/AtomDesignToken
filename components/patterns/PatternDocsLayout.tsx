@@ -36,7 +36,7 @@ export function PatternDocsLayout({
   onSelectPattern,
 }: PatternDocsLayoutProps) {
   const { theme } = useThemeEditor();
-  const brandColor = theme?.color?.primary || '#3182f6';
+  const brandColor = theme?.color?.primary || 'var(--accent-primary)';
   const radius = theme?.borderRadius || '12px';
 
   const [activeTab, setActiveTab] = useState<DocsTab>('preview');
@@ -79,13 +79,13 @@ export function PatternDocsLayout({
   return (
     <article className="flex-1 w-full max-w-5xl mx-auto px-4 sm:px-8 py-6 flex flex-col gap-6">
       {/* 1. Breadcrumb & Meta Bar */}
-      <div className="flex items-center justify-between text-xs text-neutral-500 gap-2 flex-wrap">
+      <div className="flex items-center justify-between text-xs text-(--text-secondary) gap-2 flex-wrap">
         <nav className="flex items-center gap-1.5 font-medium">
-          <Link href="/patterns" className="hover:text-neutral-900 dark:hover:text-neutral-100 transition">
+          <Link href="/patterns" className="hover:text-(--text-primary) dark:hover:text-neutral-100 transition">
             UX 패턴 가이드
           </Link>
           <span>/</span>
-          <span className="text-neutral-400">{pattern.categoryName}</span>
+          <span className="text-(--text-muted)">{pattern.categoryName}</span>
           <span>/</span>
           <span className="text-neutral-800 dark:text-neutral-200 font-bold">{pattern.title}</span>
         </nav>
@@ -117,14 +117,14 @@ export function PatternDocsLayout({
           <span
             className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[11px] font-bold border ${
               isWeb
-                ? 'bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-800'
+                ? 'bg-blue-50 dark:bg-blue-950/60 text-(--accent-primary) dark:text-blue-400 border-blue-200 dark:border-blue-800'
                 : 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800'
             }`}
           >
             {isWeb ? <Monitor className="w-3 h-3" /> : <Smartphone className="w-3 h-3" />}
             <span>{isWeb ? 'WEB 전용 패턴' : '모바일 전용 패턴'}</span>
           </span>
-          <span className="text-[11px] font-medium text-neutral-400">
+          <span className="text-[11px] font-medium text-(--text-muted)">
             카테고리: {pattern.categoryName}
           </span>
         </div>
@@ -150,7 +150,7 @@ export function PatternDocsLayout({
             className={`flex items-center gap-1.5 py-2.5 px-3.5 text-xs font-bold border-b-2 transition ${
               activeTab === 'preview'
                 ? 'border-b-2'
-                : 'border-transparent text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200'
+                : 'border-transparent text-(--text-secondary) hover:text-neutral-800 dark:hover:text-neutral-200'
             }`}
           >
             <Eye className="w-3.5 h-3.5" />
@@ -164,7 +164,7 @@ export function PatternDocsLayout({
             className={`flex items-center gap-1.5 py-2.5 px-3.5 text-xs font-bold border-b-2 transition ${
               activeTab === 'guidelines'
                 ? 'border-b-2'
-                : 'border-transparent text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200'
+                : 'border-transparent text-(--text-secondary) hover:text-neutral-800 dark:hover:text-neutral-200'
             }`}
           >
             <BookOpen className="w-3.5 h-3.5" />
@@ -178,7 +178,7 @@ export function PatternDocsLayout({
             className={`flex items-center gap-1.5 py-2.5 px-3.5 text-xs font-bold border-b-2 transition ${
               activeTab === 'spec'
                 ? 'border-b-2'
-                : 'border-transparent text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200'
+                : 'border-transparent text-(--text-secondary) hover:text-neutral-800 dark:hover:text-neutral-200'
             }`}
           >
             <Code2 className="w-3.5 h-3.5" />
@@ -198,7 +198,7 @@ export function PatternDocsLayout({
                 defaultPlatform={pattern.platform}
               />
             </div>
-            <p className="text-xs text-neutral-400 text-center">
+            <p className="text-xs text-(--text-muted) text-center">
               실시간 반응형 뷰포트 전환 및 클릭 인터랙션을 직접 테스트할 수 있습니다.
             </p>
           </section>
@@ -231,14 +231,14 @@ export function PatternDocsLayout({
                         className={`flex items-start gap-2.5 p-2 rounded-lg cursor-pointer transition text-xs select-none ${
                           isChecked
                             ? 'bg-emerald-50/60 dark:bg-emerald-950/20 text-emerald-800 dark:text-emerald-300'
-                            : 'hover:bg-neutral-100 dark:hover:bg-neutral-800/50 text-[var(--text-primary)]'
+                            : 'hover:bg-(--bg-secondary) dark:hover:bg-neutral-800/50 text-[var(--text-primary)]'
                         }`}
                       >
                         <input
                           type="checkbox"
                           checked={isChecked}
                           onChange={() => {}}
-                          className="mt-0.5 w-3.5 h-3.5 rounded border-neutral-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer"
+                          className="mt-0.5 w-3.5 h-3.5 rounded border-(--border-strong) text-emerald-600 focus:ring-emerald-500 cursor-pointer"
                         />
                         <span className={`leading-relaxed ${isChecked ? 'line-through opacity-80' : ''}`}>
                           {item}
@@ -281,7 +281,7 @@ export function PatternDocsLayout({
               className="p-5 border shadow-xs space-y-3"
             >
               <h3 className="text-xs font-bold text-[var(--text-primary)] flex items-center gap-2">
-                <FileText className="w-4 h-4 text-blue-500" />
+                <FileText className="w-4 h-4 text-(--accent-primary)" />
                 <span>권장 설계 및 디자인 토큰 매핑</span>
               </h3>
               <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
@@ -295,14 +295,14 @@ export function PatternDocsLayout({
         {activeTab === 'spec' && (
           <section className="space-y-4">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-neutral-500">
+              <span className="text-xs font-bold text-(--text-secondary)">
                 AI Agent 코드 생성 및 프롬프트 주입용 마크다운 명세
               </span>
               <div className="flex items-center gap-2">
                 <button
                   type="button"
                   onClick={handleCopyMarkdown}
-                  className="px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold flex items-center gap-1.5 shadow-xs transition"
+                  className="px-3 py-1.5 rounded-lg bg-(--accent-primary) hover:bg-blue-700 text-white text-xs font-bold flex items-center gap-1.5 shadow-xs transition"
                 >
                   {copiedMd ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
                   <span>{copiedMd ? '복사 완료' : '전체 복사'}</span>
@@ -339,11 +339,11 @@ export function PatternDocsLayout({
             style={{ borderRadius: radius }}
             className="p-4 border border-[var(--border-subtle)] bg-[var(--bg-secondary)] hover:border-[var(--border-strong)] text-left flex flex-col gap-1 transition group"
           >
-            <span className="text-[11px] text-neutral-400 flex items-center gap-1">
+            <span className="text-[11px] text-(--text-muted) flex items-center gap-1">
               <ArrowLeft className="w-3 h-3 group-hover:-translate-x-1 transition-transform" />
               <span>이전 패턴</span>
             </span>
-            <span className="text-xs font-bold text-[var(--text-primary)] group-hover:text-blue-500 transition">
+            <span className="text-xs font-bold text-[var(--text-primary)] group-hover:text-(--accent-primary) transition">
               {prevPattern.title}
             </span>
           </button>
@@ -358,11 +358,11 @@ export function PatternDocsLayout({
             style={{ borderRadius: radius }}
             className="p-4 border border-[var(--border-subtle)] bg-[var(--bg-secondary)] hover:border-[var(--border-strong)] text-right flex flex-col items-end gap-1 transition group ml-auto w-full"
           >
-            <span className="text-[11px] text-neutral-400 flex items-center gap-1">
+            <span className="text-[11px] text-(--text-muted) flex items-center gap-1">
               <span>다음 패턴</span>
               <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
             </span>
-            <span className="text-xs font-bold text-[var(--text-primary)] group-hover:text-blue-500 transition">
+            <span className="text-xs font-bold text-[var(--text-primary)] group-hover:text-(--accent-primary) transition">
               {nextPattern.title}
             </span>
           </button>

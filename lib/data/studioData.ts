@@ -4,7 +4,7 @@ export interface PaletteVariable {
   id: string; // e.g. '--atom-palette-blue-500'
   name: string; // e.g. 'Blue 500'
   category: PaletteCategory;
-  value: string; // e.g. '#3182f6' or '8px'
+  value: string; // e.g. 'var(--accent-primary)' or '8px'
   description?: string;
 }
 
@@ -33,8 +33,8 @@ export interface StudioComponentDefinition {
 
 export const INITIAL_PALETTE_VARIABLES: PaletteVariable[] = [
   // Colors (Brand & Accents)
-  { id: '--atom-palette-blue-500', name: 'Blue 500 (Brand Primary)', category: 'color', value: '#3182f6', description: '메인 브랜드 액션 컬러' },
-  { id: '--atom-palette-blue-600', name: 'Blue 600 (Primary Hover)', category: 'color', value: '#1b64da', description: '버튼 호버 및 강조 딥 컬러' },
+  { id: '--atom-palette-blue-500', name: 'Blue 500 (Brand Primary)', category: 'color', value: 'var(--accent-primary)', description: '메인 브랜드 액션 컬러' },
+  { id: '--atom-palette-blue-600', name: 'Blue 600 (Primary Hover)', category: 'color', value: 'var(--accent-primary-hover)', description: '버튼 호버 및 강조 딥 컬러' },
   { id: '--atom-palette-blue-50', name: 'Blue 50 (Primary Subtle)', category: 'color', value: '#e8f3ff', description: '배경 하이라이트 및 소프트 틴트' },
   { id: '--atom-palette-emerald-500', name: 'Emerald 500 (Success)', category: 'color', value: '#10b981', description: '성공 및 완료 액센트' },
   { id: '--atom-palette-emerald-50', name: 'Emerald 50 (Success Subtle)', category: 'color', value: '#ecfdf5', description: '성공 소프트 배경' },

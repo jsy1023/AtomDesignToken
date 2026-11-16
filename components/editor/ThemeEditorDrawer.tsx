@@ -77,27 +77,27 @@ export function ThemeEditorDrawer() {
 
       {/* Slide-over Drawer Panel */}
       <aside
-        className={`fixed top-0 right-0 bottom-0 z-50 w-full sm:w-[480px] bg-white dark:bg-neutral-900 shadow-2xl border-l border-neutral-200 dark:border-neutral-800 flex flex-col transform transition-transform duration-300 ease-out ${
+        className={`fixed top-0 right-0 bottom-0 z-50 w-full sm:w-[480px] bg-white dark:bg-neutral-900 shadow-2xl border-l border-(--border-subtle) dark:border-neutral-800 flex flex-col transform transition-transform duration-300 ease-out ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
         aria-label={locale === 'ja' ? 'デザインシステムスタイルエディタ' : locale === 'en' ? 'Design System Style Editor' : '디자인 시스템 스타일 에디터'}
       >
         {/* 1. Drawer Header */}
-        <div className="p-4 sm:p-5 border-b border-neutral-200/80 dark:border-neutral-800 flex items-center justify-between shrink-0 bg-white dark:bg-neutral-900">
+        <div className="p-4 sm:p-5 border-b border-(--border-subtle)/80 dark:border-neutral-800 flex items-center justify-between shrink-0 bg-white dark:bg-neutral-900">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-(--radius-sm) bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-(--radius-sm) bg-neutral-900 dark:bg-white text-white dark:text-(--text-primary) flex items-center justify-center">
               <Sliders className="w-4 h-4" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h2 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">
+                <h2 className="text-sm font-semibold text-(--text-primary) dark:text-neutral-100">
                   {locale === 'ja' ? 'スタイル＆タイポエディタ' : locale === 'en' ? 'Style & Typography Editor' : '스타일 & 타이포 에디터'}
                 </h2>
-                <span className="text-[11px] font-mono text-neutral-500">
+                <span className="text-[11px] font-mono text-(--text-secondary)">
                   {locale === 'ja' ? 'リアルタイム' : locale === 'en' ? 'Live' : '실시간'}
                 </span>
               </div>
-              <p className="text-xs text-neutral-500 dark:text-neutral-400">
+              <p className="text-xs text-(--text-secondary) dark:text-(--text-muted)">
                 {locale === 'ja'
                   ? 'カラー、タイポグラフィ、トークンを即時調整します'
                   : locale === 'en'
@@ -113,7 +113,7 @@ export function ThemeEditorDrawer() {
                 type="button"
                 onClick={resetTheme}
                 title={locale === 'ja' ? 'デフォルトに戻す' : locale === 'en' ? 'Reset to defaults' : '기본값으로 되돌리기'}
-                className="p-2 rounded-xl text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100 hover:bg-neutral-200/60 dark:hover:bg-neutral-800 transition-colors"
+                className="p-2 rounded-xl text-(--text-secondary) hover:text-(--text-primary) dark:text-(--text-muted) dark:hover:text-neutral-100 hover:bg-(--bg-tertiary)/60 dark:hover:bg-neutral-800 transition-colors"
               >
                 <RotateCcw className="w-4 h-4" />
               </button>
@@ -122,7 +122,7 @@ export function ThemeEditorDrawer() {
               type="button"
               onClick={() => setIsOpen(false)}
               aria-label={t('common.close', '닫기')}
-              className="p-2 rounded-xl text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100 hover:bg-neutral-200/60 dark:hover:bg-neutral-800 transition-colors"
+              className="p-2 rounded-xl text-(--text-secondary) hover:text-(--text-primary) dark:text-(--text-muted) dark:hover:text-neutral-100 hover:bg-(--bg-tertiary)/60 dark:hover:bg-neutral-800 transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
@@ -147,7 +147,7 @@ export function ThemeEditorDrawer() {
                   className={`flex items-center gap-1.5 py-3 px-3 text-xs font-semibold border-b-2 transition-all shrink-0 ${
                     isActive
                       ? 'border-b-2 font-bold'
-                      : 'border-transparent text-neutral-500 hover:text-neutral-800 dark:text-neutral-400 dark:hover:text-neutral-200'
+                      : 'border-transparent text-(--text-secondary) hover:text-neutral-800 dark:text-(--text-muted) dark:hover:text-neutral-200'
                   }`}
                 >
                   <Icon className="w-3.5 h-3.5" />
@@ -169,15 +169,15 @@ export function ThemeEditorDrawer() {
         </div>
 
         {/* 4. Drawer Footer */}
-        <div className="p-3.5 px-5 border-t border-neutral-200/80 dark:border-neutral-800 bg-neutral-50/80 dark:bg-neutral-900/80 flex items-center justify-between shrink-0">
-          <div className="flex items-center gap-1.5 text-[11px] text-neutral-500 dark:text-neutral-400">
+        <div className="p-3.5 px-5 border-t border-(--border-subtle)/80 dark:border-neutral-800 bg-neutral-50/80 dark:bg-neutral-900/80 flex items-center justify-between shrink-0">
+          <div className="flex items-center gap-1.5 text-[11px] text-(--text-secondary) dark:text-(--text-muted)">
             <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
             <span>로컬에 자동 저장됨</span>
           </div>
           <button
             type="button"
             onClick={() => setIsOpen(false)}
-            className="px-4 py-1.5 text-xs font-bold rounded-xl bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 hover:opacity-90 transition-opacity"
+            className="px-4 py-1.5 text-xs font-bold rounded-xl bg-neutral-900 dark:bg-white text-white dark:text-(--text-primary) hover:opacity-90 transition-opacity"
           >
             완료
           </button>

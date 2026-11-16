@@ -20,7 +20,7 @@ import {
 export default function DependenciesPage() {
   const { theme } = useThemeEditor();
   const { t } = useI18n();
-  const brandColor = theme?.color?.primary || '#3182f6';
+  const brandColor = theme?.color?.primary || 'var(--accent-primary)';
 
   const [selectedFilter, setSelectedFilter] = useState<string>('all');
 
@@ -43,7 +43,7 @@ export default function DependenciesPage() {
       <main className="max-w-5xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8 flex-1 flex flex-col gap-6 sm:gap-8">
         {/* Hero Section */}
         <section className="space-y-2.5 border-b border-(--border-subtle) pb-4 sm:pb-5">
-          <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-mono text-neutral-400">
+          <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-mono text-(--text-muted)">
             <span className="text-emerald-500 font-semibold flex items-center gap-1">
               <Cpu className="w-3 h-3" />
               Zero Runtime Dependency
@@ -67,7 +67,7 @@ export default function DependenciesPage() {
         <section className="space-y-4">
           <div className="border-b border-(--border-subtle) pb-2">
             <h2 className="docs-h2 flex items-center gap-2">
-              <Workflow className="w-4 h-4 text-blue-500" />
+              <Workflow className="w-4 h-4 text-(--accent-primary)" />
               제로 런타임 토큰 컴파일 파이프라인
             </h2>
             <p className="text-xs text-(--text-secondary)">
@@ -77,7 +77,7 @@ export default function DependenciesPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs font-mono">
             <div className="p-4 bg-(--bg-secondary) border border-(--border-subtle) rounded-lg space-y-1.5">
-              <div className="text-[11px] text-blue-500 uppercase font-bold">Step 1 · SSOT</div>
+              <div className="text-[11px] text-(--accent-primary) uppercase font-bold">Step 1 · SSOT</div>
               <div className="font-bold text-sm text-(--text-primary)">Figma &amp; DTCG .md</div>
               <p className="text-[11px] text-(--text-secondary) font-sans">
                 마크다운 또는 tokens.json에 표준 W3C 포맷으로 디자인 결정 선언.
@@ -245,10 +245,10 @@ export default function DependenciesPage() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-(--border-subtle) py-6 text-xs text-neutral-400">
+      <footer className="border-t border-(--border-subtle) py-6 text-xs text-(--text-muted)">
         <div className="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
           <span>AtomDesignToken — Zero-Runtime Dependencies Matrix</span>
-          <div className="flex items-center gap-4 text-neutral-500">
+          <div className="flex items-center gap-4 text-(--text-secondary)">
             <Link href="/" className="hover:text-(--text-primary)">홈으로</Link>
             <Link href="/principles" className="hover:text-(--text-primary)">원칙</Link>
             <Link href="/tokens" className="hover:text-(--text-primary)">토큰</Link>
