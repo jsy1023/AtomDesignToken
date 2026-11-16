@@ -13,8 +13,12 @@ export * from '../lib/data/themeEditorDefaults';
 // 2. Theme Engines & Utilities
 export * from '../lib/services/themeEngine';
 export * from '../lib/utils';
+export * from './refactorEngine';
 
-// 3. Re-export basic CSS path helper
+// 3. Real-world UseCase Solutions
+export * from '../components/usecases/EnterpriseDashboardUseCase';
+
+// 4. Re-export basic CSS path helper
 export const ATOM_UI_CSS_PATH = 'atomsystem/css/atom-ui.css';
 
 /**

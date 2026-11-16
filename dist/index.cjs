@@ -2,6 +2,16 @@
 
 var clsx = require('clsx');
 var tailwindMerge = require('tailwind-merge');
+var fs = require('fs');
+var path = require('path');
+var React25 = require('react');
+var lucideReact = require('lucide-react');
+
+function _interopDefault (e) { return e && e.__esModule ? e : { default: e }; }
+
+var fs__default = /*#__PURE__*/_interopDefault(fs);
+var path__default = /*#__PURE__*/_interopDefault(path);
+var React25__default = /*#__PURE__*/_interopDefault(React25);
 
 // lib/data/tokens.ts
 var BRAND_PRESETS = [
@@ -9127,6 +9137,532 @@ function exportToTokensJson(theme) {
 function cn(...inputs) {
   return tailwindMerge.twMerge(clsx.clsx(inputs));
 }
+var TOKEN_REPLACEMENTS = [
+  // A. Arbitrary Hex Colors in styles/classes
+  {
+    pattern: /#3182f6\b/gi,
+    replacement: "var(--accent-primary)",
+    type: "color"
+  },
+  {
+    pattern: /#1b64da\b/gi,
+    replacement: "var(--accent-primary-hover)",
+    type: "color"
+  },
+  {
+    pattern: /#111111\b/gi,
+    replacement: "var(--text-primary)",
+    type: "color"
+  },
+  {
+    pattern: /#666666\b/gi,
+    replacement: "var(--text-secondary)",
+    type: "color"
+  },
+  {
+    pattern: /#eaeaea\b/gi,
+    replacement: "var(--border-subtle)",
+    type: "color"
+  },
+  {
+    pattern: /#d4d4d8\b/gi,
+    replacement: "var(--border-strong)",
+    type: "color"
+  },
+  {
+    pattern: /#f9f9fb\b/gi,
+    replacement: "var(--bg-secondary)",
+    type: "color"
+  },
+  // B. Tailwind Standard Colors to Semantic Tokens
+  // Text Colors
+  {
+    pattern: /\btext-blue-[56]00\b/g,
+    replacement: "text-(--accent-primary)",
+    type: "tailwind-color"
+  },
+  {
+    pattern: /\btext-(gray|neutral|zinc)-900\b/g,
+    replacement: "text-(--text-primary)",
+    type: "tailwind-color"
+  },
+  {
+    pattern: /\btext-(gray|neutral|zinc)-[56]00\b/g,
+    replacement: "text-(--text-secondary)",
+    type: "tailwind-color"
+  },
+  {
+    pattern: /\btext-(gray|neutral|zinc)-400\b/g,
+    replacement: "text-(--text-muted)",
+    type: "tailwind-color"
+  },
+  // Background Colors
+  {
+    pattern: /\bbg-blue-[56]00\b/g,
+    replacement: "bg-(--accent-primary)",
+    type: "tailwind-color"
+  },
+  {
+    pattern: /\bbg-(gray|neutral|zinc)-[51]00\b/g,
+    replacement: "bg-(--bg-secondary)",
+    type: "tailwind-color"
+  },
+  {
+    pattern: /\bbg-(gray|neutral|zinc)-200\b/g,
+    replacement: "bg-(--bg-tertiary)",
+    type: "tailwind-color"
+  },
+  // Border Colors
+  {
+    pattern: /\bborder-(gray|neutral|zinc)-200\b/g,
+    replacement: "border-(--border-subtle)",
+    type: "tailwind-color"
+  },
+  {
+    pattern: /\bborder-(gray|neutral|zinc)-300\b/g,
+    replacement: "border-(--border-strong)",
+    type: "tailwind-color"
+  },
+  {
+    pattern: /\bborder-blue-[56]00\b/g,
+    replacement: "border-(--accent-primary)",
+    type: "tailwind-color"
+  },
+  // C. Arbitrary Inline Spacing
+  {
+    pattern: /\b([p|m|px|py|pl|pr|pt|pb])-\[4px\]/g,
+    replacement: "$1-(--space-1)",
+    type: "spacing"
+  },
+  {
+    pattern: /\b([p|m|px|py|pl|pr|pt|pb])-\[8px\]/g,
+    replacement: "$1-(--space-2)",
+    type: "spacing"
+  },
+  {
+    pattern: /\b([p|m|px|py|pl|pr|pt|pb])-\[12px\]/g,
+    replacement: "$1-(--space-3)",
+    type: "spacing"
+  },
+  {
+    pattern: /\b([p|m|px|py|pl|pr|pt|pb])-\[16px\]/g,
+    replacement: "$1-(--space-4)",
+    type: "spacing"
+  },
+  {
+    pattern: /\b([p|m|px|py|pl|pr|pt|pb])-\[24px\]/g,
+    replacement: "$1-(--space-6)",
+    type: "spacing"
+  },
+  {
+    pattern: /\b([p|m|px|py|pl|pr|pt|pb])-\[32px\]/g,
+    replacement: "$1-(--space-8)",
+    type: "spacing"
+  },
+  {
+    pattern: /\bgap-\[8px\]/g,
+    replacement: "gap-(--space-2)",
+    type: "spacing"
+  },
+  {
+    pattern: /\bgap-\[12px\]/g,
+    replacement: "gap-(--space-3)",
+    type: "spacing"
+  },
+  {
+    pattern: /\bgap-\[16px\]/g,
+    replacement: "gap-(--space-4)",
+    type: "spacing"
+  },
+  // D. Arbitrary Inline Radius
+  {
+    pattern: /\brounded-\[4px\]/g,
+    replacement: "rounded-(--radius-sm)",
+    type: "radius"
+  },
+  {
+    pattern: /\brounded-\[6px\]/g,
+    replacement: "rounded-(--radius)",
+    type: "radius"
+  },
+  {
+    pattern: /\brounded-\[8px\]/g,
+    replacement: "rounded-(--radius-lg)",
+    type: "radius"
+  },
+  {
+    pattern: /\brounded-\[12px\]/g,
+    replacement: "rounded-(--radius-xl)",
+    type: "radius"
+  },
+  {
+    pattern: /\brounded-\[16px\]/g,
+    replacement: "rounded-(--radius-2xl)",
+    type: "radius"
+  },
+  {
+    pattern: /\brounded-\[9999px\]/g,
+    replacement: "rounded-(--radius-full)",
+    type: "radius"
+  }
+];
+var SCAN_EXTENSIONS = /* @__PURE__ */ new Set([".tsx", ".jsx", ".ts", ".js", ".css", ".html"]);
+var IGNORE_DIRS = /* @__PURE__ */ new Set(["node_modules", ".next", ".git", "dist", "build", "coverage", ".gemini"]);
+var IGNORE_FILES = /* @__PURE__ */ new Set([
+  "globals.css",
+  "atom-ui.css",
+  "token.json",
+  "tokens.json",
+  "tokens.ts",
+  "awesomeThemes.ts",
+  "refactorEngine.ts"
+]);
+function scanAndRefactorDirectory(rootDir, options = {}) {
+  const report = {
+    scannedFiles: 0,
+    totalMatches: 0,
+    fixedFiles: 0,
+    matches: []
+  };
+  function walk(currentPath) {
+    const stats = fs__default.default.statSync(currentPath);
+    if (stats.isDirectory()) {
+      const dirName = path__default.default.basename(currentPath);
+      if (IGNORE_DIRS.has(dirName)) return;
+      const entries = fs__default.default.readdirSync(currentPath);
+      for (const entry of entries) {
+        walk(path__default.default.join(currentPath, entry));
+      }
+    } else if (stats.isFile()) {
+      const fileName = path__default.default.basename(currentPath);
+      if (IGNORE_FILES.has(fileName)) return;
+      const ext = path__default.default.extname(currentPath);
+      if (!SCAN_EXTENSIONS.has(ext)) return;
+      report.scannedFiles++;
+      const content = fs__default.default.readFileSync(currentPath, "utf-8");
+      let modifiedContent = content;
+      let hasFileChanges = false;
+      const lines = content.split("\n");
+      TOKEN_REPLACEMENTS.forEach((rule) => {
+        lines.forEach((line, lineIndex) => {
+          if (rule.pattern.test(line)) {
+            rule.pattern.lastIndex = 0;
+            const matchResult = line.match(rule.pattern);
+            if (matchResult) {
+              matchResult.forEach((matchedStr) => {
+                const replacementStr = typeof rule.replacement === "function" ? rule.replacement(matchedStr) : rule.replacement;
+                report.matches.push({
+                  file: path__default.default.relative(process.cwd(), currentPath),
+                  line: lineIndex + 1,
+                  original: matchedStr,
+                  replacement: replacementStr,
+                  type: rule.type
+                });
+                report.totalMatches++;
+              });
+            }
+          }
+        });
+        if (options.fix && rule.pattern.test(modifiedContent)) {
+          rule.pattern.lastIndex = 0;
+          modifiedContent = modifiedContent.replace(rule.pattern, rule.replacement);
+          hasFileChanges = true;
+        }
+      });
+      if (options.fix && hasFileChanges && modifiedContent !== content) {
+        fs__default.default.writeFileSync(currentPath, modifiedContent, "utf-8");
+        report.fixedFiles++;
+      }
+    }
+  }
+  walk(rootDir);
+  return report;
+}
+var Button = React25__default.default.forwardRef(
+  ({
+    variant = "primary",
+    size = "md",
+    loading = false,
+    isIconOnly = false,
+    paddingX,
+    paddingY,
+    disabled,
+    className = "",
+    style,
+    children,
+    ...props
+  }, ref) => {
+    const variantClass = variant === "primary" ? "atom-btn-primary" : `atom-btn-${variant}`;
+    const sizeClass = size === "sm" ? "text-xs px-2.5 py-1.5" : size === "lg" ? "text-base px-5 py-3" : "";
+    const iconClass = isIconOnly ? "p-2 aspect-square inline-flex items-center justify-center" : "";
+    const customStyle = {
+      ...style,
+      ...paddingX ? { paddingLeft: paddingX, paddingRight: paddingX } : {},
+      ...paddingY ? { paddingTop: paddingY, paddingBottom: paddingY } : {}
+    };
+    return /* @__PURE__ */ React25__default.default.createElement(
+      "button",
+      {
+        ref,
+        disabled: disabled || loading,
+        "aria-disabled": disabled || loading,
+        className: `atom-btn ${variantClass} ${sizeClass} ${iconClass} ${className}`,
+        style: customStyle,
+        ...props
+      },
+      loading && /* @__PURE__ */ React25__default.default.createElement("svg", { className: "animate-spin -ml-1 mr-2 h-4 w-4", fill: "none", viewBox: "0 0 24 24" }, /* @__PURE__ */ React25__default.default.createElement("circle", { className: "opacity-25", cx: "12", cy: "12", r: "10", stroke: "currentColor", strokeWidth: "4" }), /* @__PURE__ */ React25__default.default.createElement("path", { className: "opacity-75", fill: "currentColor", d: "M4 12a8 8 0 018-8v8H4z" })),
+      children
+    );
+  }
+);
+Button.displayName = "Button";
+var Input = React25__default.default.forwardRef(
+  ({ label, error, helperText, className = "", id, ...props }, ref) => {
+    const inputId = id || React25__default.default.useId();
+    return /* @__PURE__ */ React25__default.default.createElement("div", { className: "w-full flex flex-col gap-1.5" }, label && /* @__PURE__ */ React25__default.default.createElement("label", { htmlFor: inputId, className: "text-sm font-medium text-[var(--atom-text-primary)]" }, label), /* @__PURE__ */ React25__default.default.createElement(
+      "input",
+      {
+        ref,
+        id: inputId,
+        "aria-invalid": !!error,
+        className: `atom-input ${error ? "atom-input-error" : ""} ${className}`,
+        ...props
+      }
+    ), error ? /* @__PURE__ */ React25__default.default.createElement("span", { className: "text-xs text-[var(--atom-destructive,#dc2626)]" }, error) : helperText ? /* @__PURE__ */ React25__default.default.createElement("span", { className: "text-xs text-[var(--atom-text-secondary,#8b95a1)]" }, helperText) : null);
+  }
+);
+Input.displayName = "Input";
+var Card = React25__default.default.forwardRef(
+  ({ interactive = false, className = "", children, ...props }, ref) => {
+    return /* @__PURE__ */ React25__default.default.createElement(
+      "div",
+      {
+        ref,
+        className: `atom-card ${interactive ? "atom-card-interactive cursor-pointer" : ""} ${className}`,
+        ...props
+      },
+      children
+    );
+  }
+);
+Card.displayName = "Card";
+var Badge = React25__default.default.forwardRef(
+  ({ variant = "neutral", className = "", children, ...props }, ref) => {
+    return /* @__PURE__ */ React25__default.default.createElement(
+      "span",
+      {
+        ref,
+        className: `atom-badge atom-badge-${variant} ${className}`,
+        ...props
+      },
+      children
+    );
+  }
+);
+Badge.displayName = "Badge";
+var Textarea = React25__default.default.forwardRef(
+  ({ maxLength, label, value, className = "", ...props }, ref) => {
+    const currentLength = typeof value === "string" ? value.length : 0;
+    return /* @__PURE__ */ React25__default.default.createElement("div", { className: "atom-textarea-group" }, label && /* @__PURE__ */ React25__default.default.createElement("label", { className: "text-xs font-semibold text-neutral-600 dark:text-neutral-400" }, label), /* @__PURE__ */ React25__default.default.createElement("textarea", { ref, value, maxLength, className: `atom-textarea ${className}`, ...props }), maxLength && /* @__PURE__ */ React25__default.default.createElement("div", { className: "atom-textarea-counter" }, currentLength, " / ", maxLength, "\uC790"));
+  }
+);
+Textarea.displayName = "Textarea";
+var Table = React25__default.default.forwardRef(
+  ({ className = "", children, ...props }, ref) => /* @__PURE__ */ React25__default.default.createElement("div", { className: "w-full overflow-auto rounded-(--radius) border border-(--border-subtle)" }, /* @__PURE__ */ React25__default.default.createElement(
+    "table",
+    {
+      ref,
+      className: `w-full caption-bottom text-sm text-left ${className}`,
+      ...props
+    },
+    children
+  ))
+);
+Table.displayName = "Table";
+var TableHeader = React25__default.default.forwardRef(({ className = "", children, ...props }, ref) => /* @__PURE__ */ React25__default.default.createElement(
+  "thead",
+  {
+    ref,
+    className: `bg-(--bg-secondary)/60 border-b border-(--border-subtle) font-semibold text-(--text-secondary) ${className}`,
+    ...props
+  },
+  children
+));
+TableHeader.displayName = "TableHeader";
+var TableBody = React25__default.default.forwardRef(({ className = "", children, ...props }, ref) => /* @__PURE__ */ React25__default.default.createElement(
+  "tbody",
+  {
+    ref,
+    className: `divide-y divide-(--border-subtle) bg-(--bg-primary) ${className}`,
+    ...props
+  },
+  children
+));
+TableBody.displayName = "TableBody";
+var TableRow = React25__default.default.forwardRef(({ className = "", children, ...props }, ref) => /* @__PURE__ */ React25__default.default.createElement(
+  "tr",
+  {
+    ref,
+    className: `hover:bg-(--bg-secondary)/40 transition-colors ${className}`,
+    ...props
+  },
+  children
+));
+TableRow.displayName = "TableRow";
+var TableHead = React25__default.default.forwardRef(({ className = "", children, ...props }, ref) => /* @__PURE__ */ React25__default.default.createElement(
+  "th",
+  {
+    ref,
+    className: `p-3 text-left font-medium text-(--text-secondary) ${className}`,
+    ...props
+  },
+  children
+));
+TableHead.displayName = "TableHead";
+var TableCell = React25__default.default.forwardRef(({ className = "", children, ...props }, ref) => /* @__PURE__ */ React25__default.default.createElement(
+  "td",
+  {
+    ref,
+    className: `p-3 text-(--text-primary) align-middle ${className}`,
+    ...props
+  },
+  children
+));
+TableCell.displayName = "TableCell";
+var TabsList = React25__default.default.forwardRef(
+  ({ className = "", children, ...props }, ref) => /* @__PURE__ */ React25__default.default.createElement(
+    "div",
+    {
+      ref,
+      className: `inline-flex items-center p-1 rounded-(--radius) bg-(--bg-secondary) text-sm border border-(--border-subtle) ${className}`,
+      ...props
+    },
+    children
+  )
+);
+TabsList.displayName = "TabsList";
+var TabsTrigger = React25__default.default.forwardRef(
+  ({ active = false, className = "", children, ...props }, ref) => /* @__PURE__ */ React25__default.default.createElement(
+    "button",
+    {
+      ref,
+      type: "button",
+      className: `px-3 py-1.5 rounded-(--radius-sm) font-medium text-sm transition-colors ${active ? "bg-(--bg-primary) text-(--text-primary) shadow-xs font-semibold" : "text-(--text-secondary) hover:text-(--text-primary)"} ${className}`,
+      ...props
+    },
+    children
+  )
+);
+TabsTrigger.displayName = "TabsTrigger";
+var TabsContent = React25__default.default.forwardRef(
+  ({ active = false, className = "", children, ...props }, ref) => {
+    if (!active) return null;
+    return /* @__PURE__ */ React25__default.default.createElement(
+      "div",
+      {
+        ref,
+        className: `p-4 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) text-sm leading-relaxed ${className}`,
+        ...props
+      },
+      children
+    );
+  }
+);
+TabsContent.displayName = "TabsContent";
+var INITIAL_METRICS = [
+  { id: "arr", label: "\uC5F0\uAC04 \uBC18\uBCF5 \uB9E4\uCD9C (ARR)", value: "\u20A9124.8M", change: "+14.2%", isPositive: true, icon: "dollar" },
+  { id: "users", label: "\uD65C\uC131 \uAD6C\uB3C5 \uACE0\uAC1D (Active)", value: "1,429\uBA85", change: "+8.6%", isPositive: true, icon: "users" },
+  { id: "conversion", label: "\uC804\uD658\uC728 (Conversion)", value: "4.82%", change: "+1.1%", isPositive: true, icon: "activity" },
+  { id: "churn", label: "\uC6D4\uAC04 \uC774\uD0C8\uB960 (Churn)", value: "0.84%", change: "-0.3%", isPositive: true, icon: "card" }
+];
+var INITIAL_TRANSACTIONS = [
+  { id: "TX-901", customer: "(\uC8FC)\uB514\uC5D0\uC2A4\uC564\uD14D", email: "billing@dsntech.com", plan: "Enterprise Pro", amount: "\u20A94,500,000", status: "active", date: "\uC624\uB298 14:20" },
+  { id: "TX-902", customer: "\uB124\uC624\uC2A4\uD29C\uB514\uC624", email: "admin@neostudio.io", plan: "Team Annual", amount: "\u20A91,200,000", status: "active", date: "\uC624\uB298 11:05" },
+  { id: "TX-903", customer: "\uC54C\uD30C\uB7A9\uC2A4", email: "finance@alphalabs.kr", plan: "Starter Monthly", amount: "\u20A9190,000", status: "pending", date: "\uC5B4\uC81C 18:40" },
+  { id: "TX-904", customer: "\uD074\uB77C\uC6B0\uB4DC\uC6E8\uC774\uBE0C", email: "dev@cloudwave.co", plan: "Enterprise Custom", amount: "\u20A98,900,000", status: "active", date: "2026-11-14" },
+  { id: "TX-905", customer: "\uD5E4\uB7F4\uB4DC\uBBF8\uB514\uC5B4", email: "ops@herald.net", plan: "Team Annual", amount: "\u20A91,200,000", status: "failed", date: "2026-11-13" }
+];
+function EnterpriseDashboardUseCase() {
+  const [timeRange, setTimeRange] = React25.useState("30d");
+  const [searchQuery, setSearchQuery] = React25.useState("");
+  const [statusFilter, setStatusFilter] = React25.useState("all");
+  const [isRefreshing, setIsRefreshing] = React25.useState(false);
+  const filteredTransactions = INITIAL_TRANSACTIONS.filter((tx) => {
+    const matchesSearch = tx.customer.toLowerCase().includes(searchQuery.toLowerCase()) || tx.email.toLowerCase().includes(searchQuery.toLowerCase()) || tx.id.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesStatus = statusFilter === "all" || tx.status === statusFilter;
+    return matchesSearch && matchesStatus;
+  });
+  const handleRefresh = () => {
+    setIsRefreshing(true);
+    setTimeout(() => setIsRefreshing(false), 800);
+  };
+  const getMetricIcon = (icon) => {
+    switch (icon) {
+      case "dollar":
+        return /* @__PURE__ */ React25__default.default.createElement(lucideReact.DollarSign, { className: "w-5 h-5 text-(--accent-primary)" });
+      case "users":
+        return /* @__PURE__ */ React25__default.default.createElement(lucideReact.Users, { className: "w-5 h-5 text-(--accent-primary)" });
+      case "activity":
+        return /* @__PURE__ */ React25__default.default.createElement(lucideReact.Activity, { className: "w-5 h-5 text-(--accent-primary)" });
+      case "card":
+        return /* @__PURE__ */ React25__default.default.createElement(lucideReact.CreditCard, { className: "w-5 h-5 text-(--accent-primary)" });
+    }
+  };
+  const getStatusBadge = (status) => {
+    switch (status) {
+      case "active":
+        return /* @__PURE__ */ React25__default.default.createElement(Badge, { variant: "primary" }, "\uC644\uB8CC (Active)");
+      case "pending":
+        return /* @__PURE__ */ React25__default.default.createElement(Badge, { variant: "neutral" }, "\uCC98\uB9AC\uC911 (Pending)");
+      case "failed":
+        return /* @__PURE__ */ React25__default.default.createElement(Badge, { variant: "destructive" }, "\uC2E4\uD328 (Failed)");
+    }
+  };
+  return /* @__PURE__ */ React25__default.default.createElement("div", { className: "w-full flex flex-col gap-(--space-6) animate-in fade-in" }, /* @__PURE__ */ React25__default.default.createElement("div", { className: "flex flex-col sm:flex-row sm:items-center justify-between gap-(--space-4) pb-(--space-4) border-b border-(--border-subtle)" }, /* @__PURE__ */ React25__default.default.createElement("div", null, /* @__PURE__ */ React25__default.default.createElement("div", { className: "flex items-center gap-(--space-2) mb-1" }, /* @__PURE__ */ React25__default.default.createElement("span", { className: "font-mono text-xs px-2 py-0.5 rounded-(--radius-sm) bg-(--bg-secondary) text-(--text-secondary) border border-(--border-subtle) flex items-center gap-1.5" }, /* @__PURE__ */ React25__default.default.createElement(lucideReact.Sparkles, { className: "w-3 h-3 text-(--accent-primary)" }), "AtomSystem UseCase #01"), /* @__PURE__ */ React25__default.default.createElement("span", { className: "text-xs font-mono text-(--text-muted)" }, "B2B SaaS")), /* @__PURE__ */ React25__default.default.createElement("h2", { className: "text-xl sm:text-2xl font-extrabold tracking-tight text-(--text-primary)" }, "\uC131\uACFC \uBD84\uC11D & \uACE0\uAC1D \uACB0\uC81C \uAD00\uB9AC \uB300\uC2DC\uBCF4\uB4DC"), /* @__PURE__ */ React25__default.default.createElement("p", { className: "text-xs sm:text-sm text-(--text-secondary) mt-0.5" }, "\uD1A0\uD070 \uB2E8\uC77C \uC9C4\uC2E4 \uACF5\uAE09\uC6D0(SSOT)\uACFC \uACE0\uC811\uADFC\uC131 \uC6D0\uC790 \uCEF4\uD3EC\uB10C\uD2B8\uB85C\uB9CC \uAD6C\uCD95\uB41C \uC644\uC131\uD615 \uC5D4\uD130\uD504\uB77C\uC774\uC988 \uC194\uB8E8\uC158")), /* @__PURE__ */ React25__default.default.createElement("div", { className: "flex items-center gap-(--space-2) shrink-0" }, /* @__PURE__ */ React25__default.default.createElement("div", { className: "bg-(--bg-secondary) p-1 rounded-(--radius) border border-(--border-subtle) flex items-center gap-1" }, ["7d", "30d", "90d", "1y"].map((r) => /* @__PURE__ */ React25__default.default.createElement(
+    "button",
+    {
+      key: r,
+      onClick: () => setTimeRange(r),
+      className: `px-2.5 py-1 text-xs font-semibold rounded-(--radius-sm) transition-colors cursor-pointer ${timeRange === r ? "bg-(--bg-primary) text-(--text-primary) shadow-xs" : "text-(--text-muted) hover:text-(--text-primary)"}`
+    },
+    r === "7d" ? "7\uC77C" : r === "30d" ? "30\uC77C" : r === "90d" ? "3\uAC1C\uC6D4" : "1\uB144"
+  ))), /* @__PURE__ */ React25__default.default.createElement(
+    Button,
+    {
+      variant: "outline",
+      size: "sm",
+      onClick: handleRefresh,
+      className: "flex items-center gap-1.5",
+      disabled: isRefreshing
+    },
+    /* @__PURE__ */ React25__default.default.createElement(lucideReact.RefreshCw, { className: `w-3.5 h-3.5 ${isRefreshing ? "animate-spin" : ""}` }),
+    /* @__PURE__ */ React25__default.default.createElement("span", null, "\uC0C8\uB85C\uACE0\uCE68")
+  ), /* @__PURE__ */ React25__default.default.createElement(Button, { variant: "primary", size: "sm", className: "flex items-center gap-1.5" }, /* @__PURE__ */ React25__default.default.createElement(lucideReact.Download, { className: "w-3.5 h-3.5" }), /* @__PURE__ */ React25__default.default.createElement("span", null, "CSV \uB0B4\uBCF4\uB0B4\uAE30")))), /* @__PURE__ */ React25__default.default.createElement("div", { className: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-(--space-4)" }, INITIAL_METRICS.map((kpi) => /* @__PURE__ */ React25__default.default.createElement(Card, { key: kpi.id, className: "p-(--space-5) bg-(--bg-primary) border border-(--border-subtle) rounded-(--radius)" }, /* @__PURE__ */ React25__default.default.createElement("div", { className: "flex items-center justify-between mb-3" }, /* @__PURE__ */ React25__default.default.createElement("span", { className: "text-xs font-medium text-(--text-secondary)" }, kpi.label), /* @__PURE__ */ React25__default.default.createElement("div", { className: "w-9 h-9 rounded-(--radius-sm) bg-(--bg-secondary) flex items-center justify-center border border-(--border-subtle)" }, getMetricIcon(kpi.icon))), /* @__PURE__ */ React25__default.default.createElement("div", { className: "text-2xl font-black tracking-tight text-(--text-primary) mb-1.5" }, kpi.value), /* @__PURE__ */ React25__default.default.createElement("div", { className: "flex items-center gap-1.5 text-xs" }, /* @__PURE__ */ React25__default.default.createElement(
+    "span",
+    {
+      className: `font-semibold flex items-center gap-0.5 ${kpi.isPositive ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"}`
+    },
+    kpi.isPositive ? /* @__PURE__ */ React25__default.default.createElement(lucideReact.TrendingUp, { className: "w-3.5 h-3.5" }) : /* @__PURE__ */ React25__default.default.createElement(lucideReact.TrendingDown, { className: "w-3.5 h-3.5" }),
+    kpi.change
+  ), /* @__PURE__ */ React25__default.default.createElement("span", { className: "text-(--text-muted)" }, "\uC9C0\uB09C \uAE30\uAC04 \uB300\uBE44"))))), /* @__PURE__ */ React25__default.default.createElement(Card, { className: "p-(--space-5) bg-(--bg-primary) border border-(--border-subtle) rounded-(--radius) flex flex-col gap-(--space-4)" }, /* @__PURE__ */ React25__default.default.createElement("div", { className: "flex flex-col sm:flex-row sm:items-center justify-between gap-(--space-3)" }, /* @__PURE__ */ React25__default.default.createElement("div", { className: "flex items-center gap-(--space-2) flex-1 max-w-sm" }, /* @__PURE__ */ React25__default.default.createElement("div", { className: "relative w-full" }, /* @__PURE__ */ React25__default.default.createElement(lucideReact.Search, { className: "w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-(--text-muted)" }), /* @__PURE__ */ React25__default.default.createElement(
+    "input",
+    {
+      type: "text",
+      placeholder: "\uACE0\uAC1D\uBA85, \uC774\uBA54\uC77C, \uAC70\uB798\uBC88\uD638 \uAC80\uC0C9...",
+      value: searchQuery,
+      onChange: (e) => setSearchQuery(e.target.value),
+      className: "w-full pl-9 pr-3 py-1.5 text-xs rounded-(--radius-sm) border border-(--border-subtle) bg-(--bg-primary) text-(--text-primary) placeholder:text-(--text-muted) focus:outline-none focus:border-(--accent-primary)"
+    }
+  ))), /* @__PURE__ */ React25__default.default.createElement("div", { className: "flex items-center gap-(--space-2)" }, /* @__PURE__ */ React25__default.default.createElement("span", { className: "text-xs text-(--text-secondary) font-medium flex items-center gap-1" }, /* @__PURE__ */ React25__default.default.createElement(lucideReact.Filter, { className: "w-3.5 h-3.5 text-(--text-muted)" }), "\uC0C1\uD0DC \uD544\uD130:"), /* @__PURE__ */ React25__default.default.createElement("div", { className: "flex items-center gap-1" }, ["all", "active", "pending", "failed"].map((st) => /* @__PURE__ */ React25__default.default.createElement(
+    "button",
+    {
+      key: st,
+      onClick: () => setStatusFilter(st),
+      className: `px-2 py-1 text-xs font-medium rounded-(--radius-sm) cursor-pointer transition-colors ${statusFilter === st ? "bg-(--accent-primary) text-(--bg-primary) font-semibold" : "bg-(--bg-secondary) text-(--text-secondary) hover:text-(--text-primary) border border-(--border-subtle)"}`
+    },
+    st === "all" ? "\uC804\uCCB4" : st === "active" ? "\uC644\uB8CC" : st === "pending" ? "\uCC98\uB9AC\uC911" : "\uC2E4\uD328"
+  ))))), /* @__PURE__ */ React25__default.default.createElement("div", { className: "overflow-x-auto rounded-(--radius-sm) border border-(--border-subtle)" }, /* @__PURE__ */ React25__default.default.createElement(Table, { className: "w-full text-left text-xs" }, /* @__PURE__ */ React25__default.default.createElement(TableHeader, { className: "bg-(--bg-secondary)/50 border-b border-(--border-subtle)" }, /* @__PURE__ */ React25__default.default.createElement(TableRow, null, /* @__PURE__ */ React25__default.default.createElement(TableHead, { className: "p-3 font-semibold text-(--text-primary)" }, "\uAC70\uB798\uBC88\uD638 (ID)"), /* @__PURE__ */ React25__default.default.createElement(TableHead, { className: "p-3 font-semibold text-(--text-primary)" }, "\uACE0\uAC1D\uC0AC / \uC774\uBA54\uC77C"), /* @__PURE__ */ React25__default.default.createElement(TableHead, { className: "p-3 font-semibold text-(--text-primary)" }, "\uAD6C\uB3C5 \uD50C\uB79C"), /* @__PURE__ */ React25__default.default.createElement(TableHead, { className: "p-3 font-semibold text-(--text-primary)" }, "\uACB0\uC81C \uAE08\uC561"), /* @__PURE__ */ React25__default.default.createElement(TableHead, { className: "p-3 font-semibold text-(--text-primary)" }, "\uC0C1\uD0DC"), /* @__PURE__ */ React25__default.default.createElement(TableHead, { className: "p-3 font-semibold text-(--text-primary)" }, "\uACB0\uC81C \uC77C\uC2DC"), /* @__PURE__ */ React25__default.default.createElement(TableHead, { className: "p-3 font-semibold text-(--text-primary) text-right" }, "\uAD00\uB9AC"))), /* @__PURE__ */ React25__default.default.createElement(TableBody, { className: "divide-y divide-(--border-subtle)" }, filteredTransactions.length === 0 ? /* @__PURE__ */ React25__default.default.createElement(TableRow, null, /* @__PURE__ */ React25__default.default.createElement(TableCell, { colSpan: 7, className: "p-8 text-center text-(--text-muted)" }, "\uAC80\uC0C9 \uACB0\uACFC\uC640 \uC77C\uCE58\uD558\uB294 \uAC70\uB798 \uB0B4\uC5ED\uC774 \uC5C6\uC2B5\uB2C8\uB2E4.")) : filteredTransactions.map((tx) => /* @__PURE__ */ React25__default.default.createElement(TableRow, { key: tx.id, className: "hover:bg-(--bg-secondary)/40 transition-colors" }, /* @__PURE__ */ React25__default.default.createElement(TableCell, { className: "p-3 font-mono font-medium text-(--text-primary)" }, tx.id), /* @__PURE__ */ React25__default.default.createElement(TableCell, { className: "p-3" }, /* @__PURE__ */ React25__default.default.createElement("div", { className: "font-semibold text-(--text-primary)" }, tx.customer), /* @__PURE__ */ React25__default.default.createElement("div", { className: "text-[11px] text-(--text-muted)" }, tx.email)), /* @__PURE__ */ React25__default.default.createElement(TableCell, { className: "p-3 font-medium text-(--text-secondary)" }, tx.plan), /* @__PURE__ */ React25__default.default.createElement(TableCell, { className: "p-3 font-mono font-semibold text-(--text-primary)" }, tx.amount), /* @__PURE__ */ React25__default.default.createElement(TableCell, { className: "p-3" }, getStatusBadge(tx.status)), /* @__PURE__ */ React25__default.default.createElement(TableCell, { className: "p-3 text-(--text-secondary)" }, tx.date), /* @__PURE__ */ React25__default.default.createElement(TableCell, { className: "p-3 text-right" }, /* @__PURE__ */ React25__default.default.createElement(Button, { variant: "ghost", size: "sm", className: "text-xs h-7 px-2" }, "\uC0C1\uC138 \uC601\uC218\uC99D"))))))), /* @__PURE__ */ React25__default.default.createElement("div", { className: "flex items-center justify-between text-xs text-(--text-muted) pt-2" }, /* @__PURE__ */ React25__default.default.createElement("span", null, "\uCD1D ", filteredTransactions.length, "\uAC74\uC758 \uAC70\uB798 \uB0B4\uC5ED \uC870\uD68C\uB428"), /* @__PURE__ */ React25__default.default.createElement("span", { className: "font-mono" }, "W3C DTCG Token Reactive System"))));
+}
 
 // src/index.ts
 var ATOM_UI_CSS_PATH = "atomsystem/css/atom-ui.css";
@@ -9142,6 +9678,7 @@ exports.BASE_COLOR_TOKENS = BASE_COLOR_TOKENS;
 exports.BRAND_PRESETS = BRAND_PRESETS;
 exports.COLOR_PRESETS = COLOR_PRESETS;
 exports.DEFAULT_THEME_CONFIG = DEFAULT_THEME_CONFIG;
+exports.EnterpriseDashboardUseCase = EnterpriseDashboardUseCase;
 exports.FONT_FAMILY_PRESETS = FONT_FAMILY_PRESETS;
 exports.GALLERY_COMPONENTS = GALLERY_COMPONENTS;
 exports.LAYOUT_TOKENS = LAYOUT_TOKENS;
@@ -9149,6 +9686,7 @@ exports.PATTERNS_COLLECTION = PATTERNS_COLLECTION;
 exports.RADIUS_TOKENS = RADIUS_TOKENS;
 exports.SHADOW_TOKENS = SHADOW_TOKENS;
 exports.SPACING_TOKENS = SPACING_TOKENS;
+exports.TOKEN_REPLACEMENTS = TOKEN_REPLACEMENTS;
 exports.TYPOGRAPHY_TOKENS = TYPOGRAPHY_TOKENS;
 exports.applyThemeToDOM = applyThemeToDOM;
 exports.cn = cn;
@@ -9157,5 +9695,6 @@ exports.exportToTailwind = exportToTailwind;
 exports.exportToTokensJson = exportToTokensJson;
 exports.generateThemeCSS = generateThemeCSS;
 exports.isDarkColor = isDarkColor;
+exports.scanAndRefactorDirectory = scanAndRefactorDirectory;
 //# sourceMappingURL=index.cjs.map
 //# sourceMappingURL=index.cjs.map

@@ -39,6 +39,7 @@ import {
 import { RealtimeChartBlock } from '@/components/blocks/RealtimeChartBlock';
 import { MetricStatsBlock } from '@/components/blocks/MetricStatsBlock';
 import { InteractiveChatBlock } from '@/components/blocks/InteractiveChatBlock';
+import { EnterpriseDashboardUseCase } from '@/components/usecases/EnterpriseDashboardUseCase';
 
 interface PatternInteractiveScreenProps {
   patternId: string;
@@ -142,11 +143,7 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
       {/* 1. SaaS Dashboard (Web) */}
       {patternId === 'saas-dashboard' && (
         <div className="flex flex-col gap-6">
-          {/* Top Token Block: Metric Stats */}
-          <MetricStatsBlock />
-
-          {/* Core Token Block: Realtime Chart Section */}
-          <RealtimeChartBlock />
+          <EnterpriseDashboardUseCase />
         </div>
       )}
 

@@ -1,4 +1,5 @@
 import { ClassValue } from 'clsx';
+import React from 'react';
 
 type TokenCategory = 'color' | 'typography' | 'radius' | 'spacing' | 'shadow' | 'layout';
 interface BrandPreset {
@@ -217,6 +218,48 @@ declare function exportToTokensJson(theme: ThemeConfig): string;
  */
 declare function cn(...inputs: ClassValue[]): string;
 
+interface RefactorMatch {
+    file: string;
+    line: number;
+    original: string;
+    replacement: string;
+    type: 'color' | 'spacing' | 'radius' | 'tailwind-color';
+}
+interface RefactorReport {
+    scannedFiles: number;
+    totalMatches: number;
+    fixedFiles: number;
+    matches: RefactorMatch[];
+}
+declare const TOKEN_REPLACEMENTS: Array<{
+    pattern: RegExp;
+    replacement: string | ((substring: string, ...args: any[]) => string);
+    type: 'color' | 'spacing' | 'radius' | 'tailwind-color';
+}>;
+declare function scanAndRefactorDirectory(rootDir: string, options?: {
+    fix?: boolean;
+    verbose?: boolean;
+}): RefactorReport;
+
+interface KpiMetric {
+    id: string;
+    label: string;
+    value: string;
+    change: string;
+    isPositive: boolean;
+    icon: 'dollar' | 'users' | 'activity' | 'card';
+}
+interface TransactionItem {
+    id: string;
+    customer: string;
+    email: string;
+    plan: string;
+    amount: string;
+    status: 'active' | 'pending' | 'failed';
+    date: string;
+}
+declare function EnterpriseDashboardUseCase(): React.JSX.Element;
+
 /**
  * AtomSystem / AtomDesignToken Public API
  * Universal Design Token & UI Library
@@ -229,4 +272,4 @@ declare const ATOM_UI_CSS_PATH = "atomsystem/css/atom-ui.css";
 declare const ATOM_VERSION = "0.8.1";
 declare const ATOM_LIB_NAME = "atomsystem";
 
-export { ATOM_LIB_NAME, ATOM_UI_CSS_PATH, ATOM_VERSION, AWESOME_CATEGORIES, AWESOME_DESIGN_MD_THEMES, type AwesomeDesignMdTheme, BASE_COLOR_TOKENS, BRAND_PRESETS, type BrandPreset, type ButtonSpacingConfig, COLOR_PRESETS, type ColorConfig, type ColorPreset, type ColorToken, type ComponentCategory, DEFAULT_THEME_CONFIG, type DosAndDont, FONT_FAMILY_PRESETS, GALLERY_COMPONENTS, type GalleryComponent, LAYOUT_TOKENS, type LayoutToken, PATTERNS_COLLECTION, type PatternItem, type PatternPlatform, type PatternVariant, type PropItem, RADIUS_TOKENS, type RadiusToken, SHADOW_TOKENS, SPACING_TOKENS, type ShadowToken, type SpacingToken, TYPOGRAPHY_TOKENS, type ThemeConfig, type TokenCategory, type TypographyConfig, type TypographyLevelConfig, type TypographyToken, applyThemeToDOM, cn, exportToCSS, exportToTailwind, exportToTokensJson, generateThemeCSS, isDarkColor };
+export { ATOM_LIB_NAME, ATOM_UI_CSS_PATH, ATOM_VERSION, AWESOME_CATEGORIES, AWESOME_DESIGN_MD_THEMES, type AwesomeDesignMdTheme, BASE_COLOR_TOKENS, BRAND_PRESETS, type BrandPreset, type ButtonSpacingConfig, COLOR_PRESETS, type ColorConfig, type ColorPreset, type ColorToken, type ComponentCategory, DEFAULT_THEME_CONFIG, type DosAndDont, EnterpriseDashboardUseCase, FONT_FAMILY_PRESETS, GALLERY_COMPONENTS, type GalleryComponent, type KpiMetric, LAYOUT_TOKENS, type LayoutToken, PATTERNS_COLLECTION, type PatternItem, type PatternPlatform, type PatternVariant, type PropItem, RADIUS_TOKENS, type RadiusToken, type RefactorMatch, type RefactorReport, SHADOW_TOKENS, SPACING_TOKENS, type ShadowToken, type SpacingToken, TOKEN_REPLACEMENTS, TYPOGRAPHY_TOKENS, type ThemeConfig, type TokenCategory, type TransactionItem, type TypographyConfig, type TypographyLevelConfig, type TypographyToken, applyThemeToDOM, cn, exportToCSS, exportToTailwind, exportToTokensJson, generateThemeCSS, isDarkColor, scanAndRefactorDirectory };
