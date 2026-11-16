@@ -36,6 +36,10 @@ import {
   Layers,
   Component,
   Search,
+  Ruler,
+  Type,
+  Square,
+  Copy,
 } from 'lucide-react';
 
 export default function LocalStudioPage() {
@@ -52,6 +56,11 @@ export default function LocalStudioPage() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
 
+  // Palette Management View Filters
+  const [paletteCategoryFilter, setPaletteCategoryFilter] = useState<'all' | 'color' | 'size' | 'radius' | 'typography'>('color');
+  const [colorFamilyFilter, setColorFamilyFilter] = useState<string>('all');
+  const [copiedPaletteId, setCopiedPaletteId] = useState<string | null>(null);
+
   // Modals / Dialogs
   const [isAddVariableOpen, setIsAddVariableOpen] = useState(false);
   const [newVariableName, setNewVariableName] = useState('');
@@ -61,7 +70,8 @@ export default function LocalStudioPage() {
   const [isAddPaletteOpen, setIsAddPaletteOpen] = useState(false);
   const [newPaletteName, setNewPaletteName] = useState('');
   const [newPaletteId, setNewPaletteId] = useState('');
-  const [newPaletteCategory, setNewPaletteCategory] = useState<'color' | 'radius' | 'spacing'>('color');
+  const [newPaletteCategory, setNewPaletteCategory] = useState<'color' | 'size' | 'spacing' | 'radius' | 'typography'>('color');
+  const [newPaletteFamily, setNewPaletteFamily] = useState<string>('blue');
   const [newPaletteValue, setNewPaletteValue] = useState('var(--accent-primary)');
   const [newPaletteDesc, setNewPaletteDesc] = useState('');
 
@@ -202,6 +212,7 @@ export default function LocalStudioPage() {
       id: cleanId,
       name: newPaletteName.trim(),
       category: newPaletteCategory,
+      family: newPaletteCategory === 'color' ? newPaletteFamily : undefined,
       value: newPaletteValue.trim(),
       description: newPaletteDesc.trim(),
     };
@@ -212,6 +223,12 @@ export default function LocalStudioPage() {
     setNewPaletteId('');
     setNewPaletteValue('var(--accent-primary)');
     setNewPaletteDesc('');
+  };
+
+  const handleCopyPalette = (id: string, value: string) => {
+    navigator.clipboard.writeText(`var(${id})`);
+    setCopiedPaletteId(id);
+    setTimeout(() => setCopiedPaletteId(null), 1800);
   };
 
   // Delete Palette Variable
@@ -912,17 +929,18 @@ export default function LocalStudioPage() {
               </div>
             )}
 
-            {/* TAB 2: Palette Management Page */}
+            {/* TAB 2: Palette Management Page (Categorized & 50-900 Full Scales) */}
             {activeTab === 'palette' && (
               <div className="flex flex-col gap-6 pb-10">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-5 rounded-(--radius) bg-(--bg-secondary)/30 border border-(--border-subtle)">
+                {/* 1. Header Toolbar */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-(--radius) bg-(--bg-secondary)/30 border border-(--border-subtle)">
                   <div>
                     <h2 className="text-base font-bold text-(--text-primary) flex items-center gap-2">
                       <Palette className="w-5 h-5 text-(--accent-primary)" />
                       <span>{t('paletteManagerTitle')}</span>
                     </h2>
                     <p className="text-xs sm:text-sm text-(--text-secondary) mt-1">
-                      {t('paletteManagerDesc')}
+                      색상(50~900), 사이즈, 모서리 곡률, 타이포그래피로 세분화된 토큰 팔레트를 체계적으로 관리합니다.
                     </p>
                   </div>
 
@@ -937,59 +955,366 @@ export default function LocalStudioPage() {
                   </Button>
                 </div>
 
-                {/* Palette Variables Table */}
-                <div className="overflow-x-auto rounded-(--radius) border border-(--border-subtle)">
-                  <table className="w-full text-left text-xs sm:text-sm">
-                    <thead className="bg-(--bg-secondary)/60 border-b border-(--border-subtle) text-xs font-semibold text-(--text-secondary)">
-                      <tr>
-                        <th className="p-3">{t('thPaletteName')}</th>
-                        <th className="p-3">{t('thPaletteCategory')}</th>
-                        <th className="p-3">{t('thPaletteValue')}</th>
-                        <th className="p-3">{t('paletteDescLabel')}</th>
-                        <th className="p-3 text-right">{t('thPaletteAction')}</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-(--border-subtle)">
-                      {paletteVariables.map((pal) => (
-                        <tr key={pal.id} className="hover:bg-(--bg-secondary)/30 transition-colors">
-                          <td className="p-3">
-                            <div className="font-semibold text-(--text-primary)">{pal.name}</div>
-                            <div className="font-mono text-xs text-(--text-muted)">{pal.id}</div>
-                          </td>
-                          <td className="p-3">
-                            <span className="font-mono text-[11px] px-2 py-0.5 rounded bg-(--bg-secondary) text-(--text-secondary) border border-(--border-subtle)">
-                              {pal.category}
+                {/* 2. Granular Category Switcher Tabs */}
+                <div className="flex flex-wrap items-center gap-1.5 p-1.5 rounded-(--radius) bg-(--bg-secondary)/60 border border-(--border-subtle)">
+                  {[
+                    { id: 'color', label: '색상 팔레트 (50~900)', icon: Palette },
+                    { id: 'size', label: '사이즈 & 여백 (Size)', icon: Ruler },
+                    { id: 'radius', label: '모서리 곡률 (Radius)', icon: Square },
+                    { id: 'typography', label: '타이포그래피 (Typography)', icon: Type },
+                    { id: 'all', label: '전체 목록 (All)', icon: Layers },
+                  ].map((tab) => {
+                    const Icon = tab.icon;
+                    const isActive = paletteCategoryFilter === tab.id;
+                    return (
+                      <button
+                        key={tab.id}
+                        onClick={() => setPaletteCategoryFilter(tab.id as any)}
+                        className={`px-3 py-1.5 rounded-(--radius-sm) text-xs font-semibold transition-colors flex items-center gap-1.5 cursor-pointer ${
+                          isActive
+                            ? 'bg-(--text-primary) text-(--bg-primary) shadow-xs'
+                            : 'text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary)'
+                        }`}
+                      >
+                        <Icon className="w-3.5 h-3.5" />
+                        <span>{tab.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* 3-A. COLOR VIEW (50 ~ 900 Full Scale by Family) */}
+                {(paletteCategoryFilter === 'color' || paletteCategoryFilter === 'all') && (
+                  <div className="flex flex-col gap-6">
+                    {/* Color Family Sub Filter */}
+                    {paletteCategoryFilter === 'color' && (
+                      <div className="flex flex-wrap items-center gap-1 text-xs">
+                        <span className="text-(--text-muted) font-mono mr-1">컬러 그룹:</span>
+                        {[
+                          { id: 'all', label: '전체' },
+                          { id: 'blue', label: 'Blue (Brand)' },
+                          { id: 'gray', label: 'Gray (Surface)' },
+                          { id: 'emerald', label: 'Emerald (Success)' },
+                          { id: 'rose', label: 'Rose (Destructive)' },
+                          { id: 'amber', label: 'Amber (Warning)' },
+                          { id: 'purple', label: 'Purple (AI)' },
+                          { id: 'neutral', label: 'Neutral' },
+                        ].map((fam) => (
+                          <button
+                            key={fam.id}
+                            onClick={() => setColorFamilyFilter(fam.id)}
+                            className={`px-2 py-0.5 rounded text-[11px] font-medium transition cursor-pointer ${
+                              colorFamilyFilter === fam.id
+                                ? 'bg-(--accent-primary) text-(--bg-primary) font-semibold'
+                                : 'bg-(--bg-secondary) text-(--text-secondary) hover:text-(--text-primary) border border-(--border-subtle)'
+                            }`}
+                          >
+                            {fam.label}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Color Groups Render */}
+                    {['blue', 'gray', 'emerald', 'rose', 'amber', 'purple', 'neutral'].map((fam) => {
+                      if (colorFamilyFilter !== 'all' && colorFamilyFilter !== fam) return null;
+                      const famPalettes = paletteVariables.filter(
+                        (p) => p.category === 'color' && (p.family === fam || (!p.family && p.id.includes(fam)))
+                      );
+                      if (famPalettes.length === 0) return null;
+
+                      const famTitle =
+                        fam === 'blue'
+                          ? 'Blue Scale (Brand Primary & CTA)'
+                          : fam === 'gray'
+                          ? 'Slate / Gray Scale (Surface, Border, Text)'
+                          : fam === 'emerald'
+                          ? 'Emerald / Green Scale (Success & Complete)'
+                          : fam === 'rose'
+                          ? 'Rose / Red Scale (Destructive & Error)'
+                          : fam === 'amber'
+                          ? 'Amber / Yellow Scale (Warning & Pending)'
+                          : fam === 'purple'
+                          ? 'Purple / Violet Scale (AI & Premium)'
+                          : 'Neutral / Monochrome (Pure Black & White)';
+
+                      return (
+                        <div key={fam} className="p-4 sm:p-5 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) flex flex-col gap-3">
+                          <div className="flex items-center justify-between">
+                            <h3 className="text-xs font-mono font-bold text-(--text-primary) uppercase tracking-wider flex items-center gap-2">
+                              <span className="w-2.5 h-2.5 rounded-full bg-(--accent-primary)" />
+                              {famTitle}
+                            </h3>
+                            <span className="text-[11px] font-mono text-(--text-muted)">
+                              {famPalettes.length} 스텝
                             </span>
-                          </td>
-                          <td className="p-3">
-                            <div className="flex items-center gap-2">
-                              {pal.category === 'color' && (
-                                <span
-                                  style={{ backgroundColor: pal.value }}
-                                  className="w-4 h-4 rounded border border-(--border-subtle) shrink-0 shadow-xs"
-                                />
-                              )}
-                              <span className="font-mono font-semibold text-(--text-primary)">
+                          </div>
+
+                          {/* 50 ~ 900 Swatch Grid */}
+                          <div className="grid grid-cols-2 sm:grid-cols-5 lg:grid-cols-10 gap-2">
+                            {famPalettes.map((pal) => {
+                              const isCopied = copiedPaletteId === pal.id;
+                              return (
+                                <div
+                                  key={pal.id}
+                                  className="group relative rounded-(--radius-sm) border border-(--border-subtle) overflow-hidden bg-(--bg-secondary)/40 flex flex-col hover:border-(--accent-primary) transition shadow-xs"
+                                >
+                                  {/* Color Block */}
+                                  <div
+                                    style={{ backgroundColor: pal.value }}
+                                    className="h-14 w-full flex items-center justify-center relative transition-transform"
+                                  >
+                                    <button
+                                      type="button"
+                                      onClick={() => handleCopyPalette(pal.id, pal.value)}
+                                      className="opacity-0 group-hover:opacity-100 transition-opacity bg-black/60 text-white p-1 rounded hover:scale-110 cursor-pointer"
+                                      title="var() 복사"
+                                    >
+                                      {isCopied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                                    </button>
+                                  </div>
+
+                                  {/* Info Footer */}
+                                  <div className="p-2 flex flex-col gap-0.5 text-left">
+                                    <span className="font-bold text-[11px] text-(--text-primary) truncate">
+                                      {pal.name.replace(/ \(.*\)/, '')}
+                                    </span>
+                                    <span className="font-mono text-[10px] text-(--text-muted) truncate">
+                                      {pal.value}
+                                    </span>
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {/* 3-B. SIZE & SPACING VIEW */}
+                {(paletteCategoryFilter === 'size' || (paletteCategoryFilter === 'all' && false)) && (
+                  <div className="p-5 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) flex flex-col gap-4">
+                    <div className="flex items-center justify-between border-b border-(--border-subtle) pb-3">
+                      <div>
+                        <h3 className="text-sm font-bold text-(--text-primary) flex items-center gap-2">
+                          <Ruler className="w-4 h-4 text-(--accent-primary)" />
+                          <span>사이즈 & 여백 팔레트 (Spacing & Size Scale)</span>
+                        </h3>
+                        <p className="text-xs text-(--text-secondary) mt-0.5">
+                          패딩, 마진, 아이템 간격(gap)에 사용되는 4px 기반 W3C 규격 토큰
+                        </p>
+                      </div>
+                      <span className="text-xs font-mono text-(--text-muted)">
+                        {paletteVariables.filter((p) => p.category === 'size' || p.category === 'spacing').length} 토큰
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      {paletteVariables
+                        .filter((p) => p.category === 'size' || p.category === 'spacing')
+                        .map((pal) => (
+                          <div
+                            key={pal.id}
+                            className="p-3 rounded-(--radius-sm) border border-(--border-subtle) bg-(--bg-secondary)/30 flex items-center justify-between gap-4 hover:border-(--accent-primary) transition"
+                          >
+                            <div className="flex flex-col">
+                              <span className="font-semibold text-xs text-(--text-primary)">{pal.name}</span>
+                              <span className="font-mono text-[11px] text-(--text-muted)">{pal.id}</span>
+                              <span className="text-[11px] text-(--text-secondary) mt-0.5">{pal.description}</span>
+                            </div>
+
+                            <div className="flex items-center gap-3 shrink-0">
+                              <div
+                                style={{ width: pal.value, maxWidth: '80px' }}
+                                className="h-4 rounded-xs bg-(--accent-primary) opacity-80"
+                                title={pal.value}
+                              />
+                              <span className="font-mono text-xs font-bold text-(--text-primary) w-12 text-right">
                                 {pal.value}
                               </span>
+                              <button
+                                onClick={() => handleCopyPalette(pal.id, pal.value)}
+                                className="text-neutral-400 hover:text-(--text-primary) p-1 cursor-pointer"
+                                title="var() 복사"
+                              >
+                                {copiedPaletteId === pal.id ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
+                              </button>
                             </div>
-                          </td>
-                          <td className="p-3 text-xs text-(--text-secondary)">
-                            {pal.description || '-'}
-                          </td>
-                          <td className="p-3 text-right">
-                            <button
-                              onClick={() => handleDeletePalette(pal.id)}
-                              className="text-xs text-rose-500 hover:text-rose-700 cursor-pointer font-medium p-1"
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* 3-C. RADIUS VIEW */}
+                {(paletteCategoryFilter === 'radius' || (paletteCategoryFilter === 'all' && false)) && (
+                  <div className="p-5 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) flex flex-col gap-4">
+                    <div className="flex items-center justify-between border-b border-(--border-subtle) pb-3">
+                      <div>
+                        <h3 className="text-sm font-bold text-(--text-primary) flex items-center gap-2">
+                          <Square className="w-4 h-4 text-(--accent-primary)" />
+                          <span>모서리 곡률 팔레트 (Border Radius Scale)</span>
+                        </h3>
+                        <p className="text-xs text-(--text-secondary) mt-0.5">
+                          버튼, 인풋, 카드, 모달의 시각적 완성도를 결정하는 곡률 토큰
+                        </p>
+                      </div>
+                      <span className="text-xs font-mono text-(--text-muted)">
+                        {paletteVariables.filter((p) => p.category === 'radius').length} 토큰
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                      {paletteVariables
+                        .filter((p) => p.category === 'radius')
+                        .map((pal) => (
+                          <div
+                            key={pal.id}
+                            className="p-4 rounded-(--radius-sm) border border-(--border-subtle) bg-(--bg-secondary)/30 flex flex-col items-center text-center gap-3 hover:border-(--accent-primary) transition shadow-xs"
+                          >
+                            <div
+                              style={{ borderRadius: pal.value }}
+                              className="w-16 h-16 border-2 border-(--accent-primary) bg-(--accent-primary)/15 flex items-center justify-center font-mono text-xs font-bold text-(--text-primary)"
                             >
-                              {t('deleteBtn')}
+                              {pal.value}
+                            </div>
+                            <div className="flex flex-col">
+                              <span className="font-semibold text-xs text-(--text-primary)">{pal.name}</span>
+                              <span className="font-mono text-[11px] text-(--text-muted)">{pal.id}</span>
+                              <span className="text-[11px] text-(--text-secondary) mt-1">{pal.description}</span>
+                            </div>
+                            <button
+                              onClick={() => handleCopyPalette(pal.id, pal.value)}
+                              className="w-full mt-1 py-1 rounded bg-(--bg-secondary) hover:bg-(--bg-primary) border border-(--border-subtle) text-[11px] font-mono text-(--text-secondary) hover:text-(--text-primary) flex items-center justify-center gap-1 cursor-pointer transition"
+                            >
+                              {copiedPaletteId === pal.id ? <Check className="w-3 h-3 text-emerald-500" /> : <Copy className="w-3 h-3" />}
+                              <span>{copiedPaletteId === pal.id ? '복사됨' : '토큰 복사'}</span>
                             </button>
-                          </td>
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* 3-D. TYPOGRAPHY VIEW */}
+                {(paletteCategoryFilter === 'typography' || (paletteCategoryFilter === 'all' && false)) && (
+                  <div className="p-5 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) flex flex-col gap-4">
+                    <div className="flex items-center justify-between border-b border-(--border-subtle) pb-3">
+                      <div>
+                        <h3 className="text-sm font-bold text-(--text-primary) flex items-center gap-2">
+                          <Type className="w-4 h-4 text-(--accent-primary)" />
+                          <span>타이포그래피 팔레트 (Typography Scale)</span>
+                        </h3>
+                        <p className="text-xs text-(--text-secondary) mt-0.5">
+                          폰트 크기, 행간, 두께의 조화로운 위계를 정의하는 토큰
+                        </p>
+                      </div>
+                      <span className="text-xs font-mono text-(--text-muted)">
+                        {paletteVariables.filter((p) => p.category === 'typography').length} 토큰
+                      </span>
+                    </div>
+
+                    <div className="divide-y divide-(--border-subtle)">
+                      {paletteVariables
+                        .filter((p) => p.category === 'typography')
+                        .map((pal) => (
+                          <div
+                            key={pal.id}
+                            className="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-(--bg-secondary)/30 px-2 rounded transition"
+                          >
+                            <div className="w-64 shrink-0 flex flex-col">
+                              <span className="font-semibold text-xs text-(--text-primary)">{pal.name}</span>
+                              <span className="font-mono text-[11px] text-(--text-muted)">{pal.id}</span>
+                              <span className="text-[11px] text-(--text-secondary)">{pal.description}</span>
+                            </div>
+
+                            <div className="flex-1 overflow-hidden">
+                              <span
+                                style={{
+                                  fontSize: pal.value.endsWith('px') ? pal.value : undefined,
+                                  fontWeight: pal.value.match(/^\d+$/) ? pal.value : undefined,
+                                }}
+                                className="text-(--text-primary) truncate block"
+                              >
+                                말로 디자인하는 시대, AtomDesignToken
+                              </span>
+                            </div>
+
+                            <div className="flex items-center gap-2 shrink-0">
+                              <span className="font-mono text-xs font-bold text-(--text-primary) px-2 py-0.5 rounded bg-(--bg-secondary) border border-(--border-subtle)">
+                                {pal.value}
+                              </span>
+                              <button
+                                onClick={() => handleCopyPalette(pal.id, pal.value)}
+                                className="text-neutral-400 hover:text-(--text-primary) p-1 cursor-pointer"
+                                title="var() 복사"
+                              >
+                                {copiedPaletteId === pal.id ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
+                              </button>
+                            </div>
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* 3-E. ALL TOKENS TABLE VIEW */}
+                {paletteCategoryFilter === 'all' && (
+                  <div className="overflow-x-auto rounded-(--radius) border border-(--border-subtle)">
+                    <table className="w-full text-left text-xs sm:text-sm">
+                      <thead className="bg-(--bg-secondary)/60 border-b border-(--border-subtle) text-xs font-semibold text-(--text-secondary)">
+                        <tr>
+                          <th className="p-3">{t('thPaletteName')}</th>
+                          <th className="p-3">{t('thPaletteCategory')}</th>
+                          <th className="p-3">{t('thPaletteValue')}</th>
+                          <th className="p-3">{t('paletteDescLabel')}</th>
+                          <th className="p-3 text-right">{t('thPaletteAction')}</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                      </thead>
+                      <tbody className="divide-y divide-(--border-subtle)">
+                        {paletteVariables.map((pal) => (
+                          <tr key={pal.id} className="hover:bg-(--bg-secondary)/30 transition-colors">
+                            <td className="p-3">
+                              <div className="font-semibold text-(--text-primary)">{pal.name}</div>
+                              <div className="font-mono text-xs text-(--text-muted)">{pal.id}</div>
+                            </td>
+                            <td className="p-3">
+                              <span className="font-mono text-[11px] px-2 py-0.5 rounded bg-(--bg-secondary) text-(--text-secondary) border border-(--border-subtle)">
+                                {pal.category}
+                              </span>
+                            </td>
+                            <td className="p-3">
+                              <div className="flex items-center gap-2">
+                                {pal.category === 'color' && (
+                                  <span
+                                    style={{ backgroundColor: pal.value }}
+                                    className="w-4 h-4 rounded border border-(--border-subtle) shrink-0 shadow-xs"
+                                  />
+                                )}
+                                <span className="font-mono font-semibold text-(--text-primary)">
+                                  {pal.value}
+                                </span>
+                              </div>
+                            </td>
+                            <td className="p-3 text-xs text-(--text-secondary)">
+                              {pal.description || '-'}
+                            </td>
+                            <td className="p-3 text-right">
+                              <button
+                                onClick={() => handleDeletePalette(pal.id)}
+                                className="text-xs text-rose-500 hover:text-rose-700 cursor-pointer font-medium p-1"
+                              >
+                                {t('deleteBtn')}
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
               </div>
             )}
 
@@ -1112,11 +1437,33 @@ export default function LocalStudioPage() {
                   onChange={(e) => setNewPaletteCategory(e.target.value as any)}
                   className="w-full p-2 rounded border border-(--border-subtle) bg-(--bg-secondary) text-(--text-primary)"
                 >
-                  <option value="color">Color (색상)</option>
+                  <option value="color">Color (색상 팔레트)</option>
+                  <option value="size">Size & Spacing (사이즈 & 여백)</option>
                   <option value="radius">Radius (모서리 곡률)</option>
-                  <option value="spacing">Spacing (여백/패딩)</option>
+                  <option value="typography">Typography (타이포그래피)</option>
                 </select>
               </div>
+
+              {newPaletteCategory === 'color' && (
+                <div>
+                  <label className="font-semibold text-(--text-secondary) block mb-1">
+                    컬러 그룹 (Family)
+                  </label>
+                  <select
+                    value={newPaletteFamily}
+                    onChange={(e) => setNewPaletteFamily(e.target.value)}
+                    className="w-full p-2 rounded border border-(--border-subtle) bg-(--bg-secondary) text-(--text-primary)"
+                  >
+                    <option value="blue">Blue (Brand Primary)</option>
+                    <option value="gray">Gray (Surface & Border)</option>
+                    <option value="emerald">Emerald (Success)</option>
+                    <option value="rose">Rose (Destructive)</option>
+                    <option value="amber">Amber (Warning)</option>
+                    <option value="purple">Purple (AI & Tech)</option>
+                    <option value="neutral">Neutral (Monochrome)</option>
+                  </select>
+                </div>
+              )}
 
               <div>
                 <label className="font-semibold text-(--text-secondary) block mb-1">

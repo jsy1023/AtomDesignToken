@@ -1,17 +1,18 @@
-export type PaletteCategory = 'color' | 'radius' | 'spacing';
+export type PaletteCategory = 'color' | 'size' | 'spacing' | 'radius' | 'typography';
 
 export interface PaletteVariable {
   id: string; // e.g. '--atom-palette-blue-500'
   name: string; // e.g. 'Blue 500'
   category: PaletteCategory;
-  value: string; // e.g. 'var(--accent-primary)' or '8px'
+  value: string; // e.g. '#3182f6' or '8px'
   description?: string;
+  family?: string; // e.g. 'blue', 'gray', 'emerald', 'rose', 'amber', 'purple', 'neutral'
 }
 
 export interface ComponentPropertySpec {
   key: string;
   label: string;
-  category: 'color' | 'radius' | 'spacing';
+  category: 'color' | 'radius' | 'spacing' | 'size' | 'typography';
   defaultPaletteId: string;
 }
 
@@ -32,45 +33,130 @@ export interface StudioComponentDefinition {
 }
 
 export const INITIAL_PALETTE_VARIABLES: PaletteVariable[] = [
-  // Colors (Brand & Accents)
-  { id: '--atom-palette-blue-500', name: 'Blue 500 (Brand Primary)', category: 'color', value: 'var(--accent-primary)', description: '메인 브랜드 액션 컬러' },
-  { id: '--atom-palette-blue-600', name: 'Blue 600 (Primary Hover)', category: 'color', value: 'var(--accent-primary-hover)', description: '버튼 호버 및 강조 딥 컬러' },
-  { id: '--atom-palette-blue-50', name: 'Blue 50 (Primary Subtle)', category: 'color', value: '#e8f3ff', description: '배경 하이라이트 및 소프트 틴트' },
-  { id: '--atom-palette-emerald-500', name: 'Emerald 500 (Success)', category: 'color', value: '#10b981', description: '성공 및 완료 액센트' },
-  { id: '--atom-palette-emerald-50', name: 'Emerald 50 (Success Subtle)', category: 'color', value: '#ecfdf5', description: '성공 소프트 배경' },
-  { id: '--atom-palette-rose-500', name: 'Rose 500 (Destructive)', category: 'color', value: '#ef4444', description: '경고, 삭제, 에러 액센트' },
-  { id: '--atom-palette-rose-50', name: 'Rose 50 (Destructive Subtle)', category: 'color', value: '#fef2f2', description: '에러 소프트 배경' },
-  { id: '--atom-palette-amber-500', name: 'Amber 500 (Warning)', category: 'color', value: '#f59e0b', description: '주의 및 안내 상태 컬러' },
-  { id: '--atom-palette-amber-50', name: 'Amber 50 (Warning Subtle)', category: 'color', value: '#fffbeb', description: '주의 소프트 배경' },
-  { id: '--atom-palette-purple-500', name: 'Purple 500 (Tech Accent)', category: 'color', value: '#8b5cf6', description: '바이올렛 테크 감성' },
-  { id: '--atom-palette-purple-50', name: 'Purple 50 (Tech Subtle)', category: 'color', value: '#f5f3ff', description: '바이올렛 소프트 배경' },
-  
-  // Colors (Surface & Text)
-  { id: '--atom-palette-white', name: 'Pure White', category: 'color', value: '#ffffff', description: '기본 캔버스 및 텍스트 반전색' },
-  { id: '--atom-palette-gray-50', name: 'Gray 50 (Surface Subtle)', category: 'color', value: '#f9fafb', description: '보조 서피스 및 카드 배경' },
-  { id: '--atom-palette-gray-100', name: 'Gray 100 (Surface Muted)', category: 'color', value: '#f3f4f6', description: '비활성 요소 및 서브 배경' },
-  { id: '--atom-palette-gray-200', name: 'Gray 200 (Border Subtle)', category: 'color', value: '#e5e7eb', description: '기본 옅은 경계선' },
-  { id: '--atom-palette-gray-300', name: 'Gray 300 (Border Strong)', category: 'color', value: '#d1d5db', description: '강조 경계선' },
-  { id: '--atom-palette-gray-400', name: 'Gray 400 (Placeholder)', category: 'color', value: '#9ca3af', description: '플레이스홀더 및 비활성 텍스트' },
-  { id: '--atom-palette-gray-700', name: 'Gray 700 (Text Secondary)', category: 'color', value: '#374151', description: '보조 텍스트 및 레이블' },
-  { id: '--atom-palette-gray-900', name: 'Gray 900 (Text Primary)', category: 'color', value: '#111827', description: '헤드라인 및 본문 텍스트' },
+  // ==========================================
+  // 1. COLOR PALETTES (50 ~ 900 Full Scale)
+  // ==========================================
 
-  // Radius
-  { id: '--atom-radius-none', name: 'Radius None (0px)', category: 'radius', value: '0px', description: '각진 사각' },
-  { id: '--atom-radius-sm', name: 'Radius Small (4px)', category: 'radius', value: '4px', description: '콤팩트 태그/배지' },
-  { id: '--atom-radius-md', name: 'Radius Medium (8px)', category: 'radius', value: '8px', description: '표준 컴포넌트 곡률' },
-  { id: '--atom-radius-lg', name: 'Radius Large (12px)', category: 'radius', value: '12px', description: '카드 및 모달 곡률' },
-  { id: '--atom-radius-xl', name: 'Radius XLarge (16px)', category: 'radius', value: '16px', description: '볼드 라운딩' },
+  // --- Blue Scale (Brand & Primary Action) ---
+  { id: '--atom-palette-blue-50', name: 'Blue 50', category: 'color', value: '#eff6ff', description: '매우 연한 블루 틴트 배경', family: 'blue' },
+  { id: '--atom-palette-blue-100', name: 'Blue 100', category: 'color', value: '#dbeafe', description: '연한 블루 서피스 및 태그 배경', family: 'blue' },
+  { id: '--atom-palette-blue-200', name: 'Blue 200', category: 'color', value: '#bfdbfe', description: '소프트 블루 보더 및 호버 배경', family: 'blue' },
+  { id: '--atom-palette-blue-300', name: 'Blue 300', category: 'color', value: '#93c5fd', description: '활성 테두리 및 포커스 링', family: 'blue' },
+  { id: '--atom-palette-blue-400', name: 'Blue 400', category: 'color', value: '#60a5fa', description: '밝은 블루 인디케이터', family: 'blue' },
+  { id: '--atom-palette-blue-500', name: 'Blue 500 (Brand Primary)', category: 'color', value: 'var(--accent-primary)', description: '핵심 브랜드 프라이머리 액션 컬러', family: 'blue' },
+  { id: '--atom-palette-blue-600', name: 'Blue 600 (Primary Hover)', category: 'color', value: 'var(--accent-primary-hover)', description: '버튼 호버 및 강조 딥 컬러', family: 'blue' },
+  { id: '--atom-palette-blue-700', name: 'Blue 700', category: 'color', value: '#1d4ed8', description: '진한 블루 클릭 액티브 상태', family: 'blue' },
+  { id: '--atom-palette-blue-800', name: 'Blue 800', category: 'color', value: '#1e40af', description: '네이비 톤 텍스트 및 헤더 배경', family: 'blue' },
+  { id: '--atom-palette-blue-900', name: 'Blue 900', category: 'color', value: '#1e3a8a', description: '극진한 다크 네이비', family: 'blue' },
+
+  // --- Slate / Gray Scale (Surface, Border, Text) ---
+  { id: '--atom-palette-gray-50', name: 'Gray 50 (Surface Subtle)', category: 'color', value: '#f8fafc', description: '보조 서피스 및 배경', family: 'gray' },
+  { id: '--atom-palette-gray-100', name: 'Gray 100 (Surface Muted)', category: 'color', value: '#f1f5f9', description: '비활성 카드 배경 및 옅은 구분선', family: 'gray' },
+  { id: '--atom-palette-gray-200', name: 'Gray 200 (Border Subtle)', category: 'color', value: '#e2e8f0', description: '기본 옅은 경계선', family: 'gray' },
+  { id: '--atom-palette-gray-300', name: 'Gray 300 (Border Strong)', category: 'color', value: '#cbd5e1', description: '강조 경계선 및 디바이더', family: 'gray' },
+  { id: '--atom-palette-gray-400', name: 'Gray 400 (Placeholder)', category: 'color', value: '#94a3b8', description: '플레이스홀더 및 비활성 라벨', family: 'gray' },
+  { id: '--atom-palette-gray-500', name: 'Gray 500 (Text Muted)', category: 'color', value: '#64748b', description: '부연 설명 및 캡션 텍스트', family: 'gray' },
+  { id: '--atom-palette-gray-600', name: 'Gray 600', category: 'color', value: '#475569', description: '서브 레이블 텍스트', family: 'gray' },
+  { id: '--atom-palette-gray-700', name: 'Gray 700 (Text Secondary)', category: 'color', value: '#334155', description: '보조 본문 텍스트', family: 'gray' },
+  { id: '--atom-palette-gray-800', name: 'Gray 800', category: 'color', value: '#1e293b', description: '강조 텍스트 및 다크 모드 카드', family: 'gray' },
+  { id: '--atom-palette-gray-900', name: 'Gray 900 (Text Primary)', category: 'color', value: '#0f172a', description: '헤드라인 및 주요 본문 텍스트', family: 'gray' },
+
+  // --- Emerald / Green Scale (Success, Online, Positive) ---
+  { id: '--atom-palette-emerald-50', name: 'Emerald 50', category: 'color', value: '#ecfdf5', description: '성공 소프트 틴트 배경', family: 'emerald' },
+  { id: '--atom-palette-emerald-100', name: 'Emerald 100', category: 'color', value: '#d1fae5', description: '완료 배지 배경', family: 'emerald' },
+  { id: '--atom-palette-emerald-200', name: 'Emerald 200', category: 'color', value: '#a7f3d0', description: '성공 소프트 보더', family: 'emerald' },
+  { id: '--atom-palette-emerald-300', name: 'Emerald 300', category: 'color', value: '#6ee7b7', description: '긍정 지표 강조 라인', family: 'emerald' },
+  { id: '--atom-palette-emerald-400', name: 'Emerald 400', category: 'color', value: '#34d399', description: '성공 활성 인디케이터', family: 'emerald' },
+  { id: '--atom-palette-emerald-500', name: 'Emerald 500 (Success)', category: 'color', value: '#10b981', description: '성공 및 완료 대표 액센트', family: 'emerald' },
+  { id: '--atom-palette-emerald-600', name: 'Emerald 600', category: 'color', value: '#059669', description: '성공 버튼 호버 색상', family: 'emerald' },
+  { id: '--atom-palette-emerald-700', name: 'Emerald 700', category: 'color', value: '#047857', description: '성공 상태 텍스트', family: 'emerald' },
+  { id: '--atom-palette-emerald-800', name: 'Emerald 800', category: 'color', value: '#065f46', description: '진한 성공 텍스트', family: 'emerald' },
+  { id: '--atom-palette-emerald-900', name: 'Emerald 900', category: 'color', value: '#064e3b', description: '딥 에메랄드 다크', family: 'emerald' },
+
+  // --- Rose / Red Scale (Destructive, Error, Negative) ---
+  { id: '--atom-palette-rose-50', name: 'Rose 50', category: 'color', value: '#fff1f2', description: '에러/삭제 소프트 배경', family: 'rose' },
+  { id: '--atom-palette-rose-100', name: 'Rose 100', category: 'color', value: '#ffe4e6', description: '실패 배지 배경', family: 'rose' },
+  { id: '--atom-palette-rose-200', name: 'Rose 200', category: 'color', value: '#fecdd3', description: '에러 소프트 테두리', family: 'rose' },
+  { id: '--atom-palette-rose-300', name: 'Rose 300', category: 'color', value: '#fda4af', description: '경고 강조 라인', family: 'rose' },
+  { id: '--atom-palette-rose-400', name: 'Rose 400', category: 'color', value: '#fb7185', description: '경고 활성 인디케이터', family: 'rose' },
+  { id: '--atom-palette-rose-500', name: 'Rose 500 (Destructive)', category: 'color', value: '#ef4444', description: '경고, 삭제, 에러 대표 액센트', family: 'rose' },
+  { id: '--atom-palette-rose-600', name: 'Rose 600', category: 'color', value: '#e11d48', description: '삭제 버튼 호버 색상', family: 'rose' },
+  { id: '--atom-palette-rose-700', name: 'Rose 700', category: 'color', value: '#be123c', description: '에러 상태 텍스트', family: 'rose' },
+  { id: '--atom-palette-rose-800', name: 'Rose 800', category: 'color', value: '#9f1239', description: '진한 위험 경고 텍스트', family: 'rose' },
+  { id: '--atom-palette-rose-900', name: 'Rose 900', category: 'color', value: '#881337', description: '딥 로즈 다크', family: 'rose' },
+
+  // --- Amber / Yellow Scale (Warning, Pending, Attention) ---
+  { id: '--atom-palette-amber-50', name: 'Amber 50', category: 'color', value: '#fffbeb', description: '주의/안내 소프트 배경', family: 'amber' },
+  { id: '--atom-palette-amber-100', name: 'Amber 100', category: 'color', value: '#fef3c7', description: '대기 중 배지 배경', family: 'amber' },
+  { id: '--atom-palette-amber-200', name: 'Amber 200', category: 'color', value: '#fde68a', description: '주의 테두리', family: 'amber' },
+  { id: '--atom-palette-amber-300', name: 'Amber 300', category: 'color', value: '#fcd34d', description: '주의 강조 라인', family: 'amber' },
+  { id: '--atom-palette-amber-400', name: 'Amber 400', category: 'color', value: '#fbbf24', description: '별점/평점 골드 톤', family: 'amber' },
+  { id: '--atom-palette-amber-500', name: 'Amber 500 (Warning)', category: 'color', value: '#f59e0b', description: '주의 및 보류 상태 액센트', family: 'amber' },
+  { id: '--atom-palette-amber-600', name: 'Amber 600', category: 'color', value: '#d97706', description: '주의 버튼 호버 색상', family: 'amber' },
+  { id: '--atom-palette-amber-700', name: 'Amber 700', category: 'color', value: '#b45309', description: '주의 안내 텍스트', family: 'amber' },
+  { id: '--atom-palette-amber-800', name: 'Amber 800', category: 'color', value: '#92400e', description: '진한 주의 텍스트', family: 'amber' },
+  { id: '--atom-palette-amber-900', name: 'Amber 900', category: 'color', value: '#78350f', description: '딥 앰버 다크', family: 'amber' },
+
+  // --- Purple / Violet Scale (AI, Innovation, Premium) ---
+  { id: '--atom-palette-purple-50', name: 'Purple 50', category: 'color', value: '#faf5ff', description: 'AI 프롬프트 소프트 배경', family: 'purple' },
+  { id: '--atom-palette-purple-100', name: 'Purple 100', category: 'color', value: '#f3e8ff', description: '프리미엄 배지 배경', family: 'purple' },
+  { id: '--atom-palette-purple-200', name: 'Purple 200', category: 'color', value: '#e9d5ff', description: '보라색 소프트 보더', family: 'purple' },
+  { id: '--atom-palette-purple-300', name: 'Purple 300', category: 'color', value: '#d8b4fe', description: '바이올렛 포커스 링', family: 'purple' },
+  { id: '--atom-palette-purple-400', name: 'Purple 400', category: 'color', value: '#c084fc', description: '밝은 AI 이펙트 라인', family: 'purple' },
+  { id: '--atom-palette-purple-500', name: 'Purple 500 (AI Accent)', category: 'color', value: '#8b5cf6', description: 'AI 및 프리미엄 대표 액센트', family: 'purple' },
+  { id: '--atom-palette-purple-600', name: 'Purple 600', category: 'color', value: '#9333ea', description: '바이올렛 버튼 호버', family: 'purple' },
+  { id: '--atom-palette-purple-700', name: 'Purple 700', category: 'color', value: '#7e22ce', description: '보라색 텍스트', family: 'purple' },
+  { id: '--atom-palette-purple-800', name: 'Purple 800', category: 'color', value: '#6b21a8', description: '진한 바이올렛 텍스트', family: 'purple' },
+  { id: '--atom-palette-purple-900', name: 'Purple 900', category: 'color', value: '#581c87', description: '딥 바이올렛 다크', family: 'purple' },
+
+  // --- Neutral Pure ---
+  { id: '--atom-palette-white', name: 'Pure White', category: 'color', value: '#ffffff', description: '기본 캔버스 및 텍스트 반전색', family: 'neutral' },
+  { id: '--atom-palette-black', name: 'Pure Black', category: 'color', value: '#000000', description: '순수 블랙 및 절대 암부', family: 'neutral' },
+
+  // ==========================================
+  // 2. SIZE & SPACING PALETTES
+  // ==========================================
+  { id: '--atom-space-1', name: 'Space 1 (4px)', category: 'size', value: '4px', description: '초미세 여백 및 아이콘 갭' },
+  { id: '--atom-space-1-5', name: 'Space 1.5 (6px)', category: 'size', value: '6px', description: '콤팩트 배지 및 버튼 인라인 갭' },
+  { id: '--atom-space-2', name: 'Space 2 (8px)', category: 'size', value: '8px', description: '버튼 내부 패딩 및 미세 간격' },
+  { id: '--atom-space-2-5', name: 'Space 2.5 (10px)', category: 'size', value: '10px', description: '슬림 컴포넌트 여백' },
+  { id: '--atom-space-3', name: 'Space 3 (12px)', category: 'size', value: '12px', description: '인풋 및 카드 내부 기본 갭' },
+  { id: '--atom-space-3-5', name: 'Space 3.5 (14px)', category: 'size', value: '14px', description: '모달 헤더 및 아이템 간격' },
+  { id: '--atom-space-4', name: 'Space 4 (16px)', category: 'size', value: '16px', description: '표준 컴포넌트 내부 패딩' },
+  { id: '--atom-space-5', name: 'Space 5 (20px)', category: 'size', value: '20px', description: '중간 크기 카드 패딩' },
+  { id: '--atom-space-6', name: 'Space 6 (24px)', category: 'size', value: '24px', description: '대형 카드 및 섹션 간격' },
+  { id: '--atom-space-8', name: 'Space 8 (32px)', category: 'size', value: '32px', description: '섹션 디바이더 및 블록 간격' },
+  { id: '--atom-space-10', name: 'Space 10 (40px)', category: 'size', value: '40px', description: '대형 컨테이너 패딩' },
+  { id: '--atom-space-12', name: 'Space 12 (48px)', category: 'size', value: '48px', description: '페이지 상하 헤더 여백' },
+  { id: '--atom-space-16', name: 'Space 16 (64px)', category: 'size', value: '64px', description: '히어로 섹션 및 뷰포트 여백' },
+
+  // ==========================================
+  // 3. RADIUS PALETTES (Border Curvature)
+  // ==========================================
+  { id: '--atom-radius-none', name: 'Radius None (0px)', category: 'radius', value: '0px', description: '각진 직사각' },
+  { id: '--atom-radius-xs', name: 'Radius XS (2px)', category: 'radius', value: '2px', description: '미세 라운딩' },
+  { id: '--atom-radius-sm', name: 'Radius Small (4px)', category: 'radius', value: '4px', description: '콤팩트 태그 및 배지 곡률' },
+  { id: '--atom-radius-md', name: 'Radius Medium (8px)', category: 'radius', value: '8px', description: '표준 버튼 및 인풋 곡률' },
+  { id: '--atom-radius-lg', name: 'Radius Large (12px)', category: 'radius', value: '12px', description: '카드 및 다이얼로그 모달 곡률' },
+  { id: '--atom-radius-xl', name: 'Radius XL (16px)', category: 'radius', value: '16px', description: '볼드 라운딩 패널' },
+  { id: '--atom-radius-2xl', name: 'Radius 2XL (24px)', category: 'radius', value: '24px', description: '모바일 바텀 시트 곡률' },
   { id: '--atom-radius-full', name: 'Radius Full (9999px)', category: 'radius', value: '9999px', description: '완전 둥근 알약(Pill) 곡률' },
 
-  // Spacing
-  { id: '--atom-space-1', name: 'Space 1 (4px)', category: 'spacing', value: '4px', description: '초미세 간격' },
-  { id: '--atom-space-2', name: 'Space 2 (8px)', category: 'spacing', value: '8px', description: '버튼 내부 요소 간격' },
-  { id: '--atom-space-3', name: 'Space 3 (12px)', category: 'spacing', value: '12px', description: '인풋 패딩' },
-  { id: '--atom-space-4', name: 'Space 4 (16px)', category: 'spacing', value: '16px', description: '기본 카드/컴포넌트 패딩' },
-  { id: '--atom-space-5', name: 'Space 5 (20px)', category: 'spacing', value: '20px', description: '중간 크기 패딩' },
-  { id: '--atom-space-6', name: 'Space 6 (24px)', category: 'spacing', value: '24px', description: '섹션 간격' },
-  { id: '--atom-space-8', name: 'Space 8 (32px)', category: 'spacing', value: '32px', description: '대형 레이아웃 간격' },
+  // ==========================================
+  // 4. TYPOGRAPHY PALETTES
+  // ==========================================
+  { id: '--atom-typography-xs', name: 'Font XS (12px / 16px)', category: 'typography', value: '12px', description: '캡션, 힌트, 배지 라벨' },
+  { id: '--atom-typography-sm', name: 'Font SM (14px / 20px)', category: 'typography', value: '14px', description: '서브 레이블, 폼 헬퍼 텍스트' },
+  { id: '--atom-typography-base', name: 'Font Base (16px / 24px)', category: 'typography', value: '16px', description: '기본 본문 텍스트 규격' },
+  { id: '--atom-typography-lg', name: 'Font LG (18px / 28px)', category: 'typography', value: '18px', description: '소제목 및 강조 문구' },
+  { id: '--atom-typography-xl', name: 'Font XL (20px / 28px)', category: 'typography', value: '20px', description: '카드 타이틀 및 섹션 헤더' },
+  { id: '--atom-typography-2xl', name: 'Font 2XL (24px / 32px)', category: 'typography', value: '24px', description: '중형 페이지 타이틀' },
+  { id: '--atom-typography-3xl', name: 'Font 3XL (30px / 36px)', category: 'typography', value: '30px', description: '대형 메인 타이틀' },
+  { id: '--atom-typography-4xl', name: 'Font 4XL (36px / 40px)', category: 'typography', value: '36px', description: '히어로 디스플레이 타이틀' },
+  { id: '--atom-font-weight-regular', name: 'Weight Regular (400)', category: 'typography', value: '400', description: '일반 본문 굵기' },
+  { id: '--atom-font-weight-medium', name: 'Weight Medium (500)', category: 'typography', value: '500', description: '세미 강조 본문 굵기' },
+  { id: '--atom-font-weight-semibold', name: 'Weight Semibold (600)', category: 'typography', value: '600', description: '버튼 및 테이블 헤더 굵기' },
+  { id: '--atom-font-weight-bold', name: 'Weight Bold (700)', category: 'typography', value: '700', description: '타이틀 및 핵심 강조 굵기' },
 ];
 
 export const INITIAL_STUDIO_COMPONENTS: StudioComponentDefinition[] = [
