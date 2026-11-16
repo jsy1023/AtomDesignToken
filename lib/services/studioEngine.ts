@@ -193,6 +193,25 @@ export function exportStudioToCSS(
           css += `  outline: 2px solid var(--atom-${comp.id}-${v.id}-focusBorderColor);\n`;
           css += `}\n\n`;
         }
+      } else if (comp.id === 'navbar') {
+        css += `.atom-navbar.atom-navbar--${v.id},\n.atom-navbar[data-variable="${v.id}"],\n[data-component="navbar"][data-variable="${v.id}"] {\n`;
+        if (v.tokenBindings.background) css += `  background-color: var(--atom-${comp.id}-${v.id}-background);\n`;
+        if (v.tokenBindings.borderColor) css += `  border-color: var(--atom-${comp.id}-${v.id}-borderColor);\n`;
+        if (v.tokenBindings.borderRadius) css += `  border-radius: var(--atom-${comp.id}-${v.id}-borderRadius);\n`;
+        if (v.tokenBindings.textColor) css += `  color: var(--atom-${comp.id}-${v.id}-textColor);\n`;
+        css += `}\n\n`;
+      } else if (comp.id === 'sidebar') {
+        css += `.atom-sidebar.atom-sidebar--${v.id},\n.atom-sidebar[data-variable="${v.id}"],\n[data-component="sidebar"][data-variable="${v.id}"] {\n`;
+        if (v.tokenBindings.background) css += `  background-color: var(--atom-${comp.id}-${v.id}-background);\n`;
+        if (v.tokenBindings.borderColor) css += `  border-color: var(--atom-${comp.id}-${v.id}-borderColor);\n`;
+        if (v.tokenBindings.textColor) css += `  color: var(--atom-${comp.id}-${v.id}-textColor);\n`;
+        css += `}\n`;
+        if (v.tokenBindings.activeBackground || v.tokenBindings.activeText) {
+          css += `.atom-sidebar.atom-sidebar--${v.id} [aria-current="page"],\n.atom-sidebar[data-variable="${v.id}"] [aria-current="page"] {\n`;
+          if (v.tokenBindings.activeBackground) css += `  background-color: var(--atom-${comp.id}-${v.id}-activeBackground);\n`;
+          if (v.tokenBindings.activeText) css += `  color: var(--atom-${comp.id}-${v.id}-activeText);\n`;
+          css += `}\n\n`;
+        }
       }
     });
   });

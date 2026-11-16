@@ -1219,6 +1219,14 @@ export const Tree: React.FC<TreeProps> = ({
 `;
   fs.writeFileSync(path.join(uiDir, 'Tree.tsx'), treeCode, 'utf-8');
 
+  // Navbar
+  const navbarCode = fs.readFileSync(path.join(uiDir, 'Navbar.tsx'), 'utf-8');
+  fs.writeFileSync(path.join(uiDir, 'Navbar.tsx'), navbarCode, 'utf-8');
+
+  // Sidebar
+  const sidebarCode = fs.readFileSync(path.join(uiDir, 'Sidebar.tsx'), 'utf-8');
+  fs.writeFileSync(path.join(uiDir, 'Sidebar.tsx'), sidebarCode, 'utf-8');
+
   // UI Components Index
   const indexCode = `export * from './Button';
 export * from './Input';
@@ -1244,6 +1252,8 @@ export * from './Tabs';
 export * from './Switch';
 export * from './Container';
 export * from './Layout';
+export * from './Navbar';
+export * from './Sidebar';
 `;
   fs.writeFileSync(path.join(uiDir, 'index.ts'), indexCode, 'utf-8');
   console.log('✅ Generated components/ui ready-to-use React components');

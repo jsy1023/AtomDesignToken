@@ -1725,6 +1725,162 @@ export function TextareaDemo() {
     htmlSnippet: '<div class="atom-layout-shell">\n  <header class="atom-layout-header">헤더</header>\n  <main class="atom-layout-content">\n    <div class="atom-stack-v atom-gap-4">스택 본문</div>\n  </main>\n</div>',
     reactSnippet: "import { Layout, Container, Stack, Grid } from 'atomsystem/components/Layout';\n\nexport function LayoutDemo() {\n  return (\n    <Layout>\n      <Layout.Header>헤더</Layout.Header>\n      <Layout.Content>\n        <Container size=\"xl\">\n          <Stack gap=\"6\">\n            <h1 className=\"text-2xl font-bold\">대시보드</h1>\n            <Grid cols={3} gap=\"4\">\n              <div>카드 1</div>\n              <div>카드 2</div>\n              <div>카드 3</div>\n            </Grid>\n          </Stack>\n        </Container>\n      </Layout.Content>\n    </Layout>\n  );\n}",
     vueSnippet: '<template>\n  <div class="atom-layout-shell">\n    <slot />\n  </div>\n</template>'
+  },
+  {
+    id: 'navbar',
+    name: '글로벌 네비게이션 (Global Navbar)',
+    category: 'navigation',
+    source: 'AtomSystem Universal',
+    description: '상단 브랜드 로고, 네비게이션 메뉴 및 유저 컨트롤을 제공하는 글로벌 헤더',
+    callout: {
+      type: 'tip',
+      title: '글로벌 헤더 네비게이션',
+      text: '모든 페이지의 최상단에 위치하며, 브랜드 로고, 주요 섹션 링크, 글로벌 검색 및 사용자 프로필 메뉴를 일관되게 제공합니다.'
+    },
+    propsSpec: [
+      { name: 'sticky', type: 'boolean', defaultValue: 'false', description: '상단 고정 스티키 활성화 여부' },
+      { name: 'bordered', type: 'boolean', defaultValue: 'true', description: '하단 테두리 구분선 표시 여부' },
+      { name: 'blur', type: 'boolean', defaultValue: 'true', description: '반투명 글래스모피즘(backdrop-blur) 배경 적용' },
+      { name: 'variable', type: "'default' | 'floating' | string", defaultValue: "'default'", description: '스튜디오 설정 변수 클래스 (atom-navbar--*)' }
+    ],
+    useCases: [
+      '웹 애플리케이션 및 SaaS 제품의 최상단 글로벌 헤더',
+      '브랜드 로고, 글로벌 검색, 알림, 프로필 아바타 통합 제어',
+      '모바일 반응형 토글 메뉴 연동'
+    ],
+    usagePatterns: [
+      'sticky 속성을 활성화하여 긴 스크롤 페이지에서도 항상 상단에 고정합니다.',
+      'backdrop-blur와 조합하여 스크롤 시 세련된 글래스모피즘 효과를 연출합니다.'
+    ],
+    dosAndDonts: [
+      {
+        do: '모바일 뷰포트에서는 NavbarToggle을 통해 햄버거 메뉴로 반응형 전환합니다.',
+        dont: '네비바 안에 과도하게 많은 텍스트 링크를 나열하여 뷰포트 폭을 초과하지 않도록 합니다.'
+      }
+    ],
+    relatedPatternIds: ['saas-dashboard', 'developer-docs'],
+    htmlSnippet: `<header class="atom-navbar">
+  <div class="atom-navbar-brand">AtomSystem</div>
+  <nav class="atom-navbar-nav">
+    <a href="#" class="atom-navbar-link active">Home</a>
+    <a href="#" class="atom-navbar-link">Docs</a>
+  </nav>
+</header>`,
+    reactSnippet: `import {
+  Navbar,
+  NavbarBrand,
+  NavbarNav,
+  NavbarLink,
+  NavbarActions,
+  Button
+} from '@/components/ui';
+
+export function NavbarDemo() {
+  return (
+    <Navbar sticky bordered blur variable="default">
+      <NavbarBrand href="/">
+        <span className="w-2.5 h-2.5 rounded-full bg-(--accent-primary)" />
+        <span>AtomSystem</span>
+      </NavbarBrand>
+      <NavbarNav>
+        <NavbarLink href="#overview" active>대시보드</NavbarLink>
+        <NavbarLink href="#analytics">통계 분석</NavbarLink>
+        <NavbarLink href="#settings">시스템 설정</NavbarLink>
+      </NavbarNav>
+      <NavbarActions>
+        <Button variant="outline" size="sm">로그인</Button>
+        <Button variant="primary" size="sm">시작하기</Button>
+      </NavbarActions>
+    </Navbar>
+  );
+}`
+  },
+  {
+    id: 'sidebar',
+    name: '사이드 네비게이션 (Side Navigation)',
+    category: 'navigation',
+    source: 'AtomSystem Universal',
+    description: '업무용 대시보드 및 복잡한 웹 앱의 계층형 메뉴, 프로젝트 스위처 및 사용자 설정을 제공하는 사이드바',
+    callout: {
+      type: 'tip',
+      title: '계층형 사이드바',
+      text: 'SidebarHeader, SidebarContent, SidebarGroup, SidebarMenuButton, SidebarFooter 구조로 100% 토큰화된 사이드 네비게이션을 조립합니다.'
+    },
+    propsSpec: [
+      { name: 'collapsed', type: 'boolean', defaultValue: 'false', description: '슬림 모드(아이콘 전용 72px) 접힘 여부' },
+      { name: 'width', type: 'string', defaultValue: "'260px'", description: '기본 펼쳐진 너비' },
+      { name: 'collapsedWidth', type: 'string', defaultValue: "'72px'", description: '접힌 상태의 슬림 너비' },
+      { name: 'variable', type: "'default' | 'floating' | string", defaultValue: "'default'", description: '스튜디오 설정 변수 클래스 (atom-sidebar--*)' }
+    ],
+    useCases: [
+      '어드민 콘솔, SaaS 대시보드의 메인 사이드 네비게이션',
+      '아이콘 기반 슬림 모드 (collapsed)와 확장 모드 토글 전환',
+      '그룹별 계층 메뉴(SidebarGroup) 및 활성 인디케이터 배지 표시'
+    ],
+    usagePatterns: [
+      '복잡한 메뉴 항목은 SidebarGroup과 SidebarGroupLabel로 카테고리화합니다.',
+      '현재 활성화된 메뉴는 active 속성을 부여하여 브랜드 컬러로 명확하게 강조합니다.'
+    ],
+    dosAndDonts: [
+      {
+        do: 'collapsed 상태일 때는 아이콘만 노출하고 툴팁이나 타이틀 속성을 제공합니다.',
+        dont: '사이드바 내부에 불필요하게 깊은 3단계 이상의 다단계 서브메뉴를 남발하지 않습니다.'
+      }
+    ],
+    relatedPatternIds: ['saas-dashboard', 'developer-docs'],
+    htmlSnippet: `<aside class="atom-sidebar">
+  <div class="atom-sidebar-header">대시보드</div>
+  <ul class="atom-sidebar-menu">
+    <li><a class="atom-sidebar-item active">홈</a></li>
+  </ul>
+</aside>`,
+    reactSnippet: `import {
+  Sidebar,
+  SidebarHeader,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupLabel,
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarMenuButton,
+  SidebarFooter
+} from '@/components/ui';
+import { LayoutDashboard, Users, Settings } from 'lucide-react';
+
+export function SidebarDemo() {
+  return (
+    <Sidebar variable="default">
+      <SidebarHeader>
+        <span className="font-bold text-sm">Atom Console</span>
+      </SidebarHeader>
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupLabel>Core</SidebarGroupLabel>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton active icon={<LayoutDashboard className="w-4 h-4" />}>
+                대시보드
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton icon={<Users className="w-4 h-4" />}>
+                사용자 관리
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton icon={<Settings className="w-4 h-4" />}>
+                설정
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarGroup>
+      </SidebarContent>
+      <SidebarFooter>
+        <span className="text-xs text-(--text-muted)">v1.2.0</span>
+      </SidebarFooter>
+    </Sidebar>
+  );
+}`
   }
 ];
 

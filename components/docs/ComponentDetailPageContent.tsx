@@ -25,7 +25,24 @@ import {
   Layout,
   Stack,
   Grid,
+  Navbar,
+  NavbarBrand,
+  NavbarNav,
+  NavbarLink,
+  NavbarActions,
+  NavbarToggle,
+  Sidebar,
+  SidebarHeader,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupLabel,
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarMenuButton,
+  SidebarFooter,
+  SidebarToggle,
 } from '@/components/ui';
+import { INITIAL_STUDIO_COMPONENTS } from '@/lib/data/studioData';
 import { CodeHighlight } from '@/components/common/CodeHighlight';
 import { COMPONENT_TOKEN_MAPPINGS, getComponentTokens, getLocalizedToken } from '@/lib/data/componentTokens';
 import {
@@ -51,6 +68,11 @@ import {
   Bell,
   Eye,
   Sliders,
+  LayoutDashboard,
+  Users,
+  Settings,
+  Palette,
+  ExternalLink,
 } from 'lucide-react';
 
 interface ComponentDetailPageContentProps {
@@ -83,6 +105,12 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
   const [activeTab, setActiveTab] = useState<'account' | 'password' | 'settings'>('account');
   const [showAlert, setShowAlert] = useState(true);
   const [selectedTreeId, setSelectedTreeId] = useState<string>('Button.tsx');
+  const [navbarVariable, setNavbarVariable] = useState<'default' | 'floating'>('default');
+  const [sidebarVariable, setSidebarVariable] = useState<'default' | 'floating'>('default');
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [activeNavId, setActiveNavId] = useState('dash');
+
+  const studioDef = INITIAL_STUDIO_COMPONENTS.find((sc) => sc.id === component.id);
 
   const rawSnippet =
     activeSnippetTab === 'react'
@@ -331,22 +359,83 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                 </Button>
               </div>
             </div>
+
+            {/* 5. 스튜디오 등록 커스텀 변수 (Studio Variables) */}
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-mono font-semibold text-(--text-secondary) uppercase tracking-wider">
+                  {locale === 'ja'
+                    ? '5. Studioで定義されたデザイン変数 (STUDIO VARIABLES)'
+                    : locale === 'en'
+                    ? '5. Studio-Configured Design Variables (STUDIO VARIABLES)'
+                    : '5. 스튜디오 등록 디자인 변수 연동 (STUDIO VARIABLES)'}
+                </span>
+                <Link
+                  href="/studio?component=button"
+                  className="text-xs font-semibold text-(--accent-primary) hover:underline flex items-center gap-1"
+                >
+                  <span>스튜디오에서 새 변수 만들기</span>
+                  <ExternalLink className="w-3 h-3" />
+                </Link>
+              </div>
+              <div className="flex flex-wrap items-center gap-3 p-3.5 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle)">
+                <Button variable="pill-cta">
+                  Pill CTA (히어로 전용)
+                </Button>
+                <Button variable="destructive">
+                  Destructive (위험/경고)
+                </Button>
+                <Button variable="ghost">
+                  Ghost (고스트)
+                </Button>
+                <Button variable="outline">
+                  Outline (아웃라인)
+                </Button>
+                <Button variable="success">
+                  Success (성공 완료)
+                </Button>
+              </div>
+            </div>
           </div>
         );
 
       case 'input':
         return (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-lg">
-            <Input
-              label={locale === 'ja' ? 'メールアドレス (基本)' : locale === 'en' ? 'Email Address (Default)' : '이메일 주소 (기본)'}
-              type="email"
-              placeholder="name@company.com"
-            />
-            <Input
-              label={locale === 'ja' ? 'エラー状態入力' : locale === 'en' ? 'Error State Input' : '에러 상태 인풋'}
-              defaultValue="invalid_email"
-              error={locale === 'ja' ? '有効なメール形式を入力してください。' : locale === 'en' ? 'Please enter a valid email address.' : '유효한 이메일 형식을 입력하세요.'}
-            />
+          <div className="w-full max-w-xl flex flex-col gap-5 py-2">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-mono font-semibold text-(--text-secondary) uppercase tracking-wider">
+                스튜디오 인풋 변수 (Standard vs Pill)
+              </span>
+              <Link
+                href="/studio?component=input"
+                className="text-xs font-semibold text-(--accent-primary) hover:underline flex items-center gap-1"
+              >
+                <span>스튜디오에서 편집</span>
+                <ExternalLink className="w-3 h-3" />
+              </Link>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <Input
+                variable="standard"
+                label={locale === 'ja' ? '標準インプット (Standard)' : locale === 'en' ? 'Standard Input (Default)' : '표준 인풋 (Standard)'}
+                type="email"
+                placeholder="name@company.com"
+                helperText="스튜디오 기본 6px 곡률"
+              />
+              <Input
+                variable="pill"
+                label={locale === 'ja' ? 'ピル型インプット (Pill)' : locale === 'en' ? 'Pill Round Input' : '라운드 알약 인풋 (Pill)'}
+                placeholder="둥근 검색어 입력..."
+                helperText="스튜디오 완전 원형 9999px 곡률"
+              />
+            </div>
+            <div className="pt-2">
+              <Input
+                label={locale === 'ja' ? 'エラー状態入力' : locale === 'en' ? 'Error State Input' : '에러 상태 인풋 (위험 토큰 바인딩)'}
+                defaultValue="invalid_email"
+                error={locale === 'ja' ? '有効なメール形式を入力してください。' : locale === 'en' ? 'Please enter a valid email address.' : '유효한 이메일 형식을 입력하세요.'}
+              />
+            </div>
           </div>
         );
 
@@ -505,52 +594,99 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
 
       case 'tabs':
         return (
-          <div className="w-full max-w-sm flex flex-col gap-3">
-            <TabsList className="w-full justify-center">
-              {(['account', 'password', 'settings'] as const).map((tab) => (
-                <TabsTrigger
-                  key={tab}
-                  active={activeTab === tab}
-                  onClick={() => setActiveTab(tab)}
-                  className="flex-1 capitalize"
-                >
-                  {tab}
-                </TabsTrigger>
-              ))}
-            </TabsList>
-            <TabsContent active className="text-center text-(--text-secondary)">
-              {locale === 'ja' ? '選択中のタブ: ' : locale === 'en' ? 'Selected Tab: ' : '선택된 탭: '}
-              <strong className="text-(--text-primary)">{activeTab}</strong>
-            </TabsContent>
+          <div className="w-full max-w-md flex flex-col gap-4 py-2">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-mono font-semibold text-(--text-secondary) uppercase tracking-wider">
+                스튜디오 탭 변수 (Underlined vs Pills)
+              </span>
+              <Link
+                href="/studio?component=tabs"
+                className="text-xs font-semibold text-(--accent-primary) hover:underline flex items-center gap-1"
+              >
+                <span>스튜디오에서 편집</span>
+                <ExternalLink className="w-3 h-3" />
+              </Link>
+            </div>
+            <div className="space-y-3">
+              <TabsList className="w-full justify-center">
+                {(['account', 'password', 'settings'] as const).map((tab) => (
+                  <TabsTrigger
+                    key={tab}
+                    active={activeTab === tab}
+                    onClick={() => setActiveTab(tab)}
+                    className="flex-1 capitalize"
+                  >
+                    {tab}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+              <TabsContent active className="text-center text-(--text-secondary)">
+                {locale === 'ja' ? '選択中のタブ: ' : locale === 'en' ? 'Selected Tab: ' : '선택된 탭: '}
+                <strong className="text-(--text-primary)">{activeTab}</strong>
+              </TabsContent>
+            </div>
           </div>
         );
 
       case 'badge':
         return (
-          <div className="flex flex-wrap items-center justify-center gap-2">
-            <Badge variant="primary">NEW Feature</Badge>
-            <Badge variant="success">{locale === 'ja' ? 'オンライン接続' : locale === 'en' ? 'Online' : '온라인 연결됨'}</Badge>
-            <Badge variant="warning">{locale === 'ja' ? '待機中' : locale === 'en' ? 'Pending' : '대기중'}</Badge>
-            <Badge variant="destructive">{locale === 'ja' ? 'エラー発生' : locale === 'en' ? 'Error' : '오류 발생'}</Badge>
+          <div className="w-full max-w-xl flex flex-col gap-4 py-2">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-mono font-semibold text-(--text-secondary) uppercase tracking-wider">
+                스튜디오 배지 변수 프리뷰 (Studio Badge Variables)
+              </span>
+              <Link
+                href="/studio?component=badge"
+                className="text-xs font-semibold text-(--accent-primary) hover:underline flex items-center gap-1"
+              >
+                <span>스튜디오에서 편집</span>
+                <ExternalLink className="w-3 h-3" />
+              </Link>
+            </div>
+            <div className="flex flex-wrap items-center justify-center gap-2.5 p-4 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle)">
+              <Badge variable="primary">Primary (주요 액션)</Badge>
+              <Badge variable="secondary">Secondary (보조)</Badge>
+              <Badge variable="success">Success (성공 완료)</Badge>
+              <Badge variable="warning">Warning (주의 대기)</Badge>
+              <Badge variable="destructive">Danger (위험 오류)</Badge>
+              <Badge variable="sharp-neutral">Sharp Neutral (샤프)</Badge>
+            </div>
           </div>
         );
 
       case 'card':
         return (
-          <Card className="p-5 max-w-xs w-full flex flex-col gap-2">
-            <Badge variant="primary" className="self-start text-xs">
-              {locale === 'ja' ? 'トークン連携サーフェス' : locale === 'en' ? 'Token Surface' : '토큰 바인딩 서피스'}
-            </Badge>
-            <h4 className="text-base font-bold text-(--text-primary)">
-              {locale === 'ja' ? '定期預金スマート口座' : locale === 'en' ? 'High-Yield Savings' : '토스뱅크 자유적금'}
-            </h4>
-            <div className="text-xl font-bold text-(--text-primary)">
-              {locale === 'ja' ? '¥ 1,245,000' : locale === 'en' ? '$ 12,450.00' : '₩ 12,450,000'}
+          <div className="w-full max-w-2xl flex flex-col gap-4 py-2">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-mono font-semibold text-(--text-secondary) uppercase tracking-wider">
+                스튜디오 카드 변수 프리뷰 (Studio Card Variables)
+              </span>
+              <Link
+                href="/studio?component=card"
+                className="text-xs font-semibold text-(--accent-primary) hover:underline flex items-center gap-1"
+              >
+                <span>스튜디오에서 편집</span>
+                <ExternalLink className="w-3 h-3" />
+              </Link>
             </div>
-            <p className="text-sm text-(--text-secondary)">
-              {locale === 'ja' ? '年利 4.5% 最高金利適用中' : locale === 'en' ? '4.5% APY Prime Interest Rate' : '연 4.5% 최고 금리 적용 중'}
-            </p>
-          </Card>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <Card variable="elevated" className="p-4 flex flex-col gap-1.5 shadow-sm">
+                <Badge variant="primary" className="self-start text-[10px]">variable="elevated"</Badge>
+                <h5 className="font-bold text-sm text-(--text-primary)">엘리베이티드 카드</h5>
+                <p className="text-xs text-(--text-secondary)">부드러운 그림자와 라운딩이 적용된 기본 카드</p>
+              </Card>
+              <Card variable="outlined" className="p-4 flex flex-col gap-1.5 border-2 border-(--border-strong)">
+                <Badge variant="neutral" className="self-start text-[10px]">variable="outlined"</Badge>
+                <h5 className="font-bold text-sm text-(--text-primary)">아웃라인 카드</h5>
+                <p className="text-xs text-(--text-secondary)">선명한 경계선을 지닌 구조화 카드</p>
+              </Card>
+              <Card variable="interactive" interactive className="p-4 flex flex-col gap-1.5 hover:border-(--accent-primary) transition cursor-pointer">
+                <Badge variant="success" className="self-start text-[10px]">variable="interactive"</Badge>
+                <h5 className="font-bold text-sm text-(--text-primary)">인터랙티브 카드</h5>
+                <p className="text-xs text-(--text-secondary)">호버 시 위로 떠오르는 피드백 카드</p>
+              </Card>
+            </div>
+          </div>
         );
 
       case 'table':
@@ -669,6 +805,265 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                 Col 3
               </div>
             </Grid>
+          </div>
+        );
+
+      case 'navbar':
+        return (
+          <div className="w-full flex flex-col gap-4 py-2">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <span className="text-xs font-mono font-semibold text-(--text-secondary) uppercase tracking-wider">
+                {locale === 'ja' ? 'ナビゲーションバー形式の切り替え' : locale === 'en' ? 'Navbar Variant Switcher' : '네비게이션 바 스타일 변수 선택'}
+              </span>
+              <div className="flex items-center gap-1 bg-(--bg-secondary) p-1 rounded-(--radius-sm) border border-(--border-subtle)">
+                <button
+                  type="button"
+                  onClick={() => setNavbarVariable('default')}
+                  className={`px-2.5 py-1 text-xs font-medium rounded transition ${
+                    navbarVariable === 'default'
+                      ? 'bg-(--bg-primary) text-(--text-primary) shadow-xs font-bold'
+                      : 'text-(--text-secondary) hover:text-(--text-primary)'
+                  }`}
+                >
+                  표준 스티키 (Standard)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setNavbarVariable('floating')}
+                  className={`px-2.5 py-1 text-xs font-medium rounded transition ${
+                    navbarVariable === 'floating'
+                      ? 'bg-(--bg-primary) text-(--text-primary) shadow-xs font-bold'
+                      : 'text-(--text-secondary) hover:text-(--text-primary)'
+                  }`}
+                >
+                  플로팅 필 (Floating Pill)
+                </button>
+              </div>
+            </div>
+
+            <div className="p-4 rounded-(--radius) bg-(--bg-secondary)/40 border border-(--border-subtle)">
+              <Navbar
+                key={navbarVariable}
+                variable={navbarVariable}
+                bordered
+                blur
+                className={navbarVariable === 'floating' ? 'max-w-4xl mx-auto rounded-full shadow-md' : 'rounded-(--radius-sm)'}
+              >
+                <NavbarBrand href="#brand">
+                  <div className="w-7 h-7 rounded-lg bg-(--atom-color-primary,#3182f6) text-white flex items-center justify-center font-bold text-xs shadow-xs">
+                    AT
+                  </div>
+                  <span className="font-bold text-sm">AtomSystem</span>
+                </NavbarBrand>
+
+                <NavbarNav>
+                  <NavbarLink
+                    href="#dash"
+                    active={activeNavId === 'dash'}
+                    onClick={(e) => { e.preventDefault(); setActiveNavId('dash'); }}
+                  >
+                    대시보드
+                  </NavbarLink>
+                  <NavbarLink
+                    href="#components"
+                    active={activeNavId === 'components'}
+                    onClick={(e) => { e.preventDefault(); setActiveNavId('components'); }}
+                  >
+                    컴포넌트
+                  </NavbarLink>
+                  <NavbarLink
+                    href="#tokens"
+                    active={activeNavId === 'tokens'}
+                    onClick={(e) => { e.preventDefault(); setActiveNavId('tokens'); }}
+                  >
+                    디자인 토큰
+                  </NavbarLink>
+                </NavbarNav>
+
+                <NavbarActions>
+                  <Button variant="outline" size="sm">
+                    문서 보기
+                  </Button>
+                  <Button variant="primary" size="sm">
+                    시작하기
+                  </Button>
+                </NavbarActions>
+              </Navbar>
+            </div>
+          </div>
+        );
+
+      case 'sidebar':
+        return (
+          <div className="w-full flex flex-col gap-4 py-2">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <span className="text-xs font-mono font-semibold text-(--text-secondary) uppercase tracking-wider">
+                {locale === 'ja' ? 'サイドバーの展開/折りたたみ操作' : locale === 'en' ? 'Sidebar Expand / Collapse' : '사이드바 인터랙션 및 상태 제어'}
+              </span>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+                  className="text-xs"
+                >
+                  {isSidebarCollapsed ? '전체 펼치기 (Expand)' : '슬림 접기 (Collapse)'}
+                </Button>
+                <div className="flex items-center gap-1 bg-(--bg-secondary) p-1 rounded-(--radius-sm) border border-(--border-subtle)">
+                  <button
+                    type="button"
+                    onClick={() => setSidebarVariable('default')}
+                    className={`px-2.5 py-1 text-xs font-medium rounded transition ${
+                      sidebarVariable === 'default'
+                        ? 'bg-(--bg-primary) text-(--text-primary) shadow-xs font-bold'
+                        : 'text-(--text-secondary) hover:text-(--text-primary)'
+                    }`}
+                  >
+                    엔터프라이즈 (Default)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setSidebarVariable('floating')}
+                    className={`px-2.5 py-1 text-xs font-medium rounded transition ${
+                      sidebarVariable === 'floating'
+                        ? 'bg-(--bg-primary) text-(--text-primary) shadow-xs font-bold'
+                        : 'text-(--text-secondary) hover:text-(--text-primary)'
+                    }`}
+                  >
+                    플로팅 카드 (Floating)
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div className="h-96 w-full rounded-(--radius) bg-(--bg-secondary)/40 border border-(--border-subtle) flex overflow-hidden">
+              <Sidebar
+                collapsed={isSidebarCollapsed}
+                variable={sidebarVariable}
+                className={sidebarVariable === 'floating' ? 'm-3 rounded-(--radius) shadow-md border' : 'h-full'}
+              >
+                <SidebarHeader>
+                  <div className="flex items-center gap-2 min-w-0">
+                    <div className="w-7 h-7 rounded-lg bg-(--atom-color-primary,#3182f6) text-white flex items-center justify-center font-bold text-xs shrink-0">
+                      AT
+                    </div>
+                    {!isSidebarCollapsed && (
+                      <div className="truncate">
+                        <div className="font-bold text-xs text-(--text-primary)">Atom Console</div>
+                        <div className="text-[10px] text-(--text-muted) font-mono">Workspace Pro</div>
+                      </div>
+                    )}
+                  </div>
+                  <SidebarToggle
+                    collapsed={isSidebarCollapsed}
+                    onToggle={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+                  />
+                </SidebarHeader>
+
+                <SidebarContent>
+                  <SidebarGroup>
+                    <SidebarGroupLabel>메인 메뉴 (Core)</SidebarGroupLabel>
+                    <SidebarMenu>
+                      <SidebarMenuItem>
+                        <SidebarMenuButton
+                          active={activeNavId === 'dash'}
+                          collapsed={isSidebarCollapsed}
+                          onClick={() => setActiveNavId('dash')}
+                          icon={<LayoutDashboard className="w-4 h-4" />}
+                          badge={<span className="px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-white/20 text-white border border-white/30">Live</span>}
+                        >
+                          대시보드
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                      <SidebarMenuItem>
+                        <SidebarMenuButton
+                          active={activeNavId === 'components'}
+                          collapsed={isSidebarCollapsed}
+                          onClick={() => setActiveNavId('components')}
+                          icon={<Layers className="w-4 h-4" />}
+                          badge={<Badge variant="neutral">33</Badge>}
+                        >
+                          컴포넌트 라이브러리
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                      <SidebarMenuItem>
+                        <SidebarMenuButton
+                          active={activeNavId === 'tokens'}
+                          collapsed={isSidebarCollapsed}
+                          onClick={() => setActiveNavId('tokens')}
+                          icon={<Palette className="w-4 h-4" />}
+                        >
+                          디자인 토큰 스튜디오
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                    </SidebarMenu>
+                  </SidebarGroup>
+
+                  <SidebarGroup>
+                    <SidebarGroupLabel>설정 및 관리 (Admin)</SidebarGroupLabel>
+                    <SidebarMenu>
+                      <SidebarMenuItem>
+                        <SidebarMenuButton
+                          active={activeNavId === 'team'}
+                          collapsed={isSidebarCollapsed}
+                          onClick={() => setActiveNavId('team')}
+                          icon={<Users className="w-4 h-4" />}
+                        >
+                          팀원 및 권한 관리
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                      <SidebarMenuItem>
+                        <SidebarMenuButton
+                          active={activeNavId === 'settings'}
+                          collapsed={isSidebarCollapsed}
+                          onClick={() => setActiveNavId('settings')}
+                          icon={<Settings className="w-4 h-4" />}
+                        >
+                          환경 설정
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                    </SidebarMenu>
+                  </SidebarGroup>
+                </SidebarContent>
+
+                <SidebarFooter>
+                  {!isSidebarCollapsed ? (
+                    <div className="flex items-center justify-between text-xs text-(--text-secondary)">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <div className="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-600 font-bold flex items-center justify-center text-[10px]">
+                          JS
+                        </div>
+                        <span className="truncate font-medium">관리자 (Admin)</span>
+                      </div>
+                      <span className="font-mono text-[10px] text-(--text-muted)">v1.2.0</span>
+                    </div>
+                  ) : (
+                    <div className="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-600 font-bold flex items-center justify-center text-[10px] mx-auto">
+                      JS
+                    </div>
+                  )}
+                </SidebarFooter>
+              </Sidebar>
+
+              {/* Main Preview Content Canvas */}
+              <div className="flex-1 p-6 flex flex-col items-center justify-center text-center gap-2 text-(--text-secondary)">
+                <div className="w-10 h-10 rounded-full bg-(--accent-primary)/10 text-(--accent-primary) flex items-center justify-center font-bold">
+                  ✓
+                </div>
+                <div className="font-bold text-sm text-(--text-primary)">
+                  {activeNavId === 'dash'
+                    ? '대시보드 뷰어 활성화됨'
+                    : activeNavId === 'components'
+                    ? '컴포넌트 라이브러리 뷰어 활성화됨'
+                    : activeNavId === 'tokens'
+                    ? '디자인 토큰 스튜디오 뷰어 활성화됨'
+                    : '관리 메뉴 뷰어'}
+                </div>
+                <p className="text-xs text-(--text-muted) max-w-xs">
+                  사이드바 메뉴 클릭 시 active 상태 전환 및 접기/펼치기 반응형 너비가 토큰 기반으로 부드럽게 전환됩니다.
+                </p>
+              </div>
+            </div>
           </div>
         );
 
@@ -800,7 +1195,79 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
           </div>
         </section>
 
-        {/* 2. W3C DTCG Token Mapping Specification (컴포넌트 토큰값 상세 조회) */}
+        {/* 2. Studio Design Variables Inspection (스튜디오 연동 디자인 변수) */}
+        {studioDef && studioDef.variables.length > 0 && (
+          <section id="studio-variables" className="scroll-mt-28 flex flex-col gap-3">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div className="flex items-center gap-2">
+                <Sliders className="w-4 h-4 text-(--accent-primary)" />
+                <h2 className="text-sm font-semibold uppercase tracking-wider text-(--text-primary)">
+                  {locale === 'ja'
+                    ? 'Studio 登録デザイン変数仕様 (Studio Variables)'
+                    : locale === 'en'
+                    ? 'Studio-Configured Design Variables'
+                    : '스튜디오 등록 디자인 변수 명세 (Studio Variables)'}
+                </h2>
+                <span className="px-2 py-0.5 rounded-full bg-(--accent-primary)/10 text-(--accent-primary) text-xs font-mono font-semibold">
+                  {studioDef.variables.length} Variables Registered
+                </span>
+              </div>
+              <Link
+                href={`/studio?component=${component.id}`}
+                className="text-xs font-semibold px-3 py-1.5 rounded-(--radius-sm) bg-(--accent-primary) text-white hover:opacity-90 transition flex items-center gap-1.5 shadow-xs"
+              >
+                <span>스튜디오에서 변수 커스텀하기</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+              {studioDef.variables.map((v) => (
+                <div
+                  key={v.id}
+                  className="p-4 rounded-(--radius-sm) border border-(--border-subtle) bg-(--bg-primary) flex flex-col justify-between gap-3 shadow-xs hover:border-(--accent-primary) transition group"
+                >
+                  <div className="space-y-1.5">
+                    <div className="flex items-center justify-between">
+                      <span className="font-bold text-xs text-(--text-primary)">{v.name}</span>
+                      <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-(--bg-secondary) text-(--text-muted) border border-(--border-subtle)">
+                        .{component.id}--{v.id}
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-(--text-secondary) leading-snug line-clamp-2">{v.description}</p>
+                  </div>
+
+                  <div className="pt-2 border-t border-(--border-subtle)/60 space-y-1">
+                    <div className="text-[10px] font-mono font-bold text-(--text-muted) uppercase">
+                      Token Bindings:
+                    </div>
+                    <div className="space-y-0.5">
+                      {Object.entries(v.tokenBindings).slice(0, 3).map(([prop, val]) => (
+                        <div key={prop} className="flex items-center justify-between text-[10px] font-mono">
+                          <span className="text-(--text-secondary)">{prop}:</span>
+                          <span className="text-(--accent-primary) font-semibold truncate max-w-[130px]">{val}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="pt-2 border-t border-(--border-subtle)/40 flex items-center justify-between text-[11px]">
+                    <code className="text-[10px] text-(--text-muted) font-mono">variable="{v.id}"</code>
+                    <Link
+                      href={`/studio?component=${component.id}`}
+                      className="text-(--accent-primary) font-semibold hover:underline flex items-center gap-1"
+                    >
+                      <span>편집</span>
+                      <ArrowRight className="w-3 h-3" />
+                    </Link>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* 3. W3C DTCG Token Mapping Specification (컴포넌트 토큰값 상세 조회) */}
         <section id="tokens" className="scroll-mt-28 flex flex-col gap-3">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <h2 className="text-sm font-semibold uppercase tracking-wider text-(--text-secondary) flex items-center gap-1.5">
@@ -1063,6 +1530,14 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                 {t('common.preview', '라이브 프리뷰')}
               </a>
             </li>
+            {studioDef && studioDef.variables.length > 0 && (
+              <li>
+                <a href="#studio-variables" className="text-(--accent-primary) font-semibold py-1 block transition-colors flex items-center gap-1.5">
+                  <Sliders className="w-3.5 h-3.5" />
+                  <span>스튜디오 변수 ({studioDef.variables.length})</span>
+                </a>
+              </li>
+            )}
             <li>
               <a href="#tokens" className="text-(--accent-primary) dark:text-blue-400 font-semibold py-1 block transition-colors flex items-center gap-1.5">
                 <Layers className="w-3.5 h-3.5" />

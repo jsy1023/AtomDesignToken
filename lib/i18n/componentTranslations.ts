@@ -589,6 +589,44 @@ export const COMPONENT_TRANSLATIONS: Record<'en' | 'ja', Record<string, Componen
         "dont": "Do not remove focus rings (outline: none) or rely solely on double-clicking."
       }
     ]
+  },
+  "navbar": {
+    "name": "Global Navbar",
+    "description": "Standardized enterprise top navigation bar featuring brand identity, page navigation links, global search, and user profile controls.",
+    "useCases": [
+      "Top-level navigation shell for web applications, SaaS dashboards, and marketing sites",
+      "Unified brand identity bar with responsive mobile menu collapse",
+      "Quick access to global search, notification center, and user account actions"
+    ],
+    "usagePatterns": [
+      "Enable sticky positioning for seamless access across long scroll journeys.",
+      "Combine backdrop blur with subtle borders for modern glassmorphism aesthetics."
+    ],
+    "dosAndDonts": [
+      {
+        "do": "Collapse navigation links into a mobile toggle drawer on smaller viewports.",
+        "dont": "Do not overload the navbar with dozens of text links causing horizontal overflow."
+      }
+    ]
+  },
+  "sidebar": {
+    "name": "Side Navigation",
+    "description": "Hierarchical side navigation rail for enterprise dashboards, workspace switchers, nested menus, and collapsed icon-only states.",
+    "useCases": [
+      "Primary navigation rail for multi-view admin consoles and SaaS applications",
+      "Collapsible compact rail mode for maximized data visualization workspace",
+      "Categorized navigation sections with active state indicator badges"
+    ],
+    "usagePatterns": [
+      "Group related features using SidebarGroup and SidebarGroupLabel.",
+      "Emphasize the currently active view with brand accent background."
+    ],
+    "dosAndDonts": [
+      {
+        "do": "Provide clear tooltip labels when collapsed in icon-only mode.",
+        "dont": "Do not build deep 3+ level nested accordions that disorient users."
+      }
+    ]
   }
 },
   ja: {
@@ -1171,6 +1209,44 @@ export const COMPONENT_TRANSLATIONS: Record<'en' | 'ja', Record<string, Componen
       {
         "do": "キーボード操作（Space、Enter、矢印キー）での開閉および選択をサポートします。",
         "dont": "フォーカスリングを消去(outline: none)したり、ダブルクリック操作のみに依存させないでください。"
+      }
+    ]
+  },
+  "navbar": {
+    "name": "グローバルナビゲーション (Global Navbar)",
+    "description": "ブランドロゴ、主要ページリンク、グローバル検索、ユーザーアカウント操作を提供する最上部ヘッダー。",
+    "useCases": [
+      "WebアプリケーションやSaaSダッシュボードの最上部グローバルヘッダー",
+      "レスポンシブなモバイルメニュー切り替えを備えたブランドアイデンティティバー",
+      "グローバル検索、通知センター、ユーザープロフィールへのクイックアクセス"
+    ],
+    "usagePatterns": [
+      "sticky属性を有効化し、長いスクロール画面でも常に上部に固定します。",
+      "半透明のbackdrop-blurと繊細な境界線を組み合わせて洗練された質感を演出します。"
+    ],
+    "dosAndDonts": [
+      {
+        "do": "モバイル画面ではNavbarToggleを活用してハンバーガーメニューに自動切り替えします。",
+        "dont": "過剰なリンクを横一列に詰め込んで画面幅を突き破らせないでください。"
+      }
+    ]
+  },
+  "sidebar": {
+    "name": "サイドナビゲーション (Side Navigation)",
+    "description": "業務系ダッシュボード、ワークスペース切り替え、階層メニュー、スリム展開モードを提供するサイドバー。",
+    "useCases": [
+      "管理コンソールやSaaSプロダクトのメインサイドナビゲーション",
+      "データ表示領域を最大化するアイコン専用スリムモード(collapsed)の切り替え",
+      "カテゴリ別階層メニューおよびアクティブ状態のバッジ通知"
+    ],
+    "usagePatterns": [
+      "関連機能はSidebarGroupとSidebarGroupLabelで分かりやすく整理します。",
+      "現在のアクティブ項目はブランドアクセントカラーで直感的に強調します。"
+    ],
+    "dosAndDonts": [
+      {
+        "do": "スリムモード時にはアイコンにツールチップやtitle属性を付与して視認性を担保します。",
+        "dont": "3段階以上の過度に深い多階層アコーディオンを乱立させないでください。"
       }
     ]
   }

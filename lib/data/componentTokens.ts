@@ -1583,6 +1583,106 @@ export const COMPONENT_TOKEN_MAPPINGS: Record<string, ComponentTokenMapping[]> =
       "descEn": "32px expansive spacing separating disparate page sections",
       "descJa": "異なる画面セクション間を大きく区切る32pxの拡張余白"
     }
+  ],
+  "navbar": [
+    {
+      "role": "네비바 배경 (Navbar Background)",
+      "variable": "var(--atom-palette-white)",
+      "dtcgPath": "color.surface.primary",
+      "defaultValue": "#ffffff",
+      "description": "상단 글로벌 네비게이션 컨테이너의 기본 서피스 배경색",
+      "type": "color",
+      "roleEn": "Navbar Background",
+      "roleJa": "ナビゲーションバー背景",
+      "descEn": "Primary surface background color for top navigation bar",
+      "descJa": "トップナビゲーションバーの基本サーフェス背景色"
+    },
+    {
+      "role": "하단 구분선 (Navbar Border)",
+      "variable": "var(--atom-palette-gray-200)",
+      "dtcgPath": "color.border.subtle",
+      "defaultValue": "#e2e8f0",
+      "description": "본문과 상단 헤더를 분리하는 옅은 경계선",
+      "type": "color",
+      "roleEn": "Navbar Border",
+      "roleJa": "ナビゲーションバー境界線",
+      "descEn": "Subtle border separating header and page content",
+      "descJa": "ヘッダーとコンテンツを分ける繊細な境界線"
+    },
+    {
+      "role": "활성 링크 색상 (Active Link)",
+      "variable": "var(--atom-color-primary)",
+      "dtcgPath": "color.action.primary",
+      "defaultValue": "#3182f6",
+      "description": "현재 선택된 네비게이션 링크 텍스트 및 하이라이트",
+      "type": "color",
+      "roleEn": "Active Link Text",
+      "roleJa": "アクティブリンク色",
+      "descEn": "Currently active navigation link text and highlight tint",
+      "descJa": "現在選択されているリンクの強調表示色"
+    },
+    {
+      "role": "네비 텍스트 (Nav Text)",
+      "variable": "var(--atom-palette-gray-700)",
+      "dtcgPath": "color.text.secondary",
+      "defaultValue": "#334155",
+      "description": "일반 메뉴 항목의 텍스트 색상",
+      "type": "color",
+      "roleEn": "Nav Link Text",
+      "roleJa": "メニューテキスト",
+      "descEn": "Standard text color for inactive navigation links",
+      "descJa": "標準ナビゲーションリンクのテキスト色"
+    }
+  ],
+  "sidebar": [
+    {
+      "role": "사이드바 배경 (Sidebar Background)",
+      "variable": "var(--atom-palette-gray-50)",
+      "dtcgPath": "color.surface.secondary",
+      "defaultValue": "#f8fafc",
+      "description": "좌측 계층 메뉴 영역의 서피스 배경색",
+      "type": "color",
+      "roleEn": "Sidebar Background",
+      "roleJa": "サイドバー背景",
+      "descEn": "Surface background color for left navigation panel",
+      "descJa": "左側ナビゲーション領域のサーフェス背景色"
+    },
+    {
+      "role": "우측 구분선 (Sidebar Border)",
+      "variable": "var(--atom-palette-gray-200)",
+      "dtcgPath": "color.border.subtle",
+      "defaultValue": "#e2e8f0",
+      "description": "본문 영역과 사이드바를 구분하는 수직 경계선",
+      "type": "color",
+      "roleEn": "Sidebar Right Border",
+      "roleJa": "サイドバー右側境界線",
+      "descEn": "Vertical divider separating sidebar and main content",
+      "descJa": "サイドバーとメインコンテンツを区切る縦の境界線"
+    },
+    {
+      "role": "활성 메뉴 배경 (Active Item Background)",
+      "variable": "var(--atom-color-primary)",
+      "dtcgPath": "color.action.primary",
+      "defaultValue": "#3182f6",
+      "description": "현재 페이지 항목의 솔리드 활성 배경색",
+      "type": "color",
+      "roleEn": "Active Item Background",
+      "roleJa": "アクティブ項目背景",
+      "descEn": "Solid accent background for currently active menu item",
+      "descJa": "現在選択されている項目のアクセント背景色"
+    },
+    {
+      "role": "활성 메뉴 텍스트 (Active Item Text)",
+      "variable": "var(--atom-palette-white)",
+      "dtcgPath": "color.text.inverse",
+      "defaultValue": "#ffffff",
+      "description": "활성 메뉴 버튼의 반전 텍스트 색상",
+      "type": "color",
+      "roleEn": "Active Item Text",
+      "roleJa": "アクティブ項目テキスト",
+      "descEn": "Contrasting inverse text for active menu item",
+      "descJa": "アクティブ項目の反転テキスト色"
+    }
   ]
 };
 

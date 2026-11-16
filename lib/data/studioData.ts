@@ -728,4 +728,89 @@ export const INITIAL_STUDIO_COMPONENTS: StudioComponentDefinition[] = [
       },
     ],
   },
+
+  // 11. Navbar (Global Navigation)
+  {
+    id: 'navbar',
+    name: 'Navbar (글로벌 네비게이션)',
+    category: 'Navigation',
+    description: '상단 브랜드 로고, 네비게이션 메뉴 및 유저 컨트롤을 제공하는 글로벌 헤더',
+    properties: [
+      { key: 'background', label: '배경 색상 (Background)', category: 'color', defaultPaletteId: '--atom-palette-white' },
+      { key: 'borderColor', label: '하단 테두리 (Border Color)', category: 'color', defaultPaletteId: '--atom-palette-gray-200' },
+      { key: 'activeText', label: '활성 링크 색상 (Active Link Text)', category: 'color', defaultPaletteId: '--atom-color-primary' },
+      { key: 'textColor', label: '기본 텍스트 색상 (Text Color)', category: 'color', defaultPaletteId: '--atom-palette-gray-700' },
+      { key: 'borderRadius', label: '모서리 곡률 (Border Radius)', category: 'radius', defaultPaletteId: '--atom-radius-none' },
+    ],
+    variables: [
+      {
+        id: 'default',
+        name: '표준 스티키 헤더 (Standard Sticky)',
+        description: '하단 옅은 보더와 브랜드 로고를 포함하는 클래식 상단 네비게이션',
+        tokenBindings: {
+          background: '--atom-palette-white',
+          borderColor: '--atom-palette-gray-200',
+          activeText: '--atom-color-primary',
+          textColor: '--atom-palette-gray-700',
+          borderRadius: '--atom-radius-none',
+        },
+      },
+      {
+        id: 'floating',
+        name: '플로팅 라운드 바 (Floating Pill)',
+        description: '랜딩 페이지나 모바일 웹에 적합한 완전 둥근 플로팅 헤더',
+        tokenBindings: {
+          background: '--atom-palette-white',
+          borderColor: '--atom-palette-gray-300',
+          activeText: '--atom-color-primary',
+          textColor: '--atom-palette-gray-700',
+          borderRadius: '--atom-radius-full',
+        },
+      },
+    ],
+  },
+
+  // 12. Sidebar (Side Navigation)
+  {
+    id: 'sidebar',
+    name: 'Sidebar (사이드 네비게이션)',
+    category: 'Navigation',
+    description: '업무용 대시보드 및 복잡한 웹 앱의 계층형 메뉴를 제공하는 사이드바',
+    properties: [
+      { key: 'background', label: '배경 색상 (Background)', category: 'color', defaultPaletteId: '--atom-palette-gray-50' },
+      { key: 'borderColor', label: '우측 테두리 (Border Color)', category: 'color', defaultPaletteId: '--atom-palette-gray-200' },
+      { key: 'activeBackground', label: '활성 아이템 배경 (Active BG)', category: 'color', defaultPaletteId: '--atom-color-primary' },
+      { key: 'activeText', label: '활성 아이템 텍스트 (Active Text)', category: 'color', defaultPaletteId: '--atom-palette-white' },
+      { key: 'textColor', label: '기본 메뉴 텍스트 (Text Color)', category: 'color', defaultPaletteId: '--atom-palette-gray-700' },
+      { key: 'borderRadius', label: '아이템 곡률 (Item Radius)', category: 'radius', defaultPaletteId: '--atom-radius-sm' },
+    ],
+    variables: [
+      {
+        id: 'default',
+        name: '엔터프라이즈 사이드바 (Enterprise)',
+        description: '좌측 고정형 계층 네비게이션 및 세련된 활성 하이라이트',
+        tokenBindings: {
+          background: '--atom-palette-gray-50',
+          borderColor: '--atom-palette-gray-200',
+          activeBackground: '--atom-color-primary',
+          activeText: '--atom-palette-white',
+          textColor: '--atom-palette-gray-700',
+          borderRadius: '--atom-radius-sm',
+        },
+      },
+      {
+        id: 'floating',
+        name: '플로팅 카드 사이드바 (Floating Card)',
+        description: '배경과 분리된 독립 카드 형태의 모던 사이드바',
+        tokenBindings: {
+          background: '--atom-palette-white',
+          borderColor: '--atom-palette-gray-300',
+          activeBackground: '--atom-color-primary',
+          activeText: '--atom-palette-white',
+          textColor: '--atom-palette-gray-700',
+          borderRadius: '--atom-radius-lg',
+        },
+      },
+    ],
+  },
 ];

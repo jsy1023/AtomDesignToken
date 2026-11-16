@@ -22,3 +22,5 @@ export * from './Tabs';
 export * from './Switch';
 export * from './Container';
 export * from './Layout';
+export * from './Navbar';
+export * from './Sidebar';
