@@ -170,23 +170,86 @@ export const BASE_COLOR_TOKENS: ColorToken[] = [
   // Status
   {
     name: 'Status Success',
-    variable: '--atom-status-success',
+    variable: '--atom-color-success',
     value: '#10b981',
     description: '성공 완료 알림, 온라인 상태, 송금 완료 상태',
     category: 'status'
   },
   {
-    name: 'Status Danger',
-    variable: '--atom-status-danger',
-    value: '#f43f5e',
-    description: '폼 유효성 에러, 경고 메시지, 삭제 등 파괴적 액션',
+    name: 'Status Success Hover',
+    variable: '--atom-color-success-hover',
+    value: '#059669',
+    description: '성공 버튼 및 액션 호버 색상',
+    category: 'status'
+  },
+  {
+    name: 'Status Success Subtle',
+    variable: '--atom-color-success-subtle',
+    value: '#ecfdf5',
+    description: '성공 배지 배경 및 소프트 알림 배경',
+    category: 'status'
+  },
+  {
+    name: 'Status Danger / Destructive',
+    variable: '--atom-color-danger',
+    value: '#ef4444',
+    description: '폼 유효성 에러, 위험/삭제 액션 버튼, 치명적 경고',
+    category: 'status'
+  },
+  {
+    name: 'Status Danger Hover',
+    variable: '--atom-color-danger-hover',
+    value: '#e11d48',
+    description: '위험/삭제 버튼 호버 색상',
+    category: 'status'
+  },
+  {
+    name: 'Status Danger Subtle',
+    variable: '--atom-color-danger-subtle',
+    value: '#fff1f2',
+    description: '에러 알림 배경 및 위험 배지 배경',
     category: 'status'
   },
   {
     name: 'Status Warning',
-    variable: '--atom-status-warning',
+    variable: '--atom-color-warning',
     value: '#f59e0b',
     description: '주의 알림, 대기 중인 상태, 결제 보류',
+    category: 'status'
+  },
+  {
+    name: 'Status Warning Hover',
+    variable: '--atom-color-warning-hover',
+    value: '#d97706',
+    description: '주의 버튼 호버 색상',
+    category: 'status'
+  },
+  {
+    name: 'Status Warning Subtle',
+    variable: '--atom-color-warning-subtle',
+    value: '#fffbeb',
+    description: '주의 배지 배경 및 대기 알림 배경',
+    category: 'status'
+  },
+  {
+    name: 'Legacy Status Success',
+    variable: '--atom-status-success',
+    value: 'var(--atom-color-success, #10b981)',
+    description: '기존 호환용 상태 토큰 (Success)',
+    category: 'status'
+  },
+  {
+    name: 'Legacy Status Danger',
+    variable: '--atom-status-danger',
+    value: 'var(--atom-color-danger, #ef4444)',
+    description: '기존 호환용 상태 토큰 (Danger)',
+    category: 'status'
+  },
+  {
+    name: 'Legacy Status Warning',
+    variable: '--atom-status-warning',
+    value: 'var(--atom-color-warning, #f59e0b)',
+    description: '기존 호환용 상태 토큰 (Warning)',
     category: 'status'
   }
 ];

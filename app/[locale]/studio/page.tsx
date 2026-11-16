@@ -11,8 +11,10 @@ import {
   PaletteVariable,
   ComponentVariable,
   StudioComponentDefinition,
+  SemanticStatusToken,
   INITIAL_PALETTE_VARIABLES,
   INITIAL_STUDIO_COMPONENTS,
+  INITIAL_SEMANTIC_STATUS_TOKENS,
 } from '@/lib/data/studioData';
 import {
   exportStudioToTokensJson,
@@ -40,6 +42,11 @@ import {
   Type,
   Square,
   Copy,
+  AlertTriangle,
+  AlertOctagon,
+  CheckCircle2,
+  Info,
+  Activity,
 } from 'lucide-react';
 
 export default function LocalStudioPage() {
@@ -56,8 +63,9 @@ export default function LocalStudioPage() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
 
-  // Palette Management View Filters
-  const [paletteCategoryFilter, setPaletteCategoryFilter] = useState<'all' | 'color' | 'size' | 'radius' | 'typography'>('color');
+  // Palette & Status Management View Filters
+  const [statusTokens, setStatusTokens] = useState<SemanticStatusToken[]>(INITIAL_SEMANTIC_STATUS_TOKENS);
+  const [paletteCategoryFilter, setPaletteCategoryFilter] = useState<'all' | 'status' | 'color' | 'size' | 'radius' | 'typography'>('status');
   const [colorFamilyFilter, setColorFamilyFilter] = useState<string>('all');
   const [paletteSearchQuery, setPaletteSearchQuery] = useState<string>('');
   const [copiedPaletteId, setCopiedPaletteId] = useState<string | null>(null);
@@ -226,6 +234,71 @@ export default function LocalStudioPage() {
     setNewPaletteDesc('');
   };
 
+  // Update Semantic Status Token palette reference
+  const handleUpdateStatusToken = (key: 'primary' | 'secondary' | 'success' | 'danger' | 'warning', newPaletteId: string) => {
+    setStatusTokens((prev) =>
+      prev.map((st) => {
+        if (st.key !== key) return st;
+        let hoverId = st.hoverPaletteId;
+        let subtleId = st.subtlePaletteId;
+
+        const match = newPaletteId.match(/--atom-palette-([a-z]+)-(\d+)/);
+        if (match) {
+          const family = match[1];
+          const step = parseInt(match[2], 10);
+          const hoverStep = Math.min(900, step + 100);
+          hoverId = `--atom-palette-${family}-${hoverStep}`;
+          subtleId = `--atom-palette-${family}-50`;
+        }
+
+        return {
+          ...st,
+          paletteId: newPaletteId,
+          hoverPaletteId: hoverId,
+          subtlePaletteId: subtleId,
+        };
+      })
+    );
+  };
+
+  // Realtime System-Wide CSS Cascade into Browser DOM
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    statusTokens.forEach((st) => {
+      const matchedVal = getPaletteValue(st.paletteId);
+      const matchedHover = st.hoverPaletteId ? getPaletteValue(st.hoverPaletteId) : matchedVal;
+      const matchedSubtle = st.subtlePaletteId ? getPaletteValue(st.subtlePaletteId) : matchedVal;
+      if (matchedVal) {
+        document.documentElement.style.setProperty(st.id, matchedVal);
+        if (st.hoverPaletteId) document.documentElement.style.setProperty(`${st.id}-hover`, matchedHover);
+        if (st.subtlePaletteId) document.documentElement.style.setProperty(`${st.id}-subtle`, matchedSubtle);
+
+        // Sync all standard semantic aliases across the document
+        if (st.key === 'primary') {
+          document.documentElement.style.setProperty('--atom-primary', matchedVal);
+          document.documentElement.style.setProperty('--atom-primary-hover', matchedHover);
+          document.documentElement.style.setProperty('--atom-primary-light', matchedSubtle);
+          document.documentElement.style.setProperty('--accent-primary', matchedVal);
+          document.documentElement.style.setProperty('--accent-primary-hover', matchedHover);
+        } else if (st.key === 'secondary') {
+          document.documentElement.style.setProperty('--atom-secondary', matchedVal);
+          document.documentElement.style.setProperty('--atom-secondary-hover', matchedHover);
+        } else if (st.key === 'success') {
+          document.documentElement.style.setProperty('--atom-success', matchedVal);
+          document.documentElement.style.setProperty('--atom-status-success', matchedVal);
+        } else if (st.key === 'danger') {
+          document.documentElement.style.setProperty('--atom-destructive', matchedVal);
+          document.documentElement.style.setProperty('--atom-destructive-hover', matchedHover);
+          document.documentElement.style.setProperty('--atom-status-danger', matchedVal);
+        } else if (st.key === 'warning') {
+          document.documentElement.style.setProperty('--atom-warning', matchedVal);
+          document.documentElement.style.setProperty('--atom-warning-hover', matchedHover);
+          document.documentElement.style.setProperty('--atom-status-warning', matchedVal);
+        }
+      }
+    });
+  }, [statusTokens, paletteVariables]);
+
   const handleCopyPalette = (id: string, value: string) => {
     navigator.clipboard.writeText(`var(${id})`);
     setCopiedPaletteId(id);
@@ -242,8 +315,8 @@ export default function LocalStudioPage() {
     setIsSaving(true);
     setStatusMessage(null);
     try {
-      const tokensJson = JSON.parse(exportStudioToTokensJson(paletteVariables, components));
-      const customCss = exportStudioToCSS(paletteVariables, components);
+      const tokensJson = JSON.parse(exportStudioToTokensJson(paletteVariables, components, statusTokens));
+      const customCss = exportStudioToCSS(paletteVariables, components, statusTokens);
       const res = await fetch('/api/tokens', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -580,6 +653,24 @@ export default function LocalStudioPage() {
                     </div>
                   ) : (
                     <>
+                      {/* Category 0: Semantic Status Tokens (Primary, Secondary, Success, Danger, Warning) */}
+                      <button
+                        onClick={() => setPaletteCategoryFilter('status')}
+                        className={`w-full text-left p-2.5 rounded-(--radius-sm) text-xs font-medium transition cursor-pointer flex items-center justify-between ${
+                          paletteCategoryFilter === 'status'
+                            ? 'bg-(--text-primary) text-(--bg-primary) font-semibold shadow-xs'
+                            : 'hover:bg-(--bg-secondary) text-(--text-primary)'
+                        }`}
+                      >
+                        <span className="flex items-center gap-2">
+                          <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                          <span className="font-bold">상태 토큰 (Status Tokens)</span>
+                        </span>
+                        <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-600 dark:text-amber-400 font-bold border border-amber-500/20">
+                          {statusTokens.length}
+                        </span>
+                      </button>
+
                       {/* Category 1: Color Scales (50 ~ 900) */}
                       <div className="space-y-1">
                         <button
@@ -1207,6 +1298,7 @@ export default function LocalStudioPage() {
                 {/* 2. Granular Category Switcher Tabs */}
                 <div className="flex flex-wrap items-center gap-1.5 p-1.5 rounded-(--radius) bg-(--bg-secondary)/60 border border-(--border-subtle)">
                   {[
+                    { id: 'status', label: '상태 토큰 (Status Tokens)', icon: Sparkles },
                     { id: 'color', label: '색상 팔레트 (50~900)', icon: Palette },
                     { id: 'size', label: '사이즈 & 여백 (Size)', icon: Ruler },
                     { id: 'radius', label: '모서리 곡률 (Radius)', icon: Square },
@@ -1231,6 +1323,182 @@ export default function LocalStudioPage() {
                     );
                   })}
                 </div>
+
+                {/* 3-0. SEMANTIC STATUS TOKENS VIEW (Primary, Secondary, Success, Danger, Warning) */}
+                {(paletteCategoryFilter === 'status' || paletteCategoryFilter === 'all') && (
+                  <div className="p-5 sm:p-6 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) flex flex-col gap-6 shadow-xs">
+                    {/* Header */}
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-(--border-subtle) pb-4">
+                      <div>
+                        <h3 className="text-sm sm:text-base font-bold text-(--text-primary) flex items-center gap-2">
+                          <Sparkles className="w-4 h-4 text-amber-500" />
+                          <span>시스템 상태 토큰 (Semantic Status Tokens)</span>
+                        </h3>
+                        <p className="text-xs text-(--text-secondary) mt-1">
+                          Primary, Secondary, Success, Danger, Warning 상태 토큰을 변경하면 모든 컴포넌트(버튼, 배지, 탭, 인풋)가 실시간으로 동기화됩니다.
+                        </p>
+                      </div>
+                      <span className="text-xs font-mono px-2 py-0.5 rounded bg-(--bg-secondary) text-(--text-muted) border border-(--border-subtle) self-start sm:self-auto">
+                        5개 핵심 상태 연동
+                      </span>
+                    </div>
+
+                    {/* 5 Status Token Cards Grid */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3.5">
+                      {statusTokens.map((st) => {
+                        const currentColor = getPaletteValue(st.paletteId);
+                        const isCopied = copiedPaletteId === st.id;
+
+                        const stateBadgeClass =
+                          st.key === 'primary'
+                            ? 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20'
+                            : st.key === 'secondary'
+                            ? 'bg-slate-500/10 text-slate-600 dark:text-slate-400 border-slate-500/20'
+                            : st.key === 'success'
+                            ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20'
+                            : st.key === 'danger'
+                            ? 'bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20'
+                            : 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20';
+
+                        return (
+                          <div
+                            key={st.key}
+                            className="p-4 rounded-(--radius-sm) border border-(--border-subtle) bg-(--bg-secondary)/30 flex flex-col justify-between gap-3 hover:border-(--accent-primary) transition shadow-xs group"
+                          >
+                            <div className="space-y-2">
+                              {/* Header & Status Key Badge */}
+                              <div className="flex items-center justify-between">
+                                <span className={`text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded border ${stateBadgeClass}`}>
+                                  {st.key}
+                                </span>
+                                <button
+                                  type="button"
+                                  onClick={() => handleCopyPalette(st.id, currentColor)}
+                                  className="text-(--text-muted) hover:text-(--text-primary) p-1 cursor-pointer transition"
+                                  title="토큰 CSS 변수 복사"
+                                >
+                                  {isCopied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
+                                </button>
+                              </div>
+
+                              {/* Color Preview Block */}
+                              <div
+                                style={{ backgroundColor: currentColor }}
+                                className="h-16 w-full rounded-(--radius-sm) shadow-inner flex items-end p-2 transition-transform duration-200"
+                              >
+                                <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-black/60 text-white backdrop-blur-xs font-bold truncate">
+                                  {currentColor}
+                                </span>
+                              </div>
+
+                              {/* Title & Description */}
+                              <div>
+                                <h4 className="font-bold text-xs text-(--text-primary)">{st.name}</h4>
+                                <p className="text-[11px] text-(--text-secondary) mt-0.5 leading-snug line-clamp-2">
+                                  {st.description}
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Palette Token Binding Select */}
+                            <div className="space-y-1 pt-1 border-t border-(--border-subtle)/50">
+                              <label className="text-[10px] font-mono text-(--text-muted) block">
+                                바인딩 팔레트:
+                              </label>
+                              <select
+                                value={st.paletteId}
+                                onChange={(e) => handleUpdateStatusToken(st.key, e.target.value)}
+                                className="w-full text-xs p-1.5 rounded border border-(--border-subtle) bg-(--bg-primary) text-(--text-primary) cursor-pointer font-mono font-medium focus:ring-1 focus:ring-(--accent-primary)"
+                              >
+                                {paletteVariables
+                                  .filter((p) => p.category === 'color')
+                                  .map((p) => (
+                                    <option key={p.id} value={p.id}>
+                                      {p.name} ({p.value})
+                                    </option>
+                                  ))}
+                              </select>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                    {/* All-in-One Live Cascading Showcase */}
+                    <div className="p-4 sm:p-5 rounded-(--radius) bg-(--bg-secondary)/60 border border-(--border-subtle) flex flex-col gap-4">
+                      <div className="flex items-center justify-between border-b border-(--border-subtle) pb-3">
+                        <div className="flex items-center gap-2">
+                          <Activity className="w-4 h-4 text-emerald-500 animate-pulse" />
+                          <h4 className="text-xs font-bold font-mono uppercase tracking-wider text-(--text-primary)">
+                            시스템 전역 실시간 전파 프리뷰 (Live System-Wide Cascading Preview)
+                          </h4>
+                        </div>
+                        <span className="text-[11px] text-(--text-secondary)">
+                          위 상태 토큰을 변경하면 아래 컴포넌트들이 즉시 반응합니다
+                        </span>
+                      </div>
+
+                      {/* 1. Button Variants Strip */}
+                      <div className="space-y-1.5">
+                        <span className="text-[11px] font-mono text-(--text-muted)">
+                          1. 버튼 컴포넌트 반응 (Buttons):
+                        </span>
+                        <div className="flex flex-wrap items-center gap-2 p-3 rounded bg-(--bg-primary) border border-(--border-subtle)">
+                          <Button variant="primary">Primary 버튼</Button>
+                          <Button variant="secondary">Secondary 버튼</Button>
+                          <Button variant="success">Success 버튼</Button>
+                          <Button variant="danger">Danger 버튼</Button>
+                          <Button variant="warning">Warning 버튼</Button>
+                          <Button variant="outline">Outline 버튼</Button>
+                        </div>
+                      </div>
+
+                      {/* 2. Badge Variants Strip */}
+                      <div className="space-y-1.5">
+                        <span className="text-[11px] font-mono text-(--text-muted)">
+                          2. 배지 컴포넌트 반응 (Badges):
+                        </span>
+                        <div className="flex flex-wrap items-center gap-2 p-3 rounded bg-(--bg-primary) border border-(--border-subtle)">
+                          <span className="atom-badge atom-badge-primary">Primary 배지</span>
+                          <span className="atom-badge atom-badge-secondary">Secondary 배지</span>
+                          <span className="atom-badge atom-badge-success">Success 배지</span>
+                          <span className="atom-badge atom-badge-destructive">Danger 배지</span>
+                          <span className="atom-badge atom-badge-warning">Warning 배지</span>
+                        </div>
+                      </div>
+
+                      {/* 3. Form & Tabs Strip */}
+                      <div className="space-y-1.5">
+                        <span className="text-[11px] font-mono text-(--text-muted)">
+                          3. 탭 및 폼 컨트롤 반응 (Tabs & Input States):
+                        </span>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-3 rounded bg-(--bg-primary) border border-(--border-subtle)">
+                          <div className="flex flex-col gap-1.5">
+                            <label className="text-[11px] text-(--text-secondary) font-mono">
+                              포커스 시 Primary 테두리 및 링 반응:
+                            </label>
+                            <input
+                              type="text"
+                              defaultValue="포커스 해보세요 (Primary 링 반응)"
+                              className="atom-input text-xs"
+                            />
+                          </div>
+                          <div className="flex flex-col gap-1.5">
+                            <label className="text-[11px] text-(--text-secondary) font-mono">
+                              에러 시 Danger 테두리 및 경고 반응:
+                            </label>
+                            <input
+                              type="text"
+                              defaultValue="유효성 검사 에러 (Danger 반응)"
+                              aria-invalid="true"
+                              className="atom-input atom-input-error text-xs"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
 
                 {/* 3-A. COLOR VIEW (50 ~ 900 Full Scale by Family) */}
                 {(paletteCategoryFilter === 'color' || paletteCategoryFilter === 'all') && (

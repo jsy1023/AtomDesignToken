@@ -160,9 +160,18 @@ AtomSystem은 단일 모델의 환각을 방지하기 위해 4대 전문 역할�
 | text | `--atom-text-muted` | `#b0b8c1` | 타임스탬프, 비활성화된 라벨, 장식성 힌트 텍스트 |
 | border | `--atom-border-subtle` | `#f2f4f6` | 카드 구분선, 리스트 경계선 등 부드러운 분리선 |
 | border | `--atom-border-strong` | `#e5e8eb` | 인풋 필드 외곽선, 명확한 아웃라인 버튼, 모달 경계선 |
-| status | `--atom-status-success` | `#10b981` | 성공 완료 알림, 온라인 상태, 송금 완료 상태 |
-| status | `--atom-status-danger` | `#f43f5e` | 폼 유효성 에러, 경고 메시지, 삭제 등 파괴적 액션 |
-| status | `--atom-status-warning` | `#f59e0b` | 주의 알림, 대기 중인 상태, 결제 보류 |
+| status | `--atom-color-success` | `#10b981` | 성공 완료 알림, 온라인 상태, 송금 완료 상태 |
+| status | `--atom-color-success-hover` | `#059669` | 성공 버튼 및 액션 호버 색상 |
+| status | `--atom-color-success-subtle` | `#ecfdf5` | 성공 배지 배경 및 소프트 알림 배경 |
+| status | `--atom-color-danger` | `#ef4444` | 폼 유효성 에러, 위험/삭제 액션 버튼, 치명적 경고 |
+| status | `--atom-color-danger-hover` | `#e11d48` | 위험/삭제 버튼 호버 색상 |
+| status | `--atom-color-danger-subtle` | `#fff1f2` | 에러 알림 배경 및 위험 배지 배경 |
+| status | `--atom-color-warning` | `#f59e0b` | 주의 알림, 대기 중인 상태, 결제 보류 |
+| status | `--atom-color-warning-hover` | `#d97706` | 주의 버튼 호버 색상 |
+| status | `--atom-color-warning-subtle` | `#fffbeb` | 주의 배지 배경 및 대기 알림 배경 |
+| status | `--atom-status-success` | `var(--atom-color-success, #10b981)` | 기존 호환용 상태 토큰 (Success) |
+| status | `--atom-status-danger` | `var(--atom-color-danger, #ef4444)` | 기존 호환용 상태 토큰 (Danger) |
+| status | `--atom-status-warning` | `var(--atom-color-warning, #f59e0b)` | 기존 호환용 상태 토큰 (Warning) |
 
 ### 📐 라운딩 (Border Radius)
 | 토큰 변수명 | 값 | 설명 |

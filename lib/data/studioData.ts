@@ -1,4 +1,62 @@
-export type PaletteCategory = 'color' | 'size' | 'spacing' | 'radius' | 'typography';
+export type PaletteCategory = 'color' | 'size' | 'spacing' | 'radius' | 'typography' | 'status';
+
+export interface SemanticStatusToken {
+  id: string; // e.g. '--atom-color-primary'
+  key: 'primary' | 'secondary' | 'success' | 'danger' | 'warning';
+  name: string; // e.g. 'Primary (주요/브랜드)'
+  description: string;
+  paletteId: string; // e.g. '--atom-palette-blue-500'
+  hoverPaletteId: string; // e.g. '--atom-palette-blue-600'
+  subtlePaletteId: string; // e.g. '--atom-palette-blue-50'
+}
+
+export const INITIAL_SEMANTIC_STATUS_TOKENS: SemanticStatusToken[] = [
+  {
+    id: '--atom-color-primary',
+    key: 'primary',
+    name: 'Primary (주요 브랜드 액션)',
+    description: '핵심 액션 버튼, 링크, 활성 탭 인디케이터, 포커스 하이라이트',
+    paletteId: '--atom-palette-blue-500',
+    hoverPaletteId: '--atom-palette-blue-600',
+    subtlePaletteId: '--atom-palette-blue-50',
+  },
+  {
+    id: '--atom-color-secondary',
+    key: 'secondary',
+    name: 'Secondary (보조 액션 및 서피스)',
+    description: '취소, 닫기 버튼, 보조 배지, 중립 인터랙션 영역',
+    paletteId: '--atom-palette-gray-200',
+    hoverPaletteId: '--atom-palette-gray-300',
+    subtlePaletteId: '--atom-palette-gray-50',
+  },
+  {
+    id: '--atom-color-success',
+    key: 'success',
+    name: 'Success (성공 및 긍정 지표)',
+    description: '결제/승인 완료 버튼, 상태 성공 배지, 정상 가동 상태',
+    paletteId: '--atom-palette-emerald-500',
+    hoverPaletteId: '--atom-palette-emerald-600',
+    subtlePaletteId: '--atom-palette-emerald-50',
+  },
+  {
+    id: '--atom-color-danger',
+    key: 'danger',
+    name: 'Danger / Destructive (위험 및 에러)',
+    description: '영구 삭제/취소 버튼, 폼 유효성 에러 보더, 치명적 경고 배지',
+    paletteId: '--atom-palette-rose-500',
+    hoverPaletteId: '--atom-palette-rose-600',
+    subtlePaletteId: '--atom-palette-rose-50',
+  },
+  {
+    id: '--atom-color-warning',
+    key: 'warning',
+    name: 'Warning (주의 및 대기)',
+    description: '주의 환기 버튼, 검토 대기 배지, 만료 임박 알림',
+    paletteId: '--atom-palette-amber-500',
+    hoverPaletteId: '--atom-palette-amber-600',
+    subtlePaletteId: '--atom-palette-amber-50',
+  },
+];
 
 export interface PaletteVariable {
   id: string; // e.g. '--atom-palette-blue-500'
@@ -34,6 +92,15 @@ export interface StudioComponentDefinition {
 
 export const INITIAL_PALETTE_VARIABLES: PaletteVariable[] = [
   // ==========================================
+  // 0. SEMANTIC SYSTEM STATUS TOKENS
+  // ==========================================
+  { id: '--atom-color-primary', name: 'Primary (주요 브랜드 액션)', category: 'status', value: 'var(--atom-palette-blue-500)', description: '전체 시스템 Primary 액션, 포커스링, 탭 대표 색상', family: 'status' },
+  { id: '--atom-color-secondary', name: 'Secondary (보조 액션)', category: 'status', value: 'var(--atom-palette-gray-200)', description: '전체 시스템 Secondary 보조 버튼 및 중립 배지 색상', family: 'status' },
+  { id: '--atom-color-success', name: 'Success (성공/완료)', category: 'status', value: 'var(--atom-palette-emerald-500)', description: '성공 완료 버튼, 승인 배지, 긍정 지표 색상', family: 'status' },
+  { id: '--atom-color-danger', name: 'Danger (위험/오류)', category: 'status', value: 'var(--atom-palette-rose-500)', description: '위험 삭제 버튼, 에러 인풋 보더, 치명적 경고 색상', family: 'status' },
+  { id: '--atom-color-warning', name: 'Warning (주의/대기)', category: 'status', value: 'var(--atom-palette-amber-500)', description: '주의 경고 버튼, 대기 배지, 보류 상태 색상', family: 'status' },
+
+  // ==========================================
   // 1. COLOR PALETTES (50 ~ 900 Full Scale)
   // ==========================================
 
@@ -43,8 +110,8 @@ export const INITIAL_PALETTE_VARIABLES: PaletteVariable[] = [
   { id: '--atom-palette-blue-200', name: 'Blue 200', category: 'color', value: '#bfdbfe', description: '소프트 블루 보더 및 호버 배경', family: 'blue' },
   { id: '--atom-palette-blue-300', name: 'Blue 300', category: 'color', value: '#93c5fd', description: '활성 테두리 및 포커스 링', family: 'blue' },
   { id: '--atom-palette-blue-400', name: 'Blue 400', category: 'color', value: '#60a5fa', description: '밝은 블루 인디케이터', family: 'blue' },
-  { id: '--atom-palette-blue-500', name: 'Blue 500 (Brand Primary)', category: 'color', value: 'var(--accent-primary)', description: '핵심 브랜드 프라이머리 액션 컬러', family: 'blue' },
-  { id: '--atom-palette-blue-600', name: 'Blue 600 (Primary Hover)', category: 'color', value: 'var(--accent-primary-hover)', description: '버튼 호버 및 강조 딥 컬러', family: 'blue' },
+  { id: '--atom-palette-blue-500', name: 'Blue 500 (Brand Primary)', category: 'color', value: '#3182f6', description: '핵심 브랜드 프라이머리 액션 컬러', family: 'blue' },
+  { id: '--atom-palette-blue-600', name: 'Blue 600 (Primary Hover)', category: 'color', value: '#1b64da', description: '버튼 호버 및 강조 딥 컬러', family: 'blue' },
   { id: '--atom-palette-blue-700', name: 'Blue 700', category: 'color', value: '#1d4ed8', description: '진한 블루 클릭 액티브 상태', family: 'blue' },
   { id: '--atom-palette-blue-800', name: 'Blue 800', category: 'color', value: '#1e40af', description: '네이비 톤 텍스트 및 헤더 배경', family: 'blue' },
   { id: '--atom-palette-blue-900', name: 'Blue 900', category: 'color', value: '#1e3a8a', description: '극진한 다크 네이비', family: 'blue' },
@@ -181,10 +248,10 @@ export const INITIAL_STUDIO_COMPONENTS: StudioComponentDefinition[] = [
         name: '기본 프라이머리 (Primary CTA)',
         description: '화면에서 가장 중요한 핵심 액션에 사용하는 기본 버튼',
         tokenBindings: {
-          background: '--atom-palette-blue-500',
-          hoverBackground: '--atom-palette-blue-600',
+          background: '--atom-color-primary',
+          hoverBackground: '--atom-color-primary-hover',
           textColor: '--atom-palette-white',
-          borderColor: '--atom-palette-blue-500',
+          borderColor: '--atom-color-primary',
           borderRadius: '--atom-radius-md',
           paddingX: '--atom-space-4',
           paddingY: '--atom-space-2',
@@ -195,10 +262,10 @@ export const INITIAL_STUDIO_COMPONENTS: StudioComponentDefinition[] = [
         name: '세컨더리 버튼 (Secondary)',
         description: '취소, 닫기 등 보조 동작에 사용하는 중립 톤 버튼',
         tokenBindings: {
-          background: '--atom-palette-gray-100',
-          hoverBackground: '--atom-palette-gray-200',
+          background: '--atom-color-secondary',
+          hoverBackground: '--atom-color-secondary-hover',
           textColor: '--atom-palette-gray-900',
-          borderColor: '--atom-palette-gray-200',
+          borderColor: '--atom-color-secondary',
           borderRadius: '--atom-radius-md',
           paddingX: '--atom-space-4',
           paddingY: '--atom-space-2',
@@ -209,10 +276,10 @@ export const INITIAL_STUDIO_COMPONENTS: StudioComponentDefinition[] = [
         name: '라운드 필 버튼 (Pill CTA)',
         description: '랜딩 페이지나 모바일 히어로에 최적화된 완전 둥근 곡률 버튼',
         tokenBindings: {
-          background: '--atom-palette-blue-500',
-          hoverBackground: '--atom-palette-blue-600',
+          background: '--atom-color-primary',
+          hoverBackground: '--atom-color-primary-hover',
           textColor: '--atom-palette-white',
-          borderColor: '--atom-palette-blue-500',
+          borderColor: '--atom-color-primary',
           borderRadius: '--atom-radius-full',
           paddingX: '--atom-space-6',
           paddingY: '--atom-space-3',
@@ -223,10 +290,10 @@ export const INITIAL_STUDIO_COMPONENTS: StudioComponentDefinition[] = [
         name: '위험/삭제 버튼 (Destructive)',
         description: '영구 삭제, 취소 불가능한 액션에 경고를 주는 붉은색 버튼',
         tokenBindings: {
-          background: '--atom-palette-rose-500',
-          hoverBackground: '--atom-palette-rose-500',
+          background: '--atom-color-danger',
+          hoverBackground: '--atom-color-danger-hover',
           textColor: '--atom-palette-white',
-          borderColor: '--atom-palette-rose-500',
+          borderColor: '--atom-color-danger',
           borderRadius: '--atom-radius-md',
           paddingX: '--atom-space-4',
           paddingY: '--atom-space-2',
@@ -239,8 +306,8 @@ export const INITIAL_STUDIO_COMPONENTS: StudioComponentDefinition[] = [
         tokenBindings: {
           background: '--atom-palette-white',
           hoverBackground: '--atom-palette-gray-50',
-          textColor: '--atom-palette-blue-500',
-          borderColor: '--atom-palette-blue-500',
+          textColor: '--atom-color-primary',
+          borderColor: '--atom-color-primary',
           borderRadius: '--atom-radius-md',
           paddingX: '--atom-space-4',
           paddingY: '--atom-space-2',
@@ -265,10 +332,10 @@ export const INITIAL_STUDIO_COMPONENTS: StudioComponentDefinition[] = [
         name: '성공 버튼 (Success Green)',
         description: '완료, 승인, 긍정적 액션에 쓰이는 녹색 계열 버튼',
         tokenBindings: {
-          background: '--atom-palette-emerald-500',
-          hoverBackground: '--atom-palette-emerald-600',
+          background: '--atom-color-success',
+          hoverBackground: '--atom-color-success-hover',
           textColor: '--atom-palette-white',
-          borderColor: '--atom-palette-emerald-500',
+          borderColor: '--atom-color-success',
           borderRadius: '--atom-radius-md',
           paddingX: '--atom-space-4',
           paddingY: '--atom-space-2',
@@ -279,10 +346,10 @@ export const INITIAL_STUDIO_COMPONENTS: StudioComponentDefinition[] = [
         name: '주의 버튼 (Warning Amber)',
         description: '주의 환기, 보류 상태 변경에 쓰이는 노란색/앰버 버튼',
         tokenBindings: {
-          background: '--atom-palette-amber-500',
-          hoverBackground: '--atom-palette-amber-600',
+          background: '--atom-color-warning',
+          hoverBackground: '--atom-color-warning-hover',
           textColor: '--atom-palette-white',
-          borderColor: '--atom-palette-amber-500',
+          borderColor: '--atom-color-warning',
           borderRadius: '--atom-radius-md',
           paddingX: '--atom-space-4',
           paddingY: '--atom-space-2',
@@ -308,12 +375,12 @@ export const INITIAL_STUDIO_COMPONENTS: StudioComponentDefinition[] = [
     variables: [
       {
         id: 'active',
-        name: '활성 상태 배지 (Active)',
+        name: '활성 상태 배지 (Active / Primary)',
         description: '신규 기능, 진행 중인 상태를 나타내는 소프트 블루 톤',
         tokenBindings: {
-          background: '--atom-palette-blue-50',
-          textColor: '--atom-palette-blue-600',
-          borderColor: '--atom-palette-blue-50',
+          background: '--atom-color-primary-subtle',
+          textColor: '--atom-color-primary',
+          borderColor: '--atom-color-primary-subtle',
           borderRadius: '--atom-radius-full',
           paddingX: '--atom-space-2',
           paddingY: '--atom-space-1',
@@ -324,9 +391,9 @@ export const INITIAL_STUDIO_COMPONENTS: StudioComponentDefinition[] = [
         name: '성공 배지 (Success)',
         description: '결제 완료, 승인 상태를 나타내는 에메랄드 톤',
         tokenBindings: {
-          background: '--atom-palette-emerald-50',
-          textColor: '--atom-palette-emerald-500',
-          borderColor: '--atom-palette-emerald-500',
+          background: '--atom-color-success-subtle',
+          textColor: '--atom-color-success',
+          borderColor: '--atom-color-success',
           borderRadius: '--atom-radius-full',
           paddingX: '--atom-space-2',
           paddingY: '--atom-space-1',
@@ -337,9 +404,22 @@ export const INITIAL_STUDIO_COMPONENTS: StudioComponentDefinition[] = [
         name: '주의 배지 (Warning)',
         description: '만료 임박, 대기 상태를 나타내는 앰버 톤',
         tokenBindings: {
-          background: '--atom-palette-amber-50',
-          textColor: '--atom-palette-amber-500',
-          borderColor: '--atom-palette-amber-500',
+          background: '--atom-color-warning-subtle',
+          textColor: '--atom-color-warning',
+          borderColor: '--atom-color-warning',
+          borderRadius: '--atom-radius-full',
+          paddingX: '--atom-space-2',
+          paddingY: '--atom-space-1',
+        },
+      },
+      {
+        id: 'destructive',
+        name: '위험/에러 배지 (Destructive / Danger)',
+        description: '오류, 실패, 위험 상태를 나타내는 로즈/레드 톤 배지',
+        tokenBindings: {
+          background: '--atom-color-danger-subtle',
+          textColor: '--atom-color-danger',
+          borderColor: '--atom-color-danger',
           borderRadius: '--atom-radius-full',
           paddingX: '--atom-space-2',
           paddingY: '--atom-space-1',

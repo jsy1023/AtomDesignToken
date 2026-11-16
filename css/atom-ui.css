@@ -5,13 +5,18 @@
 
 :root {
   /* === 1. Global Palette Tokens === */
+  --atom-color-primary: var(--atom-palette-blue-500); /* Primary (주요 브랜드 액션) */
+  --atom-color-secondary: var(--atom-palette-gray-200); /* Secondary (보조 액션) */
+  --atom-color-success: var(--atom-palette-emerald-500); /* Success (성공/완료) */
+  --atom-color-danger: var(--atom-palette-rose-500); /* Danger (위험/오류) */
+  --atom-color-warning: var(--atom-palette-amber-500); /* Warning (주의/대기) */
   --atom-palette-blue-50: #eff6ff; /* Blue 50 */
   --atom-palette-blue-100: #dbeafe; /* Blue 100 */
   --atom-palette-blue-200: #bfdbfe; /* Blue 200 */
   --atom-palette-blue-300: #93c5fd; /* Blue 300 */
   --atom-palette-blue-400: #60a5fa; /* Blue 400 */
-  --atom-palette-blue-500: var(--accent-primary); /* Blue 500 (Brand Primary) */
-  --atom-palette-blue-600: var(--accent-primary-hover); /* Blue 600 (Primary Hover) */
+  --atom-palette-blue-500: #3182f6; /* Blue 500 (Brand Primary) */
+  --atom-palette-blue-600: #1b64da; /* Blue 600 (Primary Hover) */
   --atom-palette-blue-700: #1d4ed8; /* Blue 700 */
   --atom-palette-blue-800: #1e40af; /* Blue 800 */
   --atom-palette-blue-900: #1e3a8a; /* Blue 900 */
@@ -100,15 +105,54 @@
   --atom-font-weight-medium: 500; /* Weight Medium (500) */
   --atom-font-weight-semibold: 600; /* Weight Semibold (600) */
   --atom-font-weight-bold: 700; /* Weight Bold (700) */
+
+  /* === 2. Semantic System State Tokens (상태 토큰) === */
+  --atom-color-primary: var(--atom-palette-blue-500); /* Primary (주요 브랜드 액션) */
+  --atom-color-primary-hover: var(--atom-palette-blue-600);
+  --atom-color-primary-subtle: var(--atom-palette-blue-50);
+  --atom-color-secondary: var(--atom-palette-gray-200); /* Secondary (보조 액션 및 서피스) */
+  --atom-color-secondary-hover: var(--atom-palette-gray-300);
+  --atom-color-secondary-subtle: var(--atom-palette-gray-50);
+  --atom-color-success: var(--atom-palette-emerald-500); /* Success (성공 및 긍정 지표) */
+  --atom-color-success-hover: var(--atom-palette-emerald-600);
+  --atom-color-success-subtle: var(--atom-palette-emerald-50);
+  --atom-color-danger: var(--atom-palette-rose-500); /* Danger / Destructive (위험 및 에러) */
+  --atom-color-danger-hover: var(--atom-palette-rose-600);
+  --atom-color-danger-subtle: var(--atom-palette-rose-50);
+  --atom-color-warning: var(--atom-palette-amber-500); /* Warning (주의 및 대기) */
+  --atom-color-warning-hover: var(--atom-palette-amber-600);
+  --atom-color-warning-subtle: var(--atom-palette-amber-50);
+
+  /* === 3. Universal Semantic Aliases (상태 토큰 전역 바인딩) === */
+  --atom-primary: var(--atom-color-primary);
+  --atom-primary-hover: var(--atom-color-primary-hover);
+  --atom-primary-light: var(--atom-color-primary-subtle);
+  --atom-secondary: var(--atom-color-secondary);
+  --atom-secondary-hover: var(--atom-color-secondary-hover);
+  --atom-secondary-light: var(--atom-color-secondary-subtle);
+  --atom-success: var(--atom-color-success);
+  --atom-success-hover: var(--atom-color-success-hover);
+  --atom-success-light: var(--atom-color-success-subtle);
+  --atom-destructive: var(--atom-color-danger);
+  --atom-destructive-hover: var(--atom-color-danger-hover);
+  --atom-destructive-light: var(--atom-color-danger-subtle);
+  --atom-warning: var(--atom-color-warning);
+  --atom-warning-hover: var(--atom-color-warning-hover);
+  --atom-warning-light: var(--atom-color-warning-subtle);
+  --atom-status-success: var(--atom-color-success);
+  --atom-status-danger: var(--atom-color-danger);
+  --atom-status-warning: var(--atom-color-warning);
+  --accent-primary: var(--atom-color-primary);
+  --accent-primary-hover: var(--atom-color-primary-hover);
 }
 
-/* === 2. Component Variable Token Scopes === */
+/* === 4. Component Variable Token Scopes & Direct Visual Selectors === */
 [data-component="button"][data-variable="primary"],
 .atom-button--primary {
-  --atom-button-primary-background: var(--atom-palette-blue-500);
-  --atom-button-primary-hoverBackground: var(--atom-palette-blue-600);
+  --atom-button-primary-background: var(--atom-color-primary);
+  --atom-button-primary-hoverBackground: var(--atom-color-primary-hover);
   --atom-button-primary-textColor: var(--atom-palette-white);
-  --atom-button-primary-borderColor: var(--atom-palette-blue-500);
+  --atom-button-primary-borderColor: var(--atom-color-primary);
   --atom-button-primary-borderRadius: var(--atom-radius-md);
   --atom-button-primary-paddingX: var(--atom-space-4);
   --atom-button-primary-paddingY: var(--atom-space-2);
@@ -131,10 +175,10 @@
 
 [data-component="button"][data-variable="secondary"],
 .atom-button--secondary {
-  --atom-button-secondary-background: var(--atom-palette-gray-100);
-  --atom-button-secondary-hoverBackground: var(--atom-palette-gray-200);
+  --atom-button-secondary-background: var(--atom-color-secondary);
+  --atom-button-secondary-hoverBackground: var(--atom-color-secondary-hover);
   --atom-button-secondary-textColor: var(--atom-palette-gray-900);
-  --atom-button-secondary-borderColor: var(--atom-palette-gray-200);
+  --atom-button-secondary-borderColor: var(--atom-color-secondary);
   --atom-button-secondary-borderRadius: var(--atom-radius-md);
   --atom-button-secondary-paddingX: var(--atom-space-4);
   --atom-button-secondary-paddingY: var(--atom-space-2);
@@ -157,10 +201,10 @@
 
 [data-component="button"][data-variable="pill-cta"],
 .atom-button--pill-cta {
-  --atom-button-pill-cta-background: var(--atom-palette-blue-500);
-  --atom-button-pill-cta-hoverBackground: var(--atom-palette-blue-600);
+  --atom-button-pill-cta-background: var(--atom-color-primary);
+  --atom-button-pill-cta-hoverBackground: var(--atom-color-primary-hover);
   --atom-button-pill-cta-textColor: var(--atom-palette-white);
-  --atom-button-pill-cta-borderColor: var(--atom-palette-blue-500);
+  --atom-button-pill-cta-borderColor: var(--atom-color-primary);
   --atom-button-pill-cta-borderRadius: var(--atom-radius-full);
   --atom-button-pill-cta-paddingX: var(--atom-space-6);
   --atom-button-pill-cta-paddingY: var(--atom-space-3);
@@ -183,10 +227,10 @@
 
 [data-component="button"][data-variable="destructive"],
 .atom-button--destructive {
-  --atom-button-destructive-background: var(--atom-palette-rose-500);
-  --atom-button-destructive-hoverBackground: var(--atom-palette-rose-500);
+  --atom-button-destructive-background: var(--atom-color-danger);
+  --atom-button-destructive-hoverBackground: var(--atom-color-danger-hover);
   --atom-button-destructive-textColor: var(--atom-palette-white);
-  --atom-button-destructive-borderColor: var(--atom-palette-rose-500);
+  --atom-button-destructive-borderColor: var(--atom-color-danger);
   --atom-button-destructive-borderRadius: var(--atom-radius-md);
   --atom-button-destructive-paddingX: var(--atom-space-4);
   --atom-button-destructive-paddingY: var(--atom-space-2);
@@ -211,8 +255,8 @@
 .atom-button--ghost {
   --atom-button-ghost-background: var(--atom-palette-white);
   --atom-button-ghost-hoverBackground: var(--atom-palette-gray-50);
-  --atom-button-ghost-textColor: var(--atom-palette-blue-500);
-  --atom-button-ghost-borderColor: var(--atom-palette-blue-500);
+  --atom-button-ghost-textColor: var(--atom-color-primary);
+  --atom-button-ghost-borderColor: var(--atom-color-primary);
   --atom-button-ghost-borderRadius: var(--atom-radius-md);
   --atom-button-ghost-paddingX: var(--atom-space-4);
   --atom-button-ghost-paddingY: var(--atom-space-2);
@@ -261,10 +305,10 @@
 
 [data-component="button"][data-variable="success"],
 .atom-button--success {
-  --atom-button-success-background: var(--atom-palette-emerald-500);
-  --atom-button-success-hoverBackground: var(--atom-palette-emerald-600);
+  --atom-button-success-background: var(--atom-color-success);
+  --atom-button-success-hoverBackground: var(--atom-color-success-hover);
   --atom-button-success-textColor: var(--atom-palette-white);
-  --atom-button-success-borderColor: var(--atom-palette-emerald-500);
+  --atom-button-success-borderColor: var(--atom-color-success);
   --atom-button-success-borderRadius: var(--atom-radius-md);
   --atom-button-success-paddingX: var(--atom-space-4);
   --atom-button-success-paddingY: var(--atom-space-2);
@@ -287,10 +331,10 @@
 
 [data-component="button"][data-variable="warning"],
 .atom-button--warning {
-  --atom-button-warning-background: var(--atom-palette-amber-500);
-  --atom-button-warning-hoverBackground: var(--atom-palette-amber-600);
+  --atom-button-warning-background: var(--atom-color-warning);
+  --atom-button-warning-hoverBackground: var(--atom-color-warning-hover);
   --atom-button-warning-textColor: var(--atom-palette-white);
-  --atom-button-warning-borderColor: var(--atom-palette-amber-500);
+  --atom-button-warning-borderColor: var(--atom-color-warning);
   --atom-button-warning-borderRadius: var(--atom-radius-md);
   --atom-button-warning-paddingX: var(--atom-space-4);
   --atom-button-warning-paddingY: var(--atom-space-2);
@@ -313,9 +357,9 @@
 
 [data-component="badge"][data-variable="active"],
 .atom-badge--active {
-  --atom-badge-active-background: var(--atom-palette-blue-50);
-  --atom-badge-active-textColor: var(--atom-palette-blue-600);
-  --atom-badge-active-borderColor: var(--atom-palette-blue-50);
+  --atom-badge-active-background: var(--atom-color-primary-subtle);
+  --atom-badge-active-textColor: var(--atom-color-primary);
+  --atom-badge-active-borderColor: var(--atom-color-primary-subtle);
   --atom-badge-active-borderRadius: var(--atom-radius-full);
   --atom-badge-active-paddingX: var(--atom-space-2);
   --atom-badge-active-paddingY: var(--atom-space-1);
@@ -333,9 +377,9 @@
 
 [data-component="badge"][data-variable="success"],
 .atom-badge--success {
-  --atom-badge-success-background: var(--atom-palette-emerald-50);
-  --atom-badge-success-textColor: var(--atom-palette-emerald-500);
-  --atom-badge-success-borderColor: var(--atom-palette-emerald-500);
+  --atom-badge-success-background: var(--atom-color-success-subtle);
+  --atom-badge-success-textColor: var(--atom-color-success);
+  --atom-badge-success-borderColor: var(--atom-color-success);
   --atom-badge-success-borderRadius: var(--atom-radius-full);
   --atom-badge-success-paddingX: var(--atom-space-2);
   --atom-badge-success-paddingY: var(--atom-space-1);
@@ -353,9 +397,9 @@
 
 [data-component="badge"][data-variable="warning"],
 .atom-badge--warning {
-  --atom-badge-warning-background: var(--atom-palette-amber-50);
-  --atom-badge-warning-textColor: var(--atom-palette-amber-500);
-  --atom-badge-warning-borderColor: var(--atom-palette-amber-500);
+  --atom-badge-warning-background: var(--atom-color-warning-subtle);
+  --atom-badge-warning-textColor: var(--atom-color-warning);
+  --atom-badge-warning-borderColor: var(--atom-color-warning);
   --atom-badge-warning-borderRadius: var(--atom-radius-full);
   --atom-badge-warning-paddingX: var(--atom-space-2);
   --atom-badge-warning-paddingY: var(--atom-space-1);
@@ -369,6 +413,26 @@
   border-color: var(--atom-badge-warning-borderColor);
   border-radius: var(--atom-badge-warning-borderRadius);
   padding: var(--atom-badge-warning-paddingY) var(--atom-badge-warning-paddingX);
+}
+
+[data-component="badge"][data-variable="destructive"],
+.atom-badge--destructive {
+  --atom-badge-destructive-background: var(--atom-color-danger-subtle);
+  --atom-badge-destructive-textColor: var(--atom-color-danger);
+  --atom-badge-destructive-borderColor: var(--atom-color-danger);
+  --atom-badge-destructive-borderRadius: var(--atom-radius-full);
+  --atom-badge-destructive-paddingX: var(--atom-space-2);
+  --atom-badge-destructive-paddingY: var(--atom-space-1);
+}
+
+.atom-badge.atom-badge--destructive,
+.atom-badge[data-variable="destructive"],
+[data-component="badge"][data-variable="destructive"] {
+  background-color: var(--atom-badge-destructive-background);
+  color: var(--atom-badge-destructive-textColor);
+  border-color: var(--atom-badge-destructive-borderColor);
+  border-radius: var(--atom-badge-destructive-borderRadius);
+  padding: var(--atom-badge-destructive-paddingY) var(--atom-badge-destructive-paddingX);
 }
 
 [data-component="badge"][data-variable="sharp-neutral"],
@@ -643,20 +707,21 @@
 }
 
 .atom-btn-primary {
-  background-color: var(--atom-primary);
+  background-color: var(--atom-color-primary, var(--atom-primary));
   color: #ffffff;
+  border-color: var(--atom-color-primary, var(--atom-primary));
 }
 .atom-btn-primary:hover:not(:disabled) {
-  background-color: var(--atom-primary-hover);
+  background-color: var(--atom-color-primary-hover, var(--atom-primary-hover));
 }
 
 .atom-btn-secondary {
-  background-color: var(--atom-bg-secondary);
+  background-color: var(--atom-color-secondary, var(--atom-bg-secondary));
   color: var(--atom-text-primary);
   border-color: var(--atom-border-strong);
 }
 .atom-btn-secondary:hover:not(:disabled) {
-  background-color: var(--atom-border-subtle);
+  background-color: var(--atom-color-secondary-hover, var(--atom-border-subtle));
 }
 
 .atom-btn-outline {
@@ -677,28 +742,31 @@
   background-color: var(--atom-bg-secondary);
 }
 
-.atom-btn-destructive {
-  background-color: var(--atom-destructive);
+.atom-btn-destructive, .atom-btn-danger {
+  background-color: var(--atom-color-danger, var(--atom-destructive));
   color: #ffffff;
+  border-color: var(--atom-color-danger, var(--atom-destructive));
 }
-.atom-btn-destructive:hover:not(:disabled) {
-  background-color: var(--atom-destructive-hover);
+.atom-btn-destructive:hover:not(:disabled), .atom-btn-danger:hover:not(:disabled) {
+  background-color: var(--atom-color-danger-hover, var(--atom-destructive-hover));
 }
 
 .atom-btn-success {
-  background-color: var(--atom-success);
+  background-color: var(--atom-color-success, var(--atom-success));
   color: #ffffff;
+  border-color: var(--atom-color-success, var(--atom-success));
 }
 .atom-btn-success:hover:not(:disabled) {
-  background-color: #059669;
+  background-color: var(--atom-color-success-hover, #059669);
 }
 
 .atom-btn-warning {
-  background-color: var(--atom-warning);
+  background-color: var(--atom-color-warning, var(--atom-warning));
   color: #ffffff;
+  border-color: var(--atom-color-warning, var(--atom-warning));
 }
 .atom-btn-warning:hover:not(:disabled) {
-  background-color: #d97706;
+  background-color: var(--atom-color-warning-hover, #d97706);
 }
 
 .atom-btn-icon {
@@ -782,13 +850,28 @@
   border: 1px solid var(--atom-border-subtle);
 }
 .atom-badge-primary {
-  background-color: var(--atom-primary-light);
-  color: var(--atom-primary);
+  background-color: var(--atom-color-primary-subtle, var(--atom-primary-light));
+  color: var(--atom-color-primary, var(--atom-primary));
   border-color: transparent;
 }
+.atom-badge-secondary {
+  background-color: var(--atom-color-secondary-subtle, var(--atom-bg-secondary));
+  color: var(--atom-color-secondary, var(--atom-text-secondary));
+  border-color: var(--atom-border-subtle);
+}
 .atom-badge-success {
-  background-color: rgba(16, 185, 129, 0.15);
-  color: #10b981;
+  background-color: var(--atom-color-success-subtle, rgba(16, 185, 129, 0.15));
+  color: var(--atom-color-success, #10b981);
+  border-color: transparent;
+}
+.atom-badge-destructive, .atom-badge-danger {
+  background-color: var(--atom-color-danger-subtle, rgba(239, 68, 68, 0.15));
+  color: var(--atom-color-danger, #ef4444);
+  border-color: transparent;
+}
+.atom-badge-warning {
+  background-color: var(--atom-color-warning-subtle, rgba(245, 158, 11, 0.15));
+  color: var(--atom-color-warning, #f59e0b);
   border-color: transparent;
 }
 

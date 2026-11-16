@@ -1,4 +1,4 @@
-export { TOKEN_REPLACEMENTS, scanAndRefactorDirectory } from './chunk-CVOGJG4Z.js';
+export { TOKEN_REPLACEMENTS, scanAndRefactorDirectory } from './chunk-DWGXPQK5.js';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import React25, { useState } from 'react';
@@ -120,23 +120,86 @@ var BASE_COLOR_TOKENS = [
   // Status
   {
     name: "Status Success",
-    variable: "--atom-status-success",
+    variable: "--atom-color-success",
     value: "#10b981",
     description: "\uC131\uACF5 \uC644\uB8CC \uC54C\uB9BC, \uC628\uB77C\uC778 \uC0C1\uD0DC, \uC1A1\uAE08 \uC644\uB8CC \uC0C1\uD0DC",
     category: "status"
   },
   {
-    name: "Status Danger",
-    variable: "--atom-status-danger",
-    value: "#f43f5e",
-    description: "\uD3FC \uC720\uD6A8\uC131 \uC5D0\uB7EC, \uACBD\uACE0 \uBA54\uC2DC\uC9C0, \uC0AD\uC81C \uB4F1 \uD30C\uAD34\uC801 \uC561\uC158",
+    name: "Status Success Hover",
+    variable: "--atom-color-success-hover",
+    value: "#059669",
+    description: "\uC131\uACF5 \uBC84\uD2BC \uBC0F \uC561\uC158 \uD638\uBC84 \uC0C9\uC0C1",
+    category: "status"
+  },
+  {
+    name: "Status Success Subtle",
+    variable: "--atom-color-success-subtle",
+    value: "#ecfdf5",
+    description: "\uC131\uACF5 \uBC30\uC9C0 \uBC30\uACBD \uBC0F \uC18C\uD504\uD2B8 \uC54C\uB9BC \uBC30\uACBD",
+    category: "status"
+  },
+  {
+    name: "Status Danger / Destructive",
+    variable: "--atom-color-danger",
+    value: "#ef4444",
+    description: "\uD3FC \uC720\uD6A8\uC131 \uC5D0\uB7EC, \uC704\uD5D8/\uC0AD\uC81C \uC561\uC158 \uBC84\uD2BC, \uCE58\uBA85\uC801 \uACBD\uACE0",
+    category: "status"
+  },
+  {
+    name: "Status Danger Hover",
+    variable: "--atom-color-danger-hover",
+    value: "#e11d48",
+    description: "\uC704\uD5D8/\uC0AD\uC81C \uBC84\uD2BC \uD638\uBC84 \uC0C9\uC0C1",
+    category: "status"
+  },
+  {
+    name: "Status Danger Subtle",
+    variable: "--atom-color-danger-subtle",
+    value: "#fff1f2",
+    description: "\uC5D0\uB7EC \uC54C\uB9BC \uBC30\uACBD \uBC0F \uC704\uD5D8 \uBC30\uC9C0 \uBC30\uACBD",
     category: "status"
   },
   {
     name: "Status Warning",
-    variable: "--atom-status-warning",
+    variable: "--atom-color-warning",
     value: "#f59e0b",
     description: "\uC8FC\uC758 \uC54C\uB9BC, \uB300\uAE30 \uC911\uC778 \uC0C1\uD0DC, \uACB0\uC81C \uBCF4\uB958",
+    category: "status"
+  },
+  {
+    name: "Status Warning Hover",
+    variable: "--atom-color-warning-hover",
+    value: "#d97706",
+    description: "\uC8FC\uC758 \uBC84\uD2BC \uD638\uBC84 \uC0C9\uC0C1",
+    category: "status"
+  },
+  {
+    name: "Status Warning Subtle",
+    variable: "--atom-color-warning-subtle",
+    value: "#fffbeb",
+    description: "\uC8FC\uC758 \uBC30\uC9C0 \uBC30\uACBD \uBC0F \uB300\uAE30 \uC54C\uB9BC \uBC30\uACBD",
+    category: "status"
+  },
+  {
+    name: "Legacy Status Success",
+    variable: "--atom-status-success",
+    value: "var(--atom-color-success, #10b981)",
+    description: "\uAE30\uC874 \uD638\uD658\uC6A9 \uC0C1\uD0DC \uD1A0\uD070 (Success)",
+    category: "status"
+  },
+  {
+    name: "Legacy Status Danger",
+    variable: "--atom-status-danger",
+    value: "var(--atom-color-danger, #ef4444)",
+    description: "\uAE30\uC874 \uD638\uD658\uC6A9 \uC0C1\uD0DC \uD1A0\uD070 (Danger)",
+    category: "status"
+  },
+  {
+    name: "Legacy Status Warning",
+    variable: "--atom-status-warning",
+    value: "var(--atom-color-warning, #f59e0b)",
+    description: "\uAE30\uC874 \uD638\uD658\uC6A9 \uC0C1\uD0DC \uD1A0\uD070 (Warning)",
     category: "status"
   }
 ];
@@ -9143,8 +9206,10 @@ var Button = React25.forwardRef(
     children,
     ...props
   }, ref) => {
-    const activeVariable = variable || variant;
-    const variantClass = variant === "primary" ? "atom-btn-primary" : `atom-btn-${variant}`;
+    const activeVariable = variable || (variant === "danger" ? "destructive" : variant);
+    const normalizedVariant = variant === "danger" ? "destructive" : variant;
+    const variantClass = normalizedVariant === "primary" ? "atom-btn-primary" : `atom-btn-${normalizedVariant}`;
+    const dangerClass = variant === "danger" ? "atom-btn-danger" : "";
     const variableClass = `atom-button--${activeVariable}`;
     const sizeClass = size === "sm" ? "text-xs px-2.5 py-1.5" : size === "lg" ? "text-base px-5 py-3" : "";
     const iconClass = isIconOnly ? "p-2 aspect-square inline-flex items-center justify-center" : "";
@@ -9161,7 +9226,7 @@ var Button = React25.forwardRef(
         "data-variable": activeVariable,
         disabled: disabled || loading,
         "aria-disabled": disabled || loading,
-        className: `atom-btn ${variantClass} ${variableClass} ${sizeClass} ${iconClass} ${className}`,
+        className: `atom-btn ${variantClass} ${dangerClass} ${variableClass} ${sizeClass} ${iconClass} ${className}`,
         style: customStyle,
         ...props
       },
