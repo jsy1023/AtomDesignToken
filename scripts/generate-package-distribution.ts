@@ -287,7 +287,8 @@ function generateUiComponents() {
   const buttonCode = `import React from 'react';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive' | 'success' | 'warning';
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive' | 'success' | 'warning' | (string & {});
+  variable?: string;
   size?: 'sm' | 'md' | 'lg';
   loading?: boolean;
   isIconOnly?: boolean;
@@ -299,6 +300,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
       variant = 'primary',
+      variable,
       size = 'md',
       loading = false,
       isIconOnly = false,
@@ -312,7 +314,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
+    const activeVariable = variable || variant;
     const variantClass = variant === 'primary' ? 'atom-btn-primary' : \`atom-btn-\${variant}\`;
+    const variableClass = \`atom-button--\${activeVariable}\`;
     const sizeClass = size === 'sm' ? 'text-xs px-2.5 py-1.5' : size === 'lg' ? 'text-base px-5 py-3' : '';
     const iconClass = isIconOnly ? 'p-2 aspect-square inline-flex items-center justify-center' : '';
 
@@ -325,9 +329,11 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <button
         ref={ref}
+        data-component="button"
+        data-variable={activeVariable}
         disabled={disabled || loading}
         aria-disabled={disabled || loading}
-        className={\`atom-btn \${variantClass} \${sizeClass} \${iconClass} \${className}\`}
+        className={\`atom-btn \${variantClass} \${variableClass} \${sizeClass} \${iconClass} \${className}\`}
         style={customStyle}
         {...props}
       >
@@ -353,10 +359,11 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
   label?: string;
   error?: string;
   helperText?: string;
+  variable?: string;
 }
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ label, error, helperText, className = '', id, ...props }, ref) => {
+  ({ label, error, helperText, variable = 'standard', className = '', id, ...props }, ref) => {
     const inputId = id || React.useId();
     return (
       <div className="w-full flex flex-col gap-1.5">
@@ -368,8 +375,10 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         <input
           ref={ref}
           id={inputId}
+          data-component="input"
+          data-variable={variable}
           aria-invalid={!!error}
-          className={\`atom-input \${error ? 'atom-input-error' : ''} \${className}\`}
+          className={\`atom-input \${error ? 'atom-input-error' : ''} atom-input--\${variable} \${className}\`}
           {...props}
         />
         {error ? (
@@ -390,14 +399,17 @@ Input.displayName = 'Input';
 
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   interactive?: boolean;
+  variable?: string;
 }
 
 export const Card = React.forwardRef<HTMLDivElement, CardProps>(
-  ({ interactive = false, className = '', children, ...props }, ref) => {
+  ({ interactive = false, variable = 'elevated', className = '', children, ...props }, ref) => {
     return (
       <div
         ref={ref}
-        className={\`atom-card \${interactive ? 'atom-card-interactive cursor-pointer' : ''} \${className}\`}
+        data-component="card"
+        data-variable={variable}
+        className={\`atom-card \${interactive ? 'atom-card-interactive cursor-pointer' : ''} atom-card--\${variable} \${className}\`}
         {...props}
       >
         {children}
@@ -413,15 +425,19 @@ Card.displayName = 'Card';
   const badgeCode = `import React from 'react';
 
 export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
-  variant?: 'primary' | 'success' | 'warning' | 'destructive' | 'neutral';
+  variant?: 'primary' | 'success' | 'warning' | 'destructive' | 'neutral' | (string & {});
+  variable?: string;
 }
 
 export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
-  ({ variant = 'neutral', className = '', children, ...props }, ref) => {
+  ({ variant = 'neutral', variable, className = '', children, ...props }, ref) => {
+    const activeVariable = variable || variant;
     return (
       <span
         ref={ref}
-        className={\`atom-badge atom-badge-\${variant} \${className}\`}
+        data-component="badge"
+        data-variable={activeVariable}
+        className={\`atom-badge atom-badge-\${variant} atom-badge--\${activeVariable} \${className}\`}
         {...props}
       >
         {children}

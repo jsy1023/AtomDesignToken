@@ -69,15 +69,73 @@ export function exportStudioToCSS(
 
   css += `}\n\n/* === 2. Component Variable Token Scopes === */\n`;
 
-  // Component Scoped CSS Variables
+  // Component Scoped CSS Variables & Direct Visual Selectors
   components.forEach((comp) => {
     comp.variables.forEach((v) => {
+      // 1. Declare Scoped Token Variables
       css += `[data-component="${comp.id}"][data-variable="${v.id}"],\n.atom-${comp.id}--${v.id} {\n`;
       Object.entries(v.tokenBindings).forEach(([propKey, paletteId]) => {
         const cssVarName = `--atom-${comp.id}-${v.id}-${propKey}`;
         css += `  ${cssVarName}: var(${paletteId});\n`;
       });
       css += `}\n\n`;
+
+      // 2. Concrete UI Component Selector Rules for 100% Direct Code Reflection
+      if (comp.id === 'button') {
+        css += `.atom-btn.atom-button--${v.id},\n.atom-btn[data-variable="${v.id}"],\n[data-component="button"][data-variable="${v.id}"] {\n`;
+        if (v.tokenBindings.background) css += `  background-color: var(--atom-${comp.id}-${v.id}-background);\n`;
+        if (v.tokenBindings.textColor) css += `  color: var(--atom-${comp.id}-${v.id}-textColor);\n`;
+        if (v.tokenBindings.borderColor) css += `  border-color: var(--atom-${comp.id}-${v.id}-borderColor);\n`;
+        if (v.tokenBindings.borderRadius) css += `  border-radius: var(--atom-${comp.id}-${v.id}-borderRadius);\n`;
+        if (v.tokenBindings.paddingX || v.tokenBindings.paddingY) {
+          const py = v.tokenBindings.paddingY ? `var(--atom-${comp.id}-${v.id}-paddingY)` : '8px';
+          const px = v.tokenBindings.paddingX ? `var(--atom-${comp.id}-${v.id}-paddingX)` : '16px';
+          css += `  padding: ${py} ${px};\n`;
+        }
+        css += `}\n`;
+        if (v.tokenBindings.hoverBackground) {
+          css += `.atom-btn.atom-button--${v.id}:hover:not(:disabled),\n.atom-btn[data-variable="${v.id}"]:hover:not(:disabled),\n[data-component="button"][data-variable="${v.id}"]:hover:not(:disabled) {\n`;
+          css += `  background-color: var(--atom-${comp.id}-${v.id}-hoverBackground);\n`;
+          css += `}\n\n`;
+        }
+      } else if (comp.id === 'badge') {
+        css += `.atom-badge.atom-badge--${v.id},\n.atom-badge[data-variable="${v.id}"],\n[data-component="badge"][data-variable="${v.id}"] {\n`;
+        if (v.tokenBindings.background) css += `  background-color: var(--atom-${comp.id}-${v.id}-background);\n`;
+        if (v.tokenBindings.textColor) css += `  color: var(--atom-${comp.id}-${v.id}-textColor);\n`;
+        if (v.tokenBindings.borderColor) css += `  border-color: var(--atom-${comp.id}-${v.id}-borderColor);\n`;
+        if (v.tokenBindings.borderRadius) css += `  border-radius: var(--atom-${comp.id}-${v.id}-borderRadius);\n`;
+        if (v.tokenBindings.paddingX || v.tokenBindings.paddingY) {
+          const py = v.tokenBindings.paddingY ? `var(--atom-${comp.id}-${v.id}-paddingY)` : '2px';
+          const px = v.tokenBindings.paddingX ? `var(--atom-${comp.id}-${v.id}-paddingX)` : '8px';
+          css += `  padding: ${py} ${px};\n`;
+        }
+        css += `}\n\n`;
+      } else if (comp.id === 'card') {
+        css += `.atom-card.atom-card--${v.id},\n.atom-card[data-variable="${v.id}"],\n[data-component="card"][data-variable="${v.id}"] {\n`;
+        if (v.tokenBindings.background) css += `  background-color: var(--atom-${comp.id}-${v.id}-background);\n`;
+        if (v.tokenBindings.borderColor) css += `  border-color: var(--atom-${comp.id}-${v.id}-borderColor);\n`;
+        if (v.tokenBindings.borderRadius) css += `  border-radius: var(--atom-${comp.id}-${v.id}-borderRadius);\n`;
+        if (v.tokenBindings.padding) css += `  padding: var(--atom-${comp.id}-${v.id}-padding);\n`;
+        css += `}\n\n`;
+      } else if (comp.id === 'input') {
+        css += `.atom-input.atom-input--${v.id},\n.atom-input[data-variable="${v.id}"],\n[data-component="input"][data-variable="${v.id}"] {\n`;
+        if (v.tokenBindings.background) css += `  background-color: var(--atom-${comp.id}-${v.id}-background);\n`;
+        if (v.tokenBindings.borderColor) css += `  border-color: var(--atom-${comp.id}-${v.id}-borderColor);\n`;
+        if (v.tokenBindings.borderRadius) css += `  border-radius: var(--atom-${comp.id}-${v.id}-borderRadius);\n`;
+        if (v.tokenBindings.textColor) css += `  color: var(--atom-${comp.id}-${v.id}-textColor);\n`;
+        if (v.tokenBindings.paddingX || v.tokenBindings.paddingY) {
+          const py = v.tokenBindings.paddingY ? `var(--atom-${comp.id}-${v.id}-paddingY)` : '8px';
+          const px = v.tokenBindings.paddingX ? `var(--atom-${comp.id}-${v.id}-paddingX)` : '12px';
+          css += `  padding: ${py} ${px};\n`;
+        }
+        css += `}\n`;
+        if (v.tokenBindings.focusBorderColor) {
+          css += `.atom-input.atom-input--${v.id}:focus,\n.atom-input[data-variable="${v.id}"]:focus,\n[data-component="input"][data-variable="${v.id}"]:focus {\n`;
+          css += `  border-color: var(--atom-${comp.id}-${v.id}-focusBorderColor);\n`;
+          css += `  outline: 2px solid var(--atom-${comp.id}-${v.id}-focusBorderColor);\n`;
+          css += `}\n\n`;
+        }
+      }
     });
   });
 

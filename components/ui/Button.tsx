@@ -1,7 +1,8 @@
 import React from 'react';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive' | 'success' | 'warning';
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive' | 'success' | 'warning' | (string & {});
+  variable?: string;
   size?: 'sm' | 'md' | 'lg';
   loading?: boolean;
   isIconOnly?: boolean;
@@ -13,6 +14,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
       variant = 'primary',
+      variable,
       size = 'md',
       loading = false,
       isIconOnly = false,
@@ -26,7 +28,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
+    const activeVariable = variable || variant;
     const variantClass = variant === 'primary' ? 'atom-btn-primary' : `atom-btn-${variant}`;
+    const variableClass = `atom-button--${activeVariable}`;
     const sizeClass = size === 'sm' ? 'text-xs px-2.5 py-1.5' : size === 'lg' ? 'text-base px-5 py-3' : '';
     const iconClass = isIconOnly ? 'p-2 aspect-square inline-flex items-center justify-center' : '';
 
@@ -39,9 +43,11 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <button
         ref={ref}
+        data-component="button"
+        data-variable={activeVariable}
         disabled={disabled || loading}
         aria-disabled={disabled || loading}
-        className={`atom-btn ${variantClass} ${sizeClass} ${iconClass} ${className}`}
+        className={`atom-btn ${variantClass} ${variableClass} ${sizeClass} ${iconClass} ${className}`}
         style={customStyle}
         {...props}
       >

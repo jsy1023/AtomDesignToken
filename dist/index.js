@@ -1,4 +1,4 @@
-export { TOKEN_REPLACEMENTS, scanAndRefactorDirectory } from './chunk-CVOGJG4Z.js';
+export { TOKEN_REPLACEMENTS, scanAndRefactorDirectory } from './chunk-DWGXPQK5.js';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import React25, { useState } from 'react';
@@ -9131,6 +9131,7 @@ function cn(...inputs) {
 var Button = React25.forwardRef(
   ({
     variant = "primary",
+    variable,
     size = "md",
     loading = false,
     isIconOnly = false,
@@ -9142,7 +9143,9 @@ var Button = React25.forwardRef(
     children,
     ...props
   }, ref) => {
+    const activeVariable = variable || variant;
     const variantClass = variant === "primary" ? "atom-btn-primary" : `atom-btn-${variant}`;
+    const variableClass = `atom-button--${activeVariable}`;
     const sizeClass = size === "sm" ? "text-xs px-2.5 py-1.5" : size === "lg" ? "text-base px-5 py-3" : "";
     const iconClass = isIconOnly ? "p-2 aspect-square inline-flex items-center justify-center" : "";
     const customStyle = {
@@ -9154,9 +9157,11 @@ var Button = React25.forwardRef(
       "button",
       {
         ref,
+        "data-component": "button",
+        "data-variable": activeVariable,
         disabled: disabled || loading,
         "aria-disabled": disabled || loading,
-        className: `atom-btn ${variantClass} ${sizeClass} ${iconClass} ${className}`,
+        className: `atom-btn ${variantClass} ${variableClass} ${sizeClass} ${iconClass} ${className}`,
         style: customStyle,
         ...props
       },
@@ -9167,15 +9172,17 @@ var Button = React25.forwardRef(
 );
 Button.displayName = "Button";
 var Input = React25.forwardRef(
-  ({ label, error, helperText, className = "", id, ...props }, ref) => {
+  ({ label, error, helperText, variable = "standard", className = "", id, ...props }, ref) => {
     const inputId = id || React25.useId();
     return /* @__PURE__ */ React25.createElement("div", { className: "w-full flex flex-col gap-1.5" }, label && /* @__PURE__ */ React25.createElement("label", { htmlFor: inputId, className: "text-sm font-medium text-[var(--atom-text-primary)]" }, label), /* @__PURE__ */ React25.createElement(
       "input",
       {
         ref,
         id: inputId,
+        "data-component": "input",
+        "data-variable": variable,
         "aria-invalid": !!error,
-        className: `atom-input ${error ? "atom-input-error" : ""} ${className}`,
+        className: `atom-input ${error ? "atom-input-error" : ""} atom-input--${variable} ${className}`,
         ...props
       }
     ), error ? /* @__PURE__ */ React25.createElement("span", { className: "text-xs text-[var(--atom-destructive,#dc2626)]" }, error) : helperText ? /* @__PURE__ */ React25.createElement("span", { className: "text-xs text-[var(--atom-text-secondary,#8b95a1)]" }, helperText) : null);
@@ -9183,12 +9190,14 @@ var Input = React25.forwardRef(
 );
 Input.displayName = "Input";
 var Card = React25.forwardRef(
-  ({ interactive = false, className = "", children, ...props }, ref) => {
+  ({ interactive = false, variable = "elevated", className = "", children, ...props }, ref) => {
     return /* @__PURE__ */ React25.createElement(
       "div",
       {
         ref,
-        className: `atom-card ${interactive ? "atom-card-interactive cursor-pointer" : ""} ${className}`,
+        "data-component": "card",
+        "data-variable": variable,
+        className: `atom-card ${interactive ? "atom-card-interactive cursor-pointer" : ""} atom-card--${variable} ${className}`,
         ...props
       },
       children
@@ -9197,12 +9206,15 @@ var Card = React25.forwardRef(
 );
 Card.displayName = "Card";
 var Badge = React25.forwardRef(
-  ({ variant = "neutral", className = "", children, ...props }, ref) => {
+  ({ variant = "neutral", variable, className = "", children, ...props }, ref) => {
+    const activeVariable = variable || variant;
     return /* @__PURE__ */ React25.createElement(
       "span",
       {
         ref,
-        className: `atom-badge atom-badge-${variant} ${className}`,
+        "data-component": "badge",
+        "data-variable": activeVariable,
+        className: `atom-badge atom-badge-${variant} atom-badge--${activeVariable} ${className}`,
         ...props
       },
       children

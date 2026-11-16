@@ -4,10 +4,11 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
   label?: string;
   error?: string;
   helperText?: string;
+  variable?: string;
 }
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ label, error, helperText, className = '', id, ...props }, ref) => {
+  ({ label, error, helperText, variable = 'standard', className = '', id, ...props }, ref) => {
     const inputId = id || React.useId();
     return (
       <div className="w-full flex flex-col gap-1.5">
@@ -19,8 +20,10 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         <input
           ref={ref}
           id={inputId}
+          data-component="input"
+          data-variable={variable}
           aria-invalid={!!error}
-          className={`atom-input ${error ? 'atom-input-error' : ''} ${className}`}
+          className={`atom-input ${error ? 'atom-input-error' : ''} atom-input--${variable} ${className}`}
           {...props}
         />
         {error ? (
