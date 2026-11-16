@@ -68,11 +68,31 @@ components/ (Presentation Layer)
   - 테스트 결과 리포트 확인: `npm run test:e2e:report`
 - 테스트 작성 시 하드코딩된 대기(`waitForTimeout`)를 지양하고, 웹 표준 로케이터(`getByRole`, `getByPlaceholder`, `getByText`)와 웹 안정성 대기(Web-First Assertions: `expect(locator).toBeVisible()`)를 준수합니다.
 
+### E. 'refactor' 하드코딩 자동 탐지 및 토큰 치환 프로토콜 (Zero-Hardcoding Guarantee)
+사용자가 `"refactor"`, `"하드코딩 정리해줘"`, 또는 이와 유사한 요청을 하거나 소스코드를 점검할 때, AI는 예외 없이 아래 3단계 절차로 모든 하드코딩 안티패턴을 탐색하여 시맨틱 토큰 변수로 치환해야 합니다.
+
+1. **하드코딩 탐색 대상 안티패턴**:
+   - **임의 HEX/RGB 색상**: `#3182f6`, `#1b64da`, `#ffffff`, `#000000`, `rgba(0,0,0,0.05)` 등
+   - **Tailwind 기본 컬러 유입**: `text-blue-500`, `bg-gray-100`, `border-neutral-200` 등
+   - **임의 픽셀(px) 인라인 간격**: `p-[13px]`, `m-[7px]`, `gap-[11px]` 등
+   - **임의 곡률/그림자**: `rounded-[7px]`, `shadow-[0_4px_12px_rgba(0,0,0,0.1)]` 등
+2. **시맨틱 토큰 매핑 사전 (치환 표준)**:
+   - 배경/서피스: `bg-(--bg-primary)`, `bg-(--bg-secondary)`, `bg-(--bg-tertiary)`
+   - 텍스트/라벨: `text-(--text-primary)`, `text-(--text-secondary)`, `text-(--text-muted)`
+   - 액션/브랜드: `bg-(--accent-primary)`, `text-(--accent-primary)`, `border-(--accent-primary)`
+   - 보더/구분선: `border-(--border-subtle)`, `border-(--border-strong)`
+   - 곡률: `rounded-(--radius-sm)` (4px), `rounded-(--radius)` (6px), `rounded-(--radius-lg)` (8px)
+   - 간격(Spacing): `p-(--space-2)` (8px), `p-(--space-4)` (16px), `gap-(--space-3)` (12px)
+3. **치환 후 무결성 검증**:
+   - 치환 후 Tailwind 컴파일이나 CSS 변수가 누락되지 않았는지 확인.
+   - `components/ui/` 원자 컴포넌트를 사용하지 않고 원시 태그(`<button>`, `<div class="...">`)로 모방한 코드는 즉시 UI 컴포넌트로 리팩토링.
+
 ---
 
 ## 3. 작업 전/후 AI 점검 체크리스트
 - [ ] 새 데이터를 추가할 때 개별 페이지에 하드코딩하지 않고 `lib/data/`의 공통 도메인 모델에 추가했는가?
 - [ ] 컴포넌트가 렌더링 외의 과도한 데이터 가공 책임을 지고 있지 않은가?
 - [ ] 동일한 로직이나 데이터 구조가 다른 페이지와 중복되고 있지 않은가?
+- [ ] 임의의 HEX/RGB나 `text-blue-500` 등의 하드코딩이 0건이며 시맨틱 토큰 변수(`var(--...)`)를 사용했는가?
 - [ ] 타입스크립트 인터페이스가 명확히 정의되어 있고 타입 단언(`any`)을 사용하지 않았는가?
 - [ ] UI 및 사용자 플로우 검증을 위해 **Playwright E2E 테스트(`e2e/*.spec.ts`)**가 작성/실행되어 정상 통과했는가?

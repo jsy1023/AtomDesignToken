@@ -41,8 +41,17 @@
 
 ---
 
-## 💡 3. AI 작업 시 필수 체크리스트
-- [ ] Tailwind 임의의 컬러(`blue-500`, `gray-100`)를 하드코딩하지 않고 시맨틱 토큰 변수를 사용했는가?
+## 🛠️ 3. 'refactor' 하드코딩 자동 탐지 및 토큰 치환 프로토콜
+사용자가 `"refactor"`, `"하드코딩 정리해줘"`라고 명령하면, AI는 즉시 프로젝트 내 아래 하드코딩 패턴을 탐색하여 시맨틱 토큰 변수로 치환합니다:
+- **HEX/RGB 컬러 (`#3182f6`, `#ffffff`)** ➔ `var(--accent-primary)`, `var(--bg-primary)` 등 시맨틱 토큰 매핑
+- **Tailwind 임의 컬러 (`text-blue-500`, `bg-gray-100`)** ➔ `text-(--text-primary)`, `bg-(--bg-secondary)` 치환
+- **임의 인라인 픽셀 간격 (`p-[13px]`, `gap-[15px]`)** ➔ `p-(--space-3)`, `gap-(--space-4)` 토큰 치환
+- **원시 날림 태그 (`<button>`, `<div class="rounded-lg border ...">`)** ➔ `components/ui/` 원자 컴포넌트로 리팩토링
+
+---
+
+## 💡 4. AI 작업 시 필수 체크리스트
+- [ ] Tailwind 임의의 컬러(`blue-500`, `gray-100`)나 HEX를 하드코딩하지 않고 시맨틱 토큰 변수를 사용했는가?
 - [ ] 버튼, 카드, 뱃지 등 UI를 날림 태그 대신 `components/ui/`에서 import하여 조립했는가?
 - [ ] 복잡한 화면을 만들 때 `atom.blocks.md` 및 `atom.uxPattern.md`의 검증된 패턴을 따랐는가?
 - [ ] 빈 데이터 상태(Empty State), 로딩 상태(Loading/Skeleton), 키보드 포커스링(A11y)을 보장했는가?
