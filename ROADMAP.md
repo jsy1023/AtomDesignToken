@@ -65,6 +65,13 @@ AtomSystem은 단순한 UI 컴포넌트 라이브러리가 아닙니다.
   - 각 컴포넌트/UseCase별 실시간 토큰 바인딩 상태 확인 및 원클릭 복사
 - [ ] **글로벌 다국어 지원 (KO / EN / JA) 완비**
 
+### Phase 5: Figma ↔ Token 양방향 연동 플러그인 (Design & Code Bi-directional Sync)
+- [ ] **스튜디오 `token.json` ➔ Figma Variables 자동 로더 플러그인 개발**
+  - 스튜디오에서 정의/조정한 50~900 색상 스케일, 사이즈, 모서리 곡률, 타이포그래피 토큰을 Figma Variables Collection으로 원클릭 동기화
+- [ ] **Figma Variables ➔ `token.json` 내보내기 및 실시간 감시**
+  - 디자이너가 피그마에서 작업한 토큰 변경사항을 W3C DTCG 표준 JSON 및 `atom-ui.css`로 자동 변환하여 개발 환경에 반영
+- [ ] **디자인 <-> 개발 간 하드코딩 0% 무결성 검증 파이프라인 완성**
+
 ---
 
 ## 📈 4. 성공 지표 (Definition of Done)

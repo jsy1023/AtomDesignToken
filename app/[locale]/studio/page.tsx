@@ -59,6 +59,7 @@ export default function LocalStudioPage() {
   // Palette Management View Filters
   const [paletteCategoryFilter, setPaletteCategoryFilter] = useState<'all' | 'color' | 'size' | 'radius' | 'typography'>('color');
   const [colorFamilyFilter, setColorFamilyFilter] = useState<string>('all');
+  const [paletteSearchQuery, setPaletteSearchQuery] = useState<string>('');
   const [copiedPaletteId, setCopiedPaletteId] = useState<string | null>(null);
 
   // Modals / Dialogs
@@ -274,6 +275,20 @@ export default function LocalStudioPage() {
     return matchesSearch && matchesCategory;
   });
 
+  // Filtered palettes by search query
+  const filteredPalettes = paletteVariables.filter((p) => {
+    if (!paletteSearchQuery.trim()) return true;
+    const query = paletteSearchQuery.toLowerCase();
+    return (
+      p.name.toLowerCase().includes(query) ||
+      p.id.toLowerCase().includes(query) ||
+      p.value.toLowerCase().includes(query) ||
+      (p.description && p.description.toLowerCase().includes(query))
+    );
+  });
+
+  const displayedPalettes = paletteSearchQuery.trim() ? filteredPalettes : paletteVariables;
+
   return (
     <div className="h-screen flex flex-col bg-(--bg-primary) text-(--text-primary) font-sans overflow-hidden transition-colors">
       <div className="shrink-0">
@@ -461,6 +476,240 @@ export default function LocalStudioPage() {
                       </button>
                     );
                   })}
+                </div>
+              </div>
+            )}
+
+            {/* 3. Palette Categories & Token Tree (Active when in Palette Manager) */}
+            {activeTab === 'palette' && (
+              <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
+                {/* Search & Header */}
+                <div className="shrink-0 p-4 pb-2.5 space-y-2.5 border-b border-(--border-subtle)/30">
+                  <div className="flex items-center justify-between px-0.5">
+                    <span className="text-xs font-mono font-bold text-(--text-secondary) uppercase tracking-wider flex items-center gap-1.5">
+                      <Palette className="w-3.5 h-3.5 text-(--accent-primary)" />
+                      Palette Categories
+                    </span>
+                    <span className="text-[11px] font-mono px-1.5 py-0.5 rounded bg-(--bg-secondary) text-(--text-muted) border border-(--border-subtle)">
+                      {paletteVariables.length}
+                    </span>
+                  </div>
+
+                  {/* Search */}
+                  <div className="relative">
+                    <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-(--text-muted)" />
+                    <input
+                      type="text"
+                      value={paletteSearchQuery}
+                      onChange={(e) => setPaletteSearchQuery(e.target.value)}
+                      placeholder="팔레트 검색..."
+                      className="w-full text-xs pl-8 pr-3 py-1.5 rounded border border-(--border-subtle) bg-(--bg-primary) text-(--text-primary) placeholder:text-(--text-muted)"
+                    />
+                  </div>
+                </div>
+
+                {/* Independent Scrollable Palette Category Menu or Search Results */}
+                <div className="flex-1 overflow-y-auto p-4 space-y-1.5">
+                  {paletteSearchQuery.trim() ? (
+                    <div className="space-y-1">
+                      <div className="flex items-center justify-between text-[11px] font-mono text-(--text-muted) px-1 pb-1">
+                        <span>검색 결과</span>
+                        <span className="font-bold text-(--accent-primary)">{filteredPalettes.length}건</span>
+                      </div>
+                      {filteredPalettes.length === 0 ? (
+                        <div className="p-6 text-center text-xs text-(--text-muted) border border-dashed border-(--border-subtle) rounded-(--radius-sm)">
+                          일치하는 토큰이 없습니다.
+                        </div>
+                      ) : (
+                        filteredPalettes.map((pal) => (
+                          <button
+                            key={pal.id}
+                            onClick={() => {
+                              if (pal.category === 'color') {
+                                setPaletteCategoryFilter('color');
+                                if (pal.family) setColorFamilyFilter(pal.family);
+                              } else if (pal.category === 'size' || pal.category === 'spacing') {
+                                setPaletteCategoryFilter('size');
+                              } else if (pal.category === 'radius') {
+                                setPaletteCategoryFilter('radius');
+                              } else if (pal.category === 'typography') {
+                                setPaletteCategoryFilter('typography');
+                              }
+                              handleCopyPalette(pal.id, pal.value);
+                            }}
+                            className="w-full text-left p-2 rounded-(--radius-sm) text-xs transition cursor-pointer hover:bg-(--bg-secondary) flex items-center justify-between border border-transparent hover:border-(--border-subtle) group"
+                          >
+                            <div className="flex items-center gap-2 min-w-0">
+                              {pal.category === 'color' ? (
+                                <span
+                                  style={{ backgroundColor: pal.value }}
+                                  className="w-3.5 h-3.5 rounded-full shrink-0 border border-black/10 shadow-xs"
+                                />
+                              ) : pal.category === 'radius' ? (
+                                <span
+                                  style={{ borderRadius: pal.value }}
+                                  className="w-3.5 h-3.5 border border-(--border-strong) bg-(--bg-secondary) shrink-0"
+                                />
+                              ) : pal.category === 'typography' ? (
+                                <span className="w-3.5 h-3.5 flex items-center justify-center font-serif text-[10px] font-bold text-(--accent-primary) shrink-0">
+                                  Aa
+                                </span>
+                              ) : (
+                                <Ruler className="w-3.5 h-3.5 text-(--accent-primary) shrink-0" />
+                              )}
+                              <div className="min-w-0 flex flex-col">
+                                <span className="font-medium text-(--text-primary) truncate">
+                                  {pal.name}
+                                </span>
+                                <span className="font-mono text-[10px] text-(--text-muted) truncate">
+                                  {pal.id}
+                                </span>
+                              </div>
+                            </div>
+                            <div className="shrink-0 text-right ml-2 flex flex-col items-end">
+                              <span className="font-mono text-[10px] text-(--text-secondary) truncate max-w-[60px]">
+                                {pal.value}
+                              </span>
+                              <span className="text-[9px] uppercase px-1 rounded bg-(--bg-secondary) text-(--text-muted)">
+                                {pal.category}
+                              </span>
+                            </div>
+                          </button>
+                        ))
+                      )}
+                    </div>
+                  ) : (
+                    <>
+                      {/* Category 1: Color Scales (50 ~ 900) */}
+                      <div className="space-y-1">
+                        <button
+                          onClick={() => {
+                            setPaletteCategoryFilter('color');
+                            setColorFamilyFilter('all');
+                          }}
+                          className={`w-full text-left p-2.5 rounded-(--radius-sm) text-xs font-medium transition cursor-pointer flex items-center justify-between ${
+                            paletteCategoryFilter === 'color' && colorFamilyFilter === 'all'
+                              ? 'bg-(--text-primary) text-(--bg-primary) font-semibold shadow-xs'
+                              : 'hover:bg-(--bg-secondary) text-(--text-primary)'
+                          }`}
+                        >
+                          <span className="flex items-center gap-2">
+                            <Palette className="w-3.5 h-3.5 text-(--accent-primary)" />
+                            <span>색상 팔레트 (50~900)</span>
+                          </span>
+                          <span className="text-[10px] font-mono opacity-60">
+                            {paletteVariables.filter((p) => p.category === 'color').length}
+                          </span>
+                        </button>
+
+                        {/* Sub Color Families */}
+                        {paletteCategoryFilter === 'color' && (
+                          <div className="pl-5 pr-1 py-1 space-y-0.5 border-l-2 border-(--border-subtle) ml-3">
+                            {[
+                              { id: 'blue', label: 'Blue (Brand Primary)', color: '#3182f6' },
+                              { id: 'gray', label: 'Gray (Surface & Text)', color: '#64748b' },
+                              { id: 'emerald', label: 'Emerald (Success)', color: '#10b981' },
+                              { id: 'rose', label: 'Rose (Destructive)', color: '#ef4444' },
+                              { id: 'amber', label: 'Amber (Warning)', color: '#f59e0b' },
+                              { id: 'purple', label: 'Purple (AI Accent)', color: '#8b5cf6' },
+                              { id: 'neutral', label: 'Neutral (Black & White)', color: '#111111' },
+                            ].map((fam) => (
+                              <button
+                                key={fam.id}
+                                onClick={() => setColorFamilyFilter(fam.id)}
+                                className={`w-full text-left px-2 py-1.5 rounded text-[11px] font-medium transition cursor-pointer flex items-center justify-between ${
+                                  colorFamilyFilter === fam.id
+                                    ? 'bg-(--accent-primary) text-(--bg-primary) font-bold'
+                                    : 'text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary)'
+                                }`}
+                              >
+                                <span className="flex items-center gap-2 truncate">
+                                  <span
+                                    style={{ backgroundColor: fam.color }}
+                                    className="w-2 h-2 rounded-full shrink-0 shadow-xs"
+                                  />
+                                  <span className="truncate">{fam.label}</span>
+                                </span>
+                                <span className="text-[10px] font-mono opacity-60">10</span>
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Category 2: Size & Spacing */}
+                      <button
+                        onClick={() => setPaletteCategoryFilter('size')}
+                        className={`w-full text-left p-2.5 rounded-(--radius-sm) text-xs font-medium transition cursor-pointer flex items-center justify-between ${
+                          paletteCategoryFilter === 'size'
+                            ? 'bg-(--text-primary) text-(--bg-primary) font-semibold shadow-xs'
+                            : 'hover:bg-(--bg-secondary) text-(--text-primary)'
+                        }`}
+                      >
+                        <span className="flex items-center gap-2">
+                          <Ruler className="w-3.5 h-3.5 text-(--accent-primary)" />
+                          <span>사이즈 & 여백 (Size)</span>
+                        </span>
+                        <span className="text-[10px] font-mono opacity-60">
+                          {paletteVariables.filter((p) => p.category === 'size' || p.category === 'spacing').length}
+                        </span>
+                      </button>
+
+                      {/* Category 3: Border Radius */}
+                      <button
+                        onClick={() => setPaletteCategoryFilter('radius')}
+                        className={`w-full text-left p-2.5 rounded-(--radius-sm) text-xs font-medium transition cursor-pointer flex items-center justify-between ${
+                          paletteCategoryFilter === 'radius'
+                            ? 'bg-(--text-primary) text-(--bg-primary) font-semibold shadow-xs'
+                            : 'hover:bg-(--bg-secondary) text-(--text-primary)'
+                        }`}
+                      >
+                        <span className="flex items-center gap-2">
+                          <Square className="w-3.5 h-3.5 text-(--accent-primary)" />
+                          <span>모서리 곡률 (Radius)</span>
+                        </span>
+                        <span className="text-[10px] font-mono opacity-60">
+                          {paletteVariables.filter((p) => p.category === 'radius').length}
+                        </span>
+                      </button>
+
+                      {/* Category 4: Typography */}
+                      <button
+                        onClick={() => setPaletteCategoryFilter('typography')}
+                        className={`w-full text-left p-2.5 rounded-(--radius-sm) text-xs font-medium transition cursor-pointer flex items-center justify-between ${
+                          paletteCategoryFilter === 'typography'
+                            ? 'bg-(--text-primary) text-(--bg-primary) font-semibold shadow-xs'
+                            : 'hover:bg-(--bg-secondary) text-(--text-primary)'
+                        }`}
+                      >
+                        <span className="flex items-center gap-2">
+                          <Type className="w-3.5 h-3.5 text-(--accent-primary)" />
+                          <span>타이포그래피 (Typography)</span>
+                        </span>
+                        <span className="text-[10px] font-mono opacity-60">
+                          {paletteVariables.filter((p) => p.category === 'typography').length}
+                        </span>
+                      </button>
+
+                      {/* Category 5: All Palettes Table */}
+                      <button
+                        onClick={() => setPaletteCategoryFilter('all')}
+                        className={`w-full text-left p-2.5 rounded-(--radius-sm) text-xs font-medium transition cursor-pointer flex items-center justify-between ${
+                          paletteCategoryFilter === 'all'
+                            ? 'bg-(--text-primary) text-(--bg-primary) font-semibold shadow-xs'
+                            : 'hover:bg-(--bg-secondary) text-(--text-primary)'
+                        }`}
+                      >
+                        <span className="flex items-center gap-2">
+                          <Layers className="w-3.5 h-3.5 text-(--accent-primary)" />
+                          <span>전체 목록 (All)</span>
+                        </span>
+                        <span className="text-[10px] font-mono opacity-60">
+                          {paletteVariables.length}
+                        </span>
+                      </button>
+                    </>
+                  )}
                 </div>
               </div>
             )}
@@ -1018,7 +1267,7 @@ export default function LocalStudioPage() {
                     {/* Color Groups Render */}
                     {['blue', 'gray', 'emerald', 'rose', 'amber', 'purple', 'neutral'].map((fam) => {
                       if (colorFamilyFilter !== 'all' && colorFamilyFilter !== fam) return null;
-                      const famPalettes = paletteVariables.filter(
+                      const famPalettes = displayedPalettes.filter(
                         (p) => p.category === 'color' && (p.family === fam || (!p.family && p.id.includes(fam)))
                       );
                       if (famPalettes.length === 0) return null;
@@ -1107,12 +1356,12 @@ export default function LocalStudioPage() {
                         </p>
                       </div>
                       <span className="text-xs font-mono text-(--text-muted)">
-                        {paletteVariables.filter((p) => p.category === 'size' || p.category === 'spacing').length} 토큰
+                        {displayedPalettes.filter((p) => p.category === 'size' || p.category === 'spacing').length} 토큰
                       </span>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                      {paletteVariables
+                      {displayedPalettes
                         .filter((p) => p.category === 'size' || p.category === 'spacing')
                         .map((pal) => (
                           <div
@@ -1162,12 +1411,12 @@ export default function LocalStudioPage() {
                         </p>
                       </div>
                       <span className="text-xs font-mono text-(--text-muted)">
-                        {paletteVariables.filter((p) => p.category === 'radius').length} 토큰
+                        {displayedPalettes.filter((p) => p.category === 'radius').length} 토큰
                       </span>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                      {paletteVariables
+                      {displayedPalettes
                         .filter((p) => p.category === 'radius')
                         .map((pal) => (
                           <div
@@ -1212,12 +1461,12 @@ export default function LocalStudioPage() {
                         </p>
                       </div>
                       <span className="text-xs font-mono text-(--text-muted)">
-                        {paletteVariables.filter((p) => p.category === 'typography').length} 토큰
+                        {displayedPalettes.filter((p) => p.category === 'typography').length} 토큰
                       </span>
                     </div>
 
                     <div className="divide-y divide-(--border-subtle)">
-                      {paletteVariables
+                      {displayedPalettes
                         .filter((p) => p.category === 'typography')
                         .map((pal) => (
                           <div
@@ -1274,7 +1523,7 @@ export default function LocalStudioPage() {
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-(--border-subtle)">
-                        {paletteVariables.map((pal) => (
+                        {displayedPalettes.map((pal) => (
                           <tr key={pal.id} className="hover:bg-(--bg-secondary)/30 transition-colors">
                             <td className="p-3">
                               <div className="font-semibold text-(--text-primary)">{pal.name}</div>
