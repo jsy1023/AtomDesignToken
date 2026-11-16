@@ -866,6 +866,26 @@ function handleStudio() {
   const port = portArg ? parseInt(portArg.split("=")[1], 10) : 4e3;
   startLocalTokenStudio({ port, cwd: process.cwd() });
 }
+function handleSkillInstall() {
+  const cwd = process.cwd();
+  console.log("\n\u{1F916} Installing AtomSystem Agent Skill & Universal Guidelines...\n");
+  const srcAgentGuide = path3.join(PKG_ROOT, "presets", "agents.guide.md");
+  if (fs3.existsSync(srcAgentGuide)) {
+    copyFileSafe(srcAgentGuide, path3.join(cwd, "AGENTS.md"), "Universal AI Guide (AGENTS.md)");
+    copyFileSafe(srcAgentGuide, path3.join(cwd, "CLAUDE.md"), "Claude Code Guidelines (CLAUDE.md)");
+    copyFileSafe(srcAgentGuide, path3.join(cwd, ".cursorrules"), "Cursor Rules (.cursorrules)");
+  }
+  const srcSkill = path3.join(PKG_ROOT, "skills", "atomsystem.skill.md");
+  if (fs3.existsSync(srcSkill)) {
+    copyFileSafe(srcSkill, path3.join(cwd, ".agents", "skills", "atomsystem", "SKILL.md"), "Agent Skill (.agents/skills/atomsystem/SKILL.md)");
+  }
+  console.log("\n\u2728 Agent Skill installed successfully!");
+  console.log("\u{1F4CC} Supported AI Assistants:");
+  console.log("  - Cursor IDE (.cursorrules)");
+  console.log("  - Claude Code (CLAUDE.md)");
+  console.log("  - Antigravity / Gemini CLI (.agents/skills/atomsystem/SKILL.md)");
+  console.log("  - Universal Coding Agents (AGENTS.md)\n");
+}
 function handleRefactor() {
   const cwd = process.cwd();
   const shouldFix = args.includes("--fix");
@@ -923,6 +943,7 @@ Usage:
 Commands:
   init            Initialize AI guidelines, tokens, specs, and CSS in your project
   refactor        Scan & replace hardcoded HEX/px/Tailwind colors with tokens (--fix)
+  skill install   Install AI Agent Skill and guidelines (.cursorrules, CLAUDE.md)
   studio          Launch Local Web Token Studio GUI (interactive token customizer)
   build:tokens    Compile tokens/token.json into zero-runtime css/atom-ui.css
   add <name>      Add a component or block directly to your project
@@ -952,6 +973,9 @@ switch (command) {
     break;
   case "refactor":
     handleRefactor();
+    break;
+  case "skill":
+    handleSkillInstall();
     break;
   case "studio":
   case "editor":
