@@ -34,6 +34,20 @@ export interface ColorConfig {
   statusWarning: string;
 }
 
+export interface BrandConfig {
+  name: string;
+  logoUrl?: string | null;
+  slogan?: string;
+  logoHeight?: number;
+}
+
+export const DEFAULT_BRAND_CONFIG: BrandConfig = {
+  name: 'AtomDesignToken',
+  logoUrl: null,
+  slogan: 'Universal Design Token & Agentic UI System',
+  logoHeight: 24,
+};
+
 export interface ButtonSpacingConfig {
   paddingY: string; // e.g. '8px'
   paddingX: string; // e.g. '16px'
@@ -138,9 +152,9 @@ export const DEFAULT_THEME_CONFIG: ThemeConfig = {
 
 export const COLOR_PRESETS: ColorPreset[] = [
   {
-    id: 'toss',
-    name: '토스 (Toss Vivid Blue)',
-    description: '청량한 비비드 블루와 볼드 라운딩',
+    id: 'ocean-blue',
+    name: '오션 블루 (Ocean Blue)',
+    description: '청량한 비비드 블루와 모던 라운딩',
     borderRadius: '16px',
     colors: {
       primary: 'var(--accent-primary)',
@@ -159,8 +173,8 @@ export const COLOR_PRESETS: ColorPreset[] = [
     },
   },
   {
-    id: 'daangn',
-    name: '당근 (Daangn Warm)',
+    id: 'warm-orange',
+    name: '웜 오렌지 (Warm Orange)',
     description: '따뜻한 오렌지와 친근한 라운딩 감성',
     borderRadius: '12px',
     colors: {

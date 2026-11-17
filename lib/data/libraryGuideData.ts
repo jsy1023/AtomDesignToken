@@ -82,7 +82,7 @@ export const LIBRARY_PHILOSOPHY: {
       color: "amber",
       badge: "핵심 원칙 4",
       problem: "디자인 시스템을 도입하려면 피그마 플러그인 학습, 복잡한 CLI 설정, 긴 문서 독파가 필요해 도입 장벽이 높음.",
-      solution: "AI Agent(Cursor, Claude, Antigravity)에게 'presets/toss.md 스타일로 결제 카드 UI 만들어줘'라고 지시하면 토큰 규격에 맞게 자동 빌드됩니다.",
+      solution: "AI Agent(Cursor, Claude, Antigravity)에게 'presets/ocean-blue.md 스타일로 결제 카드 UI 만들어줘'라고 지시하면 토큰 규격에 맞게 자동 빌드됩니다.",
       keyRule: "마크다운 가이드 제시 ➔ Agent가 토큰 및 반응형 UI 자동 조립"
     }
   ]
@@ -236,7 +236,7 @@ const saveProfile = () => {
     language: "markdown",
     tips: [
       "AI에게 'atomsystem/css/atom-ui.css'의 클래스명 컨벤션을 명시해 주면 오작동 없이 완벽한 시멘틱 UI를 만들어 냅니다.",
-      "사내 커스텀 가이드(예: presets/toss.md)를 함께 컨텍스트로 제공하면 브랜드 컬러와 라운딩이 자동으로 일치합니다.",
+      "사내 커스텀 가이드(예: presets/ocean-blue.md)를 함께 컨텍스트로 제공하면 브랜드 컬러와 라운딩이 자동으로 일치합니다.",
       "Playwright E2E 테스트 코드까지 함께 작성을 요청하여 완성도를 보장할 수 있습니다."
     ],
     code: `### AI Agent 작업 요청 프롬프트 (그대로 복사하여 사용하세요)
@@ -275,7 +275,7 @@ export const WORKFLOW_STEPS: WorkflowStep[] = [
   {
     step: "02",
     title: "원하는 디자인 프리셋 선택",
-    desc: "토스 스타일(toss.md), 당근 스타일(daangn.md), 또는 나만의 브랜드 컬러를 1곳에 정의합니다.",
+    desc: "오션 블루 스타일(ocean-blue.md), 웜 오렌지 스타일(warm-orange.md), 또는 나만의 브랜드 컬러를 1곳에 정의합니다.",
     badge: "SSOT 원칙",
     command: "npx atomsystem build",
     icon: "Sliders"
@@ -324,14 +324,14 @@ export const AI_REFERENCE_PIPELINE: {
       color: "blue",
       badge: "Step 1: 지식 스캔",
       referencedFiles: [
-        { name: "presets/toss.md", path: "presets/toss.md", role: "브랜드 비주얼 가이드 (색상, 여백, 라운딩 규격)" },
+        { name: "presets/ocean-blue.md", path: "presets/ocean-blue.md", role: "브랜드 비주얼 가이드 (색상, 여백, 라운딩 규격)" },
         { name: "GEMINI.md", path: "GEMINI.md", role: "SOLID 원칙 및 컴포넌트 분할/테스트 아키텍처 규칙" }
       ],
-      inputPrompt: "사용자: '토스 스타일로 간편 송금 확인 모달 컴포넌트를 만들어줘.'",
-      aiThinking: "Agent 추론: presets/toss.md를 스캔하여 Primary Color(var(--accent-primary)), 라운딩 16px, 볼드 타이포그래피 규칙을 로드하고, GEMINI.md의 SRP 원칙에 따라 데이터와 뷰를 분리할 계획을 세웁니다.",
-      outputCode: `// 1. Agent가 로드한 토스 프리셋 가이드 컨텍스트
+      inputPrompt: "사용자: '오션 블루 스타일로 간편 송금 확인 모달 컴포넌트를 만들어줘.'",
+      aiThinking: "Agent 추론: presets/ocean-blue.md를 스캔하여 Primary Color(var(--accent-primary)), 라운딩 16px, 볼드 타이포그래피 규칙을 로드하고, GEMINI.md의 SRP 원칙에 따라 데이터와 뷰를 분리할 계획을 세웁니다.",
+      outputCode: `// 1. Agent가 로드한 오션 블루 프리셋 가이드 컨텍스트
 {
-  "brand": "toss",
+  "brand": "ocean-blue",
   "primaryColor": "var(--accent-primary)",
   "borderRadius": "16px",
   "typography": { "title": "24px / bold", "body": "15px / regular" }

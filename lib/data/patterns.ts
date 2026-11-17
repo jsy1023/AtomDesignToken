@@ -339,7 +339,7 @@ export const PATTERNS_COLLECTION: PatternItem[] = [
       {
         id: 'two-step-transfer',
         name: '숫자 키패드 송금 & 이중 확인 모달',
-        description: '오송금 위험을 원천 차단하면서 원터치로 송금을 완료하는 토스형 패턴.',
+        description: '오송금 위험을 원천 차단하면서 원터치로 송금을 완료하는 간편 송금 패턴.',
         checklist: ['최근 송금 계좌 즐겨찾기 칩', '생체 인증(지문/FaceID) 인터페이스 지원'],
         antiPatterns: ['은행 점검 시간 안내 없이 이체 실패 처리'],
         markdown: `# [UX Pattern] 계좌 송금 및 간편 이체 패턴`

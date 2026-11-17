@@ -49,7 +49,8 @@ test.describe('네비게이션 신규 컴포넌트(Navbar, Sidebar) 및 스튜�
     // 메뉴 아이템 클릭 및 활성 상태 확인
     const itemBtn = sidebar.getByRole('button', { name: /컴포넌트 라이브러리/i });
     await expect(itemBtn).toBeVisible();
-    await itemBtn.click();
+    await itemBtn.scrollIntoViewIfNeeded();
+    await itemBtn.click({ force: true });
     await expect(itemBtn).toHaveAttribute('aria-current', 'page');
 
     // 축소 토글 버튼 클릭 확인

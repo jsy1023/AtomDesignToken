@@ -56,15 +56,15 @@ export interface LayoutToken {
 
 export const BRAND_PRESETS: BrandPreset[] = [
   {
-    id: 'toss',
-    name: '토스 스타일 (Toss)',
+    id: 'ocean-blue',
+    name: '오션 블루 스타일 (Ocean Blue)',
     brandColor: '#3182f6',
     radius: '16px',
     description: 'Vivid Blue, 16px 볼드 라운딩, 시원한 여백과 극도의 미니멀리즘'
   },
   {
-    id: 'daangn',
-    name: '당근 스타일 (Daangn)',
+    id: 'warm-orange',
+    name: '웜 오렌지 스타일 (Warm Orange)',
     brandColor: '#ff6f0f',
     radius: '12px',
     description: 'Warm Orange, 12px 소프트 라운딩, 친근하고 따뜻한 커뮤니티 감성'
@@ -309,7 +309,7 @@ export const TYPOGRAPHY_TOKENS: TypographyToken[] = [
     fontSize: '11px (0.6875rem)',
     lineHeight: '1.6',
     weight: '500 (Medium)',
-    sample: 'npx atomsystem init --preset toss'
+    sample: 'npx atomsystem init --preset ocean-blue'
   }
 ];
 
@@ -333,7 +333,7 @@ export const RADIUS_TOKENS: RadiusToken[] = [
     description: '일반적인 버튼, 인풋 필드, 툴팁'
   },
   {
-    name: 'Large (볼드 - 토스/당근 기본)',
+    name: 'Large (볼드 스타일 기본)',
     variable: '--atom-radius-lg',
     value: '16px',
     description: '카드, 대화상자 모달, 주요 모바일 시트'
