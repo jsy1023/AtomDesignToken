@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { PatternPlatform } from '@/lib/data/patterns';
 import { PatternInteractiveScreen } from './PatternInteractiveScreen';
+import { Button } from '@/components/ui/Button';
 import { Monitor, Smartphone, RotateCcw, ExternalLink } from 'lucide-react';
 
 interface DeviceMockupViewProps {
@@ -18,29 +19,33 @@ export function DeviceMockupView({ patternId, defaultPlatform }: DeviceMockupVie
     <div className="flex flex-col items-center w-full">
       {/* Device Viewport Toggle Toolbar */}
       <div className="flex items-center justify-between w-full mb-3 px-1">
-        <div className="inline-flex items-center gap-1 p-1 rounded-xl bg-(--bg-tertiary)/60 dark:bg-neutral-800 border border-(--border-strong)/60 dark:border-neutral-700">
-          <button
+        <div className="inline-flex items-center gap-1 p-1 rounded-xl bg-(--bg-tertiary)/60  border border-(--border-strong)/60 ">
+          <Button
+            variant={isWeb ? 'primary' : 'ghost'}
+            size="sm"
             onClick={() => setDeviceMode('web')}
-            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
+            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold ${
               isWeb
-                ? 'bg-white dark:bg-neutral-900 text-(--text-primary) dark:text-neutral-100 shadow-xs'
-                : 'text-(--text-secondary) hover:text-neutral-800 dark:hover:text-neutral-200'
+                ? 'bg-(--bg-primary) text-(--text-primary)  shadow-xs'
+                : 'text-(--text-secondary) hover:text-(--text-primary)'
             }`}
           >
             <Monitor className="w-3.5 h-3.5" />
             <span>Web</span>
-          </button>
-          <button
+          </Button>
+          <Button
+            variant={!isWeb ? 'primary' : 'ghost'}
+            size="sm"
             onClick={() => setDeviceMode('mobile')}
-            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
+            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold ${
               !isWeb
-                ? 'bg-white dark:bg-neutral-900 text-(--text-primary) dark:text-neutral-100 shadow-xs'
-                : 'text-(--text-secondary) hover:text-neutral-800 dark:hover:text-neutral-200'
+                ? 'bg-(--bg-primary) text-(--text-primary)  shadow-xs'
+                : 'text-(--text-secondary) hover:text-(--text-primary)'
             }`}
           >
             <Smartphone className="w-3.5 h-3.5" />
             <span>Mobile</span>
-          </button>
+          </Button>
         </div>
 
         <span className="text-[11px] text-(--text-muted)">
@@ -51,46 +56,46 @@ export function DeviceMockupView({ patternId, defaultPlatform }: DeviceMockupVie
       {/* Frame Container */}
       {isWeb ? (
         /* WEB BROWSER FRAME */
-        <div className="w-full rounded-xl bg-white dark:bg-neutral-900 border border-(--border-subtle) dark:border-neutral-800 shadow-xs overflow-hidden flex flex-col">
+        <div className="w-full rounded-xl bg-(--bg-primary) border border-(--border-subtle)  shadow-xs overflow-hidden flex flex-col">
           {/* Browser Top Navigation Bar */}
-          <div className="h-10 bg-(--bg-secondary) dark:bg-neutral-850 border-b border-(--border-subtle) dark:border-neutral-800 px-4 flex items-center justify-between gap-3">
+          <div className="h-10 bg-(--bg-secondary)  border-b border-(--border-subtle)  px-4 flex items-center justify-between gap-3">
             <div className="flex items-center gap-2">
               <span className="w-3 h-3 rounded-full bg-rose-500/80"></span>
-              <span className="w-3 h-3 rounded-full bg-amber-500/80"></span>
-              <span className="w-3 h-3 rounded-full bg-emerald-500/80"></span>
+              <span className="w-3 h-3 rounded-full bg-(--atom-color-warning)/80"></span>
+              <span className="w-3 h-3 rounded-full bg-(--atom-color-success)/80"></span>
             </div>
 
             {/* URL Address Bar */}
-            <div className="flex-1 max-w-lg h-6 rounded-lg bg-white dark:bg-neutral-900 border border-(--border-subtle) dark:border-neutral-750 px-3 flex items-center justify-between text-[11px] text-(--text-secondary) font-mono">
+            <div className="flex-1 max-w-lg h-6 rounded-lg bg-(--bg-primary) border border-(--border-subtle) dark:border-neutral-750 px-3 flex items-center justify-between text-[11px] text-(--text-secondary) font-mono">
               <span className="truncate">https://app.atomsystem.design/patterns/{patternId}</span>
-              <span className="text-emerald-500 font-bold text-[10px]">SSL 보안</span>
+              <span className="text-(--atom-color-success) font-bold text-[10px]">SSL 보안</span>
             </div>
 
             <div className="flex items-center gap-2 text-(--text-muted) text-xs">
-              <RotateCcw className="w-3.5 h-3.5 cursor-pointer hover:text-neutral-700 dark:hover:text-neutral-200" />
+              <RotateCcw className="w-3.5 h-3.5 cursor-pointer hover:text-neutral-700 dark:hover:text-(--text-primary)" />
             </div>
           </div>
 
           {/* Browser Body Screen */}
-          <div className="min-h-[460px] max-h-[580px] overflow-y-auto bg-white dark:bg-neutral-950 p-4">
+          <div className="min-h-[460px] max-h-[580px] overflow-y-auto bg-white  p-4">
             <PatternInteractiveScreen patternId={patternId} />
           </div>
         </div>
       ) : (
         /* SMARTPHONE DEVICE FRAME */
-        <div className="relative w-[375px] max-w-full rounded-[44px] bg-neutral-950 p-3 shadow-2xl ring-1 ring-neutral-700/80 dark:ring-neutral-800">
+        <div className="relative w-[375px] max-w-full rounded-[44px] bg-(--bg-primary) p-3 shadow-2xl ring-1 ring-neutral-700/80 dark:ring-neutral-800">
           {/* Hardware Side Buttons */}
           <div className="absolute -left-[3px] top-24 w-[3px] h-9 bg-neutral-600 rounded-l"></div>
           <div className="absolute -left-[3px] top-36 w-[3px] h-9 bg-neutral-600 rounded-l"></div>
           <div className="absolute -right-[3px] top-28 w-[3px] h-12 bg-neutral-600 rounded-r"></div>
 
           {/* Screen Glass */}
-          <div className="relative rounded-[36px] bg-white dark:bg-neutral-950 overflow-hidden h-[620px] flex flex-col justify-between">
+          <div className="relative rounded-[36px] bg-white  overflow-hidden h-[620px] flex flex-col justify-between">
             {/* Dynamic Island / Notch & Top Status Bar */}
-            <div className="pt-2 px-6 flex items-center justify-between select-none z-20 text-[10px] font-bold text-neutral-800 dark:text-neutral-200">
+            <div className="pt-2 px-6 flex items-center justify-between select-none z-20 text-[10px] font-bold text-(--text-primary)">
               <span>09:41</span>
               {/* Dynamic Island Pill */}
-              <div className="w-24 h-4 rounded-full bg-neutral-900 dark:bg-black mx-auto flex items-center justify-end px-2">
+              <div className="w-24 h-4 rounded-full bg-(--bg-secondary) dark:bg-black mx-auto flex items-center justify-end px-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-(--accent-primary)/80 animate-pulse"></span>
               </div>
               <div className="flex items-center gap-1">

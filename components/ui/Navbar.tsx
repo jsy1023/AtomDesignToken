@@ -5,6 +5,8 @@ export interface NavbarProps extends React.HTMLAttributes<HTMLElement> {
   bordered?: boolean;
   blur?: boolean;
   variable?: string;
+  innerClassName?: string;
+  mobileMenu?: React.ReactNode;
 }
 
 export const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
@@ -14,28 +16,31 @@ export const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
       bordered = true,
       blur = true,
       variable = 'default',
+      innerClassName = 'h-14',
       className = '',
+      mobileMenu,
       children,
       ...props
     },
     ref
   ) => {
     return (
-      <nav
+      <header
         ref={ref}
         data-component="navbar"
         data-variable={variable}
         className={`atom-navbar atom-navbar--${variable} ${
           sticky ? 'sticky top-0 z-40' : 'relative'
         } ${bordered ? 'border-b border-(--border-subtle)' : ''} ${
-          blur ? 'backdrop-blur-md bg-(--bg-primary)/85' : 'bg-(--bg-primary)'
+          blur ? 'backdrop-blur-md bg-(--bg-primary)/95' : 'bg-(--bg-primary)'
         } w-full transition-colors ${className}`}
         {...props}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+        <div className={`max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between gap-4 ${innerClassName}`}>
           {children}
         </div>
-      </nav>
+        {mobileMenu}
+      </header>
     );
   }
 );
@@ -159,3 +164,26 @@ export const NavbarToggle = React.forwardRef<HTMLButtonElement, NavbarToggleProp
   }
 );
 NavbarToggle.displayName = 'NavbarToggle';
+
+export interface NavbarMobileMenuProps extends React.HTMLAttributes<HTMLDivElement> {
+  isOpen: boolean;
+}
+
+export const NavbarMobileMenu: React.FC<NavbarMobileMenuProps> = ({
+  isOpen,
+  className = '',
+  children,
+  ...props
+}) => {
+  if (!isOpen) return null;
+  return (
+    <div
+      data-component="navbar-mobile-menu"
+      className={`md:hidden border-b border-(--border-subtle) bg-(--bg-primary) px-4 py-3 space-y-3 shadow-lg ${className}`}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+};
+NavbarMobileMenu.displayName = 'NavbarMobileMenu';

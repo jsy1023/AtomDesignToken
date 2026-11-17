@@ -1,8 +1,13 @@
 import React from 'react';
 
+export type SidebarVariant = 'default' | 'pills' | 'bordered' | 'floating';
+export type SidebarSize = 'sm' | 'md' | 'lg';
+
 export interface SidebarProps extends React.HTMLAttributes<HTMLElement> {
   collapsed?: boolean;
   variable?: string;
+  variant?: SidebarVariant | string;
+  size?: SidebarSize;
   width?: string;
   collapsedWidth?: string;
 }
@@ -12,6 +17,8 @@ export const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
     {
       collapsed = false,
       variable = 'default',
+      variant,
+      size = 'md',
       width = '260px',
       collapsedWidth = '72px',
       className = '',
@@ -22,15 +29,16 @@ export const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
     ref
   ) => {
     const currentWidth = collapsed ? collapsedWidth : width;
+    const activeVar = variant || variable;
 
     return (
       <aside
         ref={ref}
         data-component="sidebar"
-        data-variable={variable}
+        data-variable={activeVar}
         data-collapsed={collapsed}
         style={{ width: currentWidth, ...style }}
-        className={`atom-sidebar atom-sidebar--${variable} shrink-0 bg-(--bg-secondary)/40 border-r border-(--border-subtle) flex flex-col h-full transition-[width] duration-200 select-none ${className}`}
+        className={`atom-sidebar atom-sidebar--${activeVar} shrink-0 bg-(--bg-secondary)/40 border-r border-(--border-subtle) flex flex-col h-full transition-[width] duration-200 select-none ${className}`}
         {...props}
       >
         {children}
@@ -74,13 +82,40 @@ export const SidebarContent = React.forwardRef<HTMLDivElement, SidebarContentPro
 );
 SidebarContent.displayName = 'SidebarContent';
 
-export interface SidebarGroupProps extends React.HTMLAttributes<HTMLDivElement> {}
+export interface SidebarGroupProps extends React.HTMLAttributes<HTMLDivElement> {
+  label?: React.ReactNode;
+  collapsible?: boolean;
+  defaultOpen?: boolean;
+}
 
 export const SidebarGroup = React.forwardRef<HTMLDivElement, SidebarGroupProps>(
-  ({ className = '', children, ...props }, ref) => {
+  ({ label, collapsible = false, defaultOpen = true, className = '', children, ...props }, ref) => {
+    const [isOpen, setIsOpen] = React.useState(defaultOpen);
+
     return (
-      <div ref={ref} className={`space-y-1 ${className}`} {...props}>
-        {children}
+      <div ref={ref} data-component="sidebar-group" className={`space-y-1 ${className}`} {...props}>
+        {label && (
+          <div
+            onClick={collapsible ? () => setIsOpen(!isOpen) : undefined}
+            className={`px-3 py-1.5 text-[11px] font-mono font-bold uppercase tracking-wider text-(--text-muted) truncate flex items-center justify-between ${
+              collapsible ? 'cursor-pointer select-none hover:text-(--text-primary)' : ''
+            }`}
+          >
+            <span>{label}</span>
+            {collapsible && (
+              <svg
+                className={`w-3.5 h-3.5 transition-transform duration-200 ${isOpen ? 'rotate-90' : ''}`}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            )}
+          </div>
+        )}
+        {(!collapsible || isOpen) && children}
       </div>
     );
   }
@@ -117,13 +152,34 @@ export const SidebarMenu = React.forwardRef<HTMLUListElement, SidebarMenuProps>(
 );
 SidebarMenu.displayName = 'SidebarMenu';
 
-export interface SidebarMenuItemProps extends React.LiHTMLAttributes<HTMLLIElement> {}
+export interface SidebarMenuItemProps extends React.LiHTMLAttributes<HTMLLIElement> {
+  active?: boolean;
+  icon?: React.ReactNode;
+  badge?: React.ReactNode;
+  label?: React.ReactNode;
+}
 
 export const SidebarMenuItem = React.forwardRef<HTMLLIElement, SidebarMenuItemProps>(
-  ({ className = '', children, ...props }, ref) => {
+  ({ active = false, icon, badge, label, className = '', children, ...props }, ref) => {
     return (
-      <li ref={ref} className={`list-none ${className}`} {...props}>
-        {children}
+      <li ref={ref} data-active={active} className={`list-none ${className}`} {...props}>
+        {children ? (
+          children
+        ) : (
+          <div
+            className={`flex items-center justify-between px-3 py-2 rounded-(--radius-sm) text-xs sm:text-sm font-medium transition cursor-pointer select-none ${
+              active
+                ? 'bg-(--accent-primary) text-(--bg-primary) font-semibold shadow-xs'
+                : 'text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary)'
+            }`}
+          >
+            <div className="flex items-center gap-2.5 min-w-0">
+              {icon && <span className="shrink-0 w-4 h-4 flex items-center justify-center">{icon}</span>}
+              <span className="truncate">{label}</span>
+            </div>
+            {badge && <span className="shrink-0 ml-2">{badge}</span>}
+          </div>
+        )}
       </li>
     );
   }
@@ -222,3 +278,65 @@ export const SidebarToggle = React.forwardRef<HTMLButtonElement, SidebarTogglePr
   }
 );
 SidebarToggle.displayName = 'SidebarToggle';
+
+export interface SidebarSubMenuProps extends React.HTMLAttributes<HTMLDivElement> {
+  label: React.ReactNode;
+  icon?: React.ReactNode;
+  badge?: React.ReactNode;
+  defaultOpen?: boolean;
+}
+
+export const SidebarSubMenu: React.FC<SidebarSubMenuProps> = ({
+  label,
+  icon,
+  badge,
+  defaultOpen = false,
+  className = '',
+  children,
+  ...props
+}) => {
+  const [isOpen, setIsOpen] = React.useState(defaultOpen);
+
+  return (
+    <div data-component="sidebar-sub-menu" className={`space-y-0.5 ${className}`} {...props}>
+      <button
+        type="button"
+        onClick={() => setIsOpen(!isOpen)}
+        aria-expanded={isOpen}
+        className="w-full flex items-center justify-between px-3 py-2 rounded-(--radius-sm) text-xs sm:text-sm font-medium text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary) transition cursor-pointer select-none"
+      >
+        <div className="flex items-center gap-2.5 min-w-0">
+          {icon && <span className="shrink-0 w-4 h-4 flex items-center justify-center">{icon}</span>}
+          <span className="truncate">{label}</span>
+        </div>
+        <div className="flex items-center gap-1.5 shrink-0 ml-2">
+          {badge && <span>{badge}</span>}
+          <svg
+            className={`w-3.5 h-3.5 transition-transform duration-200 text-(--text-muted) ${
+              isOpen ? 'rotate-90' : ''
+            }`}
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+          </svg>
+        </div>
+      </button>
+
+      {isOpen && (
+        <div className="pl-6 pr-1 py-0.5 space-y-0.5 border-l border-(--border-subtle) ml-4">
+          {children}
+        </div>
+      )}
+    </div>
+  );
+};
+SidebarSubMenu.displayName = 'SidebarSubMenu';
+
+// 🔄 SideMenu Aliases for 100% unified naming & backwards compatibility
+export const SideMenu = Sidebar;
+export const SideMenuGroup = SidebarGroup;
+export const SideMenuItem = SidebarMenuItem;
+export const SideSubMenu = SidebarSubMenu;

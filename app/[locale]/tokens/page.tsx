@@ -36,6 +36,7 @@ import {
 import { CodeHighlight } from '@/components/common/CodeHighlight';
 import { useI18n } from '@/lib/i18n';
 import tokenJsonData from '@/tokens/token.json';
+import { Button, Input, Badge, NativeSelect, Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Nav, NavItem, NavLink } from '@/components/ui';
 
 export default function TokensPage() {
   const { theme, updateColor, updateBorderRadius } = useThemeEditor();
@@ -183,10 +184,13 @@ export default function TokensPage() {
                 <span className="text-(--text-muted)">{t('tokens.brandColor')}</span>
                 <div className="flex items-center gap-1.5">
                   {['var(--accent-primary)', '#ff6f0f', '#10b981', '#7c3aed'].map((c) => (
-                    <button
+                    <Button
                       key={c}
+                      isIconOnly
+                      size="sm"
+                      variant="ghost"
                       onClick={() => updateColor('primary', c)}
-                      className={`w-4 h-4 rounded-full border transition-transform ${liveBrandColor === c ? 'scale-125 border-(--text-primary)' : 'border-transparent'}`}
+                      className={`w-4 h-4 min-w-4 p-0 rounded-full border transition-transform ${liveBrandColor === c ? 'scale-125 border-(--text-primary)' : 'border-transparent'}`}
                       style={{ backgroundColor: c }}
                       title={c}
                     />
@@ -198,31 +202,29 @@ export default function TokensPage() {
 
               <div className="flex items-center gap-2">
                 <span className="text-(--text-muted)">{t('tokens.radius')}</span>
-                <select
+                <NativeSelect
                   value={liveRadius}
                   onChange={(e) => updateBorderRadius(e.target.value)}
-                  className="text-xs px-2 py-0.5 bg-(--bg-secondary) text-(--text-primary) rounded border border-(--border-subtle) font-mono"
+                  className="w-auto text-xs px-2 py-0.5 font-mono"
                 >
                   <option value="6px">6px</option>
                   <option value="12px">12px</option>
                   <option value="16px">16px</option>
                   <option value="9999px">9999px</option>
-                </select>
+                </NativeSelect>
               </div>
 
               <span className="text-(--border-subtle)">|</span>
 
-              <button
+              <Button
+                variant={activeCategory === 'json' ? 'primary' : 'outline'}
+                size="sm"
                 onClick={() => setActiveCategory('json')}
-                className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-(--radius-sm) border transition-colors text-xs font-semibold cursor-pointer ${
-                  activeCategory === 'json'
-                    ? 'bg-(--text-primary) text-(--bg-primary) border-(--text-primary)'
-                    : 'bg-(--bg-secondary) text-(--text-primary) border-(--border-subtle) hover:border-(--border-strong)'
-                }`}
+                className="inline-flex items-center gap-1.5 text-xs font-semibold h-auto py-1 px-2.5"
               >
                 <FileCode className="w-3.5 h-3.5" />
                 <span>{t('tokens.tabJson')}</span>
-              </button>
+              </Button>
             </div>
           </div>
 
@@ -260,50 +262,53 @@ export default function TokensPage() {
         <section className="flex flex-col gap-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-(--border-subtle) pb-2">
             {/* Navigation Tabs - Clean Flat Style (No Scrollbar) */}
-            <div className="flex items-center gap-1 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <Nav variant="pills" size="sm">
               {TABS.map((tab) => {
                 const Icon = tab.icon;
                 const isActive = activeCategory === tab.id;
                 return (
-                  <button
-                    key={tab.id}
-                    onClick={() => setActiveCategory(tab.id)}
-                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md transition-colors whitespace-nowrap text-xs ${
-                      isActive
-                        ? 'bg-(--bg-secondary) text-(--text-primary) font-bold'
-                        : 'text-(--text-muted) hover:text-(--text-primary) hover:bg-(--bg-secondary)/50'
-                    }`}
-                  >
-                    <Icon className="w-3.5 h-3.5" />
-                    <span>{tab.label}</span>
-                    {tab.count !== undefined && (
-                      <span className="text-[11px] font-mono opacity-60">
-                        ({tab.count})
-                      </span>
-                    )}
-                  </button>
+                  <NavItem key={tab.id}>
+                    <NavLink
+                      asButton
+                      active={isActive}
+                      icon={<Icon className="w-3.5 h-3.5" />}
+                      badge={
+                        tab.count !== undefined ? (
+                          <span className="text-[11px] font-mono opacity-60">
+                            ({tab.count})
+                          </span>
+                        ) : undefined
+                      }
+                      onClick={() => setActiveCategory(tab.id)}
+                    >
+                      {tab.label}
+                    </NavLink>
+                  </NavItem>
                 );
               })}
-            </div>
+            </Nav>
 
             {/* Search Input - Clean Minimal Line */}
             <div className="relative w-full sm:w-60">
-              <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-(--text-muted)" />
-              <input
+              <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-(--text-muted) z-10" />
+              <Input
                 type="text"
                 placeholder={t('common.search')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-8 pr-7 py-1 text-xs bg-(--bg-secondary) border border-(--border-subtle) focus:border-(--border-strong) rounded text-(--text-primary) placeholder:text-(--text-muted) outline-hidden transition-colors"
+                className="pl-8 pr-7 py-1 text-xs h-auto"
               />
               {searchQuery && (
-                <button
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  isIconOnly
                   onClick={() => setSearchQuery('')}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 text-(--text-muted) hover:text-(--text-primary)"
+                  className="absolute right-1 top-1/2 -translate-y-1/2 text-(--text-muted) hover:text-(--text-primary) p-1 h-auto"
                   title="검색어 지우기"
                 >
                   <X className="w-3.5 h-3.5" />
-                </button>
+                </Button>
               )}
             </div>
           </div>
@@ -315,60 +320,60 @@ export default function TokensPage() {
                 검색된 색상 토큰이 없습니다.
               </div>
             ) : (
-              <div className="overflow-x-auto">
-                <table className="w-full text-left text-xs">
-                  <thead>
-                    <tr className="border-b border-(--border-subtle) text-(--text-muted) font-mono text-[11px]">
-                      <th className="py-2.5 px-3 font-medium w-12">미리보기</th>
-                      <th className="py-2.5 px-3 font-medium">토큰 이름</th>
-                      <th className="py-2.5 px-3 font-medium">CSS 변수 (클릭 복사)</th>
-                      <th className="py-2.5 px-3 font-medium">원천 값</th>
-                      <th className="py-2.5 px-3 font-medium hidden md:table-cell">용도 및 설명</th>
-                      <th className="py-2.5 px-3 font-medium text-right">구분</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-(--border-subtle)">
+              <Table>
+                  <TableHeader>
+                    <TableRow className="border-b border-(--border-subtle) text-(--text-muted) font-mono text-[11px]">
+                      <TableHead className="py-2.5 px-3 font-medium w-12">미리보기</TableHead>
+                      <TableHead className="py-2.5 px-3 font-medium">토큰 이름</TableHead>
+                      <TableHead className="py-2.5 px-3 font-medium">CSS 변수 (클릭 복사)</TableHead>
+                      <TableHead className="py-2.5 px-3 font-medium">원천 값</TableHead>
+                      <TableHead className="py-2.5 px-3 font-medium hidden md:table-cell">용도 및 설명</TableHead>
+                      <TableHead className="py-2.5 px-3 font-medium text-right">구분</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
                     {filteredColors.map((token) => (
-                      <tr key={token.variable} className="hover:bg-(--bg-secondary)/60 transition-colors group">
-                        <td className="py-2.5 px-3">
+                      <TableRow key={token.variable} className="hover:bg-(--bg-secondary)/60 transition-colors group">
+                        <TableCell className="py-2.5 px-3">
                           <div
                             className="w-6 h-6 rounded border border-black/10 dark:border-white/10 shrink-0"
                             style={{ backgroundColor: token.value }}
                           />
-                        </td>
-                        <td className="py-2.5 px-3 font-semibold text-(--text-primary)">
+                        </TableCell>
+                        <TableCell className="py-2.5 px-3 font-semibold text-(--text-primary)">
                           {token.name}
-                        </td>
-                        <td className="py-2.5 px-3">
-                          <button
+                        </TableCell>
+                        <TableCell className="py-2.5 px-3">
+                          <Button
+                            variant="ghost"
+                            size="sm"
                             onClick={() => handleCopy(`var(${token.variable})`)}
-                            className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-(--bg-secondary) hover:bg-(--border-subtle) text-(--text-primary) font-mono text-[11px] transition-colors"
+                            className="inline-flex items-center gap-1.5 px-2 py-0.5 font-mono text-[11px] h-auto"
                             title="클릭하여 복사"
                           >
                             {copiedVar === `var(${token.variable})` ? (
-                              <Check className="w-3 h-3 text-emerald-500" />
+                              <Check className="w-3 h-3 text-(--atom-color-success)" />
                             ) : (
                               <Copy className="w-3 h-3 text-(--text-muted) group-hover:text-(--text-primary)" />
                             )}
                             <span>var({token.variable})</span>
-                          </button>
-                        </td>
-                        <td className="py-2.5 px-3 font-mono text-[11px] text-(--text-muted) uppercase">
+                          </Button>
+                        </TableCell>
+                        <TableCell className="py-2.5 px-3 font-mono text-[11px] text-(--text-muted) uppercase">
                           {token.value}
-                        </td>
-                        <td className="py-2.5 px-3 text-(--text-secondary) hidden md:table-cell max-w-sm">
+                        </TableCell>
+                        <TableCell className="py-2.5 px-3 text-(--text-secondary) hidden md:table-cell max-w-sm">
                           {token.description}
-                        </td>
-                        <td className="py-2.5 px-3 text-right">
+                        </TableCell>
+                        <TableCell className="py-2.5 px-3 text-right">
                           <span className="text-[11px] uppercase font-mono px-1.5 py-0.5 rounded bg-(--bg-secondary) text-(--text-muted) border border-(--border-subtle)">
                             {token.category}
                           </span>
-                        </td>
-                      </tr>
+                        </TableCell>
+                      </TableRow>
                     ))}
-                  </tbody>
-                </table>
-              </div>
+                  </TableBody>
+                </Table>
             )
           )}
 
@@ -379,47 +384,47 @@ export default function TokensPage() {
                 검색된 타이포그래피 토큰이 없습니다.
               </div>
             ) : (
-              <div className="overflow-x-auto">
-                <table className="w-full text-left text-xs">
-                  <thead>
-                    <tr className="border-b border-(--border-subtle) text-(--text-muted) font-mono text-[11px]">
-                      <th className="py-2.5 px-3 font-medium">토큰 이름</th>
-                      <th className="py-2.5 px-3 font-medium">스펙 (Size / Weight)</th>
-                      <th className="py-2.5 px-3 font-medium">CSS 변수</th>
-                      <th className="py-2.5 px-3 font-medium">실제 텍스트 미리보기</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-(--border-subtle)">
+              <Table>
+                  <TableHeader>
+                    <TableRow className="border-b border-(--border-subtle) text-(--text-muted) font-mono text-[11px]">
+                      <TableHead className="py-2.5 px-3 font-medium">토큰 이름</TableHead>
+                      <TableHead className="py-2.5 px-3 font-medium">스펙 (Size / Weight)</TableHead>
+                      <TableHead className="py-2.5 px-3 font-medium">CSS 변수</TableHead>
+                      <TableHead className="py-2.5 px-3 font-medium">실제 텍스트 미리보기</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
                     {filteredTypography.map((token) => (
-                      <tr key={token.variable} className="hover:bg-(--bg-secondary)/60 transition-colors group">
-                        <td className="py-3 px-3 font-semibold text-(--text-primary)">
+                      <TableRow key={token.variable} className="hover:bg-(--bg-secondary)/60 transition-colors group">
+                        <TableCell className="py-3 px-3 font-semibold text-(--text-primary)">
                           {token.name}
-                        </td>
-                        <td className="py-3 px-3 font-mono text-[11px] text-(--text-muted)">
+                        </TableCell>
+                        <TableCell className="py-3 px-3 font-mono text-[11px] text-(--text-muted)">
                           {token.fontSize} · {token.weight}
-                        </td>
-                        <td className="py-3 px-3">
-                          <button
+                        </TableCell>
+                        <TableCell className="py-3 px-3">
+                          <Button
+                            variant="ghost"
+                            size="sm"
                             onClick={() => handleCopy(`var(${token.variable})`)}
-                            className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-(--bg-secondary) hover:bg-(--border-subtle) text-(--text-primary) font-mono text-[11px] transition-colors"
+                            className="inline-flex items-center gap-1.5 px-2 py-0.5 font-mono text-[11px] h-auto"
                             title="클릭하여 복사"
                           >
                             {copiedVar === `var(${token.variable})` ? (
-                              <Check className="w-3 h-3 text-emerald-500" />
+                              <Check className="w-3 h-3 text-(--atom-color-success)" />
                             ) : (
                               <Copy className="w-3 h-3 text-(--text-muted) group-hover:text-(--text-primary)" />
                             )}
                             <span>var({token.variable})</span>
-                          </button>
-                        </td>
-                        <td className="py-3 px-3 text-(--text-primary) font-sans tracking-tight" style={{ fontSize: token.fontSize.split(' ')[0] }}>
+                          </Button>
+                        </TableCell>
+                        <TableCell className="py-3 px-3 text-(--text-primary) font-sans tracking-tight" style={{ fontSize: token.fontSize.split(' ')[0] }}>
                           {token.sample}
-                        </td>
-                      </tr>
+                        </TableCell>
+                      </TableRow>
                     ))}
-                  </tbody>
-                </table>
-              </div>
+                  </TableBody>
+                </Table>
             )
           )}
 
@@ -430,56 +435,56 @@ export default function TokensPage() {
                 검색된 곡률 토큰이 없습니다.
               </div>
             ) : (
-              <div className="overflow-x-auto">
-                <table className="w-full text-left text-xs">
-                  <thead>
-                    <tr className="border-b border-(--border-subtle) text-(--text-muted) font-mono text-[11px]">
-                      <th className="py-2.5 px-3 font-medium w-16">미리보기</th>
-                      <th className="py-2.5 px-3 font-medium">토큰 이름</th>
-                      <th className="py-2.5 px-3 font-medium">값 (Value)</th>
-                      <th className="py-2.5 px-3 font-medium">CSS 변수</th>
-                      <th className="py-2.5 px-3 font-medium hidden sm:table-cell">권장 용도</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-(--border-subtle)">
+              <Table>
+                  <TableHeader>
+                    <TableRow className="border-b border-(--border-subtle) text-(--text-muted) font-mono text-[11px]">
+                      <TableHead className="py-2.5 px-3 font-medium w-16">미리보기</TableHead>
+                      <TableHead className="py-2.5 px-3 font-medium">토큰 이름</TableHead>
+                      <TableHead className="py-2.5 px-3 font-medium">값 (Value)</TableHead>
+                      <TableHead className="py-2.5 px-3 font-medium">CSS 변수</TableHead>
+                      <TableHead className="py-2.5 px-3 font-medium hidden sm:table-cell">권장 용도</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
                     {filteredRadius.map((token) => (
-                      <tr key={token.variable} className="hover:bg-(--bg-secondary)/60 transition-colors group">
-                        <td className="py-2.5 px-3">
+                      <TableRow key={token.variable} className="hover:bg-(--bg-secondary)/60 transition-colors group">
+                        <TableCell className="py-2.5 px-3">
                           <div
                             className="w-9 h-6 bg-(--accent-primary)/15 border border-(--accent-primary)/30 flex items-center justify-center text-[11px] font-mono text-(--accent-primary)"
                             style={{ borderRadius: token.value }}
                           >
                             {token.value}
                           </div>
-                        </td>
-                        <td className="py-2.5 px-3 font-semibold text-(--text-primary)">
+                        </TableCell>
+                        <TableCell className="py-2.5 px-3 font-semibold text-(--text-primary)">
                           {token.name}
-                        </td>
-                        <td className="py-2.5 px-3 font-mono text-[11px] font-bold text-(--accent-primary)">
+                        </TableCell>
+                        <TableCell className="py-2.5 px-3 font-mono text-[11px] font-bold text-(--accent-primary)">
                           {token.value}
-                        </td>
-                        <td className="py-2.5 px-3">
-                          <button
+                        </TableCell>
+                        <TableCell className="py-2.5 px-3">
+                          <Button
+                            variant="ghost"
+                            size="sm"
                             onClick={() => handleCopy(`var(${token.variable})`)}
-                            className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-(--bg-secondary) hover:bg-(--border-subtle) text-(--text-primary) font-mono text-[11px] transition-colors"
+                            className="inline-flex items-center gap-1.5 px-2 py-0.5 font-mono text-[11px] h-auto"
                             title="클릭하여 복사"
                           >
                             {copiedVar === `var(${token.variable})` ? (
-                              <Check className="w-3 h-3 text-emerald-500" />
+                              <Check className="w-3 h-3 text-(--atom-color-success)" />
                             ) : (
                               <Copy className="w-3 h-3 text-(--text-muted) group-hover:text-(--text-primary)" />
                             )}
                             <span>var({token.variable})</span>
-                          </button>
-                        </td>
-                        <td className="py-2.5 px-3 text-(--text-secondary) hidden sm:table-cell">
+                          </Button>
+                        </TableCell>
+                        <TableCell className="py-2.5 px-3 text-(--text-secondary) hidden sm:table-cell">
                           {token.description}
-                        </td>
-                      </tr>
+                        </TableCell>
+                      </TableRow>
                     ))}
-                  </tbody>
-                </table>
-              </div>
+                  </TableBody>
+                </Table>
             )
           )}
 
@@ -490,52 +495,52 @@ export default function TokensPage() {
                 검색된 간격 토큰이 없습니다.
               </div>
             ) : (
-              <div className="overflow-x-auto">
-                <table className="w-full text-left text-xs">
-                  <thead>
-                    <tr className="border-b border-(--border-subtle) text-(--text-muted) font-mono text-[11px]">
-                      <th className="py-2.5 px-3 font-medium w-48">너비 미리보기</th>
-                      <th className="py-2.5 px-3 font-medium">토큰 이름</th>
-                      <th className="py-2.5 px-3 font-medium">값 (Value)</th>
-                      <th className="py-2.5 px-3 font-medium">CSS 변수</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-(--border-subtle)">
+              <Table>
+                  <TableHeader>
+                    <TableRow className="border-b border-(--border-subtle) text-(--text-muted) font-mono text-[11px]">
+                      <TableHead className="py-2.5 px-3 font-medium w-48">너비 미리보기</TableHead>
+                      <TableHead className="py-2.5 px-3 font-medium">토큰 이름</TableHead>
+                      <TableHead className="py-2.5 px-3 font-medium">값 (Value)</TableHead>
+                      <TableHead className="py-2.5 px-3 font-medium">CSS 변수</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
                     {filteredSpacing.map((token) => (
-                      <tr key={token.variable} className="hover:bg-(--bg-secondary)/60 transition-colors group">
-                        <td className="py-2.5 px-3">
-                          <div className="h-3.5 bg-emerald-500/15 border border-emerald-500/30 rounded flex items-center">
+                      <TableRow key={token.variable} className="hover:bg-(--bg-secondary)/60 transition-colors group">
+                        <TableCell className="py-2.5 px-3">
+                          <div className="h-3.5 bg-(--atom-color-success)/15 border border-(--atom-color-success)/30 rounded flex items-center">
                             <div
-                              className="h-full bg-emerald-500 rounded-xs"
+                              className="h-full bg-(--atom-color-success) rounded-xs"
                               style={{ width: `${Math.min(token.px * 2.5, 160)}px` }}
                             />
                           </div>
-                        </td>
-                        <td className="py-2.5 px-3 font-semibold text-(--text-primary)">
+                        </TableCell>
+                        <TableCell className="py-2.5 px-3 font-semibold text-(--text-primary)">
                           {token.name}
-                        </td>
-                        <td className="py-2.5 px-3 font-mono text-[11px] font-bold text-emerald-500">
+                        </TableCell>
+                        <TableCell className="py-2.5 px-3 font-mono text-[11px] font-bold text-(--atom-color-success)">
                           {token.value} ({token.px}px)
-                        </td>
-                        <td className="py-2.5 px-3">
-                          <button
+                        </TableCell>
+                        <TableCell className="py-2.5 px-3">
+                          <Button
+                            variant="ghost"
+                            size="sm"
                             onClick={() => handleCopy(`var(${token.variable})`)}
-                            className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-(--bg-secondary) hover:bg-(--border-subtle) text-(--text-primary) font-mono text-[11px] transition-colors"
+                            className="inline-flex items-center gap-1.5 px-2 py-0.5 font-mono text-[11px] h-auto"
                             title="클릭하여 복사"
                           >
                             {copiedVar === `var(${token.variable})` ? (
-                              <Check className="w-3 h-3 text-emerald-500" />
+                              <Check className="w-3 h-3 text-(--atom-color-success)" />
                             ) : (
                               <Copy className="w-3 h-3 text-(--text-muted) group-hover:text-(--text-primary)" />
                             )}
                             <span>var({token.variable})</span>
-                          </button>
-                        </td>
-                      </tr>
+                          </Button>
+                        </TableCell>
+                      </TableRow>
                     ))}
-                  </tbody>
-                </table>
-              </div>
+                  </TableBody>
+                </Table>
             )
           )}
 
@@ -546,56 +551,56 @@ export default function TokensPage() {
                 검색된 그림자 토큰이 없습니다.
               </div>
             ) : (
-              <div className="overflow-x-auto">
-                <table className="w-full text-left text-xs">
-                  <thead>
-                    <tr className="border-b border-(--border-subtle) text-(--text-muted) font-mono text-[11px]">
-                      <th className="py-2.5 px-3 font-medium w-20">미리보기</th>
-                      <th className="py-2.5 px-3 font-medium">토큰 이름</th>
-                      <th className="py-2.5 px-3 font-medium">CSS 변수</th>
-                      <th className="py-2.5 px-3 font-medium">CSS 원천 값</th>
-                      <th className="py-2.5 px-3 font-medium hidden md:table-cell">용도 및 설명</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-(--border-subtle)">
+              <Table>
+                  <TableHeader>
+                    <TableRow className="border-b border-(--border-subtle) text-(--text-muted) font-mono text-[11px]">
+                      <TableHead className="py-2.5 px-3 font-medium w-20">미리보기</TableHead>
+                      <TableHead className="py-2.5 px-3 font-medium">토큰 이름</TableHead>
+                      <TableHead className="py-2.5 px-3 font-medium">CSS 변수</TableHead>
+                      <TableHead className="py-2.5 px-3 font-medium">CSS 원천 값</TableHead>
+                      <TableHead className="py-2.5 px-3 font-medium hidden md:table-cell">용도 및 설명</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
                     {filteredShadow.map((token) => (
-                      <tr key={token.variable} className="hover:bg-(--bg-secondary)/60 transition-colors group">
-                        <td className="py-2.5 px-3">
+                      <TableRow key={token.variable} className="hover:bg-(--bg-secondary)/60 transition-colors group">
+                        <TableCell className="py-2.5 px-3">
                           <div
                             className="w-14 py-1 px-1.5 bg-(--bg-primary) border border-(--border-subtle) rounded text-[11px] text-center text-(--text-primary)"
                             style={{ boxShadow: token.value }}
                           >
                             Shadow
                           </div>
-                        </td>
-                        <td className="py-2.5 px-3 font-semibold text-(--text-primary)">
+                        </TableCell>
+                        <TableCell className="py-2.5 px-3 font-semibold text-(--text-primary)">
                           {token.name}
-                        </td>
-                        <td className="py-2.5 px-3">
-                          <button
+                        </TableCell>
+                        <TableCell className="py-2.5 px-3">
+                          <Button
+                            variant="ghost"
+                            size="sm"
                             onClick={() => handleCopy(`var(${token.variable})`)}
-                            className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-(--bg-secondary) hover:bg-(--border-subtle) text-(--text-primary) font-mono text-[11px] transition-colors"
+                            className="inline-flex items-center gap-1.5 px-2 py-0.5 font-mono text-[11px] h-auto"
                             title="클릭하여 복사"
                           >
                             {copiedVar === `var(${token.variable})` ? (
-                              <Check className="w-3 h-3 text-emerald-500" />
+                              <Check className="w-3 h-3 text-(--atom-color-success)" />
                             ) : (
                               <Copy className="w-3 h-3 text-(--text-muted) group-hover:text-(--text-primary)" />
                             )}
                             <span>var({token.variable})</span>
-                          </button>
-                        </td>
-                        <td className="py-2.5 px-3 font-mono text-[11px] text-(--text-muted) max-w-xs truncate">
+                          </Button>
+                        </TableCell>
+                        <TableCell className="py-2.5 px-3 font-mono text-[11px] text-(--text-muted) max-w-xs truncate">
                           {token.value}
-                        </td>
-                        <td className="py-2.5 px-3 text-(--text-secondary) hidden md:table-cell">
+                        </TableCell>
+                        <TableCell className="py-2.5 px-3 text-(--text-secondary) hidden md:table-cell">
                           {token.description}
-                        </td>
-                      </tr>
+                        </TableCell>
+                      </TableRow>
                     ))}
-                  </tbody>
-                </table>
-              </div>
+                  </TableBody>
+                </Table>
             )
           )}
 
@@ -606,59 +611,59 @@ export default function TokensPage() {
                 검색된 레이아웃 토큰이 없습니다.
               </div>
             ) : (
-              <div className="overflow-x-auto">
-                <table className="w-full text-left text-xs">
-                  <thead>
-                    <tr className="border-b border-(--border-subtle) text-(--text-muted) font-mono text-[11px]">
-                      <th className="py-2.5 px-3 font-medium w-28">미리보기</th>
-                      <th className="py-2.5 px-3 font-medium">토큰 이름</th>
-                      <th className="py-2.5 px-3 font-medium">CSS 변수 (클릭 복사)</th>
-                      <th className="py-2.5 px-3 font-medium">원천 규격</th>
-                      <th className="py-2.5 px-3 font-medium hidden md:table-cell">용도 및 설명</th>
-                      <th className="py-2.5 px-3 font-medium text-right">구분</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-(--border-subtle)">
+              <Table>
+                  <TableHeader>
+                    <TableRow className="border-b border-(--border-subtle) text-(--text-muted) font-mono text-[11px]">
+                      <TableHead className="py-2.5 px-3 font-medium w-28">미리보기</TableHead>
+                      <TableHead className="py-2.5 px-3 font-medium">토큰 이름</TableHead>
+                      <TableHead className="py-2.5 px-3 font-medium">CSS 변수 (클릭 복사)</TableHead>
+                      <TableHead className="py-2.5 px-3 font-medium">원천 규격</TableHead>
+                      <TableHead className="py-2.5 px-3 font-medium hidden md:table-cell">용도 및 설명</TableHead>
+                      <TableHead className="py-2.5 px-3 font-medium text-right">구분</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
                     {filteredLayout.map((token) => (
-                      <tr key={token.variable} className="hover:bg-(--bg-secondary)/60 transition-colors group">
-                        <td className="py-2.5 px-3">
+                      <TableRow key={token.variable} className="hover:bg-(--bg-secondary)/60 transition-colors group">
+                        <TableCell className="py-2.5 px-3">
                           <div className="h-4 rounded bg-(--bg-secondary) border border-(--border-subtle) flex items-center justify-center font-mono text-[11px] text-(--text-muted) px-1 overflow-hidden">
                             {token.value}
                           </div>
-                        </td>
-                        <td className="py-2.5 px-3 font-semibold text-(--text-primary)">
+                        </TableCell>
+                        <TableCell className="py-2.5 px-3 font-semibold text-(--text-primary)">
                           {token.name}
-                        </td>
-                        <td className="py-2.5 px-3">
-                          <button
+                        </TableCell>
+                        <TableCell className="py-2.5 px-3">
+                          <Button
+                            variant="ghost"
+                            size="sm"
                             onClick={() => handleCopy(`var(${token.variable})`)}
-                            className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-(--bg-secondary) hover:bg-(--border-subtle) text-(--text-primary) font-mono text-[11px] transition-colors"
+                            className="inline-flex items-center gap-1.5 px-2 py-0.5 font-mono text-[11px] h-auto"
                             title="클릭하여 복사"
                           >
                             {copiedVar === `var(${token.variable})` ? (
-                              <Check className="w-3 h-3 text-emerald-500" />
+                              <Check className="w-3 h-3 text-(--atom-color-success)" />
                             ) : (
                               <Copy className="w-3 h-3 text-(--text-muted) group-hover:text-(--text-primary)" />
                             )}
                             <span>var({token.variable})</span>
-                          </button>
-                        </td>
-                        <td className="py-2.5 px-3 font-mono text-[11px] text-(--text-muted)">
+                          </Button>
+                        </TableCell>
+                        <TableCell className="py-2.5 px-3 font-mono text-[11px] text-(--text-muted)">
                           {token.value}
-                        </td>
-                        <td className="py-2.5 px-3 text-(--text-secondary) hidden md:table-cell max-w-sm">
+                        </TableCell>
+                        <TableCell className="py-2.5 px-3 text-(--text-secondary) hidden md:table-cell max-w-sm">
                           {token.description}
-                        </td>
-                        <td className="py-2.5 px-3 text-right">
+                        </TableCell>
+                        <TableCell className="py-2.5 px-3 text-right">
                           <span className="text-[11px] uppercase font-mono px-1.5 py-0.5 rounded bg-(--bg-secondary) text-(--text-muted) border border-(--border-subtle)">
                             {token.type}
                           </span>
-                        </td>
-                      </tr>
+                        </TableCell>
+                      </TableRow>
                     ))}
-                  </tbody>
-                </table>
-              </div>
+                  </TableBody>
+                </Table>
             )
           )}
 
@@ -681,25 +686,29 @@ export default function TokensPage() {
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <button
+                  <Button
+                    variant="outline"
+                    size="sm"
                     onClick={handleCopyJson}
-                    className="inline-flex items-center gap-1 px-3 py-1.5 rounded-(--radius-sm) bg-(--bg-secondary) hover:bg-(--border-subtle) text-(--text-primary) border border-(--border-subtle) transition-colors text-xs font-semibold cursor-pointer"
+                    className="inline-flex items-center gap-1 text-xs font-semibold"
                   >
                     {copiedJson ? (
-                      <Check className="w-3.5 h-3.5 text-emerald-500" />
+                      <Check className="w-3.5 h-3.5 text-(--atom-color-success)" />
                     ) : (
                       <Copy className="w-3.5 h-3.5" />
                     )}
                     <span>{copiedJson ? t('common.copied') : t('tokens.jsonCopy')}</span>
-                  </button>
+                  </Button>
 
-                  <button
+                  <Button
+                    variant="primary"
+                    size="sm"
                     onClick={handleDownloadJson}
-                    className="inline-flex items-center gap-1 px-3 py-1.5 rounded-(--radius-sm) bg-(--text-primary) text-(--bg-primary) hover:opacity-90 transition-opacity text-xs font-semibold cursor-pointer"
+                    className="inline-flex items-center gap-1 text-xs font-semibold"
                   >
                     <Download className="w-3.5 h-3.5" />
                     <span>{t('tokens.jsonDownload')}</span>
-                  </button>
+                  </Button>
                 </div>
               </div>
 
@@ -741,15 +750,16 @@ export default function TokensPage() {
             <div className="space-y-2">
               <div className="text-xs text-(--text-muted) font-medium">1. 버튼 컴포넌트</div>
               <div className="py-2 flex items-center">
-                <button
-                  className="px-4 py-2 text-white font-semibold text-xs transition-opacity hover:opacity-90 active:scale-95"
+                <Button
                   style={{
                     backgroundColor: liveBrandColor,
                     borderRadius: liveRadius,
+                    color: '#ffffff',
                   }}
+                  className="font-semibold text-xs"
                 >
                   토큰 주입된 버튼
-                </button>
+                </Button>
               </div>
               <div className="text-[11px] font-mono text-(--text-muted)">
                 background: {liveBrandColor}; border-radius: {liveRadius};
@@ -774,17 +784,17 @@ export default function TokensPage() {
             <div className="space-y-2">
               <div className="text-xs text-(--text-muted) font-medium">3. 인풋 및 뱃지 컴포넌트</div>
               <div className="py-1 space-y-1.5 max-w-xs">
-                <span
-                  className="inline-block px-2 py-0.5 text-[11px] font-semibold text-white rounded-full"
-                  style={{ backgroundColor: liveBrandColor }}
+                <Badge
+                  variant="primary"
+                  style={{ backgroundColor: liveBrandColor, color: '#ffffff' }}
                 >
                   Vivid Pill
-                </span>
-                <input
+                </Badge>
+                <Input
                   type="text"
                   readOnly
                   value="토큰 테두리 인풋"
-                  className="w-full px-2.5 py-1.5 bg-transparent border text-xs text-(--text-primary) outline-hidden"
+                  className="w-full text-xs"
                   style={{ borderColor: liveBrandColor, borderRadius: liveRadius }}
                 />
               </div>

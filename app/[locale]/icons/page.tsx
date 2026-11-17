@@ -5,6 +5,7 @@ import { Header } from '@/components/Header';
 import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';
 import { ALL_ICON_NAMES, ICON_CATEGORIES, getLucideIcon } from '@/lib/data/icons';
 import { CodeHighlight } from '@/components/common/CodeHighlight';
+import { Button, Input } from '@/components/ui';
 import {
   Search,
   Check,
@@ -81,10 +82,10 @@ export default function IconsCatalogPage() {
 
 export function ExampleWidget() {
   return (
-    <button className="inline-flex items-center gap-2 px-4 py-2 rounded-(--radius) bg-(--bg-primary) text-(--text-primary) border border-(--border-subtle)">
+    <Button variant="outline" className="gap-2">
       <${currentIcon} className="w-4 h-4 text-(--accent-primary)" />
       <span>${currentIcon} 아이콘</span>
-    </button>
+    </Button>
   );
 }`;
 
@@ -109,13 +110,15 @@ export function ExampleWidget() {
           </div>
 
           <div className="flex items-center gap-2">
-            <button
+            <Button
+              variant="primary"
+              size="sm"
               onClick={handleOpenThemeEditor}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-(--radius-sm) bg-(--text-primary) text-(--bg-primary) hover:opacity-90 transition-opacity text-xs font-semibold cursor-pointer shrink-0"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold shrink-0"
             >
               <Sliders className="w-3.5 h-3.5" />
               <span>테마 에디터에서 선택</span>
-            </button>
+            </Button>
           </div>
         </div>
 
@@ -144,17 +147,20 @@ export function ExampleWidget() {
                 <Code2 className="w-3.5 h-3.5 text-(--text-secondary)" />
                 <span>React Import 스니펫</span>
               </div>
-              <button
+              <Button
+                variant="ghost"
+                size="sm"
+                isIconOnly
                 onClick={() => {
                   navigator.clipboard.writeText(codeSnippet);
                   setCopiedSnippet(true);
                   setTimeout(() => setCopiedSnippet(false), 2000);
                 }}
-                className="inline-flex items-center gap-1 text-[11px] hover:text-(--text-primary) cursor-pointer"
+                className="inline-flex items-center gap-1 text-[11px] h-6 px-1.5"
               >
-                {copiedSnippet ? <Check className="w-3 h-3 text-emerald-500" /> : <Copy className="w-3 h-3" />}
+                {copiedSnippet ? <Check className="w-3 h-3 text-(--atom-color-success)" /> : <Copy className="w-3 h-3" />}
                 <span>{copiedSnippet ? '복사됨' : '복사'}</span>
-              </button>
+              </Button>
             </div>
             <CodeHighlight code={codeSnippet} language="tsx" className="p-3 text-[11px] max-h-28 overflow-y-auto" />
           </div>
@@ -166,7 +172,7 @@ export function ExampleWidget() {
             {/* Search */}
             <div className="relative flex-1 max-w-md">
               <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-(--text-secondary)" />
-              <input
+              <Input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => {
@@ -174,7 +180,7 @@ export function ExampleWidget() {
                   setPage(1);
                 }}
                 placeholder="3,800+ 아이콘 영문명 검색 (e.g. check, user, star, arrow, heart)..."
-                className="w-full text-xs pl-8 pr-3 py-2 rounded-(--radius-sm) bg-(--bg-secondary) text-(--text-primary) border border-(--border-subtle) focus:outline-none focus:border-(--border-strong) transition-colors"
+                className="w-full text-xs pl-8 pr-3 py-2"
               />
             </div>
 
@@ -186,20 +192,20 @@ export function ExampleWidget() {
           {/* Category Tabs */}
           <div className="flex gap-1.5 overflow-x-auto pb-1 scrollbar-none text-xs">
             {ICON_CATEGORIES.map((cat) => (
-              <button
+              <Button
                 key={cat.id}
+                variant={selectedCat === cat.id ? 'primary' : 'outline'}
+                size="sm"
                 onClick={() => {
                   setSelectedCat(cat.id);
                   setPage(1);
                 }}
-                className={`px-3 py-1.5 rounded-(--radius-sm) whitespace-nowrap transition-colors cursor-pointer text-xs ${
-                  selectedCat === cat.id
-                    ? 'bg-(--text-primary) text-(--bg-primary) font-semibold'
-                    : 'bg-(--bg-secondary) text-(--text-secondary) hover:text-(--text-primary) border border-(--border-subtle)'
+                className={`px-3 py-1.5 h-auto whitespace-nowrap text-xs ${
+                  selectedCat === cat.id ? 'font-semibold' : 'text-(--text-secondary)'
                 }`}
               >
                 {cat.name}
-              </button>
+              </Button>
             ))}
           </div>
         </div>
@@ -236,13 +242,16 @@ export function ExampleWidget() {
                   </span>
 
                   {/* Copy Action Button */}
-                  <button
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    isIconOnly
                     onClick={(e) => handleCopyName(name, e)}
-                    className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 p-1 rounded bg-(--bg-secondary) hover:bg-(--border-subtle) text-(--text-secondary) hover:text-(--text-primary) transition-opacity"
+                    className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 p-1 h-6 w-6 rounded bg-(--bg-secondary) hover:bg-(--border-subtle)"
                     title="이름 복사"
                   >
-                    {isCopied ? <Check className="w-3 h-3 text-emerald-500" /> : <Copy className="w-3 h-3" />}
-                  </button>
+                    {isCopied ? <Check className="w-3 h-3 text-(--atom-color-success)" /> : <Copy className="w-3 h-3" />}
+                  </Button>
 
                   {isSelected && (
                     <span className="absolute bottom-1 right-1 w-1.5 h-1.5 rounded-full bg-(--accent-primary)" />
@@ -256,12 +265,14 @@ export function ExampleWidget() {
         {/* Load More Button */}
         {hasMore && (
           <div className="pt-4 text-center">
-            <button
+            <Button
+              variant="outline"
+              size="md"
               onClick={() => setPage((prev) => prev + 1)}
-              className="px-6 py-2 rounded-(--radius-sm) bg-(--bg-secondary) hover:bg-(--border-subtle) text-(--text-primary) border border-(--border-subtle) transition-colors text-xs font-semibold cursor-pointer"
+              className="px-6 py-2 text-xs font-semibold"
             >
               더 많은 아이콘 보기 ({paginatedIcons.length} / {filteredIcons.length})
-            </button>
+            </Button>
           </div>
         )}
       </main>

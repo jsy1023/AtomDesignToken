@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { Button, Card, Badge } from '@/components/ui';
 import {
   Code2,
   Eye,
@@ -51,17 +52,17 @@ export function BlockViewerCard({ block, children }: BlockViewerCardProps) {
   };
 
   return (
-    <div
+    <Card
       id={block.id}
-      className="scroll-mt-20 rounded-lg bg-(--bg-primary) border border-(--border-subtle) overflow-hidden"
+      className="scroll-mt-20 overflow-hidden"
     >
       {/* 1. Shadcn Block Toolbar */}
       <div className="px-5 py-3 border-b border-(--border-subtle) bg-(--bg-secondary)/40 flex flex-wrap items-center justify-between gap-3">
         {/* Left: ID & Title */}
         <div className="flex items-center gap-3">
-          <span className="font-mono text-xs font-semibold text-(--text-primary) px-2 py-0.5 rounded border border-(--border-subtle) bg-(--bg-primary)">
+          <Badge variant="neutral" className="font-mono text-xs">
             {block.id}
-          </span>
+          </Badge>
           <h2 className="text-sm font-semibold text-(--text-primary)">
             {block.title}
           </h2>
@@ -72,105 +73,100 @@ export function BlockViewerCard({ block, children }: BlockViewerCardProps) {
           {/* Viewport Resizer */}
           {activeTab === 'preview' && (
             <div className="hidden sm:flex items-center gap-0.5 bg-(--bg-primary) p-0.5 rounded border border-(--border-subtle)">
-              <button
+              <Button
+                variant={viewport === 'desktop' ? 'primary' : 'ghost'}
+                size="sm"
+                isIconOnly
                 onClick={() => setViewport('desktop')}
                 title="Desktop 100%"
-                className={`p-1.5 rounded transition-colors ${
-                  viewport === 'desktop'
-                    ? 'bg-(--bg-secondary) text-(--text-primary)'
-                    : 'text-(--text-secondary) hover:text-(--text-primary)'
-                }`}
+                className="p-1 h-auto"
               >
                 <Monitor className="w-3.5 h-3.5" />
-              </button>
-              <button
+              </Button>
+              <Button
+                variant={viewport === 'tablet' ? 'primary' : 'ghost'}
+                size="sm"
+                isIconOnly
                 onClick={() => setViewport('tablet')}
                 title="Tablet 768px"
-                className={`p-1.5 rounded transition-colors ${
-                  viewport === 'tablet'
-                    ? 'bg-(--bg-secondary) text-(--text-primary)'
-                    : 'text-(--text-secondary) hover:text-(--text-primary)'
-                }`}
+                className="p-1 h-auto"
               >
                 <Tablet className="w-3.5 h-3.5" />
-              </button>
-              <button
+              </Button>
+              <Button
+                variant={viewport === 'mobile' ? 'primary' : 'ghost'}
+                size="sm"
+                isIconOnly
                 onClick={() => setViewport('mobile')}
                 title="Mobile 390px"
-                className={`p-1.5 rounded transition-colors ${
-                  viewport === 'mobile'
-                    ? 'bg-(--bg-secondary) text-(--text-primary)'
-                    : 'text-(--text-secondary) hover:text-(--text-primary)'
-                }`}
+                className="p-1 h-auto"
               >
                 <Smartphone className="w-3.5 h-3.5" />
-              </button>
+              </Button>
             </div>
           )}
 
           {/* Preview / Code Tabs */}
           <div className="flex items-center gap-1 bg-(--bg-primary) p-0.5 rounded border border-(--border-subtle)">
-            <button
+            <Button
+              variant={activeTab === 'preview' ? 'primary' : 'ghost'}
+              size="sm"
               onClick={() => setActiveTab('preview')}
               data-tab="preview"
-              className={`flex items-center gap-1 px-2.5 py-1 rounded text-xs font-medium transition-colors ${
-                activeTab === 'preview'
-                  ? 'bg-(--bg-secondary) text-(--text-primary) font-semibold'
-                  : 'text-(--text-secondary) hover:text-(--text-primary)'
-              }`}
+              className="flex items-center gap-1 px-2.5 py-1 text-xs font-medium h-auto"
             >
               <Eye className="w-3.5 h-3.5" />
               <span>Preview</span>
-            </button>
-            <button
+            </Button>
+            <Button
+              variant={activeTab === 'react' ? 'primary' : 'ghost'}
+              size="sm"
               onClick={() => setActiveTab('react')}
               data-tab="react"
-              className={`flex items-center gap-1 px-2.5 py-1 rounded text-xs font-medium transition-colors ${
-                activeTab === 'react'
-                  ? 'bg-(--bg-secondary) text-(--text-primary) font-semibold'
-                  : 'text-(--text-secondary) hover:text-(--text-primary)'
-              }`}
+              className="flex items-center gap-1 px-2.5 py-1 text-xs font-medium h-auto"
             >
               <Code2 className="w-3.5 h-3.5" />
               <span>React</span>
-            </button>
-            <button
+            </Button>
+            <Button
+              variant={activeTab === 'html' ? 'primary' : 'ghost'}
+              size="sm"
               onClick={() => setActiveTab('html')}
               data-tab="html"
-              className={`flex items-center gap-1 px-2.5 py-1 rounded text-xs font-medium transition-colors ${
-                activeTab === 'html'
-                  ? 'bg-(--bg-secondary) text-(--text-primary) font-semibold'
-                  : 'text-(--text-secondary) hover:text-(--text-primary)'
-              }`}
+              className="flex items-center gap-1 px-2.5 py-1 text-xs font-medium h-auto"
             >
               <Code2 className="w-3.5 h-3.5" />
               <span>HTML</span>
-            </button>
+            </Button>
           </div>
 
           {/* CLI Add Button */}
-          <button
+          <Button
+            variant="outline"
+            size="sm"
             onClick={handleCopyCli}
             title={cliCommand}
-            className="hidden lg:flex items-center gap-1 px-2.5 py-1 rounded text-xs font-mono bg-(--bg-primary) hover:bg-(--bg-secondary) text-(--text-secondary) border border-(--border-subtle) transition-colors"
+            className="hidden lg:flex items-center gap-1 text-xs font-mono"
           >
             <Terminal className="w-3 h-3 text-(--text-primary)" />
             <span>{copiedCli ? 'Copied' : cliCommand}</span>
-          </button>
+          </Button>
 
           {/* Copy Code Button */}
-          <button
+          <Button
+            variant="outline"
+            size="sm"
             onClick={() =>
               handleCopyCode(
                 activeTab === 'html' ? block.codeSnippets.htmlCss : block.codeSnippets.react
               )
             }
-            className="flex items-center gap-1 px-3 py-1 rounded text-xs font-medium bg-(--bg-primary) hover:bg-(--bg-secondary) text-(--text-primary) border border-(--border-subtle) transition-colors"
+            className="flex items-center gap-1 text-xs font-medium"
           >
             {copiedCode ? (
               <>
-                <Check className="w-3.5 h-3.5 text-emerald-600" />
-                <span className="text-emerald-600 font-semibold">Copied</span>
+                <Check className="w-3.5 h-3.5 text-(--atom-color-success)" />
+                <span className="text-(--atom-color-success) font-semibold">Copied</span>
               </>
             ) : (
               <>
@@ -178,7 +174,7 @@ export function BlockViewerCard({ block, children }: BlockViewerCardProps) {
                 <span>Copy Code</span>
               </>
             )}
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -224,6 +220,6 @@ export function BlockViewerCard({ block, children }: BlockViewerCardProps) {
           ))}
         </div>
       </div>
-    </div>
+    </Card>
   );
 }

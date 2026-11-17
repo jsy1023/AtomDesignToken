@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { Terminal, Copy, Check, Sliders, RefreshCw, Palette, ExternalLink, Sparkles, FileCode } from 'lucide-react';
 import { CodeHighlight } from '@/components/common/CodeHighlight';
+import { Button } from '@/components/ui/Button';
 
 export function GuideLocalStudioSection() {
   const [copiedId, setCopiedId] = useState<string | null>(null);
@@ -57,13 +58,16 @@ npx atomsystem build:tokens`;
             <div className="flex items-center gap-2 px-3 py-1.5 rounded-(--radius-sm) bg-(--bg-primary) border border-(--border-subtle) font-mono text-xs">
               <Terminal className="w-3.5 h-3.5 text-(--accent-primary)" />
               <span>npx atomsystem studio</span>
-              <button
+              <Button
+                variant="ghost"
+                size="sm"
+                isIconOnly
                 onClick={() => copyText('npx atomsystem studio', 'cli-studio')}
-                className="ml-1 p-0.5 hover:text-(--text-primary) text-(--text-secondary) transition"
+                className="ml-1 p-0.5 h-6 w-6"
                 title="복사"
               >
-                {copiedId === 'cli-studio' ? <Check className="w-3 h-3 text-emerald-500" /> : <Copy className="w-3 h-3" />}
-              </button>
+                {copiedId === 'cli-studio' ? <Check className="w-3 h-3 text-(--atom-color-success)" /> : <Copy className="w-3 h-3" />}
+              </Button>
             </div>
           </div>
         </div>
@@ -114,13 +118,15 @@ npx atomsystem build:tokens`;
               <FileCode className="w-4 h-4 text-(--accent-primary)" />
               <span>터미널 워크플로우 (Terminal Commands)</span>
             </div>
-            <button
+            <Button
+              variant="ghost"
+              size="sm"
               onClick={() => copyText(cliWorkflowCode, 'workflow-code')}
-              className="inline-flex items-center gap-1 hover:text-(--text-primary) transition cursor-pointer"
+              className="inline-flex items-center gap-1 h-auto p-0 text-xs"
             >
-              {copiedId === 'workflow-code' ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
+              {copiedId === 'workflow-code' ? <Check className="w-3.5 h-3.5 text-(--atom-color-success)" /> : <Copy className="w-3.5 h-3.5" />}
               <span>{copiedId === 'workflow-code' ? '복사됨' : '복사'}</span>
-            </button>
+            </Button>
           </div>
           <CodeHighlight code={cliWorkflowCode} language="bash" className="p-4 text-xs font-mono" />
         </div>

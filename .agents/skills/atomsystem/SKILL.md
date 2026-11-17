@@ -61,7 +61,25 @@ node build/build-tokens.js
 
 ## 💡 프레임워크별 사용 예시 패턴
 
-### 1. Pure HTML / Vanilla JS / jQuery
+### 1. React / Next.js (공식 컴포넌트 임포트 표준)
+```tsx
+import { Button, Card, Badge, Input } from '@/components/ui';
+
+export function TransferCard() {
+  return (
+    <Card className="p-5 flex flex-col gap-3">
+      <div className="flex items-center justify-between">
+        <h3 className="text-base font-bold text-(--text-primary)">송금 확인</h3>
+        <Badge variant="success">완료</Badge>
+      </div>
+      <p className="text-xs text-(--text-secondary)">김토스님에게 10,000원을 보냈습니다.</p>
+      <Button variant="primary" size="md">확인</Button>
+    </Card>
+  );
+}
+```
+
+### 2. Pure HTML / Vanilla JS / jQuery
 ```html
 <link rel="stylesheet" href="css/atom-ui.css">
 
@@ -73,17 +91,6 @@ node build/build-tokens.js
   <h3 class="atom-title-2">송금 완료</h3>
   <p class="atom-body-2">김토스님에게 10,000원을 보냈습니다.</p>
 </div>
-```
-
-### 2. React / Next.js
-```tsx
-import '@/css/atom-ui.css';
-
-export const PrimaryButton = ({ children, onClick }: { children: React.ReactNode; onClick?: () => void }) => (
-  <button className="atom-btn atom-btn-primary" onClick={onClick}>
-    {children}
-  </button>
-);
 ```
 
 ### 3. Vue 3

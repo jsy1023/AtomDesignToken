@@ -1,21 +1,31 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from '@/i18n/routing';
 import { usePathname } from '@/i18n/routing';
 import {
   Terminal,
   Check,
   Copy,
-  ChevronDown,
-  Menu,
-  X,
-  Globe,
   Star,
 } from 'lucide-react';
 import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';
 import { NAVIGATION_DEPTH, NavGroup } from '@/lib/data/navigation';
 import { useI18n, LOCALES } from '@/lib/i18n';
+import {
+  Button,
+  Navbar,
+  NavbarBrand,
+  NavbarNav,
+  NavbarActions,
+  NavbarToggle,
+  NavbarMobileMenu,
+  Nav,
+  NavItem,
+  NavLink,
+  NavDropdown,
+  NavDropdownItem,
+} from '@/components/ui';
 
 interface HeaderProps {
   brandColor?: string;
@@ -24,15 +34,14 @@ interface HeaderProps {
 
 export function Header({ brandColor, rightExtra }: HeaderProps) {
   const pathname = usePathname();
-  const { theme } = useThemeEditor();
+  const { theme, brandConfig } = useThemeEditor();
+  const brandName = brandConfig?.name || 'AtomDesignToken';
+  const customLogoUrl = brandConfig?.logoUrl;
   const { locale, setLocale, t, dictionary } = useI18n();
   const activeBrandColor = brandColor || theme?.color?.primary || '#18181b';
   const [copiedCli, setCopiedCli] = useState(false);
-  const [openGroup, setOpenGroup] = useState<string | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [starCount, setStarCount] = useState<number | null>(null);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Fetch GitHub Star Count
   useEffect(() => {
@@ -102,207 +111,23 @@ export function Header({ brandColor, rightExtra }: HeaderProps) {
     return dictionary?.nav?.subDescriptions?.[href] || fallback;
   };
 
-  // Close dropdown on outside click or route change
+  // Close mobile menu on route change
   useEffect(() => {
-    setOpenGroup(null);
     setIsMobileMenuOpen(false);
   }, [pathname]);
-
-  const handleMouseEnter = (groupId: string) => {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    setOpenGroup(groupId);
-  };
-
-  const handleMouseLeave = () => {
-    timeoutRef.current = setTimeout(() => {
-      setOpenGroup(null);
-    }, 150);
-  };
 
   const isGroupActive = (group: NavGroup) => {
     return group.items.some((item) => pathname?.startsWith(item.href));
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-(--bg-primary)/95 backdrop-blur-md border-b border-(--border-subtle) transition-colors">
-      <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 h-12 flex items-center justify-between">
-        {/* Left: Brand Logo & 2-Depth Navigation */}
-        <div className="flex items-center gap-6">
-          <Link href="/" className="flex items-center gap-2 group shrink-0">
-            <span 
-              className="w-3.5 h-3.5 rounded-(--radius-sm) flex items-center justify-center shrink-0"
-              style={{ backgroundColor: activeBrandColor }}
-            />
-            <span className="font-semibold text-sm tracking-tight text-(--text-primary)">
-              AtomDesignToken
-            </span>
-          </Link>
-
-          {/* Desktop 2-Depth Navigation */}
-          <nav
-            ref={dropdownRef}
-            className="hidden md:flex items-center gap-1 text-sm"
-            onMouseLeave={handleMouseLeave}
-          >
-            {NAVIGATION_DEPTH.map((group) => {
-              const active = isGroupActive(group);
-              const isOpen = openGroup === group.id;
-              const hasMultipleItems = group.items.length > 1;
-
-              if (!hasMultipleItems) {
-                // Direct link (e.g. Studio)
-                const singleItem = group.items[0];
-                const isSingleActive = pathname?.startsWith(singleItem.href);
-                return (
-                  <Link
-                    key={group.id}
-                    href={singleItem.href}
-                    className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm transition-colors ${
-                      isSingleActive
-                        ? 'text-(--text-primary) font-semibold bg-(--bg-secondary)'
-                        : 'text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary)/50'
-                    }`}
-                  >
-                    <span>{group.label}</span>
-                    {singleItem.badge && (
-                      <span className="text-xs px-1.5 py-0.5 rounded font-mono bg-(--bg-secondary) text-(--text-primary) font-medium border border-(--border-subtle)">
-                        {singleItem.badge}
-                      </span>
-                    )}
-                  </Link>
-                );
-              }
-
-              return (
-                <div
-                  key={group.id}
-                  className="relative"
-                  onMouseEnter={() => handleMouseEnter(group.id)}
-                >
-                  <button
-                    type="button"
-                    onClick={() => setOpenGroup(isOpen ? null : group.id)}
-                    className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm transition-colors ${
-                      active || isOpen
-                        ? 'text-(--text-primary) font-semibold bg-(--bg-secondary)'
-                        : 'text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary)/50'
-                    }`}
-                  >
-                    <span>{getNavLabel(group.id, group.label)}</span>
-                    <ChevronDown
-                      className={`w-3.5 h-3.5 transition-transform duration-200 ${
-                        isOpen ? 'rotate-180' : 'opacity-60'
-                      }`}
-                    />
-                  </button>
-
-                  {/* Depth 2 Dropdown Menu */}
-                  {isOpen && (
-                    <div className="absolute left-0 top-full pt-1.5 w-64 z-50">
-                      <div className="p-1.5 rounded-lg bg-(--bg-primary) border border-(--border-subtle) shadow-md space-y-0.5">
-                        <div className="px-2.5 py-1 text-xs font-mono text-(--text-secondary) uppercase tracking-wider">
-                          {group.englishLabel}
-                        </div>
-                        {group.items.map((sub) => {
-                          const isSubActive = pathname?.startsWith(sub.href);
-                          return (
-                            <Link
-                              key={sub.href}
-                              href={sub.href}
-                              className={`block px-2.5 py-2 rounded-md transition-colors ${
-                                isSubActive
-                                  ? 'bg-(--bg-secondary) text-(--text-primary)'
-                                  : 'hover:bg-(--bg-secondary)/60 text-(--text-secondary) hover:text-(--text-primary)'
-                              }`}
-                            >
-                              <div className="font-semibold text-sm text-(--text-primary)">
-                                {getSubNavTitle(sub.href, sub.title)}
-                              </div>
-                              <p className="text-xs text-(--text-secondary) leading-snug line-clamp-1 mt-0.5">
-                                {getSubNavDescription(sub.href, sub.description)}
-                              </p>
-                            </Link>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </nav>
-        </div>
-
-        {/* Right: Actions */}
-        <div className="flex items-center gap-2">
-          {rightExtra}
-
-          {/* Language Switcher: KO | EN | JA */}
-          <div data-testid="language-switcher" className="flex items-center rounded-md border border-(--border-subtle) bg-(--bg-secondary) p-0.5 text-xs font-mono">
-            {LOCALES.map((l) => (
-              <button
-                key={l.code}
-                type="button"
-                data-testid={`lang-btn-${l.code}`}
-                onClick={() => setLocale(l.code)}
-                className={`px-2 py-0.5 rounded text-xs transition-colors cursor-pointer ${
-                  locale === l.code
-                    ? 'bg-(--bg-primary) text-(--text-primary) font-bold shadow-xs'
-                    : 'text-(--text-muted) hover:text-(--text-primary)'
-                }`}
-                title={l.label}
-              >
-                {l.shortLabel}
-              </button>
-            ))}
-          </div>
-
-          {/* GitHub Star Link */}
-          <a
-            href="https://github.com/jsy1023/AtomDesignToken"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border border-(--border-subtle) bg-(--bg-secondary) hover:bg-(--bg-primary) text-sm font-medium text-(--text-secondary) hover:text-(--text-primary) transition-colors group"
-            title="GitHub에서 Star 누르기"
-          >
-            <Star className="w-4 h-4 text-amber-500 fill-amber-500 group-hover:scale-110 transition-transform" />
-            <span className="hidden sm:inline">Star</span>
-            <span className="font-mono text-xs px-1.5 py-0.2 rounded bg-(--bg-primary) border border-(--border-subtle) text-(--text-primary) font-semibold">
-              {starCount !== null ? starCount : '★'}
-            </span>
-          </a>
-
-          <button 
-            type="button"
-            onClick={copyCli}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border border-(--border-subtle) bg-(--bg-secondary) hover:bg-(--bg-primary) text-sm font-mono text-(--text-secondary) hover:text-(--text-primary) transition-colors"
-            title="명령어 복사"
-          >
-            <Terminal className="w-3.5 h-3.5 text-(--text-secondary)" />
-            <span className="hidden sm:inline">npx atomsystem init</span>
-            <span className="sm:hidden">CLI</span>
-            {copiedCli ? (
-              <Check className="w-3 h-3 text-emerald-500" />
-            ) : (
-              <Copy className="w-3 h-3 text-(--text-muted)" />
-            )}
-          </button>
-
-          {/* Mobile Menu Toggle */}
-          <button
-            type="button"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-1.5 rounded text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary)"
-            aria-label="메뉴 열기"
-          >
-            {isMobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Drawer Navigation (2-Depth) */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden border-t border-(--border-subtle) bg-(--bg-primary) px-6 py-4 space-y-5 max-h-[80vh] overflow-y-auto">
+    <Navbar
+      sticky
+      bordered
+      blur
+      innerClassName="h-12"
+      mobileMenu={
+        <NavbarMobileMenu isOpen={isMobileMenuOpen} className="px-6 py-4 space-y-5 max-h-[80vh] overflow-y-auto">
           {NAVIGATION_DEPTH.map((group) => (
             <div key={group.id} className="space-y-1.5">
               <div className="text-xs font-mono text-(--text-muted) uppercase font-semibold">
@@ -331,8 +156,161 @@ export function Header({ brandColor, rightExtra }: HeaderProps) {
               </div>
             </div>
           ))}
+        </NavbarMobileMenu>
+      }
+    >
+      {/* Left: Brand Logo & 2-Depth Navigation */}
+      <div className="flex items-center gap-6">
+        <NavbarBrand>
+          <Link href="/" className="flex items-center gap-2 group shrink-0 no-underline">
+            {customLogoUrl ? (
+              <img
+                src={customLogoUrl}
+                alt={brandName}
+                style={{ height: `${brandConfig?.logoHeight || 22}px` }}
+                className="w-auto max-w-[140px] object-contain rounded-(--radius-sm)"
+              />
+            ) : (
+              <span
+                className="w-3.5 h-3.5 rounded-(--radius-sm) flex items-center justify-center shrink-0"
+                style={{ backgroundColor: activeBrandColor }}
+              />
+            )}
+            <span className="font-semibold text-sm tracking-tight text-(--text-primary)">
+              {brandName}
+            </span>
+          </Link>
+        </NavbarBrand>
+
+        {/* Desktop 2-Depth Navigation using Nav */}
+        <NavbarNav>
+          <Nav variant="default">
+            {NAVIGATION_DEPTH.map((group) => {
+              const active = isGroupActive(group);
+              const hasMultipleItems = group.items.length > 1;
+
+              if (!hasMultipleItems) {
+                // Direct link (e.g. Studio)
+                const singleItem = group.items[0];
+                const isSingleActive = pathname?.startsWith(singleItem.href);
+                return (
+                  <NavItem key={group.id} active={isSingleActive}>
+                    <Link href={singleItem.href} className="no-underline">
+                      <NavLink
+                        active={isSingleActive}
+                        badge={
+                          singleItem.badge ? (
+                            <span className="text-xs px-1.5 py-0.5 rounded font-mono bg-(--bg-secondary) text-(--text-primary) font-medium border border-(--border-subtle)">
+                              {singleItem.badge}
+                            </span>
+                          ) : undefined
+                        }
+                      >
+                        {group.label}
+                      </NavLink>
+                    </Link>
+                  </NavItem>
+                );
+              }
+
+              return (
+                <NavItem key={group.id} active={active}>
+                  <NavDropdown
+                    label={getNavLabel(group.id, group.label)}
+                    active={active}
+                  >
+                    <div className="px-2.5 py-1 text-xs font-mono text-(--text-secondary) uppercase tracking-wider">
+                      {group.englishLabel}
+                    </div>
+                    {group.items.map((sub) => {
+                      const isSubActive = pathname?.startsWith(sub.href);
+                      return (
+                        <Link
+                          key={sub.href}
+                          href={sub.href}
+                          className="no-underline block"
+                        >
+                          <NavDropdownItem
+                            title={getSubNavTitle(sub.href, sub.title)}
+                            description={getSubNavDescription(sub.href, sub.description)}
+                            active={isSubActive}
+                          />
+                        </Link>
+                      );
+                    })}
+                  </NavDropdown>
+                </NavItem>
+              );
+            })}
+          </Nav>
+        </NavbarNav>
+      </div>
+
+      {/* Right: Actions */}
+      <NavbarActions>
+        {rightExtra}
+
+        {/* Language Switcher: KO | EN | JA */}
+        <div data-testid="language-switcher" className="flex items-center rounded-md border border-(--border-subtle) bg-(--bg-secondary) p-0.5 text-xs font-mono">
+          {LOCALES.map((l) => (
+            <Button
+              key={l.code}
+              type="button"
+              variant={locale === l.code ? 'primary' : 'ghost'}
+              size="sm"
+              data-testid={`lang-btn-${l.code}`}
+              onClick={() => setLocale(l.code)}
+              className={`px-2 py-0.5 rounded text-xs transition-colors cursor-pointer h-auto ${
+                locale === l.code
+                  ? 'font-bold shadow-xs'
+                  : 'text-(--text-muted) hover:text-(--text-primary)'
+              }`}
+              title={l.label}
+            >
+              {l.shortLabel}
+            </Button>
+          ))}
         </div>
-      )}
-    </header>
+
+        {/* GitHub Star Link */}
+        <a
+          href="https://github.com/jsy1023/AtomDesignToken"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border border-(--border-subtle) bg-(--bg-secondary) hover:bg-(--bg-primary) text-sm font-medium text-(--text-secondary) hover:text-(--text-primary) transition-colors group"
+          title="GitHub에서 Star 누르기"
+        >
+          <Star className="w-4 h-4 text-(--atom-color-warning) fill-amber-500 group-hover:scale-110 transition-transform" />
+          <span className="hidden sm:inline">Star</span>
+          <span className="font-mono text-xs px-1.5 py-0.2 rounded bg-(--bg-primary) border border-(--border-subtle) text-(--text-primary) font-semibold">
+            {starCount !== null ? starCount : '★'}
+          </span>
+        </a>
+
+        <Button 
+          type="button"
+          variant="outline"
+          size="sm"
+          onClick={copyCli}
+          className="flex items-center gap-1.5 px-2.5 py-1.5 h-auto text-sm font-mono text-(--text-secondary) hover:text-(--text-primary)"
+          title="명령어 복사"
+        >
+          <Terminal className="w-3.5 h-3.5 text-(--text-secondary)" />
+          <span className="hidden sm:inline">npx atomsystem init</span>
+          <span className="sm:hidden">CLI</span>
+          {copiedCli ? (
+            <Check className="w-3 h-3 text-(--atom-color-success)" />
+          ) : (
+            <Copy className="w-3 h-3 text-(--text-muted)" />
+          )}
+        </Button>
+
+        {/* Mobile Menu Toggle */}
+        <NavbarToggle
+          isOpen={isMobileMenuOpen}
+          onToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        />
+      </NavbarActions>
+    </Navbar>
   );
 }

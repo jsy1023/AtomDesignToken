@@ -1,3 +1,4 @@
+import { Button, Input, Badge, Card } from '@/components/ui';
 'use client';
 
 import React, { useState } from 'react';
@@ -33,10 +34,10 @@ export function GuideInteractivePlayground() {
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
           <div>
-            <span className="inline-block text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 mb-3">
+            <span className="inline-block text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-(--atom-color-success)/10 text-(--atom-color-success) dark:text-(--atom-color-success) mb-3">
               Interactive Preview
             </span>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-(--text-primary) dark:text-white tracking-tight">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-(--text-primary)  tracking-tight">
               표준 시멘틱 클래스 실시간 체험
             </h2>
             <p className="text-sm sm:text-base text-(--text-secondary) dark:text-(--text-muted) mt-2">
@@ -46,7 +47,7 @@ export function GuideInteractivePlayground() {
 
           <Link
             href="/components"
-            className="inline-flex items-center gap-1.5 text-xs font-bold text-(--accent-primary) dark:text-blue-400 hover:underline shrink-0"
+            className="inline-flex items-center gap-1.5 text-xs font-bold text-(--accent-primary) dark:text-(--accent-primary) hover:underline shrink-0"
           >
             <span>전체 10대 컴포넌트 갤러리 보기</span>
             <ExternalLink className="w-3.5 h-3.5" />
@@ -59,29 +60,32 @@ export function GuideInteractivePlayground() {
           <div className="rounded-3xl p-6 border border-[var(--border-subtle)] bg-[var(--bg-card)] shadow-xs flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-4">
-                <h4 className="text-sm font-bold text-(--text-primary) dark:text-white">버튼 및 뱃지 세트</h4>
-                <button
+                <h4 className="text-sm font-bold text-(--text-primary) ">버튼 및 뱃지 세트</h4>
+                <Button
+                  variant="ghost"
+                  size="sm"
                   onClick={() => copyClass('.atom-btn.atom-btn-primary')}
-                  className="text-[10px] text-(--text-muted) hover:text-(--text-secondary) dark:hover:text-neutral-200 flex items-center gap-1 font-mono"
+                  className="text-[10px] text-(--text-muted) hover:text-(--text-secondary) flex items-center gap-1 font-mono h-auto p-0"
                   title="클래스명 복사"
                 >
-                  {copiedClass === '.atom-btn.atom-btn-primary' ? <Check className="w-3 h-3 text-emerald-500" /> : <Copy className="w-3 h-3" />}
+                  {copiedClass === '.atom-btn.atom-btn-primary' ? <Check className="w-3 h-3 text-(--atom-color-success)" /> : <Copy className="w-3 h-3" />}
                   .atom-btn
-                </button>
+                </Button>
               </div>
 
               <div className="space-y-4">
                 <div className="flex flex-wrap gap-2">
-                  <span className="atom-badge atom-badge-primary">기본 뱃지</span>
-                  <span className="atom-badge atom-badge-success">성공</span>
-                  <span className="atom-badge atom-badge-warning">주의</span>
+                  <Badge variant="primary">기본 뱃지</Badge>
+                  <Badge variant="success">성공</Badge>
+                  <Badge variant="warning">주의</Badge>
                 </div>
 
                 <div className="flex flex-col gap-2.5">
-                  <button 
+                  <Button
+                    variant="primary"
                     onClick={handleTestClick}
                     disabled={btnState === 'loading'}
-                    className="atom-btn atom-btn-primary w-full flex items-center justify-center gap-2"
+                    className="w-full flex items-center justify-center gap-2"
                   >
                     {btnState === 'loading' && <span className="animate-spin text-xs">⏳</span>}
                     {btnState === 'success' && <Check className="w-4 h-4 text-white" />}
@@ -90,14 +94,10 @@ export function GuideInteractivePlayground() {
                       {btnState === 'loading' && '처리 중...'}
                       {btnState === 'success' && '작동 성공!'}
                     </span>
-                  </button>
+                  </Button>
 
-                  <button className="atom-btn atom-btn-secondary w-full">
-                    Secondary 버튼
-                  </button>
-                  <button className="atom-btn atom-btn-outline w-full">
-                    Outline 버튼
-                  </button>
+                  <Button variant="secondary" className="w-full">Secondary 버튼</Button>
+                  <Button variant="outline" className="w-full">Outline 버튼</Button>
                 </div>
               </div>
             </div>
@@ -111,34 +111,36 @@ export function GuideInteractivePlayground() {
           <div className="rounded-3xl p-6 border border-[var(--border-subtle)] bg-[var(--bg-card)] shadow-xs flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-4">
-                <h4 className="text-sm font-bold text-(--text-primary) dark:text-white">인풋 & 폼 컨트롤</h4>
-                <button
+                <h4 className="text-sm font-bold text-(--text-primary) ">인풋 & 폼 컨트롤</h4>
+                <Button
+                  variant="ghost"
+                  size="sm"
                   onClick={() => copyClass('.atom-input')}
-                  className="text-[10px] text-(--text-muted) hover:text-(--text-secondary) dark:hover:text-neutral-200 flex items-center gap-1 font-mono"
+                  className="text-[10px] text-(--text-muted) hover:text-(--text-secondary) flex items-center gap-1 font-mono h-auto p-0"
                   title="클래스명 복사"
                 >
-                  {copiedClass === '.atom-input' ? <Check className="w-3 h-3 text-emerald-500" /> : <Copy className="w-3 h-3" />}
+                  {copiedClass === '.atom-input' ? <Check className="w-3 h-3 text-(--atom-color-success)" /> : <Copy className="w-3 h-3" />}
                   .atom-input
-                </button>
+                </Button>
               </div>
 
               <div className="space-y-3">
                 <div>
-                  <label className="block text-xs font-semibold text-neutral-700 dark:text-neutral-300 mb-1">
+                  <label className="block text-xs font-semibold text-(--text-secondary) mb-1">
                     프로젝트명 입력
                   </label>
-                  <input
+                  <Input
                     type="text"
                     value={inputValue}
-                    onChange={(e) => setInputValue(e.target.value)}
-                    placeholder="예: Toss Payments 클론"
-                    className="atom-input w-full"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value)}
+                    placeholder="예: Pay Dashboard 클론"
+                    className="w-full"
                   />
                 </div>
 
-                <div className="p-3 rounded-xl bg-(--bg-secondary)/60 dark:bg-neutral-800/40 text-xs text-(--text-secondary) dark:text-neutral-300">
+                <div className="p-3 rounded-xl bg-(--bg-secondary)/60 /40 text-xs text-(--text-secondary) ">
                   <span className="font-semibold block mb-0.5">입력된 값:</span>
-                  <span className="font-mono text-(--accent-primary) dark:text-blue-400">
+                  <span className="font-mono text-(--accent-primary) dark:text-(--accent-primary)">
                     {inputValue || '(입력 대기 중)'}
                   </span>
                 </div>
@@ -157,10 +159,10 @@ export function GuideInteractivePlayground() {
                 <span className="atom-badge atom-badge-primary text-[10px]">
                   .atom-card-interactive
                 </span>
-                <Sparkles className="w-4 h-4 text-amber-500" />
+                <Sparkles className="w-4 h-4 text-(--atom-color-warning)" />
               </div>
 
-              <h4 className="atom-title-3 mb-2 group-hover:text-(--accent-primary) dark:group-hover:text-blue-400 transition-colors">
+              <h4 className="atom-title-3 mb-2 group-hover:text-(--accent-primary) dark:group-hover:text-(--accent-primary) transition-colors">
                 인터랙티브 카드 컨테이너
               </h4>
               <p className="atom-body-2 text-(--text-secondary) dark:text-(--text-muted) text-xs leading-relaxed">

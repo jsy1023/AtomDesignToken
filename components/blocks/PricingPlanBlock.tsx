@@ -147,7 +147,7 @@ export function PricingPlanBlock() {
                   {tier.features.map((feat, idx) => (
                     <div key={idx} className="flex items-center gap-2">
                       {feat.included ? (
-                        <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                        <Check className="w-3.5 h-3.5 text-(--atom-color-success) dark:text-(--atom-color-success) shrink-0" />
                       ) : (
                         <X className="w-3.5 h-3.5 text-(--text-muted) shrink-0 opacity-40" />
                       )}

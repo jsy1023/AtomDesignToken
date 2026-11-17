@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui';
 'use client';
 
 import React, { useState } from 'react';
@@ -31,7 +32,7 @@ export function GuideWorkflowSection() {
           <span className="inline-block text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-violet-500/10 text-violet-600 dark:text-violet-400 mb-3">
             Quick 3-Steps
           </span>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-(--text-primary) dark:text-white tracking-tight mb-4">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-(--text-primary)  tracking-tight mb-4">
             3단계로 끝내는 라이브러리 도입 로드맵
           </h2>
           <p className="text-sm sm:text-base text-(--text-secondary) dark:text-(--text-muted)">
@@ -48,10 +49,10 @@ export function GuideWorkflowSection() {
             >
               <div>
                 <div className="flex items-center justify-between mb-5">
-                  <span className="text-3xl font-black text-neutral-300 dark:text-neutral-700 font-mono">
+                  <span className="text-3xl font-black text-(--text-secondary) dark:text-neutral-700 font-mono">
                     {item.step}
                   </span>
-                  <span className="text-[11px] font-bold px-2.5 py-1 rounded-full bg-(--accent-primary)/10 text-(--accent-primary) dark:text-blue-400">
+                  <span className="text-[11px] font-bold px-2.5 py-1 rounded-full bg-(--accent-primary)/10 text-(--accent-primary) dark:text-(--accent-primary)">
                     {item.badge}
                   </span>
                 </div>
@@ -63,7 +64,7 @@ export function GuideWorkflowSection() {
                   {WORKFLOW_ICONS[item.icon] || <CheckCircle className="w-6 h-6" />}
                 </div>
 
-                <h3 className="text-lg font-bold text-(--text-primary) dark:text-white mb-2">
+                <h3 className="text-lg font-bold text-(--text-primary)  mb-2">
                   {item.title}
                 </h3>
                 <p className="text-xs text-(--text-secondary) dark:text-(--text-muted) leading-relaxed mb-6">
@@ -73,19 +74,22 @@ export function GuideWorkflowSection() {
 
               {item.command && (
                 <div className="pt-4 border-t border-[var(--border-subtle)]">
-                  <div className="flex items-center justify-between gap-2 px-3 py-2 rounded-xl bg-neutral-900 text-neutral-200 text-xs font-mono">
+                  <div className="flex items-center justify-between gap-2 px-3 py-2 rounded-xl bg-(--bg-secondary) text-(--text-primary) text-xs font-mono">
                     <span className="truncate">{item.command}</span>
-                    <button
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      isIconOnly
                       onClick={() => copyCommand(item.command!, item.step)}
-                      className="shrink-0 p-1 hover:text-white text-(--text-muted)"
+                      className="shrink-0 p-1 h-6 w-6 text-(--text-muted) hover:text-white"
                       title="명령어 복사"
                     >
                       {copiedCmd === item.step ? (
-                        <Check className="w-3.5 h-3.5 text-emerald-400" />
+                        <Check className="w-3.5 h-3.5 text-(--atom-color-success)" />
                       ) : (
                         <Copy className="w-3.5 h-3.5" />
                       )}
-                    </button>
+                    </Button>
                   </div>
                 </div>
               )}
@@ -94,17 +98,17 @@ export function GuideWorkflowSection() {
         </div>
 
         {/* FAQ & Closing Banner */}
-        <div className="rounded-3xl p-8 sm:p-10 border border-neutral-800 bg-neutral-950 text-neutral-100 shadow-2xl relative overflow-hidden">
+        <div className="rounded-3xl p-8 sm:p-10 border border-(--border-subtle) bg-(--bg-primary) text-(--text-primary) shadow-2xl relative overflow-hidden">
           <div className="relative z-10 max-w-3xl">
-            <div className="flex items-center gap-2 text-xs font-bold text-blue-400 uppercase tracking-wider mb-3">
+            <div className="flex items-center gap-2 text-xs font-bold text-(--accent-primary) uppercase tracking-wider mb-3">
               <HelpCircle className="w-4 h-4" />
               자주 묻는 질문 (FAQ)
             </div>
             <h3 className="text-xl sm:text-2xl font-bold text-white mb-4">
               "기존 사내 프로젝트의 스타일과 충돌하면 어쩌죠?"
             </h3>
-            <p className="text-sm text-neutral-300 leading-relaxed mb-6">
-              AtomSystem의 모든 CSS 클래스는 <code className="font-mono text-blue-400">.atom-*</code> 접두사로 엄격히 네임스페이스 격리되어 있으며, 기존 부트스트랩이나 Tailwind 스타일과 전혀 충돌하지 않습니다. 점진적으로 필요한 화면부터 안전하게 도입할 수 있습니다.
+            <p className="text-sm text-(--text-secondary) leading-relaxed mb-6">
+              AtomSystem의 모든 CSS 클래스는 <code className="font-mono text-(--accent-primary)">.atom-*</code> 접두사로 엄격히 네임스페이스 격리되어 있으며, 기존 부트스트랩이나 Tailwind 스타일과 전혀 충돌하지 않습니다. 점진적으로 필요한 화면부터 안전하게 도입할 수 있습니다.
             </p>
 
             <div className="flex flex-wrap gap-3">
@@ -117,7 +121,7 @@ export function GuideWorkflowSection() {
               </Link>
               <Link
                 href="/blocks"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold bg-neutral-800 hover:bg-neutral-700 text-white transition border border-neutral-700"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold bg-(--bg-secondary) hover:bg-neutral-700 text-white transition border border-neutral-700"
               >
                 <span>디자인 블록 보기</span>
               </Link>

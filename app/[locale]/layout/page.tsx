@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/routing';
 import { Header } from '@/components/Header';
 import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';
-import { Container, Stack, Grid, Card } from '@/components/ui';
+import { Container, Stack, Grid, Card, Button, Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui';
 import {
   Maximize2,
   Columns,
@@ -62,7 +62,7 @@ export default function LayoutGuidePage() {
         {/* Hero Section */}
         <section className="space-y-3 border-b border-(--border-subtle) pb-6">
           <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-(--text-muted)">
-            <span className="text-emerald-500 font-semibold flex items-center gap-1">
+            <span className="text-(--atom-color-success) font-semibold flex items-center gap-1">
               <ShieldCheck className="w-3.5 h-3.5" />
               {t('badgeArchitecture')}
             </span>
@@ -101,17 +101,17 @@ export default function LayoutGuidePage() {
               {t('containerTest')}
             </span>
             {(['sm', 'md', 'lg', 'xl'] as const).map((sz) => (
-              <button
+              <Button
                 key={sz}
+                variant={activeContainerSize === sz ? 'primary' : 'outline'}
+                size="sm"
                 onClick={() => setActiveContainerSize(sz)}
-                className={`px-3 py-1.5 rounded-(--radius-sm) text-xs font-mono font-medium transition cursor-pointer ${
-                  activeContainerSize === sz
-                    ? 'bg-(--text-primary) text-(--bg-primary) font-semibold shadow-xs'
-                    : 'bg-(--bg-primary) text-(--text-secondary) hover:text-(--text-primary) border border-(--border-subtle)'
+                className={`px-3 py-1.5 h-auto text-xs font-mono ${
+                  activeContainerSize === sz ? 'font-semibold shadow-xs' : 'text-(--text-secondary)'
                 }`}
               >
                 size="{sz}" ({containerSpecs.find((c) => c.name === sz)?.width})
-              </button>
+              </Button>
             ))}
           </div>
 
@@ -133,41 +133,41 @@ export default function LayoutGuidePage() {
           </div>
 
           {/* Container Token Table */}
-          <div className="overflow-x-auto rounded-(--radius) border border-(--border-subtle)">
-            <table className="w-full text-left text-sm">
-              <thead className="bg-(--bg-secondary)/60 border-b border-(--border-subtle) text-xs font-semibold text-(--text-secondary)">
-                <tr>
-                  <th className="p-3">{t('thSize')}</th>
-                  <th className="p-3">{t('thToken')}</th>
-                  <th className="p-3">{t('thMaxWidth')}</th>
-                  <th className="p-3">{t('thUsage')}</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-(--border-subtle)">
-                {containerSpecs.map((c) => (
-                  <tr key={c.name} className="hover:bg-(--bg-secondary)/30 transition-colors">
-                    <td className="p-3 font-mono font-bold text-(--text-primary)">size="{c.name}"</td>
-                    <td className="p-3 font-mono text-xs text-(--text-secondary)">
-                      <button
-                        onClick={() => handleCopy(`var(${c.token})`)}
-                        className="hover:underline flex items-center gap-1 cursor-pointer"
-                        title="Copy"
-                      >
-                        <span>var({c.token})</span>
-                        {copiedToken === `var(${c.token})` ? (
-                          <Check className="w-3 h-3 text-emerald-500" />
-                        ) : (
-                          <Copy className="w-3 h-3 opacity-40" />
-                        )}
-                      </button>
-                    </td>
-                    <td className="p-3 font-mono font-semibold text-(--text-primary)">{c.width}</td>
-                    <td className="p-3 text-sm text-(--text-secondary)">{c.usage}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="p-3">{t('thSize')}</TableHead>
+                <TableHead className="p-3">{t('thToken')}</TableHead>
+                <TableHead className="p-3">{t('thMaxWidth')}</TableHead>
+                <TableHead className="p-3">{t('thUsage')}</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {containerSpecs.map((c) => (
+                <TableRow key={c.name} className="hover:bg-(--bg-secondary)/30 transition-colors">
+                  <TableCell className="p-3 font-mono font-bold text-(--text-primary)">size="{c.name}"</TableCell>
+                  <TableCell className="p-3 font-mono text-xs text-(--text-secondary)">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => handleCopy(`var(${c.token})`)}
+                      className="hover:underline flex items-center gap-1 h-auto p-0 text-xs font-mono"
+                      title="Copy"
+                    >
+                      <span>var({c.token})</span>
+                      {copiedToken === `var(${c.token})` ? (
+                        <Check className="w-3 h-3 text-(--atom-color-success)" />
+                      ) : (
+                        <Copy className="w-3 h-3 opacity-40" />
+                      )}
+                    </Button>
+                  </TableCell>
+                  <TableCell className="p-3 font-mono font-semibold text-(--text-primary)">{c.width}</TableCell>
+                  <TableCell className="p-3 text-sm text-(--text-secondary)">{c.usage}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         </section>
 
         {/* 2. Spacing Scale System */}
@@ -204,12 +204,20 @@ export default function LayoutGuidePage() {
 
                 <div className="flex items-center justify-between text-xs text-(--text-secondary) pt-1 border-t border-(--border-subtle)">
                   <span className="truncate pr-2">{s.usage}</span>
-                  <button
-                    onClick={() => handleCopy(`var(${s.token})`)}
-                    className="shrink-0 font-mono text-[11px] text-(--text-muted) hover:text-(--text-primary) cursor-pointer"
-                  >
-                    {copiedToken === `var(${s.token})` ? t('copied') : t('tokenBtn')}
-                  </button>
+                  <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleCopy(`var(${s.token})`)}
+                        className="hover:underline flex items-center gap-1 h-auto p-0 text-xs font-mono"
+                        title="Copy"
+                      >
+                        <span>var({s.token})</span>
+                        {copiedToken === `var(${s.token})` ? (
+                          <Check className="w-3 h-3 text-(--atom-color-success)" />
+                        ) : (
+                          <Copy className="w-3 h-3 opacity-40" />
+                        )}
+                      </Button>
                 </div>
               </Card>
             ))}
@@ -238,17 +246,19 @@ export default function LayoutGuidePage() {
                 </span>
                 <div className="flex items-center gap-1">
                   {(['2', '4', '6', '8'] as const).map((g) => (
-                    <button
+                    <Button
                       key={g}
+                      variant={activeStackGap === g ? 'primary' : 'outline'}
+                      size="sm"
                       onClick={() => setActiveStackGap(g)}
-                      className={`px-2 py-0.5 text-xs font-mono rounded cursor-pointer ${
+                      className={`px-2 py-0.5 h-auto text-xs font-mono ${
                         activeStackGap === g
-                          ? 'bg-(--text-primary) text-(--bg-primary) font-bold'
-                          : 'bg-(--bg-secondary) text-(--text-secondary)'
+                          ? 'font-bold'
+                          : 'text-(--text-secondary)'
                       }`}
                     >
                       gap="{g}"
-                    </button>
+                    </Button>
                   ))}
                 </div>
               </div>
@@ -281,17 +291,19 @@ export default function LayoutGuidePage() {
                 </span>
                 <div className="flex items-center gap-1">
                   {([2, 3, 4] as const).map((c) => (
-                    <button
+                    <Button
                       key={c}
+                      variant={activeGridCols === c ? 'primary' : 'outline'}
+                      size="sm"
                       onClick={() => setActiveGridCols(c)}
-                      className={`px-2 py-0.5 text-xs font-mono rounded cursor-pointer ${
+                      className={`px-2 py-0.5 h-auto text-xs font-mono ${
                         activeGridCols === c
-                          ? 'bg-(--text-primary) text-(--bg-primary) font-bold'
-                          : 'bg-(--bg-secondary) text-(--text-secondary)'
+                          ? 'font-bold'
+                          : 'text-(--text-secondary)'
                       }`}
                     >
                       cols={c}
-                    </button>
+                    </Button>
                   ))}
                 </div>
               </div>
@@ -323,8 +335,8 @@ export default function LayoutGuidePage() {
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Card className="p-4 border-emerald-500/20 bg-emerald-500/5 flex flex-col gap-2">
-              <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-600 dark:text-emerald-400">
+            <Card className="p-4 border-(--atom-color-success)/20 bg-(--atom-color-success)/5 flex flex-col gap-2">
+              <div className="flex items-center gap-1.5 text-xs font-bold text-(--atom-color-success)">
                 <CheckCircle2 className="w-4 h-4" />
                 <span>{t('doTitle')}</span>
               </div>
@@ -335,8 +347,8 @@ export default function LayoutGuidePage() {
               </ul>
             </Card>
 
-            <Card className="p-4 border-rose-500/20 bg-rose-500/5 flex flex-col gap-2">
-              <div className="flex items-center gap-1.5 text-xs font-bold text-rose-600 dark:text-rose-400">
+            <Card className="p-4 border-(--atom-color-destructive)/20 bg-(--atom-color-destructive)/5 flex flex-col gap-2">
+              <div className="flex items-center gap-1.5 text-xs font-bold text-(--atom-color-destructive)">
                 <XCircle className="w-4 h-4" />
                 <span>{t('dontTitle')}</span>
               </div>

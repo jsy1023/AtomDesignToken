@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { PatternItem } from '@/lib/data/patterns';
+import { Button, Checkbox } from '@/components/ui';
 import { DeviceMockupView } from './DeviceMockupView';
 import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';
 import {
@@ -81,25 +82,26 @@ export function PatternDocsLayout({
       {/* 1. Breadcrumb & Meta Bar */}
       <div className="flex items-center justify-between text-xs text-(--text-secondary) gap-2 flex-wrap">
         <nav className="flex items-center gap-1.5 font-medium">
-          <Link href="/patterns" className="hover:text-(--text-primary) dark:hover:text-neutral-100 transition">
+          <Link href="/patterns" className="hover:text-(--text-primary) dark:hover:text-(--text-primary) transition">
             UX 패턴 가이드
           </Link>
           <span>/</span>
           <span className="text-(--text-muted)">{pattern.categoryName}</span>
           <span>/</span>
-          <span className="text-neutral-800 dark:text-neutral-200 font-bold">{pattern.title}</span>
+          <span className="text-(--text-primary) font-bold">{pattern.title}</span>
         </nav>
 
         <div className="flex items-center gap-2">
-          <button
+          <Button
+            variant="outline"
+            size="sm"
             type="button"
             onClick={handleCopyMarkdown}
-            style={copiedMd ? { backgroundColor: '#10b981', color: '#ffffff' } : {}}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[var(--border-strong)] bg-[var(--bg-secondary)] hover:bg-[var(--bg-primary)] text-xs font-semibold transition shadow-xs"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold shadow-xs"
           >
-            {copiedMd ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+            {copiedMd ? <Check className="w-3.5 h-3.5 text-(--atom-color-success)" /> : <Copy className="w-3.5 h-3.5" />}
             <span>{copiedMd ? '복사됨' : 'AI 명세 복사'}</span>
-          </button>
+          </Button>
 
           <Link
             href="/blocks"
@@ -117,8 +119,8 @@ export function PatternDocsLayout({
           <span
             className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[11px] font-bold border ${
               isWeb
-                ? 'bg-blue-50 dark:bg-blue-950/60 text-(--accent-primary) dark:text-blue-400 border-blue-200 dark:border-blue-800'
-                : 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800'
+                ? 'bg-(--accent-primary)/10  text-(--accent-primary) dark:text-(--accent-primary) border-(--accent-primary)/20 dark:border-blue-800'
+                : 'bg-emerald-50 dark:bg-emerald-950/60 text-(--atom-color-success) dark:text-(--atom-color-success) border-emerald-200 dark:border-emerald-800'
             }`}
           >
             {isWeb ? <Monitor className="w-3 h-3" /> : <Smartphone className="w-3 h-3" />}
@@ -143,47 +145,38 @@ export function PatternDocsLayout({
           style={{ borderColor: 'var(--border-subtle)' }}
           className="flex items-center gap-2 border-b select-none overflow-x-auto"
         >
-          <button
+          <Button
+            variant={activeTab === 'preview' ? 'primary' : 'ghost'}
+            size="sm"
             type="button"
             onClick={() => setActiveTab('preview')}
-            style={activeTab === 'preview' ? { borderColor: brandColor, color: brandColor } : {}}
-            className={`flex items-center gap-1.5 py-2.5 px-3.5 text-xs font-bold border-b-2 transition ${
-              activeTab === 'preview'
-                ? 'border-b-2'
-                : 'border-transparent text-(--text-secondary) hover:text-neutral-800 dark:hover:text-neutral-200'
-            }`}
+            className="flex items-center gap-1.5 py-2 px-3 text-xs font-bold"
           >
             <Eye className="w-3.5 h-3.5" />
             <span>인터랙티브 데모 (Demo)</span>
-          </button>
+          </Button>
 
-          <button
+          <Button
+            variant={activeTab === 'guidelines' ? 'primary' : 'ghost'}
+            size="sm"
             type="button"
             onClick={() => setActiveTab('guidelines')}
-            style={activeTab === 'guidelines' ? { borderColor: brandColor, color: brandColor } : {}}
-            className={`flex items-center gap-1.5 py-2.5 px-3.5 text-xs font-bold border-b-2 transition ${
-              activeTab === 'guidelines'
-                ? 'border-b-2'
-                : 'border-transparent text-(--text-secondary) hover:text-neutral-800 dark:hover:text-neutral-200'
-            }`}
+            className="flex items-center gap-1.5 py-2 px-3 text-xs font-bold"
           >
             <BookOpen className="w-3.5 h-3.5" />
             <span>구현 가이드 & 체크리스트</span>
-          </button>
+          </Button>
 
-          <button
+          <Button
+            variant={activeTab === 'spec' ? 'primary' : 'ghost'}
+            size="sm"
             type="button"
             onClick={() => setActiveTab('spec')}
-            style={activeTab === 'spec' ? { borderColor: brandColor, color: brandColor } : {}}
-            className={`flex items-center gap-1.5 py-2.5 px-3.5 text-xs font-bold border-b-2 transition ${
-              activeTab === 'spec'
-                ? 'border-b-2'
-                : 'border-transparent text-(--text-secondary) hover:text-neutral-800 dark:hover:text-neutral-200'
-            }`}
+            className="flex items-center gap-1.5 py-2 px-3 text-xs font-bold"
           >
             <Code2 className="w-3.5 h-3.5" />
-            <span>AI 마크다운 사양 (Spec)</span>
-          </button>
+            <span>AI 마크다운 명세</span>
+          </Button>
         </div>
 
         {/* TAB 1: INTERACTIVE PREVIEW */}
@@ -215,7 +208,7 @@ export function PatternDocsLayout({
                 className="p-5 border shadow-xs flex flex-col gap-3"
               >
                 <div className="flex items-center gap-2 pb-2 border-b border-[var(--border-subtle)]">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                  <CheckCircle2 className="w-4 h-4 text-(--atom-color-success)" />
                   <h3 className="text-xs font-bold text-[var(--text-primary)]">
                     필수 구현 체크리스트 ({currentVariant?.checklist?.length || 0})
                   </h3>
@@ -225,25 +218,17 @@ export function PatternDocsLayout({
                   {currentVariant?.checklist?.map((item, idx) => {
                     const isChecked = !!checkedRules[`${pattern.id}-${idx}`];
                     return (
-                      <label
-                        key={idx}
-                        onClick={() => toggleCheck(idx)}
-                        className={`flex items-start gap-2.5 p-2 rounded-lg cursor-pointer transition text-xs select-none ${
-                          isChecked
-                            ? 'bg-emerald-50/60 dark:bg-emerald-950/20 text-emerald-800 dark:text-emerald-300'
-                            : 'hover:bg-(--bg-secondary) dark:hover:bg-neutral-800/50 text-[var(--text-primary)]'
-                        }`}
-                      >
-                        <input
-                          type="checkbox"
-                          checked={isChecked}
-                          onChange={() => {}}
-                          className="mt-0.5 w-3.5 h-3.5 rounded border-(--border-strong) text-emerald-600 focus:ring-emerald-500 cursor-pointer"
-                        />
-                        <span className={`leading-relaxed ${isChecked ? 'line-through opacity-80' : ''}`}>
-                          {item}
-                        </span>
-                      </label>
+                      <div key={idx} className="p-1">
+                      <Checkbox
+                        checked={isChecked}
+                        onChange={() => toggleCheck(idx)}
+                        label={
+                          <span className={isChecked ? 'line-through opacity-80' : ''}>
+                            {item}
+                          </span>
+                        }
+                      />
+                    </div>
                     );
                   })}
                 </div>
@@ -255,7 +240,7 @@ export function PatternDocsLayout({
                 className="p-5 border shadow-xs flex flex-col gap-3"
               >
                 <div className="flex items-center gap-2 pb-2 border-b border-[var(--border-subtle)]">
-                  <AlertTriangle className="w-4 h-4 text-rose-500" />
+                  <AlertTriangle className="w-4 h-4 text-(--atom-color-destructive)" />
                   <h3 className="text-xs font-bold text-[var(--text-primary)]">
                     주의해야 할 안티패턴 ({currentVariant?.antiPatterns?.length || 0})
                   </h3>
@@ -267,7 +252,7 @@ export function PatternDocsLayout({
                       key={idx}
                       className="flex items-start gap-2 p-2.5 rounded-lg bg-rose-50/50 dark:bg-rose-950/20 border border-rose-200/50 dark:border-rose-900/40 text-xs text-rose-800 dark:text-rose-300"
                     >
-                      <span className="font-bold text-rose-600 dark:text-rose-400 mt-0.5">✕</span>
+                      <span className="font-bold text-(--atom-color-destructive) dark:text-(--atom-color-destructive) mt-0.5">✕</span>
                       <span className="leading-relaxed">{item}</span>
                     </div>
                   ))}
@@ -299,22 +284,26 @@ export function PatternDocsLayout({
                 AI Agent 코드 생성 및 프롬프트 주입용 마크다운 명세
               </span>
               <div className="flex items-center gap-2">
-                <button
+                <Button
+                  variant="primary"
+                  size="sm"
                   type="button"
                   onClick={handleCopyMarkdown}
-                  className="px-3 py-1.5 rounded-lg bg-(--accent-primary) hover:bg-blue-700 text-white text-xs font-bold flex items-center gap-1.5 shadow-xs transition"
+                  className="px-3 py-1.5 text-xs font-bold flex items-center gap-1.5 shadow-xs"
                 >
                   {copiedMd ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
                   <span>{copiedMd ? '복사 완료' : '전체 복사'}</span>
-                </button>
-                <button
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
                   type="button"
                   onClick={handleDownloadMarkdown}
-                  className="px-3 py-1.5 rounded-lg border border-[var(--border-strong)] bg-[var(--bg-secondary)] hover:bg-[var(--bg-primary)] text-xs font-semibold flex items-center gap-1.5 transition"
+                  className="px-3 py-1.5 text-xs font-semibold flex items-center gap-1.5"
                 >
                   <Download className="w-3.5 h-3.5" />
                   <span>.md 다운로드</span>
-                </button>
+                </Button>
               </div>
             </div>
 
@@ -333,11 +322,13 @@ export function PatternDocsLayout({
       {/* 4. Bottom Pagination (Previous / Next Article) */}
       <footer className="mt-8 pt-6 border-t border-[var(--border-subtle)] grid grid-cols-1 sm:grid-cols-2 gap-4">
         {prevPattern ? (
-          <button
+          <Button
+            variant="outline"
+            size="sm"
             type="button"
             onClick={() => onSelectPattern(prevPattern.id)}
             style={{ borderRadius: radius }}
-            className="p-4 border border-[var(--border-subtle)] bg-[var(--bg-secondary)] hover:border-[var(--border-strong)] text-left flex flex-col gap-1 transition group"
+            className="p-4 h-auto text-left flex flex-col items-start gap-1 group"
           >
             <span className="text-[11px] text-(--text-muted) flex items-center gap-1">
               <ArrowLeft className="w-3 h-3 group-hover:-translate-x-1 transition-transform" />
@@ -346,17 +337,19 @@ export function PatternDocsLayout({
             <span className="text-xs font-bold text-[var(--text-primary)] group-hover:text-(--accent-primary) transition">
               {prevPattern.title}
             </span>
-          </button>
+          </Button>
         ) : (
           <div />
         )}
 
         {nextPattern && (
-          <button
+          <Button
+            variant="outline"
+            size="sm"
             type="button"
             onClick={() => onSelectPattern(nextPattern.id)}
             style={{ borderRadius: radius }}
-            className="p-4 border border-[var(--border-subtle)] bg-[var(--bg-secondary)] hover:border-[var(--border-strong)] text-right flex flex-col items-end gap-1 transition group ml-auto w-full"
+            className="p-4 h-auto text-right flex flex-col items-end gap-1 group ml-auto w-full"
           >
             <span className="text-[11px] text-(--text-muted) flex items-center gap-1">
               <span>다음 패턴</span>
@@ -365,7 +358,7 @@ export function PatternDocsLayout({
             <span className="text-xs font-bold text-[var(--text-primary)] group-hover:text-(--accent-primary) transition">
               {nextPattern.title}
             </span>
-          </button>
+          </Button>
         )}
       </footer>
     </article>

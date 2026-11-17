@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { Button } from '@/components/ui/Button';
 import { Terminal, Copy, Check, ArrowRight, BookOpen, Sparkles, Layers, ShieldCheck } from 'lucide-react';
 import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';
 
@@ -36,33 +37,39 @@ export function GuideHero() {
         {/* Quick Commands & CTA Buttons */}
         <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3.5">
           {/* CLI Copy 1 */}
-          <div className="flex items-center justify-between gap-3 px-4 py-2.5 rounded-2xl bg-neutral-900 dark:bg-neutral-950 text-neutral-100 border border-neutral-800 shadow-md font-mono text-xs">
+          <div className="flex items-center justify-between gap-3 px-4 py-2.5 rounded-2xl bg-(--bg-secondary)  text-(--text-primary) border border-(--border-subtle) shadow-md font-mono text-xs">
             <div className="flex items-center gap-2">
-              <Terminal className="w-4 h-4 text-emerald-400" />
+              <Terminal className="w-4 h-4 text-(--atom-color-success)" />
               <span>npm i atomsystem</span>
             </div>
-            <button
+            <Button
+              variant="ghost"
+              size="sm"
+              isIconOnly
               onClick={() => copyText('npm i atomsystem', 'npm')}
-              className="p-1 rounded-md hover:bg-neutral-800 text-(--text-muted) hover:text-white transition"
+              className="p-1 h-7 w-7 text-(--text-muted) hover:text-white"
               title="복사하기"
             >
-              {copied === 'npm' ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
-            </button>
+              {copied === 'npm' ? <Check className="w-3.5 h-3.5 text-(--atom-color-success)" /> : <Copy className="w-3.5 h-3.5" />}
+            </Button>
           </div>
 
           {/* CLI Copy 2 */}
-          <div className="flex items-center justify-between gap-3 px-4 py-2.5 rounded-2xl bg-neutral-900 dark:bg-neutral-950 text-neutral-100 border border-neutral-800 shadow-md font-mono text-xs">
+          <div className="flex items-center justify-between gap-3 px-4 py-2.5 rounded-2xl bg-(--bg-secondary)  text-(--text-primary) border border-(--border-subtle) shadow-md font-mono text-xs">
             <div className="flex items-center gap-2">
-              <Terminal className="w-4 h-4 text-blue-400" />
+              <Terminal className="w-4 h-4 text-(--accent-primary)" />
               <span>npx atomsystem init</span>
             </div>
-            <button
+            <Button
+              variant="ghost"
+              size="sm"
+              isIconOnly
               onClick={() => copyText('npx atomsystem init', 'init')}
-              className="p-1 rounded-md hover:bg-neutral-800 text-(--text-muted) hover:text-white transition"
+              className="p-1 h-7 w-7 text-(--text-muted) hover:text-white"
               title="복사하기"
             >
-              {copied === 'init' ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
-            </button>
+              {copied === 'init' ? <Check className="w-3.5 h-3.5 text-(--atom-color-success)" /> : <Copy className="w-3.5 h-3.5" />}
+            </Button>
           </div>
 
           {/* Blocks Link */}

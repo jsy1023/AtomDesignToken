@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Card, Button, Badge } from '@/components/ui';
+import { Card, Button, Badge, Input } from '@/components/ui';
 import {
   LayoutGrid,
   List as ListIcon,
@@ -80,13 +80,13 @@ export function CardListBlock() {
   const getIcon = (type: CardItem['icon']) => {
     switch (type) {
       case 'palette':
-        return <Palette className="w-4 h-4 text-purple-500" />;
+        return <Palette className="w-4 h-4 text-(--accent-primary)" />;
       case 'layers':
         return <Layers className="w-4 h-4 text-(--accent-primary)" />;
       case 'shield':
-        return <Shield className="w-4 h-4 text-emerald-500" />;
+        return <Shield className="w-4 h-4 text-(--atom-color-success)" />;
       case 'zap':
-        return <Zap className="w-4 h-4 text-amber-500" />;
+        return <Zap className="w-4 h-4 text-(--atom-color-warning)" />;
     }
   };
 
@@ -112,35 +112,37 @@ export function CardListBlock() {
         {/* View mode & Search */}
         <div className="flex items-center gap-2">
           <div className="relative">
-            <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-(--text-secondary)" />
-            <input
+            <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-(--text-secondary) z-10" />
+            <Input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="카드 필터..."
-              className="text-xs pl-7 pr-2.5 py-1 rounded-(--radius-sm) bg-(--bg-secondary) text-(--text-primary) border border-(--border-subtle) focus:outline-none"
+              className="text-xs pl-7 pr-2.5 py-1 h-auto"
             />
           </div>
 
           <div className="flex rounded-(--radius-sm) border border-(--border-subtle) p-0.5 bg-(--bg-secondary)">
-            <button
+            <Button
+              variant={viewMode === 'grid' ? 'primary' : 'ghost'}
+              size="sm"
+              isIconOnly
               onClick={() => setViewMode('grid')}
               aria-label="Grid"
-              className={`p-1 rounded-(--radius-sm) transition-colors ${
-                viewMode === 'grid' ? 'bg-(--bg-primary) text-(--text-primary) shadow-xs' : 'text-(--text-secondary)'
-              }`}
+              className="p-1 h-auto"
             >
               <LayoutGrid className="w-3.5 h-3.5" />
-            </button>
-            <button
+            </Button>
+            <Button
+              variant={viewMode === 'list' ? 'primary' : 'ghost'}
+              size="sm"
+              isIconOnly
               onClick={() => setViewMode('list')}
               aria-label="List"
-              className={`p-1 rounded-(--radius-sm) transition-colors ${
-                viewMode === 'list' ? 'bg-(--bg-primary) text-(--text-primary) shadow-xs' : 'text-(--text-secondary)'
-              }`}
+              className="p-1 h-auto"
             >
               <ListIcon className="w-3.5 h-3.5" />
-            </button>
+            </Button>
           </div>
         </div>
       </div>
@@ -174,10 +176,10 @@ export function CardListBlock() {
 
                 <div className="pt-3 border-t border-(--border-subtle) flex items-center justify-between mt-3 text-xs">
                   <span className="font-semibold text-(--text-primary)">{c.price}</span>
-                  <button className="text-xs font-medium text-(--accent-primary) hover:underline flex items-center gap-0.5">
+                  <Button variant="ghost" size="sm" className="text-xs font-medium text-(--accent-primary) hover:underline flex items-center gap-0.5 h-auto p-0">
                     <span>선택</span>
                     <ArrowUpRight className="w-3 h-3" />
-                  </button>
+                  </Button>
                 </div>
               </Card>
             ))}

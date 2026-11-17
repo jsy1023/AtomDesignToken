@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { Header } from '@/components/Header';
 import { useI18n } from '@/lib/i18n';
+import { Button, Input, Nav, NavItem, NavLink } from '@/components/ui';
 import {
   BLOCK_CATEGORIES,
   BLOCKS_COLLECTION,
@@ -95,34 +96,32 @@ export default function BlocksHubPage() {
         <div className="sticky top-11 z-30 bg-(--bg-primary)/95 backdrop-blur-md py-3 border-y border-(--border-subtle) mb-8">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
             {/* Category Pills (Pure Minimalist, No Scrollbar) */}
-            <div className="flex items-center gap-1 overflow-x-auto scrollbar-none pb-0.5">
+            <Nav variant="pills" size="sm">
               {BLOCK_CATEGORIES.map((cat) => {
                 const isActive = selectedCategory === cat.id;
                 return (
-                  <button
-                    key={cat.id}
-                    onClick={() => setSelectedCategory(cat.id)}
-                    className={`shrink-0 px-2.5 py-1 rounded-(--radius-sm) text-xs transition-colors ${
-                      isActive
-                        ? 'bg-(--text-primary) text-(--bg-primary) font-semibold'
-                        : 'text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary)'
-                    }`}
-                  >
-                    {getCategoryName(cat.id, cat.name)}
-                  </button>
+                  <NavItem key={cat.id}>
+                    <NavLink
+                      asButton
+                      active={isActive}
+                      onClick={() => setSelectedCategory(cat.id)}
+                    >
+                      {getCategoryName(cat.id, cat.name)}
+                    </NavLink>
+                  </NavItem>
                 );
               })}
-            </div>
+            </Nav>
 
             {/* Search Input */}
             <div className="relative shrink-0">
-              <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-(--text-secondary)" />
-              <input
+              <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-(--text-secondary) z-10" />
+              <Input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder={t('blocks.searchPlaceholder')}
-                className="w-full sm:w-64 text-xs pl-8 pr-3 py-1.5 rounded-(--radius-sm) bg-(--bg-secondary) text-(--text-primary) border border-(--border-subtle) focus:outline-none focus:border-(--border-strong) transition-colors"
+                className="w-full sm:w-64 text-xs pl-8 pr-3 py-1.5 h-auto"
               />
             </div>
           </div>

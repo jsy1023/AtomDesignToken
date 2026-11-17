@@ -1,4 +1,5 @@
 'use client';
+import { Button, Input } from '@/components/ui';
 
 import React, { useState, useMemo } from 'react';
 import { PatternItem, PatternPlatform } from '@/lib/data/patterns';
@@ -114,85 +115,82 @@ export function PatternSplitLayout({
         <div className="space-y-3">
           <div className="relative">
             <Search className="w-4 h-4 text-(--text-muted) absolute left-3 top-1/2 -translate-y-1/2" />
-            <input
+            <Input
               type="text"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
               placeholder="패턴 검색 (대시보드, 폼, 송금...)"
-              className="w-full pl-9 pr-3 py-2 text-xs font-medium rounded-xl border border-(--border-subtle) dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-850 text-(--text-primary) dark:text-neutral-100 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-(--text-muted)"
+              className="w-full pl-9 pr-3 py-2 text-xs font-medium"
             />
           </div>
 
           {/* Platform Segmented Buttons */}
-          <div className="grid grid-cols-3 gap-1 p-1 rounded-xl bg-(--bg-secondary) dark:bg-neutral-800 border border-(--border-subtle) dark:border-neutral-700 text-xs font-bold">
-            <button
+          <div className="grid grid-cols-3 gap-1 p-1 rounded-xl bg-(--bg-secondary)  border border-(--border-subtle)  text-xs font-bold">
+            <Button
+              variant={platformFilter === 'all' ? 'primary' : 'ghost'}
+              size="sm"
               type="button"
               onClick={() => setPlatformFilter('all')}
-              className={`py-1.5 rounded-lg transition text-center ${
-                platformFilter === 'all'
-                  ? 'bg-white dark:bg-neutral-900 text-(--text-primary) dark:text-white shadow-xs'
-                  : 'text-(--text-secondary) hover:text-(--text-primary) dark:hover:text-white'
-              }`}
+              className={`py-1.5 text-center ${platformFilter === 'all' ? 'font-bold' : 'text-(--text-secondary)'}`}
             >
               전체 ({patterns.length})
-            </button>
-            <button
+            </Button>
+            <Button
+              variant={platformFilter === 'web' ? 'primary' : 'ghost'}
+              size="sm"
               type="button"
               onClick={() => setPlatformFilter('web')}
-              className={`py-1.5 rounded-lg transition text-center flex items-center justify-center gap-1 ${
-                platformFilter === 'web'
-                  ? 'bg-white dark:bg-neutral-900 text-(--accent-primary) dark:text-blue-400 shadow-xs'
-                  : 'text-(--text-secondary) hover:text-(--text-primary) dark:hover:text-white'
-              }`}
+              className={`py-1.5 text-center flex items-center justify-center gap-1 ${platformFilter === 'web' ? 'font-bold' : 'text-(--text-secondary)'}`}
             >
               <Monitor className="w-3 h-3" />
               <span>WEB</span>
-            </button>
-            <button
+            </Button>
+            <Button
+              variant={platformFilter === 'mobile' ? 'primary' : 'ghost'}
+              size="sm"
               type="button"
               onClick={() => setPlatformFilter('mobile')}
-              className={`py-1.5 rounded-lg transition text-center flex items-center justify-center gap-1 ${
-                platformFilter === 'mobile'
-                  ? 'bg-white dark:bg-neutral-900 text-emerald-600 dark:text-emerald-400 shadow-xs'
-                  : 'text-(--text-secondary) hover:text-(--text-primary) dark:hover:text-white'
-              }`}
+              className={`py-1.5 text-center flex items-center justify-center gap-1 ${platformFilter === 'mobile' ? 'font-bold' : 'text-(--text-secondary)'}`}
             >
               <Smartphone className="w-3 h-3" />
               <span>모바일</span>
-            </button>
+            </Button>
           </div>
 
           {/* Category Filter Chips Bar */}
           <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none text-[11px]">
             {PATTERN_CATEGORY_FILTERS.map((cat) => (
-              <button
+              <Button
                 key={cat.id}
+                variant={categoryFilter === cat.id ? 'primary' : 'outline'}
+                size="sm"
                 type="button"
                 onClick={() => setCategoryFilter(cat.id)}
-                style={categoryFilter === cat.id ? { backgroundColor: 'var(--accent-primary)', color: '#ffffff' } : {}}
-                className={`px-2.5 py-1 rounded-lg whitespace-nowrap transition font-medium ${
+                className={`px-2.5 py-1 h-auto text-[11px] whitespace-nowrap transition ${
                   categoryFilter === cat.id
                     ? 'font-bold shadow-xs'
-                    : 'bg-(--bg-secondary) dark:bg-neutral-800 text-(--text-secondary) dark:text-(--text-muted) hover:bg-(--bg-tertiary)/80'
+                    : 'text-(--text-secondary)'
                 }`}
               >
                 {cat.label}
-              </button>
+              </Button>
             ))}
           </div>
         </div>
 
         {/* Pattern List Counter */}
-        <div className="flex items-center justify-between text-[11px] text-(--text-muted) border-t border-neutral-100 dark:border-neutral-800/80 pt-2">
+        <div className="flex items-center justify-between text-[11px] text-(--text-muted) border-t border-neutral-100 /80 pt-2">
           <span>검색 결과 {filteredPatterns.length}개</span>
           {onSwitchToGrid && (
-            <button
+            <Button
+              variant="ghost"
+              size="sm"
               type="button"
               onClick={onSwitchToGrid}
-              className="hover:text-(--accent-primary) dark:hover:text-blue-400 transition"
+              className="hover:text-(--accent-primary) transition h-auto p-0 text-[11px]"
             >
               그리드 모드로 보기
-            </button>
+            </Button>
           )}
         </div>
 
@@ -203,65 +201,45 @@ export function PatternSplitLayout({
             const isWeb = p.platform === 'web';
 
             return (
-              <button
+              <Button
                 key={p.id}
+                variant={isSelected ? 'primary' : 'outline'}
+                size="sm"
                 type="button"
                 onClick={() => onSelectPattern(p.id)}
-                style={
+                style={{
+                  borderRadius: radius,
+                }}
+                className={`w-full text-left p-3 h-auto transition flex items-start gap-3 justify-start font-normal ${
                   isSelected
-                    ? {
-                        borderColor: brandColor,
-                        backgroundColor: `${brandColor}12`,
-                        borderRadius: radius,
-                      }
-                    : { borderRadius: radius }
-                }
-                className={`w-full p-3 border text-left transition-all duration-200 flex flex-col gap-1.5 ${
-                  isSelected
-                    ? 'border-2 shadow-xs'
-                    : 'border-[var(--border-subtle)] bg-[var(--bg-secondary)] hover:border-[var(--border-strong)]'
+                    ? 'bg-(--accent-primary) text-white font-semibold shadow-xs'
+                    : 'bg-white  hover:bg-(--bg-secondary) text-(--text-primary)'
                 }`}
               >
-                <div className="flex items-center justify-between gap-1.5">
-                  <span
-                    className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold border ${
-                      isWeb
-                        ? 'bg-blue-100/70 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 border-blue-200'
-                        : 'bg-emerald-100/70 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 border-emerald-200'
-                    }`}
-                  >
-                    {isWeb ? <Monitor className="w-2.5 h-2.5" /> : <Smartphone className="w-2.5 h-2.5" />}
-                    <span>{isWeb ? 'WEB' : '모바일'}</span>
-                  </span>
-
-                  <span className="text-[10px] text-[var(--text-muted)] font-medium truncate">
-                    {p.categoryName}
-                  </span>
+                <div
+                  className={`w-8 h-8 rounded-lg shrink-0 flex items-center justify-center ${
+                    isWeb
+                      ? 'bg-(--accent-primary)/10 text-(--accent-primary)'
+                      : 'bg-(--atom-color-success)/10 text-(--atom-color-success)'
+                  }`}
+                >
+                  {isWeb ? <Monitor className="w-4 h-4" /> : <Smartphone className="w-4 h-4" />}
                 </div>
 
-                <div className="flex items-center justify-between gap-2">
-                  <span
-                    style={isSelected ? { color: brandColor } : undefined}
-                    className={`font-bold text-xs truncate ${
-                      isSelected
-                        ? ''
-                        : 'text-[var(--text-primary)]'
-                    }`}
-                  >
-                    {p.title}
-                  </span>
-                  <ChevronRight
-                    style={isSelected ? { color: brandColor } : undefined}
-                    className={`w-3.5 h-3.5 shrink-0 transition-transform ${
-                      isSelected ? 'translate-x-0.5' : 'text-[var(--text-muted)]'
-                    }`}
-                  />
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between gap-1">
+                    <span className="font-bold text-xs truncate">
+                      {p.title}
+                    </span>
+                    <span className="text-[10px] font-mono opacity-70 shrink-0">
+                      {p.platform.toUpperCase()}
+                    </span>
+                  </div>
+                  <p className="text-[11px] opacity-80 line-clamp-1 mt-0.5 leading-snug">
+                    {p.summary}
+                  </p>
                 </div>
-
-                <p className="text-[11px] text-[var(--text-secondary)] line-clamp-1 leading-relaxed">
-                  {p.summary}
-                </p>
-              </button>
+              </Button>
             );
           })}
 
@@ -295,8 +273,8 @@ export function PatternSplitLayout({
                   <span
                     className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold border ${
                       selectedPattern.platform === 'web'
-                        ? 'bg-blue-50 dark:bg-blue-950/60 text-(--accent-primary) dark:text-blue-400 border-blue-200/80'
-                        : 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border-emerald-200/80'
+                        ? 'bg-(--accent-primary)/10  text-(--accent-primary) dark:text-(--accent-primary) border-(--accent-primary)/20/80'
+                        : 'bg-emerald-50 dark:bg-emerald-950/60 text-(--atom-color-success) dark:text-(--atom-color-success) border-emerald-200/80'
                     }`}
                   >
                     {selectedPattern.platform === 'web' ? (
@@ -310,7 +288,7 @@ export function PatternSplitLayout({
                     {selectedPattern.categoryName}
                   </span>
                 </div>
-                <h1 className="text-xl sm:text-2xl font-black text-(--text-primary) dark:text-white">
+                <h1 className="text-xl sm:text-2xl font-black text-(--text-primary) ">
                   {selectedPattern.title}
                 </h1>
                 <p className="text-xs sm:text-sm text-(--text-secondary) dark:text-(--text-muted) mt-1.5 leading-relaxed max-w-2xl">
@@ -320,15 +298,17 @@ export function PatternSplitLayout({
 
               {/* Action Buttons: Copy Markdown & Download */}
               <div className="flex items-center gap-2 shrink-0">
-                <button
+                <Button
+                  variant="outline"
+                  size="sm"
                   type="button"
                   onClick={handleCopyMarkdown}
-                  className="flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold rounded-xl border border-(--border-subtle) dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 hover:bg-(--bg-secondary) transition active:scale-95 shadow-xs"
+                  className="flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold"
                 >
                   {copiedMd ? (
                     <>
-                      <Check className="w-3.5 h-3.5 text-emerald-500" />
-                      <span className="text-emerald-600 dark:text-emerald-400">복사 완료</span>
+                      <Check className="w-3.5 h-3.5 text-(--atom-color-success)" />
+                      <span className="text-(--atom-color-success) dark:text-(--atom-color-success)">복사 완료</span>
                     </>
                   ) : (
                     <>
@@ -336,15 +316,17 @@ export function PatternSplitLayout({
                       <span>명세 복사</span>
                     </>
                   )}
-                </button>
-                <button
+                </Button>
+                <Button
+                  variant="primary"
+                  size="sm"
                   type="button"
                   onClick={handleDownloadMarkdown}
-                  className="flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold rounded-xl bg-neutral-900 dark:bg-white text-white dark:text-(--text-primary) hover:opacity-90 transition active:scale-95 shadow-xs"
+                  className="flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold shadow-xs"
                 >
                   <Download className="w-3.5 h-3.5" />
                   <span>.md 다운로드</span>
-                </button>
+                </Button>
               </div>
             </div>
 
@@ -359,15 +341,15 @@ export function PatternSplitLayout({
             {/* Checklist & Anti-Patterns 2-Column Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               {/* Checklist */}
-              <div className="p-5 rounded-3xl bg-white dark:bg-neutral-900 border border-(--border-subtle)/80 dark:border-neutral-800 shadow-sm flex flex-col gap-3">
-                <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-bold text-sm">
+              <div className="p-5 rounded-3xl bg-(--bg-primary) border border-(--border-subtle)/80  shadow-sm flex flex-col gap-3">
+                <div className="flex items-center gap-2 text-(--atom-color-success) dark:text-(--atom-color-success) font-bold text-sm">
                   <CheckCircle2 className="w-4 h-4" />
                   <span>필수 구현 베스트 UX 체크리스트</span>
                 </div>
-                <ul className="space-y-2 text-xs text-neutral-700 dark:text-neutral-300 leading-relaxed">
+                <ul className="space-y-2 text-xs text-(--text-secondary) leading-relaxed">
                   {selectedPattern.checklist.map((item, idx) => (
                     <li key={idx} className="flex items-start gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0 mt-1.5" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-(--atom-color-success) shrink-0 mt-1.5" />
                       <span>{item}</span>
                     </li>
                   ))}
@@ -376,11 +358,11 @@ export function PatternSplitLayout({
 
               {/* Anti-Patterns */}
               <div className="p-5 rounded-3xl bg-rose-50/40 dark:bg-rose-950/20 border border-rose-200/80 dark:border-rose-900/40 shadow-sm flex flex-col gap-3">
-                <div className="flex items-center gap-2 text-rose-600 dark:text-rose-400 font-bold text-sm">
+                <div className="flex items-center gap-2 text-(--atom-color-destructive) dark:text-(--atom-color-destructive) font-bold text-sm">
                   <AlertTriangle className="w-4 h-4" />
                   <span>치명적 안티패턴 (절대 방지 사항)</span>
                 </div>
-                <ul className="space-y-2 text-xs text-neutral-700 dark:text-neutral-300 leading-relaxed">
+                <ul className="space-y-2 text-xs text-(--text-secondary) leading-relaxed">
                   {selectedPattern.antiPatterns.map((item, idx) => (
                     <li key={idx} className="flex items-start gap-2">
                       <span className="w-1.5 h-1.5 rounded-full bg-rose-500 shrink-0 mt-1.5" />

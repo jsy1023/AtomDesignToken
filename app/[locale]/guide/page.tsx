@@ -37,7 +37,7 @@ export default function GuidePage() {
       <footer className="border-t border-[var(--border-subtle)] py-8 text-center text-xs text-(--text-secondary)">
         <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div>
-            <span className="font-bold text-neutral-800 dark:text-neutral-200">AtomSystem</span> - Agent-Driven Universal Design Token & UI Library
+            <span className="font-bold text-(--text-primary)">AtomSystem</span> - Agent-Driven Universal Design Token & UI Library
           </div>
           <div className="flex gap-4">
             <span>W3C DTCG Format</span>

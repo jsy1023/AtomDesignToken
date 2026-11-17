@@ -52,47 +52,46 @@ components/ (Presentation Layer)
   └── 고도로 캡슐화되고 재사용 가능한 UI 아톰/몰레큘 컴포넌트
 ```
 
-### B. 거대 컴포넌트(God Component) 금지
+### C. 거대 컴포넌트(God Component) 금지
 - 500줄 이상의 거대한 모놀리식 컴포넌트 작성을 지양합니다.
 - 화면이 복잡해질 경우 역할별로 서브 컴포넌트(헤더, 사이드바, 프리뷰어, 코드 패널 등)로 분할하고 조합(Composition) 패턴을 활용합니다.
 
-### C. 데이터 모델 불변성(Immutability) 유지
-- 원천 데이터를 직접 변경(mutation)하지 않고, 항상 불변 객체 복사나 순수 함수 매핑을 통해 새로운 상태를 생성합니다.
-
-### D. 테스팅 표준: Playwright 기반 E2E 및 인터랙션 검증 (필수)
+### D. 테스팅 표준: Playwright 기반 E2E 및 인터랙션 검증
 - 본 프로젝트의 모든 UI 화면 및 핵심 비즈니스 로직 연동(페이지 렌더링, 파일 업로드, 트리 조작, 검색 및 모달 인터랙션 등) 검증은 **Playwright(`@playwright/test`)**를 공식 도구로 채택하여 진행합니다.
-- 새로운 페이지/기능/컴포넌트 개발 및 주요 리팩토링 시, 반드시 `e2e/` 디렉토리에 해당 시나리오를 검증하는 Playwright 테스트 코드(`*.spec.ts`)를 작성하거나 갱신해야 합니다.
-- **테스트 실행 표준 명령어**:
-  - Headless E2E 테스트 실행: `npm run test:e2e` (또는 `npx playwright test`)
-  - 대화형 UI 모드 테스트: `npm run test:e2e:ui`
-  - 테스트 결과 리포트 확인: `npm run test:e2e:report`
 - 테스트 작성 시 하드코딩된 대기(`waitForTimeout`)를 지양하고, 웹 표준 로케이터(`getByRole`, `getByPlaceholder`, `getByText`)와 웹 안정성 대기(Web-First Assertions: `expect(locator).toBeVisible()`)를 준수합니다.
 
 ### E. 'refactor' 하드코딩 자동 탐지 및 토큰 치환 프로토콜 (Zero-Hardcoding Guarantee)
-사용자가 `"refactor"`, `"하드코딩 정리해줘"`, 또는 이와 유사한 요청을 하거나 소스코드를 점검할 때, AI는 예외 없이 아래 3단계 절차로 모든 하드코딩 안티패턴을 탐색하여 시맨틱 토큰 변수로 치환해야 합니다.
-
+사용자가 `"refactor"`, `"하드코딩 정리해줘"`, 또는 이와 유사한 요청을 하거나 소스코드를 점검할 때, AI는 예외 없이 아래 절차로 모든 하드코딩 안티패턴을 탐색하여 시맨틱 토큰 변수로 치환해야 합니다:
 1. **하드코딩 탐색 대상 안티패턴**:
-   - **임의 HEX/RGB 색상**: `#3182f6`, `#1b64da`, `#ffffff`, `#000000`, `rgba(0,0,0,0.05)` 등
-   - **Tailwind 기본 컬러 유입**: `text-blue-500`, `bg-gray-100`, `border-neutral-200` 등
-   - **임의 픽셀(px) 인라인 간격**: `p-[13px]`, `m-[7px]`, `gap-[11px]` 등
-   - **임의 곡률/그림자**: `rounded-[7px]`, `shadow-[0_4px_12px_rgba(0,0,0,0.1)]` 등
-2. **시맨틱 토큰 매핑 사전 (치환 표준)**:
+   - 임의 HEX/RGB 색상 (`#3182f6`, `#ffffff` 등)
+   - Tailwind 기본 컬러 유입 (`text-blue-500`, `bg-gray-100`, `border-neutral-200` 등)
+   - 임의 픽셀(px) 인라인 간격 (`p-[13px]`, `gap-[11px]` 등)
+   - 임의 곡률/그림자 (`rounded-[7px]` 등)
+2. **시맨틱 토큰 매핑 사전**:
    - 배경/서피스: `bg-(--bg-primary)`, `bg-(--bg-secondary)`, `bg-(--bg-tertiary)`
    - 텍스트/라벨: `text-(--text-primary)`, `text-(--text-secondary)`, `text-(--text-muted)`
    - 액션/브랜드: `bg-(--accent-primary)`, `text-(--accent-primary)`, `border-(--accent-primary)`
    - 보더/구분선: `border-(--border-subtle)`, `border-(--border-strong)`
-   - 곡률: `rounded-(--radius-sm)` (4px), `rounded-(--radius)` (6px), `rounded-(--radius-lg)` (8px)
-   - 간격(Spacing): `p-(--space-2)` (8px), `p-(--space-4)` (16px), `gap-(--space-3)` (12px)
-3. **치환 후 무결성 검증**:
-   - 치환 후 Tailwind 컴파일이나 CSS 변수가 누락되지 않았는지 확인.
-   - `components/ui/` 원자 컴포넌트를 사용하지 않고 원시 태그(`<button>`, `<div class="...">`)로 모방한 코드는 즉시 UI 컴포넌트로 리팩토링.
+   - 곡률: `rounded-(--radius-sm)`, `rounded-(--radius)`, `rounded-(--radius-lg)`
+
+### F. 정의된 컴포넌트 강제 규칙 (Zero-Raw-HTML-Tags Guarantee)
+- 애플리케이션의 모든 뷰 계층(`app/`, `components/`)에서는 원시 태그(`<button>`, `<input>`, `<select>`, `<textarea>`, `<table>`)의 직접 작성을 엄격히 금지합니다.
+- 반드시 `@/components/ui`에서 내보내는 검증된 27개 컴포넌트를 import하여 사용합니다:
+  - `<button>` ➔ `<Button variant="..." size="...">`
+  - `<input>` ➔ `<Input ... />`
+  - `<select>` ➔ `<NativeSelect ... />` 또는 `<Select options={...} />`
+  - `<textarea>` ➔ `<Textarea ... />`
+  - `<table>` ➔ `<Table>`, `<TableHeader>`, `<TableBody>`, `<TableRow>`, `<TableHead>`, `<TableCell>`
+  - `<input type="checkbox">` ➔ `<Checkbox label="..." />`
+  - 토글 div ➔ `<Switch checked={...} onCheckedChange={...} />`
+- **자동 검증 명령어**: `npm run lint:components` (CI/CD 및 리팩토링 검증 시 원시 태그 발견 즉시 실패 처리)
 
 ---
 
 ## 3. 작업 전/후 AI 점검 체크리스트
 - [ ] 새 데이터를 추가할 때 개별 페이지에 하드코딩하지 않고 `lib/data/`의 공통 도메인 모델에 추가했는가?
 - [ ] 컴포넌트가 렌더링 외의 과도한 데이터 가공 책임을 지고 있지 않은가?
-- [ ] 동일한 로직이나 데이터 구조가 다른 페이지와 중복되고 있지 않은가?
 - [ ] 임의의 HEX/RGB나 `text-blue-500` 등의 하드코딩이 0건이며 시맨틱 토큰 변수(`var(--...)`)를 사용했는가?
-- [ ] 타입스크립트 인터페이스가 명확히 정의되어 있고 타입 단언(`any`)을 사용하지 않았는가?
-- [ ] UI 및 사용자 플로우 검증을 위해 **Playwright E2E 테스트(`e2e/*.spec.ts`)**가 작성/실행되어 정상 통과했는가?
+- [ ] `<button>`, `<input>`, `<select>`, `<table>` 등 원시 태그를 쓰지 않고 `@/components/ui` 컴포넌트만을 사용했는가?
+- [ ] `npm run lint:components` 명령을 실행하여 원시 태그 0건을 통과했는가?
+- [ ] `npx tsc --noEmit` 명령으로 타입 무결성을 확인했는가?

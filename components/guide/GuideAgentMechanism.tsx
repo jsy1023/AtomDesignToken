@@ -18,6 +18,7 @@ import {
 import { AI_REFERENCE_PIPELINE, AgentReferenceStep } from '@/lib/data/libraryGuideData';
 import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';
 import { CodeHighlight } from '@/components/common/CodeHighlight';
+import { Button } from '@/components/ui/Button';
 
 const STEP_ICONS: Record<string, React.ReactNode> = {
   FileSearch: <FileSearch className="w-5 h-5" />,
@@ -62,54 +63,43 @@ export function GuideAgentMechanism() {
           {AI_REFERENCE_PIPELINE.steps.map((item, idx) => {
             const isSelected = idx === activeStepIdx;
             return (
-              <button
+              <Button
                 key={item.step}
+                variant={isSelected ? 'primary' : 'outline'}
+                size="md"
                 onClick={() => {
                   setActiveStepIdx(idx);
                   setCopiedCode(false);
                 }}
-                className={`relative text-left p-5 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between ${
+                className={`relative text-left p-5 h-auto rounded-2xl border transition-all cursor-pointer flex flex-col justify-between items-start font-normal ${
                   isSelected
-                    ? 'bg-[var(--bg-card)] border-(--accent-primary)/60 shadow-lg ring-2 ring-blue-500/20'
-                    : 'bg-[var(--bg-card)]/70 border-[var(--border-subtle)] hover:border-neutral-400/40 dark:hover:border-neutral-600/40'
+                    ? 'bg-[var(--bg-card)] border-(--accent-primary)/60 shadow-lg ring-2 ring-blue-500/20 text-(--text-primary)'
+                    : 'bg-[var(--bg-card)]/70 border-[var(--border-subtle)] text-(--text-secondary)'
                 }`}
               >
                 <div>
-                  <div className="flex items-center justify-between mb-3">
-                    <span 
-                      className="w-8 h-8 rounded-xl flex items-center justify-center text-xs font-mono font-bold text-white shadow-xs"
-                      style={{ backgroundColor: isSelected ? primaryColor : '#71717a' }}
-                    >
+                  <div className="flex items-center justify-between mb-3 w-full">
+                    <span className="text-xs font-mono font-bold px-2 py-0.5 rounded-md bg-(--accent-primary)/10 text-(--accent-primary)">
                       {item.step}
                     </span>
-                    <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-(--bg-secondary) dark:bg-neutral-800 text-(--text-secondary) dark:text-(--text-muted)">
-                      {item.stageName.split(' ')[0]}
-                    </span>
+                    <span className="text-[10px] font-mono text-(--text-muted)">{item.stageName}</span>
                   </div>
-
-                  <h3 className="text-sm font-bold text-(--text-primary) dark:text-white mb-1.5 leading-snug">
-                    {item.title}
-                  </h3>
-                  <p className="text-xs text-(--text-secondary) dark:text-(--text-muted) line-clamp-2 leading-relaxed">
-                    {item.summary}
-                  </p>
+                  <h3 className="font-bold text-sm text-(--text-primary) mb-1.5">{item.title}</h3>
+                  <p className="text-xs text-(--text-secondary) leading-relaxed line-clamp-2">{item.summary}</p>
                 </div>
-
-                <div className="mt-4 pt-3 border-t border-[var(--border-subtle)] flex items-center justify-between text-[11px]">
-                  <span className={isSelected ? 'text-(--accent-primary) dark:text-blue-400 font-bold' : 'text-(--text-muted)'}>
-                    {isSelected ? '상세 분석 중' : '클릭하여 확인'}
-                  </span>
-                  <ArrowRight className={`w-3.5 h-3.5 transition-transform ${isSelected ? 'translate-x-1 text-(--accent-primary)' : 'text-(--text-muted)'}`} />
+                <div className="mt-4 pt-3 border-t border-(--border-subtle) w-full flex items-center justify-between text-[11px] font-mono text-(--text-muted)">
+                  <span>{item.referencedFiles?.[0]?.name || ''}</span>
+                  <ArrowRight className="w-3.5 h-3.5 text-(--accent-primary)" />
                 </div>
-              </button>
+              </Button>
             );
           })}
         </div>
 
         {/* Detailed Breakdown Box for Active Step */}
-        <div className="rounded-3xl border border-neutral-800 bg-neutral-950 text-neutral-100 shadow-2xl overflow-hidden">
+        <div className="rounded-3xl border border-(--border-subtle) bg-(--bg-primary) text-(--text-primary) shadow-2xl overflow-hidden">
           {/* Top Info Bar */}
-          <div className="px-6 py-4 bg-neutral-900/90 border-b border-neutral-800 flex flex-wrap items-center justify-between gap-4">
+          <div className="px-6 py-4 bg-(--bg-secondary) border-b border-(--border-subtle) flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <div 
                 className="w-9 h-9 rounded-xl flex items-center justify-center text-white"
@@ -118,7 +108,7 @@ export function GuideAgentMechanism() {
                 {STEP_ICONS[activeStep.icon] || <Bot className="w-5 h-5" />}
               </div>
               <div>
-                <span className="text-[10px] uppercase font-bold tracking-wider text-blue-400">
+                <span className="text-[10px] uppercase font-bold tracking-wider text-(--accent-primary)">
                   {activeStep.badge} • {activeStep.stageName}
                 </span>
                 <h4 className="text-sm font-bold text-white">
@@ -127,22 +117,24 @@ export function GuideAgentMechanism() {
               </div>
             </div>
 
-            <button
+            <Button
+              variant="ghost"
+              size="sm"
               onClick={handleCopyCode}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-xs font-mono text-neutral-200 transition active:scale-95"
+              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono text-(--text-primary) h-auto"
             >
               {copiedCode ? (
                 <>
-                  <Check className="w-3.5 h-3.5 text-emerald-400" />
-                  <span className="text-emerald-400">복사 완료</span>
+                  <Check className="w-3.5 h-3.5 text-(--atom-color-success)" />
+                  <span className="text-(--atom-color-success)">복사 완료</span>
                 </>
               ) : (
                 <>
                   <Copy className="w-3.5 h-3.5 text-(--text-muted)" />
-                  <span>예제 코드 복사</span>
+                  <span>스니펫 복사</span>
                 </>
               )}
-            </button>
+            </Button>
           </div>
 
           {/* Grid Layout: Left Reasoning & References / Right Output Preview */}
@@ -158,10 +150,10 @@ export function GuideAgentMechanism() {
                   {activeStep.referencedFiles.map((f, i) => (
                     <div 
                       key={i}
-                      className="p-3 rounded-xl bg-neutral-900/80 border border-neutral-800/80 text-xs flex flex-col gap-1"
+                      className="p-3 rounded-xl bg-(--bg-secondary) border border-(--border-subtle) text-xs flex flex-col gap-1"
                     >
-                      <div className="flex items-center gap-2 font-mono text-blue-300 font-bold">
-                        <FileCode className="w-3.5 h-3.5 text-blue-400" />
+                      <div className="flex items-center gap-2 font-mono text-(--accent-primary) font-bold">
+                        <FileCode className="w-3.5 h-3.5 text-(--accent-primary)" />
                         <span>{f.name}</span>
                       </div>
                       <p className="text-[11px] text-(--text-muted) leading-relaxed">
@@ -173,20 +165,20 @@ export function GuideAgentMechanism() {
               </div>
 
               {/* Input Prompt & Internal Thought */}
-              <div className="p-4 rounded-xl bg-blue-950/20 border border-blue-900/30 space-y-3">
+              <div className="p-4 rounded-xl bg-(--accent-primary)/10 border border-(--accent-primary)/20 space-y-3">
                 <div>
-                  <span className="text-[10px] font-bold text-blue-400 uppercase block mb-1">
+                  <span className="text-[10px] font-bold text-(--accent-primary) uppercase block mb-1">
                     인입 상황 (Trigger)
                   </span>
-                  <p className="text-xs text-neutral-200 font-medium">
+                  <p className="text-xs text-(--text-primary) font-medium">
                     {activeStep.inputPrompt}
                   </p>
                 </div>
-                <div className="pt-2 border-t border-blue-900/30">
-                  <span className="text-[10px] font-bold text-amber-400 uppercase block mb-1">
+                <div className="pt-2 border-t border-(--accent-primary)/20">
+                  <span className="text-[10px] font-bold text-(--atom-color-warning) uppercase block mb-1">
                     AI 내부 추론 메커니즘
                   </span>
-                  <p className="text-xs text-neutral-300 leading-relaxed">
+                  <p className="text-xs text-(--text-secondary) leading-relaxed">
                     {activeStep.aiThinking}
                   </p>
                 </div>
@@ -194,15 +186,15 @@ export function GuideAgentMechanism() {
             </div>
 
             {/* Right 7 Cols: Output Code Preview */}
-            <div className="lg:col-span-7 p-6 flex flex-col justify-between bg-neutral-950">
+            <div className="lg:col-span-7 p-6 flex flex-col justify-between bg-(--bg-primary)">
               <div>
                 <div className="flex items-center justify-between text-xs text-(--text-muted) mb-3 font-mono">
                   <span>실제 합성/참조된 산출물 ({activeStep.outputLanguage})</span>
-                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-neutral-800 text-neutral-300">
+                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-(--bg-secondary) text-(--text-secondary)">
                     Deterministic Output
                   </span>
                 </div>
-                <div className="p-4 rounded-xl bg-neutral-900/60 border border-neutral-800/70 overflow-x-auto max-h-[360px]">
+                <div className="p-4 rounded-xl bg-(--bg-secondary) border border-(--border-subtle) overflow-x-auto max-h-[360px]">
                   <CodeHighlight
                     code={activeStep.outputCode}
                     language={activeStep.outputLanguage || 'typescript'}
@@ -210,7 +202,7 @@ export function GuideAgentMechanism() {
                 </div>
               </div>
 
-              <div className="mt-4 pt-3 border-t border-neutral-800 text-[11px] text-(--text-muted) flex items-center justify-between">
+              <div className="mt-4 pt-3 border-t border-(--border-subtle) text-[11px] text-(--text-muted) flex items-center justify-between">
                 <span>임의 헥스코드 하드코딩 0건 (100% 라이브러리 토큰 기반)</span>
                 <span className="text-(--text-secondary) font-mono">단계 {activeStep.step} / 04</span>
               </div>

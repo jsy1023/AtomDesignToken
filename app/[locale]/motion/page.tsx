@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Header } from '@/components/Header';
+import { Button, NativeSelect, Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Card } from '@/components/ui';
 import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';
 import { useI18n } from '@/lib/i18n';
 import {
@@ -80,7 +81,7 @@ export default function MotionPage() {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-(--border-subtle) pb-4">
             <div>
               <h2 className="docs-h2 flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-amber-500" />
+                <Sparkles className="w-4 h-4 text-(--atom-color-warning)" />
                 실시간 모션 테스트 플레이그라운드
               </h2>
               <p className="text-xs text-(--text-secondary) mt-0.5">
@@ -88,46 +89,47 @@ export default function MotionPage() {
               </p>
             </div>
 
-            <button
+            <Button
+              variant="primary"
+              size="sm"
               onClick={triggerPlay}
-              style={{ backgroundColor: brandColor }}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-white text-xs font-semibold hover:opacity-90 active:scale-95 transition-all shadow-xs shrink-0"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold shrink-0"
             >
               <Play className="w-3.5 h-3.5 fill-current" />
               <span>재생하기</span>
-            </button>
+            </Button>
           </div>
 
           {/* Controls */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-mono">
             <div className="space-y-1.5">
               <span className="text-(--text-muted) text-[11px]">지속 시간 (Duration)</span>
-              <select
+              <NativeSelect
                 value={selectedDuration}
                 onChange={(e) => setSelectedDuration(e.target.value)}
-                className="w-full px-3 py-1.5 bg-(--bg-primary) border border-(--border-subtle) rounded-lg text-(--text-primary) text-xs"
+                className="w-full text-xs font-mono"
               >
                 {DURATION_TOKENS.map((d) => (
                   <option key={d.name} value={d.value}>
                     {d.name} ({d.value})
                   </option>
                 ))}
-              </select>
+              </NativeSelect>
             </div>
 
             <div className="space-y-1.5">
               <span className="text-(--text-muted) text-[11px]">이징 곡선 (Easing)</span>
-              <select
+              <NativeSelect
                 value={selectedEasing}
                 onChange={(e) => setSelectedEasing(e.target.value)}
-                className="w-full px-3 py-1.5 bg-(--bg-primary) border border-(--border-subtle) rounded-lg text-(--text-primary) text-xs"
+                className="w-full text-xs font-mono"
               >
                 {EASING_TOKENS.map((e) => (
                   <option key={e.name} value={e.value}>
                     {e.name} ({e.curve})
                   </option>
                 ))}
-              </select>
+              </NativeSelect>
             </div>
           </div>
 
@@ -163,47 +165,47 @@ export default function MotionPage() {
             </p>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
-              <thead>
-                <tr className="border-b border-(--border-subtle) text-(--text-muted) font-mono text-[11px]">
-                  <th className="py-2.5 px-3 font-medium">토큰 이름</th>
-                  <th className="py-2.5 px-3 font-medium">CSS 변수</th>
-                  <th className="py-2.5 px-3 font-medium">값 (Value)</th>
-                  <th className="py-2.5 px-3 font-medium hidden sm:table-cell">성격 및 권장 용도</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-(--border-subtle)">
-                {DURATION_TOKENS.map((t) => (
-                  <tr key={t.name} className="hover:bg-(--bg-secondary)/60 transition-colors">
-                    <td className="py-3 px-3 font-semibold text-(--text-primary)">
-                      {t.name}
-                    </td>
-                    <td className="py-3 px-3">
-                      <button
-                        onClick={() => handleCopy(`var(${t.variable})`)}
-                        className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-(--bg-secondary) hover:bg-(--border-subtle) text-(--text-primary) font-mono text-[11px] transition-colors"
-                        title="클릭하여 복사"
-                      >
-                        {copiedVar === `var(${t.variable})` ? (
-                          <Check className="w-3 h-3 text-emerald-500" />
-                        ) : (
-                          <Copy className="w-3 h-3 text-(--text-muted)" />
-                        )}
-                        <span>var({t.variable})</span>
-                      </button>
-                    </td>
-                    <td className="py-3 px-3 font-mono font-bold text-(--accent-primary)">
-                      {t.value}
-                    </td>
-                    <td className="py-3 px-3 text-(--text-secondary) hidden sm:table-cell">
-                      <span>{t.description} — <strong className="text-(--text-primary)">{t.usage}</strong></span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <Table>
+            <TableHeader>
+              <TableRow className="border-b border-(--border-subtle) text-(--text-muted) font-mono text-[11px]">
+                <TableHead className="py-2.5 px-3 font-medium">토큰 이름</TableHead>
+                <TableHead className="py-2.5 px-3 font-medium">CSS 변수</TableHead>
+                <TableHead className="py-2.5 px-3 font-medium">값 (Value)</TableHead>
+                <TableHead className="py-2.5 px-3 font-medium hidden sm:table-cell">성격 및 권장 용도</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {DURATION_TOKENS.map((t) => (
+                <TableRow key={t.name} className="hover:bg-(--bg-secondary)/60 transition-colors">
+                  <TableCell className="py-3 px-3 font-semibold text-(--text-primary)">
+                    {t.name}
+                  </TableCell>
+                  <TableCell className="py-3 px-3">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => handleCopy(`var(${t.variable})`)}
+                      className="inline-flex items-center gap-1.5 px-2 py-0.5 h-auto text-(--text-primary) font-mono text-[11px]"
+                      title="클릭하여 복사"
+                    >
+                      {copiedVar === `var(${t.variable})` ? (
+                        <Check className="w-3 h-3 text-(--atom-color-success)" />
+                      ) : (
+                        <Copy className="w-3 h-3 text-(--text-muted)" />
+                      )}
+                      <span>var({t.variable})</span>
+                    </Button>
+                  </TableCell>
+                  <TableCell className="py-3 px-3 font-mono font-bold text-(--accent-primary)">
+                    {t.value}
+                  </TableCell>
+                  <TableCell className="py-3 px-3 text-(--text-secondary) hidden sm:table-cell">
+                    <span>{t.description} — <strong className="text-(--text-primary)">{t.usage}</strong></span>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         </section>
 
         {/* 3. Easing Tokens Table */}
@@ -217,47 +219,47 @@ export default function MotionPage() {
             </p>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
-              <thead>
-                <tr className="border-b border-(--border-subtle) text-(--text-muted) font-mono text-[11px]">
-                  <th className="py-2.5 px-3 font-medium">토큰 이름</th>
-                  <th className="py-2.5 px-3 font-medium">CSS 변수</th>
-                  <th className="py-2.5 px-3 font-medium">Cubic Bezier 공식</th>
-                  <th className="py-2.5 px-3 font-medium hidden md:table-cell">동작 특성 및 적용</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-(--border-subtle)">
-                {EASING_TOKENS.map((t) => (
-                  <tr key={t.name} className="hover:bg-(--bg-secondary)/60 transition-colors">
-                    <td className="py-3 px-3 font-semibold text-(--text-primary)">
-                      {t.name}
-                    </td>
-                    <td className="py-3 px-3">
-                      <button
-                        onClick={() => handleCopy(`var(${t.variable})`)}
-                        className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-(--bg-secondary) hover:bg-(--border-subtle) text-(--text-primary) font-mono text-[11px] transition-colors"
-                        title="클릭하여 복사"
-                      >
-                        {copiedVar === `var(${t.variable})` ? (
-                          <Check className="w-3 h-3 text-emerald-500" />
-                        ) : (
-                          <Copy className="w-3 h-3 text-(--text-muted)" />
-                        )}
-                        <span>var({t.variable})</span>
-                      </button>
-                    </td>
-                    <td className="py-3 px-3 font-mono text-[11px] text-amber-600 dark:text-amber-400">
-                      {t.value}
-                    </td>
-                    <td className="py-3 px-3 text-(--text-secondary) hidden md:table-cell">
-                      <span>{t.description} — <strong className="text-(--text-primary)">{t.usage}</strong></span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <Table>
+            <TableHeader>
+              <TableRow className="border-b border-(--border-subtle) text-(--text-muted) font-mono text-[11px]">
+                <TableHead className="py-2.5 px-3 font-medium">토큰 이름</TableHead>
+                <TableHead className="py-2.5 px-3 font-medium">CSS 변수</TableHead>
+                <TableHead className="py-2.5 px-3 font-medium">Cubic Bezier 공식</TableHead>
+                <TableHead className="py-2.5 px-3 font-medium hidden md:table-cell">동작 특성 및 적용</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {EASING_TOKENS.map((t) => (
+                <TableRow key={t.name} className="hover:bg-(--bg-secondary)/60 transition-colors">
+                  <TableCell className="py-3 px-3 font-semibold text-(--text-primary)">
+                    {t.name}
+                  </TableCell>
+                  <TableCell className="py-3 px-3">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => handleCopy(`var(${t.variable})`)}
+                      className="inline-flex items-center gap-1.5 px-2 py-0.5 h-auto text-(--text-primary) font-mono text-[11px]"
+                      title="클릭하여 복사"
+                    >
+                      {copiedVar === `var(${t.variable})` ? (
+                        <Check className="w-3 h-3 text-(--atom-color-success)" />
+                      ) : (
+                        <Copy className="w-3 h-3 text-(--text-muted)" />
+                      )}
+                      <span>var({t.variable})</span>
+                    </Button>
+                  </TableCell>
+                  <TableCell className="py-3 px-3 font-mono text-[11px] text-(--atom-color-warning)">
+                    {t.value}
+                  </TableCell>
+                  <TableCell className="py-3 px-3 text-(--text-secondary) hidden md:table-cell">
+                    <span>{t.description} — <strong className="text-(--text-primary)">{t.usage}</strong></span>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         </section>
 
         {/* 4. Real-World Motion Patterns */}

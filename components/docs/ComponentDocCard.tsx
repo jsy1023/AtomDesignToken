@@ -5,6 +5,17 @@ import Link from 'next/link';
 import { GalleryComponent } from '@/lib/data/components';
 import { CodeHighlight } from '@/components/common/CodeHighlight';
 import {
+  Button,
+  Card,
+  Badge,
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+} from '@/components/ui';
+import {
   Copy,
   Check,
   Code2,
@@ -36,32 +47,32 @@ export function ComponentDocCard({ component, renderPreview }: ComponentDocCardP
   };
 
   return (
-    <section
+    <Card
       id={component.id}
-      className="scroll-mt-28 p-6 sm:p-8 rounded-3xl bg-white dark:bg-neutral-900 border border-(--border-subtle)/80 dark:border-neutral-800 shadow-sm flex flex-col gap-6"
+      className="scroll-mt-28 p-6 sm:p-8 flex flex-col gap-6"
     >
       {/* 1. Header: Component Title, Badges, Description */}
-      <div className="flex flex-col gap-2 pb-4 border-b border-neutral-100 dark:border-neutral-800">
+      <div className="flex flex-col gap-2 pb-4 border-b border-(--border-subtle)">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2.5">
             <h2 className="docs-h2">
               {component.name}
             </h2>
-            <span className="text-[11px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-blue-50 dark:bg-blue-950 text-(--accent-primary) dark:text-blue-400 border border-blue-200 dark:border-blue-800">
+            <Badge variant="primary" className="font-mono text-xs">
               .atom-{component.id}
-            </span>
+            </Badge>
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-(--bg-secondary) dark:bg-neutral-800 text-(--text-secondary) dark:text-(--text-muted)">
+            <Badge variant="neutral" className="text-xs font-mono uppercase">
               {component.source}
-            </span>
-            <span className="text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-(--bg-secondary) dark:bg-neutral-800 text-(--text-secondary) dark:text-(--text-muted)">
+            </Badge>
+            <Badge variant="neutral" className="text-xs font-mono uppercase">
               {component.category}
-            </span>
+            </Badge>
             <Link
               href={`/components/${component.id}`}
-              className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-bold text-white bg-(--accent-primary) hover:bg-blue-700 active:scale-95 rounded-lg transition shadow-xs"
+              className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-bold text-white bg-(--atom-color-primary,#3182f6) hover:opacity-90 active:scale-95 rounded-lg transition shadow-xs"
             >
               <span>상세 가이드 & 케이스</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -82,13 +93,13 @@ export function ComponentDocCard({ component, renderPreview }: ComponentDocCardP
               ? 'bg-amber-50/60 dark:bg-amber-950/20 border-amber-200 dark:border-amber-900/50 text-amber-900 dark:text-amber-200'
               : component.callout.type === 'tip'
               ? 'bg-emerald-50/60 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-900/50 text-emerald-900 dark:text-emerald-200'
-              : 'bg-blue-50/60 dark:bg-blue-950/20 border-blue-200 dark:border-blue-900/50 text-blue-900 dark:text-blue-200'
+              : 'bg-(--accent-primary)/10/60 dark:bg-(--accent-primary)/10 border-(--accent-primary)/20 dark:border-blue-900/50 text-(--accent-primary) dark:text-blue-200'
           }`}
         >
           {component.callout.type === 'warning' ? (
-            <AlertTriangle className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+            <AlertTriangle className="w-4 h-4 text-(--atom-color-warning) shrink-0 mt-0.5" />
           ) : component.callout.type === 'tip' ? (
-            <Sparkles className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+            <Sparkles className="w-4 h-4 text-(--atom-color-success) shrink-0 mt-0.5" />
           ) : (
             <Info className="w-4 h-4 text-(--accent-primary) shrink-0 mt-0.5" />
           )}
@@ -104,44 +115,42 @@ export function ComponentDocCard({ component, renderPreview }: ComponentDocCardP
         <span className="text-xs font-bold text-(--text-secondary) uppercase tracking-wider flex items-center gap-1.5">
           <span>인터랙티브 라이브 프리뷰</span>
         </span>
-        <div className="w-full min-h-[140px] p-6 rounded-2xl bg-neutral-50 dark:bg-neutral-950 border border-(--border-subtle)/80 dark:border-neutral-800 flex items-center justify-center shadow-inner overflow-hidden">
+        <div className="w-full min-h-[140px] p-6 rounded-2xl bg-neutral-50  border border-(--border-subtle)/80  flex items-center justify-center shadow-inner overflow-hidden">
           {renderPreview()}
         </div>
       </div>
 
       {/* 4. Code Snippet Block (React / HTML Tabs + Copy) */}
-      <div className="rounded-2xl bg-neutral-900 border border-neutral-800 overflow-hidden text-neutral-200">
-        <div className="flex items-center justify-between px-4 py-2 border-b border-neutral-800 bg-neutral-950/70 text-xs font-semibold">
+      <div className="rounded-2xl bg-(--bg-secondary) border border-(--border-subtle) overflow-hidden text-(--text-primary)">
+        <div className="flex items-center justify-between px-4 py-2 border-b border-(--border-subtle) bg-(--bg-primary)/70 text-xs font-semibold">
           <div className="flex items-center gap-1">
-            <button
+            <Button
+              variant={snippetTab === 'react' ? 'primary' : 'ghost'}
+              size="sm"
               onClick={() => setSnippetTab('react')}
-              className={`px-3 py-1 rounded-lg transition ${
-                snippetTab === 'react'
-                  ? 'bg-neutral-800 text-blue-400 font-bold'
-                  : 'text-(--text-muted) hover:text-white'
-              }`}
+              className="text-xs h-auto py-1 px-3"
             >
               React / Next.js
-            </button>
-            <button
+            </Button>
+            <Button
+              variant={snippetTab === 'html' ? 'primary' : 'ghost'}
+              size="sm"
               onClick={() => setSnippetTab('html')}
-              className={`px-3 py-1 rounded-lg transition ${
-                snippetTab === 'html'
-                  ? 'bg-neutral-800 text-emerald-400 font-bold'
-                  : 'text-(--text-muted) hover:text-white'
-              }`}
+              className="text-xs h-auto py-1 px-3"
             >
               Vanilla HTML
-            </button>
+            </Button>
           </div>
 
-          <button
+          <Button
+            variant="ghost"
+            size="sm"
             onClick={handleCopy}
-            className="inline-flex items-center gap-1.5 text-xs text-(--text-muted) hover:text-white transition px-2.5 py-1 rounded-md hover:bg-neutral-800"
+            className="inline-flex items-center gap-1.5 text-xs text-(--text-muted) hover:text-white transition px-2.5 py-1 h-auto"
           >
-            {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+            {copied ? <Check className="w-3.5 h-3.5 text-(--atom-color-success)" /> : <Copy className="w-3.5 h-3.5" />}
             <span>{copied ? '복사 완료!' : '코드 복사'}</span>
-          </button>
+          </Button>
         </div>
 
         <CodeHighlight
@@ -157,49 +166,50 @@ export function ComponentDocCard({ component, renderPreview }: ComponentDocCardP
           <span className="text-xs font-bold text-(--text-secondary) uppercase tracking-wider">
             API Props 규격 명세
           </span>
-          <div className="border border-(--border-subtle) dark:border-neutral-800 rounded-2xl overflow-hidden shadow-xs">
-            <table className="w-full text-left border-collapse text-xs">
-              <thead className="bg-neutral-50 dark:bg-neutral-850 text-neutral-700 dark:text-neutral-300 font-bold border-b border-(--border-subtle) dark:border-neutral-800">
-                <tr>
-                  <th className="p-3 w-1/4">Property</th>
-                  <th className="p-3 w-1/3">Type</th>
-                  <th className="p-3 w-1/6">Default</th>
-                  <th className="p-3">Description</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-neutral-200 dark:divide-neutral-800">
-                {component.propsSpec.map((prop, idx) => (
-                  <tr key={idx} className="hover:bg-neutral-50/50 dark:hover:bg-neutral-850/50 transition-colors">
-                    <td className="p-3 font-mono font-bold text-(--accent-primary) dark:text-blue-400">{prop.name}</td>
-                    <td className="p-3 font-mono text-[11px] text-purple-600 dark:text-purple-400">{prop.type}</td>
-                    <td className="p-3 font-mono text-(--text-secondary) dark:text-(--text-muted)">{prop.defaultValue}</td>
-                    <td className="p-3 text-neutral-700 dark:text-neutral-300">{prop.description}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-1/4">Property</TableHead>
+                <TableHead className="w-1/3">Type</TableHead>
+                <TableHead className="w-1/6">Default</TableHead>
+                <TableHead>Description</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {component.propsSpec.map((prop, idx) => (
+                <TableRow key={idx}>
+                  <TableCell className="font-mono font-bold text-(--accent-primary)">{prop.name}</TableCell>
+                  <TableCell className="font-mono text-[11px] text-(--accent-primary)">{prop.type}</TableCell>
+                  <TableCell className="font-mono text-(--text-secondary)">{prop.defaultValue}</TableCell>
+                  <TableCell className="text-(--text-secondary)">{prop.description}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         </div>
       )}
 
       {/* 6. Footer: Link to Dedicated Component Detail Page */}
-      <div className="pt-2 border-t border-neutral-100 dark:border-neutral-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-neutral-50/70 dark:bg-neutral-850/50 p-4 rounded-2xl border border-(--border-subtle)/60 dark:border-neutral-800/60">
+      <div className="pt-2 border-t border-(--border-subtle) flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-(--bg-secondary)/40 p-4 rounded-(--radius) border border-(--border-subtle)">
         <div className="flex flex-col gap-0.5">
-          <span className="text-xs font-bold text-(--text-primary) dark:text-white">
+          <span className="text-xs font-bold text-(--text-primary)">
             {component.name} 전용 가이드 & 사용 패턴
           </span>
-          <p className="text-[11px] text-(--text-secondary) dark:text-(--text-muted)">
+          <p className="text-[11px] text-(--text-secondary)">
             실무 사용 케이스, 안티패턴 방지(Do's & Don'ts), React/Vue/HTML 코드 및 연관 UX 패턴 확인
           </p>
         </div>
-        <Link
-          href={`/components/${component.id}`}
-          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold text-white bg-(--accent-primary) hover:bg-blue-700 active:scale-95 transition shadow-xs shrink-0"
-        >
-          <span>개별 상세 페이지 이동</span>
-          <ArrowRight className="w-3.5 h-3.5" />
+        <Link href={`/components/${component.id}`}>
+          <Button
+            variant="primary"
+            size="sm"
+            className="inline-flex items-center gap-1.5 shrink-0"
+          >
+            <span>개별 상세 페이지 이동</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Button>
         </Link>
       </div>
-    </section>
+    </Card>
   );
 }

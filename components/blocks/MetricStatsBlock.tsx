@@ -73,9 +73,9 @@ export function MetricStatsBlock() {
       case 'users':
         return <Users className="w-3.5 h-3.5 text-(--accent-primary)" />;
       case 'target':
-        return <Target className="w-3.5 h-3.5 text-amber-500" />;
+        return <Target className="w-3.5 h-3.5 text-(--atom-color-warning)" />;
       case 'server':
-        return <Server className="w-3.5 h-3.5 text-emerald-500" />;
+        return <Server className="w-3.5 h-3.5 text-(--atom-color-success)" />;
     }
   };
 
@@ -124,7 +124,7 @@ export function MetricStatsBlock() {
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       points={points}
-                      className={m.isPositive ? 'text-emerald-500' : 'text-rose-500'}
+                      className={m.isPositive ? 'text-(--atom-color-success)' : 'text-(--atom-color-destructive)'}
                     />
                   </svg>
                 </div>
@@ -134,7 +134,7 @@ export function MetricStatsBlock() {
                 <span className="text-(--text-secondary)">전월 동기 대비</span>
                 <span
                   className={`font-semibold flex items-center gap-0.5 ${
-                    m.isPositive ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'
+                    m.isPositive ? 'text-(--atom-color-success) dark:text-(--atom-color-success)' : 'text-(--atom-color-destructive) dark:text-(--atom-color-destructive)'
                   }`}
                 >
                   {m.isPositive ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}

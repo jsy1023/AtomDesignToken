@@ -8,6 +8,8 @@ import {
   TypographyLevelConfig,
   ColorPreset,
   DEFAULT_THEME_CONFIG,
+  BrandConfig,
+  DEFAULT_BRAND_CONFIG,
 } from '@/lib/data/themeEditorDefaults';
 import { applyThemeToDOM, isDarkColor } from '@/lib/services/themeEngine';
 import { AWESOME_DESIGN_MD_THEMES } from '@/lib/data/awesomeThemes';
@@ -34,6 +36,9 @@ interface ThemeEditorContextValue {
   applyColorPreset: (preset: ColorPreset) => void;
   applyFullTheme: (newTheme: ThemeConfig) => void;
   resetTheme: () => void;
+  brandConfig: BrandConfig;
+  updateBrandConfig: (newConfig: Partial<BrandConfig>) => void;
+  resetBrandConfig: () => void;
   isDirty: boolean;
   mounted: boolean;
   isLocalOnly: boolean;
@@ -42,11 +47,13 @@ interface ThemeEditorContextValue {
 const ThemeEditorContext = createContext<ThemeEditorContextValue | null>(null);
 
 const STORAGE_KEY = 'atom_design_system_theme_v2';
+const BRAND_STORAGE_KEY = 'atom_design_system_brand_v1';
 
 export function ThemeEditorProvider({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpenState] = useState(false);
   const [activeTab, setActiveTab] = useState<EditorTab>('colors');
   const [theme, setTheme] = useState<ThemeConfig>(DEFAULT_THEME_CONFIG);
+  const [brandConfig, setBrandConfig] = useState<BrandConfig>(DEFAULT_BRAND_CONFIG);
   const [mounted, setMounted] = useState(false);
   const [isLocalOnly, setIsLocalOnly] = useState(false);
 
@@ -116,6 +123,40 @@ export function ThemeEditorProvider({ children }: { children: React.ReactNode })
       // ignore parse error
     }
     applyThemeToDOM(DEFAULT_THEME_CONFIG);
+  }, []);
+
+  // 로컬 스토리지에서 초기 브랜드 설정 로드
+  useEffect(() => {
+    try {
+      const savedBrand = localStorage.getItem(BRAND_STORAGE_KEY);
+      if (savedBrand && savedBrand.trim()) {
+        const parsed = JSON.parse(savedBrand);
+        setBrandConfig((prev) => ({ ...prev, ...parsed }));
+      }
+    } catch {
+      // ignore
+    }
+  }, []);
+
+  const updateBrandConfig = useCallback((newConfig: Partial<BrandConfig>) => {
+    setBrandConfig((prev) => {
+      const updated = { ...prev, ...newConfig };
+      try {
+        localStorage.setItem(BRAND_STORAGE_KEY, JSON.stringify(updated));
+      } catch {
+        // ignore
+      }
+      return updated;
+    });
+  }, []);
+
+  const resetBrandConfig = useCallback(() => {
+    setBrandConfig(DEFAULT_BRAND_CONFIG);
+    try {
+      localStorage.removeItem(BRAND_STORAGE_KEY);
+    } catch {
+      // ignore
+    }
   }, []);
 
   // 테마 변경 시 로컬 스토리지 저장 및 DOM 주입
@@ -280,6 +321,9 @@ export function ThemeEditorProvider({ children }: { children: React.ReactNode })
         applyColorPreset,
         applyFullTheme,
         resetTheme,
+        brandConfig,
+        updateBrandConfig,
+        resetBrandConfig,
         isDirty,
         mounted,
         isLocalOnly,

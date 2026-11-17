@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';
 import { BLOCKS_COLLECTION, BLOCK_CATEGORIES, BlockItem } from '@/lib/data/blocks';
+import { Input, SideMenu, SideMenuGroup, SideMenuItem } from '@/components/ui';
 import { Search, Layers, ChevronRight } from 'lucide-react';
 
 interface BlocksSidebarProps {
@@ -43,51 +44,47 @@ export function BlocksSidebar({ activeId }: BlocksSidebarProps) {
         </div>
 
         <div className="relative">
-          <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-(--text-secondary)" />
-          <input
+          <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-(--text-secondary) z-10" />
+          <Input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="블록 검색..."
-            className="w-full text-xs pl-7 pr-2.5 py-1.5 rounded-(--radius-sm) bg-(--bg-secondary) text-(--text-primary) border border-(--border-subtle) focus:outline-none focus:border-(--border-strong) transition-colors"
+            className="text-xs pl-7 pr-2.5 py-1.5 h-auto"
           />
         </div>
       </div>
 
-      {/* 2. Block List by Category */}
-      <div className="space-y-4 text-xs">
+      {/* 2. Block List by Category using SideMenu */}
+      <SideMenu variant="default" size="sm" className="space-y-3">
         {BLOCK_CATEGORIES.filter((cat) => cat.id !== 'all').map((cat) => {
           const categoryBlocks = filteredBlocks.filter((b) => b.category === cat.id);
           if (categoryBlocks.length === 0) return null;
 
           return (
-            <div key={cat.id} className="space-y-1">
-              <div className="text-[11px] font-mono font-medium text-(--text-secondary) uppercase tracking-wider px-2 py-0.5">
-                {cat.name}
-              </div>
-              <div className="space-y-0.5">
-                {categoryBlocks.map((block) => {
-                  const isActive = activeId === block.id;
-                  return (
-                    <Link
-                      key={block.id}
-                      href={`/blocks/${block.id}`}
-                      className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-(--radius-sm) text-xs transition-colors ${
-                        isActive
-                          ? 'bg-(--text-primary) text-(--bg-primary) font-medium'
-                          : 'text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary)'
-                      }`}
-                    >
-                      <span className="truncate">{block.title}</span>
-                      <ChevronRight className={`w-3 h-3 shrink-0 ${isActive ? 'text-(--bg-primary)' : 'opacity-30'}`} />
-                    </Link>
-                  );
-                })}
-              </div>
-            </div>
+            <SideMenuGroup key={cat.id} label={cat.name}>
+              {categoryBlocks.map((block) => {
+                const isActive = activeId === block.id;
+                return (
+                  <Link key={block.id} href={`/blocks/${block.id}`} className="no-underline block">
+                    <SideMenuItem
+                      active={isActive}
+                      label={block.title}
+                      badge={
+                        <ChevronRight
+                          className={`w-3 h-3 shrink-0 ${
+                            isActive ? 'text-white' : 'opacity-40'
+                          }`}
+                        />
+                      }
+                    />
+                  </Link>
+                );
+              })}
+            </SideMenuGroup>
           );
         })}
-      </div>
+      </SideMenu>
     </aside>
   );
 }

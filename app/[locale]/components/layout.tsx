@@ -34,7 +34,7 @@ export default function ComponentsLayout({
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-(--border-subtle)/80 dark:border-neutral-800 bg-white dark:bg-neutral-900 mt-12 py-6 px-6 text-center text-xs text-(--text-secondary)">
+      <footer className="border-t border-(--border-subtle) bg-(--bg-primary) mt-12 py-6 px-6 text-center text-xs text-(--text-secondary)">
         <p>© 2026 AtomDesignToken · W3C Design Tokens Community Group Standard</p>
       </footer>
     </div>

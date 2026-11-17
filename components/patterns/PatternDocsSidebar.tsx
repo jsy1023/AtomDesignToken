@@ -4,6 +4,7 @@ import React, { useMemo } from 'react';
 import { PatternItem, PatternPlatform, PATTERNS_COLLECTION } from '@/lib/data/patterns';
 import { PATTERN_CATEGORY_FILTERS } from './PatternSplitLayout';
 import { Search, Monitor, Smartphone, Layers, ChevronRight } from 'lucide-react';
+import { Button, Input, Nav, NavItem, NavLink } from '@/components/ui';
 import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';
 
 interface PatternDocsSidebarProps {
@@ -81,56 +82,55 @@ export function PatternDocsSidebar({
       {/* 1. Search Bar */}
       <div className="relative">
         <Search className="w-3.5 h-3.5 text-(--text-muted) absolute left-3 top-1/2 -translate-y-1/2" />
-        <input
+        <Input
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="패턴 검색 (대시보드, 폼...)"
-          style={{ backgroundColor: 'var(--bg-primary)', borderColor: 'var(--border-strong)', color: 'var(--text-primary)' }}
-          className="w-full pl-8 pr-3 py-1.5 text-xs rounded-lg border focus:outline-none focus:ring-1 focus:ring-blue-500 placeholder:text-(--text-muted)"
+          className="w-full pl-8 pr-3 py-1.5 text-xs"
         />
         {searchQuery && (
-          <button
+          <Button
+            variant="ghost"
+            size="sm"
+            isIconOnly
             onClick={() => setSearchQuery('')}
-            className="absolute right-2.5 top-1/2 -translate-y-1/2 text-(--text-muted) hover:text-(--text-secondary) text-[10px]"
+            className="absolute right-2.5 top-1/2 -translate-y-1/2 text-(--text-muted) hover:text-(--text-secondary) h-5 w-5 p-0 text-[10px]"
           >
             ✕
-          </button>
+          </Button>
         )}
       </div>
 
       {/* 2. Platform Filter Pills */}
-      <div 
-        style={{ backgroundColor: 'var(--bg-primary)', borderColor: 'var(--border-subtle)' }}
-        className="grid grid-cols-3 gap-1 p-1 rounded-lg border text-[11px] font-semibold text-center"
-      >
-        <button
-          type="button"
+      <Nav variant="segmented" size="sm" fluid className="grid grid-cols-3 text-center">
+        <NavLink
+          asButton
+          active={platformFilter === 'all'}
           onClick={() => setPlatformFilter('all')}
-          style={platformFilter === 'all' ? { backgroundColor: 'var(--bg-secondary)', color: 'var(--text-primary)', borderColor: 'var(--border-strong)' } : {}}
-          className={`py-1 rounded transition ${platformFilter === 'all' ? 'border shadow-xs font-bold' : 'text-(--text-secondary) hover:text-neutral-800 dark:hover:text-neutral-200'}`}
+          className="justify-center text-[11px]"
         >
           전체 ({patterns.length})
-        </button>
-        <button
-          type="button"
+        </NavLink>
+        <NavLink
+          asButton
+          active={platformFilter === 'web'}
+          icon={<Monitor className="w-3 h-3" />}
           onClick={() => setPlatformFilter('web')}
-          style={platformFilter === 'web' ? { backgroundColor: 'var(--bg-secondary)', color: brandColor, borderColor: 'var(--border-strong)' } : {}}
-          className={`py-1 rounded transition flex items-center justify-center gap-1 ${platformFilter === 'web' ? 'border shadow-xs font-bold' : 'text-(--text-secondary) hover:text-neutral-800 dark:hover:text-neutral-200'}`}
+          className="justify-center text-[11px]"
         >
-          <Monitor className="w-3 h-3" />
-          <span>WEB</span>
-        </button>
-        <button
-          type="button"
+          WEB
+        </NavLink>
+        <NavLink
+          asButton
+          active={platformFilter === 'mobile'}
+          icon={<Smartphone className="w-3 h-3" />}
           onClick={() => setPlatformFilter('mobile')}
-          style={platformFilter === 'mobile' ? { backgroundColor: 'var(--bg-secondary)', color: brandColor, borderColor: 'var(--border-strong)' } : {}}
-          className={`py-1 rounded transition flex items-center justify-center gap-1 ${platformFilter === 'mobile' ? 'border shadow-xs font-bold' : 'text-(--text-secondary) hover:text-neutral-800 dark:hover:text-neutral-200'}`}
+          className="justify-center text-[11px]"
         >
-          <Smartphone className="w-3 h-3" />
-          <span>모바일</span>
-        </button>
-      </div>
+          모바일
+        </NavLink>
+      </Nav>
 
       {/* 3. Docs Tree Navigation List */}
       <div className="flex-1 overflow-y-auto space-y-5 pr-1 scrollbar-thin">
@@ -151,35 +151,30 @@ export function PatternDocsSidebar({
                 const isWeb = item.platform === 'web';
 
                 return (
-                  <button
+                  <Button
                     key={item.id}
+                    variant={isSelected ? 'primary' : 'ghost'}
+                    size="sm"
                     type="button"
                     onClick={() => onSelectPattern(item.id)}
-                    style={
+                    className={`w-full justify-between text-left px-2.5 py-1.5 h-auto text-xs font-medium ${
                       isSelected
-                        ? {
-                            backgroundColor: `${brandColor}18`,
-                            color: brandColor,
-                          }
-                        : {}
-                    }
-                    className={`w-full text-left px-2.5 py-1.5 rounded-md transition-all flex items-center justify-between gap-2 ${
-                      isSelected
-                        ? 'font-bold shadow-xs'
-                        : 'text-(--text-secondary) dark:text-(--text-muted) hover:bg-(--bg-secondary) dark:hover:bg-neutral-800/60 hover:text-(--text-primary) dark:hover:text-neutral-100'
+                        ? 'bg-(--accent-primary) text-white font-bold'
+                        : 'text-(--text-secondary) hover:text-(--text-primary)'
                     }`}
                   >
-                    <span className="truncate text-xs">{item.title}</span>
-                    <span
-                      className={`text-[9px] px-1 py-0.2 rounded font-mono shrink-0 ${
-                        isWeb
-                          ? 'text-(--accent-primary) bg-blue-50 dark:bg-blue-950/50'
-                          : 'text-emerald-500 bg-emerald-50 dark:bg-emerald-950/50'
-                      }`}
-                    >
-                      {isWeb ? 'WEB' : 'APP'}
-                    </span>
-                  </button>
+                    <div className="flex items-center gap-2 truncate">
+                      {isWeb ? (
+                        <Monitor className="w-3 h-3 shrink-0 opacity-70" />
+                      ) : (
+                        <Smartphone className="w-3 h-3 shrink-0 opacity-70" />
+                      )}
+                      <span className="truncate">{item.title}</span>
+                    </div>
+                    {isSelected && (
+                      <span className="w-1.5 h-1.5 rounded-full bg-white shrink-0" />
+                    )}
+                  </Button>
                 );
               })}
             </div>

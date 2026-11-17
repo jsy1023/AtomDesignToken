@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Header } from '@/components/Header';
+import { Button } from '@/components/ui/Button';
 import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';
 import { useI18n } from '@/lib/i18n';
 import { PRINCIPLES_DATA } from '@/lib/data/principles';
@@ -44,7 +45,7 @@ export default function PrinciplesPage() {
         {/* Hero Section */}
         <section className="space-y-2.5 border-b border-(--border-subtle) pb-4 sm:pb-5">
           <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-mono text-(--text-muted)">
-            <span className="text-emerald-500 font-semibold flex items-center gap-1">
+            <span className="text-(--atom-color-success) font-semibold flex items-center gap-1">
               <ShieldCheck className="w-3 h-3" />
               Core Philosophy
             </span>
@@ -65,17 +66,17 @@ export default function PrinciplesPage() {
           {/* Category Filter Pills */}
           <div className="flex flex-wrap items-center gap-1.5 pt-3">
             {categories.map((cat) => (
-              <button
+              <Button
                 key={cat.id}
+                variant={selectedCategory === cat.id ? 'primary' : 'outline'}
+                size="sm"
                 onClick={() => setSelectedCategory(cat.id)}
-                className={`px-3 py-1.5 rounded-(--radius-sm) text-sm font-medium transition-colors cursor-pointer ${
-                  selectedCategory === cat.id
-                    ? 'bg-(--text-primary) text-(--bg-primary) font-semibold'
-                    : 'bg-(--bg-secondary) text-(--text-secondary) hover:text-(--text-primary) border border-(--border-subtle)'
+                className={`px-3 py-1.5 h-auto text-sm font-medium ${
+                  selectedCategory === cat.id ? 'font-semibold' : 'text-(--text-secondary)'
                 }`}
               >
                 {cat.label}
-              </button>
+              </Button>
             ))}
           </div>
         </section>
@@ -125,7 +126,7 @@ export default function PrinciplesPage() {
                   <div className="p-4 rounded-xl bg-(--bg-secondary)/50 border border-(--border-subtle) space-y-2.5">
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-mono font-bold text-(--text-primary) flex items-center gap-1.5">
-                        <ShieldCheck className="w-4 h-4 text-emerald-500" />
+                        <ShieldCheck className="w-4 h-4 text-(--atom-color-success)" />
                         {locale === 'ja'
                           ? 'AI Agent 呼び出し & 指示プロンプト (Prompts)'
                           : locale === 'en'
@@ -193,15 +194,15 @@ export default function PrinciplesPage() {
                 {/* Do & Don't Matrix */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 text-sm">
                   {/* DO */}
-                  <div className="p-4 rounded-lg bg-emerald-500/5 border border-emerald-500/20 space-y-2">
-                    <div className="flex items-center gap-1.5 font-bold text-emerald-600 dark:text-emerald-400">
+                  <div className="p-4 rounded-lg bg-(--atom-color-success)/5 border border-(--atom-color-success)/20 space-y-2">
+                    <div className="flex items-center gap-1.5 font-bold text-(--atom-color-success)">
                       <Check className="w-4 h-4" />
                       <span>{t('principles.badgeDo', '권장 지침 (DO)')}</span>
                     </div>
                     <ul className="space-y-1.5 text-(--text-primary) pl-1">
                       {dos.map((d, i) => (
                         <li key={i} className="flex items-start gap-2">
-                          <span className="text-emerald-500 font-mono text-xs mt-0.5">•</span>
+                          <span className="text-(--atom-color-success) font-mono text-xs mt-0.5">•</span>
                           <span>{d}</span>
                         </li>
                       ))}
@@ -209,15 +210,15 @@ export default function PrinciplesPage() {
                   </div>
 
                   {/* DONT */}
-                  <div className="p-4 rounded-lg bg-rose-500/5 border border-rose-500/20 space-y-2">
-                    <div className="flex items-center gap-1.5 font-bold text-rose-600 dark:text-rose-400">
+                  <div className="p-4 rounded-lg bg-(--atom-color-destructive)/5 border border-(--atom-color-destructive)/20 space-y-2">
+                    <div className="flex items-center gap-1.5 font-bold text-(--atom-color-destructive)">
                       <X className="w-4 h-4" />
                       <span>{t('principles.badgeDont', '지양 패턴 (DON\'T)')}</span>
                     </div>
                     <ul className="space-y-1.5 text-(--text-primary) pl-1">
                       {donts.map((d, i) => (
                         <li key={i} className="flex items-start gap-2">
-                          <span className="text-rose-500 font-mono text-xs mt-0.5">•</span>
+                          <span className="text-(--atom-color-destructive) font-mono text-xs mt-0.5">•</span>
                           <span>{d}</span>
                         </li>
                       ))}

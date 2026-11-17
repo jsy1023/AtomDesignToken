@@ -40,6 +40,7 @@ import { RealtimeChartBlock } from '@/components/blocks/RealtimeChartBlock';
 import { MetricStatsBlock } from '@/components/blocks/MetricStatsBlock';
 import { InteractiveChatBlock } from '@/components/blocks/InteractiveChatBlock';
 import { EnterpriseDashboardUseCase } from '@/components/usecases/EnterpriseDashboardUseCase';
+import { Button, Input, Checkbox, Switch, Badge, Card, Textarea, NativeSelect, Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui';
 
 interface PatternInteractiveScreenProps {
   patternId: string;
@@ -139,7 +140,7 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
   };
 
   return (
-    <div className="w-full h-full text-(--text-primary) dark:text-neutral-100 p-4 overflow-y-auto">
+    <div className="w-full h-full text-(--text-primary)  p-4 overflow-y-auto">
       {/* 1. SaaS Dashboard (Web) */}
       {patternId === 'saas-dashboard' && (
         <div className="flex flex-col gap-6">
@@ -158,32 +159,30 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
       {patternId === 'kyc-verification' && (
         <div className="flex flex-col gap-4 max-w-sm mx-auto">
           <div>
-            <span className="text-[10px] font-bold text-(--accent-primary) dark:text-blue-400 uppercase tracking-wider">Step 2 of 3</span>
-            <h2 className="text-base font-bold text-(--text-primary) dark:text-white mt-0.5">신분증 및 본인인증</h2>
+            <span className="text-[10px] font-bold text-(--accent-primary) dark:text-(--accent-primary) uppercase tracking-wider">Step 2 of 3</span>
+            <h2 className="text-base font-bold text-(--text-primary)  mt-0.5">신분증 및 본인인증</h2>
             <p className="text-xs text-(--text-secondary)">안전한 금융 거래를 위해 주민등록증 또는 운전면허증을 준비해주세요.</p>
           </div>
 
           {/* ID Scanner Box */}
-          <div className="border-2 border-dashed border-blue-400 dark:border-(--accent-primary)/60 rounded-2xl p-6 bg-blue-50/40 dark:bg-blue-950/20 text-center flex flex-col items-center justify-center gap-2">
+          <div className="border-2 border-dashed border-blue-400 dark:border-(--accent-primary)/60 rounded-2xl p-6 bg-(--accent-primary)/10/40 dark:bg-(--accent-primary)/10 text-center flex flex-col items-center justify-center gap-2">
             <div className="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/60 text-(--accent-primary) flex items-center justify-center">
               <ShieldCheck className="w-6 h-6" />
             </div>
-            <span className="text-xs font-bold text-neutral-800 dark:text-neutral-200">신분증 앞면 촬영하기</span>
+            <span className="text-xs font-bold text-(--text-primary)">신분증 앞면 촬영하기</span>
             <p className="text-[11px] text-(--text-muted) leading-tight">빛 반사에 주의하며 프레임 영역에 맞춰주세요.</p>
-            <button className="px-3 py-1.5 rounded-lg bg-white dark:bg-neutral-800 border border-(--border-subtle) dark:border-neutral-700 text-xs font-semibold shadow-sm mt-1">
-              카메라 실행
-            </button>
+            <Button variant="outline" size="sm" className="mt-1">카메라 실행</Button>
           </div>
 
           {/* 6-slot OTP Code */}
           <div>
             <div className="flex justify-between items-center mb-1.5">
               <label className="text-xs font-bold">휴대폰 SMS 인증번호 (6자리)</label>
-              <span className="text-xs font-semibold text-rose-500">02:45</span>
+              <span className="text-xs font-semibold text-(--atom-color-destructive)">02:45</span>
             </div>
             <div className="grid grid-cols-6 gap-2">
               {otp.map((slot, i) => (
-                <input
+                <Input
                   key={i}
                   type="text"
                   maxLength={1}
@@ -193,87 +192,79 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
                     newOtp[i] = e.target.value;
                     setOtp(newOtp);
                   }}
-                  className="h-10 text-center text-sm font-bold rounded-xl bg-(--bg-secondary) dark:bg-neutral-800 border border-(--border-subtle) dark:border-neutral-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="h-10 text-center text-sm font-bold"
                 />
               ))}
             </div>
           </div>
 
           {/* Agreement Check */}
-          <label className="flex items-center gap-2 p-2.5 rounded-xl bg-neutral-50 dark:bg-neutral-800/60 border border-(--border-subtle) dark:border-neutral-800 text-xs cursor-pointer">
-            <input
-              type="checkbox"
+          <div className="p-2.5 rounded-xl bg-neutral-50 /60 border border-(--border-subtle) ">
+            <Checkbox
               checked={agreedAll}
               onChange={(e) => setAgreedAll(e.target.checked)}
-              className="rounded text-(--accent-primary)"
+              label="[필수] 본인확인 및 고유식별정보 처리 동의"
             />
-            <span className="font-semibold">[필수] 본인확인 및 고유식별정보 처리 동의</span>
-          </label>
+          </div>
 
-          <button className="w-full py-2.5 rounded-xl bg-(--accent-primary) hover:bg-blue-700 text-white text-xs font-bold shadow-md shadow-blue-500/20">
-            인증 완료하고 다음 단계
-          </button>
+          <Button variant="primary" size="md" className="w-full font-bold">인증 완료하고 다음 단계</Button>
         </div>
       )}
 
       {/* 4. Blog Editor (Web) */}
       {patternId === 'blog-editor' && (
         <div className="flex flex-col gap-3 h-full">
-          <div className="flex items-center justify-between pb-2 border-b border-(--border-subtle) dark:border-neutral-800">
+          <div className="flex items-center justify-between pb-2 border-b border-(--border-subtle) ">
             <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+              <span className="w-2.5 h-2.5 rounded-full bg-(--atom-color-success)"></span>
               <span className="text-xs text-(--text-muted) font-medium">자동 저장됨 ({autoSavedTime})</span>
             </div>
             <div className="flex gap-2">
-              <button className="px-3 py-1.5 rounded-lg border border-(--border-subtle) dark:border-neutral-700 text-xs font-semibold hover:bg-(--bg-secondary) dark:hover:bg-neutral-800">
-                임시저장
-              </button>
-              <button className="px-3.5 py-1.5 rounded-lg bg-(--accent-primary) text-white text-xs font-bold hover:bg-blue-700">
-                발행하기
-              </button>
+              <Button variant="outline" size="sm">임시저장</Button>
+              <Button variant="primary" size="sm" className="font-bold">발행하기</Button>
             </div>
           </div>
 
           {/* Formatting Bar */}
-          <div className="flex items-center gap-2 p-1.5 rounded-xl bg-(--bg-secondary) dark:bg-neutral-800 text-xs font-bold text-(--text-secondary) dark:text-neutral-300">
+          <div className="flex items-center gap-2 p-1.5 rounded-xl bg-(--bg-secondary)  text-xs font-bold text-(--text-secondary) ">
             {['H1', 'H2', 'B', 'I', 'U', 'Quote', 'Code', 'Link', 'Image'].map((fmt) => (
-              <button key={fmt} className="px-2 py-1 rounded hover:bg-white dark:hover:bg-neutral-700 transition">
+              <Button key={fmt} variant="ghost" size="sm" className="px-2 py-1 h-auto text-xs font-bold">
                 {fmt}
-              </button>
+              </Button>
             ))}
           </div>
 
           {/* Editor Body */}
-          <input
+          <Input
             type="text"
             value={blogTitle}
             onChange={(e) => setBlogTitle(e.target.value)}
-            className="text-xl font-black bg-transparent border-none focus:outline-none placeholder-neutral-400"
-            placeholder="제목을 입력하세요..."
+            placeholder="제목을 입력하세요"
+            className="text-lg sm:text-xl font-bold"
           />
-          <textarea
+          <Textarea
             rows={5}
             defaultValue="디자인 토큰은 색상, 타이포그래피, 간격 등의 디자인 의도를 표준화된 변수로 정의하여 개발자와 디자이너 간의 협업 장벽을 제거합니다. W3C DTCG 표준을 준수하면 프레임워크와 상관없이 단일 진실 공급원(SSOT)을 유지할 수 있습니다."
-            className="w-full flex-1 bg-transparent border-none text-xs leading-relaxed focus:outline-none resize-none placeholder-neutral-400"
-          ></textarea>
+            className="w-full flex-1 text-xs"
+          />
         </div>
       )}
 
       {/* 5. Map Location (Mobile) */}
       {patternId === 'map-location' && (
-        <div className="relative h-full flex flex-col justify-between rounded-xl overflow-hidden bg-emerald-50 dark:bg-emerald-950/40 border border-(--border-subtle) dark:border-neutral-800">
+        <div className="relative h-full flex flex-col justify-between rounded-xl overflow-hidden bg-emerald-50 dark:bg-emerald-950/40 border border-(--border-subtle) ">
           {/* Top Search Bar */}
           <div className="p-3 z-10">
-            <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white dark:bg-neutral-900 shadow-md border border-(--border-subtle) dark:border-neutral-800">
+            <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-(--bg-primary) shadow-md border border-(--border-subtle) ">
               <Search className="w-4 h-4 text-(--text-muted)" />
-              <input type="text" placeholder="장소, 주소, 매장 검색" className="w-full text-xs bg-transparent focus:outline-none" />
+              <Input type="text" placeholder="장소, 주소, 매장 검색" className="w-full text-xs" />
             </div>
           </div>
 
           {/* Map Center Pins */}
           <div className="flex-1 relative flex items-center justify-center">
             <div className="absolute flex flex-col items-center transition-all duration-300">
-              <div className="px-2 py-1 rounded-md bg-neutral-900 text-white text-[10px] font-bold shadow-lg mb-1 whitespace-nowrap animate-pulse">
+              <div className="px-2 py-1 rounded-md bg-(--bg-secondary) text-white text-[10px] font-bold shadow-lg mb-1 whitespace-nowrap animate-pulse">
                 {selectedPlace}
               </div>
               <div className="w-5 h-5 rounded-full bg-rose-500 ring-4 ring-rose-500/20 shadow-md flex items-center justify-center text-white text-[10px]">
@@ -283,24 +274,24 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
           </div>
 
           {/* Sliding Bottom Sheet */}
-          <div className="bg-white dark:bg-neutral-900 border-t border-(--border-subtle) dark:border-neutral-800 p-4 rounded-t-2xl shadow-2xl z-10 flex flex-col gap-2.5">
+          <div className="bg-(--bg-primary) border-t border-(--border-subtle)  p-4 rounded-t-2xl shadow-2xl z-10 flex flex-col gap-2.5">
             <div className="w-8 h-1 bg-neutral-300 dark:bg-neutral-700 rounded-full mx-auto"></div>
             <div className="flex items-start justify-between">
               <div>
-                <h3 className="font-bold text-sm text-(--text-primary) dark:text-white">{selectedPlace}</h3>
-                <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold">● 영업 중 (21:00 마감)</span>
+                <h3 className="font-bold text-sm text-(--text-primary) ">{selectedPlace}</h3>
+                <span className="text-[11px] text-(--atom-color-success) dark:text-(--atom-color-success) font-semibold">● 영업 중 (21:00 마감)</span>
               </div>
               <span className="text-xs font-bold text-(--accent-primary)">320m</span>
             </div>
             <div className="grid grid-cols-2 gap-2 mt-1">
-              <button className="py-2 rounded-xl bg-(--accent-primary) text-white text-xs font-bold flex items-center justify-center gap-1.5">
+              <Button variant="primary" size="sm" className="w-full font-bold flex items-center justify-center gap-1.5">
                 <Navigation2 className="w-3.5 h-3.5" />
                 <span>길찾기</span>
-              </button>
-              <button className="py-2 rounded-xl bg-(--bg-secondary) dark:bg-neutral-800 border border-(--border-subtle) dark:border-neutral-700 text-xs font-bold flex items-center justify-center gap-1.5">
+              </Button>
+              <Button variant="outline" size="sm" className="w-full font-bold flex items-center justify-center gap-1.5">
                 <Phone className="w-3.5 h-3.5" />
                 <span>전화걸기</span>
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -311,31 +302,34 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-2">
             <span className="px-3 py-1 rounded-full bg-(--accent-primary) text-white text-xs font-bold">왕복</span>
-            <span className="px-3 py-1 rounded-full bg-(--bg-secondary) dark:bg-neutral-800 text-xs font-semibold text-(--text-secondary)">편도</span>
-            <span className="px-3 py-1 rounded-full bg-(--bg-secondary) dark:bg-neutral-800 text-xs font-semibold text-(--text-secondary)">다구간</span>
+            <span className="px-3 py-1 rounded-full bg-(--bg-secondary)  text-xs font-semibold text-(--text-secondary)">편도</span>
+            <span className="px-3 py-1 rounded-full bg-(--bg-secondary)  text-xs font-semibold text-(--text-secondary)">다구간</span>
           </div>
 
           {/* Route Swap Bar */}
           <div className="grid grid-cols-1 md:grid-cols-5 gap-2 items-center">
-            <div className="md:col-span-2 p-3 rounded-xl bg-(--bg-secondary) dark:bg-neutral-800 border border-(--border-subtle) dark:border-neutral-700">
+            <div className="md:col-span-2 p-3 rounded-xl bg-(--bg-secondary)  border border-(--border-subtle) ">
               <span className="text-[10px] text-(--text-muted) font-medium block">출발지</span>
               <span className="text-sm font-bold">{flightDep}</span>
             </div>
 
             <div className="flex justify-center">
-              <button
+              <Button
+                variant="primary"
+                size="sm"
+                isIconOnly
                 onClick={() => {
                   const t = flightDep;
                   setFlightDep(flightArr);
                   setFlightArr(t);
                 }}
-                className="p-2.5 rounded-full bg-(--accent-primary) hover:bg-blue-700 text-white transition active:rotate-180"
+                className="rounded-full h-9 w-9"
               >
                 <ArrowRightLeft className="w-4 h-4" />
-              </button>
+              </Button>
             </div>
 
-            <div className="md:col-span-2 p-3 rounded-xl bg-(--bg-secondary) dark:bg-neutral-800 border border-(--border-subtle) dark:border-neutral-700">
+            <div className="md:col-span-2 p-3 rounded-xl bg-(--bg-secondary)  border border-(--border-subtle) ">
               <span className="text-[10px] text-(--text-muted) font-medium block">도착지</span>
               <span className="text-sm font-bold">{flightArr}</span>
             </div>
@@ -343,7 +337,7 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
 
           {/* Date & Passengers */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            <div className="p-3 rounded-xl bg-(--bg-secondary) dark:bg-neutral-800 border border-(--border-subtle) dark:border-neutral-700 flex items-center justify-between">
+            <div className="p-3 rounded-xl bg-(--bg-secondary)  border border-(--border-subtle)  flex items-center justify-between">
               <div>
                 <span className="text-[10px] text-(--text-muted) font-medium block">가는날 - 오는날</span>
                 <span className="text-xs font-bold">2026.11.12 (목) - 2026.11.16 (월)</span>
@@ -351,31 +345,37 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
               <Calendar className="w-4 h-4 text-(--accent-primary)" />
             </div>
 
-            <div className="p-3 rounded-xl bg-(--bg-secondary) dark:bg-neutral-800 border border-(--border-subtle) dark:border-neutral-700 flex items-center justify-between">
+            <div className="p-3 rounded-xl bg-(--bg-secondary)  border border-(--border-subtle)  flex items-center justify-between">
               <div>
                 <span className="text-[10px] text-(--text-muted) font-medium block">탑승객 수</span>
                 <span className="text-xs font-bold">성인 {passengers}명 · 일반석</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <button
+                <Button
+                  variant="outline"
+                  size="sm"
+                  isIconOnly
                   onClick={() => setPassengers(Math.max(1, passengers - 1))}
-                  className="w-6 h-6 rounded bg-white dark:bg-neutral-700 flex items-center justify-center font-bold text-xs border"
+                  className="w-6 h-6 p-0 font-bold text-xs"
                 >
                   -
-                </button>
-                <button
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  isIconOnly
                   onClick={() => setPassengers(passengers + 1)}
-                  className="w-6 h-6 rounded bg-white dark:bg-neutral-700 flex items-center justify-center font-bold text-xs border"
+                  className="w-6 h-6 p-0 font-bold text-xs"
                 >
                   +
-                </button>
+                </Button>
               </div>
             </div>
           </div>
 
-          <button className="w-full py-3 rounded-xl bg-(--accent-primary) hover:bg-blue-700 text-white text-xs font-bold shadow-md shadow-blue-500/20">
+          <Button variant="primary" size="md" className="w-full font-bold">
             최저가 항공권 검색하기 (26건 발견)
-          </button>
+          </Button>
         </div>
       )}
 
@@ -387,11 +387,11 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
               <span>온보딩 단계</span>
               <span className="font-bold text-(--accent-primary)">{onboardingStep}/3단계</span>
             </div>
-            <div className="h-1.5 w-full bg-(--bg-tertiary) dark:bg-neutral-800 rounded-full overflow-hidden">
+            <div className="h-1.5 w-full bg-(--bg-tertiary)  rounded-full overflow-hidden">
               <div style={{ width: `${(onboardingStep / 3) * 100}%` }} className="h-full bg-(--accent-primary) rounded-full transition-all"></div>
             </div>
 
-            <h2 className="text-base font-bold text-(--text-primary) dark:text-white mt-4">어떤 역할을 주로 담당하시나요?</h2>
+            <h2 className="text-base font-bold text-(--text-primary)  mt-4">어떤 역할을 주로 담당하시나요?</h2>
             <p className="text-xs text-(--text-secondary) mt-1">선택하신 직무에 꼭 맞는 토큰 프리셋과 UX 패턴을 추천해 드립니다.</p>
           </div>
 
@@ -407,8 +407,8 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
                 onClick={() => setSelectedRole(role.id)}
                 className={`p-3 rounded-xl border cursor-pointer transition ${
                   selectedRole === role.id
-                    ? 'border-(--accent-primary) bg-blue-50/60 dark:bg-blue-950/40 ring-2 ring-blue-500/20'
-                    : 'border-(--border-subtle) dark:border-neutral-800 hover:bg-neutral-50 dark:hover:bg-neutral-800'
+                    ? 'border-(--accent-primary) bg-(--accent-primary)/10/60 dark:bg-blue-950/40 ring-2 ring-blue-500/20'
+                    : 'border-(--border-subtle)  hover:bg-neutral-50 dark:hover:bg-(--bg-secondary)'
                 }`}
               >
                 <div className="font-bold text-xs">{role.title}</div>
@@ -418,18 +418,22 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
           </div>
 
           <div className="flex gap-2">
-            <button
+            <Button
+              variant="outline"
+              size="md"
               onClick={() => setOnboardingStep(Math.max(1, onboardingStep - 1))}
-              className="px-4 py-2.5 rounded-xl border border-(--border-subtle) dark:border-neutral-700 text-xs font-semibold"
+              className="px-4 text-xs font-semibold"
             >
               이전
-            </button>
-            <button
+            </Button>
+            <Button
+              variant="primary"
+              size="md"
               onClick={() => setOnboardingStep(Math.min(3, onboardingStep + 1))}
-              className="flex-1 py-2.5 rounded-xl bg-(--accent-primary) hover:bg-blue-700 text-white text-xs font-bold shadow-md shadow-blue-500/20"
+              className="flex-1 font-bold text-xs"
             >
               다음 단계로
-            </button>
+            </Button>
           </div>
         </div>
       )}
@@ -437,7 +441,7 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
       {/* 8. File Uploader (Web) */}
       {patternId === 'file-uploader' && (
         <div className="flex flex-col gap-4">
-          <div className="border-2 border-dashed border-blue-400 dark:border-(--accent-primary)/70 rounded-2xl p-8 bg-blue-50/30 dark:bg-blue-950/20 text-center flex flex-col items-center justify-center gap-2">
+          <div className="border-2 border-dashed border-blue-400 dark:border-(--accent-primary)/70 rounded-2xl p-8 bg-(--accent-primary)/10/30 dark:bg-(--accent-primary)/10 text-center flex flex-col items-center justify-center gap-2">
             <div className="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/60 text-(--accent-primary) flex items-center justify-center">
               <UploadCloud className="w-6 h-6" />
             </div>
@@ -448,7 +452,7 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
           {/* Uploaded File List */}
           <div className="flex flex-col gap-2">
             {uploadedFiles.map((f, i) => (
-              <div key={i} className="p-3 rounded-xl bg-neutral-50 dark:bg-neutral-850 border border-(--border-subtle) dark:border-neutral-800 flex items-center justify-between">
+              <div key={i} className="p-3 rounded-xl bg-(--bg-secondary) border border-(--border-subtle)  flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
                   <FileCheck className="w-4 h-4 text-(--accent-primary)" />
                   <div>
@@ -472,20 +476,20 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
       {patternId === 'fintech-transfer' && (
         <div className="flex flex-col gap-4 max-w-sm mx-auto justify-between h-full">
           <div>
-            <div className="p-3 rounded-xl bg-neutral-50 dark:bg-neutral-850 border border-(--border-subtle) dark:border-neutral-800 flex justify-between items-center mb-3">
+            <div className="p-3 rounded-xl bg-(--bg-secondary) border border-(--border-subtle)  flex justify-between items-center mb-3">
               <div>
                 <span className="text-[10px] text-(--text-muted) block">출금 계좌</span>
-                <span className="text-xs font-bold">토스뱅크 · 1002-***-4921</span>
+                <span className="text-xs font-bold">스마트뱅크 · 1002-***-4921</span>
               </div>
-              <span className="text-xs font-bold text-emerald-500">잔액 ₩3,450,000</span>
+              <span className="text-xs font-bold text-(--atom-color-success)">잔액 ₩3,450,000</span>
             </div>
 
             <div className="text-center py-4">
               <span className="text-[11px] text-(--text-muted) font-medium">보낼 금액</span>
-              <div className="text-3xl font-black text-(--text-primary) dark:text-white mt-1">
+              <div className="text-3xl font-black text-(--text-primary)  mt-1">
                 ₩{Number(amount).toLocaleString()}
               </div>
-              <span className="text-xs font-semibold text-(--accent-primary) dark:text-blue-400 mt-1 block">
+              <span className="text-xs font-semibold text-(--accent-primary) dark:text-(--accent-primary) mt-1 block">
                 오십만 원
               </span>
             </div>
@@ -494,21 +498,25 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
           {/* Quick Amounts */}
           <div className="flex gap-2">
             {['+1만', '+5만', '+10만', '전액'].map((q) => (
-              <button
+              <Button
                 key={q}
-                className="flex-1 py-1.5 rounded-lg bg-(--bg-secondary) dark:bg-neutral-800 text-xs font-bold hover:bg-(--bg-tertiary) dark:hover:bg-neutral-700"
+                variant="outline"
+                size="sm"
+                className="flex-1 text-xs font-bold"
               >
                 {q}
-              </button>
+              </Button>
             ))}
           </div>
 
-          <button
+          <Button
+            variant="primary"
+            size="md"
             onClick={() => setIsTransferModalOpen(true)}
-            className="w-full py-3 rounded-xl bg-(--accent-primary) hover:bg-blue-700 text-white text-xs font-bold shadow-md shadow-blue-500/20"
+            className="w-full font-bold text-xs"
           >
-            김토스님에게 송금하기 (수수료 면제)
-          </button>
+            김철수님에게 송금하기 (수수료 면제)
+          </Button>
         </div>
       )}
 
@@ -518,7 +526,7 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
           <div>
             <h3 className="font-bold text-sm mb-2">장바구니 주문서</h3>
             {/* Item Card */}
-            <div className="p-3 rounded-xl bg-neutral-50 dark:bg-neutral-850 border border-(--border-subtle) dark:border-neutral-800 flex gap-3">
+            <div className="p-3 rounded-xl bg-(--bg-secondary) border border-(--border-subtle)  flex gap-3">
               <div className="w-14 h-14 rounded-lg bg-(--bg-tertiary) dark:bg-neutral-700 flex items-center justify-center font-bold text-xs text-(--text-muted)">
                 ITEM
               </div>
@@ -526,10 +534,10 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
                 <span className="text-xs font-bold">프리미엄 미니멀 무선 키보드</span>
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-black text-(--accent-primary)">₩{(unitPrice * cartCount).toLocaleString()}</span>
-                  <div className="flex items-center gap-1.5 bg-white dark:bg-neutral-800 rounded border px-1">
-                    <button onClick={() => setCartCount(Math.max(1, cartCount - 1))} className="text-xs px-1">-</button>
+                  <div className="flex items-center gap-1.5 bg-white  rounded border px-1">
+                    <Button variant="ghost" size="sm" isIconOnly onClick={() => setCartCount(Math.max(1, cartCount - 1))} className="h-5 w-5 p-0 text-xs">-</Button>
                     <span className="text-xs font-bold px-1">{cartCount}</span>
-                    <button onClick={() => setCartCount(cartCount + 1)} className="text-xs px-1">+</button>
+                    <Button variant="ghost" size="sm" isIconOnly onClick={() => setCartCount(cartCount + 1)} className="h-5 w-5 p-0 text-xs">+</Button>
                   </div>
                 </div>
               </div>
@@ -537,25 +545,25 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
           </div>
 
           {/* Order Summary */}
-          <div className="p-3 rounded-xl bg-neutral-50 dark:bg-neutral-850 border border-(--border-subtle) dark:border-neutral-800 flex flex-col gap-1.5 text-xs">
+          <div className="p-3 rounded-xl bg-(--bg-secondary) border border-(--border-subtle)  flex flex-col gap-1.5 text-xs">
             <div className="flex justify-between text-(--text-secondary)">
               <span>상품금액</span>
               <span>₩{(unitPrice * cartCount).toLocaleString()}</span>
             </div>
             <div className="flex justify-between text-(--text-secondary)">
               <span>배송비</span>
-              <span className="text-emerald-500 font-semibold">무료 배송</span>
+              <span className="text-(--atom-color-success) font-semibold">무료 배송</span>
             </div>
-            <div className="flex justify-between font-bold text-sm pt-2 border-t border-(--border-subtle) dark:border-neutral-700">
+            <div className="flex justify-between font-bold text-sm pt-2 border-t border-(--border-subtle) ">
               <span>총 결제금액</span>
               <span className="text-(--accent-primary) font-black">₩{(unitPrice * cartCount).toLocaleString()}</span>
             </div>
           </div>
 
           {/* Sticky Pay CTA */}
-          <button className="w-full py-3 rounded-xl bg-neutral-900 dark:bg-white text-white dark:text-(--text-primary) text-xs font-bold shadow-lg">
+          <Button variant="primary" size="md" className="w-full font-bold text-xs">
             ₩{(unitPrice * cartCount).toLocaleString()} 원클릭 간편결제
-          </button>
+          </Button>
         </div>
       )}
 
@@ -564,25 +572,28 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
         <div className="flex flex-col gap-4">
           <div className="relative">
             <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-(--text-muted)" />
-            <input
+            <Input
               type="text"
               value={searchVal}
               onChange={(e) => setSearchVal(e.target.value)}
-              className="w-full pl-9 pr-8 py-2.5 rounded-xl bg-(--bg-secondary) dark:bg-neutral-800 border border-(--border-subtle) dark:border-neutral-700 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full pl-9 pr-8 py-2.5 text-xs font-medium"
             />
             {searchVal && (
-              <button
+              <Button
+                variant="ghost"
+                size="sm"
+                isIconOnly
                 onClick={() => setSearchVal('')}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-(--text-muted) hover:text-neutral-700"
+                className="absolute right-2 top-1/2 -translate-y-1/2 h-6 w-6 p-0 text-(--text-muted)"
               >
                 <X className="w-4 h-4" />
-              </button>
+              </Button>
             )}
           </div>
 
           {/* Zero Results Feedback */}
-          <div className="p-8 rounded-2xl bg-neutral-50 dark:bg-neutral-850 border border-(--border-subtle) dark:border-neutral-800 text-center flex flex-col items-center justify-center gap-2">
-            <div className="w-12 h-12 rounded-full bg-(--bg-tertiary) dark:bg-neutral-800 text-(--text-muted) flex items-center justify-center">
+          <div className="p-8 rounded-2xl bg-(--bg-secondary) border border-(--border-subtle)  text-center flex flex-col items-center justify-center gap-2">
+            <div className="w-12 h-12 rounded-full bg-(--bg-tertiary)  text-(--text-muted) flex items-center justify-center">
               <Search className="w-6 h-6" />
             </div>
             <h3 className="font-bold text-sm">'{searchVal}'에 대한 검색 결과가 없습니다</h3>
@@ -592,14 +603,16 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
 
             <div className="flex flex-wrap items-center justify-center gap-1.5 mt-2">
               <span className="text-[11px] text-(--text-muted) mr-1 font-semibold">추천 검색어:</span>
-              {['디자인 토큰', '반응형 헤더', 'SaaS 대시보드', '토스 송금'].map((rec) => (
-                <button
+              {['디자인 토큰', '반응형 헤더', 'SaaS 대시보드', '간편 송금'].map((rec) => (
+                <Button
                   key={rec}
+                  variant="outline"
+                  size="sm"
                   onClick={() => setSearchVal(rec)}
-                  className="px-2.5 py-1 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-900 text-(--accent-primary) dark:text-blue-400 text-xs font-semibold hover:bg-blue-100"
+                  className="rounded-full text-xs font-semibold h-7 px-2.5"
                 >
                   {rec}
-                </button>
+                </Button>
               ))}
             </div>
           </div>
@@ -610,10 +623,10 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
       {patternId === 'developer-docs' && (
         <div className="flex gap-4 h-full">
           {/* Left Documentation Sidebar (Navigation Tree) */}
-          <div className="w-48 shrink-0 bg-neutral-50 dark:bg-neutral-850/60 border border-(--border-subtle)/80 dark:border-neutral-800 rounded-xl p-3 flex flex-col gap-3 text-xs">
-            <div className="flex items-center gap-1.5 pb-2 border-b border-(--border-subtle)/60 dark:border-neutral-700">
+          <div className="w-48 shrink-0 bg-(--bg-secondary)/60 border border-(--border-subtle)/80  rounded-xl p-3 flex flex-col gap-3 text-xs">
+            <div className="flex items-center gap-1.5 pb-2 border-b border-(--border-subtle)/60 ">
               <BookOpen className="w-4 h-4 text-(--accent-primary)" />
-              <span className="font-bold text-(--text-primary) dark:text-white">DOCS v1.2</span>
+              <span className="font-bold text-(--text-primary) ">DOCS v1.2</span>
             </div>
 
             <div className="flex flex-col gap-1">
@@ -623,38 +636,42 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
                 { id: 'installation', label: 'CLI 라이브러리 설치' },
                 { id: 'dtcg-spec', label: 'W3C 토큰 표준 규격' }
               ].map((item) => (
-                <button
+                <Button
                   key={item.id}
+                  variant={activeDocNav === item.id ? 'primary' : 'ghost'}
+                  size="sm"
                   onClick={() => setActiveDocNav(item.id)}
-                  className={`px-2.5 py-1.5 rounded-lg text-left transition font-medium ${
+                  className={`w-full justify-start text-left px-2.5 py-1.5 h-auto font-medium ${
                     activeDocNav === item.id
-                      ? 'bg-(--accent-primary) text-white font-bold shadow-xs'
-                      : 'text-(--text-secondary) dark:text-(--text-muted) hover:bg-(--bg-tertiary)/60 dark:hover:bg-neutral-800'
+                      ? 'font-bold shadow-xs'
+                      : 'text-(--text-secondary)'
                   }`}
                 >
                   {item.label}
-                </button>
+                </Button>
               ))}
             </div>
 
-            <div className="flex flex-col gap-1 pt-1 border-t border-(--border-subtle)/50 dark:border-neutral-800">
+            <div className="flex flex-col gap-1 pt-1 border-t border-(--border-subtle)/50 ">
               <span className="text-[10px] font-bold text-(--text-muted) uppercase tracking-wider">API 레퍼런스</span>
               {[
                 { id: 'button-api', label: 'Button API' },
                 { id: 'input-api', label: 'Input API' },
                 { id: 'dialog-api', label: 'Modal / Dialog' }
               ].map((item) => (
-                <button
+                <Button
                   key={item.id}
+                  variant={activeDocNav === item.id ? 'primary' : 'ghost'}
+                  size="sm"
                   onClick={() => setActiveDocNav(item.id)}
-                  className={`px-2.5 py-1.5 rounded-lg text-left transition font-medium ${
+                  className={`w-full justify-start text-left px-2.5 py-1.5 h-auto font-medium ${
                     activeDocNav === item.id
-                      ? 'bg-(--accent-primary) text-white font-bold shadow-xs'
-                      : 'text-(--text-secondary) dark:text-(--text-muted) hover:bg-(--bg-tertiary)/60 dark:hover:bg-neutral-800'
+                      ? 'font-bold shadow-xs'
+                      : 'text-(--text-secondary)'
                   }`}
                 >
                   {item.label}
-                </button>
+                </Button>
               ))}
             </div>
           </div>
@@ -667,15 +684,15 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
               <span>/</span>
               <span>Getting Started</span>
               <span>/</span>
-              <span className="text-(--accent-primary) dark:text-blue-400 font-bold">Quickstart</span>
+              <span className="text-(--accent-primary) dark:text-(--accent-primary) font-bold">Quickstart</span>
             </div>
 
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="text-xl font-black text-(--text-primary) dark:text-white">
+                <h1 className="text-xl font-black text-(--text-primary) ">
                   개발자 빠른 시작 가이드 (Quickstart)
                 </h1>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 font-bold border border-emerald-200 dark:border-emerald-800">
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950 text-(--atom-color-success) dark:text-(--atom-color-success) font-bold border border-emerald-200 dark:border-emerald-800">
                   Latest v1.2.4
                 </span>
               </div>
@@ -685,78 +702,78 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
             </div>
 
             {/* CLI Installation Box with Copy */}
-            <div className="p-3.5 rounded-xl bg-neutral-900 text-white flex flex-col gap-2 font-mono">
-              <div className="flex items-center justify-between text-[11px] text-(--text-muted) pb-1.5 border-b border-neutral-800">
+            <div className="p-3.5 rounded-xl bg-(--bg-secondary) text-white flex flex-col gap-2 font-mono">
+              <div className="flex items-center justify-between text-[11px] text-(--text-muted) pb-1.5 border-b border-(--border-subtle)">
                 <span className="flex items-center gap-1">
-                  <Terminal className="w-3.5 h-3.5 text-emerald-400" />
+                  <Terminal className="w-3.5 h-3.5 text-(--atom-color-success)" />
                   Terminal CLI
                 </span>
-                <button
+                <Button
+                  variant="ghost"
+                  size="sm"
                   onClick={() => {
                     navigator.clipboard.writeText('npx atomsystem init');
                     setCopiedDocSnippet(true);
                     setTimeout(() => setCopiedDocSnippet(false), 2000);
                   }}
-                  className="inline-flex items-center gap-1 text-[10px] text-neutral-300 hover:text-white transition"
+                  className="inline-flex items-center gap-1 text-[10px] text-(--text-secondary) hover:text-white h-auto p-0"
                 >
-                  {copiedDocSnippet ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                  {copiedDocSnippet ? <Check className="w-3 h-3 text-(--atom-color-success)" /> : <Copy className="w-3 h-3" />}
                   <span>{copiedDocSnippet ? '복사완료!' : '복사'}</span>
-                </button>
+                </Button>
               </div>
-              <div className="text-emerald-400 text-xs">
-                $ npx atomsystem init --preset toss
+              <div className="text-(--atom-color-success) text-xs">
+                $ npx atomsystem init --preset ocean-blue
               </div>
             </div>
 
             {/* Code Block Example */}
             <div className="flex flex-col gap-1.5">
-              <span className="font-bold text-neutral-800 dark:text-neutral-200">2. 컴포넌트 임포트 및 사용</span>
-              <div className="p-3.5 rounded-xl bg-neutral-900 text-neutral-200 font-mono text-[11px] leading-relaxed overflow-x-auto">
+              <span className="font-bold text-(--text-primary)">2. 컴포넌트 임포트 및 사용</span>
+              <div className="p-3.5 rounded-xl bg-(--bg-secondary) text-(--text-primary) font-mono text-[11px] leading-relaxed overflow-x-auto">
                 <div className="text-(--text-muted)">// React / Next.js 프로젝트</div>
-                <div><span className="text-purple-400">import</span> &#123; Button, Input &#125; <span className="text-purple-400">from</span> <span className="text-emerald-400">'@atomsystem/ui'</span>;</div>
-                <div className="mt-1"><span className="text-blue-400">&lt;Button</span> variant=<span className="text-emerald-400">"primary"</span> size=<span className="text-emerald-400">"lg"</span>&gt;</div>
+                <div><span className="text-purple-400">import</span> &#123; Button, Input &#125; <span className="text-purple-400">from</span> <span className="text-(--atom-color-success)">'@atomsystem/ui'</span>;</div>
+                <div className="mt-1"><span className="text-(--accent-primary)">&lt;Button</span> variant=<span className="text-(--atom-color-success)">"primary"</span> size=<span className="text-(--atom-color-success)">"lg"</span>&gt;</div>
                 <div className="pl-4">지금 시작하기</div>
-                <div><span className="text-blue-400">&lt;/Button&gt;</span></div>
+                <div><span className="text-(--accent-primary)">&lt;/Button&gt;</span></div>
               </div>
             </div>
 
             {/* API Parameters Spec Table */}
             <div className="flex flex-col gap-2">
-              <span className="font-bold text-neutral-800 dark:text-neutral-200">Button Props 규격</span>
-              <div className="border border-(--border-subtle) dark:border-neutral-800 rounded-xl overflow-hidden">
-                <table className="w-full text-left border-collapse text-[11px]">
-                  <thead className="bg-(--bg-secondary) dark:bg-neutral-850 text-(--text-secondary) dark:text-neutral-300 font-bold border-b border-(--border-subtle) dark:border-neutral-800">
-                    <tr>
-                      <th className="p-2">Property</th>
-                      <th className="p-2">Type</th>
-                      <th className="p-2">Default</th>
-                      <th className="p-2">Description</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-neutral-200 dark:divide-neutral-800">
-                    <tr>
-                      <td className="p-2 font-mono font-bold text-(--accent-primary)">variant</td>
-                      <td className="p-2 font-mono text-(--text-muted)">'primary' | 'secondary' | 'outline'</td>
-                      <td className="p-2 font-mono">'primary'</td>
-                      <td className="p-2 text-(--text-secondary) dark:text-(--text-muted)">버튼 시각적 스타일 배리언트</td>
-                    </tr>
-                    <tr>
-                      <td className="p-2 font-mono font-bold text-(--accent-primary)">loading</td>
-                      <td className="p-2 font-mono text-(--text-muted)">boolean</td>
-                      <td className="p-2 font-mono">false</td>
-                      <td className="p-2 text-(--text-secondary) dark:text-(--text-muted)">로딩 스피너 및 비활성화 상태 토글</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+              <span className="font-bold text-(--text-primary)">Button Props 규격</span>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="p-2">Property</TableHead>
+                    <TableHead className="p-2">Type</TableHead>
+                    <TableHead className="p-2">Default</TableHead>
+                    <TableHead className="p-2">Description</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  <TableRow>
+                    <TableCell className="p-2 font-mono font-bold text-(--accent-primary)">variant</TableCell>
+                    <TableCell className="p-2 font-mono text-(--text-muted)">'primary' | 'secondary' | 'outline'</TableCell>
+                    <TableCell className="p-2 font-mono">'primary'</TableCell>
+                    <TableCell className="p-2 text-(--text-secondary)">버튼 시각적 스타일 배리언트</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell className="p-2 font-mono font-bold text-(--accent-primary)">loading</TableCell>
+                    <TableCell className="p-2 font-mono text-(--text-muted)">boolean</TableCell>
+                    <TableCell className="p-2 font-mono">false</TableCell>
+                    <TableCell className="p-2 text-(--text-secondary)">로딩 스피너 및 비활성화 상태 토글</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
             </div>
           </div>
 
           {/* Right TOC Column (On this page) */}
-          <div className="w-40 shrink-0 border-l border-(--border-subtle)/80 dark:border-neutral-800 pl-3 flex flex-col gap-2 text-xs">
+          <div className="w-40 shrink-0 border-l border-(--border-subtle)/80  pl-3 flex flex-col gap-2 text-xs">
             <span className="text-[10px] font-bold text-(--text-muted) uppercase tracking-wider">On this page</span>
             <ul className="flex flex-col gap-1.5 text-[11px]">
-              <li className="font-bold text-(--accent-primary) dark:text-blue-400 cursor-pointer">빠른 시작 개요</li>
+              <li className="font-bold text-(--accent-primary) dark:text-(--accent-primary) cursor-pointer">빠른 시작 개요</li>
               <li className="text-(--text-secondary) hover:text-(--text-primary) dark:hover:text-white cursor-pointer">1. CLI 라이브러리 설치</li>
               <li className="text-(--text-secondary) hover:text-(--text-primary) dark:hover:text-white cursor-pointer">2. 컴포넌트 임포트</li>
               <li className="text-(--text-secondary) hover:text-(--text-primary) dark:hover:text-white cursor-pointer">3. Button Props 규격</li>
@@ -769,13 +786,13 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
       {patternId === 'complex-form-settings' && (
         <div className="relative flex flex-col h-full gap-4 text-xs">
           {/* Header */}
-          <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-(--border-subtle) dark:border-neutral-800 shrink-0">
+          <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-(--border-subtle)  shrink-0">
             <div>
               <div className="flex items-center gap-2">
-                <h2 className="text-base font-bold text-(--text-primary) dark:text-neutral-100">
+                <h2 className="text-base font-bold text-(--text-primary) ">
                   엔터프라이즈 프로젝트 환경설정
                 </h2>
-                <span className="text-[10px] px-2 py-0.5 rounded-full font-bold bg-blue-50 dark:bg-blue-950 text-(--accent-primary) dark:text-blue-400 border border-blue-200 dark:border-blue-800">
+                <span className="text-[10px] px-2 py-0.5 rounded-full font-bold bg-(--accent-primary)/10 dark:bg-blue-950 text-(--accent-primary) dark:text-(--accent-primary) border border-(--accent-primary)/20 dark:border-blue-800">
                   Best UX Form
                 </span>
               </div>
@@ -787,12 +804,12 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
             {/* Save Status Badge */}
             <div className="flex items-center gap-1.5 text-[11px]">
               {isSavedFeedback ? (
-                <span className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-emerald-950/80 px-2.5 py-1 rounded-lg border border-emerald-200 dark:border-emerald-800 animate-fade-in">
+                <span className="flex items-center gap-1 text-(--atom-color-success) dark:text-(--atom-color-success) font-bold bg-emerald-50 dark:bg-emerald-950/80 px-2.5 py-1 rounded-lg border border-emerald-200 dark:border-emerald-800 animate-fade-in">
                   <CheckCircle2 className="w-3.5 h-3.5" />
                   변경사항이 저장되었습니다!
                 </span>
               ) : isFormDirty ? (
-                <span className="flex items-center gap-1 text-amber-600 dark:text-amber-400 font-semibold bg-amber-50 dark:bg-amber-950/80 px-2.5 py-1 rounded-lg border border-amber-200 dark:border-amber-800">
+                <span className="flex items-center gap-1 text-(--atom-color-warning) dark:text-(--atom-color-warning) font-semibold bg-amber-50 dark:bg-amber-950/80 px-2.5 py-1 rounded-lg border border-amber-200 dark:border-amber-800">
                   <AlertCircle className="w-3.5 h-3.5" />
                   저장되지 않은 변경사항 있음
                 </span>
@@ -808,7 +825,7 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
           {/* 2-Column Section Layout */}
           <div className="flex-1 flex gap-5 overflow-hidden">
             {/* Left Nav: Section Chunking */}
-            <div className="w-44 shrink-0 flex flex-col gap-1 border-r border-(--border-subtle)/80 dark:border-neutral-800 pr-3">
+            <div className="w-44 shrink-0 flex flex-col gap-1 border-r border-(--border-subtle)/80  pr-3">
               <span className="text-[10px] font-bold text-(--text-muted) uppercase tracking-wider mb-1 px-2">
                 설정 카테고리
               </span>
@@ -821,18 +838,18 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
                 const Icon = tab.icon;
                 const isActive = activeFormTab === tab.id;
                 return (
-                  <button
+                  <Button
                     key={tab.id}
+                    variant={isActive ? 'primary' : 'ghost'}
+                    size="sm"
                     onClick={() => setActiveFormTab(tab.id as any)}
-                    className={`flex items-center gap-2 px-3 py-2 rounded-xl text-left font-medium transition text-xs ${
-                      isActive
-                        ? 'bg-blue-50 dark:bg-blue-950 text-(--accent-primary) dark:text-blue-400 font-bold shadow-xs'
-                        : 'text-(--text-secondary) dark:text-(--text-muted) hover:bg-(--bg-secondary) dark:hover:bg-neutral-800 hover:text-(--text-primary) dark:hover:text-white'
-                    } ${tab.id === 'danger' && !isActive ? 'hover:text-rose-500' : ''}`}
+                    className={`flex items-center justify-start gap-2 w-full text-xs ${
+                      tab.id === 'danger' && !isActive ? 'hover:text-(--atom-color-destructive)' : ''
+                    }`}
                   >
                     <Icon className="w-3.5 h-3.5" />
                     <span>{tab.label}</span>
-                  </button>
+                  </Button>
                 );
               })}
             </div>
@@ -843,9 +860,9 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
               {activeFormTab === 'general' && (
                 <div className="space-y-4">
                   {/* Field 1: Project Name */}
-                  <div className="p-4 rounded-xl border border-(--border-subtle) dark:border-neutral-800 bg-white dark:bg-neutral-900 space-y-2">
+                  <div className="p-4 rounded-xl border border-(--border-subtle)  bg-(--bg-primary) space-y-2">
                     <div className="flex items-center justify-between">
-                      <label className="font-bold text-(--text-primary) dark:text-neutral-100">
+                      <label className="font-bold text-(--text-primary) ">
                         프로젝트 식별자 (Project Name)
                       </label>
                       <span className="text-[10px] font-mono text-(--text-muted)">필수</span>
@@ -853,19 +870,19 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
                     <p className="text-[11px] text-(--text-secondary)">
                       API 엔드포인트와 내부 리소스 네임스페이스에 고유하게 사용되는 식별자입니다.
                     </p>
-                    <input
+                    <Input
                       type="text"
                       value={formValues.projectName}
                       onChange={(e) =>
                         setFormValues({ ...formValues, projectName: e.target.value })
                       }
-                      className="w-full px-3 py-2 text-xs rounded-lg border border-(--border-subtle) dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-850 font-mono text-(--text-primary) dark:text-neutral-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="font-mono text-xs"
                     />
                   </div>
 
                   {/* Field 2: Environment Card Selection */}
-                  <div className="p-4 rounded-xl border border-(--border-subtle) dark:border-neutral-800 bg-white dark:bg-neutral-900 space-y-2.5">
-                    <label className="font-bold text-(--text-primary) dark:text-neutral-100 block">
+                  <div className="p-4 rounded-xl border border-(--border-subtle)  bg-(--bg-primary) space-y-2.5">
+                    <label className="font-bold text-(--text-primary)  block">
                       배포 환경 (Deployment Environment)
                     </label>
                     <div className="grid grid-cols-3 gap-2">
@@ -874,64 +891,56 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
                         { id: 'staging', name: 'Staging', desc: '사전 QA 검증 환경' },
                         { id: 'development', name: 'Development', desc: '로컬 개발 및 샌드박스' },
                       ].map((env) => (
-                        <button
+                        <Button
                           key={env.id}
+                          variant={formValues.environment === env.id ? 'primary' : 'outline'}
+                          size="sm"
                           type="button"
                           onClick={() => setFormValues({ ...formValues, environment: env.id })}
-                          className={`p-2.5 rounded-xl border text-left transition ${
-                            formValues.environment === env.id
-                              ? 'border-(--accent-primary) bg-blue-50/60 dark:bg-blue-950/40 text-blue-900 dark:text-blue-300 font-bold shadow-xs'
-                              : 'border-(--border-subtle) dark:border-neutral-700 hover:border-(--border-strong)'
-                          }`}
+                          className="p-2.5 h-auto flex flex-col items-start text-left"
                         >
                           <div className="font-bold text-xs">{env.name}</div>
-                          <div className="text-[10px] text-(--text-muted) font-normal mt-0.5 line-clamp-1">
-                            {env.desc}
-                          </div>
-                        </button>
+                          <div className="text-[10px] opacity-70 font-normal">{env.desc}</div>
+                        </Button>
                       ))}
                     </div>
                   </div>
 
                   {/* Field 3: Custom Domain with Real-time Inline Validation */}
-                  <div className="p-4 rounded-xl border border-(--border-subtle) dark:border-neutral-800 bg-white dark:bg-neutral-900 space-y-2">
+                  <div className="p-4 rounded-xl border border-(--border-subtle)  bg-(--bg-primary) space-y-2">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-1.5">
-                        <label className="font-bold text-(--text-primary) dark:text-neutral-100">
+                        <label className="font-bold text-(--text-primary) ">
                           커스텀 도메인 (Custom Domain)
                         </label>
                         <span className="text-[10px] text-(--text-muted)">(선택)</span>
                       </div>
-                      <span className="text-[10px] text-(--accent-primary) dark:text-blue-400 flex items-center gap-1">
+                      <span className="text-[10px] text-(--accent-primary) dark:text-(--accent-primary) flex items-center gap-1">
                         <HelpCircle className="w-3 h-3" />
                         CNAME DNS 레코드 안내
                       </span>
                     </div>
                     <div className="relative">
-                      <input
+                      <Input
                         type="text"
                         value={formValues.customDomain}
                         onChange={(e) =>
                           setFormValues({ ...formValues, customDomain: e.target.value })
                         }
                         placeholder="예: api.yourcompany.com"
-                        className={`w-full px-3 py-2 text-xs rounded-lg border font-mono transition ${
-                          domainError
-                            ? 'border-rose-500 bg-rose-50/30 dark:bg-rose-950/20 text-rose-900 dark:text-rose-200 focus:ring-rose-500'
-                            : 'border-(--border-subtle) dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-850 text-(--text-primary) dark:text-neutral-100 focus:ring-blue-500'
-                        } focus:outline-none focus:ring-2`}
+                        className="font-mono text-xs"
                       />
                       <div className="absolute right-3 top-1/2 -translate-y-1/2">
                         {domainError ? (
-                          <AlertCircle className="w-4 h-4 text-rose-500" />
+                          <AlertCircle className="w-4 h-4 text-(--atom-color-destructive)" />
                         ) : formValues.customDomain ? (
-                          <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                          <CheckCircle2 className="w-4 h-4 text-(--atom-color-success)" />
                         ) : null}
                       </div>
                     </div>
                     {/* Inline Error or Helper */}
                     {domainError ? (
-                      <p className="text-[11px] text-rose-600 dark:text-rose-400 font-medium flex items-center gap-1">
+                      <p className="text-[11px] text-(--atom-color-destructive) dark:text-(--atom-color-destructive) font-medium flex items-center gap-1">
                         {domainError}
                       </p>
                     ) : (
@@ -947,9 +956,9 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
               {activeFormTab === 'security' && (
                 <div className="space-y-4">
                   {/* 2FA Toggle Row */}
-                  <div className="p-4 rounded-xl border border-(--border-subtle) dark:border-neutral-800 bg-white dark:bg-neutral-900 flex items-center justify-between">
+                  <div className="p-4 rounded-xl border border-(--border-subtle)  bg-(--bg-primary) flex items-center justify-between">
                     <div>
-                      <div className="font-bold text-(--text-primary) dark:text-neutral-100 flex items-center gap-1.5">
+                      <div className="font-bold text-(--text-primary)  flex items-center gap-1.5">
                         <ShieldCheck className="w-4 h-4 text-(--accent-primary)" />
                         조직원 2단계 인증(2FA) 강제
                       </div>
@@ -957,40 +966,31 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
                         모든 팀원이 로그인 시 OTP 또는 하드웨어 보안키를 필수로 인증합니다.
                       </p>
                     </div>
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setFormValues({ ...formValues, enable2FA: !formValues.enable2FA })
+                    <Switch
+                      checked={formValues.enable2FA}
+                      onCheckedChange={(checked: boolean) =>
+                        setFormValues({ ...formValues, enable2FA: checked })
                       }
-                      className={`w-11 h-6 rounded-full transition-colors relative flex items-center px-0.5 ${
-                        formValues.enable2FA ? 'bg-(--accent-primary)' : 'bg-neutral-300 dark:bg-neutral-700'
-                      }`}
-                    >
-                      <span
-                        className={`w-5 h-5 rounded-full bg-white shadow-md transform transition-transform ${
-                          formValues.enable2FA ? 'translate-x-5' : 'translate-x-0'
-                        }`}
-                      />
-                    </button>
+                    />
                   </div>
 
                   {/* Session Timeout */}
-                  <div className="p-4 rounded-xl border border-(--border-subtle) dark:border-neutral-800 bg-white dark:bg-neutral-900 space-y-2">
-                    <label className="font-bold text-(--text-primary) dark:text-neutral-100 block">
+                  <div className="p-4 rounded-xl border border-(--border-subtle)  bg-(--bg-primary) space-y-2">
+                    <label className="font-bold text-(--text-primary)  block">
                       유휴 세션 자동 로그아웃 시간
                     </label>
-                    <select
+                    <NativeSelect
                       value={formValues.sessionTimeout}
                       onChange={(e) =>
                         setFormValues({ ...formValues, sessionTimeout: e.target.value })
                       }
-                      className="w-full px-3 py-2 text-xs rounded-lg border border-(--border-subtle) dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-850 text-neutral-800 dark:text-neutral-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full text-xs"
                     >
                       <option value="15m">15분 (가장 엄격)</option>
                       <option value="30m">30분 (권장)</option>
                       <option value="1h">1시간</option>
                       <option value="8h">8시간 (근무 시간)</option>
-                    </select>
+                    </NativeSelect>
                   </div>
                 </div>
               )}
@@ -999,120 +999,100 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
               {activeFormTab === 'webhooks' && (
                 <div className="space-y-4">
                   {/* Master Toggle */}
-                  <div className="p-4 rounded-xl border border-(--border-subtle) dark:border-neutral-800 bg-white dark:bg-neutral-900 flex items-center justify-between">
+                  <div className="p-4 rounded-xl border border-(--border-subtle)  bg-(--bg-primary) flex items-center justify-between">
                     <div>
-                      <div className="font-bold text-(--text-primary) dark:text-neutral-100 flex items-center gap-1.5">
-                        <Globe className="w-4 h-4 text-emerald-500" />
+                      <div className="font-bold text-(--text-primary)  flex items-center gap-1.5">
+                        <Globe className="w-4 h-4 text-(--atom-color-success)" />
                         실시간 웹훅(Webhooks) 이벤트 발송
                       </div>
                       <p className="text-[11px] text-(--text-secondary) mt-0.5">
                         주문, 결제, 회원 상태 변경 시 외부 서버로 HTTP POST 요청을 보냅니다.
                       </p>
                     </div>
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setFormValues({
-                          ...formValues,
-                          enableWebhooks: !formValues.enableWebhooks,
-                        })
+                    <Switch
+                      checked={formValues.enableWebhooks}
+                      onCheckedChange={(checked: boolean) =>
+                        setFormValues({ ...formValues, enableWebhooks: checked })
                       }
-                      className={`w-11 h-6 rounded-full transition-colors relative flex items-center px-0.5 ${
-                        formValues.enableWebhooks
-                          ? 'bg-emerald-600'
-                          : 'bg-neutral-300 dark:bg-neutral-700'
-                      }`}
-                    >
-                      <span
-                        className={`w-5 h-5 rounded-full bg-white shadow-md transform transition-transform ${
-                          formValues.enableWebhooks ? 'translate-x-5' : 'translate-x-0'
-                        }`}
-                      />
-                    </button>
+                    />
                   </div>
 
                   {/* Dependent Conditional Fields (Progressive Disclosure) */}
                   {formValues.enableWebhooks ? (
                     <div className="p-4 rounded-xl border border-emerald-200/80 dark:border-emerald-900/60 bg-emerald-50/20 dark:bg-emerald-950/20 space-y-3.5 animate-fade-in">
-                      <div className="flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400 font-bold text-xs">
+                      <div className="flex items-center gap-1.5 text-emerald-700 dark:text-(--atom-color-success) font-bold text-xs">
                         <Sparkles className="w-3.5 h-3.5" />
                         <span>웹훅 상세 엔드포인트 설정 (활성화됨)</span>
                       </div>
 
                       {/* Webhook Endpoint URL */}
                       <div className="space-y-1">
-                        <label className="text-[11px] font-semibold text-neutral-700 dark:text-neutral-300">
+                        <label className="text-[11px] font-semibold text-(--text-secondary)">
                           수신 엔드포인트 URL (Webhook Endpoint)
                         </label>
-                        <input
+                        <Input
                           type="text"
                           value={formValues.webhookUrl}
                           onChange={(e) =>
                             setFormValues({ ...formValues, webhookUrl: e.target.value })
                           }
-                          className="w-full px-3 py-2 text-xs font-mono rounded-lg border border-(--border-subtle) dark:border-neutral-700 bg-white dark:bg-neutral-900 text-(--text-primary) dark:text-neutral-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                          className="font-mono text-xs"
                         />
                       </div>
 
                       {/* Secret Signing Key */}
                       <div className="space-y-1">
                         <div className="flex items-center justify-between text-[11px]">
-                          <span className="font-semibold text-neutral-700 dark:text-neutral-300">
+                          <span className="font-semibold text-(--text-secondary)">
                             서명 검증 시크릿 키 (Signing Secret)
                           </span>
-                          <button
+                          <Button
+                            variant="ghost"
+                            size="sm"
                             type="button"
                             onClick={() => {
                               navigator.clipboard.writeText(formValues.secretKey);
                               alert('시크릿 키가 복사되었습니다!');
                             }}
-                            className="text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1"
+                            className="text-(--atom-color-success) dark:text-(--atom-color-success) hover:underline flex items-center gap-1 h-auto p-0 text-[11px]"
                           >
                             <Copy className="w-3 h-3" />
                             복사
-                          </button>
+                          </Button>
                         </div>
-                        <input
+                        <Input
                           type="text"
                           readOnly
                           value={formValues.secretKey}
-                          className="w-full px-3 py-2 text-xs font-mono rounded-lg border border-(--border-subtle) dark:border-neutral-700 bg-(--bg-secondary) dark:bg-neutral-800 text-(--text-secondary) cursor-not-allowed"
+                          className="font-mono text-xs opacity-70"
                         />
                       </div>
 
                       {/* Event Subscriptions Checkboxes */}
                       <div className="space-y-1.5 pt-1">
-                        <span className="text-[11px] font-semibold text-neutral-700 dark:text-neutral-300 block">
+                        <span className="text-[11px] font-semibold text-(--text-secondary) block">
                           구독할 이벤트 트리거
                         </span>
                         <div className="flex items-center gap-4 text-xs">
-                          <label className="flex items-center gap-1.5 cursor-pointer">
-                            <input
-                              type="checkbox"
-                              checked={formValues.eventOrders}
-                              onChange={(e) =>
-                                setFormValues({ ...formValues, eventOrders: e.target.checked })
-                              }
-                              className="rounded border-(--border-strong) text-emerald-600"
-                            />
-                            <span>order.created / order.paid</span>
-                          </label>
-                          <label className="flex items-center gap-1.5 cursor-pointer">
-                            <input
-                              type="checkbox"
-                              checked={formValues.eventUsers}
-                              onChange={(e) =>
-                                setFormValues({ ...formValues, eventUsers: e.target.checked })
-                              }
-                              className="rounded border-(--border-strong) text-emerald-600"
-                            />
-                            <span>user.signup / user.deleted</span>
-                          </label>
+                          <Checkbox
+                            checked={formValues.eventOrders}
+                            onChange={(e) =>
+                              setFormValues({ ...formValues, eventOrders: e.target.checked })
+                            }
+                            label="order.created / order.paid"
+                          />
+                          <Checkbox
+                            checked={formValues.eventUsers}
+                            onChange={(e) =>
+                              setFormValues({ ...formValues, eventUsers: e.target.checked })
+                            }
+                            label="user.signup / user.deleted"
+                          />
                         </div>
                       </div>
                     </div>
                   ) : (
-                    <div className="p-4 rounded-xl border border-dashed border-(--border-subtle) dark:border-neutral-800 text-center text-[11px] text-(--text-muted) py-6">
+                    <div className="p-4 rounded-xl border border-dashed border-(--border-subtle)  text-center text-[11px] text-(--text-muted) py-6">
                       웹훅 기능을 활성화하면 엔드포인트 URL 및 시크릿 키 설정이 노출됩니다.
                     </div>
                   )}
@@ -1123,7 +1103,7 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
               {activeFormTab === 'danger' && (
                 <div className="space-y-4">
                   <div className="p-4 rounded-xl border border-rose-300 dark:border-rose-900 bg-rose-50/40 dark:bg-rose-950/20 space-y-3">
-                    <div className="flex items-center gap-2 text-rose-600 dark:text-rose-400 font-bold">
+                    <div className="flex items-center gap-2 text-(--atom-color-destructive) dark:text-(--atom-color-destructive) font-bold">
                       <AlertCircle className="w-4 h-4" />
                       <span>프로젝트 영구 삭제 (Danger Zone)</span>
                     </div>
@@ -1131,26 +1111,28 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
                       이 작업은 즉시 모든 프로덕션 데이터베이스, API 키, 결제 연동 내역을 삭제하며 되돌릴 수 없습니다.
                     </p>
                     <div className="space-y-1.5 pt-1">
-                      <label className="text-[11px] font-semibold text-neutral-700 dark:text-neutral-300">
-                        확인을 위해 <span className="font-mono text-rose-600 font-bold">delete acme-commerce-api</span> 를 입력하세요:
+                      <label className="text-[11px] font-semibold text-(--text-secondary)">
+                        확인을 위해 <span className="font-mono text-(--atom-color-destructive) font-bold">delete acme-commerce-api</span> 를 입력하세요:
                       </label>
-                      <input
+                      <Input
                         type="text"
                         value={formValues.deleteConfirmText}
                         onChange={(e) =>
                           setFormValues({ ...formValues, deleteConfirmText: e.target.value })
                         }
                         placeholder="delete acme-commerce-api"
-                        className="w-full px-3 py-2 text-xs font-mono rounded-lg border border-rose-300 dark:border-rose-900 bg-white dark:bg-neutral-900 focus:outline-none focus:ring-2 focus:ring-rose-500"
+                        className="font-mono text-xs"
                       />
                     </div>
-                    <button
+                    <Button
+                      variant="destructive"
+                      size="md"
                       type="button"
                       disabled={formValues.deleteConfirmText !== 'delete acme-commerce-api'}
-                      className="w-full py-2 rounded-lg bg-rose-600 text-white font-bold text-xs disabled:opacity-40 disabled:cursor-not-allowed hover:bg-rose-700 transition"
+                      className="w-full font-bold text-xs"
                     >
                       프로젝트 영구 삭제 확정
-                    </button>
+                    </Button>
                   </div>
                 </div>
               )}
@@ -1159,7 +1141,7 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
 
           {/* Floating Sticky Unsaved Changes Bar */}
           <div
-            className={`absolute bottom-0 left-0 right-0 p-3 bg-neutral-900/95 dark:bg-neutral-950/95 text-white rounded-xl shadow-2xl border border-neutral-700 flex items-center justify-between transition-all duration-300 backdrop-blur-md ${
+            className={`absolute bottom-0 left-0 right-0 p-3 bg-(--bg-secondary)/95 /95 text-white rounded-xl shadow-2xl border border-neutral-700 flex items-center justify-between transition-all duration-300 backdrop-blur-md ${
               isFormDirty
                 ? 'translate-y-0 opacity-100 pointer-events-auto'
                 : 'translate-y-12 opacity-0 pointer-events-none'
@@ -1167,24 +1149,28 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
           >
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
-              <span className="text-xs font-semibold text-neutral-200">
+              <span className="text-xs font-semibold text-(--text-primary)">
                 수정된 변경사항이 있습니다. 저장하지 않으면 변경 내용이 유실됩니다.
               </span>
             </div>
 
             <div className="flex items-center gap-2">
-              <button
+              <Button
+                variant="ghost"
+                size="sm"
                 type="button"
                 onClick={handleResetForm}
-                className="px-3 py-1.5 text-xs text-neutral-300 hover:text-white hover:bg-neutral-800 rounded-lg transition"
+                className="text-xs text-(--text-secondary) hover:text-white"
               >
                 되돌리기 (Reset)
-              </button>
-              <button
+              </Button>
+              <Button
+                variant="primary"
+                size="sm"
                 type="button"
                 onClick={handleSaveForm}
                 disabled={isSaving || !!domainError}
-                className="px-4 py-1.5 text-xs font-bold bg-(--accent-primary) hover:bg-(--accent-primary) text-white rounded-lg transition shadow-xs flex items-center gap-1.5 disabled:opacity-50"
+                className="font-bold text-xs flex items-center gap-1.5"
               >
                 {isSaving ? (
                   <>
@@ -1197,7 +1183,7 @@ export function PatternInteractiveScreen({ patternId }: PatternInteractiveScreen
                     <span>변경사항 저장</span>
                   </>
                 )}
-              </button>
+              </Button>
             </div>
           </div>
         </div>

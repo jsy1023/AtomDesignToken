@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui';
 'use client';
 
 import React, { useState } from 'react';
@@ -65,30 +66,36 @@ export function PatternDetailView({
       )}
 
       {/* 1. Top Navigation Bar: Back Button & Actions */}
-      <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-(--border-subtle) dark:border-neutral-800">
-        <button
+      <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-(--border-subtle) ">
+        <Button
+          variant="outline"
+          size="sm"
           onClick={onBack}
-          className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white dark:bg-neutral-850 border border-(--border-subtle) dark:border-neutral-800 text-xs font-bold text-neutral-800 dark:text-neutral-200 hover:bg-(--bg-secondary) dark:hover:bg-neutral-800 transition active:scale-95 shadow-sm"
+          className="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-bold shadow-sm"
         >
-          <ArrowLeft className="w-4 h-4 text-(--accent-primary) dark:text-blue-400" />
+          <ArrowLeft className="w-4 h-4 text-(--accent-primary)" />
           <span>전체 패턴 목록으로 돌아가기</span>
-        </button>
+        </Button>
 
         <div className="flex items-center gap-2">
-          <button
+          <Button
+            variant="primary"
+            size="sm"
             onClick={handleCopyMarkdown}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-(--accent-primary) hover:bg-blue-700 text-white font-bold text-xs shadow-md shadow-blue-500/20 active:scale-95 transition"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 font-bold text-xs shadow-md shadow-blue-500/20"
           >
             {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
             <span>{copied ? '복사완료!' : 'AI 지시용 .md 복사'}</span>
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
             onClick={handleDownloadMarkdown}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-(--bg-secondary) dark:bg-neutral-800 border border-(--border-subtle) dark:border-neutral-700 text-neutral-700 dark:text-neutral-200 text-xs font-bold hover:bg-(--bg-tertiary) dark:hover:bg-neutral-750 transition"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold"
           >
             <Download className="w-4 h-4" />
             <span>.md 다운로드</span>
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -98,19 +105,19 @@ export function PatternDetailView({
           <span
             className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold border ${
               isWeb
-                ? 'bg-blue-50 dark:bg-blue-950/60 text-(--accent-primary) dark:text-blue-400 border-blue-200 dark:border-blue-800'
-                : 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800'
+                ? 'bg-(--accent-primary)/10  text-(--accent-primary) dark:text-(--accent-primary) border-(--accent-primary)/20 dark:border-blue-800'
+                : 'bg-emerald-50 dark:bg-emerald-950/60 text-(--atom-color-success) dark:text-(--atom-color-success) border-emerald-200 dark:border-emerald-800'
             }`}
           >
             {isWeb ? <Monitor className="w-3.5 h-3.5" /> : <Smartphone className="w-3.5 h-3.5" />}
             <span>{isWeb ? 'WEB 전용 화면' : '모바일 전용 화면'}</span>
           </span>
-          <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-(--bg-secondary) dark:bg-neutral-800 text-(--text-secondary) dark:text-neutral-300">
+          <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-(--bg-secondary)  text-(--text-secondary) ">
             {pattern.categoryName}
           </span>
         </div>
 
-        <h1 className="text-2xl sm:text-3xl font-black text-(--text-primary) dark:text-white tracking-tight">
+        <h1 className="text-2xl sm:text-3xl font-black text-(--text-primary)  tracking-tight">
           {pattern.title}
         </h1>
         <p className="text-sm text-(--text-secondary) dark:text-(--text-muted) leading-relaxed max-w-3xl">
@@ -128,15 +135,15 @@ export function PatternDetailView({
         {/* Right: Checklist & Specification Panel */}
         <div className="lg:col-span-5 xl:col-span-4 flex flex-col gap-5">
           {/* Best Practices Checklist */}
-          <div className="p-5 rounded-2xl bg-white dark:bg-neutral-900 border border-(--border-subtle)/80 dark:border-neutral-800 shadow-sm flex flex-col gap-3">
-            <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-bold text-xs uppercase tracking-wider">
+          <div className="p-5 rounded-2xl bg-(--bg-primary) border border-(--border-subtle)/80  shadow-sm flex flex-col gap-3">
+            <div className="flex items-center gap-2 text-(--atom-color-success) dark:text-(--atom-color-success) font-bold text-xs uppercase tracking-wider">
               <CheckCircle2 className="w-4 h-4" />
               <span>필수 구현 베스트 프랙티스 (Checklist)</span>
             </div>
-            <ul className="flex flex-col gap-2.5 text-xs text-neutral-700 dark:text-neutral-300">
+            <ul className="flex flex-col gap-2.5 text-xs text-(--text-secondary)">
               {pattern.checklist.map((item, i) => (
                 <li key={i} className="flex items-start gap-2 leading-relaxed">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-1.5 shrink-0"></span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-(--atom-color-success) mt-1.5 shrink-0"></span>
                   <span>{item}</span>
                 </li>
               ))}
@@ -145,7 +152,7 @@ export function PatternDetailView({
 
           {/* Anti-Patterns */}
           <div className="p-5 rounded-2xl bg-rose-50/50 dark:bg-rose-950/20 border border-rose-200/80 dark:border-rose-900/40 shadow-sm flex flex-col gap-3">
-            <div className="flex items-center gap-2 text-rose-600 dark:text-rose-400 font-bold text-xs uppercase tracking-wider">
+            <div className="flex items-center gap-2 text-(--atom-color-destructive) dark:text-(--atom-color-destructive) font-bold text-xs uppercase tracking-wider">
               <AlertTriangle className="w-4 h-4" />
               <span>치명적 안티패턴 (절대 방지 사항)</span>
             </div>
@@ -160,8 +167,8 @@ export function PatternDetailView({
           </div>
 
           {/* Recommended Components */}
-          <div className="p-5 rounded-2xl bg-white dark:bg-neutral-900 border border-(--border-subtle)/80 dark:border-neutral-800 shadow-sm flex flex-col gap-3">
-            <div className="flex items-center gap-2 text-(--accent-primary) dark:text-blue-400 font-bold text-xs uppercase tracking-wider">
+          <div className="p-5 rounded-2xl bg-(--bg-primary) border border-(--border-subtle)/80  shadow-sm flex flex-col gap-3">
+            <div className="flex items-center gap-2 text-(--accent-primary) dark:text-(--accent-primary) font-bold text-xs uppercase tracking-wider">
               <Layers className="w-4 h-4" />
               <span>연계 추천 컴포넌트</span>
             </div>
@@ -169,7 +176,7 @@ export function PatternDetailView({
               {pattern.recommendedComponentIds.map((comp) => (
                 <span
                   key={comp}
-                  className="px-2.5 py-1 rounded-lg bg-(--bg-secondary) dark:bg-neutral-800 border border-(--border-subtle) dark:border-neutral-700 font-mono text-xs text-neutral-800 dark:text-neutral-200 font-bold"
+                  className="px-2.5 py-1 rounded-lg bg-(--bg-secondary)  border border-(--border-subtle)  font-mono text-xs text-(--text-primary) font-bold"
                 >
                   {comp}
                 </span>

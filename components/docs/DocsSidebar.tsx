@@ -5,6 +5,7 @@ import { Link } from '@/i18n/routing';
 import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';
 import { useI18n } from '@/lib/i18n';
 import { GALLERY_COMPONENTS } from '@/lib/data/components';
+import { Input, Badge } from '@/components/ui';
 import { Search, BookOpen, Layers, Layout, Palette, Type, Box } from 'lucide-react';
 
 interface DocsSidebarProps {
@@ -79,20 +80,20 @@ export function DocsSidebar({
             {t('sidebar.apiReference', 'API Reference')}
           </span>
         </div>
-        <span className="text-xs font-mono px-2 py-0.5 rounded-(--radius-sm) bg-(--bg-secondary) text-(--text-primary) font-medium border border-(--border-subtle)">
+        <Badge variant="neutral" className="font-mono text-xs">
           v1.2.4 (Latest)
-        </span>
+        </Badge>
       </div>
 
       {/* 2. Fast Component Search Box */}
       <div className="relative">
-        <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-(--text-secondary)" />
-        <input
+        <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-(--text-secondary) z-10" />
+        <Input
           type="text"
           placeholder={t('sidebar.searchPlaceholder', '컴포넌트 검색 (Cmd + K)...')}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="w-full pl-9 pr-3 py-2 bg-(--bg-secondary) border border-(--border-subtle) rounded-(--radius-sm) text-sm font-medium focus:outline-none focus:border-(--border-strong) text-(--text-primary) placeholder:text-(--text-muted)"
+          className="pl-9"
         />
       </div>
 
@@ -132,7 +133,7 @@ export function DocsSidebar({
           }`}
         >
           <span className="flex items-center gap-2">
-            <Palette className={`w-4 h-4 ${activeId === 'color-status' ? 'text-(--bg-primary)' : 'text-emerald-500'}`} />
+            <Palette className={`w-4 h-4 ${activeId === 'color-status' ? 'text-(--bg-primary)' : 'text-(--atom-color-success)'}`} />
             <span>{t('sidebar.colorAndStatus', 'Color & Status')}</span>
           </span>
           <span className={`text-xs font-mono ${activeId === 'color-status' ? 'text-(--bg-primary)/80' : 'opacity-60'}`}>
@@ -151,7 +152,7 @@ export function DocsSidebar({
           }`}
         >
           <span className="flex items-center gap-2">
-            <Type className={`w-4 h-4 ${activeId === 'typography' ? 'text-(--bg-primary)' : 'text-purple-500'}`} />
+            <Type className={`w-4 h-4 ${activeId === 'typography' ? 'text-(--bg-primary)' : 'text-(--accent-primary)'}`} />
             <span>{t('sidebar.fontAndTypography', 'Font & Typography')}</span>
           </span>
           <span className={`text-xs font-mono ${activeId === 'typography' ? 'text-(--bg-primary)/80' : 'opacity-60'}`}>

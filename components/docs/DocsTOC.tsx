@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { GALLERY_COMPONENTS } from '@/lib/data/components';
+import { Button } from '@/components/ui/Button';
 
 interface DocsTOCProps {
   activeId: string;
@@ -50,40 +51,44 @@ export function DocsTOC({ activeId, onSelectId }: DocsTOCProps) {
   };
 
   return (
-    <aside className="w-56 shrink-0 sticky top-24 max-h-[calc(100vh-120px)] overflow-y-auto pl-4 border-l border-(--border-subtle)/80 dark:border-neutral-800 select-none hidden xl:flex flex-col gap-3">
+    <aside className="w-56 shrink-0 sticky top-24 max-h-[calc(100vh-120px)] overflow-y-auto pl-4 border-l border-(--border-subtle)/80  select-none hidden xl:flex flex-col gap-3">
       <span className="text-[11px] font-bold text-(--text-muted) uppercase tracking-wider">
         On this page
       </span>
 
       <ul className="flex flex-col gap-1.5 text-xs">
         <li>
-          <button
+          <Button
+            variant="ghost"
+            size="sm"
             onClick={() => scrollTo('getting-started')}
-            className={`text-left transition font-medium truncate w-full ${
+            className={`w-full justify-start text-left text-xs font-medium truncate h-auto py-1 px-1.5 ${
               currentActive === 'getting-started'
-                ? 'text-(--accent-primary) dark:text-blue-400 font-bold translate-x-1'
-                : 'text-(--text-secondary) hover:text-(--text-primary) dark:hover:text-white'
+                ? 'text-(--accent-primary) font-bold translate-x-1'
+                : 'text-(--text-secondary) hover:text-(--text-primary)'
             }`}
           >
             시작하기 (Quickstart)
-          </button>
+          </Button>
         </li>
 
         {GALLERY_COMPONENTS.map((comp) => {
           const isActive = currentActive === comp.id;
           return (
             <li key={comp.id}>
-              <button
+              <Button
+                variant="ghost"
+                size="sm"
                 onClick={() => scrollTo(comp.id)}
-                className={`text-left transition font-medium truncate w-full flex items-center justify-between ${
+                className={`w-full justify-between text-left text-xs font-medium truncate h-auto py-1 px-1.5 ${
                   isActive
-                    ? 'text-(--accent-primary) dark:text-blue-400 font-bold translate-x-1'
-                    : 'text-(--text-secondary) hover:text-(--text-primary) dark:hover:text-white'
+                    ? 'text-(--accent-primary) font-bold translate-x-1'
+                    : 'text-(--text-secondary) hover:text-(--text-primary)'
                 }`}
               >
-                <span>{comp.name.split(' (')[0]}</span>
-                {isActive && <span className="w-1.5 h-1.5 rounded-full bg-(--accent-primary)"></span>}
-              </button>
+                <span className="truncate">{comp.name.split(' (')[0]}</span>
+                {isActive && <span className="w-1.5 h-1.5 rounded-full bg-(--accent-primary) shrink-0 ml-1"></span>}
+              </Button>
             </li>
           );
         })}

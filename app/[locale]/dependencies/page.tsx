@@ -3,6 +3,17 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Header } from '@/components/Header';
+import {
+  Button,
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+  Badge,
+  Card,
+} from '@/components/ui';
 import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';
 import { useI18n } from '@/lib/i18n';
 import {
@@ -44,7 +55,7 @@ export default function DependenciesPage() {
         {/* Hero Section */}
         <section className="space-y-2.5 border-b border-(--border-subtle) pb-4 sm:pb-5">
           <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-mono text-(--text-muted)">
-            <span className="text-emerald-500 font-semibold flex items-center gap-1">
+            <span className="text-(--atom-color-success) font-semibold flex items-center gap-1">
               <Cpu className="w-3 h-3" />
               Zero Runtime Dependency
             </span>
@@ -76,37 +87,37 @@ export default function DependenciesPage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs font-mono">
-            <div className="p-4 bg-(--bg-secondary) border border-(--border-subtle) rounded-lg space-y-1.5">
+            <Card className="p-4 bg-(--bg-secondary) border border-(--border-subtle) space-y-1.5">
               <div className="text-[11px] text-(--accent-primary) uppercase font-bold">Step 1 · SSOT</div>
               <div className="font-bold text-sm text-(--text-primary)">Figma &amp; DTCG .md</div>
               <p className="text-[11px] text-(--text-secondary) font-sans">
                 마크다운 또는 tokens.json에 표준 W3C 포맷으로 디자인 결정 선언.
               </p>
-            </div>
+            </Card>
 
-            <div className="p-4 bg-(--bg-secondary) border border-(--border-subtle) rounded-lg space-y-1.5">
-              <div className="text-[11px] text-purple-500 uppercase font-bold">Step 2 · Build</div>
+            <Card className="p-4 bg-(--bg-secondary) border border-(--border-subtle) space-y-1.5">
+              <div className="text-[11px] text-(--accent-primary) uppercase font-bold">Step 2 · Build</div>
               <div className="font-bold text-sm text-(--text-primary)">Atom Compiler</div>
               <p className="text-[11px] text-(--text-secondary) font-sans">
                 Style Dictionary &amp; Tailwind v4 엔진으로 변수 매핑 및 타입 생성.
               </p>
-            </div>
+            </Card>
 
-            <div className="p-4 bg-(--bg-secondary) border border-(--border-subtle) rounded-lg space-y-1.5">
-              <div className="text-[11px] text-emerald-500 uppercase font-bold">Step 3 · Artifact</div>
+            <Card className="p-4 bg-(--bg-secondary) border border-(--border-subtle) space-y-1.5">
+              <div className="text-[11px] text-(--atom-color-success) uppercase font-bold">Step 3 · Artifact</div>
               <div className="font-bold text-sm text-(--text-primary)">Pure CSS Tokens</div>
               <p className="text-[11px] text-(--text-secondary) font-sans">
                 브라우저 네이티브 var(--atom-*) 및 정적 CSS 파일로 출력.
               </p>
-            </div>
+            </Card>
 
-            <div className="p-4 bg-(--bg-secondary) border border-(--border-subtle) rounded-lg space-y-1.5">
-              <div className="text-[11px] text-amber-500 uppercase font-bold">Step 4 · Runtime</div>
+            <Card className="p-4 bg-(--bg-secondary) border border-(--border-subtle) space-y-1.5">
+              <div className="text-[11px] text-(--atom-color-warning) uppercase font-bold">Step 4 · Runtime</div>
               <div className="font-bold text-sm text-(--text-primary)">0 KB Runtime</div>
               <p className="text-[11px] text-(--text-secondary) font-sans">
                 React, Vue, Vanilla HTML 어디서나 0ms 지연으로 테마 즉시 적용.
               </p>
-            </div>
+            </Card>
           </div>
         </section>
 
@@ -125,78 +136,74 @@ export default function DependenciesPage() {
             {/* Filter Tabs */}
             <div className="flex items-center gap-1 overflow-x-auto text-xs [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {filterTabs.map((tab) => (
-                <button
+                <Button
                   key={tab.id}
+                  variant={selectedFilter === tab.id ? 'primary' : 'ghost'}
+                  size="sm"
                   onClick={() => setSelectedFilter(tab.id)}
-                  className={`px-2.5 py-1 rounded text-xs transition-colors whitespace-nowrap ${
+                  className={`px-2.5 py-1 h-auto text-xs whitespace-nowrap ${
                     selectedFilter === tab.id
                       ? 'bg-(--bg-secondary) text-(--text-primary) font-bold'
                       : 'text-(--text-muted) hover:text-(--text-primary)'
                   }`}
                 >
                   {tab.label}
-                </button>
+                </Button>
               ))}
             </div>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
-              <thead>
-                <tr className="border-b border-(--border-subtle) text-(--text-muted) font-mono text-[11px]">
-                  <th className="py-2.5 px-3 font-medium">기술 / 패키지명</th>
-                  <th className="py-2.5 px-3 font-medium">구분</th>
-                  <th className="py-2.5 px-3 font-medium">채택 이유 및 역할</th>
-                  <th className="py-2.5 px-3 font-medium">클라이언트 번들 영향</th>
-                  <th className="py-2.5 px-3 font-medium text-right">공식 문서</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-(--border-subtle)">
-                {filteredItems.map((item) => (
-                  <tr key={item.name} className="hover:bg-(--bg-secondary)/60 transition-colors">
-                    <td className="py-3 px-3">
-                      <div className="font-semibold text-(--text-primary)">{item.name}</div>
-                      <span className="text-[11px] font-mono text-(--text-muted)">{item.version}</span>
-                    </td>
-                    <td className="py-3 px-3">
-                      <span className={`text-[11px] uppercase font-mono px-1.5 py-0.5 rounded border ${
-                        item.category === 'runtime'
-                          ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/30 font-bold'
-                          : 'bg-(--bg-secondary) text-(--text-muted) border-(--border-subtle)'
-                      }`}>
-                        {item.category}
-                      </span>
-                    </td>
-                    <td className="py-3 px-3 text-(--text-secondary) max-w-sm">
-                      <div className="font-medium text-(--text-primary)">{item.purpose}</div>
-                      <div className="text-[11px] text-(--text-muted) mt-0.5">{item.whyChosen}</div>
-                    </td>
-                    <td className="py-3 px-3 font-mono text-[11px] font-medium text-(--text-primary)">
-                      {item.bundleImpact}
-                    </td>
-                    <td className="py-3 px-3 text-right">
-                      <a
-                        href={item.docsUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-(--text-muted) hover:text-(--text-primary) transition-colors"
-                      >
-                        <span>Docs</span>
-                        <ExternalLink className="w-3 h-3" />
-                      </a>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <Table>
+            <TableHeader>
+              <TableRow className="border-b border-(--border-subtle) text-(--text-muted) font-mono text-[11px]">
+                <TableHead className="py-2.5 px-3 font-medium">기술 / 패키지명</TableHead>
+                <TableHead className="py-2.5 px-3 font-medium">구분</TableHead>
+                <TableHead className="py-2.5 px-3 font-medium">채택 이유 및 역할</TableHead>
+                <TableHead className="py-2.5 px-3 font-medium">클라이언트 번들 영향</TableHead>
+                <TableHead className="py-2.5 px-3 font-medium text-right">공식 문서</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {filteredItems.map((item) => (
+                <TableRow key={item.name} className="hover:bg-(--bg-secondary)/60 transition-colors">
+                  <TableCell className="py-3 px-3">
+                    <div className="font-semibold text-(--text-primary)">{item.name}</div>
+                    <span className="text-[11px] font-mono text-(--text-muted)">{item.version}</span>
+                  </TableCell>
+                  <TableCell className="py-3 px-3">
+                    <Badge variant={item.category === 'runtime' ? 'success' : 'neutral'}>
+                      {item.category}
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="py-3 px-3 text-(--text-secondary) max-w-sm">
+                    <div className="font-medium text-(--text-primary)">{item.purpose}</div>
+                    <div className="text-[11px] text-(--text-muted) mt-0.5">{item.whyChosen}</div>
+                  </TableCell>
+                  <TableCell className="py-3 px-3 font-mono text-[11px] font-medium text-(--text-primary)">
+                    {item.bundleImpact}
+                  </TableCell>
+                  <TableCell className="py-3 px-3 text-right">
+                    <a
+                      href={item.docsUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-(--text-muted) hover:text-(--text-primary) transition-colors"
+                    >
+                      <span>Docs</span>
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         </section>
 
         {/* 3. Cross-Framework Compatibility Matrix */}
         <section className="space-y-3">
           <div className="border-b border-(--border-subtle) pb-2">
             <h2 className="text-lg font-bold text-(--text-primary) flex items-center gap-2">
-              <Code2 className="w-4 h-4 text-emerald-500" />
+              <Code2 className="w-4 h-4 text-(--atom-color-success)" />
               프레임워크 간 크로스 플랫폼 호환성 매트릭스
             </h2>
             <p className="text-xs text-(--text-secondary)">
@@ -204,43 +211,41 @@ export default function DependenciesPage() {
             </p>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
-              <thead>
-                <tr className="border-b border-(--border-subtle) text-(--text-muted) font-mono text-[11px]">
-                  <th className="py-2.5 px-3 font-medium">대상 프레임워크</th>
-                  <th className="py-2.5 px-3 font-medium">지원 버전</th>
-                  <th className="py-2.5 px-3 font-medium">연동 방식</th>
-                  <th className="py-2.5 px-3 font-medium">런타임 비용</th>
-                  <th className="py-2.5 px-3 font-medium text-right">호환성 상태</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-(--border-subtle)">
-                {COMPATIBILITY_MATRIX.map((c) => (
-                  <tr key={c.framework} className="hover:bg-(--bg-secondary)/60 transition-colors">
-                    <td className="py-3 px-3 font-semibold text-(--text-primary)">
-                      {c.framework}
-                    </td>
-                    <td className="py-3 px-3 font-mono text-[11px] text-(--text-muted)">
-                      {c.supportedVersions}
-                    </td>
-                    <td className="py-3 px-3 text-(--text-secondary) font-mono text-[11px]">
-                      {c.integrationMethod}
-                    </td>
-                    <td className="py-3 px-3 font-mono text-emerald-600 dark:text-emerald-400 font-bold">
-                      {c.overhead}
-                    </td>
-                    <td className="py-3 px-3 text-right">
-                      <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
-                        <CheckCircle2 className="w-3.5 h-3.5" />
-                        <span>{c.status}</span>
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <Table>
+            <TableHeader>
+              <TableRow className="border-b border-(--border-subtle) text-(--text-muted) font-mono text-[11px]">
+                <TableHead className="py-2.5 px-3 font-medium">대상 프레임워크</TableHead>
+                <TableHead className="py-2.5 px-3 font-medium">지원 버전</TableHead>
+                <TableHead className="py-2.5 px-3 font-medium">연동 방식</TableHead>
+                <TableHead className="py-2.5 px-3 font-medium">런타임 비용</TableHead>
+                <TableHead className="py-2.5 px-3 font-medium text-right">호환성 상태</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {COMPATIBILITY_MATRIX.map((c) => (
+                <TableRow key={c.framework} className="hover:bg-(--bg-secondary)/60 transition-colors">
+                  <TableCell className="py-3 px-3 font-semibold text-(--text-primary)">
+                    {c.framework}
+                  </TableCell>
+                  <TableCell className="py-3 px-3 font-mono text-[11px] text-(--text-muted)">
+                    {c.supportedVersions}
+                  </TableCell>
+                  <TableCell className="py-3 px-3 text-(--text-secondary) font-mono text-[11px]">
+                    {c.integrationMethod}
+                  </TableCell>
+                  <TableCell className="py-3 px-3 font-mono text-(--atom-color-success) font-bold">
+                    {c.overhead}
+                  </TableCell>
+                  <TableCell className="py-3 px-3 text-right">
+                    <Badge variant="success" className="inline-flex items-center gap-1 text-[11px] font-semibold">
+                      <CheckCircle2 className="w-3.5 h-3.5" />
+                      <span>{c.status}</span>
+                    </Badge>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         </section>
       </main>
 

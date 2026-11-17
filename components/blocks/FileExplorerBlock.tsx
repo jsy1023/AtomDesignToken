@@ -129,9 +129,11 @@ export function FileExplorerBlock() {
           const isOpen = openFolders[node.id];
           return (
             <div key={node.id} className="space-y-0.5">
-              <button
+              <Button
+                variant="ghost"
+                size="sm"
                 onClick={() => toggleFolder(node.id)}
-                className="w-full flex items-center gap-1.5 px-2 py-1 rounded-(--radius-sm) text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary) text-left transition-colors"
+                className="w-full flex items-center justify-start gap-1.5 px-2 py-1 text-(--text-secondary) hover:text-(--text-primary) text-left h-auto"
               >
                 {isOpen ? (
                   <ChevronDown className="w-3 h-3 text-(--text-secondary)" />
@@ -144,25 +146,27 @@ export function FileExplorerBlock() {
                   <Folder className="w-3.5 h-3.5 text-(--text-secondary)" />
                 )}
                 <span className="font-medium truncate">{node.name}</span>
-              </button>
+              </Button>
 
               {isOpen && node.children && (
                 <div className="pl-4 space-y-0.5 border-l border-(--border-subtle) ml-3">
                   {node.children.map((file) => {
                     const isSelected = selectedFile?.id === file.id;
                     return (
-                      <button
+                      <Button
                         key={file.id}
+                        variant={isSelected ? 'secondary' : 'ghost'}
+                        size="sm"
                         onClick={() => setSelectedFile(file)}
-                        className={`w-full flex items-center gap-1.5 px-2 py-1 rounded-(--radius-sm) text-left transition-colors ${
+                        className={`w-full flex items-center justify-start gap-1.5 px-2 py-1 text-left h-auto ${
                           isSelected
-                            ? 'bg-(--accent-primary)/10 text-(--accent-primary) font-semibold'
-                            : 'text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary)'
+                            ? 'text-(--accent-primary) font-semibold'
+                            : 'text-(--text-secondary) hover:text-(--text-primary)'
                         }`}
                       >
                         {getFileIcon(file.extension)}
                         <span className="truncate">{file.name}</span>
-                      </button>
+                      </Button>
                     );
                   })}
                 </div>

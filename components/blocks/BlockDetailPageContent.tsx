@@ -138,7 +138,7 @@ export function BlockDetailPageContent({ block }: BlockDetailPageContentProps) {
                 onClick={handleCopyCli}
                 className="text-xs flex items-center gap-1"
               >
-                {copiedCli ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+                {copiedCli ? <Check className="w-3.5 h-3.5 text-(--atom-color-success)" /> : <Copy className="w-3.5 h-3.5" />}
                 <span>{copiedCli ? '복사됨' : '복사'}</span>
               </Button>
             </div>
@@ -153,39 +153,36 @@ export function BlockDetailPageContent({ block }: BlockDetailPageContentProps) {
 
               {/* Viewport Resizer Controls */}
               <div className="hidden sm:flex items-center gap-0.5 bg-(--bg-secondary) p-0.5 rounded-(--radius-sm) border border-(--border-subtle)">
-                <button
+                <Button
+                  variant={viewport === 'desktop' ? 'primary' : 'ghost'}
+                  size="sm"
+                  isIconOnly
                   onClick={() => setViewport('desktop')}
-                  className={`p-1 rounded-(--radius-sm) transition-colors ${
-                    viewport === 'desktop'
-                      ? 'bg-(--bg-primary) text-(--text-primary)'
-                      : 'text-(--text-secondary) hover:text-(--text-primary)'
-                  }`}
+                  className="p-1 h-auto"
                   title="Desktop 100%"
                 >
                   <Monitor className="w-3.5 h-3.5" />
-                </button>
-                <button
+                </Button>
+                <Button
+                  variant={viewport === 'tablet' ? 'primary' : 'ghost'}
+                  size="sm"
+                  isIconOnly
                   onClick={() => setViewport('tablet')}
-                  className={`p-1 rounded-(--radius-sm) transition-colors ${
-                    viewport === 'tablet'
-                      ? 'bg-(--bg-primary) text-(--text-primary)'
-                      : 'text-(--text-secondary) hover:text-(--text-primary)'
-                  }`}
+                  className="p-1 h-auto"
                   title="Tablet 768px"
                 >
                   <Tablet className="w-3.5 h-3.5" />
-                </button>
-                <button
+                </Button>
+                <Button
+                  variant={viewport === 'mobile' ? 'primary' : 'ghost'}
+                  size="sm"
+                  isIconOnly
                   onClick={() => setViewport('mobile')}
-                  className={`p-1 rounded-(--radius-sm) transition-colors ${
-                    viewport === 'mobile'
-                      ? 'bg-(--bg-primary) text-(--text-primary)'
-                      : 'text-(--text-secondary) hover:text-(--text-primary)'
-                  }`}
+                  className="p-1 h-auto"
                   title="Mobile 390px"
                 >
                   <Smartphone className="w-3.5 h-3.5" />
-                </button>
+                </Button>
               </div>
             </div>
 
@@ -299,14 +296,16 @@ export function BlockDetailPageContent({ block }: BlockDetailPageContentProps) {
                 </Button>
                 </div>
 
-                <button
+                <Button
+                  variant="outline"
+                  size="sm"
                   onClick={handleCopyCode}
-                  className="flex items-center gap-1 px-2.5 py-1 rounded-(--radius-sm) text-xs font-medium bg-(--bg-primary) hover:bg-(--bg-secondary) text-(--text-primary) border border-(--border-subtle) transition-colors"
+                  className="flex items-center gap-1 text-xs"
                 >
                   {copiedCode ? (
                     <>
-                      <Check className="w-3.5 h-3.5 text-emerald-600" />
-                      <span className="text-emerald-600 font-semibold">복사됨</span>
+                      <Check className="w-3.5 h-3.5 text-(--atom-color-success)" />
+                      <span className="text-(--atom-color-success) font-semibold">복사됨</span>
                     </>
                   ) : (
                     <>
@@ -314,7 +313,7 @@ export function BlockDetailPageContent({ block }: BlockDetailPageContentProps) {
                       <span>코드 복사</span>
                     </>
                   )}
-                </button>
+                </Button>
               </div>
             </div>
 

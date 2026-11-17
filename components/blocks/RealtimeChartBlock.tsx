@@ -90,7 +90,7 @@ export function RealtimeChartBlock() {
         <div>
           <div className="flex items-center gap-2 mb-0.5">
             <span className="font-mono text-xs font-semibold text-(--text-secondary)">KRW-ATOM</span>
-            <span className={`text-xs font-mono font-medium ${isPositive ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`}>
+            <span className={`text-xs font-mono font-medium ${isPositive ? 'text-(--atom-color-success) dark:text-(--atom-color-success)' : 'text-(--atom-color-destructive) dark:text-(--atom-color-destructive)'}`}>
               {isPositive ? '+' : ''}{pctDiff}%
             </span>
           </div>
@@ -232,7 +232,7 @@ export function RealtimeChartBlock() {
         </div>
         <div className="p-3 px-4">
           <div className="text-[11px] text-(--text-muted)">Change</div>
-          <div className={`font-mono text-xs mt-0.5 ${isPositive ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`}>
+          <div className={`font-mono text-xs mt-0.5 ${isPositive ? 'text-(--atom-color-success) dark:text-(--atom-color-success)' : 'text-(--atom-color-destructive) dark:text-(--atom-color-destructive)'}`}>
             {isPositive ? '+' : ''}{priceDiff.toLocaleString()} 원
           </div>
         </div>

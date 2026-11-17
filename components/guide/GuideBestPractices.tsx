@@ -21,10 +21,10 @@ export function GuideBestPractices() {
       <div className="max-w-6xl mx-auto px-6">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-14">
-          <span className="inline-block text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-(--bg-secondary) dark:bg-neutral-800 text-(--text-secondary) dark:text-neutral-300 mb-3">
+          <span className="inline-block text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-(--bg-secondary)  text-(--text-secondary)  mb-3">
             Core Principles
           </span>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-(--text-primary) dark:text-white tracking-tight mb-4">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-(--text-primary)  tracking-tight mb-4">
             라이브러리를 제대로 쓰는 4가지 황금률
           </h2>
           <p className="text-sm sm:text-base text-(--text-secondary) dark:text-(--text-muted) leading-relaxed">
@@ -48,12 +48,12 @@ export function GuideBestPractices() {
                   >
                     {ICON_MAP[item.icon] || <Sparkles className="w-5 h-5" />}
                   </div>
-                  <span className="text-[11px] font-bold px-2.5 py-1 rounded-full bg-(--bg-secondary) dark:bg-neutral-800 text-(--text-secondary) dark:text-neutral-300">
+                  <span className="text-[11px] font-bold px-2.5 py-1 rounded-full bg-(--bg-secondary)  text-(--text-secondary) ">
                     {item.badge}
                   </span>
                 </div>
 
-                <h3 className="text-lg font-bold text-(--text-primary) dark:text-white mb-1">
+                <h3 className="text-lg font-bold text-(--text-primary)  mb-1">
                   {item.title}
                 </h3>
                 <p className="text-xs text-(--text-secondary) dark:text-(--text-muted) mb-5 font-medium">
@@ -62,25 +62,25 @@ export function GuideBestPractices() {
 
                 {/* Problem vs Solution comparison */}
                 <div className="space-y-3 mb-5">
-                  <div className="p-3 rounded-xl bg-rose-500/5 border border-rose-500/15 flex items-start gap-2.5">
-                    <AlertTriangle className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
+                  <div className="p-3 rounded-xl bg-rose-500/5 border border-(--atom-color-destructive)/15 flex items-start gap-2.5">
+                    <AlertTriangle className="w-4 h-4 text-(--atom-color-destructive) shrink-0 mt-0.5" />
                     <div>
-                      <span className="text-[11px] font-bold text-rose-600 dark:text-rose-400 block mb-0.5">
+                      <span className="text-[11px] font-bold text-(--atom-color-destructive) dark:text-(--atom-color-destructive) block mb-0.5">
                         바퀴를 다시 깎을 때의 문제
                       </span>
-                      <p className="text-xs text-neutral-700 dark:text-neutral-300 leading-relaxed">
+                      <p className="text-xs text-(--text-secondary) leading-relaxed">
                         {item.problem}
                       </p>
                     </div>
                   </div>
 
-                  <div className="p-3 rounded-xl bg-emerald-500/5 border border-emerald-500/15 flex items-start gap-2.5">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                  <div className="p-3 rounded-xl bg-(--atom-color-success)/5 border border-(--atom-color-success)/15 flex items-start gap-2.5">
+                    <CheckCircle2 className="w-4 h-4 text-(--atom-color-success) shrink-0 mt-0.5" />
                     <div>
-                      <span className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 block mb-0.5">
+                      <span className="text-[11px] font-bold text-(--atom-color-success) dark:text-(--atom-color-success) block mb-0.5">
                         라이브러리 활용 해결책
                       </span>
-                      <p className="text-xs text-neutral-700 dark:text-neutral-300 leading-relaxed">
+                      <p className="text-xs text-(--text-secondary) leading-relaxed">
                         {item.solution}
                       </p>
                     </div>
@@ -90,7 +90,7 @@ export function GuideBestPractices() {
                 {/* Golden Key Rule Footer */}
                 <div className="pt-3 border-t border-[var(--border-subtle)] flex items-center justify-between text-xs text-(--text-secondary) dark:text-(--text-muted) font-medium">
                   <span className="text-[11px] text-(--text-muted) font-semibold">실천 수칙</span>
-                  <span className="text-right font-mono text-[11px] text-neutral-800 dark:text-neutral-200">
+                  <span className="text-right font-mono text-[11px] text-(--text-primary)">
                     {item.keyRule}
                   </span>
                 </div>

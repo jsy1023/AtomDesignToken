@@ -186,7 +186,7 @@ export function InteractiveChatBlock() {
       {/* 4. Bottom Input Bar composed with Input & Button */}
       <div className="p-3 border-t border-(--border-subtle) bg-(--bg-primary)">
         <div className="flex items-center gap-2">
-          <input
+          <Input
             type="text"
             value={inputVal}
             onChange={(e) => setInputVal(e.target.value)}
@@ -197,7 +197,7 @@ export function InteractiveChatBlock() {
               }
             }}
             placeholder="디자인 시스템이나 토큰 규칙에 관해 질문하세요..."
-            className="flex-1 text-xs px-3 py-2 rounded-(--radius-sm) bg-(--bg-secondary) text-(--text-primary) border border-(--border-subtle) focus:outline-none focus:border-(--border-strong) transition-colors"
+            className="flex-1 text-xs"
           />
           <Button
             type="button"

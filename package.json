@@ -58,6 +58,7 @@
     "start": "next start",
     "lint": "next lint",
     "lint:design": "impeccable detect app components css",
+    "lint:components": "node scripts/lint-components.cjs",
     "refactor": "tsx src/cli.ts refactor",
     "refactor:fix": "tsx src/cli.ts refactor --fix",
     "test:e2e": "playwright test",

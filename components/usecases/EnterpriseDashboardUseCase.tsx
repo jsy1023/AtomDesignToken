@@ -132,17 +132,19 @@ export function EnterpriseDashboardUseCase() {
           {/* Time Range Tabs */}
           <div className="bg-(--bg-secondary) p-1 rounded-(--radius) border border-(--border-subtle) flex items-center gap-1">
             {(['7d', '30d', '90d', '1y'] as const).map((r) => (
-              <button
+              <Button
                 key={r}
+                variant={timeRange === r ? 'primary' : 'ghost'}
+                size="sm"
                 onClick={() => setTimeRange(r)}
-                className={`px-2.5 py-1 text-xs font-semibold rounded-(--radius-sm) transition-colors cursor-pointer ${
+                className={`px-2.5 py-1 text-xs h-auto rounded-(--radius-sm) ${
                   timeRange === r
-                    ? 'bg-(--bg-primary) text-(--text-primary) shadow-xs'
+                    ? 'font-semibold'
                     : 'text-(--text-muted) hover:text-(--text-primary)'
                 }`}
               >
                 {r === '7d' ? '7일' : r === '30d' ? '30일' : r === '90d' ? '3개월' : '1년'}
-              </button>
+              </Button>
             ))}
           </div>
 
@@ -181,8 +183,8 @@ export function EnterpriseDashboardUseCase() {
               <span
                 className={`font-semibold flex items-center gap-0.5 ${
                   kpi.isPositive
-                    ? 'text-emerald-600 dark:text-emerald-400'
-                    : 'text-rose-600 dark:text-rose-400'
+                    ? 'text-(--atom-color-success) dark:text-(--atom-color-success)'
+                    : 'text-(--atom-color-destructive) dark:text-(--atom-color-destructive)'
                 }`}
               >
                 {kpi.isPositive ? <TrendingUp className="w-3.5 h-3.5" /> : <TrendingDown className="w-3.5 h-3.5" />}
@@ -201,12 +203,12 @@ export function EnterpriseDashboardUseCase() {
           <div className="flex items-center gap-(--space-2) flex-1 max-w-sm">
             <div className="relative w-full">
               <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-(--text-muted)" />
-              <input
+              <Input
                 type="text"
                 placeholder="고객명, 이메일, 거래번호 검색..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-9 pr-3 py-1.5 text-xs rounded-(--radius-sm) border border-(--border-subtle) bg-(--bg-primary) text-(--text-primary) placeholder:text-(--text-muted) focus:outline-none focus:border-(--accent-primary)"
+                className="w-full pl-9 pr-3 py-1.5 text-xs"
               />
             </div>
           </div>
@@ -218,17 +220,19 @@ export function EnterpriseDashboardUseCase() {
             </span>
             <div className="flex items-center gap-1">
               {(['all', 'active', 'pending', 'failed'] as const).map((st) => (
-                <button
+                <Button
                   key={st}
+                  variant={statusFilter === st ? 'primary' : 'outline'}
+                  size="sm"
                   onClick={() => setStatusFilter(st)}
-                  className={`px-2 py-1 text-xs font-medium rounded-(--radius-sm) cursor-pointer transition-colors ${
+                  className={`px-2 py-1 text-xs h-auto rounded-(--radius-sm) ${
                     statusFilter === st
-                      ? 'bg-(--accent-primary) text-(--bg-primary) font-semibold'
-                      : 'bg-(--bg-secondary) text-(--text-secondary) hover:text-(--text-primary) border border-(--border-subtle)'
+                      ? 'font-semibold'
+                      : 'text-(--text-secondary) hover:text-(--text-primary)'
                   }`}
                 >
                   {st === 'all' ? '전체' : st === 'active' ? '완료' : st === 'pending' ? '처리중' : '실패'}
-                </button>
+                </Button>
               ))}
             </div>
           </div>

@@ -70,3 +70,20 @@ export const Select: React.FC<SelectProps> = ({
     </div>
   );
 };
+
+export interface NativeSelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {}
+
+export const NativeSelect = React.forwardRef<HTMLSelectElement, NativeSelectProps>(
+  ({ className = '', children, ...props }, ref) => {
+    return (
+      <select
+        ref={ref}
+        className={['w-full text-xs p-2 rounded-(--radius-sm) border border-(--border-subtle) bg-(--bg-primary) text-(--text-primary) cursor-pointer focus:outline-none focus:border-(--accent-primary) focus:ring-1 focus:ring-(--accent-primary) transition', className].filter(Boolean).join(' ')}
+        {...props}
+      >
+        {children}
+      </select>
+    );
+  }
+);
+NativeSelect.displayName = 'NativeSelect';
