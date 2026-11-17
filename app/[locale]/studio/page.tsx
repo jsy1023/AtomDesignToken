@@ -178,7 +178,7 @@ function LocalStudioContent() {
   useEffect(() => {
     const initial = themes.find((th) => th.id === selectedThemeId);
     if (initial) {
-      const cfg = studioThemeToThemeConfig(initial);
+      const cfg = studioThemeToThemeConfig(initial, paletteVariables);
       applyThemeToDOM(cfg);
     }
   }, []);
@@ -334,7 +334,7 @@ function LocalStudioContent() {
     setSelectedThemeId(themeId);
     const targetTheme = themes.find((th) => th.id === themeId);
     if (targetTheme) {
-      const cfg = studioThemeToThemeConfig(targetTheme);
+      const cfg = studioThemeToThemeConfig(targetTheme, paletteVariables);
       applyThemeToDOM(cfg);
       applyFullTheme(cfg);
     }
@@ -349,7 +349,7 @@ function LocalStudioContent() {
   const handleUpdateTheme = (updated: StudioTheme) => {
     setThemes((prev) => prev.map((th) => (th.id === updated.id ? updated : th)));
     if (selectedThemeId === updated.id) {
-      const cfg = studioThemeToThemeConfig(updated);
+      const cfg = studioThemeToThemeConfig(updated, paletteVariables);
       applyThemeToDOM(cfg);
       applyFullTheme(cfg);
     }
@@ -1592,6 +1592,7 @@ function LocalStudioContent() {
               <StudioThemeManager
                 themes={themes}
                 activeThemeId={selectedThemeId}
+                paletteVariables={paletteVariables}
                 onSelectTheme={handleSelectTheme}
                 onCreateTheme={handleCreateTheme}
                 onUpdateTheme={handleUpdateTheme}

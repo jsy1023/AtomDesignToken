@@ -10,7 +10,8 @@ import {
   Card,
   NativeSelect,
 } from '@/components/ui';
-import { StudioTheme, ThemeCategory } from '@/lib/data/themeData';
+import { StudioTheme, ThemeCategory, ThemePaletteBindings } from '@/lib/data/themeData';
+import { PaletteVariable, INITIAL_PALETTE_VARIABLES } from '@/lib/data/studioData';
 import {
   Palette,
   Sparkles,
@@ -28,11 +29,13 @@ import {
   Edit2,
   Save,
   RotateCcw,
+  Link2,
 } from 'lucide-react';
 
 export interface StudioThemeManagerProps {
   themes: StudioTheme[];
   activeThemeId: string;
+  paletteVariables?: PaletteVariable[];
   onSelectTheme: (themeId: string) => void;
   onCreateTheme: (newTheme: StudioTheme) => void;
   onUpdateTheme: (updatedTheme: StudioTheme) => void;
@@ -42,6 +45,7 @@ export interface StudioThemeManagerProps {
 export function StudioThemeManager({
   themes,
   activeThemeId,
+  paletteVariables,
   onSelectTheme,
   onCreateTheme,
   onUpdateTheme,
@@ -50,6 +54,14 @@ export function StudioThemeManager({
   const locale = useLocale();
   const [selectedCategory, setSelectedCategory] = useState<ThemeCategory>('all');
   const [searchQuery, setSearchQuery] = useState('');
+
+  // Available palette tokens (Color and Semantic Status)
+  const availablePalettes = paletteVariables || INITIAL_PALETTE_VARIABLES;
+  const colorPalettes = availablePalettes.filter((p) => p.category === 'color' || p.category === 'status');
+
+  // Helper to find palette by ID or Value
+  const findPaletteById = (id?: string) => colorPalettes.find((p) => p.id === id);
+  const findPaletteByValue = (val?: string) => colorPalettes.find((p) => p.value.toLowerCase() === val?.toLowerCase());
 
   // Editor Modal State (For both Creating new and Modifying existing themes)
   const [isEditorOpen, setIsEditorOpen] = useState(false);
@@ -61,29 +73,44 @@ export function StudioThemeManager({
   const [formDesc, setFormDesc] = useState('');
   const [formMode, setFormMode] = useState<'light' | 'dark'>('light');
 
-  // Primary & Brand Tokens
-  const [formPrimary, setFormPrimary] = useState('#3182f6');
-  const [formPrimaryHover, setFormPrimaryHover] = useState('#1b64da');
-  const [formPrimaryLight, setFormPrimaryLight] = useState('#e8f3ff');
+  // Palette Token Bindings State (Primary SSOT)
+  const [formPrimaryPalId, setFormPrimaryPalId] = useState('--atom-palette-blue-500');
+  const [formPrimaryHoverPalId, setFormPrimaryHoverPalId] = useState('--atom-palette-blue-600');
+  const [formPrimaryLightPalId, setFormPrimaryLightPalId] = useState('--atom-palette-blue-50');
 
-  // Surface & Background Tokens
-  const [formBgPrimary, setFormBgPrimary] = useState('#ffffff');
-  const [formBgSecondary, setFormBgSecondary] = useState('#f8f9fa');
+  const [formBgPrimaryPalId, setFormBgPrimaryPalId] = useState('--atom-palette-white');
+  const [formBgSecondaryPalId, setFormBgSecondaryPalId] = useState('--atom-palette-gray-50');
 
-  // Typography & Text Tokens
-  const [formTextPrimary, setFormTextPrimary] = useState('#191f28');
-  const [formTextSecondary, setFormTextSecondary] = useState('#8b95a1');
-  const [formTextMuted, setFormTextMuted] = useState('#b0b8c1');
+  const [formTextPrimaryPalId, setFormTextPrimaryPalId] = useState('--atom-palette-gray-900');
+  const [formTextSecondaryPalId, setFormTextSecondaryPalId] = useState('--atom-palette-gray-700');
+  const [formTextMutedPalId, setFormTextMutedPalId] = useState('--atom-palette-gray-500');
 
-  // Border & Radius Tokens
-  const [formBorderSubtle, setFormBorderSubtle] = useState('#f2f4f6');
-  const [formBorderStrong, setFormBorderStrong] = useState('#e5e8eb');
+  const [formBorderSubtlePalId, setFormBorderSubtlePalId] = useState('--atom-palette-gray-200');
+  const [formBorderStrongPalId, setFormBorderStrongPalId] = useState('--atom-palette-gray-300');
   const [formBorderRadius, setFormBorderRadius] = useState('8px');
 
-  // Status Tokens
-  const [formStatusSuccess, setFormStatusSuccess] = useState('#10b981');
-  const [formStatusDanger, setFormStatusDanger] = useState('#f43f5e');
-  const [formStatusWarning, setFormStatusWarning] = useState('#f59e0b');
+  const [formStatusSuccessPalId, setFormStatusSuccessPalId] = useState('--atom-palette-emerald-500');
+  const [formStatusDangerPalId, setFormStatusDangerPalId] = useState('--atom-palette-rose-500');
+  const [formStatusWarningPalId, setFormStatusWarningPalId] = useState('--atom-palette-amber-500');
+
+  // Resolved CSS Color Values from Palette Bindings
+  const formPrimary = findPaletteById(formPrimaryPalId)?.value || '#3182f6';
+  const formPrimaryHover = findPaletteById(formPrimaryHoverPalId)?.value || '#1b64da';
+  const formPrimaryLight = findPaletteById(formPrimaryLightPalId)?.value || '#eff6ff';
+
+  const formBgPrimary = findPaletteById(formBgPrimaryPalId)?.value || (formMode === 'dark' ? '#0f172a' : '#ffffff');
+  const formBgSecondary = findPaletteById(formBgSecondaryPalId)?.value || (formMode === 'dark' ? '#1e293b' : '#f8fafc');
+
+  const formTextPrimary = findPaletteById(formTextPrimaryPalId)?.value || (formMode === 'dark' ? '#f8fafc' : '#0f172a');
+  const formTextSecondary = findPaletteById(formTextSecondaryPalId)?.value || (formMode === 'dark' ? '#94a3b8' : '#334155');
+  const formTextMuted = findPaletteById(formTextMutedPalId)?.value || '#64748b';
+
+  const formBorderSubtle = findPaletteById(formBorderSubtlePalId)?.value || (formMode === 'dark' ? '#334155' : '#e2e8f0');
+  const formBorderStrong = findPaletteById(formBorderStrongPalId)?.value || (formMode === 'dark' ? '#475569' : '#cbd5e1');
+
+  const formStatusSuccess = findPaletteById(formStatusSuccessPalId)?.value || '#10b981';
+  const formStatusDanger = findPaletteById(formStatusDangerPalId)?.value || '#ef4444';
+  const formStatusWarning = findPaletteById(formStatusWarningPalId)?.value || '#f59e0b';
 
   // Filtered themes
   const filteredThemes = themes.filter((t) => {
@@ -115,20 +142,20 @@ export function StudioThemeManager({
     setFormId('');
     setFormDesc('');
     setFormMode('light');
-    setFormPrimary('#3182f6');
-    setFormPrimaryHover('#1b64da');
-    setFormPrimaryLight('#e8f3ff');
-    setFormBgPrimary('#ffffff');
-    setFormBgSecondary('#f8f9fa');
-    setFormTextPrimary('#191f28');
-    setFormTextSecondary('#8b95a1');
-    setFormTextMuted('#b0b8c1');
-    setFormBorderSubtle('#f2f4f6');
-    setFormBorderStrong('#e5e8eb');
+    setFormPrimaryPalId('--atom-palette-blue-500');
+    setFormPrimaryHoverPalId('--atom-palette-blue-600');
+    setFormPrimaryLightPalId('--atom-palette-blue-50');
+    setFormBgPrimaryPalId('--atom-palette-white');
+    setFormBgSecondaryPalId('--atom-palette-gray-50');
+    setFormTextPrimaryPalId('--atom-palette-gray-900');
+    setFormTextSecondaryPalId('--atom-palette-gray-700');
+    setFormTextMutedPalId('--atom-palette-gray-500');
+    setFormBorderSubtlePalId('--atom-palette-gray-200');
+    setFormBorderStrongPalId('--atom-palette-gray-300');
     setFormBorderRadius('8px');
-    setFormStatusSuccess('#10b981');
-    setFormStatusDanger('#f43f5e');
-    setFormStatusWarning('#f59e0b');
+    setFormStatusSuccessPalId('--atom-palette-emerald-500');
+    setFormStatusDangerPalId('--atom-palette-rose-500');
+    setFormStatusWarningPalId('--atom-palette-amber-500');
     setIsEditorOpen(true);
   };
 
@@ -139,45 +166,37 @@ export function StudioThemeManager({
     setFormId(t.id);
     setFormDesc(t.description);
     setFormMode(t.mode);
-    setFormPrimary(t.colors.primary);
-    setFormPrimaryHover(t.colors.primaryHover || t.colors.primary);
-    setFormPrimaryLight(t.colors.primaryLight || `${t.colors.primary}20`);
-    setFormBgPrimary(t.colors.bgPrimary);
-    setFormBgSecondary(t.colors.bgSecondary);
-    setFormTextPrimary(t.colors.textPrimary);
-    setFormTextSecondary(t.colors.textSecondary);
-    setFormTextMuted(t.colors.textMuted || '#8b95a1');
-    setFormBorderSubtle(t.colors.borderSubtle);
-    setFormBorderStrong(t.colors.borderStrong || '#e5e8eb');
+
+    const pb = t.paletteBindings || {};
+    setFormPrimaryPalId(pb.primary || findPaletteByValue(t.colors.primary)?.id || '--atom-palette-blue-500');
+    setFormPrimaryHoverPalId(pb.primaryHover || findPaletteByValue(t.colors.primaryHover)?.id || '--atom-palette-blue-600');
+    setFormPrimaryLightPalId(pb.primaryLight || findPaletteByValue(t.colors.primaryLight)?.id || '--atom-palette-blue-50');
+
+    setFormBgPrimaryPalId(pb.bgPrimary || findPaletteByValue(t.colors.bgPrimary)?.id || (t.mode === 'dark' ? '--atom-palette-gray-900' : '--atom-palette-white'));
+    setFormBgSecondaryPalId(pb.bgSecondary || findPaletteByValue(t.colors.bgSecondary)?.id || (t.mode === 'dark' ? '--atom-palette-gray-800' : '--atom-palette-gray-50'));
+
+    setFormTextPrimaryPalId(pb.textPrimary || findPaletteByValue(t.colors.textPrimary)?.id || (t.mode === 'dark' ? '--atom-palette-gray-50' : '--atom-palette-gray-900'));
+    setFormTextSecondaryPalId(pb.textSecondary || findPaletteByValue(t.colors.textSecondary)?.id || (t.mode === 'dark' ? '--atom-palette-gray-400' : '--atom-palette-gray-700'));
+    setFormTextMutedPalId(pb.textMuted || findPaletteByValue(t.colors.textMuted)?.id || '--atom-palette-gray-500');
+
+    setFormBorderSubtlePalId(pb.borderSubtle || findPaletteByValue(t.colors.borderSubtle)?.id || (t.mode === 'dark' ? '--atom-palette-gray-700' : '--atom-palette-gray-200'));
+    setFormBorderStrongPalId(pb.borderStrong || findPaletteByValue(t.colors.borderStrong)?.id || (t.mode === 'dark' ? '--atom-palette-gray-600' : '--atom-palette-gray-300'));
     setFormBorderRadius(t.borderRadius);
-    setFormStatusSuccess(t.colors.statusSuccess || '#10b981');
-    setFormStatusDanger(t.colors.statusDanger || '#f43f5e');
-    setFormStatusWarning(t.colors.statusWarning || '#f59e0b');
+
+    setFormStatusSuccessPalId(pb.statusSuccess || findPaletteByValue(t.colors.statusSuccess)?.id || '--atom-palette-emerald-500');
+    setFormStatusDangerPalId(pb.statusDanger || findPaletteByValue(t.colors.statusDanger)?.id || '--atom-palette-rose-500');
+    setFormStatusWarningPalId(pb.statusWarning || findPaletteByValue(t.colors.statusWarning)?.id || '--atom-palette-amber-500');
+
     setIsEditorOpen(true);
   };
 
   // Open editor for Duplicating an existing theme
   const handleOpenDuplicate = (baseTheme: StudioTheme) => {
+    handleOpenEdit(baseTheme);
     setEditingThemeId(null);
-    setFormName(`${baseTheme.name} (커스텀)`);
+    setFormName(`${baseTheme.name} (${locale === 'ko' ? '커스텀' : 'Custom'})`);
     setFormId(`${baseTheme.id}-custom`);
-    setFormDesc(`${baseTheme.name} 기반의 커스텀 테마`);
-    setFormMode(baseTheme.mode);
-    setFormPrimary(baseTheme.colors.primary);
-    setFormPrimaryHover(baseTheme.colors.primaryHover || baseTheme.colors.primary);
-    setFormPrimaryLight(baseTheme.colors.primaryLight || `${baseTheme.colors.primary}20`);
-    setFormBgPrimary(baseTheme.colors.bgPrimary);
-    setFormBgSecondary(baseTheme.colors.bgSecondary);
-    setFormTextPrimary(baseTheme.colors.textPrimary);
-    setFormTextSecondary(baseTheme.colors.textSecondary);
-    setFormTextMuted(baseTheme.colors.textMuted || '#8b95a1');
-    setFormBorderSubtle(baseTheme.colors.borderSubtle);
-    setFormBorderStrong(baseTheme.colors.borderStrong || '#e5e8eb');
-    setFormBorderRadius(baseTheme.borderRadius);
-    setFormStatusSuccess(baseTheme.colors.statusSuccess || '#10b981');
-    setFormStatusDanger(baseTheme.colors.statusDanger || '#f43f5e');
-    setFormStatusWarning(baseTheme.colors.statusWarning || '#f59e0b');
-    setIsEditorOpen(true);
+    setFormDesc(`${baseTheme.name} 기반의 팔레트 커스텀 테마`);
   };
 
   // Save changes (either add new or update existing)
@@ -189,12 +208,27 @@ export function StudioThemeManager({
     const themePayload: StudioTheme = {
       id: cleanId,
       name: formName.trim(),
-      description: formDesc.trim() || '사용자 정의 테마',
+      description: formDesc.trim() || (locale === 'ko' ? '팔레트 기반 커스텀 테마' : 'Palette-based custom theme'),
       mode: formMode,
       category: editingThemeId ? (themes.find((t) => t.id === editingThemeId)?.category || 'custom') : 'custom',
       brandColor: formPrimary,
       borderRadius: formBorderRadius,
       isCustom: true,
+      paletteBindings: {
+        primary: formPrimaryPalId,
+        primaryHover: formPrimaryHoverPalId,
+        primaryLight: formPrimaryLightPalId,
+        bgPrimary: formBgPrimaryPalId,
+        bgSecondary: formBgSecondaryPalId,
+        textPrimary: formTextPrimaryPalId,
+        textSecondary: formTextSecondaryPalId,
+        textMuted: formTextMutedPalId,
+        borderSubtle: formBorderSubtlePalId,
+        borderStrong: formBorderStrongPalId,
+        statusSuccess: formStatusSuccessPalId,
+        statusDanger: formStatusDangerPalId,
+        statusWarning: formStatusWarningPalId,
+      },
       colors: {
         primary: formPrimary,
         primaryHover: formPrimaryHover,
@@ -414,9 +448,15 @@ export function StudioThemeManager({
 
                 {/* Color Swatches Palette Row */}
                 <div className="space-y-1 pt-1">
-                  <span className="text-[10px] font-mono font-bold text-(--text-muted) uppercase">
-                    Core Tokens
-                  </span>
+                  <div className="flex items-center justify-between text-[10px] font-mono text-(--text-muted)">
+                    <span className="font-bold uppercase flex items-center gap-1">
+                      <Link2 className="w-3 h-3 text-(--accent-primary)" />
+                      <span>Palette Linked</span>
+                    </span>
+                    <span className="truncate max-w-[150px] font-mono opacity-80">
+                      {t.paletteBindings?.primary || 'var(--atom-palette-blue-500)'}
+                    </span>
+                  </div>
                   <div className="flex items-center gap-1 p-1 rounded bg-(--bg-secondary)/60 border border-(--border-subtle)/50">
                     <div
                       style={{ backgroundColor: t.colors.primary }}
@@ -643,16 +683,18 @@ export function StudioThemeManager({
                     onChange={(e) => {
                       const mode = e.target.value as 'light' | 'dark';
                       setFormMode(mode);
-                      if (mode === 'dark' && formBgPrimary === '#ffffff') {
-                        setFormBgPrimary('#0f172a');
-                        setFormBgSecondary('#1e293b');
-                        setFormTextPrimary('#f8fafc');
-                        setFormBorderSubtle('#334155');
-                      } else if (mode === 'light' && formBgPrimary === '#0f172a') {
-                        setFormBgPrimary('#ffffff');
-                        setFormBgSecondary('#f8f9fa');
-                        setFormTextPrimary('#191f28');
-                        setFormBorderSubtle('#f2f4f6');
+                      if (mode === 'dark') {
+                        setFormBgPrimaryPalId('--atom-palette-gray-900');
+                        setFormBgSecondaryPalId('--atom-palette-gray-800');
+                        setFormTextPrimaryPalId('--atom-palette-gray-50');
+                        setFormTextSecondaryPalId('--atom-palette-gray-400');
+                        setFormBorderSubtlePalId('--atom-palette-gray-700');
+                      } else {
+                        setFormBgPrimaryPalId('--atom-palette-white');
+                        setFormBgSecondaryPalId('--atom-palette-gray-50');
+                        setFormTextPrimaryPalId('--atom-palette-gray-900');
+                        setFormTextSecondaryPalId('--atom-palette-gray-700');
+                        setFormBorderSubtlePalId('--atom-palette-gray-200');
                       }
                     }}
                     className="w-full"
@@ -683,158 +725,328 @@ export function StudioThemeManager({
                 </div>
               </div>
 
-              {/* 2. Primary Brand Tokens */}
-              <div className="p-3.5 rounded-(--radius) bg-(--bg-secondary)/40 border border-(--border-subtle) space-y-3">
-                <span className="font-bold text-xs text-(--text-primary) flex items-center gap-1.5 uppercase tracking-wider">
-                  <Sparkles className="w-3.5 h-3.5 text-(--accent-primary)" />
-                  {locale === 'ko' ? '프라이머리 & 브랜드 토큰' : 'Primary & Brand Tokens'}
+              {/* Palette Token Binding Notice */}
+              <div className="p-3 rounded-(--radius-sm) bg-(--accent-primary)/5 border border-(--accent-primary)/20 flex items-center gap-2 text-xs text-(--text-secondary)">
+                <Link2 className="w-4 h-4 text-(--accent-primary) shrink-0" />
+                <span>
+                  {locale === 'ko'
+                    ? '테마 색상은 W3C DTCG 팔레트 토큰을 기반으로 바인딩됩니다. 팔레트 관리자에서 토큰 값을 수정하면 테마에 실시간 자동 동기화됩니다.'
+                    : 'Theme colors are bound to W3C DTCG Palette Tokens. Editing palettes will automatically synchronize across themes in real time.'}
                 </span>
+              </div>
+
+              {/* 2. Primary Brand Tokens (Palette-Driven) */}
+              <div className="p-3.5 rounded-(--radius) bg-(--bg-secondary)/40 border border-(--border-subtle) space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="font-bold text-xs text-(--text-primary) flex items-center gap-1.5 uppercase tracking-wider">
+                    <Sparkles className="w-3.5 h-3.5 text-(--accent-primary)" />
+                    {locale === 'ko' ? '프라이머리 & 브랜드 토큰 (팔레트 기반)' : 'Primary Brand Tokens (Palette-Based)'}
+                  </span>
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-(--bg-primary) text-(--text-muted) border border-(--border-subtle)">
+                    W3C DTCG ALIAS
+                  </span>
+                </div>
+
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  {/* Primary Action */}
                   <div className="space-y-1">
-                    <label className="text-[11px] text-(--text-secondary) font-medium">
+                    <label className="text-[11px] text-(--text-secondary) font-medium block">
                       {locale === 'ko' ? '프라이머리 액션 컬러' : 'Primary Action Color'}
                     </label>
-                    <div className="flex items-center gap-1.5">
-                      <Input
-                        type="color"
-                        value={formPrimary}
+                    <div className="flex items-center gap-2">
+                      <span
+                        style={{ backgroundColor: formPrimary }}
+                        className="w-7 h-7 rounded border border-(--border-subtle) shrink-0 shadow-xs"
+                        title={formPrimary}
+                      />
+                      <NativeSelect
+                        value={formPrimaryPalId}
                         onChange={(e) => {
-                          setFormPrimary(e.target.value);
-                          setFormPrimaryHover(e.target.value);
-                          setFormPrimaryLight(`${e.target.value}26`);
+                          const pId = e.target.value;
+                          setFormPrimaryPalId(pId);
+                          // Auto recommend hover & subtle light if standard color family
+                          const pal = findPaletteById(pId);
+                          if (pal?.family && pal.family !== 'neutral' && pal.family !== 'status') {
+                            const hoverMatch = colorPalettes.find((p) => p.family === pal.family && p.id.endsWith('-600'));
+                            const lightMatch = colorPalettes.find((p) => p.family === pal.family && p.id.endsWith('-50'));
+                            if (hoverMatch) setFormPrimaryHoverPalId(hoverMatch.id);
+                            if (lightMatch) setFormPrimaryLightPalId(lightMatch.id);
+                          }
                         }}
-                        className="w-7 h-7 p-0.5 rounded border border-(--border-subtle) cursor-pointer shrink-0"
-                      />
-                      <Input
-                        type="text"
-                        value={formPrimary}
-                        onChange={(e) => setFormPrimary(e.target.value)}
-                        className="flex-1 font-mono text-xs px-2 py-1"
-                      />
+                        className="w-full text-xs font-mono"
+                      >
+                        {colorPalettes.map((p) => (
+                          <option key={p.id} value={p.id}>
+                            {p.name} ({p.value})
+                          </option>
+                        ))}
+                      </NativeSelect>
                     </div>
+                    <span className="text-[10px] font-mono text-(--text-muted) block truncate">
+                      var({formPrimaryPalId})
+                    </span>
                   </div>
 
+                  {/* Primary Hover */}
                   <div className="space-y-1">
-                    <label className="text-[11px] text-(--text-secondary) font-medium">
+                    <label className="text-[11px] text-(--text-secondary) font-medium block">
                       {locale === 'ko' ? '호버 상태 배경' : 'Primary Hover State'}
                     </label>
-                    <div className="flex items-center gap-1.5">
-                      <Input
-                        type="color"
-                        value={formPrimaryHover}
-                        onChange={(e) => setFormPrimaryHover(e.target.value)}
-                        className="w-7 h-7 p-0.5 rounded border border-(--border-subtle) cursor-pointer shrink-0"
+                    <div className="flex items-center gap-2">
+                      <span
+                        style={{ backgroundColor: formPrimaryHover }}
+                        className="w-7 h-7 rounded border border-(--border-subtle) shrink-0 shadow-xs"
+                        title={formPrimaryHover}
                       />
-                      <Input
-                        type="text"
-                        value={formPrimaryHover}
-                        onChange={(e) => setFormPrimaryHover(e.target.value)}
-                        className="flex-1 font-mono text-xs px-2 py-1"
-                      />
+                      <NativeSelect
+                        value={formPrimaryHoverPalId}
+                        onChange={(e) => setFormPrimaryHoverPalId(e.target.value)}
+                        className="w-full text-xs font-mono"
+                      >
+                        {colorPalettes.map((p) => (
+                          <option key={p.id} value={p.id}>
+                            {p.name} ({p.value})
+                          </option>
+                        ))}
+                      </NativeSelect>
                     </div>
+                    <span className="text-[10px] font-mono text-(--text-muted) block truncate">
+                      var({formPrimaryHoverPalId})
+                    </span>
                   </div>
 
+                  {/* Primary Subtle Light */}
                   <div className="space-y-1">
-                    <label className="text-[11px] text-(--text-secondary) font-medium">
-                      {locale === 'ko' ? '은은한 배경/태그' : 'Primary Subtle Light'}
+                    <label className="text-[11px] text-(--text-secondary) font-medium block">
+                      {locale === 'ko' ? '은은한 틴트 배경/태그' : 'Primary Subtle Light'}
                     </label>
-                    <div className="flex items-center gap-1.5">
-                      <Input
-                        type="text"
-                        value={formPrimaryLight}
-                        onChange={(e) => setFormPrimaryLight(e.target.value)}
-                        className="w-full font-mono text-xs px-2 py-1"
-                        placeholder="예: #e8f3ff"
+                    <div className="flex items-center gap-2">
+                      <span
+                        style={{ backgroundColor: formPrimaryLight }}
+                        className="w-7 h-7 rounded border border-(--border-subtle) shrink-0 shadow-xs"
+                        title={formPrimaryLight}
                       />
+                      <NativeSelect
+                        value={formPrimaryLightPalId}
+                        onChange={(e) => setFormPrimaryLightPalId(e.target.value)}
+                        className="w-full text-xs font-mono"
+                      >
+                        {colorPalettes.map((p) => (
+                          <option key={p.id} value={p.id}>
+                            {p.name} ({p.value})
+                          </option>
+                        ))}
+                      </NativeSelect>
                     </div>
+                    <span className="text-[10px] font-mono text-(--text-muted) block truncate">
+                      var({formPrimaryLightPalId})
+                    </span>
                   </div>
                 </div>
               </div>
 
-              {/* 3. Surface & Text Tokens */}
+              {/* 3. Surface & Typography Tokens (Palette-Driven) */}
               <div className="p-3.5 rounded-(--radius) bg-(--bg-secondary)/40 border border-(--border-subtle) space-y-3">
                 <span className="font-bold text-xs text-(--text-primary) flex items-center gap-1.5 uppercase tracking-wider">
                   <Layers className="w-3.5 h-3.5 text-(--accent-primary)" />
-                  {locale === 'ko' ? '서피스 & 텍스트 토큰' : 'Surface & Typography Tokens'}
+                  {locale === 'ko' ? '서피스 & 텍스트 토큰 (팔레트 기반)' : 'Surface & Typography Tokens (Palette-Based)'}
                 </span>
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {/* Background Primary */}
                   <div className="space-y-1">
-                    <label className="text-[11px] text-(--text-secondary) font-medium">
-                      {locale === 'ko' ? '기본 배경' : 'Background Primary'}
+                    <label className="text-[11px] text-(--text-secondary) font-medium block">
+                      {locale === 'ko' ? '기본 배경 (Canvas)' : 'Background Primary (Canvas)'}
                     </label>
-                    <div className="flex items-center gap-1.5">
-                      <Input
-                        type="color"
-                        value={formBgPrimary}
-                        onChange={(e) => setFormBgPrimary(e.target.value)}
-                        className="w-7 h-7 p-0.5 rounded border border-(--border-subtle) cursor-pointer shrink-0"
+                    <div className="flex items-center gap-2">
+                      <span
+                        style={{ backgroundColor: formBgPrimary }}
+                        className="w-7 h-7 rounded border border-(--border-subtle) shrink-0 shadow-xs"
+                        title={formBgPrimary}
                       />
-                      <Input
-                        type="text"
-                        value={formBgPrimary}
-                        onChange={(e) => setFormBgPrimary(e.target.value)}
-                        className="flex-1 font-mono text-xs px-2 py-1"
+                      <NativeSelect
+                        value={formBgPrimaryPalId}
+                        onChange={(e) => setFormBgPrimaryPalId(e.target.value)}
+                        className="w-full text-xs font-mono"
+                      >
+                        {colorPalettes.map((p) => (
+                          <option key={p.id} value={p.id}>
+                            {p.name} ({p.value})
+                          </option>
+                        ))}
+                      </NativeSelect>
+                    </div>
+                    <span className="text-[10px] font-mono text-(--text-muted) block truncate">
+                      var({formBgPrimaryPalId})
+                    </span>
+                  </div>
+
+                  {/* Background Secondary / Card */}
+                  <div className="space-y-1">
+                    <label className="text-[11px] text-(--text-secondary) font-medium block">
+                      {locale === 'ko' ? '카드/서피스 보조 배경' : 'Background Secondary / Card'}
+                    </label>
+                    <div className="flex items-center gap-2">
+                      <span
+                        style={{ backgroundColor: formBgSecondary }}
+                        className="w-7 h-7 rounded border border-(--border-subtle) shrink-0 shadow-xs"
+                        title={formBgSecondary}
                       />
+                      <NativeSelect
+                        value={formBgSecondaryPalId}
+                        onChange={(e) => setFormBgSecondaryPalId(e.target.value)}
+                        className="w-full text-xs font-mono"
+                      >
+                        {colorPalettes.map((p) => (
+                          <option key={p.id} value={p.id}>
+                            {p.name} ({p.value})
+                          </option>
+                        ))}
+                      </NativeSelect>
+                    </div>
+                    <span className="text-[10px] font-mono text-(--text-muted) block truncate">
+                      var({formBgSecondaryPalId})
+                    </span>
+                  </div>
+
+                  {/* Text Primary */}
+                  <div className="space-y-1">
+                    <label className="text-[11px] text-(--text-secondary) font-medium block">
+                      {locale === 'ko' ? '본문 주요 텍스트' : 'Text Primary (Headlines)'}
+                    </label>
+                    <div className="flex items-center gap-2">
+                      <span
+                        style={{ backgroundColor: formTextPrimary }}
+                        className="w-7 h-7 rounded border border-(--border-subtle) shrink-0 shadow-xs"
+                        title={formTextPrimary}
+                      />
+                      <NativeSelect
+                        value={formTextPrimaryPalId}
+                        onChange={(e) => setFormTextPrimaryPalId(e.target.value)}
+                        className="w-full text-xs font-mono"
+                      >
+                        {colorPalettes.map((p) => (
+                          <option key={p.id} value={p.id}>
+                            {p.name} ({p.value})
+                          </option>
+                        ))}
+                      </NativeSelect>
+                    </div>
+                    <span className="text-[10px] font-mono text-(--text-muted) block truncate">
+                      var({formTextPrimaryPalId})
+                    </span>
+                  </div>
+
+                  {/* Border Subtle */}
+                  <div className="space-y-1">
+                    <label className="text-[11px] text-(--text-secondary) font-medium block">
+                      {locale === 'ko' ? '은은한 경계선 (Border Subtle)' : 'Border Subtle'}
+                    </label>
+                    <div className="flex items-center gap-2">
+                      <span
+                        style={{ backgroundColor: formBorderSubtle }}
+                        className="w-7 h-7 rounded border border-(--border-subtle) shrink-0 shadow-xs"
+                        title={formBorderSubtle}
+                      />
+                      <NativeSelect
+                        value={formBorderSubtlePalId}
+                        onChange={(e) => setFormBorderSubtlePalId(e.target.value)}
+                        className="w-full text-xs font-mono"
+                      >
+                        {colorPalettes.map((p) => (
+                          <option key={p.id} value={p.id}>
+                            {p.name} ({p.value})
+                          </option>
+                        ))}
+                      </NativeSelect>
+                    </div>
+                    <span className="text-[10px] font-mono text-(--text-muted) block truncate">
+                      var({formBorderSubtlePalId})
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* 4. Semantic Status Tokens (Palette-Driven) */}
+              <div className="p-3.5 rounded-(--radius) bg-(--bg-secondary)/40 border border-(--border-subtle) space-y-3">
+                <span className="font-bold text-xs text-(--text-primary) flex items-center gap-1.5 uppercase tracking-wider">
+                  <Shield className="w-3.5 h-3.5 text-(--accent-primary)" />
+                  {locale === 'ko' ? '시스템 상태 피드백 토큰' : 'Semantic Status Feedback Tokens'}
+                </span>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  {/* Success */}
+                  <div className="space-y-1">
+                    <label className="text-[11px] text-(--text-secondary) font-medium block">
+                      {locale === 'ko' ? '성공 (Success)' : 'Success'}
+                    </label>
+                    <div className="flex items-center gap-2">
+                      <span
+                        style={{ backgroundColor: formStatusSuccess }}
+                        className="w-7 h-7 rounded border border-(--border-subtle) shrink-0 shadow-xs"
+                        title={formStatusSuccess}
+                      />
+                      <NativeSelect
+                        value={formStatusSuccessPalId}
+                        onChange={(e) => setFormStatusSuccessPalId(e.target.value)}
+                        className="w-full text-xs font-mono"
+                      >
+                        {colorPalettes.map((p) => (
+                          <option key={p.id} value={p.id}>
+                            {p.name} ({p.value})
+                          </option>
+                        ))}
+                      </NativeSelect>
                     </div>
                   </div>
 
+                  {/* Danger */}
                   <div className="space-y-1">
-                    <label className="text-[11px] text-(--text-secondary) font-medium">
-                      {locale === 'ko' ? '카드/서피스 배경' : 'Background Secondary / Card'}
+                    <label className="text-[11px] text-(--text-secondary) font-medium block">
+                      {locale === 'ko' ? '위험 (Danger / Destructive)' : 'Danger / Destructive'}
                     </label>
-                    <div className="flex items-center gap-1.5">
-                      <Input
-                        type="color"
-                        value={formBgSecondary}
-                        onChange={(e) => setFormBgSecondary(e.target.value)}
-                        className="w-7 h-7 p-0.5 rounded border border-(--border-subtle) cursor-pointer shrink-0"
+                    <div className="flex items-center gap-2">
+                      <span
+                        style={{ backgroundColor: formStatusDanger }}
+                        className="w-7 h-7 rounded border border-(--border-subtle) shrink-0 shadow-xs"
+                        title={formStatusDanger}
                       />
-                      <Input
-                        type="text"
-                        value={formBgSecondary}
-                        onChange={(e) => setFormBgSecondary(e.target.value)}
-                        className="flex-1 font-mono text-xs px-2 py-1"
-                      />
+                      <NativeSelect
+                        value={formStatusDangerPalId}
+                        onChange={(e) => setFormStatusDangerPalId(e.target.value)}
+                        className="w-full text-xs font-mono"
+                      >
+                        {colorPalettes.map((p) => (
+                          <option key={p.id} value={p.id}>
+                            {p.name} ({p.value})
+                          </option>
+                        ))}
+                      </NativeSelect>
                     </div>
                   </div>
 
+                  {/* Warning */}
                   <div className="space-y-1">
-                    <label className="text-[11px] text-(--text-secondary) font-medium">
-                      {locale === 'ko' ? '본문 주요 텍스트' : 'Text Primary'}
+                    <label className="text-[11px] text-(--text-secondary) font-medium block">
+                      {locale === 'ko' ? '주의 (Warning)' : 'Warning'}
                     </label>
-                    <div className="flex items-center gap-1.5">
-                      <Input
-                        type="color"
-                        value={formTextPrimary}
-                        onChange={(e) => setFormTextPrimary(e.target.value)}
-                        className="w-7 h-7 p-0.5 rounded border border-(--border-subtle) cursor-pointer shrink-0"
+                    <div className="flex items-center gap-2">
+                      <span
+                        style={{ backgroundColor: formStatusWarning }}
+                        className="w-7 h-7 rounded border border-(--border-subtle) shrink-0 shadow-xs"
+                        title={formStatusWarning}
                       />
-                      <Input
-                        type="text"
-                        value={formTextPrimary}
-                        onChange={(e) => setFormTextPrimary(e.target.value)}
-                        className="flex-1 font-mono text-xs px-2 py-1"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="space-y-1">
-                    <label className="text-[11px] text-(--text-secondary) font-medium">
-                      {locale === 'ko' ? '연한 보더 라인' : 'Border Subtle'}
-                    </label>
-                    <div className="flex items-center gap-1.5">
-                      <Input
-                        type="color"
-                        value={formBorderSubtle}
-                        onChange={(e) => setFormBorderSubtle(e.target.value)}
-                        className="w-7 h-7 p-0.5 rounded border border-(--border-subtle) cursor-pointer shrink-0"
-                      />
-                      <Input
-                        type="text"
-                        value={formBorderSubtle}
-                        onChange={(e) => setFormBorderSubtle(e.target.value)}
-                        className="flex-1 font-mono text-xs px-2 py-1"
-                      />
+                      <NativeSelect
+                        value={formStatusWarningPalId}
+                        onChange={(e) => setFormStatusWarningPalId(e.target.value)}
+                        className="w-full text-xs font-mono"
+                      >
+                        {colorPalettes.map((p) => (
+                          <option key={p.id} value={p.id}>
+                            {p.name} ({p.value})
+                          </option>
+                        ))}
+                      </NativeSelect>
                     </div>
                   </div>
                 </div>
