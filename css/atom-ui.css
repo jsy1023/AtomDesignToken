@@ -741,21 +741,23 @@
 }
 
 .atom-btn-secondary {
-  background-color: var(--atom-color-secondary, var(--atom-bg-secondary));
-  color: var(--atom-text-primary);
-  border-color: var(--atom-border-strong);
+  background-color: var(--atom-color-secondary, var(--bg-secondary));
+  color: var(--atom-text-primary, var(--text-primary));
+  border-color: var(--atom-border-subtle, var(--border-subtle));
 }
 .atom-btn-secondary:hover:not(:disabled) {
-  background-color: var(--atom-color-secondary-hover, var(--atom-border-subtle));
+  background-color: var(--atom-color-secondary-hover, var(--border-subtle));
+  border-color: var(--atom-border-strong, var(--border-strong));
 }
 
 .atom-btn-outline {
   background-color: transparent;
-  color: var(--atom-text-primary);
-  border-color: var(--atom-border-strong);
+  color: var(--atom-text-primary, var(--text-primary));
+  border-color: var(--atom-border-subtle, var(--border-subtle));
 }
 .atom-btn-outline:hover:not(:disabled) {
-  background-color: var(--atom-bg-secondary);
+  background-color: var(--atom-bg-secondary, var(--bg-secondary));
+  border-color: var(--atom-border-strong, var(--border-strong));
 }
 
 .atom-btn-ghost {

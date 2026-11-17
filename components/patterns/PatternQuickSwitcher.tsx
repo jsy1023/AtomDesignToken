@@ -30,7 +30,7 @@ export function PatternQuickSwitcher({
       <div className="flex items-center gap-2">
         {onBackToGrid && (
           <Button
-            variant="outline"
+            variant="secondary"
             size="sm"
             type="button"
             onClick={onBackToGrid}
@@ -69,7 +69,7 @@ export function PatternQuickSwitcher({
       {/* Right: Prev & Next Buttons */}
       <div className="flex items-center gap-1.5">
         <Button
-          variant="outline"
+          variant="secondary"
           size="sm"
           type="button"
           disabled={!prevItem}
@@ -81,7 +81,7 @@ export function PatternQuickSwitcher({
         </Button>
 
         <Button
-          variant="outline"
+          variant="secondary"
           size="sm"
           type="button"
           disabled={!nextItem}

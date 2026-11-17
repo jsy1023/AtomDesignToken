@@ -68,7 +68,7 @@ export function PatternDetailView({
       {/* 1. Top Navigation Bar: Back Button & Actions */}
       <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-(--border-subtle) ">
         <Button
-          variant="outline"
+          variant="secondary"
           size="sm"
           onClick={onBack}
           className="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-bold shadow-sm"
@@ -88,7 +88,7 @@ export function PatternDetailView({
             <span>{copied ? '복사완료!' : 'AI 지시용 .md 복사'}</span>
           </Button>
           <Button
-            variant="outline"
+            variant="secondary"
             size="sm"
             onClick={handleDownloadMarkdown}
             className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold"

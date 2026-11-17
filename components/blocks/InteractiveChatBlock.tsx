@@ -114,7 +114,7 @@ export function InteractiveChatBlock() {
         </div>
 
         <Button
-          variant="outline"
+          variant="secondary"
           size="sm"
           onClick={() => setMessages(messages.slice(0, 1))}
           className="text-xs py-1 px-2.5 h-auto"
@@ -173,7 +173,7 @@ export function InteractiveChatBlock() {
         {QUICK_PROMPTS.map((q, idx) => (
           <Button
             key={idx}
-            variant="outline"
+            variant="secondary"
             size="sm"
             onClick={() => handleSend(q)}
             className="shrink-0 text-xs py-1 px-2.5 h-auto whitespace-nowrap"

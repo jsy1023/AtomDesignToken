@@ -123,7 +123,7 @@ export function StudioBrandSettings() {
 
         <div className="flex items-center gap-2.5 shrink-0">
           <Button
-            variant="outline"
+            variant="secondary"
             size="sm"
             onClick={handleReset}
             className="flex items-center gap-1.5"
@@ -286,7 +286,7 @@ export function StudioBrandSettings() {
 
               <div className="flex items-center gap-2">
                 <Button
-                  variant="outline"
+                  variant="secondary"
                   size="sm"
                   onClick={() => fileInputRef.current?.click()}
                   className="text-xs py-1 px-2.5 h-auto"
@@ -324,7 +324,7 @@ export function StudioBrandSettings() {
                 </span>
               </div>
 
-              <Button variant="outline" size="sm" className="text-xs pointer-events-none mt-1">
+              <Button variant="secondary" size="sm" className="text-xs pointer-events-none mt-1">
                 내 컴퓨터에서 파일 선택
               </Button>
             </div>

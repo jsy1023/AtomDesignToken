@@ -272,7 +272,7 @@ export function StudioLivePreview({
           Dynamic radius and surface padding bound to &quot;{variable?.name}&quot;.
         </p>
         <div className="flex justify-end gap-2 pt-2">
-          <Button variant="outline" size="sm">Dismiss</Button>
+          <Button variant="secondary" size="sm">Dismiss</Button>
         </div>
       </div>
     );
@@ -326,7 +326,7 @@ export function StudioLivePreview({
     return (
       <div className="flex items-center gap-2 p-1.5 rounded-(--radius) bg-(--bg-secondary)/60 border border-(--border-subtle)">
         <Button
-          variant="outline"
+          variant="secondary"
           size="sm"
           style={{
             backgroundColor: variable?.id === 'pills' ? getPaletteValue(b.activeIndicator || '') : 'transparent',
@@ -763,7 +763,7 @@ export function StudioLivePreview({
         >
           <span>💡 {variable?.name || 'Tooltip Message'}</span>
         </div>
-        <Button variant="outline" size="sm">
+        <Button variant="secondary" size="sm">
           {locale === 'ko' ? '호버 대상 버튼' : 'Hover Target'}
         </Button>
       </div>
@@ -982,8 +982,8 @@ export function StudioLivePreview({
                 <div className="text-(--text-secondary) font-medium">정렬 기준</div>
                 <div className="flex gap-2">
                   <Badge variant="primary">최신순</Badge>
-                  <Badge variant="outline">인기순</Badge>
-                  <Badge variant="outline">가격순</Badge>
+                  <Badge variant="secondary">인기순</Badge>
+                  <Badge variant="secondary">가격순</Badge>
                 </div>
               </div>
             ) : (

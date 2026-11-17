@@ -188,7 +188,7 @@ export function FileExplorerBlock() {
           </div>
 
           <Button
-            variant="outline"
+            variant="secondary"
             size="sm"
             onClick={handleCopy}
             className="text-xs py-1 px-2.5 flex items-center gap-1"

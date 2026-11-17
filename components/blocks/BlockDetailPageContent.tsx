@@ -133,7 +133,7 @@ export function BlockDetailPageContent({ block }: BlockDetailPageContentProps) {
                 <span>{cliCommand}</span>
               </div>
               <Button
-                variant="outline"
+                variant="secondary"
                 size="sm"
                 onClick={handleCopyCli}
                 className="text-xs flex items-center gap-1"
@@ -297,7 +297,7 @@ export function BlockDetailPageContent({ block }: BlockDetailPageContentProps) {
                 </div>
 
                 <Button
-                  variant="outline"
+                  variant="secondary"
                   size="sm"
                   onClick={handleCopyCode}
                   className="flex items-center gap-1 text-xs"

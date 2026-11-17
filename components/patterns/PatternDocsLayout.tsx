@@ -93,7 +93,7 @@ export function PatternDocsLayout({
 
         <div className="flex items-center gap-2">
           <Button
-            variant="outline"
+            variant="secondary"
             size="sm"
             type="button"
             onClick={handleCopyMarkdown}
@@ -295,7 +295,7 @@ export function PatternDocsLayout({
                   <span>{copiedMd ? '복사 완료' : '전체 복사'}</span>
                 </Button>
                 <Button
-                  variant="outline"
+                  variant="secondary"
                   size="sm"
                   type="button"
                   onClick={handleDownloadMarkdown}
@@ -323,7 +323,7 @@ export function PatternDocsLayout({
       <footer className="mt-8 pt-6 border-t border-[var(--border-subtle)] grid grid-cols-1 sm:grid-cols-2 gap-4">
         {prevPattern ? (
           <Button
-            variant="outline"
+            variant="secondary"
             size="sm"
             type="button"
             onClick={() => onSelectPattern(prevPattern.id)}
@@ -344,7 +344,7 @@ export function PatternDocsLayout({
 
         {nextPattern && (
           <Button
-            variant="outline"
+            variant="secondary"
             size="sm"
             type="button"
             onClick={() => onSelectPattern(nextPattern.id)}

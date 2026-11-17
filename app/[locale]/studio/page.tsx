@@ -643,7 +643,7 @@ function LocalStudioContent() {
             <div className="flex items-center justify-between p-3 rounded bg-(--bg-primary) border border-(--border-subtle) font-mono text-xs">
               <code>npx atomsystem studio</code>
               <Button
-                variant="outline"
+                variant="secondary"
                 size="sm"
                 onClick={copyStudioCommand}
                 className="text-xs py-1 px-2.5 h-auto flex items-center gap-1"
@@ -656,7 +656,7 @@ function LocalStudioContent() {
 
           <div className="flex items-center gap-3">
             <Link href="/">
-              <Button variant="outline" size="sm">
+              <Button variant="secondary" size="sm">
                 {t('returnHome')}
               </Button>
             </Link>
@@ -786,12 +786,12 @@ function LocalStudioContent() {
                     {['all', 'Form', 'Layout', 'Feedback'].map((cat) => (
                       <Button
                         key={cat}
-                        variant={categoryFilter === cat ? 'primary' : 'outline'}
+                        variant={categoryFilter === cat ? 'primary' : 'secondary'}
                         size="sm"
                         onClick={() => setCategoryFilter(cat)}
                         className={`text-[10px] font-mono px-2 py-0.5 h-6 rounded cursor-pointer transition ${
                           categoryFilter === cat
-                            ? 'bg-(--text-primary) text-(--bg-primary) font-semibold'
+                            ? 'bg-(--accent-primary) text-(--bg-primary) font-semibold'
                             : 'bg-(--bg-secondary) text-(--text-secondary) hover:text-(--text-primary) border border-(--border-subtle)'
                         }`}
                       >
@@ -1045,7 +1045,7 @@ function LocalStudioContent() {
 
                 {/* Quick Light/Dark Toggle */}
                 <Button
-                  variant="outline"
+                  variant="secondary"
                   size="sm"
                   onClick={handleToggleThemeMode}
                   className="flex items-center gap-1 text-xs py-1.5 px-2.5 h-auto"
@@ -1065,7 +1065,7 @@ function LocalStudioContent() {
                 </Button>
 
                 <Button
-                  variant="outline"
+                  variant="secondary"
                   size="sm"
                   onClick={() => {
                     setPaletteVariables(INITIAL_PALETTE_VARIABLES);
@@ -1223,13 +1223,13 @@ function LocalStudioContent() {
 
                             <div className="flex items-center gap-2">
                               <Button
-                                variant={isSelected ? 'primary' : 'outline'}
+                                variant={isSelected ? 'primary' : 'secondary'}
                                 size="sm"
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   handleSelectVariable(v.id);
                                 }}
-                                className="text-xs py-1 px-2.5 h-auto"
+                                className="text-xs py-1 px-2.5 h-auto font-medium"
                               >
                                 {isSelected ? (locale === 'ko' ? '✓ 편집 중' : '✓ Selected') : (locale === 'ko' ? '토큰 편집' : 'Inspect')}
                               </Button>
@@ -1294,7 +1294,7 @@ function LocalStudioContent() {
                                 return (
                                   <Button
                                     key={st.status}
-                                    variant={isCurrentSt ? 'primary' : 'outline'}
+                                    variant={isCurrentSt ? 'primary' : 'secondary'}
                                     size="sm"
                                     onClick={(e) => {
                                       e.stopPropagation();
@@ -1404,7 +1404,7 @@ function LocalStudioContent() {
 
                                   {/* One-click Copy Button */}
                                   <Button
-                                    variant="outline"
+                                    variant="secondary"
                                     size="sm"
                                     onClick={(e) => {
                                       e.stopPropagation();
@@ -1477,7 +1477,7 @@ function LocalStudioContent() {
                     </div>
 
                     {/* Status Tabs */}
-                    <div className="grid grid-cols-3 sm:grid-cols-6 gap-1 pt-1">
+                    <div className="grid grid-cols-3 gap-1.5 pt-1">
                       {[
                         { status: 'default', label: locale === 'ko' ? '기본' : 'Default' },
                         { status: 'hover', label: locale === 'ko' ? '호버' : 'Hover' },
@@ -1490,19 +1490,16 @@ function LocalStudioContent() {
                         return (
                           <Button
                             key={item.status}
-                            variant={isCurrent ? 'primary' : 'outline'}
+                            variant={isCurrent ? 'primary' : 'secondary'}
                             size="sm"
                             onClick={() => handleSelectInspectorStatus(item.status as ComponentInteractiveStatus | 'all')}
-                            className={`text-xs py-1.5 px-1 h-auto font-semibold transition-all flex flex-col items-center gap-0.5 ${
+                            className={`text-xs py-2 px-2 h-auto font-semibold transition-all whitespace-nowrap text-center ${
                               isCurrent
-                                ? 'bg-(--accent-primary) text-(--bg-primary) shadow-xs'
-                                : 'bg-(--bg-primary) hover:bg-(--bg-secondary) text-(--text-secondary)'
+                                ? 'bg-(--accent-primary) text-(--bg-primary) shadow-xs font-bold'
+                                : 'bg-(--bg-primary) hover:bg-(--bg-secondary) text-(--text-secondary) border border-(--border-subtle)'
                             }`}
                           >
-                            <span className="font-bold text-[11px]">{item.label}</span>
-                            <span className="text-[9px] font-mono opacity-75">
-                              {item.status}
-                            </span>
+                            <span>{item.label}</span>
                           </Button>
                         );
                       })}
@@ -2118,7 +2115,7 @@ function LocalStudioContent() {
 
             <div className="flex justify-end gap-2 pt-2 border-t border-(--border-subtle)">
               <Button
-                variant="outline"
+                variant="secondary"
                 size="sm"
                 onClick={() => setIsAddVariableOpen(false)}
               >
@@ -2238,7 +2235,7 @@ function LocalStudioContent() {
 
             <div className="flex justify-end gap-2 pt-2 border-t border-(--border-subtle)">
               <Button
-                variant="outline"
+                variant="secondary"
                 size="sm"
                 onClick={() => setIsAddPaletteOpen(false)}
               >
@@ -2320,7 +2317,7 @@ function LocalStudioContent() {
 
             <div className="flex justify-end gap-2 pt-2 border-t border-(--border-subtle)">
               <Button
-                variant="outline"
+                variant="secondary"
                 size="sm"
                 onClick={() => setEditingPalette(null)}
               >

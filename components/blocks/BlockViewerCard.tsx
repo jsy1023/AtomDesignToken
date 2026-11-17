@@ -142,7 +142,7 @@ export function BlockViewerCard({ block, children }: BlockViewerCardProps) {
 
           {/* CLI Add Button */}
           <Button
-            variant="outline"
+            variant="secondary"
             size="sm"
             onClick={handleCopyCli}
             title={cliCommand}
@@ -154,7 +154,7 @@ export function BlockViewerCard({ block, children }: BlockViewerCardProps) {
 
           {/* Copy Code Button */}
           <Button
-            variant="outline"
+            variant="secondary"
             size="sm"
             onClick={() =>
               handleCopyCode(

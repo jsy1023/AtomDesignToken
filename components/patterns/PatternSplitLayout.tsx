@@ -162,7 +162,7 @@ export function PatternSplitLayout({
             {PATTERN_CATEGORY_FILTERS.map((cat) => (
               <Button
                 key={cat.id}
-                variant={categoryFilter === cat.id ? 'primary' : 'outline'}
+                variant={categoryFilter === cat.id  ? 'primary' : 'secondary'}
                 size="sm"
                 type="button"
                 onClick={() => setCategoryFilter(cat.id)}
@@ -203,7 +203,7 @@ export function PatternSplitLayout({
             return (
               <Button
                 key={p.id}
-                variant={isSelected ? 'primary' : 'outline'}
+                variant={isSelected  ? 'primary' : 'secondary'}
                 size="sm"
                 type="button"
                 onClick={() => onSelectPattern(p.id)}
@@ -299,7 +299,7 @@ export function PatternSplitLayout({
               {/* Action Buttons: Copy Markdown & Download */}
               <div className="flex items-center gap-2 shrink-0">
                 <Button
-                  variant="outline"
+                  variant="secondary"
                   size="sm"
                   type="button"
                   onClick={handleCopyMarkdown}

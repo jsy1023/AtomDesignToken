@@ -289,7 +289,7 @@ export function Header({ brandColor, rightExtra }: HeaderProps) {
 
         <Button 
           type="button"
-          variant="outline"
+          variant="secondary"
           size="sm"
           onClick={copyCli}
           className="flex items-center gap-1.5 px-2.5 py-1.5 h-auto text-sm font-mono text-(--text-secondary) hover:text-(--text-primary)"

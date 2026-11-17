@@ -286,7 +286,7 @@ export function StudioThemeManager({
 
         <div className="flex items-center gap-2 shrink-0">
           <Button
-            variant="outline"
+            variant="secondary"
             size="sm"
             onClick={() => handleOpenEdit(activeTheme)}
             className="text-xs py-1.5 px-3 h-auto flex items-center gap-1.5"
@@ -335,7 +335,7 @@ export function StudioThemeManager({
           ].map((cat) => (
             <Button
               key={cat.id}
-              variant={selectedCategory === cat.id ? 'primary' : 'outline'}
+              variant={selectedCategory === cat.id  ? 'primary' : 'secondary'}
               size="sm"
               onClick={() => setSelectedCategory(cat.id as ThemeCategory)}
               className="text-xs h-auto py-1.5 px-3"
@@ -387,7 +387,7 @@ export function StudioThemeManager({
                       )}
                     </div>
                     <div className="flex items-center gap-1.5 mt-1">
-                      <Badge variant="outline" className="text-[10px] uppercase font-mono py-0">
+                      <Badge variant="secondary" className="text-[10px] uppercase font-mono py-0">
                         {t.mode === 'dark' ? '🌙 Dark' : '☀️ Light'}
                       </Badge>
                       <Badge variant="neutral" className="text-[10px] uppercase font-mono py-0">
@@ -532,7 +532,7 @@ export function StudioThemeManager({
                 </div>
 
                 <Button
-                  variant={isActive ? 'primary' : 'outline'}
+                  variant={isActive  ? 'primary' : 'secondary'}
                   size="sm"
                   onClick={() => onSelectTheme(t.id)}
                   className={`text-xs py-1 px-3 h-auto font-semibold flex items-center gap-1.5 ${
@@ -889,7 +889,7 @@ export function StudioThemeManager({
             {/* Modal Footer */}
             <div className="flex items-center justify-end gap-2 pt-3 border-t border-(--border-subtle)">
               <Button
-                variant="outline"
+                variant="secondary"
                 size="sm"
                 onClick={() => setIsEditorOpen(false)}
               >

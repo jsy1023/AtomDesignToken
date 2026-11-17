@@ -137,7 +137,7 @@ export function RealtimeChartBlock() {
 
           {/* Play/Pause Button */}
           <Button
-            variant="outline"
+            variant="secondary"
             size="sm"
             onClick={() => setIsPlaying(!isPlaying)}
             aria-label={isPlaying ? 'Pause stream' : 'Resume stream'}
