@@ -1,12 +1,59 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { useTranslations } from 'next-intl';
-import { Link } from '@/i18n/routing';
+import React, { useState, useEffect, Suspense } from 'react';
+import { useLocale, useTranslations } from 'next-intl';
+import { Link, usePathname, useRouter } from '@/i18n/routing';
+import { useSearchParams } from 'next/navigation';
 import { Header } from '@/components/Header';
 import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';
 import { CodeHighlight } from '@/components/common/CodeHighlight';
-import { Button } from '@/components/ui';
+import { StudioLivePreview } from '@/components/studio/StudioLivePreview';
+import { StudioThemeManager } from '@/components/studio/StudioThemeManager';
+import { StudioBrandSettings } from '@/components/studio/StudioBrandSettings';
+import { formatLocaleText } from '@/lib/utils/localeFormat';
+import {
+  Button,
+  Input,
+  Card,
+  Badge,
+  NativeSelect,
+  Textarea,
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+  Navbar,
+  NavbarBrand,
+  NavbarNav,
+  NavbarLink,
+  NavbarActions,
+  Sidebar,
+  SidebarHeader,
+  SidebarContent,
+  SidebarMenuButton,
+  Nav,
+  NavItem,
+  NavLink,
+  NavDropdown,
+  NavDropdownItem,
+  Checkbox,
+  RadioGroup,
+  Slider,
+  Progress,
+  Skeleton,
+  Tooltip,
+  Accordion,
+  Breadcrumb,
+  Pagination,
+  Separator,
+  Calendar,
+  SideMenu,
+  SideMenuGroup,
+  SideMenuItem,
+  SideSubMenu,
+} from '@/components/ui';
 import {
   PaletteVariable,
   ComponentVariable,
@@ -15,6 +62,12 @@ import {
   INITIAL_PALETTE_VARIABLES,
   INITIAL_STUDIO_COMPONENTS,
   INITIAL_SEMANTIC_STATUS_TOKENS,
+  resolveTypeSpec,
+  resolveVariableRole,
+  SEMANTIC_VARIABLE_DICTIONARY,
+  COMPONENT_STATUS_PRESETS,
+  ComponentInteractiveStatus,
+  getComponentStatusProperties,
 } from '@/lib/data/studioData';
 import {
   exportStudioToTokensJson,
@@ -47,19 +100,89 @@ import {
   CheckCircle2,
   Info,
   Activity,
+  Sun,
+  Moon,
+  Building2,
 } from 'lucide-react';
+import { StudioTheme, INITIAL_STUDIO_THEMES, studioThemeToThemeConfig } from '@/lib/data/themeData';
+import { applyThemeToDOM } from '@/lib/services/themeEngine';
 
-export default function LocalStudioPage() {
+export type StudioTab = 'components' | 'themes' | 'palette' | 'preview' | 'brand';
+
+function LocalStudioContent() {
+  const locale = useLocale();
   const t = useTranslations('studioPage');
-  const { theme, resetTheme } = useThemeEditor();
+  const { theme, resetTheme, applyFullTheme } = useThemeEditor();
   const brandColor = theme?.color?.primary || 'var(--accent-primary)';
 
-  // State
-  const [activeTab, setActiveTab] = useState<'components' | 'palette' | 'preview'>('components');
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const urlTab = searchParams.get('tab');
+  const urlComponent = searchParams.get('component');
+  const urlVariable = searchParams.get('variable');
+  const urlTheme = searchParams.get('theme');
+
+  // Themes State
+  const [themes, setThemes] = useState<StudioTheme[]>(INITIAL_STUDIO_THEMES);
+  const [selectedThemeId, setSelectedThemeId] = useState<string>(() => {
+    if (urlTheme && INITIAL_STUDIO_THEMES.some((th) => th.id === urlTheme)) {
+      return urlTheme;
+    }
+    return 'ocean-blue';
+  });
+
+  // State initialized with URL searchParams if present
+  const [activeTab, setActiveTab] = useState<StudioTab>(() => {
+    if (urlTab === 'themes' || urlTab === 'palette' || urlTab === 'preview' || urlTab === 'components' || urlTab === 'brand') {
+      return urlTab;
+    }
+    return 'components';
+  });
   const [paletteVariables, setPaletteVariables] = useState<PaletteVariable[]>(INITIAL_PALETTE_VARIABLES);
   const [components, setComponents] = useState<StudioComponentDefinition[]>(INITIAL_STUDIO_COMPONENTS);
-  const [selectedComponentId, setSelectedComponentId] = useState<string>('button');
-  const [selectedVariableId, setSelectedVariableId] = useState<string>('primary');
+
+  const [selectedComponentId, setSelectedComponentId] = useState<string>(() => {
+    if (urlComponent && INITIAL_STUDIO_COMPONENTS.some((c) => c.id === urlComponent)) {
+      return urlComponent;
+    }
+    return 'button';
+  });
+
+  const [selectedVariableId, setSelectedVariableId] = useState<string>(() => {
+    const comp = INITIAL_STUDIO_COMPONENTS.find((c) => c.id === (urlComponent || 'button')) || INITIAL_STUDIO_COMPONENTS[0];
+    if (urlVariable && comp.variables.some((v) => v.id === urlVariable)) {
+      return urlVariable;
+    }
+    return comp.variables[0]?.id || 'primary';
+  });
+
+  // Keep state in sync with URL changes (back/forward navigation)
+  useEffect(() => {
+    if (urlTab && (urlTab === 'components' || urlTab === 'themes' || urlTab === 'palette' || urlTab === 'preview' || urlTab === 'brand')) {
+      setActiveTab((prev) => (prev !== urlTab ? urlTab : prev));
+    }
+    if (urlComponent && components.some((c) => c.id === urlComponent)) {
+      setSelectedComponentId((prev) => (prev !== urlComponent ? urlComponent : prev));
+    }
+    if (urlVariable) {
+      setSelectedVariableId((prev) => (prev !== urlVariable ? urlVariable : prev));
+    }
+    if (urlTheme && themes.some((th) => th.id === urlTheme)) {
+      setSelectedThemeId((prev) => (prev !== urlTheme ? urlTheme : prev));
+    }
+  }, [urlTab, urlComponent, urlVariable, urlTheme, components, themes]);
+
+  // Synchronize active theme with DOM on initial mount
+  useEffect(() => {
+    const initial = themes.find((th) => th.id === selectedThemeId);
+    if (initial) {
+      const cfg = studioThemeToThemeConfig(initial);
+      applyThemeToDOM(cfg);
+    }
+  }, []);
+
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
 
@@ -84,9 +207,57 @@ export default function LocalStudioPage() {
   const [newPaletteValue, setNewPaletteValue] = useState('var(--accent-primary)');
   const [newPaletteDesc, setNewPaletteDesc] = useState('');
 
+  // Editing Palette Variable Modal State
+  const [editingPalette, setEditingPalette] = useState<PaletteVariable | null>(null);
+  const [editPaletteName, setEditPaletteName] = useState('');
+  const [editPaletteValue, setEditPaletteValue] = useState('');
+  const [editPaletteDesc, setEditPaletteDesc] = useState('');
+
+  const handleOpenEditPalette = (pal: PaletteVariable) => {
+    setEditingPalette(pal);
+    setEditPaletteName(pal.name);
+    setEditPaletteValue(pal.value);
+    setEditPaletteDesc(pal.description || '');
+  };
+
+  const handleSaveEditPalette = () => {
+    if (!editingPalette) return;
+    const trimmedVal = editPaletteValue.trim();
+    const trimmedName = editPaletteName.trim() || editingPalette.name;
+    const trimmedDesc = editPaletteDesc.trim();
+
+    setPaletteVariables((prev) =>
+      prev.map((p) =>
+        p.id === editingPalette.id
+          ? {
+              ...p,
+              name: trimmedName,
+              value: trimmedVal || p.value,
+              description: trimmedDesc,
+            }
+          : p
+      )
+    );
+    setEditingPalette(null);
+  };
+
   // Editing Variable Name
   const [editingVariableId, setEditingVariableId] = useState<string | null>(null);
   const [editingVariableName, setEditingVariableName] = useState('');
+
+  // Interactive Status State per Live Stage variable ('default' | 'hover' | 'active' | 'focus' | 'disabled' | 'loading')
+  const [stageStatuses, setStageStatuses] = useState<Record<string, ComponentInteractiveStatus>>({});
+  // Active Status tab in the Inspector panel (Default, Hover, Active, Focus, Disabled, All)
+  const [inspectorStatusTab, setInspectorStatusTab] = useState<ComponentInteractiveStatus | 'all'>('default');
+
+  const [codeSnippetLang, setCodeSnippetLang] = useState<'react' | 'html' | 'vue'>('react');
+  const [copiedVarCode, setCopiedVarCode] = useState<string | null>(null);
+
+  const handleCopyCode = (code: string, varId: string) => {
+    navigator.clipboard.writeText(code);
+    setCopiedVarCode(varId);
+    setTimeout(() => setCopiedVarCode(null), 2000);
+  };
 
   // Status & Environment Guard
   const [isSaving, setIsSaving] = useState(false);
@@ -111,12 +282,126 @@ export default function LocalStudioPage() {
     setTimeout(() => setCopiedCli(false), 2000);
   };
 
+  // Helper to update Router URL parameters
+  const updateUrl = (newTab?: string, newComponent?: string, newVariable?: string, newTheme?: string) => {
+    const params = new URLSearchParams(searchParams ? searchParams.toString() : '');
+    const tab = newTab !== undefined ? newTab : activeTab;
+    const compId = newComponent !== undefined ? newComponent : selectedComponentId;
+    const varId = newVariable !== undefined ? newVariable : selectedVariableId;
+    const themeId = newTheme !== undefined ? newTheme : selectedThemeId;
+
+    if (tab === 'components') {
+      params.delete('tab');
+      if (compId) params.set('component', compId);
+      if (varId) params.set('variable', varId);
+    } else {
+      params.set('tab', tab);
+      params.delete('component');
+      params.delete('variable');
+    }
+
+    if (themeId && themeId !== 'ocean-blue') {
+      params.set('theme', themeId);
+    } else if (themeId === 'ocean-blue') {
+      params.delete('theme');
+    }
+
+    const qs = params.toString();
+    const target = qs ? `${pathname}?${qs}` : pathname;
+    router.replace(target, { scroll: false });
+  };
+
+  const handleSelectTab = (tab: StudioTab) => {
+    setActiveTab(tab);
+    updateUrl(tab, selectedComponentId, selectedVariableId, selectedThemeId);
+  };
+
+  const handleSelectComponent = (compId: string) => {
+    const comp = components.find((c) => c.id === compId);
+    const firstVarId = comp?.variables[0]?.id || 'default';
+    setSelectedComponentId(compId);
+    setSelectedVariableId(firstVarId);
+    updateUrl('components', compId, firstVarId, selectedThemeId);
+  };
+
+  const handleSelectVariable = (varId: string) => {
+    setSelectedVariableId(varId);
+    updateUrl('components', selectedComponentId, varId, selectedThemeId);
+  };
+
+  // Theme Handlers
+  const handleSelectTheme = (themeId: string) => {
+    setSelectedThemeId(themeId);
+    const targetTheme = themes.find((th) => th.id === themeId);
+    if (targetTheme) {
+      const cfg = studioThemeToThemeConfig(targetTheme);
+      applyThemeToDOM(cfg);
+      applyFullTheme(cfg);
+    }
+    updateUrl(activeTab, selectedComponentId, selectedVariableId, themeId);
+  };
+
+  const handleCreateTheme = (newTheme: StudioTheme) => {
+    setThemes((prev) => [...prev, newTheme]);
+    handleSelectTheme(newTheme.id);
+  };
+
+  const handleUpdateTheme = (updated: StudioTheme) => {
+    setThemes((prev) => prev.map((th) => (th.id === updated.id ? updated : th)));
+    if (selectedThemeId === updated.id) {
+      const cfg = studioThemeToThemeConfig(updated);
+      applyThemeToDOM(cfg);
+      applyFullTheme(cfg);
+    }
+  };
+
+  const handleDeleteTheme = (themeId: string) => {
+    if (themes.length <= 1) return;
+    setThemes((prev) => prev.filter((th) => th.id !== themeId));
+    if (selectedThemeId === themeId) {
+      const remaining = themes.filter((th) => th.id !== themeId);
+      handleSelectTheme(remaining[0].id);
+    }
+  };
+
+  const handleToggleThemeMode = () => {
+    const cur = themes.find((th) => th.id === selectedThemeId);
+    if (!cur) return;
+    const targetMode = cur.mode === 'dark' ? 'light' : 'dark';
+    const opp = themes.find((th) => th.mode === targetMode);
+    if (opp) {
+      handleSelectTheme(opp.id);
+    }
+  };
+
   // Active Component & Variable
   const currentComponent = components.find((c) => c.id === selectedComponentId) || components[0];
   const currentVariable = currentComponent.variables.find((v) => v.id === selectedVariableId) || currentComponent.variables[0];
 
+  // Inspector status sync
+  const currentVarStatus = stageStatuses[currentVariable.id] || 'default';
+
+  const handleSelectInspectorStatus = (st: ComponentInteractiveStatus | 'all') => {
+    setInspectorStatusTab(st);
+    if (st !== 'all') {
+      setStageStatuses((prev) => ({ ...prev, [currentVariable.id]: st }));
+    }
+  };
+
   // Helper to resolve palette value
   const getPaletteValue = (paletteId: string): string => {
+    const activeTheme = themes.find((t) => t.id === selectedThemeId);
+    if (activeTheme) {
+      if (paletteId === '--atom-color-primary' || paletteId === '--atom-palette-blue-500') {
+        return activeTheme.colors.primary;
+      }
+      if (paletteId === '--atom-color-primary-hover' || paletteId === '--atom-palette-blue-600') {
+        return activeTheme.colors.primaryHover || activeTheme.colors.primary;
+      }
+      if (paletteId === '--atom-palette-blue-50') {
+        return activeTheme.colors.primaryLight || `${activeTheme.colors.primary}20`;
+      }
+    }
     return paletteVariables.find((p) => p.id === paletteId)?.value || paletteId;
   };
 
@@ -156,6 +441,8 @@ export default function LocalStudioPage() {
       id: cleanKey,
       name: newVariableName.trim(),
       description: newVariableDesc.trim(),
+      type: resolveTypeSpec(currentComponent.id, cleanKey, newVariableName.trim()),
+      variableRole: resolveVariableRole(cleanKey),
       tokenBindings: initialBindings,
     };
 
@@ -170,10 +457,18 @@ export default function LocalStudioPage() {
     );
 
     setSelectedVariableId(cleanKey);
+    updateUrl('components', currentComponent.id, cleanKey, selectedThemeId);
     setIsAddVariableOpen(false);
     setNewVariableName('');
     setNewVariableKey('');
     setNewVariableDesc('');
+
+    setTimeout(() => {
+      const el = document.getElementById(`live-stage-${cleanKey}`);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }, 100);
   };
 
   // Delete variable
@@ -188,7 +483,9 @@ export default function LocalStudioPage() {
     );
     if (selectedVariableId === varId) {
       const remaining = currentComponent.variables.filter((v) => v.id !== varId);
-      setSelectedVariableId(remaining[0].id);
+      const nextVarId = remaining[0]?.id || 'default';
+      setSelectedVariableId(nextVarId);
+      updateUrl('components', currentComponent.id, nextVarId, selectedThemeId);
     }
   };
 
@@ -200,30 +497,33 @@ export default function LocalStudioPage() {
         if (comp.id !== currentComponent.id) return comp;
         return {
           ...comp,
-          variables: comp.variables.map((v) =>
-            v.id === varId ? { ...v, name: editingVariableName.trim() } : v
-          ),
+          variables: comp.variables.map((v) => {
+            if (v.id !== varId) return v;
+            return {
+              ...v,
+              name: editingVariableName.trim(),
+              type: resolveTypeSpec(comp.id, varId, editingVariableName.trim()),
+            };
+          }),
         };
       })
     );
     setEditingVariableId(null);
+    setEditingVariableName('');
   };
 
-  // Add new Palette Variable
+  // Add Palette Variable
   const handleCreatePalette = () => {
-    if (!newPaletteName.trim() || !newPaletteId.trim()) return;
-    let cleanId = newPaletteId.trim();
-    if (!cleanId.startsWith('--atom-')) {
-      cleanId = `--atom-${cleanId}`;
-    }
+    if (!newPaletteName.trim() || !newPaletteId.trim() || !newPaletteValue.trim()) return;
+    const cleanId = newPaletteId.startsWith('--') ? newPaletteId : `--atom-${newPaletteId}`;
 
     const newPal: PaletteVariable = {
       id: cleanId,
       name: newPaletteName.trim(),
       category: newPaletteCategory,
-      family: newPaletteCategory === 'color' ? newPaletteFamily : undefined,
       value: newPaletteValue.trim(),
       description: newPaletteDesc.trim(),
+      family: newPaletteFamily,
     };
 
     setPaletteVariables((prev) => [...prev, newPal]);
@@ -234,98 +534,34 @@ export default function LocalStudioPage() {
     setNewPaletteDesc('');
   };
 
-  // Update Semantic Status Token palette reference
-  const handleUpdateStatusToken = (key: 'primary' | 'secondary' | 'success' | 'danger' | 'warning', newPaletteId: string) => {
-    setStatusTokens((prev) =>
-      prev.map((st) => {
-        if (st.key !== key) return st;
-        let hoverId = st.hoverPaletteId;
-        let subtleId = st.subtlePaletteId;
-
-        const match = newPaletteId.match(/--atom-palette-([a-z]+)-(\d+)/);
-        if (match) {
-          const family = match[1];
-          const step = parseInt(match[2], 10);
-          const hoverStep = Math.min(900, step + 100);
-          hoverId = `--atom-palette-${family}-${hoverStep}`;
-          subtleId = `--atom-palette-${family}-50`;
-        }
-
-        return {
-          ...st,
-          paletteId: newPaletteId,
-          hoverPaletteId: hoverId,
-          subtlePaletteId: subtleId,
-        };
-      })
-    );
+  // Delete Palette Variable
+  const handleDeletePalette = (palId: string) => {
+    setPaletteVariables((prev) => prev.filter((p) => p.id !== palId));
   };
 
-  // Realtime System-Wide CSS Cascade into Browser DOM
-  useEffect(() => {
-    if (typeof document === 'undefined') return;
-    statusTokens.forEach((st) => {
-      const matchedVal = getPaletteValue(st.paletteId);
-      const matchedHover = st.hoverPaletteId ? getPaletteValue(st.hoverPaletteId) : matchedVal;
-      const matchedSubtle = st.subtlePaletteId ? getPaletteValue(st.subtlePaletteId) : matchedVal;
-      if (matchedVal) {
-        document.documentElement.style.setProperty(st.id, matchedVal);
-        if (st.hoverPaletteId) document.documentElement.style.setProperty(`${st.id}-hover`, matchedHover);
-        if (st.subtlePaletteId) document.documentElement.style.setProperty(`${st.id}-subtle`, matchedSubtle);
-
-        // Sync all standard semantic aliases across the document
-        if (st.key === 'primary') {
-          document.documentElement.style.setProperty('--atom-primary', matchedVal);
-          document.documentElement.style.setProperty('--atom-primary-hover', matchedHover);
-          document.documentElement.style.setProperty('--atom-primary-light', matchedSubtle);
-          document.documentElement.style.setProperty('--accent-primary', matchedVal);
-          document.documentElement.style.setProperty('--accent-primary-hover', matchedHover);
-        } else if (st.key === 'secondary') {
-          document.documentElement.style.setProperty('--atom-secondary', matchedVal);
-          document.documentElement.style.setProperty('--atom-secondary-hover', matchedHover);
-        } else if (st.key === 'success') {
-          document.documentElement.style.setProperty('--atom-success', matchedVal);
-          document.documentElement.style.setProperty('--atom-status-success', matchedVal);
-        } else if (st.key === 'danger') {
-          document.documentElement.style.setProperty('--atom-destructive', matchedVal);
-          document.documentElement.style.setProperty('--atom-destructive-hover', matchedHover);
-          document.documentElement.style.setProperty('--atom-status-danger', matchedVal);
-        } else if (st.key === 'warning') {
-          document.documentElement.style.setProperty('--atom-warning', matchedVal);
-          document.documentElement.style.setProperty('--atom-warning-hover', matchedHover);
-          document.documentElement.style.setProperty('--atom-status-warning', matchedVal);
-        }
-      }
-    });
-  }, [statusTokens, paletteVariables]);
-
-  const handleCopyPalette = (id: string, value: string) => {
+  // Copy Palette variable string
+  const handleCopyPalette = (id: string, val: string) => {
     navigator.clipboard.writeText(`var(${id})`);
     setCopiedPaletteId(id);
     setTimeout(() => setCopiedPaletteId(null), 1800);
   };
 
-  // Delete Palette Variable
-  const handleDeletePalette = (id: string) => {
-    setPaletteVariables((prev) => prev.filter((p) => p.id !== id));
-  };
-
-  // Save changes directly to tokens/token.json & css/atom-ui.css via /api/tokens
+  // Save Studio to Project Files (FS API)
   const handleSaveToProject = async () => {
     setIsSaving(true);
     setStatusMessage(null);
     try {
-      const tokensJson = JSON.parse(exportStudioToTokensJson(paletteVariables, components, statusTokens));
-      const customCss = exportStudioToCSS(paletteVariables, components, statusTokens);
-      const res = await fetch('/api/tokens', {
+      const tokensJson = exportStudioToTokensJson(paletteVariables, components, statusTokens);
+      const cssString = exportStudioToCSS(paletteVariables, components, statusTokens);
+
+      const res = await fetch('/api/studio/save', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tokens: tokensJson, css: customCss }),
+        body: JSON.stringify({ tokensJson, cssString }),
       });
 
       if (!res.ok) {
-        const errData = await res.json();
-        throw new Error(errData.error || 'Failed to save');
+        throw new Error(`HTTP error! status: ${res.status}`);
       }
 
       setSaveSuccess(true);
@@ -333,150 +569,188 @@ export default function LocalStudioPage() {
       setTimeout(() => {
         setSaveSuccess(false);
         setStatusMessage(null);
-      }, 4000);
+      }, 3500);
     } catch (err: any) {
-      setStatusMessage(t('saveFailMsg') + err.message);
+      console.error('Save to project error:', err);
+      setStatusMessage(`${t('saveFailMsg')}${err.message}`);
     } finally {
       setIsSaving(false);
     }
   };
 
-  // Filtered components
-  const filteredComponents = components.filter((comp) => {
-    const matchesSearch = comp.name.toLowerCase().includes(searchQuery.toLowerCase()) || comp.id.includes(searchQuery.toLowerCase());
-    const matchesCategory = categoryFilter === 'all' || comp.category.toLowerCase() === categoryFilter.toLowerCase();
+  // Filtered lists
+  const filteredComponents = components.filter((c) => {
+    const matchesSearch = c.name.toLowerCase().includes(searchQuery.toLowerCase()) || c.id.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory = categoryFilter === 'all' || c.category === categoryFilter;
     return matchesSearch && matchesCategory;
   });
 
-  // Filtered palettes by search query
-  const filteredPalettes = paletteVariables.filter((p) => {
-    if (!paletteSearchQuery.trim()) return true;
-    const query = paletteSearchQuery.toLowerCase();
-    return (
-      p.name.toLowerCase().includes(query) ||
-      p.id.toLowerCase().includes(query) ||
-      p.value.toLowerCase().includes(query) ||
-      (p.description && p.description.toLowerCase().includes(query))
-    );
+  const displayedPalettes = paletteVariables.filter((p) => {
+    const matchesCat = paletteCategoryFilter === 'all' || p.category === paletteCategoryFilter;
+    const matchesFamily = colorFamilyFilter === 'all' || p.family === colorFamilyFilter;
+    const matchesSearch =
+      p.name.toLowerCase().includes(paletteSearchQuery.toLowerCase()) ||
+      p.id.toLowerCase().includes(paletteSearchQuery.toLowerCase()) ||
+      p.value.toLowerCase().includes(paletteSearchQuery.toLowerCase());
+    return matchesCat && matchesFamily && matchesSearch;
   });
 
-  const displayedPalettes = paletteSearchQuery.trim() ? filteredPalettes : paletteVariables;
+  const colorFamilies = [
+    { id: 'all', label: locale === 'ko' ? '전체' : 'All', color: 'var(--text-primary)' },
+    { id: 'blue', label: locale === 'ko' ? '블루' : 'Blue', color: '#3182f6' },
+    { id: 'gray', label: locale === 'ko' ? '그레이' : 'Gray', color: '#64748b' },
+    { id: 'emerald', label: locale === 'ko' ? '에메랄드' : 'Emerald', color: '#10b981' },
+    { id: 'rose', label: locale === 'ko' ? '로즈' : 'Rose', color: '#f43f5e' },
+    { id: 'amber', label: locale === 'ko' ? '앰버' : 'Amber', color: '#f59e0b' },
+    { id: 'purple', label: locale === 'ko' ? '퍼플' : 'Purple', color: '#8b5cf6' },
+  ];
+
+  // Resolve status-specific properties for inspector
+  const currentStatusProps = getComponentStatusProperties(
+    currentComponent.id,
+    inspectorStatusTab,
+    currentComponent.properties
+  );
 
   return (
-    <div className="h-screen flex flex-col bg-(--bg-primary) text-(--text-primary) font-sans overflow-hidden transition-colors">
-      <div className="shrink-0">
-        <Header brandColor={brandColor} />
-      </div>
+    <div className="min-h-screen bg-(--bg-primary) text-(--text-primary) flex flex-col h-screen overflow-hidden">
+      {/* 1. Global Navigation Header */}
+      <Header />
 
-      {/* Case 1: Remote Production Web Environment Guard */}
+      {/* 2. Non-Local Host Warning Banner & Fallback Guide */}
       {isLocalHost === false ? (
-        <main className="flex-1 overflow-y-auto max-w-4xl w-full mx-auto px-4 sm:px-6 py-12 flex flex-col items-center justify-center text-center gap-6 animate-in fade-in">
-          <div className="w-14 h-14 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center shadow-xs">
-            <Terminal className="w-7 h-7" />
+        <main className="flex-1 overflow-y-auto p-6 md:p-12 max-w-4xl mx-auto flex flex-col items-center justify-center text-center">
+          <div className="w-16 h-16 rounded-full bg-amber-500/10 text-amber-500 flex items-center justify-center mb-6">
+            <ShieldCheck className="w-8 h-8" />
           </div>
+          <h2 className="text-2xl font-bold tracking-tight mb-3">
+            {t('remoteGuardTitle')}
+          </h2>
+          <p className="text-sm text-(--text-secondary) max-w-lg mb-8 leading-relaxed">
+            {t('remoteGuardDesc')} (현재 호스트: <code className="font-mono bg-(--bg-secondary) px-2 py-0.5 rounded text-xs">{hostname}</code>)
+          </p>
 
-          <div className="space-y-2 max-w-xl">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 text-amber-700 dark:text-amber-300 text-xs font-mono font-semibold border border-amber-500/20">
-              <ShieldCheck className="w-3.5 h-3.5" />
-              <span>{t('remoteGuardBadge')}</span>
+          <Card className="w-full max-w-md p-6 bg-(--bg-secondary)/40 border border-(--border-subtle) rounded-(--radius) text-left mb-6">
+            <div className="flex items-center gap-2 mb-3">
+              <Terminal className="w-4 h-4 text-(--accent-primary)" />
+              <span className="text-xs font-mono font-bold uppercase text-(--text-secondary)">
+                로컬 개발 서버 실행 방법
+              </span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-(--text-primary)">
-              {t('remoteGuardTitle')}
-            </h1>
-            <p className="text-sm text-(--text-secondary) leading-relaxed whitespace-pre-line">
-              {t('remoteGuardDesc', { hostname })}
+            <p className="text-xs text-(--text-secondary) mb-4">
+              터미널에서 아래 명령어를 실행하여 로컬 포트(localhost:3000)에서 실행하세요.
             </p>
-          </div>
-
-          {/* Quick Command Execution Card */}
-          <div className="w-full max-w-md p-5 rounded-xl bg-(--bg-secondary) border border-(--border-subtle) flex flex-col gap-3 shadow-xs text-left">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-mono font-bold text-(--text-secondary) uppercase tracking-wider">
-                {t('remoteCliTitle')}
-              </span>
-              <span className="text-xs font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 font-semibold">
-                CLI Command
-              </span>
-            </div>
-            <div className="p-3.5 rounded-lg bg-(--bg-primary) border border-(--border-subtle) flex items-center justify-between font-mono text-sm">
-              <span className="text-(--text-primary)">$ npx atomsystem studio</span>
-              <button
-                type="button"
+            <div className="flex items-center justify-between p-3 rounded bg-(--bg-primary) border border-(--border-subtle) font-mono text-xs">
+              <code>npx atomsystem studio</code>
+              <Button
+                variant="outline"
+                size="sm"
                 onClick={copyStudioCommand}
-                className="text-(--text-muted) hover:text-(--text-primary) transition cursor-pointer ml-2"
-                title={t('copyCommand')}
+                className="text-xs py-1 px-2.5 h-auto flex items-center gap-1"
               >
-                {copiedCli ? <Check className="w-4 h-4 text-emerald-500" /> : <Save className="w-4 h-4" />}
-              </button>
+                {copiedCli ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
+                <span>{copiedCli ? t('copiedCli') : t('copyCli')}</span>
+              </Button>
             </div>
-            <p className="text-xs text-(--text-muted) leading-relaxed">
-              {t('remoteCliTip')}
-            </p>
-          </div>
+          </Card>
 
-          {/* Action Links */}
-          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
-            <Link
-              href="/guide"
-              className="px-4 py-2 rounded-(--radius-sm) bg-(--text-primary) text-(--bg-primary) text-xs font-semibold hover:opacity-90 transition shadow-xs flex items-center gap-1.5"
-            >
-              <span>{t('guideBtn')}</span>
-              <ExternalLink className="w-3.5 h-3.5" />
+          <div className="flex items-center gap-3">
+            <Link href="/">
+              <Button variant="outline" size="sm">
+                {t('returnHome')}
+              </Button>
             </Link>
-            <Link
-              href="/components/button"
-              className="px-4 py-2 rounded-(--radius-sm) bg-(--bg-secondary) text-(--text-primary) border border-(--border-subtle) text-xs font-semibold hover:bg-(--bg-primary) transition shadow-xs"
+            <Button
+              variant="primary"
+              size="sm"
+              onClick={() => setIsLocalHost(true)}
+              className="text-xs"
             >
-              {t('componentsBtn')}
-            </Link>
+              <Eye className="w-3.5 h-3.5 mr-1.5" />
+              <span>미리보기 모드로 계속 진행</span>
+            </Button>
           </div>
         </main>
       ) : (
-        /* Case 2: Unified Sidebar + Main Studio Layout (Independent Scrolling) */
+        /* Unified Sidebar + Main Studio Layout (Independent Scrolling) */
         <div className="flex-1 w-full flex flex-col md:flex-row overflow-hidden border-t border-(--border-subtle) animate-in fade-in">
           {/* ================= LEFT SIDEBAR (Independent Scrollable Container) ================= */}
           <aside className="w-full md:w-72 lg:w-80 shrink-0 border-r border-(--border-subtle) bg-(--bg-secondary)/30 flex flex-col h-full overflow-hidden">
             {/* 1. Main Studio Mode Navigation Menu (Fixed Top in Sidebar) */}
             <div className="shrink-0 p-4 border-b border-(--border-subtle)/60 space-y-1.5">
               <span className="text-[11px] font-mono font-bold text-(--text-muted) uppercase tracking-wider block px-1">
-                Studio Menu
+                {locale === 'ko' ? '스튜디오 메뉴' : 'Studio Menu'}
               </span>
               <div className="flex flex-col gap-1">
-                <button
-                  onClick={() => setActiveTab('components')}
-                  className={`w-full text-left px-3 py-2 rounded-(--radius-sm) text-xs sm:text-sm font-semibold transition cursor-pointer flex items-center gap-2.5 ${
+                <Button
+                  variant={activeTab === 'components' ? 'primary' : 'ghost'}
+                  size="sm"
+                  onClick={() => handleSelectTab('components')}
+                  className={`w-full justify-start text-left px-3 py-2 text-xs sm:text-sm font-semibold gap-2.5 ${
                     activeTab === 'components'
-                      ? 'bg-(--text-primary) text-(--bg-primary) shadow-xs'
-                      : 'text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary)'
+                      ? 'bg-(--text-primary) text-(--bg-primary)'
+                      : 'text-(--text-secondary) hover:text-(--text-primary)'
                   }`}
                 >
                   <Component className="w-4 h-4" />
                   <span>{t('tabComponents')}</span>
-                </button>
+                </Button>
 
-                <button
-                  onClick={() => setActiveTab('palette')}
-                  className={`w-full text-left px-3 py-2 rounded-(--radius-sm) text-xs sm:text-sm font-semibold transition cursor-pointer flex items-center gap-2.5 ${
+                <Button
+                  variant={activeTab === 'themes' ? 'primary' : 'ghost'}
+                  size="sm"
+                  onClick={() => handleSelectTab('themes')}
+                  className={`w-full justify-start text-left px-3 py-2 text-xs sm:text-sm font-semibold gap-2.5 ${
+                    activeTab === 'themes'
+                      ? 'bg-(--text-primary) text-(--bg-primary)'
+                      : 'text-(--text-secondary) hover:text-(--text-primary)'
+                  }`}
+                >
+                  <Sparkles className="w-4 h-4" />
+                  <span>{t('tabThemes')}</span>
+                </Button>
+
+                <Button
+                  variant={activeTab === 'palette' ? 'primary' : 'ghost'}
+                  size="sm"
+                  onClick={() => handleSelectTab('palette')}
+                  className={`w-full justify-start text-left px-3 py-2 text-xs sm:text-sm font-semibold gap-2.5 ${
                     activeTab === 'palette'
-                      ? 'bg-(--text-primary) text-(--bg-primary) shadow-xs'
-                      : 'text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary)'
+                      ? 'bg-(--text-primary) text-(--bg-primary)'
+                      : 'text-(--text-secondary) hover:text-(--text-primary)'
                   }`}
                 >
                   <Palette className="w-4 h-4" />
                   <span>{t('tabPalette')}</span>
-                </button>
+                </Button>
 
-                <button
-                  onClick={() => setActiveTab('preview')}
-                  className={`w-full text-left px-3 py-2 rounded-(--radius-sm) text-xs sm:text-sm font-semibold transition cursor-pointer flex items-center gap-2.5 ${
+                <Button
+                  variant={activeTab === 'preview' ? 'primary' : 'ghost'}
+                  size="sm"
+                  onClick={() => handleSelectTab('preview')}
+                  className={`w-full justify-start text-left px-3 py-2 text-xs sm:text-sm font-semibold gap-2.5 ${
                     activeTab === 'preview'
-                      ? 'bg-(--text-primary) text-(--bg-primary) shadow-xs'
-                      : 'text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary)'
+                      ? 'bg-(--text-primary) text-(--bg-primary)'
+                      : 'text-(--text-secondary) hover:text-(--text-primary)'
                   }`}
                 >
                   <FileCode className="w-4 h-4" />
                   <span>{t('tabJson')}</span>
-                </button>
+                </Button>
+
+                <Button
+                  variant={activeTab === 'brand' ? 'primary' : 'ghost'}
+                  size="sm"
+                  onClick={() => handleSelectTab('brand')}
+                  className={`w-full justify-start text-left px-3 py-2 text-xs sm:text-sm font-semibold gap-2.5 ${
+                    activeTab === 'brand'
+                      ? 'bg-(--text-primary) text-(--bg-primary)'
+                      : 'text-(--text-secondary) hover:text-(--text-primary)'
+                  }`}
+                >
+                  <Building2 className="w-4 h-4" />
+                  <span>{t('tabBrand')}</span>
+                </Button>
               </div>
             </div>
 
@@ -488,7 +762,7 @@ export default function LocalStudioPage() {
                   <div className="flex items-center justify-between px-0.5">
                     <span className="text-xs font-mono font-bold text-(--text-secondary) uppercase tracking-wider flex items-center gap-1.5">
                       <Layers className="w-3.5 h-3.5 text-(--accent-primary)" />
-                      UI Components
+                      {locale === 'ko' ? 'UI 컴포넌트' : 'UI Components'}
                     </span>
                     <span className="text-[11px] font-mono px-1.5 py-0.5 rounded bg-(--bg-secondary) text-(--text-muted) border border-(--border-subtle)">
                       {filteredComponents.length}
@@ -498,29 +772,35 @@ export default function LocalStudioPage() {
                   {/* Search */}
                   <div className="relative">
                     <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-(--text-muted)" />
-                    <input
+                    <Input
                       type="text"
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       placeholder={t('searchComponent')}
-                      className="w-full text-xs pl-8 pr-3 py-1.5 rounded border border-(--border-subtle) bg-(--bg-primary) text-(--text-primary) placeholder:text-(--text-muted)"
+                      className="w-full text-xs pl-8 pr-3 py-1.5"
                     />
                   </div>
 
                   {/* Category Filter Pills */}
                   <div className="flex flex-wrap gap-1">
                     {['all', 'Form', 'Layout', 'Feedback'].map((cat) => (
-                      <button
+                      <Button
                         key={cat}
+                        variant={categoryFilter === cat ? 'primary' : 'outline'}
+                        size="sm"
                         onClick={() => setCategoryFilter(cat)}
-                        className={`text-[10px] font-mono px-2 py-0.5 rounded cursor-pointer transition ${
+                        className={`text-[10px] font-mono px-2 py-0.5 h-6 rounded cursor-pointer transition ${
                           categoryFilter === cat
                             ? 'bg-(--text-primary) text-(--bg-primary) font-semibold'
                             : 'bg-(--bg-secondary) text-(--text-secondary) hover:text-(--text-primary) border border-(--border-subtle)'
                         }`}
                       >
-                        {cat === 'all' ? t('categoryAll') : cat}
-                      </button>
+                        {cat === 'all'
+                          ? t('categoryAll')
+                          : locale === 'ko'
+                            ? (cat === 'Form' ? '폼' : cat === 'Layout' ? '레이아웃' : cat === 'Feedback' ? '피드백' : cat)
+                            : cat}
+                      </Button>
                     ))}
                   </div>
                 </div>
@@ -530,277 +810,192 @@ export default function LocalStudioPage() {
                   {filteredComponents.map((comp) => {
                     const isSelected = comp.id === selectedComponentId;
                     return (
-                      <button
+                      <Button
                         key={comp.id}
-                        onClick={() => {
-                          setSelectedComponentId(comp.id);
-                          setSelectedVariableId(comp.variables[0]?.id || 'default');
-                        }}
-                        className={`w-full text-left p-2.5 rounded-(--radius-sm) text-xs font-medium transition cursor-pointer flex items-center justify-between ${
+                        variant={isSelected ? 'primary' : 'ghost'}
+                        size="sm"
+                        onClick={() => handleSelectComponent(comp.id)}
+                        className={`w-full justify-between text-left p-2.5 h-auto text-xs font-medium ${
                           isSelected
                             ? 'bg-(--text-primary) text-(--bg-primary) font-semibold shadow-xs'
                             : 'hover:bg-(--bg-secondary) text-(--text-primary)'
                         }`}
                       >
-                        <span className="truncate">{comp.name}</span>
+                        <span className="truncate">{formatLocaleText(comp.name, locale)}</span>
                         <span className="text-[10px] font-mono opacity-60 ml-2">
                           {comp.variables.length} vars
                         </span>
-                      </button>
+                      </Button>
                     );
                   })}
                 </div>
               </div>
             )}
 
-            {/* 3. Palette Categories & Token Tree (Active when in Palette Manager) */}
+            {/* 3. Palette Left Sidebar Navigation (When Palette Tab is Active) */}
             {activeTab === 'palette' && (
               <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
-                {/* Search & Header */}
-                <div className="shrink-0 p-4 pb-2.5 space-y-2.5 border-b border-(--border-subtle)/30">
-                  <div className="flex items-center justify-between px-0.5">
-                    <span className="text-xs font-mono font-bold text-(--text-secondary) uppercase tracking-wider flex items-center gap-1.5">
-                      <Palette className="w-3.5 h-3.5 text-(--accent-primary)" />
-                      Palette Categories
-                    </span>
-                    <span className="text-[11px] font-mono px-1.5 py-0.5 rounded bg-(--bg-secondary) text-(--text-muted) border border-(--border-subtle)">
-                      {paletteVariables.length}
-                    </span>
-                  </div>
-
-                  {/* Search */}
+                <div className="shrink-0 p-4 pb-2.5 border-b border-(--border-subtle)/30">
+                  <span className="text-xs font-mono font-bold text-(--text-secondary) uppercase tracking-wider block mb-2">
+                    팔레트 카테고리
+                  </span>
                   <div className="relative">
                     <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-(--text-muted)" />
-                    <input
+                    <Input
                       type="text"
                       value={paletteSearchQuery}
                       onChange={(e) => setPaletteSearchQuery(e.target.value)}
                       placeholder="팔레트 검색..."
-                      className="w-full text-xs pl-8 pr-3 py-1.5 rounded border border-(--border-subtle) bg-(--bg-primary) text-(--text-primary) placeholder:text-(--text-muted)"
+                      className="w-full text-xs pl-8 pr-3 py-1.5"
                     />
                   </div>
                 </div>
 
-                {/* Independent Scrollable Palette Category Menu or Search Results */}
-                <div className="flex-1 overflow-y-auto p-4 space-y-1.5">
-                  {paletteSearchQuery.trim() ? (
-                    <div className="space-y-1">
-                      <div className="flex items-center justify-between text-[11px] font-mono text-(--text-muted) px-1 pb-1">
-                        <span>검색 결과</span>
-                        <span className="font-bold text-(--accent-primary)">{filteredPalettes.length}건</span>
-                      </div>
-                      {filteredPalettes.length === 0 ? (
-                        <div className="p-6 text-center text-xs text-(--text-muted) border border-dashed border-(--border-subtle) rounded-(--radius-sm)">
-                          일치하는 토큰이 없습니다.
-                        </div>
-                      ) : (
-                        filteredPalettes.map((pal) => (
-                          <button
-                            key={pal.id}
-                            onClick={() => {
-                              if (pal.category === 'color') {
-                                setPaletteCategoryFilter('color');
-                                if (pal.family) setColorFamilyFilter(pal.family);
-                              } else if (pal.category === 'size' || pal.category === 'spacing') {
-                                setPaletteCategoryFilter('size');
-                              } else if (pal.category === 'radius') {
-                                setPaletteCategoryFilter('radius');
-                              } else if (pal.category === 'typography') {
-                                setPaletteCategoryFilter('typography');
-                              }
-                              handleCopyPalette(pal.id, pal.value);
-                            }}
-                            className="w-full text-left p-2 rounded-(--radius-sm) text-xs transition cursor-pointer hover:bg-(--bg-secondary) flex items-center justify-between border border-transparent hover:border-(--border-subtle) group"
-                          >
-                            <div className="flex items-center gap-2 min-w-0">
-                              {pal.category === 'color' ? (
-                                <span
-                                  style={{ backgroundColor: pal.value }}
-                                  className="w-3.5 h-3.5 rounded-full shrink-0 border border-black/10 shadow-xs"
-                                />
-                              ) : pal.category === 'radius' ? (
-                                <span
-                                  style={{ borderRadius: pal.value }}
-                                  className="w-3.5 h-3.5 border border-(--border-strong) bg-(--bg-secondary) shrink-0"
-                                />
-                              ) : pal.category === 'typography' ? (
-                                <span className="w-3.5 h-3.5 flex items-center justify-center font-serif text-[10px] font-bold text-(--accent-primary) shrink-0">
-                                  Aa
-                                </span>
-                              ) : (
-                                <Ruler className="w-3.5 h-3.5 text-(--accent-primary) shrink-0" />
-                              )}
-                              <div className="min-w-0 flex flex-col">
-                                <span className="font-medium text-(--text-primary) truncate">
-                                  {pal.name}
-                                </span>
-                                <span className="font-mono text-[10px] text-(--text-muted) truncate">
-                                  {pal.id}
-                                </span>
-                              </div>
-                            </div>
-                            <div className="shrink-0 text-right ml-2 flex flex-col items-end">
-                              <span className="font-mono text-[10px] text-(--text-secondary) truncate max-w-[60px]">
-                                {pal.value}
-                              </span>
-                              <span className="text-[9px] uppercase px-1 rounded bg-(--bg-secondary) text-(--text-muted)">
-                                {pal.category}
-                              </span>
-                            </div>
-                          </button>
-                        ))
-                      )}
-                    </div>
-                  ) : (
-                    <>
-                      {/* Category 0: Semantic Status Tokens (Primary, Secondary, Success, Danger, Warning) */}
-                      <button
-                        onClick={() => setPaletteCategoryFilter('status')}
-                        className={`w-full text-left p-2.5 rounded-(--radius-sm) text-xs font-medium transition cursor-pointer flex items-center justify-between ${
-                          paletteCategoryFilter === 'status'
-                            ? 'bg-(--text-primary) text-(--bg-primary) font-semibold shadow-xs'
-                            : 'hover:bg-(--bg-secondary) text-(--text-primary)'
-                        }`}
-                      >
-                        <span className="flex items-center gap-2">
-                          <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-                          <span className="font-bold">상태 토큰 (Status Tokens)</span>
-                        </span>
-                        <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-600 dark:text-amber-400 font-bold border border-amber-500/20">
-                          {statusTokens.length}
-                        </span>
-                      </button>
+                <div className="flex-1 overflow-y-auto p-4 space-y-1">
+                  {/* Category 0: Status Semantic Tokens */}
+                  <Button
+                    variant={paletteCategoryFilter === 'status' ? 'primary' : 'ghost'}
+                    size="sm"
+                    onClick={() => setPaletteCategoryFilter('status')}
+                    className={`w-full justify-between text-left p-2.5 h-auto text-xs font-medium ${
+                      paletteCategoryFilter === 'status'
+                        ? 'bg-(--text-primary) text-(--bg-primary) font-semibold shadow-xs'
+                        : 'hover:bg-(--bg-secondary) text-(--text-primary)'
+                    }`}
+                  >
+                    <span className="flex items-center gap-2">
+                      <Sparkles className="w-3.5 h-3.5 text-(--accent-primary)" />
+                      <span>{locale === 'ko' ? '상태 시맨틱 토큰' : 'Semantic Status Tokens'}</span>
+                    </span>
+                    <span className="text-[10px] font-mono opacity-60">5</span>
+                  </Button>
 
-                      {/* Category 1: Color Scales (50 ~ 900) */}
-                      <div className="space-y-1">
-                        <button
-                          onClick={() => {
-                            setPaletteCategoryFilter('color');
-                            setColorFamilyFilter('all');
-                          }}
-                          className={`w-full text-left p-2.5 rounded-(--radius-sm) text-xs font-medium transition cursor-pointer flex items-center justify-between ${
-                            paletteCategoryFilter === 'color' && colorFamilyFilter === 'all'
-                              ? 'bg-(--text-primary) text-(--bg-primary) font-semibold shadow-xs'
-                              : 'hover:bg-(--bg-secondary) text-(--text-primary)'
-                          }`}
+                  {/* Category 1: Color Families */}
+                  <Button
+                    variant={paletteCategoryFilter === 'color' ? 'primary' : 'ghost'}
+                    size="sm"
+                    onClick={() => {
+                      setPaletteCategoryFilter('color');
+                      setColorFamilyFilter('all');
+                    }}
+                    className={`w-full justify-between text-left p-2.5 h-auto text-xs font-medium ${
+                      paletteCategoryFilter === 'color' && colorFamilyFilter === 'all'
+                        ? 'bg-(--text-primary) text-(--bg-primary) font-semibold shadow-xs'
+                        : 'hover:bg-(--bg-secondary) text-(--text-primary)'
+                    }`}
+                  >
+                    <span className="flex items-center gap-2">
+                      <Palette className="w-3.5 h-3.5 text-(--accent-primary)" />
+                      <span>{locale === 'ko' ? '컬러 팔레트' : 'Color Palette (50-900)'}</span>
+                    </span>
+                    <span className="text-[10px] font-mono opacity-60">
+                      {paletteVariables.filter((p) => p.category === 'color').length}
+                    </span>
+                  </Button>
+
+                  {/* Sub-families when in color view */}
+                  {paletteCategoryFilter === 'color' && (
+                    <div className="pl-4 pr-1 py-1 space-y-0.5 border-l-2 border-(--border-subtle) ml-3 my-1">
+                      {colorFamilies.map((fam) => (
+                        <Button
+                          key={fam.id}
+                          variant={colorFamilyFilter === fam.id ? 'primary' : 'ghost'}
+                          size="sm"
+                          onClick={() => setColorFamilyFilter(fam.id)}
+                          className="w-full text-left px-2 py-1.5 h-auto text-[11px] font-medium flex items-center justify-between"
                         >
-                          <span className="flex items-center gap-2">
-                            <Palette className="w-3.5 h-3.5 text-(--accent-primary)" />
-                            <span>색상 팔레트 (50~900)</span>
+                          <span className="flex items-center gap-2 truncate">
+                            <span
+                              style={{ backgroundColor: fam.color }}
+                              className="w-2 h-2 rounded-full shrink-0 shadow-xs"
+                            />
+                            <span className="truncate">{formatLocaleText(fam.label, locale)}</span>
                           </span>
-                          <span className="text-[10px] font-mono opacity-60">
-                            {paletteVariables.filter((p) => p.category === 'color').length}
-                          </span>
-                        </button>
-
-                        {/* Sub Color Families */}
-                        {paletteCategoryFilter === 'color' && (
-                          <div className="pl-5 pr-1 py-1 space-y-0.5 border-l-2 border-(--border-subtle) ml-3">
-                            {[
-                              { id: 'blue', label: 'Blue (Brand Primary)', color: '#3182f6' },
-                              { id: 'gray', label: 'Gray (Surface & Text)', color: '#64748b' },
-                              { id: 'emerald', label: 'Emerald (Success)', color: '#10b981' },
-                              { id: 'rose', label: 'Rose (Destructive)', color: '#ef4444' },
-                              { id: 'amber', label: 'Amber (Warning)', color: '#f59e0b' },
-                              { id: 'purple', label: 'Purple (AI Accent)', color: '#8b5cf6' },
-                              { id: 'neutral', label: 'Neutral (Black & White)', color: '#111111' },
-                            ].map((fam) => (
-                              <button
-                                key={fam.id}
-                                onClick={() => setColorFamilyFilter(fam.id)}
-                                className={`w-full text-left px-2 py-1.5 rounded text-[11px] font-medium transition cursor-pointer flex items-center justify-between ${
-                                  colorFamilyFilter === fam.id
-                                    ? 'bg-(--accent-primary) text-(--bg-primary) font-bold'
-                                    : 'text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary)'
-                                }`}
-                              >
-                                <span className="flex items-center gap-2 truncate">
-                                  <span
-                                    style={{ backgroundColor: fam.color }}
-                                    className="w-2 h-2 rounded-full shrink-0 shadow-xs"
-                                  />
-                                  <span className="truncate">{fam.label}</span>
-                                </span>
-                                <span className="text-[10px] font-mono opacity-60">10</span>
-                              </button>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Category 2: Size & Spacing */}
-                      <button
-                        onClick={() => setPaletteCategoryFilter('size')}
-                        className={`w-full text-left p-2.5 rounded-(--radius-sm) text-xs font-medium transition cursor-pointer flex items-center justify-between ${
-                          paletteCategoryFilter === 'size'
-                            ? 'bg-(--text-primary) text-(--bg-primary) font-semibold shadow-xs'
-                            : 'hover:bg-(--bg-secondary) text-(--text-primary)'
-                        }`}
-                      >
-                        <span className="flex items-center gap-2">
-                          <Ruler className="w-3.5 h-3.5 text-(--accent-primary)" />
-                          <span>사이즈 & 여백 (Size)</span>
-                        </span>
-                        <span className="text-[10px] font-mono opacity-60">
-                          {paletteVariables.filter((p) => p.category === 'size' || p.category === 'spacing').length}
-                        </span>
-                      </button>
-
-                      {/* Category 3: Border Radius */}
-                      <button
-                        onClick={() => setPaletteCategoryFilter('radius')}
-                        className={`w-full text-left p-2.5 rounded-(--radius-sm) text-xs font-medium transition cursor-pointer flex items-center justify-between ${
-                          paletteCategoryFilter === 'radius'
-                            ? 'bg-(--text-primary) text-(--bg-primary) font-semibold shadow-xs'
-                            : 'hover:bg-(--bg-secondary) text-(--text-primary)'
-                        }`}
-                      >
-                        <span className="flex items-center gap-2">
-                          <Square className="w-3.5 h-3.5 text-(--accent-primary)" />
-                          <span>모서리 곡률 (Radius)</span>
-                        </span>
-                        <span className="text-[10px] font-mono opacity-60">
-                          {paletteVariables.filter((p) => p.category === 'radius').length}
-                        </span>
-                      </button>
-
-                      {/* Category 4: Typography */}
-                      <button
-                        onClick={() => setPaletteCategoryFilter('typography')}
-                        className={`w-full text-left p-2.5 rounded-(--radius-sm) text-xs font-medium transition cursor-pointer flex items-center justify-between ${
-                          paletteCategoryFilter === 'typography'
-                            ? 'bg-(--text-primary) text-(--bg-primary) font-semibold shadow-xs'
-                            : 'hover:bg-(--bg-secondary) text-(--text-primary)'
-                        }`}
-                      >
-                        <span className="flex items-center gap-2">
-                          <Type className="w-3.5 h-3.5 text-(--accent-primary)" />
-                          <span>타이포그래피 (Typography)</span>
-                        </span>
-                        <span className="text-[10px] font-mono opacity-60">
-                          {paletteVariables.filter((p) => p.category === 'typography').length}
-                        </span>
-                      </button>
-
-                      {/* Category 5: All Palettes Table */}
-                      <button
-                        onClick={() => setPaletteCategoryFilter('all')}
-                        className={`w-full text-left p-2.5 rounded-(--radius-sm) text-xs font-medium transition cursor-pointer flex items-center justify-between ${
-                          paletteCategoryFilter === 'all'
-                            ? 'bg-(--text-primary) text-(--bg-primary) font-semibold shadow-xs'
-                            : 'hover:bg-(--bg-secondary) text-(--text-primary)'
-                        }`}
-                      >
-                        <span className="flex items-center gap-2">
-                          <Layers className="w-3.5 h-3.5 text-(--accent-primary)" />
-                          <span>전체 목록 (All)</span>
-                        </span>
-                        <span className="text-[10px] font-mono opacity-60">
-                          {paletteVariables.length}
-                        </span>
-                      </button>
-                    </>
+                          <span className="text-[10px] font-mono opacity-60">10</span>
+                        </Button>
+                      ))}
+                    </div>
                   )}
+
+                  {/* Category 2: Size & Spacing */}
+                  <Button
+                    variant={paletteCategoryFilter === 'size' ? 'primary' : 'ghost'}
+                    size="sm"
+                    onClick={() => setPaletteCategoryFilter('size')}
+                    className={`w-full justify-between text-left p-2.5 h-auto text-xs font-medium ${
+                      paletteCategoryFilter === 'size'
+                        ? 'bg-(--text-primary) text-(--bg-primary) font-semibold shadow-xs'
+                        : 'hover:bg-(--bg-secondary) text-(--text-primary)'
+                    }`}
+                  >
+                    <span className="flex items-center gap-2">
+                      <Ruler className="w-3.5 h-3.5 text-(--accent-primary)" />
+                      <span>{locale === 'ko' ? '사이즈 & 여백' : 'Size & Spacing'}</span>
+                    </span>
+                    <span className="text-[10px] font-mono opacity-60">
+                      {paletteVariables.filter((p) => p.category === 'size' || p.category === 'spacing').length}
+                    </span>
+                  </Button>
+
+                  {/* Category 3: Border Radius */}
+                  <Button
+                    variant={paletteCategoryFilter === 'radius' ? 'primary' : 'ghost'}
+                    size="sm"
+                    onClick={() => setPaletteCategoryFilter('radius')}
+                    className={`w-full justify-between text-left p-2.5 h-auto text-xs font-medium ${
+                      paletteCategoryFilter === 'radius'
+                        ? 'bg-(--text-primary) text-(--bg-primary) font-semibold shadow-xs'
+                        : 'hover:bg-(--bg-secondary) text-(--text-primary)'
+                    }`}
+                  >
+                    <span className="flex items-center gap-2">
+                      <Square className="w-3.5 h-3.5 text-(--accent-primary)" />
+                      <span>{locale === 'ko' ? '모서리 곡률' : 'Border Radius'}</span>
+                    </span>
+                    <span className="text-[10px] font-mono opacity-60">
+                      {paletteVariables.filter((p) => p.category === 'radius').length}
+                    </span>
+                  </Button>
+
+                  {/* Category 4: Typography */}
+                  <Button
+                    variant={paletteCategoryFilter === 'typography' ? 'primary' : 'ghost'}
+                    size="sm"
+                    onClick={() => setPaletteCategoryFilter('typography')}
+                    className={`w-full justify-between text-left p-2.5 h-auto text-xs font-medium ${
+                      paletteCategoryFilter === 'typography'
+                        ? 'bg-(--text-primary) text-(--bg-primary) font-semibold shadow-xs'
+                        : 'hover:bg-(--bg-secondary) text-(--text-primary)'
+                    }`}
+                  >
+                    <span className="flex items-center gap-2">
+                      <Type className="w-3.5 h-3.5 text-(--accent-primary)" />
+                      <span>{locale === 'ko' ? '타이포그래피' : 'Typography'}</span>
+                    </span>
+                    <span className="text-[10px] font-mono opacity-60">
+                      {paletteVariables.filter((p) => p.category === 'typography').length}
+                    </span>
+                  </Button>
+
+                  {/* Category 5: All Palettes Table */}
+                  <Button
+                    variant={paletteCategoryFilter === 'all' ? 'primary' : 'ghost'}
+                    size="sm"
+                    onClick={() => setPaletteCategoryFilter('all')}
+                    className={`w-full justify-between text-left p-2.5 h-auto text-xs font-medium ${
+                      paletteCategoryFilter === 'all'
+                        ? 'bg-(--text-primary) text-(--bg-primary) font-semibold shadow-xs'
+                        : 'hover:bg-(--bg-secondary) text-(--text-primary)'
+                    }`}
+                  >
+                    <span className="flex items-center gap-2">
+                      <Layers className="w-3.5 h-3.5 text-(--accent-primary)" />
+                      <span>{locale === 'ko' ? '전체 목록' : 'All Tokens'}</span>
+                    </span>
+                    <span className="text-[10px] font-mono opacity-60">
+                      {paletteVariables.length}
+                    </span>
+                  </Button>
                 </div>
               </div>
             )}
@@ -812,8 +1007,8 @@ export default function LocalStudioPage() {
             <div className="shrink-0 flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-(--border-subtle) pb-5">
               <div>
                 <div className="flex items-center gap-2 mb-1.5">
-                  <span className="font-mono text-xs px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold border border-emerald-500/20 flex items-center gap-1.5 shadow-xs">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" />
+                  <span className="font-mono text-xs px-2 py-0.5 rounded bg-(--atom-color-success)/10 text-(--atom-color-success) dark:text-(--atom-color-success) font-bold border border-(--atom-color-success)/20 flex items-center gap-1.5 shadow-xs">
+                    <span className="w-1.5 h-1.5 rounded-full bg-(--atom-color-success) inline-block" />
                     {t('badgeConnected')}
                   </span>
                   <span className="text-xs font-mono px-2 py-0.5 rounded bg-(--bg-secondary) text-(--text-secondary) border border-(--border-subtle)">
@@ -828,13 +1023,54 @@ export default function LocalStudioPage() {
                 </p>
               </div>
 
-              <div className="flex items-center gap-2 shrink-0">
+              <div className="flex items-center gap-2.5 shrink-0 flex-wrap">
+                {/* Theme Quick Switcher */}
+                <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-(--radius-sm) bg-(--bg-secondary) border border-(--border-subtle) text-xs shadow-xs">
+                  <Palette className="w-3.5 h-3.5 text-(--accent-primary) shrink-0" />
+                  <span className="text-(--text-secondary) text-[11px] font-semibold hidden md:inline">
+                    {locale === 'ko' ? '테마:' : 'Theme:'}
+                  </span>
+                  <NativeSelect
+                    value={selectedThemeId}
+                    onChange={(e) => handleSelectTheme(e.target.value)}
+                    className="text-xs font-semibold bg-transparent border-0 h-auto p-0 cursor-pointer min-w-0"
+                  >
+                    {themes.map((th) => (
+                      <option key={th.id} value={th.id}>
+                        {formatLocaleText(th.name, locale)}
+                      </option>
+                    ))}
+                  </NativeSelect>
+                </div>
+
+                {/* Quick Light/Dark Toggle */}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleToggleThemeMode}
+                  className="flex items-center gap-1 text-xs py-1.5 px-2.5 h-auto"
+                  title="라이트 / 다크 모드 빠른 전환"
+                >
+                  {themes.find((t) => t.id === selectedThemeId)?.mode === 'dark' ? (
+                    <>
+                      <Sun className="w-3.5 h-3.5 text-amber-500" />
+                      <span className="hidden sm:inline">{locale === 'ko' ? '라이트' : 'Light'}</span>
+                    </>
+                  ) : (
+                    <>
+                      <Moon className="w-3.5 h-3.5 text-indigo-500" />
+                      <span className="hidden sm:inline">{locale === 'ko' ? '다크' : 'Dark'}</span>
+                    </>
+                  )}
+                </Button>
+
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={() => {
                     setPaletteVariables(INITIAL_PALETTE_VARIABLES);
                     setComponents(INITIAL_STUDIO_COMPONENTS);
+                    handleSelectTheme('ocean-blue');
                     resetTheme();
                   }}
                   className="flex items-center gap-1.5"
@@ -852,7 +1088,7 @@ export default function LocalStudioPage() {
                 >
                   {saveSuccess ? (
                     <>
-                      <Check className="w-4 h-4 text-emerald-400" />
+                      <Check className="w-4 h-4 text-(--atom-color-success)" />
                       <span>{t('saveSuccess')}</span>
                     </>
                   ) : (
@@ -870,8 +1106,8 @@ export default function LocalStudioPage() {
               <div
                 className={`p-3 rounded-(--radius) text-xs font-medium flex items-center gap-2 shrink-0 ${
                   saveSuccess
-                    ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20'
-                    : 'bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20'
+                    ? 'bg-(--atom-color-success)/10 text-(--atom-color-success) dark:text-(--atom-color-success) border border-(--atom-color-success)/20'
+                    : 'bg-(--atom-color-destructive)/10 text-(--atom-color-destructive) dark:text-(--atom-color-destructive) border border-(--atom-color-destructive)/20'
                 }`}
               >
                 <Sparkles className="w-4 h-4 shrink-0" />
@@ -882,384 +1118,469 @@ export default function LocalStudioPage() {
             {/* TAB 1: Component Studio (Stage & Token Inspector) */}
             {activeTab === 'components' && (
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start pb-10">
-                {/* Central Stage: Variable Selector & Live Component Stage (7 cols) */}
-                <div className="lg:col-span-7 flex flex-col gap-4">
-                  {/* Variable Selector Bar */}
-                  <div className="p-4 rounded-(--radius) bg-(--bg-secondary)/30 border border-(--border-subtle) flex flex-col gap-3">
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-(--text-secondary) uppercase tracking-wider flex items-center gap-1.5">
-                        <Sliders className="w-3.5 h-3.5 text-(--accent-primary)" />
-                        {t('variableLabel')}
-                      </span>
-                      <button
-                        onClick={() => setIsAddVariableOpen(true)}
-                        className="text-xs font-semibold text-(--accent-primary) hover:underline flex items-center gap-1 cursor-pointer"
-                      >
-                        <Plus className="w-3.5 h-3.5" />
-                        <span>{t('addVariableBtn')}</span>
-                      </button>
+                {/* Central Stage: Stacked Repeated Live Stages for all Variables (7 cols) */}
+                <div className="lg:col-span-7 min-w-0 flex flex-col gap-6">
+                  {/* Top Bar: Component Info + Add Variable Button */}
+                  <div className="p-4 rounded-(--radius) bg-(--bg-secondary)/30 border border-(--border-subtle) flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Sliders className="w-4 h-4 text-(--accent-primary)" />
+                      <div>
+                        <h2 className="text-sm font-bold text-(--text-primary)">
+                          {formatLocaleText(currentComponent.name, locale)}
+                        </h2>
+                        <p className="text-xs text-(--text-secondary)">
+                          {locale === 'ko'
+                            ? `총 ${currentComponent.variables.length}개 변수 라이브 스테이지`
+                            : `${currentComponent.variables.length} Variants Live Stage`}
+                        </p>
+                      </div>
                     </div>
+                    <Button
+                      variant="primary"
+                      size="sm"
+                      onClick={() => setIsAddVariableOpen(true)}
+                      className="text-xs font-semibold flex items-center gap-1.5"
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                      <span>{t('addVariableBtn')}</span>
+                    </Button>
+                  </div>
 
-                    {/* Variable Tabs */}
-                    <div className="flex flex-wrap items-center gap-1.5">
-                      {currentComponent.variables.map((v) => {
-                        const isVarSelected = v.id === currentVariable?.id;
-                        const isEditing = editingVariableId === v.id;
+                  {/* Stacked Repeated Live Stage Cards for each Variable/Value */}
+                  <div className="flex flex-col gap-6">
+                    {currentComponent.variables.map((v, index) => {
+                      const isSelected = v.id === selectedVariableId;
+                      const isEditing = editingVariableId === v.id;
+                      const typeSpec = resolveTypeSpec(currentComponent.id, v.id, v.name);
+                      const roleKey = resolveVariableRole(v.id);
+                      const varDef = SEMANTIC_VARIABLE_DICTIONARY[roleKey];
+                      const activeStatus = stageStatuses[v.id] || 'default';
+                      const currentStatusObj = COMPONENT_STATUS_PRESETS.find((s) => s.status === activeStatus) || COMPONENT_STATUS_PRESETS[0];
 
-                        if (isEditing) {
-                          return (
-                            <div key={v.id} className="flex items-center gap-1">
-                              <input
-                                type="text"
-                                value={editingVariableName}
-                                onChange={(e) => setEditingVariableName(e.target.value)}
-                                className="text-xs px-2 py-1 rounded border border-(--border-subtle) bg-(--bg-primary)"
-                                autoFocus
-                              />
-                              <button
-                                onClick={() => handleSaveRename(v.id)}
-                                className="p-1 rounded bg-emerald-500 text-white text-xs cursor-pointer"
-                              >
-                                <Check className="w-3 h-3" />
-                              </button>
+                      return (
+                        <div
+                          key={v.id}
+                          id={`live-stage-${v.id}`}
+                          onClick={() => handleSelectVariable(v.id)}
+                          className={`p-6 rounded-(--radius) bg-(--bg-secondary)/20 border transition-all cursor-pointer flex flex-col gap-4 ${
+                            isSelected
+                              ? 'border-(--accent-primary) ring-2 ring-(--accent-primary)/20 shadow-md'
+                              : 'border-(--border-subtle) hover:border-(--border-strong)'
+                          }`}
+                        >
+                          {/* Stage Header */}
+                          <div className="flex items-center justify-between gap-2 flex-wrap">
+                            <div className="flex items-center gap-2">
+                              <span className="font-mono text-xs px-2 py-0.5 rounded bg-(--bg-secondary) text-(--text-secondary) font-bold">
+                                #{index + 1}
+                              </span>
+                              {isEditing ? (
+                                <div
+                                  className="flex items-center gap-1"
+                                  onClick={(e) => e.stopPropagation()}
+                                >
+                                  <Input
+                                    type="text"
+                                    value={editingVariableName}
+                                    onChange={(e) => setEditingVariableName(e.target.value)}
+                                    className="text-xs px-2 py-1 font-bold"
+                                    autoFocus
+                                  />
+                                  <Button
+                                    variant="primary"
+                                    size="sm"
+                                    onClick={() => handleSaveRename(v.id)}
+                                    className="p-1 h-auto"
+                                  >
+                                    <Check className="w-3 h-3" />
+                                  </Button>
+                                </div>
+                              ) : (
+                                <div className="flex items-center gap-1.5">
+                                  <span className="font-bold text-sm text-(--text-primary)">
+                                    {formatLocaleText(v.name, locale)}
+                                  </span>
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    isIconOnly
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setEditingVariableId(v.id);
+                                      setEditingVariableName(v.name);
+                                    }}
+                                    className="opacity-50 hover:opacity-100 p-0.5 h-auto w-auto"
+                                    title="Rename Variable"
+                                  >
+                                    <Edit2 className="w-3 h-3 text-(--text-muted)" />
+                                  </Button>
+                                </div>
+                              )}
+                              <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-(--bg-secondary) text-(--text-muted) border border-(--border-subtle)">
+                                value="{v.id}"
+                              </span>
                             </div>
-                          );
-                        }
 
-                        return (
-                          <div
-                            key={v.id}
-                            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-(--radius-sm) text-xs font-medium transition cursor-pointer border ${
-                              isVarSelected
-                                ? 'bg-(--text-primary) text-(--bg-primary) border-(--text-primary) font-semibold shadow-xs'
-                                : 'bg-(--bg-primary) text-(--text-secondary) border-(--border-subtle) hover:text-(--text-primary)'
-                            }`}
-                          >
-                            <span onClick={() => setSelectedVariableId(v.id)}>
-                              {v.name}
-                            </span>
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setEditingVariableId(v.id);
-                                setEditingVariableName(v.name);
-                              }}
-                              className="opacity-50 hover:opacity-100 p-0.5 cursor-pointer"
-                              title="Rename Variable"
-                            >
-                              <Edit2 className="w-2.5 h-2.5" />
-                            </button>
-                            {currentComponent.variables.length > 1 && (
-                              <button
+                            <div className="flex items-center gap-2">
+                              <Button
+                                variant={isSelected ? 'primary' : 'outline'}
+                                size="sm"
                                 onClick={(e) => {
                                   e.stopPropagation();
-                                  handleDeleteVariable(v.id);
+                                  handleSelectVariable(v.id);
                                 }}
-                                className="opacity-50 hover:opacity-100 hover:text-rose-400 p-0.5 cursor-pointer"
-                                title={t('deleteVariable')}
+                                className="text-xs py-1 px-2.5 h-auto"
                               >
-                                <Trash2 className="w-2.5 h-2.5" />
-                              </button>
-                            )}
+                                {isSelected ? (locale === 'ko' ? '✓ 편집 중' : '✓ Selected') : (locale === 'ko' ? '토큰 편집' : 'Inspect')}
+                              </Button>
+                              {currentComponent.variables.length > 1 && (
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  isIconOnly
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleDeleteVariable(v.id);
+                                  }}
+                                  className="opacity-60 hover:opacity-100 hover:text-(--atom-color-destructive) p-1 h-auto w-auto"
+                                  title={t('deleteVariable')}
+                                >
+                                  <Trash2 className="w-3.5 h-3.5" />
+                                </Button>
+                              )}
+                            </div>
                           </div>
+
+                          {/* 3-Tier Architecture Badges (1. Type & 2. Value) */}
+                          <div className="flex flex-wrap items-center gap-2 p-2.5 rounded-(--radius-sm) bg-(--bg-secondary)/60 border border-(--border-subtle) text-xs">
+                            {/* 1. Type: ~상황에는 이 컴포넌트를 쓴다 */}
+                            <div
+                              className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-blue-500/10 text-blue-600 dark:text-blue-400 font-semibold border border-blue-500/20 shrink-0"
+                              title={typeSpec.whenToUse}
+                            >
+                              <span className="font-mono text-[10px] uppercase font-bold tracking-wider">TYPE</span>
+                              <span className="text-[11px] font-bold">{formatLocaleText(typeSpec.name, locale)}</span>
+                            </div>
+
+                            {/* 2. Value: primary, secondary, warning, success, danger 등 시스템 시맨틱 Value */}
+                            <div
+                              className={`flex items-center gap-1.5 px-2 py-0.5 rounded font-semibold border shrink-0 ${varDef.badgeColorClass}`}
+                              title={varDef.meaning}
+                            >
+                              <span className="font-mono text-[10px] uppercase font-bold tracking-wider">VALUE</span>
+                              <span className="text-[11px] font-bold">{formatLocaleText(varDef.label, locale)}</span>
+                            </div>
+
+                            <span className="text-xs text-(--text-secondary) truncate flex-1 min-w-[200px]" title={locale === 'ko' ? typeSpec.whenToUse : (typeSpec.whenToUseEn || typeSpec.whenToUse)}>
+                              💡 <strong className="text-(--text-primary)">{locale === 'ko' ? '상황:' : 'Context:'}</strong> {locale === 'ko' ? typeSpec.whenToUse : (typeSpec.whenToUseEn || typeSpec.whenToUse)}
+                            </span>
+                          </div>
+
+                          {/* 3. Status Bar: hover, disabled 같은 상태 정보 구조 및 실시간 변경 */}
+                          <div className="flex flex-wrap items-center justify-between gap-2 p-2.5 rounded-(--radius-sm) bg-(--bg-primary) border border-(--border-subtle)">
+                            <div className="flex items-center gap-1.5 shrink-0">
+                              <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-(--bg-secondary) text-(--text-secondary) font-bold border border-(--border-subtle)">
+                                STATUS
+                              </span>
+                              <span className="text-xs font-semibold text-(--text-primary) whitespace-nowrap">
+                                {locale === 'ko' ? '상태 시뮬레이션:' : 'Simulate Status:'}
+                              </span>
+                            </div>
+
+                            {/* Status Pills */}
+                            <div className="flex flex-wrap items-center gap-1.5">
+                              {COMPONENT_STATUS_PRESETS.map((st) => {
+                                const isCurrentSt = activeStatus === st.status;
+                                return (
+                                  <Button
+                                    key={st.status}
+                                    variant={isCurrentSt ? 'primary' : 'outline'}
+                                    size="sm"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setStageStatuses((prev) => ({ ...prev, [v.id]: st.status }));
+                                      if (isSelected) {
+                                        setInspectorStatusTab(st.status);
+                                      }
+                                    }}
+                                    className={`text-[11px] py-1 px-2 h-auto font-medium transition-all ${
+                                      isCurrentSt
+                                        ? 'bg-(--accent-primary) text-(--bg-primary) font-bold shadow-2xs'
+                                        : 'hover:bg-(--bg-secondary) text-(--text-secondary)'
+                                    }`}
+                                    title={`${st.description} (${st.behavior})`}
+                                  >
+                                    {formatLocaleText(st.label, locale)}
+                                  </Button>
+                                );
+                              })}
+                            </div>
+                          </div>
+
+                          <div className="text-[11px] text-(--text-muted) px-1 flex items-center gap-1.5">
+                            <span>⚡ <strong>[{formatLocaleText(currentStatusObj.label, locale)}] {locale === 'ko' ? '상태 정보:' : 'Status Info:'}</strong> {locale === 'ko' ? currentStatusObj.description : (currentStatusObj.descriptionEn || currentStatusObj.description)} — <em>{locale === 'ko' ? currentStatusObj.behavior : (currentStatusObj.behaviorEn || currentStatusObj.behavior)}</em></span>
+                          </div>
+
+                          {/* Dynamic Component Live Preview with Active Status */}
+                          <div className="p-8 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) flex items-center justify-center min-h-[180px] transition-all">
+                            <StudioLivePreview
+                              componentId={currentComponent.id}
+                              variable={v}
+                              getPaletteValue={getPaletteValue}
+                              status={activeStatus}
+                            />
+                          </div>
+
+                          {/* Code Snippet for this variable (Connecting Type · Value · Status to Code) */}
+                          {(() => {
+                            const baseName = currentComponent.name.split(' ')[0];
+                            const isDefaultStatus = activeStatus === 'default';
+                            const varLabel = formatLocaleText(v.name, locale);
+                            const placeholderText = locale === 'ko' ? '내용을 입력하세요' : 'Enter text...';
+                            let generatedCode = '';
+
+                            if (codeSnippetLang === 'react') {
+                              const statusProp = isDefaultStatus ? '' : ` status="${activeStatus}"`;
+                              if (currentComponent.id === 'input') {
+                                generatedCode = `<Input componentType="${typeSpec.id}" value="${v.id}"${statusProp} placeholder="${placeholderText}" />`;
+                              } else if (currentComponent.id === 'badge') {
+                                generatedCode = `<Badge componentType="${typeSpec.id}" value="${v.id}"${statusProp}>\n  ${varLabel}\n</Badge>`;
+                              } else if (currentComponent.id === 'chart') {
+                                generatedCode = `<Chart type="${v.id.includes('bar') ? 'bar' : v.id.includes('area') ? 'area' : 'line'}" variant="${v.id.includes('success') ? 'success' : v.id.includes('danger') ? 'danger' : 'primary'}" data={chartData}${statusProp} />`;
+                              } else if (currentComponent.id === 'offcanvas') {
+                                const placement = v.id.includes('left') ? 'left' : v.id.includes('bottom') ? 'bottom' : 'right';
+                                generatedCode = `<Offcanvas isOpen={isOpen} onClose={() => setIsOpen(false)} placement="${placement}" title="${varLabel}"${statusProp}>\n  <div className="p-4">{/* Content */}</div>\n</Offcanvas>`;
+                              } else if (currentComponent.id === 'toast') {
+                                const isAction = v.id.includes('action') || v.id.includes('undo');
+                                const actionProp = isAction ? ` action={{ label: '실행 취소', onClick: () => {} }}` : '';
+                                generatedCode = `<Toast variant="${v.id.includes('success') ? 'success' : v.id.includes('warning') ? 'warning' : v.id.includes('danger') ? 'danger' : 'info'}" title="${varLabel}"${actionProp} onClose={() => {}}${statusProp}>\n  ${placeholderText}\n</Toast>`;
+                              } else {
+                                generatedCode = `<${baseName} componentType="${typeSpec.id}" value="${v.id}"${statusProp}>\n  ${varLabel}\n</${baseName}>`;
+                              }
+                            } else if (codeSnippetLang === 'html') {
+                              const statusAttr = isDefaultStatus ? '' : ` data-status="${activeStatus}"`;
+                              const tag = currentComponent.id === 'button' ? 'button' : currentComponent.id === 'input' ? 'input' : 'div';
+                              const disabledAttr = (activeStatus === 'disabled' || activeStatus === 'loading') && (tag === 'button' || tag === 'input') ? ' disabled' : '';
+                              if (tag === 'input') {
+                                generatedCode = `<input class="atom-input atom-input--${v.id}" data-component="input" data-type="${typeSpec.id}" data-value="${v.id}"${statusAttr}${disabledAttr} placeholder="${placeholderText}" />`;
+                              } else {
+                                generatedCode = `<${tag} class="atom-${currentComponent.id} atom-${currentComponent.id}--${v.id}" data-component="${currentComponent.id}" data-type="${typeSpec.id}" data-value="${v.id}"${statusAttr}${disabledAttr}>\n  ${varLabel}\n</${tag}>`;
+                              }
+                            } else {
+                              const statusProp = isDefaultStatus ? '' : ` status="${activeStatus}"`;
+                              generatedCode = `<Atom${baseName} component-type="${typeSpec.id}" value="${v.id}"${statusProp}>\n  ${varLabel}\n</Atom${baseName}>`;
+                            }
+
+                            return (
+                              <div className="space-y-1.5 pt-1 border-t border-(--border-subtle)/40">
+                                <div className="flex items-center justify-between text-xs flex-wrap gap-2">
+                                  <div className="flex items-center gap-1.5 flex-wrap">
+                                    <FileCode className="w-3.5 h-3.5 text-(--accent-primary)" />
+                                    <span className="font-semibold text-(--text-primary)">
+                                      {locale === 'ko' ? '실제 코드 연결:' : 'Actual Code Binding:'}
+                                    </span>
+                                    {/* Language Switcher Tabs */}
+                                    <div className="inline-flex items-center rounded-(--radius-sm) bg-(--bg-secondary) p-0.5 border border-(--border-subtle) text-[10px] font-mono">
+                                      {(['react', 'html', 'vue'] as const).map((lang) => (
+                                        <Button
+                                          key={lang}
+                                          variant={codeSnippetLang === lang ? 'primary' : 'ghost'}
+                                          size="sm"
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            setCodeSnippetLang(lang);
+                                          }}
+                                          className={`px-2 py-0.5 h-auto text-[10px] font-bold ${
+                                            codeSnippetLang === lang
+                                              ? 'bg-(--accent-primary) text-(--bg-primary)'
+                                              : 'text-(--text-secondary) hover:text-(--text-primary)'
+                                          }`}
+                                        >
+                                          {lang === 'react' ? 'React (TSX)' : lang === 'html' ? 'HTML / CSS' : 'Vue / Svelte'}
+                                        </Button>
+                                      ))}
+                                    </div>
+                                  </div>
+
+                                  {/* One-click Copy Button */}
+                                  <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleCopyCode(generatedCode, v.id);
+                                    }}
+                                    className="text-[11px] py-1 px-2.5 h-auto flex items-center gap-1 font-semibold shrink-0"
+                                    title={locale === 'ko' ? '코드 복사' : 'Copy Code'}
+                                  >
+                                    {copiedVarCode === v.id ? (
+                                      <>
+                                        <Check className="w-3 h-3 text-(--atom-color-success)" />
+                                        <span className="text-(--atom-color-success)">{locale === 'ko' ? '복사 완료!' : 'Copied!'}</span>
+                                      </>
+                                    ) : (
+                                      <>
+                                        <Copy className="w-3 h-3" />
+                                        <span>{locale === 'ko' ? '코드 복사' : 'Copy Code'}</span>
+                                      </>
+                                    )}
+                                  </Button>
+                                </div>
+                                <CodeHighlight code={generatedCode} language={codeSnippetLang === 'html' ? 'html' : 'tsx'} className="text-xs" />
+                              </div>
+                            );
+                          })()}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Right Panel: Status-Specific Token Binding Inspector (5 cols) */}
+                <div className="lg:col-span-5 min-w-0 sticky top-4 self-start p-4 sm:p-5 rounded-(--radius) bg-(--bg-secondary)/30 border border-(--border-subtle) flex flex-col gap-4">
+                  {/* Panel Title & Current Selection */}
+                  <div className="flex items-start justify-between gap-2 pb-3 border-b border-(--border-subtle)">
+                    <div className="min-w-0 flex-1">
+                      <h3 className="font-bold text-sm sm:text-base text-(--text-primary) flex items-center gap-1.5">
+                        <Sliders className="w-4 h-4 text-(--accent-primary)" />
+                        <span>{locale === 'ko' ? '토큰 바인딩 인스펙터' : 'Token Binding Inspector'}</span>
+                      </h3>
+                      <div className="flex items-center gap-2 mt-1.5 flex-wrap">
+                        <span className="text-xs font-semibold text-(--text-primary)">
+                          {formatLocaleText(currentComponent.name, locale)}
+                        </span>
+                        <span className="text-[11px] font-mono px-1.5 py-0.2 rounded bg-blue-500/10 text-blue-600 dark:text-blue-400 font-bold border border-blue-500/20">
+                          TYPE: {formatLocaleText(resolveTypeSpec(currentComponent.id, currentVariable?.id || 'primary', currentVariable?.name).name, locale)}
+                        </span>
+                        <span className="text-[11px] font-mono px-1.5 py-0.2 rounded bg-amber-500/10 text-amber-600 dark:text-amber-400 font-bold border border-amber-500/20">
+                          VALUE: {currentVariable?.id}
+                        </span>
+                      </div>
+                    </div>
+                    <Badge variant="primary" className="text-xs shrink-0 font-mono">
+                      {currentVariable?.id}
+                    </Badge>
+                  </div>
+
+                  {/* Status Selection Bar for Editing (각 상태별 토큰값 수정) */}
+                  <div className="p-3.5 rounded-(--radius-sm) bg-(--bg-secondary)/40 border border-(--border-subtle) flex flex-col gap-2.5">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-1.5">
+                        <Sparkles className="w-3.5 h-3.5 text-(--accent-primary)" />
+                        <span className="text-xs font-bold text-(--text-primary)">
+                          {locale === 'ko' ? '수정할 상태 선택' : 'Select Status to Edit'}
+                        </span>
+                      </div>
+                      <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-(--accent-primary)/10 text-(--accent-primary) font-bold border border-(--accent-primary)/20">
+                        STATUS: {inspectorStatusTab.toUpperCase()}
+                      </span>
+                    </div>
+
+                    {/* Status Tabs */}
+                    <div className="grid grid-cols-3 sm:grid-cols-6 gap-1 pt-1">
+                      {[
+                        { status: 'default', label: locale === 'ko' ? '기본' : 'Default' },
+                        { status: 'hover', label: locale === 'ko' ? '호버' : 'Hover' },
+                        { status: 'active', label: locale === 'ko' ? '클릭' : 'Active' },
+                        { status: 'focus', label: locale === 'ko' ? '포커스' : 'Focus' },
+                        { status: 'disabled', label: locale === 'ko' ? '비활성' : 'Disabled' },
+                        { status: 'all', label: locale === 'ko' ? '전체' : 'All' },
+                      ].map((item) => {
+                        const isCurrent = inspectorStatusTab === item.status;
+                        return (
+                          <Button
+                            key={item.status}
+                            variant={isCurrent ? 'primary' : 'outline'}
+                            size="sm"
+                            onClick={() => handleSelectInspectorStatus(item.status as ComponentInteractiveStatus | 'all')}
+                            className={`text-xs py-1.5 px-1 h-auto font-semibold transition-all flex flex-col items-center gap-0.5 ${
+                              isCurrent
+                                ? 'bg-(--accent-primary) text-(--bg-primary) shadow-xs'
+                                : 'bg-(--bg-primary) hover:bg-(--bg-secondary) text-(--text-secondary)'
+                            }`}
+                          >
+                            <span className="font-bold text-[11px]">{item.label}</span>
+                            <span className="text-[9px] font-mono opacity-75">
+                              {item.status}
+                            </span>
+                          </Button>
                         );
                       })}
                     </div>
 
-                    {currentVariable?.description && (
-                      <p className="text-[11px] text-(--text-muted) italic pt-1 border-t border-(--border-subtle)">
-                        {currentVariable.description}
-                      </p>
-                    )}
-                  </div>
-
-                  {/* Live Preview Stage */}
-                  <div className="p-6 rounded-(--radius) bg-(--bg-secondary)/20 border border-(--border-subtle) flex flex-col gap-4">
-                    <div className="flex items-center justify-between text-xs font-mono font-bold text-(--text-secondary)">
-                      <span className="flex items-center gap-1.5">
-                        <Eye className="w-3.5 h-3.5 text-(--accent-primary)" />
-                        {t('livePreview')}
-                      </span>
-                      <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-(--bg-secondary)">
-                        variable="{currentVariable?.id}"
-                      </span>
-                    </div>
-
-                    {/* Dynamic Render based on token bindings */}
-                    <div className="p-8 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) flex items-center justify-center min-h-[220px] transition-all">
-                      {/* BUTTON PREVIEW */}
-                      {currentComponent.id === 'button' && (
-                        <button
-                          style={{
-                            backgroundColor: getPaletteValue(currentVariable?.tokenBindings.background || ''),
-                            color: getPaletteValue(currentVariable?.tokenBindings.textColor || ''),
-                            border: `1px solid ${getPaletteValue(currentVariable?.tokenBindings.borderColor || '')}`,
-                            borderRadius: getPaletteValue(currentVariable?.tokenBindings.borderRadius || ''),
-                            paddingLeft: getPaletteValue(currentVariable?.tokenBindings.paddingX || ''),
-                            paddingRight: getPaletteValue(currentVariable?.tokenBindings.paddingX || ''),
-                            paddingTop: getPaletteValue(currentVariable?.tokenBindings.paddingY || ''),
-                            paddingBottom: getPaletteValue(currentVariable?.tokenBindings.paddingY || ''),
-                          }}
-                          className="font-medium text-sm transition-transform active:scale-95 cursor-pointer shadow-xs"
-                        >
-                          {currentVariable?.name || 'Button'}
-                        </button>
-                      )}
-
-                      {/* BADGE PREVIEW */}
-                      {currentComponent.id === 'badge' && (
-                        <span
-                          style={{
-                            backgroundColor: getPaletteValue(currentVariable?.tokenBindings.background || ''),
-                            color: getPaletteValue(currentVariable?.tokenBindings.textColor || ''),
-                            border: `1px solid ${getPaletteValue(currentVariable?.tokenBindings.borderColor || '')}`,
-                            borderRadius: getPaletteValue(currentVariable?.tokenBindings.borderRadius || ''),
-                            paddingLeft: getPaletteValue(currentVariable?.tokenBindings.paddingX || ''),
-                            paddingRight: getPaletteValue(currentVariable?.tokenBindings.paddingX || ''),
-                            paddingTop: getPaletteValue(currentVariable?.tokenBindings.paddingY || ''),
-                            paddingBottom: getPaletteValue(currentVariable?.tokenBindings.paddingY || ''),
-                          }}
-                          className="text-xs font-mono font-bold inline-block"
-                        >
-                          {currentVariable?.name}
-                        </span>
-                      )}
-
-                      {/* CARD PREVIEW */}
-                      {currentComponent.id === 'card' && (
-                        <div
-                          style={{
-                            backgroundColor: getPaletteValue(currentVariable?.tokenBindings.background || ''),
-                            border: `1px solid ${getPaletteValue(currentVariable?.tokenBindings.borderColor || '')}`,
-                            borderRadius: getPaletteValue(currentVariable?.tokenBindings.borderRadius || ''),
-                            padding: getPaletteValue(currentVariable?.tokenBindings.padding || ''),
-                          }}
-                          className="w-full max-w-sm flex flex-col gap-2 shadow-xs"
-                        >
-                          <h4 className="font-bold text-sm text-(--text-primary)">Card Title</h4>
-                          <p className="text-xs text-(--text-secondary) leading-relaxed">
-                            This card reflects the "{currentVariable?.name}" design token variable mappings.
-                          </p>
-                        </div>
-                      )}
-
-                      {/* INPUT PREVIEW */}
-                      {currentComponent.id === 'input' && (
-                        <input
-                          type="text"
-                          defaultValue="Sample Input Value"
-                          style={{
-                            backgroundColor: getPaletteValue(currentVariable?.tokenBindings.background || ''),
-                            color: getPaletteValue(currentVariable?.tokenBindings.textColor || ''),
-                            border: `1px solid ${getPaletteValue(currentVariable?.tokenBindings.borderColor || '')}`,
-                            borderRadius: getPaletteValue(currentVariable?.tokenBindings.borderRadius || ''),
-                            paddingLeft: getPaletteValue(currentVariable?.tokenBindings.paddingX || ''),
-                            paddingRight: getPaletteValue(currentVariable?.tokenBindings.paddingX || ''),
-                            paddingTop: getPaletteValue(currentVariable?.tokenBindings.paddingY || ''),
-                            paddingBottom: getPaletteValue(currentVariable?.tokenBindings.paddingY || ''),
-                          }}
-                          className="w-full max-w-sm text-sm outline-none font-mono"
-                        />
-                      )}
-
-                      {/* MODAL PREVIEW */}
-                      {currentComponent.id === 'modal' && (
-                        <div
-                          style={{
-                            backgroundColor: getPaletteValue(currentVariable?.tokenBindings.background || ''),
-                            border: `1px solid ${getPaletteValue(currentVariable?.tokenBindings.borderColor || '')}`,
-                            borderRadius: getPaletteValue(currentVariable?.tokenBindings.borderRadius || ''),
-                            padding: getPaletteValue(currentVariable?.tokenBindings.padding || ''),
-                          }}
-                          className="w-full max-w-sm flex flex-col gap-3 shadow-lg"
-                        >
-                          <h4 className="font-bold text-sm text-(--text-primary)">Dialog Modal Window</h4>
-                          <p className="text-xs text-(--text-secondary)">
-                            Dynamic radius and surface padding bound to "{currentVariable?.name}".
-                          </p>
-                          <div className="flex justify-end gap-2 pt-2">
-                            <button className="px-3 py-1 rounded text-xs bg-(--bg-secondary) text-(--text-primary)">
-                              Dismiss
-                            </button>
-                          </div>
-                        </div>
-                      )}
-
-                      {/* TEXTAREA PREVIEW */}
-                      {currentComponent.id === 'textarea' && (
-                        <textarea
-                          defaultValue="Sample multi-line textarea with dynamic radius & borders."
-                          rows={3}
-                          style={{
-                            backgroundColor: getPaletteValue(currentVariable?.tokenBindings.background || ''),
-                            border: `1px solid ${getPaletteValue(currentVariable?.tokenBindings.borderColor || '')}`,
-                            borderRadius: getPaletteValue(currentVariable?.tokenBindings.borderRadius || ''),
-                            padding: getPaletteValue(currentVariable?.tokenBindings.padding || ''),
-                          }}
-                          className="w-full max-w-sm text-sm outline-none font-mono"
-                        />
-                      )}
-
-                      {/* SWITCH PREVIEW */}
-                      {currentComponent.id === 'switch' && (
-                        <div className="flex items-center gap-3">
-                          <div
-                            style={{
-                              backgroundColor: getPaletteValue(currentVariable?.tokenBindings.activeBackground || ''),
-                              borderRadius: getPaletteValue(currentVariable?.tokenBindings.borderRadius || ''),
-                            }}
-                            className="w-12 h-6 p-0.5 flex items-center justify-end cursor-pointer shadow-xs transition-colors"
-                          >
-                            <div
-                              style={{
-                                backgroundColor: getPaletteValue(currentVariable?.tokenBindings.thumbColor || ''),
-                                borderRadius: getPaletteValue(currentVariable?.tokenBindings.borderRadius || ''),
-                              }}
-                              className="w-5 h-5 shadow-xs"
-                            />
-                          </div>
-                          <span className="text-xs font-semibold text-(--text-primary)">
-                            {currentVariable?.name}
-                          </span>
-                        </div>
-                      )}
-
-                      {/* TABS PREVIEW */}
-                      {currentComponent.id === 'tabs' && (
-                        <div className="flex items-center gap-2 p-1.5 rounded-(--radius) bg-(--bg-secondary)/60 border border-(--border-subtle)">
-                          <button
-                            style={{
-                              backgroundColor: currentVariable?.id === 'pills' ? getPaletteValue(currentVariable?.tokenBindings.activeIndicator || '') : 'transparent',
-                              color: getPaletteValue(currentVariable?.tokenBindings.activeText || ''),
-                              borderRadius: getPaletteValue(currentVariable?.tokenBindings.borderRadius || ''),
-                              borderBottom: currentVariable?.id === 'underlined' ? `2px solid ${getPaletteValue(currentVariable?.tokenBindings.activeIndicator || '')}` : 'none',
-                            }}
-                            className="px-3 py-1.5 text-xs font-bold"
-                          >
-                            Active Tab
-                          </button>
-                          <button
-                            style={{
-                              color: getPaletteValue(currentVariable?.tokenBindings.inactiveText || ''),
-                            }}
-                            className="px-3 py-1.5 text-xs font-medium"
-                          >
-                            Inactive Tab
-                          </button>
-                        </div>
-                      )}
-
-                      {/* TABLE PREVIEW */}
-                      {currentComponent.id === 'table' && (
-                        <div
-                          style={{
-                            borderRadius: getPaletteValue(currentVariable?.tokenBindings.borderRadius || ''),
-                            border: `1px solid ${getPaletteValue(currentVariable?.tokenBindings.borderColor || '')}`,
-                          }}
-                          className="w-full max-w-md overflow-hidden text-xs"
-                        >
-                          <div
-                            style={{
-                              backgroundColor: getPaletteValue(currentVariable?.tokenBindings.headerBackground || ''),
-                              borderBottom: `1px solid ${getPaletteValue(currentVariable?.tokenBindings.borderColor || '')}`,
-                              padding: getPaletteValue(currentVariable?.tokenBindings.cellPadding || ''),
-                            }}
-                            className="font-bold flex justify-between"
-                          >
-                            <span>Header Column 1</span>
-                            <span>Header Column 2</span>
-                          </div>
-                          <div
-                            style={{
-                              padding: getPaletteValue(currentVariable?.tokenBindings.cellPadding || ''),
-                            }}
-                            className="flex justify-between bg-(--bg-primary)"
-                          >
-                            <span>Row 1 Data A</span>
-                            <span className="font-mono">1,024</span>
-                          </div>
-                        </div>
-                      )}
-
-                      {/* AVATAR PREVIEW */}
-                      {currentComponent.id === 'avatar' && (
-                        <div
-                          style={{
-                            backgroundColor: getPaletteValue(currentVariable?.tokenBindings.background || ''),
-                            color: getPaletteValue(currentVariable?.tokenBindings.textColor || ''),
-                            borderRadius: getPaletteValue(currentVariable?.tokenBindings.borderRadius || ''),
-                          }}
-                          className="w-14 h-14 flex items-center justify-center font-bold text-base shadow-xs"
-                        >
-                          AT
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Code Snippet for this variable */}
-                    <div className="space-y-1">
-                      <span className="text-[11px] font-mono text-(--text-muted)">
-                        {t('codeSnippet')}:
-                      </span>
-                      <pre className="p-2.5 rounded-(--radius-sm) bg-(--bg-secondary) text-(--text-primary) font-mono text-xs overflow-x-auto">
-                        &lt;{currentComponent.name.split(' ')[0]} variable="{currentVariable?.id}" /&gt;
-                      </pre>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Right Column: Token ↔ Palette Binding Inspector (5 cols) */}
-                <div className="lg:col-span-5 p-5 rounded-(--radius) bg-(--bg-secondary)/30 border border-(--border-subtle) flex flex-col gap-4">
-                  <div>
-                    <h3 className="font-bold text-sm sm:text-base text-(--text-primary) flex items-center gap-1.5 whitespace-nowrap">
-                      <Sliders className="w-4 h-4 text-(--accent-primary) shrink-0" />
-                      <span>{t('bindingPanelTitle')}</span>
-                    </h3>
-                    <p className="text-xs text-(--text-secondary) mt-0.5">
-                      {t('bindingPanelDesc')}
+                    <p className="text-[11px] text-(--text-secondary) leading-relaxed mt-0.5">
+                      ⚡ <strong>[{inspectorStatusTab.toUpperCase()}]</strong> {locale === 'ko' ? '상태에 적용되는 디자인 토큰을 아래에서 수정하세요. 수정 즉시 스테이지 및 실제 코드/CSS에 실시간 반영됩니다.' : 'Modify tokens applied to this state below. Reflects in preview and CSS immediately.'}
                     </p>
                   </div>
 
-                  {/* Property Bindings List */}
+                  {/* Status-specific Property Bindings List */}
                   <div className="space-y-3.5 pt-2 border-t border-(--border-subtle)">
-                    {currentComponent.properties.map((prop) => {
-                      const boundPaletteId = currentVariable?.tokenBindings[prop.key] || prop.defaultPaletteId;
+                    <div className="flex items-center justify-between text-xs font-bold text-(--text-secondary) px-0.5">
+                      <span>{locale === 'ko' ? `[${inspectorStatusTab.toUpperCase()}] 적용 토큰 목록` : `[${inspectorStatusTab.toUpperCase()}] Token List`}</span>
+                      <span className="text-[11px] font-mono text-(--text-muted)">{currentStatusProps.length}{locale === 'ko' ? '개 속성' : ' properties'}</span>
+                    </div>
+
+                    {currentStatusProps.map((prop) => {
+                      // Fallback logic if token binding not explicitly set yet
+                      let boundPaletteId = currentVariable?.tokenBindings[prop.key];
+                      if (!boundPaletteId) {
+                        if (prop.key === 'hoverBackground') {
+                          boundPaletteId = currentVariable?.tokenBindings.background ? `${currentVariable.tokenBindings.background}-hover` : prop.defaultPaletteId;
+                        } else if (prop.key === 'hoverTextColor') {
+                          boundPaletteId = currentVariable?.tokenBindings.textColor || prop.defaultPaletteId;
+                        } else if (prop.key === 'hoverBorderColor') {
+                          boundPaletteId = currentVariable?.tokenBindings.borderColor || prop.defaultPaletteId;
+                        } else if (prop.key === 'activeBackground') {
+                          boundPaletteId = currentVariable?.tokenBindings.hoverBackground || currentVariable?.tokenBindings.background || prop.defaultPaletteId;
+                        } else if (prop.key === 'focusBorderColor') {
+                          boundPaletteId = currentVariable?.tokenBindings.borderColor || '--atom-color-primary';
+                        } else if (prop.key === 'disabledBackground') {
+                          boundPaletteId = currentVariable?.tokenBindings.background || '--atom-palette-gray-200';
+                        } else if (prop.key === 'disabledTextColor') {
+                          boundPaletteId = currentVariable?.tokenBindings.textColor || '--atom-palette-gray-400';
+                        } else {
+                          boundPaletteId = prop.defaultPaletteId;
+                        }
+                      }
+
                       const matchedPalette = paletteVariables.find((p) => p.id === boundPaletteId);
-                      const relevantPalettes = paletteVariables.filter((p) => p.category === prop.category);
+                      const relevantPalettes = prop.category === 'color'
+                        ? paletteVariables.filter((p) => p.category === 'color' || p.category === 'status')
+                        : paletteVariables.filter((p) => p.category === prop.category);
 
                       return (
-                        <div key={prop.key} className="space-y-1">
+                        <div key={prop.key} className="p-3 rounded-(--radius-sm) bg-(--bg-primary) border border-(--border-subtle) space-y-2 shadow-2xs">
                           <div className="flex items-center justify-between text-xs">
-                            <span className="font-semibold text-(--text-primary)">
-                              {prop.label}
+                            <span className="font-semibold text-(--text-primary) flex items-center gap-2">
+                              {prop.category === 'color' && (
+                                <span
+                                  style={{ backgroundColor: matchedPalette?.value || '#ccc' }}
+                                  className="w-4 h-4 rounded-full border border-(--border-subtle) shrink-0 shadow-2xs"
+                                />
+                              )}
+                              <span>{formatLocaleText(prop.label, locale)}</span>
                             </span>
                             <span className="font-mono text-[10px] text-(--text-muted)">
-                              {t('boundPaletteValue')}{matchedPalette?.value}
+                              {matchedPalette?.value}
                             </span>
                           </div>
 
                           {/* Palette Selector Dropdown */}
-                          <div className="flex items-center gap-2">
-                            {prop.category === 'color' && (
-                              <span
-                                style={{ backgroundColor: matchedPalette?.value || '#ccc' }}
-                                className="w-5 h-5 rounded border border-(--border-subtle) shrink-0 shadow-xs"
-                              />
-                            )}
-                            <select
+                          <div className="flex items-center gap-2 min-w-0">
+                            <NativeSelect
                               value={boundPaletteId}
                               onChange={(e) => handleUpdateBinding(prop.key, e.target.value)}
-                              className="flex-1 text-xs font-mono p-1.5 rounded border border-(--border-subtle) bg-(--bg-primary) text-(--text-primary) cursor-pointer"
+                              className="flex-1 text-xs font-mono min-w-0 truncate"
                             >
                               <option value="" disabled>
                                 {t('selectPalettePlaceholder')}
                               </option>
                               {relevantPalettes.map((pal) => (
                                 <option key={pal.id} value={pal.id}>
-                                  {pal.name} ({pal.value})
+                                  {formatLocaleText(pal.name, locale)} ({pal.value})
                                 </option>
                               ))}
-                            </select>
+                            </NativeSelect>
                           </div>
                         </div>
                       );
@@ -1269,6 +1590,18 @@ export default function LocalStudioPage() {
               </div>
             )}
 
+            {/* TAB: Design Theme Studio (Theme Presets & Custom Themes) */}
+            {activeTab === 'themes' && (
+              <StudioThemeManager
+                themes={themes}
+                activeThemeId={selectedThemeId}
+                onSelectTheme={handleSelectTheme}
+                onCreateTheme={handleCreateTheme}
+                onUpdateTheme={handleUpdateTheme}
+                onDeleteTheme={handleDeleteTheme}
+              />
+            )}
+
             {/* TAB 2: Palette Management Page (Categorized & 50-900 Full Scales) */}
             {activeTab === 'palette' && (
               <div className="flex flex-col gap-6 pb-10">
@@ -1276,11 +1609,11 @@ export default function LocalStudioPage() {
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-(--radius) bg-(--bg-secondary)/30 border border-(--border-subtle)">
                   <div>
                     <h2 className="text-base font-bold text-(--text-primary) flex items-center gap-2">
-                      <Palette className="w-5 h-5 text-(--accent-primary)" />
+                      <Palette className="w-4 h-4 text-(--accent-primary)" />
                       <span>{t('paletteManagerTitle')}</span>
                     </h2>
-                    <p className="text-xs sm:text-sm text-(--text-secondary) mt-1">
-                      색상(50~900), 사이즈, 모서리 곡률, 타이포그래피로 세분화된 토큰 팔레트를 체계적으로 관리합니다.
+                    <p className="text-xs text-(--text-secondary) mt-0.5">
+                      {t('paletteManagerDesc')}
                     </p>
                   </div>
 
@@ -1288,307 +1621,147 @@ export default function LocalStudioPage() {
                     variant="primary"
                     size="sm"
                     onClick={() => setIsAddPaletteOpen(true)}
-                    className="flex items-center gap-1.5 bg-(--accent-primary) text-(--bg-primary) shrink-0"
+                    className="text-xs flex items-center gap-1.5 shrink-0"
                   >
-                    <Plus className="w-4 h-4" />
+                    <Plus className="w-3.5 h-3.5" />
                     <span>{t('addPaletteBtn')}</span>
                   </Button>
                 </div>
 
-                {/* 2. Granular Category Switcher Tabs */}
-                <div className="flex flex-wrap items-center gap-1.5 p-1.5 rounded-(--radius) bg-(--bg-secondary)/60 border border-(--border-subtle)">
-                  {[
-                    { id: 'status', label: '상태 토큰 (Status Tokens)', icon: Sparkles },
-                    { id: 'color', label: '색상 팔레트 (50~900)', icon: Palette },
-                    { id: 'size', label: '사이즈 & 여백 (Size)', icon: Ruler },
-                    { id: 'radius', label: '모서리 곡률 (Radius)', icon: Square },
-                    { id: 'typography', label: '타이포그래피 (Typography)', icon: Type },
-                    { id: 'all', label: '전체 목록 (All)', icon: Layers },
-                  ].map((tab) => {
-                    const Icon = tab.icon;
-                    const isActive = paletteCategoryFilter === tab.id;
-                    return (
-                      <button
-                        key={tab.id}
-                        onClick={() => setPaletteCategoryFilter(tab.id as any)}
-                        className={`px-3 py-1.5 rounded-(--radius-sm) text-xs font-semibold transition-colors flex items-center gap-1.5 cursor-pointer ${
-                          isActive
-                            ? 'bg-(--text-primary) text-(--bg-primary) shadow-xs'
-                            : 'text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary)'
-                        }`}
-                      >
-                        <Icon className="w-3.5 h-3.5" />
-                        <span>{tab.label}</span>
-                      </button>
-                    );
-                  })}
-                </div>
+                {/* 2. Color Palette 50-900 Grid Visualizer */}
+                {(paletteCategoryFilter === 'color' || paletteCategoryFilter === 'status') && (
+                  <div className="space-y-6">
+                    {/* Status Tokens Row */}
+                    {paletteCategoryFilter === 'status' && (
+                      <div className="p-5 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) flex flex-col gap-4">
+                        <div className="flex items-center justify-between border-b border-(--border-subtle) pb-3">
+                          <div>
+                            <h3 className="text-sm font-bold text-(--text-primary) flex items-center gap-2">
+                              <Sparkles className="w-4 h-4 text-(--accent-primary)" />
+                              <span>{locale === 'ko' ? '시맨틱 상태 토큰' : 'Semantic Status Tokens'}</span>
+                            </h3>
+                            <p className="text-xs text-(--text-secondary) mt-0.5">
+                              {locale === 'ko' ? '원천 팔레트와 1:1 결합되어 시스템 전역에 의미를 부여하는 최상위 상태 토큰' : 'Top-level status tokens bound to source palettes imparting system-wide meaning'}
+                            </p>
+                          </div>
+                          <span className="text-xs font-mono text-(--text-muted)">
+                            {statusTokens.length} {locale === 'ko' ? '상태' : 'states'}
+                          </span>
+                        </div>
 
-                {/* 3-0. SEMANTIC STATUS TOKENS VIEW (Primary, Secondary, Success, Danger, Warning) */}
-                {(paletteCategoryFilter === 'status' || paletteCategoryFilter === 'all') && (
-                  <div className="p-5 sm:p-6 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) flex flex-col gap-6 shadow-xs">
-                    {/* Header */}
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-(--border-subtle) pb-4">
-                      <div>
-                        <h3 className="text-sm sm:text-base font-bold text-(--text-primary) flex items-center gap-2">
-                          <Sparkles className="w-4 h-4 text-amber-500" />
-                          <span>시스템 상태 토큰 (Semantic Status Tokens)</span>
-                        </h3>
-                        <p className="text-xs text-(--text-secondary) mt-1">
-                          Primary, Secondary, Success, Danger, Warning 상태 토큰을 변경하면 모든 컴포넌트(버튼, 배지, 탭, 인풋)가 실시간으로 동기화됩니다.
-                        </p>
-                      </div>
-                      <span className="text-xs font-mono px-2 py-0.5 rounded bg-(--bg-secondary) text-(--text-muted) border border-(--border-subtle) self-start sm:self-auto">
-                        5개 핵심 상태 연동
-                      </span>
-                    </div>
-
-                    {/* 5 Status Token Cards Grid */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3.5">
-                      {statusTokens.map((st) => {
-                        const currentColor = getPaletteValue(st.paletteId);
-                        const isCopied = copiedPaletteId === st.id;
-
-                        const stateBadgeClass =
-                          st.key === 'primary'
-                            ? 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20'
-                            : st.key === 'secondary'
-                            ? 'bg-slate-500/10 text-slate-600 dark:text-slate-400 border-slate-500/20'
-                            : st.key === 'success'
-                            ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20'
-                            : st.key === 'danger'
-                            ? 'bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20'
-                            : 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20';
-
-                        return (
-                          <div
-                            key={st.key}
-                            className="p-4 rounded-(--radius-sm) border border-(--border-subtle) bg-(--bg-secondary)/30 flex flex-col justify-between gap-3 hover:border-(--accent-primary) transition shadow-xs group"
-                          >
-                            <div className="space-y-2">
-                              {/* Header & Status Key Badge */}
-                              <div className="flex items-center justify-between">
-                                <span className={`text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded border ${stateBadgeClass}`}>
-                                  {st.key}
-                                </span>
-                                <button
-                                  type="button"
-                                  onClick={() => handleCopyPalette(st.id, currentColor)}
-                                  className="text-(--text-muted) hover:text-(--text-primary) p-1 cursor-pointer transition"
-                                  title="토큰 CSS 변수 복사"
-                                >
-                                  {isCopied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
-                                </button>
-                              </div>
-
-                              {/* Color Preview Block */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+                          {statusTokens.map((st) => {
+                            const pal = paletteVariables.find((p) => p.id === st.paletteId);
+                            const isCopied = copiedPaletteId === st.id;
+                            return (
                               <div
-                                style={{ backgroundColor: currentColor }}
-                                className="h-16 w-full rounded-(--radius-sm) shadow-inner flex items-end p-2 transition-transform duration-200"
+                                key={st.id}
+                                className="p-3.5 rounded-(--radius-sm) bg-(--bg-secondary)/30 border border-(--border-subtle) flex flex-col gap-2.5 relative group hover:border-(--accent-primary) transition"
                               >
-                                <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-black/60 text-white backdrop-blur-xs font-bold truncate">
-                                  {currentColor}
-                                </span>
-                              </div>
+                                <div className="flex items-center justify-between">
+                                  <span className="font-bold text-xs text-(--text-primary)">
+                                    {formatLocaleText(st.name, locale)}
+                                  </span>
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    isIconOnly
+                                    onClick={() => handleCopyPalette(st.id, pal?.value || '')}
+                                    className="p-1 h-auto"
+                                    title="var() 복사"
+                                  >
+                                    {isCopied ? <Check className="w-3.5 h-3.5 text-(--atom-color-success)" /> : <Copy className="w-3.5 h-3.5 text-(--text-muted)" />}
+                                  </Button>
+                                </div>
 
-                              {/* Title & Description */}
-                              <div>
-                                <h4 className="font-bold text-xs text-(--text-primary)">{st.name}</h4>
-                                <p className="text-[11px] text-(--text-secondary) mt-0.5 leading-snug line-clamp-2">
+                                <div
+                                  style={{ backgroundColor: pal?.value || '#3182f6' }}
+                                  className="w-full h-12 rounded border border-black/10 shadow-xs flex items-center justify-center text-white font-mono text-xs font-bold"
+                                >
+                                  {pal?.value}
+                                </div>
+
+                                <div className="text-[11px] font-mono text-(--text-muted) truncate">
+                                  {st.id}
+                                </div>
+                                <p className="text-[10px] text-(--text-secondary) line-clamp-2 leading-relaxed">
                                   {st.description}
                                 </p>
                               </div>
-                            </div>
-
-                            {/* Palette Token Binding Select */}
-                            <div className="space-y-1 pt-1 border-t border-(--border-subtle)/50">
-                              <label className="text-[10px] font-mono text-(--text-muted) block">
-                                바인딩 팔레트:
-                              </label>
-                              <select
-                                value={st.paletteId}
-                                onChange={(e) => handleUpdateStatusToken(st.key, e.target.value)}
-                                className="w-full text-xs p-1.5 rounded border border-(--border-subtle) bg-(--bg-primary) text-(--text-primary) cursor-pointer font-mono font-medium focus:ring-1 focus:ring-(--accent-primary)"
-                              >
-                                {paletteVariables
-                                  .filter((p) => p.category === 'color')
-                                  .map((p) => (
-                                    <option key={p.id} value={p.id}>
-                                      {p.name} ({p.value})
-                                    </option>
-                                  ))}
-                              </select>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-
-                    {/* All-in-One Live Cascading Showcase */}
-                    <div className="p-4 sm:p-5 rounded-(--radius) bg-(--bg-secondary)/60 border border-(--border-subtle) flex flex-col gap-4">
-                      <div className="flex items-center justify-between border-b border-(--border-subtle) pb-3">
-                        <div className="flex items-center gap-2">
-                          <Activity className="w-4 h-4 text-emerald-500 animate-pulse" />
-                          <h4 className="text-xs font-bold font-mono uppercase tracking-wider text-(--text-primary)">
-                            시스템 전역 실시간 전파 프리뷰 (Live System-Wide Cascading Preview)
-                          </h4>
+                            );
+                          })}
                         </div>
-                        <span className="text-[11px] text-(--text-secondary)">
-                          위 상태 토큰을 변경하면 아래 컴포넌트들이 즉시 반응합니다
-                        </span>
-                      </div>
-
-                      {/* 1. Button Variants Strip */}
-                      <div className="space-y-1.5">
-                        <span className="text-[11px] font-mono text-(--text-muted)">
-                          1. 버튼 컴포넌트 반응 (Buttons):
-                        </span>
-                        <div className="flex flex-wrap items-center gap-2 p-3 rounded bg-(--bg-primary) border border-(--border-subtle)">
-                          <Button variant="primary">Primary 버튼</Button>
-                          <Button variant="secondary">Secondary 버튼</Button>
-                          <Button variant="success">Success 버튼</Button>
-                          <Button variant="danger">Danger 버튼</Button>
-                          <Button variant="warning">Warning 버튼</Button>
-                          <Button variant="outline">Outline 버튼</Button>
-                        </div>
-                      </div>
-
-                      {/* 2. Badge Variants Strip */}
-                      <div className="space-y-1.5">
-                        <span className="text-[11px] font-mono text-(--text-muted)">
-                          2. 배지 컴포넌트 반응 (Badges):
-                        </span>
-                        <div className="flex flex-wrap items-center gap-2 p-3 rounded bg-(--bg-primary) border border-(--border-subtle)">
-                          <span className="atom-badge atom-badge-primary">Primary 배지</span>
-                          <span className="atom-badge atom-badge-secondary">Secondary 배지</span>
-                          <span className="atom-badge atom-badge-success">Success 배지</span>
-                          <span className="atom-badge atom-badge-destructive">Danger 배지</span>
-                          <span className="atom-badge atom-badge-warning">Warning 배지</span>
-                        </div>
-                      </div>
-
-                      {/* 3. Form & Tabs Strip */}
-                      <div className="space-y-1.5">
-                        <span className="text-[11px] font-mono text-(--text-muted)">
-                          3. 탭 및 폼 컨트롤 반응 (Tabs & Input States):
-                        </span>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-3 rounded bg-(--bg-primary) border border-(--border-subtle)">
-                          <div className="flex flex-col gap-1.5">
-                            <label className="text-[11px] text-(--text-secondary) font-mono">
-                              포커스 시 Primary 테두리 및 링 반응:
-                            </label>
-                            <input
-                              type="text"
-                              defaultValue="포커스 해보세요 (Primary 링 반응)"
-                              className="atom-input text-xs"
-                            />
-                          </div>
-                          <div className="flex flex-col gap-1.5">
-                            <label className="text-[11px] text-(--text-secondary) font-mono">
-                              에러 시 Danger 테두리 및 경고 반응:
-                            </label>
-                            <input
-                              type="text"
-                              defaultValue="유효성 검사 에러 (Danger 반응)"
-                              aria-invalid="true"
-                              className="atom-input atom-input-error text-xs"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* 3-A. COLOR VIEW (50 ~ 900 Full Scale by Family) */}
-                {(paletteCategoryFilter === 'color' || paletteCategoryFilter === 'all') && (
-                  <div className="flex flex-col gap-6">
-                    {/* Color Family Sub Filter */}
-                    {paletteCategoryFilter === 'color' && (
-                      <div className="flex flex-wrap items-center gap-1 text-xs">
-                        <span className="text-(--text-muted) font-mono mr-1">컬러 그룹:</span>
-                        {[
-                          { id: 'all', label: '전체' },
-                          { id: 'blue', label: 'Blue (Brand)' },
-                          { id: 'gray', label: 'Gray (Surface)' },
-                          { id: 'emerald', label: 'Emerald (Success)' },
-                          { id: 'rose', label: 'Rose (Destructive)' },
-                          { id: 'amber', label: 'Amber (Warning)' },
-                          { id: 'purple', label: 'Purple (AI)' },
-                          { id: 'neutral', label: 'Neutral' },
-                        ].map((fam) => (
-                          <button
-                            key={fam.id}
-                            onClick={() => setColorFamilyFilter(fam.id)}
-                            className={`px-2 py-0.5 rounded text-[11px] font-medium transition cursor-pointer ${
-                              colorFamilyFilter === fam.id
-                                ? 'bg-(--accent-primary) text-(--bg-primary) font-semibold'
-                                : 'bg-(--bg-secondary) text-(--text-secondary) hover:text-(--text-primary) border border-(--border-subtle)'
-                            }`}
-                          >
-                            {fam.label}
-                          </button>
-                        ))}
                       </div>
                     )}
 
-                    {/* Color Groups Render */}
-                    {['blue', 'gray', 'emerald', 'rose', 'amber', 'purple', 'neutral'].map((fam) => {
-                      if (colorFamilyFilter !== 'all' && colorFamilyFilter !== fam) return null;
-                      const famPalettes = displayedPalettes.filter(
-                        (p) => p.category === 'color' && (p.family === fam || (!p.family && p.id.includes(fam)))
-                      );
+                    {/* Color Families 50-900 Full Spectrum */}
+                    {(colorFamilyFilter === 'all'
+                      ? ['blue', 'gray', 'emerald', 'rose', 'amber', 'purple']
+                      : [colorFamilyFilter]
+                    ).map((famKey) => {
+                      const famPalettes = paletteVariables.filter((p) => p.family === famKey);
                       if (famPalettes.length === 0) return null;
 
-                      const famTitle =
-                        fam === 'blue'
-                          ? 'Blue Scale (Brand Primary & CTA)'
-                          : fam === 'gray'
-                          ? 'Slate / Gray Scale (Surface, Border, Text)'
-                          : fam === 'emerald'
-                          ? 'Emerald / Green Scale (Success & Complete)'
-                          : fam === 'rose'
-                          ? 'Rose / Red Scale (Destructive & Error)'
-                          : fam === 'amber'
-                          ? 'Amber / Yellow Scale (Warning & Pending)'
-                          : fam === 'purple'
-                          ? 'Purple / Violet Scale (AI & Premium)'
-                          : 'Neutral / Monochrome (Pure Black & White)';
-
                       return (
-                        <div key={fam} className="p-4 sm:p-5 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) flex flex-col gap-3">
-                          <div className="flex items-center justify-between">
-                            <h3 className="text-xs font-mono font-bold text-(--text-primary) uppercase tracking-wider flex items-center gap-2">
+                        <div
+                          key={famKey}
+                          className="p-5 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) flex flex-col gap-3"
+                        >
+                          <div className="flex items-center justify-between border-b border-(--border-subtle) pb-2">
+                            <h3 className="text-xs font-mono font-bold uppercase text-(--text-secondary) flex items-center gap-2">
                               <span className="w-2.5 h-2.5 rounded-full bg-(--accent-primary)" />
-                              {famTitle}
+                              <span>{famKey} Family (50 ~ 900)</span>
                             </h3>
-                            <span className="text-[11px] font-mono text-(--text-muted)">
+                            <span className="text-xs font-mono text-(--text-muted)">
                               {famPalettes.length} 스텝
                             </span>
                           </div>
 
-                          {/* 50 ~ 900 Swatch Grid */}
                           <div className="grid grid-cols-2 sm:grid-cols-5 lg:grid-cols-10 gap-2">
                             {famPalettes.map((pal) => {
                               const isCopied = copiedPaletteId === pal.id;
                               return (
                                 <div
                                   key={pal.id}
-                                  className="group relative rounded-(--radius-sm) border border-(--border-subtle) overflow-hidden bg-(--bg-secondary)/40 flex flex-col hover:border-(--accent-primary) transition shadow-xs"
+                                  className="group relative rounded-(--radius-sm) border border-(--border-subtle) overflow-hidden bg-(--bg-primary) hover:shadow-md transition-all flex flex-col"
                                 >
-                                  {/* Color Block */}
+                                  {/* Color Swatch */}
                                   <div
                                     style={{ backgroundColor: pal.value }}
-                                    className="h-14 w-full flex items-center justify-center relative transition-transform"
+                                    className="h-16 w-full flex items-center justify-center relative"
                                   >
-                                    <button
-                                      type="button"
-                                      onClick={() => handleCopyPalette(pal.id, pal.value)}
-                                      className="opacity-0 group-hover:opacity-100 transition-opacity bg-black/60 text-white p-1 rounded hover:scale-110 cursor-pointer"
-                                      title="var() 복사"
-                                    >
-                                      {isCopied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
-                                    </button>
+                                    <div className="opacity-0 group-hover:opacity-100 transition-opacity bg-black/70 p-1 flex items-center gap-1 rounded shadow-xs">
+                                      <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        isIconOnly
+                                        onClick={() => handleCopyPalette(pal.id, pal.value)}
+                                        className="text-white p-1 h-auto hover:scale-110"
+                                        title="var() 복사"
+                                      >
+                                        {isCopied ? <Check className="w-3.5 h-3.5 text-(--atom-color-success)" /> : <Copy className="w-3.5 h-3.5" />}
+                                      </Button>
+                                      <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        isIconOnly
+                                        onClick={() => handleOpenEditPalette(pal)}
+                                        className="text-white p-1 h-auto hover:scale-110 text-(--accent-primary)"
+                                        title="팔레트 값 수정"
+                                      >
+                                        <Edit2 className="w-3.5 h-3.5" />
+                                      </Button>
+                                      <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        isIconOnly
+                                        onClick={() => handleDeletePalette(pal.id)}
+                                        className="text-white p-1 h-auto hover:scale-110 text-rose-400"
+                                        title="팔레트 삭제"
+                                      >
+                                        <Trash2 className="w-3.5 h-3.5" />
+                                      </Button>
+                                    </div>
                                   </div>
 
                                   {/* Info Footer */}
@@ -1617,98 +1790,122 @@ export default function LocalStudioPage() {
                       <div>
                         <h3 className="text-sm font-bold text-(--text-primary) flex items-center gap-2">
                           <Ruler className="w-4 h-4 text-(--accent-primary)" />
-                          <span>사이즈 & 여백 팔레트 (Spacing & Size Scale)</span>
+                          <span>{locale === 'ko' ? '사이즈 & 여백 팔레트' : 'Spacing & Size Scale'}</span>
                         </h3>
                         <p className="text-xs text-(--text-secondary) mt-0.5">
-                          패딩, 마진, 아이템 간격(gap)에 사용되는 4px 기반 W3C 규격 토큰
+                          {locale === 'ko' ? '패딩, 마진, 아이템 간격(gap)에 사용되는 4px 기반 W3C 규격 토큰' : '4px-based W3C standard tokens for padding, margin, and gap'}
                         </p>
                       </div>
                       <span className="text-xs font-mono text-(--text-muted)">
-                        {displayedPalettes.filter((p) => p.category === 'size' || p.category === 'spacing').length} 토큰
+                        {displayedPalettes.filter((p) => p.category === 'size' || p.category === 'spacing').length} {locale === 'ko' ? '토큰' : 'tokens'}
                       </span>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                       {displayedPalettes
                         .filter((p) => p.category === 'size' || p.category === 'spacing')
                         .map((pal) => (
                           <div
                             key={pal.id}
-                            className="p-3 rounded-(--radius-sm) border border-(--border-subtle) bg-(--bg-secondary)/30 flex items-center justify-between gap-4 hover:border-(--accent-primary) transition"
+                            className="p-3.5 rounded-(--radius-sm) bg-(--bg-secondary)/30 border border-(--border-subtle) flex flex-col gap-2 hover:border-(--accent-primary) transition"
                           >
-                            <div className="flex flex-col">
-                              <span className="font-semibold text-xs text-(--text-primary)">{pal.name}</span>
-                              <span className="font-mono text-[11px] text-(--text-muted)">{pal.id}</span>
-                              <span className="text-[11px] text-(--text-secondary) mt-0.5">{pal.description}</span>
+                            <div className="flex items-center justify-between text-xs">
+                              <span className="font-bold text-(--text-primary)">{formatLocaleText(pal.name, locale)}</span>
+                              <div className="flex items-center gap-1">
+                                <span className="font-mono text-xs font-bold text-(--accent-primary)">{pal.value}</span>
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  isIconOnly
+                                  onClick={() => handleOpenEditPalette(pal)}
+                                  className="p-1 h-auto text-(--text-muted) hover:text-(--accent-primary)"
+                                  title="값 수정"
+                                >
+                                  <Edit2 className="w-3 h-3" />
+                                </Button>
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  isIconOnly
+                                  onClick={() => handleDeletePalette(pal.id)}
+                                  className="p-1 h-auto text-(--text-muted) hover:text-rose-500"
+                                  title="삭제"
+                                >
+                                  <Trash2 className="w-3 h-3" />
+                                </Button>
+                              </div>
                             </div>
-
-                            <div className="flex items-center gap-3 shrink-0">
+                            {/* Visual Size Bar */}
+                            <div className="h-4 bg-(--bg-secondary) rounded flex items-center px-1 overflow-hidden">
                               <div
-                                style={{ width: pal.value, maxWidth: '80px' }}
-                                className="h-4 rounded-xs bg-(--accent-primary) opacity-80"
-                                title={pal.value}
+                                style={{ width: pal.value }}
+                                className="h-2 bg-(--accent-primary) rounded max-w-full"
                               />
-                              <span className="font-mono text-xs font-bold text-(--text-primary) w-12 text-right">
-                                {pal.value}
-                              </span>
-                              <button
-                                onClick={() => handleCopyPalette(pal.id, pal.value)}
-                                className="text-neutral-400 hover:text-(--text-primary) p-1 cursor-pointer"
-                                title="var() 복사"
-                              >
-                                {copiedPaletteId === pal.id ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
-                              </button>
                             </div>
+                            <span className="font-mono text-[10px] text-(--text-muted) truncate">{pal.id}</span>
                           </div>
                         ))}
                     </div>
                   </div>
                 )}
 
-                {/* 3-C. RADIUS VIEW */}
+                {/* 3-C. BORDER RADIUS VIEW */}
                 {(paletteCategoryFilter === 'radius' || (paletteCategoryFilter === 'all' && false)) && (
                   <div className="p-5 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) flex flex-col gap-4">
                     <div className="flex items-center justify-between border-b border-(--border-subtle) pb-3">
                       <div>
                         <h3 className="text-sm font-bold text-(--text-primary) flex items-center gap-2">
                           <Square className="w-4 h-4 text-(--accent-primary)" />
-                          <span>모서리 곡률 팔레트 (Border Radius Scale)</span>
+                          <span>{locale === 'ko' ? '모서리 곡률 팔레트' : 'Border Radius Scale'}</span>
                         </h3>
                         <p className="text-xs text-(--text-secondary) mt-0.5">
-                          버튼, 인풋, 카드, 모달의 시각적 완성도를 결정하는 곡률 토큰
+                          {locale === 'ko' ? '버튼, 카드, 모달 등 서피스 컴포넌트의 모서리 둥글기를 일관되게 규정하는 토큰' : 'Tokens defining consistent border radiuses for buttons, cards, and surfaces'}
                         </p>
                       </div>
                       <span className="text-xs font-mono text-(--text-muted)">
-                        {displayedPalettes.filter((p) => p.category === 'radius').length} 토큰
+                        {displayedPalettes.filter((p) => p.category === 'radius').length} {locale === 'ko' ? '토큰' : 'tokens'}
                       </span>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
                       {displayedPalettes
                         .filter((p) => p.category === 'radius')
                         .map((pal) => (
                           <div
                             key={pal.id}
-                            className="p-4 rounded-(--radius-sm) border border-(--border-subtle) bg-(--bg-secondary)/30 flex flex-col items-center text-center gap-3 hover:border-(--accent-primary) transition shadow-xs"
+                            className="p-4 rounded-(--radius-sm) bg-(--bg-secondary)/30 border border-(--border-subtle) flex flex-col items-center text-center gap-3 hover:border-(--accent-primary) transition"
                           >
                             <div
                               style={{ borderRadius: pal.value }}
-                              className="w-16 h-16 border-2 border-(--accent-primary) bg-(--accent-primary)/15 flex items-center justify-center font-mono text-xs font-bold text-(--text-primary)"
+                              className="w-16 h-16 bg-(--accent-primary)/15 border-2 border-(--accent-primary) flex items-center justify-center font-mono text-xs font-bold text-(--accent-primary)"
                             >
                               {pal.value}
                             </div>
-                            <div className="flex flex-col">
-                              <span className="font-semibold text-xs text-(--text-primary)">{pal.name}</span>
-                              <span className="font-mono text-[11px] text-(--text-muted)">{pal.id}</span>
-                              <span className="text-[11px] text-(--text-secondary) mt-1">{pal.description}</span>
+                            <div className="w-full">
+                              <div className="font-bold text-xs text-(--text-primary)">{formatLocaleText(pal.name, locale)}</div>
+                              <div className="font-mono text-[10px] text-(--text-muted) truncate">{pal.id}</div>
                             </div>
-                            <button
-                              onClick={() => handleCopyPalette(pal.id, pal.value)}
-                              className="w-full mt-1 py-1 rounded bg-(--bg-secondary) hover:bg-(--bg-primary) border border-(--border-subtle) text-[11px] font-mono text-(--text-secondary) hover:text-(--text-primary) flex items-center justify-center gap-1 cursor-pointer transition"
-                            >
-                              {copiedPaletteId === pal.id ? <Check className="w-3 h-3 text-emerald-500" /> : <Copy className="w-3 h-3" />}
-                              <span>{copiedPaletteId === pal.id ? '복사됨' : '토큰 복사'}</span>
-                            </button>
+                            <div className="w-full flex items-center justify-between pt-1 border-t border-(--border-subtle)/40">
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => handleOpenEditPalette(pal)}
+                                className="p-1 h-auto text-[10px] text-(--text-secondary) hover:text-(--accent-primary) flex items-center gap-1"
+                              >
+                                <Edit2 className="w-2.5 h-2.5" />
+                                <span>{locale === 'ko' ? '수정' : 'Edit'}</span>
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                isIconOnly
+                                onClick={() => handleDeletePalette(pal.id)}
+                                className="p-1 h-auto text-(--text-muted) hover:text-rose-500"
+                                title="삭제"
+                              >
+                                <Trash2 className="w-3 h-3" />
+                              </Button>
+                            </div>
                           </div>
                         ))}
                     </div>
@@ -1722,14 +1919,14 @@ export default function LocalStudioPage() {
                       <div>
                         <h3 className="text-sm font-bold text-(--text-primary) flex items-center gap-2">
                           <Type className="w-4 h-4 text-(--accent-primary)" />
-                          <span>타이포그래피 팔레트 (Typography Scale)</span>
+                          <span>{locale === 'ko' ? '타이포그래피 팔레트' : 'Typography Scale'}</span>
                         </h3>
                         <p className="text-xs text-(--text-secondary) mt-0.5">
-                          폰트 크기, 행간, 두께의 조화로운 위계를 정의하는 토큰
+                          {locale === 'ko' ? '폰트 크기, 행간, 두께의 조화로운 위계를 정의하는 토큰' : 'Tokens defining typographic hierarchy across size, leading, and weight'}
                         </p>
                       </div>
                       <span className="text-xs font-mono text-(--text-muted)">
-                        {displayedPalettes.filter((p) => p.category === 'typography').length} 토큰
+                        {displayedPalettes.filter((p) => p.category === 'typography').length} {locale === 'ko' ? '토큰' : 'tokens'}
                       </span>
                     </div>
 
@@ -1741,36 +1938,25 @@ export default function LocalStudioPage() {
                             key={pal.id}
                             className="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-(--bg-secondary)/30 px-2 rounded transition"
                           >
-                            <div className="w-64 shrink-0 flex flex-col">
-                              <span className="font-semibold text-xs text-(--text-primary)">{pal.name}</span>
-                              <span className="font-mono text-[11px] text-(--text-muted)">{pal.id}</span>
-                              <span className="text-[11px] text-(--text-secondary)">{pal.description}</span>
+                            <div className="min-w-[200px]">
+                              <div className="font-bold text-sm text-(--text-primary)">{formatLocaleText(pal.name, locale)}</div>
+                              <div className="font-mono text-xs text-(--text-muted)">{pal.id}</div>
                             </div>
 
-                            <div className="flex-1 overflow-hidden">
-                              <span
-                                style={{
-                                  fontSize: pal.value.endsWith('px') ? pal.value : undefined,
-                                  fontWeight: pal.value.match(/^\d+$/) ? pal.value : undefined,
-                                }}
-                                className="text-(--text-primary) truncate block"
-                              >
-                                말로 디자인하는 시대, AtomDesignToken
-                              </span>
+                            {/* Live Type Preview */}
+                            <div
+                              style={{
+                                fontSize: pal.id.includes('size') ? pal.value : undefined,
+                                fontWeight: pal.id.includes('weight') ? pal.value : undefined,
+                              }}
+                              className="text-(--text-primary) truncate flex-1"
+                            >
+                              피그마 없는 시대, 코드로 직접 디자인을 구축하는 AtomDesignToken
                             </div>
 
-                            <div className="flex items-center gap-2 shrink-0">
-                              <span className="font-mono text-xs font-bold text-(--text-primary) px-2 py-0.5 rounded bg-(--bg-secondary) border border-(--border-subtle)">
-                                {pal.value}
-                              </span>
-                              <button
-                                onClick={() => handleCopyPalette(pal.id, pal.value)}
-                                className="text-neutral-400 hover:text-(--text-primary) p-1 cursor-pointer"
-                                title="var() 복사"
-                              >
-                                {copiedPaletteId === pal.id ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
-                              </button>
-                            </div>
+                            <span className="font-mono text-xs font-bold text-(--accent-primary) px-2 py-1 rounded bg-(--bg-secondary) shrink-0">
+                              {pal.value}
+                            </span>
                           </div>
                         ))}
                     </div>
@@ -1779,58 +1965,70 @@ export default function LocalStudioPage() {
 
                 {/* 3-E. ALL TOKENS TABLE VIEW */}
                 {paletteCategoryFilter === 'all' && (
-                  <div className="overflow-x-auto rounded-(--radius) border border-(--border-subtle)">
-                    <table className="w-full text-left text-xs sm:text-sm">
-                      <thead className="bg-(--bg-secondary)/60 border-b border-(--border-subtle) text-xs font-semibold text-(--text-secondary)">
-                        <tr>
-                          <th className="p-3">{t('thPaletteName')}</th>
-                          <th className="p-3">{t('thPaletteCategory')}</th>
-                          <th className="p-3">{t('thPaletteValue')}</th>
-                          <th className="p-3">{t('paletteDescLabel')}</th>
-                          <th className="p-3 text-right">{t('thPaletteAction')}</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-(--border-subtle)">
-                        {displayedPalettes.map((pal) => (
-                          <tr key={pal.id} className="hover:bg-(--bg-secondary)/30 transition-colors">
-                            <td className="p-3">
-                              <div className="font-semibold text-(--text-primary)">{pal.name}</div>
-                              <div className="font-mono text-xs text-(--text-muted)">{pal.id}</div>
-                            </td>
-                            <td className="p-3">
-                              <span className="font-mono text-[11px] px-2 py-0.5 rounded bg-(--bg-secondary) text-(--text-secondary) border border-(--border-subtle)">
-                                {pal.category}
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="p-3">{t('thPaletteName')}</TableHead>
+                        <TableHead className="p-3">{t('thPaletteCategory')}</TableHead>
+                        <TableHead className="p-3">{t('thPaletteValue')}</TableHead>
+                        <TableHead className="p-3">{t('paletteDescLabel')}</TableHead>
+                        <TableHead className="p-3 text-right">{t('thPaletteAction')}</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {displayedPalettes.map((pal) => (
+                        <TableRow key={pal.id} className="hover:bg-(--bg-secondary)/30 transition-colors">
+                          <TableCell className="p-3">
+                            <div className="font-semibold text-(--text-primary)">{formatLocaleText(pal.name, locale)}</div>
+                            <div className="font-mono text-xs text-(--text-muted)">{pal.id}</div>
+                          </TableCell>
+                          <TableCell className="p-3">
+                            <span className="font-mono text-[11px] px-2 py-0.5 rounded bg-(--bg-secondary) text-(--text-secondary) border border-(--border-subtle)">
+                              {pal.category}
+                            </span>
+                          </TableCell>
+                          <TableCell className="p-3">
+                            <div className="flex items-center gap-2">
+                              {pal.category === 'color' && (
+                                <span
+                                  style={{ backgroundColor: pal.value }}
+                                  className="w-4 h-4 rounded border border-(--border-subtle) shrink-0 shadow-xs"
+                                />
+                              )}
+                              <span className="font-mono font-semibold text-(--text-primary)">
+                                {pal.value}
                               </span>
-                            </td>
-                            <td className="p-3">
-                              <div className="flex items-center gap-2">
-                                {pal.category === 'color' && (
-                                  <span
-                                    style={{ backgroundColor: pal.value }}
-                                    className="w-4 h-4 rounded border border-(--border-subtle) shrink-0 shadow-xs"
-                                  />
-                                )}
-                                <span className="font-mono font-semibold text-(--text-primary)">
-                                  {pal.value}
-                                </span>
-                              </div>
-                            </td>
-                            <td className="p-3 text-xs text-(--text-secondary)">
-                              {pal.description || '-'}
-                            </td>
-                            <td className="p-3 text-right">
-                              <button
-                                onClick={() => handleDeletePalette(pal.id)}
-                                className="text-xs text-rose-500 hover:text-rose-700 cursor-pointer font-medium p-1"
+                            </div>
+                          </TableCell>
+                          <TableCell className="p-3 text-xs text-(--text-secondary)">
+                            {pal.description || '-'}
+                          </TableCell>
+                          <TableCell className="p-3 text-right">
+                            <div className="flex items-center justify-end gap-1.5">
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => handleOpenEditPalette(pal)}
+                                className="text-xs text-(--text-secondary) hover:text-(--accent-primary) h-auto p-1 font-medium flex items-center gap-1"
                               >
-                                {t('deleteBtn')}
-                              </button>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
+                                <Edit2 className="w-3 h-3" />
+                                <span>{locale === 'ko' ? '수정' : 'Edit'}</span>
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => handleDeletePalette(pal.id)}
+                                className="text-xs text-(--atom-color-destructive) hover:text-rose-700 h-auto p-1 font-medium flex items-center gap-1"
+                              >
+                                <Trash2 className="w-3 h-3" />
+                                <span>{t('deleteBtn')}</span>
+                              </Button>
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
                 )}
               </div>
             )}
@@ -1861,6 +2059,11 @@ export default function LocalStudioPage() {
                 </div>
               </div>
             )}
+
+            {/* TAB 4: Brand Settings (Logo upload, Brand name & Mockup) */}
+            {activeTab === 'brand' && (
+              <StudioBrandSettings />
+            )}
           </main>
         </div>
       )}
@@ -1870,34 +2073,33 @@ export default function LocalStudioPage() {
         <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
           <div className="w-full max-w-md p-6 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) shadow-xl flex flex-col gap-4 animate-in fade-in">
             <h3 className="font-bold text-base text-(--text-primary)">
-              {t('addVariableBtn')} ({currentComponent.name})
+              {t('addVariableBtn')} ({formatLocaleText(currentComponent.name, locale)})
             </h3>
 
             <div className="space-y-3 text-xs">
               <div>
                 <label className="font-semibold text-(--text-secondary) block mb-1">
-                  {t('variableNameLabel')} (Display Name)
+                  {t('variableNameLabel')}
                 </label>
-                <input
+                <Input
                   type="text"
                   value={newVariableName}
                   onChange={(e) => setNewVariableName(e.target.value)}
-                  placeholder="예: 완전 둥근 버튼 (Pill CTA)"
-                  className="w-full p-2 rounded border border-(--border-subtle) bg-(--bg-secondary) text-(--text-primary)"
+                  placeholder={locale === 'ko' ? '예: 라운드 필 버튼' : 'e.g. Pill CTA Button'}
                   autoFocus
                 />
               </div>
 
               <div>
                 <label className="font-semibold text-(--text-secondary) block mb-1">
-                  {t('variableKeyLabel')} (Code Identifier)
+                  {t('variableKeyLabel')}
                 </label>
-                <input
+                <Input
                   type="text"
                   value={newVariableKey}
                   onChange={(e) => setNewVariableKey(e.target.value)}
                   placeholder="예: pill-cta"
-                  className="w-full p-2 rounded border border-(--border-subtle) bg-(--bg-secondary) font-mono text-(--text-primary)"
+                  className="font-mono"
                 />
               </div>
 
@@ -1905,12 +2107,11 @@ export default function LocalStudioPage() {
                 <label className="font-semibold text-(--text-secondary) block mb-1">
                   {t('variableDescLabel')}
                 </label>
-                <input
+                <Input
                   type="text"
                   value={newVariableDesc}
                   onChange={(e) => setNewVariableDesc(e.target.value)}
                   placeholder="예: 랜딩 페이지 전용 라운드 디자인"
-                  className="w-full p-2 rounded border border-(--border-subtle) bg-(--bg-secondary) text-(--text-primary)"
                 />
               </div>
             </div>
@@ -1927,9 +2128,8 @@ export default function LocalStudioPage() {
                 variant="primary"
                 size="sm"
                 onClick={handleCreateVariable}
-                disabled={!newVariableName.trim() || !newVariableKey.trim()}
               >
-                {t('saveVariable')}
+                {locale === 'ko' ? '생성하기' : 'Create'}
               </Button>
             </div>
           </div>
@@ -1947,51 +2147,13 @@ export default function LocalStudioPage() {
             <div className="space-y-3 text-xs">
               <div>
                 <label className="font-semibold text-(--text-secondary) block mb-1">
-                  {t('paletteCategoryLabel')}
-                </label>
-                <select
-                  value={newPaletteCategory}
-                  onChange={(e) => setNewPaletteCategory(e.target.value as any)}
-                  className="w-full p-2 rounded border border-(--border-subtle) bg-(--bg-secondary) text-(--text-primary)"
-                >
-                  <option value="color">Color (색상 팔레트)</option>
-                  <option value="size">Size & Spacing (사이즈 & 여백)</option>
-                  <option value="radius">Radius (모서리 곡률)</option>
-                  <option value="typography">Typography (타이포그래피)</option>
-                </select>
-              </div>
-
-              {newPaletteCategory === 'color' && (
-                <div>
-                  <label className="font-semibold text-(--text-secondary) block mb-1">
-                    컬러 그룹 (Family)
-                  </label>
-                  <select
-                    value={newPaletteFamily}
-                    onChange={(e) => setNewPaletteFamily(e.target.value)}
-                    className="w-full p-2 rounded border border-(--border-subtle) bg-(--bg-secondary) text-(--text-primary)"
-                  >
-                    <option value="blue">Blue (Brand Primary)</option>
-                    <option value="gray">Gray (Surface & Border)</option>
-                    <option value="emerald">Emerald (Success)</option>
-                    <option value="rose">Rose (Destructive)</option>
-                    <option value="amber">Amber (Warning)</option>
-                    <option value="purple">Purple (AI & Tech)</option>
-                    <option value="neutral">Neutral (Monochrome)</option>
-                  </select>
-                </div>
-              )}
-
-              <div>
-                <label className="font-semibold text-(--text-secondary) block mb-1">
                   {t('paletteNameLabel')}
                 </label>
-                <input
+                <Input
                   type="text"
                   value={newPaletteName}
                   onChange={(e) => setNewPaletteName(e.target.value)}
-                  placeholder="예: Indigo 500 (Hero Accent)"
-                  className="w-full p-2 rounded border border-(--border-subtle) bg-(--bg-secondary) text-(--text-primary)"
+                  placeholder="예: Brand Cyan 500"
                   autoFocus
                 />
               </div>
@@ -2000,48 +2162,76 @@ export default function LocalStudioPage() {
                 <label className="font-semibold text-(--text-secondary) block mb-1">
                   {t('paletteIdLabel')}
                 </label>
-                <input
+                <Input
                   type="text"
                   value={newPaletteId}
                   onChange={(e) => setNewPaletteId(e.target.value)}
-                  placeholder="예: --atom-palette-indigo-500"
-                  className="w-full p-2 rounded border border-(--border-subtle) bg-(--bg-secondary) font-mono text-(--text-primary)"
+                  placeholder="예: --atom-palette-cyan-500"
+                  className="font-mono"
                 />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="font-semibold text-(--text-secondary) block mb-1">
+                    {t('thPaletteCategory')}
+                  </label>
+                  <NativeSelect
+                    value={newPaletteCategory}
+                    onChange={(e: any) => setNewPaletteCategory(e.target.value)}
+                    className="w-full"
+                  >
+                    <option value="color">Color</option>
+                    <option value="size">Size / Spacing</option>
+                    <option value="radius">Border Radius</option>
+                    <option value="typography">Typography</option>
+                  </NativeSelect>
+                </div>
+
+                {newPaletteCategory === 'color' && (
+                  <div>
+                    <label className="font-semibold text-(--text-secondary) block mb-1">
+                      Color Family
+                    </label>
+                    <NativeSelect
+                      value={newPaletteFamily}
+                      onChange={(e) => setNewPaletteFamily(e.target.value)}
+                      className="w-full"
+                    >
+                      <option value="blue">Blue</option>
+                      <option value="gray">Gray</option>
+                      <option value="emerald">Emerald</option>
+                      <option value="rose">Rose</option>
+                      <option value="amber">Amber</option>
+                      <option value="purple">Purple</option>
+                      <option value="neutral">Neutral</option>
+                    </NativeSelect>
+                  </div>
+                )}
               </div>
 
               <div>
                 <label className="font-semibold text-(--text-secondary) block mb-1">
-                  {t('paletteValueLabel')}
+                  {t('thPaletteValue')}
                 </label>
-                <div className="flex items-center gap-2">
-                  {newPaletteCategory === 'color' && (
-                    <input
-                      type="color"
-                      value={newPaletteValue}
-                      onChange={(e) => setNewPaletteValue(e.target.value)}
-                      className="w-8 h-8 rounded border border-(--border-subtle) cursor-pointer"
-                    />
-                  )}
-                  <input
-                    type="text"
-                    value={newPaletteValue}
-                    onChange={(e) => setNewPaletteValue(e.target.value)}
-                    placeholder={newPaletteCategory === 'color' ? '#6366f1' : '16px'}
-                    className="flex-1 p-2 rounded border border-(--border-subtle) bg-(--bg-secondary) font-mono text-(--text-primary)"
-                  />
-                </div>
+                <Input
+                  type="text"
+                  value={newPaletteValue}
+                  onChange={(e) => setNewPaletteValue(e.target.value)}
+                  placeholder="예: #06b6d4, 16px, 8px"
+                  className="font-mono"
+                />
               </div>
 
               <div>
                 <label className="font-semibold text-(--text-secondary) block mb-1">
                   {t('paletteDescLabel')}
                 </label>
-                <input
+                <Input
                   type="text"
                   value={newPaletteDesc}
                   onChange={(e) => setNewPaletteDesc(e.target.value)}
-                  placeholder="예: 주요 히어로 섹션 전용 액센트 컬러"
-                  className="w-full p-2 rounded border border-(--border-subtle) bg-(--bg-secondary) text-(--text-primary)"
+                  placeholder="예: 테크 지향적 포인트 컬러"
                 />
               </div>
             </div>
@@ -2058,14 +2248,103 @@ export default function LocalStudioPage() {
                 variant="primary"
                 size="sm"
                 onClick={handleCreatePalette}
-                disabled={!newPaletteName.trim() || !newPaletteId.trim()}
               >
-                {t('saveVariable')}
+                {locale === 'ko' ? '생성하기' : 'Create'}
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL 3: Edit Palette Variable */}
+      {editingPalette && (
+        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="w-full max-w-md p-6 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) shadow-xl flex flex-col gap-4 animate-in fade-in">
+            <div className="flex items-center justify-between">
+              <h3 className="font-bold text-base text-(--text-primary) flex items-center gap-2">
+                <Edit2 className="w-4 h-4 text-(--accent-primary)" />
+                <span>{locale === 'ko' ? '팔레트 토큰 값 수정' : 'Edit Palette Token'}</span>
+              </h3>
+              <span className="font-mono text-xs px-2 py-0.5 rounded bg-(--bg-secondary) text-(--text-muted) border border-(--border-subtle)">
+                {editingPalette.id}
+              </span>
+            </div>
+
+            <div className="space-y-3 text-xs">
+              <div>
+                <label className="font-semibold text-(--text-secondary) block mb-1">
+                  {t('paletteNameLabel')}
+                </label>
+                <Input
+                  type="text"
+                  value={editPaletteName}
+                  onChange={(e) => setEditPaletteName(e.target.value)}
+                  placeholder="예: Blue 500"
+                  autoFocus
+                />
+              </div>
+
+              <div>
+                <label className="font-semibold text-(--text-secondary) block mb-1">
+                  {t('thPaletteValue')}
+                </label>
+                <div className="flex items-center gap-2">
+                  {editingPalette.category === 'color' && (
+                    <span
+                      style={{ backgroundColor: editPaletteValue }}
+                      className="w-7 h-7 rounded border border-(--border-subtle) shrink-0 shadow-xs"
+                    />
+                  )}
+                  <Input
+                    type="text"
+                    value={editPaletteValue}
+                    onChange={(e) => setEditPaletteValue(e.target.value)}
+                    placeholder="예: #3182f6, 16px, 8px"
+                    className="font-mono flex-1"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="font-semibold text-(--text-secondary) block mb-1">
+                  {t('paletteDescLabel')}
+                </label>
+                <Input
+                  type="text"
+                  value={editPaletteDesc}
+                  onChange={(e) => setEditPaletteDesc(e.target.value)}
+                  placeholder="예: 기본 브랜드 블루 컬러"
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-2 pt-2 border-t border-(--border-subtle)">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setEditingPalette(null)}
+              >
+                {t('cancel')}
+              </Button>
+              <Button
+                variant="primary"
+                size="sm"
+                onClick={handleSaveEditPalette}
+              >
+                {locale === 'ko' ? '저장하기' : 'Save Changes'}
               </Button>
             </div>
           </div>
         </div>
       )}
     </div>
+  );
+}
+
+export default function LocalStudioPage() {
+  return (
+    <Suspense fallback={<div className="p-8 text-center text-xs font-mono">로딩 중...</div>}>
+      <LocalStudioContent />
+    </Suspense>
   );
 }

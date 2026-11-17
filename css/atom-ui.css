@@ -146,6 +146,41 @@
   --accent-primary-hover: var(--atom-color-primary-hover);
 }
 
+/* === Universal Interaction Status Attributes (Code-Connected Status System) === */
+[data-status="hover"],
+.atom-status--hover {
+  filter: brightness(0.95);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+}
+
+[data-status="active"],
+.atom-status--active {
+  transform: scale(0.97);
+  filter: brightness(0.9);
+}
+
+[data-status="focus"],
+.atom-status--focus {
+  outline: 2px solid var(--accent-primary, var(--atom-color-primary));
+  outline-offset: 2px;
+}
+
+[data-status="disabled"],
+.atom-status--disabled,
+:disabled {
+  opacity: 0.45 !important;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+}
+
+[data-status="loading"],
+.atom-status--loading {
+  opacity: 0.85 !important;
+  cursor: wait !important;
+  pointer-events: none !important;
+}
+
 /* === 4. Component Variable Token Scopes & Direct Visual Selectors === */
 [data-component="button"][data-variable="primary"],
 .atom-button--primary {
@@ -171,188 +206,6 @@
 .atom-btn[data-variable="primary"]:hover:not(:disabled),
 [data-component="button"][data-variable="primary"]:hover:not(:disabled) {
   background-color: var(--atom-button-primary-hoverBackground);
-}
-
-[data-component="button"][data-variable="secondary"],
-.atom-button--secondary {
-  --atom-button-secondary-background: var(--atom-color-secondary);
-  --atom-button-secondary-hoverBackground: var(--atom-color-secondary-hover);
-  --atom-button-secondary-textColor: var(--atom-palette-gray-900);
-  --atom-button-secondary-borderColor: var(--atom-color-secondary);
-  --atom-button-secondary-borderRadius: var(--atom-radius-md);
-  --atom-button-secondary-paddingX: var(--atom-space-4);
-  --atom-button-secondary-paddingY: var(--atom-space-2);
-}
-
-.atom-btn.atom-button--secondary,
-.atom-btn[data-variable="secondary"],
-[data-component="button"][data-variable="secondary"] {
-  background-color: var(--atom-button-secondary-background);
-  color: var(--atom-button-secondary-textColor);
-  border-color: var(--atom-button-secondary-borderColor);
-  border-radius: var(--atom-button-secondary-borderRadius);
-  padding: var(--atom-button-secondary-paddingY) var(--atom-button-secondary-paddingX);
-}
-.atom-btn.atom-button--secondary:hover:not(:disabled),
-.atom-btn[data-variable="secondary"]:hover:not(:disabled),
-[data-component="button"][data-variable="secondary"]:hover:not(:disabled) {
-  background-color: var(--atom-button-secondary-hoverBackground);
-}
-
-[data-component="button"][data-variable="pill-cta"],
-.atom-button--pill-cta {
-  --atom-button-pill-cta-background: var(--atom-color-primary);
-  --atom-button-pill-cta-hoverBackground: var(--atom-color-primary-hover);
-  --atom-button-pill-cta-textColor: var(--atom-palette-white);
-  --atom-button-pill-cta-borderColor: var(--atom-color-primary);
-  --atom-button-pill-cta-borderRadius: var(--atom-radius-full);
-  --atom-button-pill-cta-paddingX: var(--atom-space-6);
-  --atom-button-pill-cta-paddingY: var(--atom-space-3);
-}
-
-.atom-btn.atom-button--pill-cta,
-.atom-btn[data-variable="pill-cta"],
-[data-component="button"][data-variable="pill-cta"] {
-  background-color: var(--atom-button-pill-cta-background);
-  color: var(--atom-button-pill-cta-textColor);
-  border-color: var(--atom-button-pill-cta-borderColor);
-  border-radius: var(--atom-button-pill-cta-borderRadius);
-  padding: var(--atom-button-pill-cta-paddingY) var(--atom-button-pill-cta-paddingX);
-}
-.atom-btn.atom-button--pill-cta:hover:not(:disabled),
-.atom-btn[data-variable="pill-cta"]:hover:not(:disabled),
-[data-component="button"][data-variable="pill-cta"]:hover:not(:disabled) {
-  background-color: var(--atom-button-pill-cta-hoverBackground);
-}
-
-[data-component="button"][data-variable="destructive"],
-.atom-button--destructive {
-  --atom-button-destructive-background: var(--atom-color-danger);
-  --atom-button-destructive-hoverBackground: var(--atom-color-danger-hover);
-  --atom-button-destructive-textColor: var(--atom-palette-white);
-  --atom-button-destructive-borderColor: var(--atom-color-danger);
-  --atom-button-destructive-borderRadius: var(--atom-radius-md);
-  --atom-button-destructive-paddingX: var(--atom-space-4);
-  --atom-button-destructive-paddingY: var(--atom-space-2);
-}
-
-.atom-btn.atom-button--destructive,
-.atom-btn[data-variable="destructive"],
-[data-component="button"][data-variable="destructive"] {
-  background-color: var(--atom-button-destructive-background);
-  color: var(--atom-button-destructive-textColor);
-  border-color: var(--atom-button-destructive-borderColor);
-  border-radius: var(--atom-button-destructive-borderRadius);
-  padding: var(--atom-button-destructive-paddingY) var(--atom-button-destructive-paddingX);
-}
-.atom-btn.atom-button--destructive:hover:not(:disabled),
-.atom-btn[data-variable="destructive"]:hover:not(:disabled),
-[data-component="button"][data-variable="destructive"]:hover:not(:disabled) {
-  background-color: var(--atom-button-destructive-hoverBackground);
-}
-
-[data-component="button"][data-variable="ghost"],
-.atom-button--ghost {
-  --atom-button-ghost-background: var(--atom-palette-white);
-  --atom-button-ghost-hoverBackground: var(--atom-palette-gray-50);
-  --atom-button-ghost-textColor: var(--atom-color-primary);
-  --atom-button-ghost-borderColor: var(--atom-color-primary);
-  --atom-button-ghost-borderRadius: var(--atom-radius-md);
-  --atom-button-ghost-paddingX: var(--atom-space-4);
-  --atom-button-ghost-paddingY: var(--atom-space-2);
-}
-
-.atom-btn.atom-button--ghost,
-.atom-btn[data-variable="ghost"],
-[data-component="button"][data-variable="ghost"] {
-  background-color: var(--atom-button-ghost-background);
-  color: var(--atom-button-ghost-textColor);
-  border-color: var(--atom-button-ghost-borderColor);
-  border-radius: var(--atom-button-ghost-borderRadius);
-  padding: var(--atom-button-ghost-paddingY) var(--atom-button-ghost-paddingX);
-}
-.atom-btn.atom-button--ghost:hover:not(:disabled),
-.atom-btn[data-variable="ghost"]:hover:not(:disabled),
-[data-component="button"][data-variable="ghost"]:hover:not(:disabled) {
-  background-color: var(--atom-button-ghost-hoverBackground);
-}
-
-[data-component="button"][data-variable="outline"],
-.atom-button--outline {
-  --atom-button-outline-background: var(--atom-palette-white);
-  --atom-button-outline-hoverBackground: var(--atom-palette-gray-100);
-  --atom-button-outline-textColor: var(--atom-palette-gray-900);
-  --atom-button-outline-borderColor: var(--atom-palette-gray-300);
-  --atom-button-outline-borderRadius: var(--atom-radius-md);
-  --atom-button-outline-paddingX: var(--atom-space-4);
-  --atom-button-outline-paddingY: var(--atom-space-2);
-}
-
-.atom-btn.atom-button--outline,
-.atom-btn[data-variable="outline"],
-[data-component="button"][data-variable="outline"] {
-  background-color: var(--atom-button-outline-background);
-  color: var(--atom-button-outline-textColor);
-  border-color: var(--atom-button-outline-borderColor);
-  border-radius: var(--atom-button-outline-borderRadius);
-  padding: var(--atom-button-outline-paddingY) var(--atom-button-outline-paddingX);
-}
-.atom-btn.atom-button--outline:hover:not(:disabled),
-.atom-btn[data-variable="outline"]:hover:not(:disabled),
-[data-component="button"][data-variable="outline"]:hover:not(:disabled) {
-  background-color: var(--atom-button-outline-hoverBackground);
-}
-
-[data-component="button"][data-variable="success"],
-.atom-button--success {
-  --atom-button-success-background: var(--atom-color-success);
-  --atom-button-success-hoverBackground: var(--atom-color-success-hover);
-  --atom-button-success-textColor: var(--atom-palette-white);
-  --atom-button-success-borderColor: var(--atom-color-success);
-  --atom-button-success-borderRadius: var(--atom-radius-md);
-  --atom-button-success-paddingX: var(--atom-space-4);
-  --atom-button-success-paddingY: var(--atom-space-2);
-}
-
-.atom-btn.atom-button--success,
-.atom-btn[data-variable="success"],
-[data-component="button"][data-variable="success"] {
-  background-color: var(--atom-button-success-background);
-  color: var(--atom-button-success-textColor);
-  border-color: var(--atom-button-success-borderColor);
-  border-radius: var(--atom-button-success-borderRadius);
-  padding: var(--atom-button-success-paddingY) var(--atom-button-success-paddingX);
-}
-.atom-btn.atom-button--success:hover:not(:disabled),
-.atom-btn[data-variable="success"]:hover:not(:disabled),
-[data-component="button"][data-variable="success"]:hover:not(:disabled) {
-  background-color: var(--atom-button-success-hoverBackground);
-}
-
-[data-component="button"][data-variable="warning"],
-.atom-button--warning {
-  --atom-button-warning-background: var(--atom-color-warning);
-  --atom-button-warning-hoverBackground: var(--atom-color-warning-hover);
-  --atom-button-warning-textColor: var(--atom-palette-white);
-  --atom-button-warning-borderColor: var(--atom-color-warning);
-  --atom-button-warning-borderRadius: var(--atom-radius-md);
-  --atom-button-warning-paddingX: var(--atom-space-4);
-  --atom-button-warning-paddingY: var(--atom-space-2);
-}
-
-.atom-btn.atom-button--warning,
-.atom-btn[data-variable="warning"],
-[data-component="button"][data-variable="warning"] {
-  background-color: var(--atom-button-warning-background);
-  color: var(--atom-button-warning-textColor);
-  border-color: var(--atom-button-warning-borderColor);
-  border-radius: var(--atom-button-warning-borderRadius);
-  padding: var(--atom-button-warning-paddingY) var(--atom-button-warning-paddingX);
-}
-.atom-btn.atom-button--warning:hover:not(:disabled),
-.atom-btn[data-variable="warning"]:hover:not(:disabled),
-[data-component="button"][data-variable="warning"]:hover:not(:disabled) {
-  background-color: var(--atom-button-warning-hoverBackground);
 }
 
 [data-component="badge"][data-variable="active"],
@@ -648,24 +501,6 @@
   color: var(--atom-navbar-default-textColor);
 }
 
-[data-component="navbar"][data-variable="floating"],
-.atom-navbar--floating {
-  --atom-navbar-floating-background: var(--atom-palette-white);
-  --atom-navbar-floating-borderColor: var(--atom-palette-gray-300);
-  --atom-navbar-floating-activeText: var(--atom-color-primary);
-  --atom-navbar-floating-textColor: var(--atom-palette-gray-700);
-  --atom-navbar-floating-borderRadius: var(--atom-radius-full);
-}
-
-.atom-navbar.atom-navbar--floating,
-.atom-navbar[data-variable="floating"],
-[data-component="navbar"][data-variable="floating"] {
-  background-color: var(--atom-navbar-floating-background);
-  border-color: var(--atom-navbar-floating-borderColor);
-  border-radius: var(--atom-navbar-floating-borderRadius);
-  color: var(--atom-navbar-floating-textColor);
-}
-
 [data-component="sidebar"][data-variable="default"],
 .atom-sidebar--default {
   --atom-sidebar-default-background: var(--atom-palette-gray-50);
@@ -713,6 +548,114 @@
 }
 
 
+
+:root {
+  --atom-color-primary: {--atom-palette-blue-500};
+  --atom-color-secondary: {--atom-palette-gray-200};
+  --atom-color-success: {--atom-palette-emerald-500};
+  --atom-color-danger: {--atom-palette-rose-500};
+  --atom-color-warning: {--atom-palette-amber-500};
+  --atom-palette-blue-50: #eff6ff;
+  --atom-palette-blue-100: #dbeafe;
+  --atom-palette-blue-200: #bfdbfe;
+  --atom-palette-blue-300: #93c5fd;
+  --atom-palette-blue-400: #60a5fa;
+  --atom-palette-blue-500: #3182f6;
+  --atom-palette-blue-600: #1b64da;
+  --atom-palette-blue-700: #1d4ed8;
+  --atom-palette-blue-800: #1e40af;
+  --atom-palette-blue-900: #1e3a8a;
+  --atom-palette-gray-50: #f8fafc;
+  --atom-palette-gray-100: #f1f5f9;
+  --atom-palette-gray-200: #e2e8f0;
+  --atom-palette-gray-300: #cbd5e1;
+  --atom-palette-gray-400: #94a3b8;
+  --atom-palette-gray-500: #64748b;
+  --atom-palette-gray-600: #475569;
+  --atom-palette-gray-700: #334155;
+  --atom-palette-gray-800: #1e293b;
+  --atom-palette-gray-900: #0f172a;
+  --atom-palette-emerald-50: #ecfdf5;
+  --atom-palette-emerald-100: #d1fae5;
+  --atom-palette-emerald-200: #a7f3d0;
+  --atom-palette-emerald-300: #6ee7b7;
+  --atom-palette-emerald-400: #34d399;
+  --atom-palette-emerald-500: #10b981;
+  --atom-palette-emerald-600: #059669;
+  --atom-palette-emerald-700: #047857;
+  --atom-palette-emerald-800: #065f46;
+  --atom-palette-emerald-900: #064e3b;
+  --atom-palette-rose-50: #fff1f2;
+  --atom-palette-rose-100: #ffe4e6;
+  --atom-palette-rose-200: #fecdd3;
+  --atom-palette-rose-300: #fda4af;
+  --atom-palette-rose-400: #fb7185;
+  --atom-palette-rose-500: #ef4444;
+  --atom-palette-rose-600: #e11d48;
+  --atom-palette-rose-700: #be123c;
+  --atom-palette-rose-800: #9f1239;
+  --atom-palette-rose-900: #881337;
+  --atom-palette-amber-50: #fffbeb;
+  --atom-palette-amber-100: #fef3c7;
+  --atom-palette-amber-200: #fde68a;
+  --atom-palette-amber-300: #fcd34d;
+  --atom-palette-amber-400: #fbbf24;
+  --atom-palette-amber-500: #f59e0b;
+  --atom-palette-amber-600: #d97706;
+  --atom-palette-amber-700: #b45309;
+  --atom-palette-amber-800: #92400e;
+  --atom-palette-amber-900: #78350f;
+  --atom-palette-purple-50: #faf5ff;
+  --atom-palette-purple-100: #f3e8ff;
+  --atom-palette-purple-200: #e9d5ff;
+  --atom-palette-purple-300: #d8b4fe;
+  --atom-palette-purple-400: #c084fc;
+  --atom-palette-purple-500: #8b5cf6;
+  --atom-palette-purple-600: #9333ea;
+  --atom-palette-purple-700: #7e22ce;
+  --atom-palette-purple-800: #6b21a8;
+  --atom-palette-purple-900: #581c87;
+  --atom-palette-white: #ffffff;
+  --atom-palette-black: #000000;
+  --atom-radius-none: 0px;
+  --atom-radius-xs: 2px;
+  --atom-radius-sm: 4px;
+  --atom-radius-md: 8px;
+  --atom-radius-lg: 12px;
+  --atom-radius-xl: 16px;
+  --atom-radius-2xl: 24px;
+  --atom-radius-full: 9999px;
+  --atom-color-primary: var(--atom-palette-blue-500);
+  --atom-color-secondary: var(--atom-palette-gray-200);
+  --atom-color-success: var(--atom-palette-emerald-500);
+  --atom-color-danger: var(--atom-palette-rose-500);
+  --atom-color-warning: var(--atom-palette-amber-500);
+  --atom-space-1: 4px;
+  --atom-space-2: 8px;
+  --atom-space-3: 12px;
+  --atom-space-4: 16px;
+  --atom-space-5: 20px;
+  --atom-space-6: 24px;
+  --atom-space-8: 32px;
+  --atom-space-10: 40px;
+  --atom-space-12: 48px;
+  --atom-space-16: 64px;
+  --atom-space-1-5: 6px;
+  --atom-space-2-5: 10px;
+  --atom-space-3-5: 14px;
+  --atom-typography-xs: 12px;
+  --atom-typography-sm: 14px;
+  --atom-typography-base: 16px;
+  --atom-typography-lg: 18px;
+  --atom-typography-xl: 20px;
+  --atom-typography-2xl: 24px;
+  --atom-typography-3xl: 30px;
+  --atom-typography-4xl: 36px;
+  --atom-font-weight-regular: 400;
+  --atom-font-weight-medium: 500;
+  --atom-font-weight-semibold: 600;
+  --atom-font-weight-bold: 700;
+}
 
 /* === Universal Component Classes === */
 
@@ -1589,4 +1532,23 @@
   padding-left: 1.25rem;
   border-left: 1px dashed var(--atom-border-subtle);
   margin-left: 0.5rem;
+}
+
+
+/* ==========================================================================
+   ATOM-CHART: Vector Data Chart
+   ========================================================================== */
+.atom-chart {
+  position: relative;
+  width: 100%;
+  border-radius: var(--atom-radius-md, 8px);
+  background-color: var(--atom-bg-primary, #ffffff);
+  border: 1px solid var(--atom-border-subtle, #e2e8f0);
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+.atom-chart svg {
+  width: 100%;
+  height: auto;
+  display: block;
 }

@@ -3,6 +3,9 @@ import {
   StudioComponentDefinition,
   SemanticStatusToken,
   INITIAL_SEMANTIC_STATUS_TOKENS,
+  resolveTypeSpec,
+  resolveVariableRole,
+  SEMANTIC_VARIABLE_DICTIONARY,
 } from '@/lib/data/studioData';
 
 export function exportStudioToTokensJson(
@@ -67,9 +70,30 @@ export function exportStudioToTokensJson(
         };
       });
 
+      const typeSpec = resolveTypeSpec(comp.id, v.id, v.name);
+      const role = resolveVariableRole(v.id);
+
       result.components[comp.id].variables[v.id] = {
         name: v.name,
         description: v.description || '',
+        type: {
+          id: typeSpec.id,
+          name: typeSpec.name,
+          whenToUse: typeSpec.whenToUse,
+        },
+        variable: {
+          role: role,
+          label: SEMANTIC_VARIABLE_DICTIONARY[role]?.label || role,
+          meaning: SEMANTIC_VARIABLE_DICTIONARY[role]?.meaning || '',
+        },
+        statuses: {
+          default: { behavior: '표준 background 및 border 토큰 적용' },
+          hover: { behavior: 'hoverBackground 토큰 적용, cursor: pointer' },
+          active: { behavior: 'scale-[0.97] 압축 애니메이션 및 진한 색상 피드백' },
+          focus: { behavior: 'outline 2px solid primary, outline-offset 2px' },
+          disabled: { behavior: 'opacity 40%, cursor: not-allowed' },
+          loading: { behavior: '스피너 인디케이터 회전, pointer-events: none' },
+        },
         tokens: bindingsObj,
       };
     });
@@ -125,7 +149,13 @@ export function exportStudioToCSS(
   css += `  --accent-primary: var(--atom-color-primary);\n`;
   css += `  --accent-primary-hover: var(--atom-color-primary-hover);\n`;
 
-  css += `}\n\n/* === 4. Component Variable Token Scopes & Direct Visual Selectors === */\n`;
+  css += `}\n\n/* === Universal Interaction Status Attributes (Code-Connected Status System) === */\n`;
+  css += `[data-status="hover"], .atom-status--hover { filter: brightness(0.95); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12); cursor: pointer; }\n`;
+  css += `[data-status="active"], .atom-status--active { transform: scale(0.97); filter: brightness(0.9); }\n`;
+  css += `[data-status="focus"], .atom-status--focus { outline: 2px solid var(--accent-primary, var(--atom-color-primary)); outline-offset: 2px; }\n`;
+  css += `[data-status="disabled"], .atom-status--disabled, :disabled { opacity: 0.45 !important; cursor: not-allowed !important; pointer-events: none !important; }\n`;
+  css += `[data-status="loading"], .atom-status--loading { opacity: 0.85 !important; cursor: wait !important; pointer-events: none !important; }\n\n`;
+  css += `/* === 4. Component Variable Token Scopes & Direct Visual Selectors === */\n`;
 
   // Component Scoped CSS Variables & Direct Visual Selectors
   components.forEach((comp) => {

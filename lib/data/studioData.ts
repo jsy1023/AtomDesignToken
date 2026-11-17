@@ -74,10 +74,475 @@ export interface ComponentPropertySpec {
   defaultPaletteId: string;
 }
 
+/**
+ * 1. Type: "~상황에는 이 컴포넌트를 쓴다" 같은 개념
+ * 컴포넌트의 사용 목적 및 맥락에 따른 분류와 사용 가이드라인
+ */
+export interface ComponentTypeSpec {
+  id: string; // e.g. 'primary-cta', 'secondary-action', 'destructive-action', 'indicator-status'
+  name: string; // e.g. '주요 실행 (Primary CTA)', '보조 동작 (Secondary Action)', '위험/삭제 (Destructive)'
+  whenToUse: string; // "~상황에는 이 컴포넌트/타입을 쓴다"
+  whenToUseEn?: string;
+  antiPattern?: string; // "~상황에서는 이 타입을 쓰지 마세요"
+}
+
+/**
+ * 2. Variable: "빨강은 위험, 노랑은 경고, primary는 브랜드" 같은 시맨틱 역할 및 비주얼 의미론
+ */
+export type SemanticVariableRole = 
+  | 'primary'      // 브랜드 대표 컬러 (Primary CTA, 핵심 브랜드 액션)
+  | 'secondary'    // 보조/중립 컬러 (취소, 닫기, 서브 액션)
+  | 'danger'       // 빨강: 치명적 위험, 영구 삭제, 유효성 실패
+  | 'warning'      // 노랑: 주의 환기, 만료 임박, 대기/보류
+  | 'success'      // 초록: 성공, 작업 완료, 승인, 긍정 지표
+  | 'info'         // 파랑/하늘: 일반 안내, 가이드 정보
+  | 'outline'      // 외곽선: 테두리 위주 저강도 액션
+  | 'ghost';       // 고스트: 배경 없는 미니멀 투명 액션
+
+export interface SemanticVariableDefinition {
+  role: SemanticVariableRole;
+  label: string; // e.g. 'Primary (브랜드)', 'Danger (빨강/위험)', 'Warning (노랑/경고)', 'Success (초록/성공)'
+  meaning: string; // e.g. '브랜드 시그니처 컬러를 강조하여 사용자의 시선을 집중시키는 역할'
+  badgeColorClass: string;
+}
+
+export const SEMANTIC_VARIABLE_DICTIONARY: Record<SemanticVariableRole, SemanticVariableDefinition> = {
+  primary: {
+    role: 'primary',
+    label: '프라이머리 (Primary)',
+    meaning: '브랜드 대표 컬러를 적용하여 사용자에게 단 하나의 결정적 목표(결제, 제출, 핵심 액션)를 집중시키는 비주얼 의미',
+    badgeColorClass: 'bg-blue-500/10 text-blue-600 border-blue-500/20 dark:text-blue-400',
+  },
+  secondary: {
+    role: 'secondary',
+    label: '세컨더리 (Secondary)',
+    meaning: '취소, 닫기, 이전 단계 등 사용자 인터랙션을 지원하되 시각적 부담을 줄이는 중립 톤 의미',
+    badgeColorClass: 'bg-gray-500/10 text-gray-600 border-gray-500/20 dark:text-gray-400',
+  },
+  danger: {
+    role: 'danger',
+    label: '위험/에러 (Danger / Destructive)',
+    meaning: '빨강은 위험! 영구 삭제, 계약 해지, 복구 불가 작업 등 치명적 결과를 경고하는 비주얼 의미',
+    badgeColorClass: 'bg-rose-500/10 text-rose-600 border-rose-500/20 dark:text-rose-400',
+  },
+  warning: {
+    role: 'warning',
+    label: '주의/경고 (Warning)',
+    meaning: '노랑은 경고! 주의 환기, 만료 임박, 대기/보류 등 사용자의 추가 확인이 필요한 상황을 알리는 비주얼 의미',
+    badgeColorClass: 'bg-amber-500/10 text-amber-600 border-amber-500/20 dark:text-amber-400',
+  },
+  success: {
+    role: 'success',
+    label: '성공/완료 (Success)',
+    meaning: '초록은 성공! 결제 완료, 정상 가동, 데이터 저장 완료 등 긍정적 결과를 시각화하는 비주얼 의미',
+    badgeColorClass: 'bg-emerald-500/10 text-emerald-600 border-emerald-500/20 dark:text-emerald-400',
+  },
+  info: {
+    role: 'info',
+    label: '안내/정보 (Info)',
+    meaning: '파랑은 안내! 일반 도움말, 신규 기능 배지 등 시스템 정보 고지를 나타내는 비주얼 의미',
+    badgeColorClass: 'bg-sky-500/10 text-sky-600 border-sky-500/20 dark:text-sky-400',
+  },
+  outline: {
+    role: 'outline',
+    label: '외곽선 (Outline)',
+    meaning: '은은한 테두리를 강조하여 배경 채우기 없이 가볍고 정돈된 느낌을 주는 보조 선택 의미',
+    badgeColorClass: 'bg-slate-500/10 text-slate-600 border-slate-500/20 dark:text-slate-400',
+  },
+  ghost: {
+    role: 'ghost',
+    label: '고스트 (Ghost)',
+    meaning: '배경과 테두리가 없는 완전 투명 형태로 호버 시에만 반응하여 주변 시각적 잡음을 최소화하는 의미',
+    badgeColorClass: 'bg-purple-500/10 text-purple-600 border-purple-500/20 dark:text-purple-400',
+  },
+};
+
+/**
+ * 3. Status: "hover, disabled 같은 상태 정보 구조"
+ * UI 컴포넌트의 인터랙션 라이프사이클에 따른 상태 정보
+ */
+export type ComponentInteractiveStatus = 'default' | 'hover' | 'active' | 'focus' | 'disabled' | 'loading';
+
+export interface ComponentStatusSpec {
+  status: ComponentInteractiveStatus;
+  label: string; // '기본 (Default)', '호버 (Hover)', '클릭 (Active)', '포커스 (Focus)', '비활성 (Disabled)', '로딩 (Loading)'
+  description: string;
+  descriptionEn?: string;
+  behavior: string;
+  behaviorEn?: string;
+}
+
+export const COMPONENT_STATUS_PRESETS: ComponentStatusSpec[] = [
+  {
+    status: 'default',
+    label: '기본 (Default)',
+    description: '인터랙션 발생 전의 평상시 상태',
+    descriptionEn: 'Resting state before any user interaction',
+    behavior: '표준 background 및 border 토큰 적용',
+    behaviorEn: 'Standard background and border tokens applied',
+  },
+  {
+    status: 'hover',
+    label: '호버 (Hover)',
+    description: '마우스 포인터가 요소 위에 위치했을 때의 시각적 피드백 상태',
+    descriptionEn: 'Visual feedback state when mouse pointer hovers over element',
+    behavior: 'hoverBackground 토큰 적용, cursor: pointer, 은은한 음영 피드백',
+    behaviorEn: 'hoverBackground token applied, cursor: pointer, subtle shadow',
+  },
+  {
+    status: 'active',
+    label: '클릭 (Active)',
+    description: '마우스 버튼을 누르고 있는 순간의 압축 상태',
+    descriptionEn: 'Pressed state while mouse button or touch is held',
+    behavior: 'scale-[0.97] 압축 애니메이션 및 진한 색상 피드백',
+    behaviorEn: 'scale-[0.97] press animation with emphasized color',
+  },
+  {
+    status: 'focus',
+    label: '포커스 (Focus)',
+    description: '키보드 Tab 접근성 초점이 맞춰진 상태',
+    descriptionEn: 'Accessibility state when keyboard focus is received',
+    behavior: 'outline 2px solid primary, outline-offset 2px 포커스 링 표시',
+    behaviorEn: 'outline 2px solid primary, outline-offset 2px focus ring',
+  },
+  {
+    status: 'disabled',
+    label: '비활성 (Disabled)',
+    description: '입력 미완료 또는 권한 부족으로 사용할 수 없는 상태',
+    descriptionEn: 'Unavailable state due to incomplete input or missing permissions',
+    behavior: 'opacity 40%, cursor: not-allowed, 모든 마우스/키보드 이벤트 차단',
+    behaviorEn: 'opacity 40%, cursor: not-allowed, all mouse/keyboard events blocked',
+  },
+  {
+    status: 'loading',
+    label: '로딩 (Loading)',
+    description: '비동기 통신 또는 작업이 처리 중인 진행 상태',
+    descriptionEn: 'In-progress state during async operations or network requests',
+    behavior: '스피너 인디케이터 표시, pointer-events: none, 중복 클릭 방지',
+    behaviorEn: 'Spinner indicator displayed, pointer-events: none, prevents re-clicks',
+  },
+];
+
+export function resolveVariableRole(variableId: string): SemanticVariableRole {
+  const lower = variableId.toLowerCase();
+  if (lower.includes('destructive') || lower.includes('danger') || lower.includes('error')) return 'danger';
+  if (lower.includes('warning') || lower.includes('pending') || lower.includes('amber')) return 'warning';
+  if (lower.includes('success') || lower.includes('approved') || lower.includes('emerald')) return 'success';
+  if (lower.includes('info') || lower.includes('guide') || lower.includes('sky')) return 'info';
+  if (lower.includes('ghost')) return 'ghost';
+  if (lower.includes('outline')) return 'outline';
+  if (lower.includes('secondary')) return 'secondary';
+  return 'primary';
+}
+
+export function resolveTypeSpec(componentId: string, variableId: string, customName?: string): ComponentTypeSpec {
+  const role = resolveVariableRole(variableId);
+  const comp = componentId.toLowerCase();
+
+  if (comp === 'button') {
+    if (role === 'primary') {
+      return {
+        id: 'primary-cta',
+        name: '주요 실행 (Primary CTA)',
+        whenToUse: '화면에서 사용자가 반드시 도달해야 하는 1순위 핵심 전환 목표(결제, 제출, 가입 등)에 사용합니다.',
+        whenToUseEn: 'Use for the primary, high-priority conversion goal on screen (checkout, submit, sign up).',
+        antiPattern: '한 화면에 여러 개의 Primary 버튼을 나열하면 사용자의 결정 피로를 유발합니다.',
+      };
+    }
+    if (role === 'danger') {
+      return {
+        id: 'destructive-action',
+        name: '위험/삭제 실행 (Destructive Action)',
+        whenToUse: '영구 삭제, 계정 탈퇴, 복구 불가능한 데이터 폐기 등 위험하고 치명적인 작업을 실행할 때 사용합니다.',
+        whenToUseEn: 'Use for hazardous or irreversible actions such as permanent deletion or account termination.',
+        antiPattern: '단순한 취소나 뒤로 가기 동작에 붉은색 파괴적 버튼을 사용하지 마세요.',
+      };
+    }
+    if (role === 'warning') {
+      return {
+        id: 'caution-action',
+        name: '주의 환기 (Caution / Warning Action)',
+        whenToUse: '비용 발생 경고, 설정 임시 중단, 주의가 필요한 조건부 승인에 사용합니다.',
+        whenToUseEn: 'Use for actions requiring caution, cost warnings, or temporary suspension.',
+      };
+    }
+    if (role === 'success') {
+      return {
+        id: 'confirm-action',
+        name: '승인/완료 실행 (Confirm / Success Action)',
+        whenToUse: '결제 최종 승인, 가입 완료, 변경 사항 확정 등 긍정적 액션에 사용합니다.',
+        whenToUseEn: 'Use for positive completion actions like final payment approval or confirmation.',
+      };
+    }
+    if (role === 'secondary') {
+      return {
+        id: 'secondary-action',
+        name: '보조 동작 (Secondary Action)',
+        whenToUse: '취소, 닫기, 이전 단계로 돌아가기 등 주요 액션을 보조하는 상황에 사용합니다.',
+        whenToUseEn: 'Use for supporting actions like cancel, close, or navigating back.',
+      };
+    }
+    if (role === 'ghost') {
+      return {
+        id: 'subtle-action',
+        name: '미니멀 저강도 액션 (Ghost / Subtle)',
+        whenToUse: '테이블 행 내 옵션 메뉴, 툴바의 도구 선택 등 시각적 간섭을 최소화해야 하는 맥락에 사용합니다.',
+        whenToUseEn: 'Use in table rows or toolbars where visual noise should be minimized.',
+      };
+    }
+    return {
+      id: 'standard-action',
+      name: '외곽선 보조 액션 (Outline Action)',
+      whenToUse: '필터 열기, 다운로드 등 2차 액션의 경계를 가볍게 강조할 때 사용합니다.',
+      whenToUseEn: 'Use to subtly highlight borders of secondary actions like filters or downloads.',
+    };
+  }
+
+  if (comp === 'badge') {
+    if (role === 'danger') {
+      return {
+        id: 'error-status',
+        name: '에러/위험 상태 (Error Status)',
+        whenToUse: '서비스 장애, 결제 실패, 유효기간 만료 등 긴급 조치가 필요한 상황에 사용합니다.',
+      };
+    }
+    if (role === 'warning') {
+      return {
+        id: 'pending-status',
+        name: '검토/대기 상태 (Warning / Pending)',
+        whenToUse: '승인 대기 중, 검토 필요, 잔여 일수 임박 등 주의를 요구하는 상황에 사용합니다.',
+      };
+    }
+    if (role === 'success') {
+      return {
+        id: 'success-status',
+        name: '정상/성공 상태 (Active / Success)',
+        whenToUse: '서비스 활성(Active), 결제 완료, 인증 성공 등 정상 운영 상태에 사용합니다.',
+      };
+    }
+    return {
+      id: 'info-tag',
+      name: '카테고리/라벨 태그 (Category / Label Tag)',
+      whenToUse: '항목의 카테고리, 버전 태그, 신규(New) 지표를 간결하게 표현할 때 사용합니다.',
+    };
+  }
+
+  if (comp === 'input' || comp === 'textarea') {
+    if (role === 'danger') {
+      return {
+        id: 'error-input',
+        name: '유효성 오류 입력 (Validation Error)',
+        whenToUse: '필수 항목 누락, 형식 불일치 등 사용자의 즉각적인 수정이 필요한 상황에 사용합니다.',
+        antiPattern: '오류 메시지 없이 테두리만 붉게 표시하지 마세요.',
+      };
+    }
+    if (role === 'success') {
+      return {
+        id: 'success-input',
+        name: '검증 완료 입력 (Validation Success)',
+        whenToUse: '아이디 중복 검사 통과, 보안 비밀번호 충족 등 유효성 검증이 완료된 상황에 사용합니다.',
+      };
+    }
+    return {
+      id: 'default-input',
+      name: '표준 텍스트 입력 (Standard Field)',
+      whenToUse: '일반적인 텍스트, 이메일, 검색어, 숫자 등의 데이터를 입력받는 상황에 사용합니다.',
+    };
+  }
+
+  if (comp === 'chart') {
+    if (role === 'success') {
+      return {
+        id: 'growth-metric',
+        name: '성장 지표 트렌드 (Growth Metric)',
+        whenToUse: '매출 성장, 활성 사용자 증가, 목표 달성 등 긍정적 성과를 시각화할 때 사용합니다.',
+        whenToUseEn: 'Use to visualize positive outcomes like revenue growth or target completion.',
+      };
+    }
+    if (role === 'danger') {
+      return {
+        id: 'alert-metric',
+        name: '위험/손실 경고 (Risk / Deficit Alert)',
+        whenToUse: '서버 장애율, 손실액 증가, 병목 구간 등 즉각적인 조치가 필요한 이상 지표에 사용합니다.',
+        whenToUseEn: 'Use for anomaly metrics like incident rates or deficit increases needing action.',
+      };
+    }
+    if (variableId.includes('bar')) {
+      return {
+        id: 'category-comparison',
+        name: '항목별 실적 비교 (Category Comparison)',
+        whenToUse: '월별 실적이나 부서별 데이터 등 카테고리 간의 수치를 명확하게 대조할 때 사용합니다.',
+        whenToUseEn: 'Use to clearly compare values across distinct categories or time periods.',
+      };
+    }
+    if (variableId.includes('area')) {
+      return {
+        id: 'volume-trend',
+        name: '누적 볼륨 추세 (Cumulative Volume)',
+        whenToUse: '트래픽 누적량, 총 거래액 등 면적과 볼륨감을 함께 강조해야 하는 지표에 사용합니다.',
+        whenToUseEn: 'Use for metrics emphasizing volume such as cumulative traffic or total volume.',
+      };
+    }
+    return {
+      id: 'trend-tracking',
+      name: '시계열 추세 추적 (TimeSeries Trend)',
+      whenToUse: '주가, 온도, 성능 지표 등 시간 흐름에 따른 연속적 데이터 변화를 모니터링할 때 사용합니다.',
+      whenToUseEn: 'Use to monitor continuous data changes over time such as performance or prices.',
+    };
+  }
+
+  if (comp === 'offcanvas') {
+    if (variableId.includes('left') || variableId.includes('nav')) {
+      return {
+        id: 'mobile-navigation',
+        name: '모바일 탐색 서랍 (Mobile Navigation Drawer)',
+        whenToUse: '모바일 뷰포트나 좁은 화면에서 글로벌 네비게이션 메뉴를 슬라이드로 제공할 때 사용합니다.',
+        whenToUseEn: 'Use to provide global navigation menus via slide-out drawer on mobile or narrow screens.',
+      };
+    }
+    if (variableId.includes('bottom') || variableId.includes('sheet')) {
+      return {
+        id: 'bottom-filter-sheet',
+        name: '하단 필터/작업 시트 (Bottom Filter Sheet)',
+        whenToUse: '모바일 엄지 영역에 최적화된 필터 설정, 정렬 옵션, 부가 작업 액션을 노출할 때 사용합니다.',
+        whenToUseEn: 'Use for filter controls, sorting options, or supplementary actions optimized for thumb reach.',
+      };
+    }
+    if (variableId.includes('settings')) {
+      return {
+        id: 'settings-inspector',
+        name: '환경설정 슬라이드오버 (Settings Slide-over)',
+        whenToUse: '사용자 환경설정, 테마 조정, 시스템 파라미터 변경 등 보조 설정 작업을 분리하여 제공할 때 사용합니다.',
+        whenToUseEn: 'Use for secondary configuration tasks like user preferences, theme controls, or system params.',
+      };
+    }
+    return {
+      id: 'detail-inspector',
+      name: '상세정보 인스펙터 (Detail Inspector Drawer)',
+      whenToUse: '테이블이나 리스트의 특정 항목을 선택했을 때 현재 화면 컨텍스트를 유지한 채 세부 속성을 검토하고 편집할 때 사용합니다.',
+      whenToUseEn: 'Use to review and edit item details in a side panel without leaving the current list context.',
+    };
+  }
+
+  if (comp === 'toast') {
+    if (role === 'success' || variableId.includes('success')) {
+      return {
+        id: 'success-feedback',
+        name: '성공 완료 피드백 (Operation Success)',
+        whenToUse: '데이터 저장, 전송 완료, 항목 생성 등 사용자의 작업이 성공적으로 처리되었음을 신속히 피드백할 때 사용합니다.',
+        whenToUseEn: 'Use to quickly inform users of successful operations like data saved, sent, or created.',
+      };
+    }
+    if (role === 'warning' || variableId.includes('warning')) {
+      return {
+        id: 'warning-alert',
+        name: '주의 요망 알림 (Warning Caution)',
+        whenToUse: '네트워크 지연, 세션 만료 임박, 저장되지 않은 변경사항 등 주의가 필요한 비치명적 상황에 사용합니다.',
+        whenToUseEn: 'Use for non-fatal situations requiring attention such as expiring sessions or network latency.',
+      };
+    }
+    if (role === 'danger' || variableId.includes('danger') || variableId.includes('error')) {
+      return {
+        id: 'error-alert',
+        name: '오류 발생 경고 (Error Alert)',
+        whenToUse: '요청 실패, 인증 오류, 유효성 검증 실패 등 즉각적인 재시도나 확인이 필요한 긴급 문제에 사용합니다.',
+        whenToUseEn: 'Use for critical failures like request errors or authentication issues requiring user action.',
+      };
+    }
+    if (variableId.includes('action') || variableId.includes('undo')) {
+      return {
+        id: 'action-undo',
+        name: '액션 실행 취소 (Action with Undo)',
+        whenToUse: '항목 삭제나 이동 후 일정 시간 동안 사용자가 해당 작업을 되돌릴 수 있는 Undo 버튼을 제공할 때 사용합니다.',
+        whenToUseEn: 'Use when providing an interactive Undo button after actions like item deletion or movement.',
+      };
+    }
+    return {
+      id: 'info-notification',
+      name: '일반 안내 알림 (Informational Notification)',
+      whenToUse: '시스템 업데이트, 클립보드 복사 완료, 새로운 알림 수신 등 일반적인 상태 정보를 사용자에게 안내할 때 사용합니다.',
+      whenToUseEn: 'Use to convey general status information such as clipboard copy or system notices.',
+    };
+  }
+
+  return {
+    id: `${comp}-${variableId}`,
+    name: customName || `${variableId} 타입`,
+    whenToUse: `해당 컴포넌트의 ${variableId} 스타일이 필요한 화면 맥락에 사용합니다.`,
+  };
+}
+
+/**
+ * 각 상태(Status)별로 수정 가능한 토큰 프로퍼티 목록을 반환하는 함수
+ * - Default: 표준 배경, 텍스트, 테두리, 곡률, 여백
+ * - Hover: 마우스 오버 시 피드백 토큰 (hoverBackground, hoverTextColor, hoverBorderColor)
+ * - Active: 클릭 시 피드백 토큰 (activeBackground, activeTextColor, activeBorderColor)
+ * - Focus: 키보드 포커스 링 토큰 (focusBorderColor, focusBackground)
+ * - Disabled: 비활성 시 차단 토큰 (disabledBackground, disabledTextColor, disabledBorderColor)
+ */
+export function getComponentStatusProperties(
+  componentId: string,
+  status: ComponentInteractiveStatus | 'all',
+  baseProperties: ComponentPropertySpec[] = []
+): ComponentPropertySpec[] {
+  if (status === 'default') {
+    return baseProperties.filter(
+      (p) =>
+        !p.key.startsWith('hover') &&
+        !p.key.startsWith('active') &&
+        !p.key.startsWith('focus') &&
+        !p.key.startsWith('disabled')
+    );
+  }
+
+  if (status === 'hover') {
+    return [
+      { key: 'hoverBackground', label: '호버 배경색 (Hover BG)', category: 'color', defaultPaletteId: '--atom-palette-blue-600' },
+      { key: 'hoverTextColor', label: '호버 텍스트 (Hover Text)', category: 'color', defaultPaletteId: '--atom-palette-white' },
+      { key: 'hoverBorderColor', label: '호버 테두리 (Hover Border)', category: 'color', defaultPaletteId: '--atom-palette-blue-600' },
+    ];
+  }
+
+  if (status === 'active') {
+    return [
+      { key: 'activeBackground', label: '클릭 시 배경색 (Active BG)', category: 'color', defaultPaletteId: '--atom-palette-blue-700' },
+      { key: 'activeTextColor', label: '클릭 시 텍스트 (Active Text)', category: 'color', defaultPaletteId: '--atom-palette-white' },
+      { key: 'activeBorderColor', label: '클릭 시 테두리 (Active Border)', category: 'color', defaultPaletteId: '--atom-palette-blue-700' },
+    ];
+  }
+
+  if (status === 'focus') {
+    return [
+      { key: 'focusBorderColor', label: '포커스 링 / 테두리 (Focus Border)', category: 'color', defaultPaletteId: '--atom-color-primary' },
+      { key: 'focusBackground', label: '포커스 배경색 (Focus BG)', category: 'color', defaultPaletteId: '--atom-palette-white' },
+    ];
+  }
+
+  if (status === 'disabled') {
+    return [
+      { key: 'disabledBackground', label: '비활성 배경색 (Disabled BG)', category: 'color', defaultPaletteId: '--atom-palette-gray-200' },
+      { key: 'disabledTextColor', label: '비활성 텍스트 (Disabled Text)', category: 'color', defaultPaletteId: '--atom-palette-gray-400' },
+      { key: 'disabledBorderColor', label: '비활성 테두리 (Disabled Border)', category: 'color', defaultPaletteId: '--atom-palette-gray-200' },
+    ];
+  }
+
+  if (status === 'loading') {
+    return [
+      { key: 'loadingSpinnerColor', label: '로딩 스피너 색상 (Spinner Color)', category: 'color', defaultPaletteId: '--atom-palette-white' },
+      { key: 'background', label: '로딩 시 배경색 (Loading BG)', category: 'color', defaultPaletteId: '--atom-color-primary' },
+    ];
+  }
+
+  return baseProperties;
+}
+
 export interface ComponentVariable {
   id: string; // e.g. 'primary', 'pill', 'compact'
   name: string; // e.g. 'Primary Button', 'Rounded Pill'
   description?: string;
+  type?: ComponentTypeSpec; // 1. Type: ~상황에는 이 컴포넌트를 쓴다
+  variableRole?: SemanticVariableRole; // 2. Variable: 빨강=위험, 노랑=경고, primary=브랜드
+  supportedStatuses?: ComponentInteractiveStatus[]; // 3. Status: 지원하는 상태 구조
   tokenBindings: Record<string, string>; // propertyKey -> paletteVariableId
 }
 
@@ -86,6 +551,12 @@ export interface StudioComponentDefinition {
   name: string;
   category: 'Form' | 'Layout' | 'Feedback' | 'Navigation' | 'Data';
   description: string;
+  typeGuide?: {
+    primaryType: string;
+    whenToUse: string;
+    variantsSummary: string;
+  };
+  supportedStatuses?: ComponentInteractiveStatus[];
   properties: ComponentPropertySpec[];
   variables: ComponentVariable[];
 }
@@ -770,30 +1241,56 @@ export const INITIAL_STUDIO_COMPONENTS: StudioComponentDefinition[] = [
     ],
   },
 
-  // 12. Sidebar (Side Navigation)
+  // 12. Sidebar & SideMenu (Side Navigation System)
   {
     id: 'sidebar',
-    name: 'Sidebar (사이드 네비게이션)',
+    name: 'Sidebar & SideMenu (사이드바 / 사이드메뉴)',
     category: 'Navigation',
-    description: '업무용 대시보드 및 복잡한 웹 앱의 계층형 메뉴를 제공하는 사이드바',
+    description: '좌측 계층 메뉴, 2-Depth 아코디언 서브메뉴(SidebarSubMenu), 프로젝트 스위처 및 접기/펼치기를 제공하는 사이드 네비게이션 시스템',
     properties: [
-      { key: 'background', label: '배경 색상 (Background)', category: 'color', defaultPaletteId: '--atom-palette-gray-50' },
-      { key: 'borderColor', label: '우측 테두리 (Border Color)', category: 'color', defaultPaletteId: '--atom-palette-gray-200' },
-      { key: 'activeBackground', label: '활성 아이템 배경 (Active BG)', category: 'color', defaultPaletteId: '--atom-color-primary' },
-      { key: 'activeText', label: '활성 아이템 텍스트 (Active Text)', category: 'color', defaultPaletteId: '--atom-palette-white' },
+      { key: 'background', label: '사이드바 배경 (Background)', category: 'color', defaultPaletteId: '--atom-palette-gray-50' },
+      { key: 'borderColor', label: '경계 테두리 (Border Color)', category: 'color', defaultPaletteId: '--atom-palette-gray-200' },
+      { key: 'activeBackground', label: '활성 메뉴 배경 (Active BG)', category: 'color', defaultPaletteId: '--atom-color-primary' },
+      { key: 'activeText', label: '활성 메뉴 텍스트 (Active Text)', category: 'color', defaultPaletteId: '--atom-palette-white' },
       { key: 'textColor', label: '기본 메뉴 텍스트 (Text Color)', category: 'color', defaultPaletteId: '--atom-palette-gray-700' },
-      { key: 'borderRadius', label: '아이템 곡률 (Item Radius)', category: 'radius', defaultPaletteId: '--atom-radius-sm' },
+      { key: 'borderRadius', label: '아이템 곡률 (Border Radius)', category: 'radius', defaultPaletteId: '--atom-radius-sm' },
     ],
     variables: [
       {
         id: 'default',
-        name: '엔터프라이즈 사이드바 (Enterprise)',
-        description: '좌측 고정형 계층 네비게이션 및 세련된 활성 하이라이트',
+        name: '표준 엔터프라이즈 (Standard Enterprise)',
+        description: '좌측 고정형 계층 네비게이션 및 세련된 솔리드 활성 하이라이트',
         tokenBindings: {
           background: '--atom-palette-gray-50',
           borderColor: '--atom-palette-gray-200',
           activeBackground: '--atom-color-primary',
           activeText: '--atom-palette-white',
+          textColor: '--atom-palette-gray-700',
+          borderRadius: '--atom-radius-sm',
+        },
+      },
+      {
+        id: 'pills',
+        name: '알약형 라운드 메뉴 (Pills Highlight)',
+        description: '둥근 알약형 메뉴 아이템 곡률과 현대적인 여백 스타일',
+        tokenBindings: {
+          background: '--atom-palette-white',
+          borderColor: '--atom-palette-gray-200',
+          activeBackground: '--atom-color-primary',
+          activeText: '--atom-palette-white',
+          textColor: '--atom-palette-gray-700',
+          borderRadius: '--atom-radius-full',
+        },
+      },
+      {
+        id: 'bordered',
+        name: '좌측 액센트 보더 (Accent Border)',
+        description: '좌측 세로 강조 보더와 옅은 배경의 포멀한 사이드바 스타일',
+        tokenBindings: {
+          background: '--atom-palette-gray-50',
+          borderColor: '--atom-palette-gray-200',
+          activeBackground: '--atom-palette-blue-50',
+          activeText: '--atom-color-primary',
           textColor: '--atom-palette-gray-700',
           borderRadius: '--atom-radius-sm',
         },
@@ -809,6 +1306,691 @@ export const INITIAL_STUDIO_COMPONENTS: StudioComponentDefinition[] = [
           activeText: '--atom-palette-white',
           textColor: '--atom-palette-gray-700',
           borderRadius: '--atom-radius-lg',
+        },
+      },
+    ],
+  },
+
+  // 13. Nav (Universal Navigation: Nav, NavItem, NavLink)
+  {
+    id: 'nav',
+    name: 'Nav & NavItem (유니버설 탐색)',
+    category: 'Navigation',
+    description: '화면 내 탭, 알약형 필터, 세그먼트 분할 바 등 다목적 메뉴를 구성하는 탐색 원자 (Nav, NavItem, NavLink)',
+    properties: [
+      { key: 'activeBackground', label: '활성 아이템 배경 (Active BG)', category: 'color', defaultPaletteId: '--atom-color-primary' },
+      { key: 'activeText', label: '활성 아이템 텍스트 (Active Text)', category: 'color', defaultPaletteId: '--atom-palette-white' },
+      { key: 'textColor', label: '기본 텍스트 색상 (Text Color)', category: 'color', defaultPaletteId: '--atom-palette-gray-600' },
+      { key: 'borderRadius', label: '아이템 모서리 곡률 (Border Radius)', category: 'radius', defaultPaletteId: '--atom-radius-sm' },
+      { key: 'paddingX', label: '가로 패딩 (Padding X)', category: 'spacing', defaultPaletteId: '--atom-space-3' },
+      { key: 'paddingY', label: '세로 패딩 (Padding Y)', category: 'spacing', defaultPaletteId: '--atom-space-1' },
+    ],
+    variables: [
+      {
+        id: 'pills',
+        name: '알약형 필터 (Pills)',
+        description: '카테고리 선택 및 필터링에 적합한 알약형 네비게이션',
+        tokenBindings: {
+          activeBackground: '--atom-color-primary',
+          activeText: '--atom-palette-white',
+          textColor: '--atom-palette-gray-600',
+          borderRadius: '--atom-radius-full',
+          paddingX: '--atom-space-3',
+          paddingY: '--atom-space-1',
+        },
+      },
+      {
+        id: 'segmented',
+        name: '세그먼트 컨트롤 (Segmented)',
+        description: '박스형 분할 토글 컨트롤 스타일 네비게이션',
+        tokenBindings: {
+          activeBackground: '--atom-color-primary',
+          activeText: '--atom-palette-white',
+          textColor: '--atom-palette-gray-600',
+          borderRadius: '--atom-radius-sm',
+          paddingX: '--atom-space-3',
+          paddingY: '--atom-space-1',
+        },
+      },
+      {
+        id: 'default',
+        name: '기본 텍스트 링크 (Default)',
+        description: '상단 바나 서브메뉴의 기본 텍스트 링크 네비게이션',
+        tokenBindings: {
+          activeBackground: '--atom-palette-gray-200',
+          activeText: '--atom-palette-gray-900',
+          textColor: '--atom-palette-gray-600',
+          borderRadius: '--atom-radius-sm',
+          paddingX: '--atom-space-3',
+          paddingY: '--atom-space-1',
+        },
+      },
+      {
+        id: 'tabs',
+        name: '언더라인 탭 (Tabs)',
+        description: '하단 경계 보더와 활성 밑줄 하이라이트',
+        tokenBindings: {
+          activeBackground: '--atom-palette-white',
+          activeText: '--atom-color-primary',
+          textColor: '--atom-palette-gray-600',
+          borderRadius: '--atom-radius-none',
+          paddingX: '--atom-space-4',
+          paddingY: '--atom-space-2',
+        },
+      },
+    ],
+  },
+
+  // 14. Checkbox (Form Control)
+  {
+    id: 'checkbox',
+    name: 'Checkbox (체크박스)',
+    category: 'Form',
+    description: '단일 또는 다중 항목 선택을 위한 접근성 준수 체크박스',
+    properties: [
+      { key: 'checkedBackground', label: '선택 시 배경 (Checked BG)', category: 'color', defaultPaletteId: '--atom-color-primary' },
+      { key: 'borderColor', label: '테두리 색상 (Border Color)', category: 'color', defaultPaletteId: '--atom-palette-gray-300' },
+      { key: 'borderRadius', label: '모서리 곡률 (Border Radius)', category: 'radius', defaultPaletteId: '--atom-radius-sm' },
+      { key: 'textColor', label: '라벨 텍스트 (Label Text)', category: 'color', defaultPaletteId: '--atom-palette-gray-800' },
+    ],
+    variables: [
+      {
+        id: 'default',
+        name: '표준 사각 체크박스 (Default)',
+        description: '작은 곡률의 표준 체크박스',
+        tokenBindings: {
+          checkedBackground: '--atom-color-primary',
+          borderColor: '--atom-palette-gray-300',
+          borderRadius: '--atom-radius-sm',
+          textColor: '--atom-palette-gray-800',
+        },
+      },
+      {
+        id: 'rounded',
+        name: '완전 둥근 체크박스 (Rounded)',
+        description: '원형에 가까운 부드러운 체크박스',
+        tokenBindings: {
+          checkedBackground: '--atom-color-primary',
+          borderColor: '--atom-palette-gray-300',
+          borderRadius: '--atom-radius-full',
+          textColor: '--atom-palette-gray-800',
+        },
+      },
+    ],
+  },
+
+  // 15. Select (Form Control)
+  {
+    id: 'select',
+    name: 'Select (선택 상자)',
+    category: 'Form',
+    description: '드롭다운 옵션 선택을 제공하는 네이티브 셀렉트 컨트롤',
+    properties: [
+      { key: 'background', label: '배경 색상 (Background)', category: 'color', defaultPaletteId: '--atom-palette-white' },
+      { key: 'borderColor', label: '테두리 색상 (Border Color)', category: 'color', defaultPaletteId: '--atom-palette-gray-300' },
+      { key: 'textColor', label: '텍스트 색상 (Text Color)', category: 'color', defaultPaletteId: '--atom-palette-gray-800' },
+      { key: 'borderRadius', label: '모서리 곡률 (Border Radius)', category: 'radius', defaultPaletteId: '--atom-radius-sm' },
+      { key: 'padding', label: '패딩 (Padding)', category: 'spacing', defaultPaletteId: '--atom-space-2' },
+    ],
+    variables: [
+      {
+        id: 'default',
+        name: '표준 셀렉트 (Default)',
+        description: '입력 폼의 기본 드롭다운 상자',
+        tokenBindings: {
+          background: '--atom-palette-white',
+          borderColor: '--atom-palette-gray-300',
+          textColor: '--atom-palette-gray-800',
+          borderRadius: '--atom-radius-sm',
+          padding: '--atom-space-2',
+        },
+      },
+    ],
+  },
+
+  // 16. Radio (Form Control)
+  {
+    id: 'radio',
+    name: 'Radio (라디오 버튼)',
+    category: 'Form',
+    description: '단일 배타적 항목 선택을 위한 원형 라디오 인디케이터',
+    properties: [
+      { key: 'activeColor', label: '활성 색상 (Active Color)', category: 'color', defaultPaletteId: '--atom-color-primary' },
+      { key: 'borderColor', label: '테두리 색상 (Border Color)', category: 'color', defaultPaletteId: '--atom-palette-gray-300' },
+      { key: 'textColor', label: '라벨 텍스트 (Label Text)', category: 'color', defaultPaletteId: '--atom-palette-gray-800' },
+    ],
+    variables: [
+      {
+        id: 'default',
+        name: '표준 라디오 (Default)',
+        description: '기본 단일 선택 원형 라디오 버튼',
+        tokenBindings: {
+          activeColor: '--atom-color-primary',
+          borderColor: '--atom-palette-gray-300',
+          textColor: '--atom-palette-gray-800',
+        },
+      },
+    ],
+  },
+
+  // 17. Slider (Form Control)
+  {
+    id: 'slider',
+    name: 'Slider (범위 슬라이더)',
+    category: 'Form',
+    description: '연속적 범위 값 조절을 위한 슬라이더 바',
+    properties: [
+      { key: 'trackBackground', label: '트랙 배경 (Track BG)', category: 'color', defaultPaletteId: '--atom-palette-gray-200' },
+      { key: 'activeTrack', label: '활성 트랙 (Active Track)', category: 'color', defaultPaletteId: '--atom-color-primary' },
+      { key: 'thumbBackground', label: '핸들 색상 (Thumb BG)', category: 'color', defaultPaletteId: '--atom-palette-white' },
+      { key: 'thumbBorder', label: '핸들 테두리 (Thumb Border)', category: 'color', defaultPaletteId: '--atom-color-primary' },
+    ],
+    variables: [
+      {
+        id: 'default',
+        name: '표준 슬라이더 (Default)',
+        description: '기본 단일 핸들 수평 슬라이더',
+        tokenBindings: {
+          trackBackground: '--atom-palette-gray-200',
+          activeTrack: '--atom-color-primary',
+          thumbBackground: '--atom-palette-white',
+          thumbBorder: '--atom-color-primary',
+        },
+      },
+    ],
+  },
+
+  // 18. Progress (Feedback)
+  {
+    id: 'progress',
+    name: 'Progress (진행 상태 바)',
+    category: 'Feedback',
+    description: '작업 진행률 및 퍼센티지를 시각화하는 인디케이터',
+    properties: [
+      { key: 'background', label: '트랙 배경 (Track BG)', category: 'color', defaultPaletteId: '--atom-palette-gray-200' },
+      { key: 'fillColor', label: '진행 색상 (Fill Color)', category: 'color', defaultPaletteId: '--atom-color-primary' },
+      { key: 'borderRadius', label: '모서리 곡률 (Border Radius)', category: 'radius', defaultPaletteId: '--atom-radius-full' },
+    ],
+    variables: [
+      {
+        id: 'default',
+        name: '기본 진행 바 (Default)',
+        description: '브랜드 메인 컬러의 진행 바',
+        tokenBindings: {
+          background: '--atom-palette-gray-200',
+          fillColor: '--atom-color-primary',
+          borderRadius: '--atom-radius-full',
+        },
+      },
+      {
+        id: 'success',
+        name: '완료 진행 바 (Success)',
+        description: '성공 상태 녹색 진행 바',
+        tokenBindings: {
+          background: '--atom-palette-gray-200',
+          fillColor: '--atom-palette-emerald-500',
+          borderRadius: '--atom-radius-full',
+        },
+      },
+    ],
+  },
+
+  // 19. Skeleton (Feedback)
+  {
+    id: 'skeleton',
+    name: 'Skeleton (스켈레톤 로더)',
+    category: 'Feedback',
+    description: '콘텐츠 로딩 중 레이아웃 쉬프트를 방지하는 펄스 플레이스홀더',
+    properties: [
+      { key: 'background', label: '베이스 색상 (Background)', category: 'color', defaultPaletteId: '--atom-palette-gray-200' },
+      { key: 'borderRadius', label: '모서리 곡률 (Border Radius)', category: 'radius', defaultPaletteId: '--atom-radius-sm' },
+    ],
+    variables: [
+      {
+        id: 'default',
+        name: '텍스트 스켈레톤 (Text Line)',
+        description: '일반 텍스트 라인 플레이스홀더',
+        tokenBindings: {
+          background: '--atom-palette-gray-200',
+          borderRadius: '--atom-radius-sm',
+        },
+      },
+      {
+        id: 'circle',
+        name: '원형 스켈레톤 (Circle Avatar)',
+        description: '아바타 및 아이콘용 원형 플레이스홀더',
+        tokenBindings: {
+          background: '--atom-palette-gray-200',
+          borderRadius: '--atom-radius-full',
+        },
+      },
+    ],
+  },
+
+  // 20. Tooltip (Feedback)
+  {
+    id: 'tooltip',
+    name: 'Tooltip (툴팁 말풍선)',
+    category: 'Feedback',
+    description: '마우스 호버 또는 포커스 시 부가 설명을 띄워주는 팝오버',
+    properties: [
+      { key: 'background', label: '배경 색상 (Background)', category: 'color', defaultPaletteId: '--atom-palette-gray-900' },
+      { key: 'textColor', label: '텍스트 색상 (Text Color)', category: 'color', defaultPaletteId: '--atom-palette-white' },
+      { key: 'borderRadius', label: '모서리 곡률 (Border Radius)', category: 'radius', defaultPaletteId: '--atom-radius-sm' },
+    ],
+    variables: [
+      {
+        id: 'default',
+        name: '다크 툴팁 (Dark)',
+        description: '고대비 어두운 배경의 말풍선',
+        tokenBindings: {
+          background: '--atom-palette-gray-900',
+          textColor: '--atom-palette-white',
+          borderRadius: '--atom-radius-sm',
+        },
+      },
+      {
+        id: 'light',
+        name: '라이트 툴팁 (Light)',
+        description: '밝은 배경과 옅은 보더의 말풍선',
+        tokenBindings: {
+          background: '--atom-palette-white',
+          textColor: '--atom-palette-gray-800',
+          borderRadius: '--atom-radius-sm',
+        },
+      },
+    ],
+  },
+
+  // 21. Accordion (Data)
+  {
+    id: 'accordion',
+    name: 'Accordion (아코디언 접기)',
+    category: 'Data',
+    description: 'FAQ 및 문서의 섹션별 접기/펼치기 인터랙티브 컴포넌트',
+    properties: [
+      { key: 'borderColor', label: '구분선 색상 (Border Color)', category: 'color', defaultPaletteId: '--atom-palette-gray-200' },
+      { key: 'textColor', label: '헤더 텍스트 (Header Text)', category: 'color', defaultPaletteId: '--atom-palette-gray-900' },
+      { key: 'contentColor', label: '본문 텍스트 (Content Text)', category: 'color', defaultPaletteId: '--atom-palette-gray-600' },
+    ],
+    variables: [
+      {
+        id: 'default',
+        name: '클래식 언더라인 (Default)',
+        description: '하단 구분선만 있는 깔끔한 아코디언',
+        tokenBindings: {
+          borderColor: '--atom-palette-gray-200',
+          textColor: '--atom-palette-gray-900',
+          contentColor: '--atom-palette-gray-600',
+        },
+      },
+    ],
+  },
+
+  // 22. Breadcrumb (Navigation)
+  {
+    id: 'breadcrumb',
+    name: 'Breadcrumb (경로 탐색)',
+    category: 'Navigation',
+    description: '페이지 계층 구조와 현재 위치를 표시하는 경로 표시기',
+    properties: [
+      { key: 'textColor', label: '링크 텍스트 (Link Text)', category: 'color', defaultPaletteId: '--atom-palette-gray-500' },
+      { key: 'activeColor', label: '현재 위치 (Active Text)', category: 'color', defaultPaletteId: '--atom-palette-gray-900' },
+      { key: 'separatorColor', label: '구분자 색상 (Separator)', category: 'color', defaultPaletteId: '--atom-palette-gray-400' },
+    ],
+    variables: [
+      {
+        id: 'default',
+        name: '표준 브레드크럼 (Default)',
+        description: '슬래시(/) 구분자를 포함한 텍스트 경로',
+        tokenBindings: {
+          textColor: '--atom-palette-gray-500',
+          activeColor: '--atom-palette-gray-900',
+          separatorColor: '--atom-palette-gray-400',
+        },
+      },
+    ],
+  },
+
+  // 23. Pagination (Navigation)
+  {
+    id: 'pagination',
+    name: 'Pagination (페이지네이션)',
+    category: 'Navigation',
+    description: '대용량 데이터 목록 탐색을 위한 페이지 이동 컨트롤러',
+    properties: [
+      { key: 'activeBackground', label: '활성 페이지 배경 (Active BG)', category: 'color', defaultPaletteId: '--atom-color-primary' },
+      { key: 'activeText', label: '활성 페이지 텍스트 (Active Text)', category: 'color', defaultPaletteId: '--atom-palette-white' },
+      { key: 'textColor', label: '기본 텍스트 색상 (Text Color)', category: 'color', defaultPaletteId: '--atom-palette-gray-700' },
+      { key: 'borderRadius', label: '버튼 모서리 곡률 (Border Radius)', category: 'radius', defaultPaletteId: '--atom-radius-sm' },
+    ],
+    variables: [
+      {
+        id: 'default',
+        name: '사각 페이지네이션 (Default)',
+        description: '작은 곡률의 기본 페이지 번호 버튼',
+        tokenBindings: {
+          activeBackground: '--atom-color-primary',
+          activeText: '--atom-palette-white',
+          textColor: '--atom-palette-gray-700',
+          borderRadius: '--atom-radius-sm',
+        },
+      },
+      {
+        id: 'rounded',
+        name: '원형 페이지네이션 (Rounded)',
+        description: '완전 둥근 원형 페이지 번호 버튼',
+        tokenBindings: {
+          activeBackground: '--atom-color-primary',
+          activeText: '--atom-palette-white',
+          textColor: '--atom-palette-gray-700',
+          borderRadius: '--atom-radius-full',
+        },
+      },
+    ],
+  },
+
+  // 24. Separator (Layout)
+  {
+    id: 'separator',
+    name: 'Separator (구분선)',
+    category: 'Layout',
+    description: '콘텐츠 영역을 시각적으로 분리하는 수평 또는 수직 디바이더',
+    properties: [
+      { key: 'color', label: '구분선 색상 (Color)', category: 'color', defaultPaletteId: '--atom-palette-gray-200' },
+    ],
+    variables: [
+      {
+        id: 'horizontal',
+        name: '수평선 (Horizontal)',
+        description: '너비 100%의 기본 가로 구분선',
+        tokenBindings: {
+          color: '--atom-palette-gray-200',
+        },
+      },
+    ],
+  },
+
+  // 25. Calendar (Data)
+  {
+    id: 'calendar',
+    name: 'Calendar (달력)',
+    category: 'Data',
+    description: '날짜 선택 및 월간 뷰를 제공하는 인터랙티브 캘린더',
+    properties: [
+      { key: 'background', label: '배경 색상 (Background)', category: 'color', defaultPaletteId: '--atom-palette-white' },
+      { key: 'selectedBackground', label: '선택 날짜 배경 (Selected BG)', category: 'color', defaultPaletteId: '--atom-color-primary' },
+      { key: 'selectedText', label: '선택 날짜 텍스트 (Selected Text)', category: 'color', defaultPaletteId: '--atom-palette-white' },
+      { key: 'textColor', label: '일반 날짜 텍스트 (Day Text)', category: 'color', defaultPaletteId: '--atom-palette-gray-800' },
+      { key: 'borderRadius', label: '모서리 곡률 (Border Radius)', category: 'radius', defaultPaletteId: '--atom-radius-md' },
+    ],
+    variables: [
+      {
+        id: 'default',
+        name: '표준 달력 (Default)',
+        description: '헤더와 요일 그리드를 포함한 기본 달력 뷰',
+        tokenBindings: {
+          background: '--atom-palette-white',
+          selectedBackground: '--atom-color-primary',
+          selectedText: '--atom-palette-white',
+          textColor: '--atom-palette-gray-800',
+          borderRadius: '--atom-radius-md',
+        },
+      },
+    ],
+  },
+
+  // 26. Chart (Data)
+  {
+    id: 'chart',
+    name: 'Chart (차트)',
+    category: 'Data',
+    description: '라인, 바, 영역 그래프를 통해 시계열 데이터와 실적 지표를 시각화하는 차트 컴포넌트',
+    properties: [
+      { key: 'strokeColor', label: '차트 선 색상 (Stroke Color)', category: 'color', defaultPaletteId: '--atom-color-primary' },
+      { key: 'fillColor', label: '영역 채우기 색상 (Fill Color)', category: 'color', defaultPaletteId: '--atom-color-primary' },
+      { key: 'gridColor', label: '그리드 라인 색상 (Grid Color)', category: 'color', defaultPaletteId: '--atom-palette-gray-200' },
+      { key: 'hoverColor', label: '호버 포인트 색상 (Hover Point)', category: 'color', defaultPaletteId: '--atom-color-primary-hover' },
+      { key: 'borderRadius', label: '모서리 곡률 (Border Radius)', category: 'radius', defaultPaletteId: '--atom-radius-md' },
+      { key: 'padding', label: '내부 패딩 (Padding)', category: 'spacing', defaultPaletteId: '--atom-space-4' },
+    ],
+    variables: [
+      {
+        id: 'primary',
+        name: '라인 트렌드 차트 (Line Trend)',
+        description: '시계열 데이터의 추세를 명확하게 보여주는 대표 라인 차트',
+        tokenBindings: {
+          strokeColor: '--atom-color-primary',
+          fillColor: '--atom-color-primary',
+          gridColor: '--atom-palette-gray-200',
+          hoverColor: '--atom-color-primary-hover',
+          borderRadius: '--atom-radius-md',
+          padding: '--atom-space-4',
+        },
+      },
+      {
+        id: 'area-volume',
+        name: '누적 영역 차트 (Area Volume)',
+        description: '하단 그라데이션 채우기를 통해 볼륨감과 추세를 동시에 표현하는 영역 차트',
+        tokenBindings: {
+          strokeColor: '--atom-color-primary',
+          fillColor: '--atom-palette-blue-500',
+          gridColor: '--atom-palette-gray-200',
+          hoverColor: '--atom-color-primary-hover',
+          borderRadius: '--atom-radius-md',
+          padding: '--atom-space-4',
+        },
+      },
+      {
+        id: 'success',
+        name: '상승 지표 차트 (Success Trend)',
+        description: '주가 상승, 수익률 증가, 긍정적 지표를 나타내는 에메랄드 그린 차트',
+        tokenBindings: {
+          strokeColor: '--atom-color-success',
+          fillColor: '--atom-palette-emerald-500',
+          gridColor: '--atom-palette-gray-200',
+          hoverColor: '--atom-color-success-hover',
+          borderRadius: '--atom-radius-md',
+          padding: '--atom-space-4',
+        },
+      },
+      {
+        id: 'danger',
+        name: '위험/하락 지표 차트 (Danger Alert)',
+        description: '오류 발생률, 손실 지표, 임계치 초과를 경고하는 로즈 레드 차트',
+        tokenBindings: {
+          strokeColor: '--atom-color-danger',
+          fillColor: '--atom-palette-rose-500',
+          gridColor: '--atom-palette-gray-200',
+          hoverColor: '--atom-color-danger-hover',
+          borderRadius: '--atom-radius-md',
+          padding: '--atom-space-4',
+        },
+      },
+      {
+        id: 'bar-metric',
+        name: '바 비교 차트 (Bar Comparison)',
+        description: '항목별 실적이나 기간별 집계를 직관적으로 비교하는 막대 차트',
+        tokenBindings: {
+          strokeColor: '--atom-color-primary',
+          fillColor: '--atom-color-primary',
+          gridColor: '--atom-palette-gray-200',
+          hoverColor: '--atom-color-primary-hover',
+          borderRadius: '--atom-radius-md',
+          padding: '--atom-space-4',
+        },
+      },
+    ],
+  },
+  // 27. Offcanvas (Layout / Overlay)
+  {
+    id: 'offcanvas',
+    name: 'Offcanvas (오프캔버스 / 서랍)',
+    category: 'Layout',
+    description: '화면 가장자리에서 슬라이드되어 나타나는 오프캔버스 패널 및 서랍형 오버레이',
+    properties: [
+      { key: 'background', label: '서피스 배경색 (Background)', category: 'color', defaultPaletteId: '--atom-palette-white' },
+      { key: 'borderColor', label: '테두리 색상 (Border Color)', category: 'color', defaultPaletteId: '--atom-palette-gray-200' },
+      { key: 'textColor', label: '본문 텍스트 (Text Color)', category: 'color', defaultPaletteId: '--atom-palette-gray-800' },
+      { key: 'headerBackground', label: '헤더 배경색 (Header BG)', category: 'color', defaultPaletteId: '--atom-palette-gray-50' },
+      { key: 'borderRadius', label: '모서리 곡률 (Border Radius)', category: 'radius', defaultPaletteId: '--atom-radius-lg' },
+      { key: 'padding', label: '내부 패딩 (Padding)', category: 'spacing', defaultPaletteId: '--atom-space-4' },
+      { key: 'hoverBackground', label: '호버 배경색 (Hover BG)', category: 'color', defaultPaletteId: '--atom-palette-blue-50' },
+      { key: 'activeBackground', label: '활성 배경색 (Active BG)', category: 'color', defaultPaletteId: '--atom-palette-blue-100' },
+    ],
+    variables: [
+      {
+        id: 'right-drawer',
+        name: '우측 인스펙터 서랍 (Right Drawer)',
+        description: '데이터 리스트에서 항목 세부 정보 및 편집 폼을 표시하는 우측 사이드 패널',
+        tokenBindings: {
+          background: '--atom-palette-white',
+          borderColor: '--atom-palette-gray-200',
+          textColor: '--atom-palette-gray-800',
+          headerBackground: '--atom-palette-gray-50',
+          borderRadius: '--atom-radius-lg',
+          padding: '--atom-space-4',
+          hoverBackground: '--atom-palette-blue-50',
+          activeBackground: '--atom-palette-blue-100',
+        },
+      },
+      {
+        id: 'left-nav',
+        name: '좌측 모바일 탐색 서랍 (Left Navigation)',
+        description: '모바일 환경에서 사이트 전체 메뉴 및 프로필 바로가기를 제공하는 좌측 서랍',
+        tokenBindings: {
+          background: '--atom-palette-gray-900',
+          borderColor: '--atom-palette-gray-800',
+          textColor: '--atom-palette-gray-100',
+          headerBackground: '--atom-palette-gray-950',
+          borderRadius: '--atom-radius-lg',
+          padding: '--atom-space-4',
+          hoverBackground: '--atom-palette-gray-800',
+          activeBackground: '--atom-palette-gray-700',
+        },
+      },
+      {
+        id: 'bottom-sheet',
+        name: '하단 필터 시트 (Bottom Sheet)',
+        description: '모바일 뷰포트 하단에서 위로 올라오는 필터 및 액션 시트 오버레이',
+        tokenBindings: {
+          background: '--atom-palette-white',
+          borderColor: '--atom-palette-gray-200',
+          textColor: '--atom-palette-gray-800',
+          headerBackground: '--atom-palette-gray-50',
+          borderRadius: '--atom-radius-xl',
+          padding: '--atom-space-4',
+          hoverBackground: '--atom-palette-blue-50',
+          activeBackground: '--atom-palette-blue-100',
+        },
+      },
+      {
+        id: 'settings-panel',
+        name: '설정 슬라이드오버 (Settings Panel)',
+        description: '사용자 환경설정, 테마 옵션 및 알림 구성을 조정하는 슬라이드 패널',
+        tokenBindings: {
+          background: '--atom-palette-white',
+          borderColor: '--atom-palette-gray-200',
+          textColor: '--atom-palette-gray-800',
+          headerBackground: '--atom-palette-gray-50',
+          borderRadius: '--atom-radius-lg',
+          padding: '--atom-space-4',
+          hoverBackground: '--atom-palette-blue-50',
+          activeBackground: '--atom-palette-blue-100',
+        },
+      },
+    ],
+  },
+  // 28. Toast (Feedback)
+  {
+    id: 'toast',
+    name: 'Toast (토스트 알림)',
+    category: 'Feedback',
+    description: '작업 결과 피드백 및 상태 변화를 화면 구석에 일시적으로 알리는 플로팅 토스트 컴포넌트',
+    properties: [
+      { key: 'background', label: '서피스 배경색 (Background)', category: 'color', defaultPaletteId: '--atom-palette-white' },
+      { key: 'borderColor', label: '테두리 색상 (Border Color)', category: 'color', defaultPaletteId: '--atom-palette-gray-200' },
+      { key: 'textColor', label: '본문 텍스트 (Text Color)', category: 'color', defaultPaletteId: '--atom-palette-gray-800' },
+      { key: 'iconColor', label: '아이콘 색상 (Icon Color)', category: 'color', defaultPaletteId: '--atom-color-primary' },
+      { key: 'borderRadius', label: '모서리 곡률 (Border Radius)', category: 'radius', defaultPaletteId: '--atom-radius-md' },
+      { key: 'padding', label: '내부 패딩 (Padding)', category: 'spacing', defaultPaletteId: '--atom-space-4' },
+      { key: 'hoverBackground', label: '호버 배경색 (Hover BG)', category: 'color', defaultPaletteId: '--atom-palette-gray-50' },
+      { key: 'activeBackground', label: '활성 배경색 (Active BG)', category: 'color', defaultPaletteId: '--atom-palette-gray-100' },
+    ],
+    variables: [
+      {
+        id: 'info',
+        name: '안내 토스트 (Info Toast)',
+        description: '새로운 시스템 알림이나 일반 정보를 전달하는 블루 톤의 안내 토스트',
+        tokenBindings: {
+          background: '--atom-palette-white',
+          borderColor: '--atom-palette-blue-200',
+          textColor: '--atom-palette-gray-900',
+          iconColor: '--atom-color-primary',
+          borderRadius: '--atom-radius-md',
+          padding: '--atom-space-4',
+          hoverBackground: '--atom-palette-blue-50',
+          activeBackground: '--atom-palette-blue-100',
+        },
+      },
+      {
+        id: 'success',
+        name: '성공 완료 토스트 (Success Toast)',
+        description: '작업이 성공적으로 저장되거나 완료되었음을 전달하는 에메랄드 토스트',
+        tokenBindings: {
+          background: '--atom-palette-white',
+          borderColor: '--atom-palette-emerald-200',
+          textColor: '--atom-palette-gray-900',
+          iconColor: '--atom-color-success',
+          borderRadius: '--atom-radius-md',
+          padding: '--atom-space-4',
+          hoverBackground: '--atom-palette-emerald-50',
+          activeBackground: '--atom-palette-emerald-100',
+        },
+      },
+      {
+        id: 'warning',
+        name: '주의 요망 토스트 (Warning Toast)',
+        description: '세션 만료나 네트워크 불안정 등 주의가 필요한 상황을 알리는 앰버 토스트',
+        tokenBindings: {
+          background: '--atom-palette-white',
+          borderColor: '--atom-palette-amber-200',
+          textColor: '--atom-palette-gray-900',
+          iconColor: '--atom-color-warning',
+          borderRadius: '--atom-radius-md',
+          padding: '--atom-space-4',
+          hoverBackground: '--atom-palette-amber-50',
+          activeBackground: '--atom-palette-amber-100',
+        },
+      },
+      {
+        id: 'danger',
+        name: '오류 경고 토스트 (Danger Toast)',
+        description: '요청 실패나 예외 발생을 사용자에게 즉시 전달하는 로즈 레드 토스트',
+        tokenBindings: {
+          background: '--atom-palette-white',
+          borderColor: '--atom-palette-rose-200',
+          textColor: '--atom-palette-gray-900',
+          iconColor: '--atom-color-danger',
+          borderRadius: '--atom-radius-md',
+          padding: '--atom-space-4',
+          hoverBackground: '--atom-palette-rose-50',
+          activeBackground: '--atom-palette-rose-100',
+        },
+      },
+      {
+        id: 'action-undo',
+        name: '실행 취소 액션 토스트 (Action Undo Toast)',
+        description: '삭제나 이동 작업을 되돌릴 수 있는 실행 취소 버튼이 포함된 다크 모던 토스트',
+        tokenBindings: {
+          background: '--atom-palette-gray-900',
+          borderColor: '--atom-palette-gray-800',
+          textColor: '--atom-palette-gray-100',
+          iconColor: '--atom-palette-blue-400',
+          borderRadius: '--atom-radius-md',
+          padding: '--atom-space-4',
+          hoverBackground: '--atom-palette-gray-800',
+          activeBackground: '--atom-palette-gray-700',
         },
       },
     ],
