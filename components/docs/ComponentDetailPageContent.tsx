@@ -11,6 +11,7 @@ import {
   Badge,
   Card,
   Input,
+  Modal,
   Table,
   TableHeader,
   TableBody,
@@ -21,6 +22,7 @@ import {
   TabsTrigger,
   TabsContent,
   Switch,
+  Checkbox,
   Container,
   Layout,
   Stack,
@@ -41,6 +43,9 @@ import {
   SidebarMenuButton,
   SidebarFooter,
   SidebarToggle,
+  Chart,
+  Offcanvas,
+  Toast,
 } from '@/components/ui';
 import { INITIAL_STUDIO_COMPONENTS } from '@/lib/data/studioData';
 import { CodeHighlight } from '@/components/common/CodeHighlight';
@@ -167,13 +172,13 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                   <code>Stack gap=&quot;var(--atom-space-3)&quot;</code>
                 </div>
                 <div className="flex flex-wrap items-center gap-3">
-                  <div className="px-3 py-1.5 rounded-(--radius-sm) bg-(--accent-primary)/10 text-(--accent-primary) dark:text-blue-400 border border-(--accent-primary)/20 text-sm font-medium">
+                  <div className="px-3 py-1.5 rounded-(--radius-sm) bg-(--accent-primary)/10 text-(--accent-primary) dark:text-(--accent-primary) border border-(--accent-primary)/20 text-sm font-medium">
                     Item 1
                   </div>
-                  <div className="px-3 py-1.5 rounded-(--radius-sm) bg-(--accent-primary)/10 text-(--accent-primary) dark:text-blue-400 border border-(--accent-primary)/20 text-sm font-medium">
+                  <div className="px-3 py-1.5 rounded-(--radius-sm) bg-(--accent-primary)/10 text-(--accent-primary) dark:text-(--accent-primary) border border-(--accent-primary)/20 text-sm font-medium">
                     Item 2
                   </div>
-                  <div className="px-3 py-1.5 rounded-(--radius-sm) bg-(--accent-primary)/10 text-(--accent-primary) dark:text-blue-400 border border-(--accent-primary)/20 text-sm font-medium">
+                  <div className="px-3 py-1.5 rounded-(--radius-sm) bg-(--accent-primary)/10 text-(--accent-primary) dark:text-(--accent-primary) border border-(--accent-primary)/20 text-sm font-medium">
                     Item 3
                   </div>
                 </div>
@@ -194,11 +199,11 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                   <span className="text-xs font-mono opacity-80">Primary (Brand)</span>
                   <span className="text-sm font-bold">var(--accent-primary)</span>
                 </div>
-                <div className="p-4 rounded-(--radius) bg-emerald-600 text-white flex flex-col justify-between h-24 shadow-xs">
+                <div className="p-4 rounded-(--radius) bg-(--atom-color-success) text-white flex flex-col justify-between h-24 shadow-xs">
                   <span className="text-xs font-mono opacity-80">Success (Positive)</span>
                   <span className="text-sm font-bold">#10b981</span>
                 </div>
-                <div className="p-4 rounded-(--radius) bg-amber-500 text-white flex flex-col justify-between h-24 shadow-xs">
+                <div className="p-4 rounded-(--radius) bg-(--atom-color-warning) text-white flex flex-col justify-between h-24 shadow-xs">
                   <span className="text-xs font-mono opacity-80">Warning (Caution)</span>
                   <span className="text-sm font-bold">#f59e0b</span>
                 </div>
@@ -454,110 +459,111 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
               </span>
             </label>
 
-            <label className="flex items-center gap-2.5 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={checkboxState}
-                onChange={(e) => setCheckboxState(e.target.checked)}
-                className="w-4 h-4 rounded border-(--border-strong) text-(--accent-primary) focus:ring-blue-500 cursor-pointer"
-              />
-              <span className="text-sm font-medium text-(--text-primary)">
-                {locale === 'ja'
+            <Checkbox
+              checked={checkboxState}
+              onChange={(e) => setCheckboxState(e.target.checked)}
+              label={
+                locale === 'ja'
                   ? '利用規約およびプライバシーポリシーに同意'
                   : locale === 'en'
                   ? 'Agree to Terms of Service & Privacy Policy'
-                  : '이용약관 및 개인정보 처리방침 전체 동의'}
-              </span>
-            </label>
+                  : '이용약관 및 개인정보 처리방침 전체 동의'
+              }
+            />
           </div>
         );
 
       case 'dialog':
         return (
           <div className="flex flex-col items-center gap-3">
-            <button
+            <Button
+              variant="primary"
               onClick={() => setIsModalOpen(true)}
-              className="px-5 py-2.5 rounded-xl bg-(--accent-primary) hover:bg-blue-700 text-white font-bold text-sm shadow-md transition"
+              className="px-5 py-2.5 font-bold text-sm shadow-md"
             >
               {locale === 'ja' ? 'モーダルを開く' : locale === 'en' ? 'Open Modal Dialog' : '모달 다이얼로그 열기'}
-            </button>
+            </Button>
 
-            {isModalOpen && (
-              <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
-                <div className="bg-white dark:bg-neutral-900 border border-(--border-subtle) dark:border-neutral-800 rounded-3xl p-6 max-w-sm w-full shadow-2xl flex flex-col gap-4 animate-in fade-in zoom-in-95">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-base font-bold text-(--text-primary) dark:text-white">
-                      {locale === 'ja' ? '送金を確定しますか？' : locale === 'en' ? 'Confirm Money Transfer?' : '정말 송금하시겠습니까?'}
-                    </h3>
-                    <button onClick={() => setIsModalOpen(false)} className="text-(--text-muted) hover:text-(--text-secondary)">
-                      <X className="w-4 h-4" />
-                    </button>
-                  </div>
-                  <p className="text-sm text-(--text-secondary) dark:text-(--text-muted) leading-relaxed">
-                    {locale === 'ja' ? (
-                      <>受取人: 田中 太郎 (三菱UFJ 1002-***-4921)<br />送金金額: <strong>¥50,000</strong> (手数料無料)</>
-                    ) : locale === 'en' ? (
-                      <>Recipient: Alex Min (Global Bank 1002-***-4921)<br />Amount: <strong>$500.00</strong> (Fee waived)</>
-                    ) : (
-                      <>받는 분: 김토스 (토스뱅크 1002-***-4921)<br />보낼 금액: <strong>₩500,000</strong> (수수료 면제)</>
-                    )}
-                  </p>
-                  <div className="flex justify-end gap-2 pt-2">
-                    <button
-                      onClick={() => setIsModalOpen(false)}
-                      className="px-4 py-2 rounded-xl border border-(--border-subtle) dark:border-neutral-700 text-sm font-semibold"
-                    >
-                      {locale === 'ja' ? 'キャンセル' : locale === 'en' ? 'Cancel' : '취소'}
-                    </button>
-                    <button
-                      onClick={() => setIsModalOpen(false)}
-                      className="px-4 py-2 rounded-xl bg-(--accent-primary) text-white text-sm font-bold hover:bg-blue-700"
-                    >
-                      {locale === 'ja' ? '送金完了' : locale === 'en' ? 'Confirm Transfer' : '송금 완료'}
-                    </button>
-                  </div>
+            <Modal
+              isOpen={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
+              title={locale === 'ja' ? '送金を確定しますか？' : locale === 'en' ? 'Confirm Money Transfer?' : '정말 송금하시겠습니까?'}
+            >
+              <div className="flex flex-col gap-4">
+                <p className="text-sm text-(--text-secondary) leading-relaxed">
+                  {locale === 'ja' ? (
+                    <>受取人: 田中 太郎 (三菱UFJ 1002-***-4921)<br />送金金額: <strong>¥50,000</strong> (手数料無料)</>
+                  ) : locale === 'en' ? (
+                    <>Recipient: Alex Min (Global Bank 1002-***-4921)<br />Amount: <strong>$500.00</strong> (Fee waived)</>
+                  ) : (
+                    <>받는 분: 김철수 (스마트뱅크 1002-***-4921)<br />보낼 금액: <strong>₩500,000</strong> (수수료 면제)</>
+                  )}
+                </p>
+                <div className="flex justify-end gap-2 pt-2 border-t border-(--border-subtle)">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setIsModalOpen(false)}
+                  >
+                    {locale === 'ja' ? 'キャンセル' : locale === 'en' ? 'Cancel' : '취소'}
+                  </Button>
+                  <Button
+                    variant="primary"
+                    size="sm"
+                    onClick={() => setIsModalOpen(false)}
+                  >
+                    {locale === 'ja' ? '送金完了' : locale === 'en' ? 'Confirm Transfer' : '송금 완료'}
+                  </Button>
                 </div>
               </div>
-            )}
+            </Modal>
           </div>
         );
 
       case 'sheet':
         return (
           <div className="flex flex-col items-center gap-3">
-            <button
+            <Button
+              variant="primary"
               onClick={() => setIsSheetOpen(true)}
-              className="px-5 py-2.5 rounded-xl bg-neutral-900 dark:bg-white text-white dark:text-(--text-primary) font-bold text-sm shadow-md transition"
+              className="px-5 py-2.5 font-bold text-sm shadow-md"
             >
               {locale === 'ja' ? 'ボトムシートを開く' : locale === 'en' ? 'Open Bottom Sheet' : '바텀시트 드로어 열기'}
-            </button>
+            </Button>
 
             {isSheetOpen && (
               <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-end justify-center">
-                <div className="bg-white dark:bg-neutral-900 border-t border-(--border-subtle) dark:border-neutral-800 rounded-t-3xl p-6 max-w-md w-full shadow-2xl flex flex-col gap-4">
-                  <div className="w-12 h-1 bg-neutral-300 dark:bg-neutral-700 rounded-full mx-auto" />
+                <div className="bg-(--bg-primary) border-t border-(--border-subtle) rounded-t-3xl p-6 max-w-md w-full shadow-2xl flex flex-col gap-4">
+                  <div className="w-12 h-1 bg-(--border-strong) rounded-full mx-auto" />
                   <div className="flex items-center justify-between">
-                    <h3 className="text-base font-bold text-(--text-primary) dark:text-white">
+                    <h3 className="text-base font-bold text-(--text-primary)">
                       {locale === 'ja' ? '店舗詳細情報' : locale === 'en' ? 'Store Details' : '매장 상세 정보'}
                     </h3>
-                    <button onClick={() => setIsSheetOpen(false)} className="text-(--text-muted)">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      isIconOnly
+                      onClick={() => setIsSheetOpen(false)}
+                      className="text-(--text-muted) h-auto p-1"
+                    >
                       <X className="w-4 h-4" />
-                    </button>
+                    </Button>
                   </div>
-                  <div className="p-3 rounded-xl bg-neutral-50 dark:bg-neutral-850 text-sm">
-                    <div className="font-bold">
+                  <div className="p-3 rounded-xl bg-(--bg-secondary) text-sm">
+                    <div className="font-bold text-(--text-primary)">
                       {locale === 'ja' ? 'ブルーボトルコーヒー 渋谷カフェ' : locale === 'en' ? 'Blue Bottle Coffee Roastery' : '블루보틀 성수 카페'}
                     </div>
-                    <div className="text-emerald-600 mt-1">
+                    <div className="text-(--atom-color-success) dark:text-(--atom-color-success) mt-1">
                       {locale === 'ja' ? '● 営業中 (21:00 閉店)' : locale === 'en' ? '● Open Now (Closes 21:00)' : '● 현재 영업 중 (21:00 마감)'}
                     </div>
                   </div>
-                  <button
+                  <Button
+                    variant="primary"
                     onClick={() => setIsSheetOpen(false)}
-                    className="w-full py-2.5 rounded-xl bg-(--accent-primary) text-white text-sm font-bold"
+                    className="w-full py-2.5 font-bold"
                   >
                     {locale === 'ja' ? 'ルート検索' : locale === 'en' ? 'Get Directions' : '길찾기 실행'}
-                  </button>
+                  </Button>
                 </div>
               </div>
             )}
@@ -566,14 +572,14 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
 
       case 'alert':
         return showAlert ? (
-          <div className="w-full max-w-md p-4 rounded-2xl bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-900 text-blue-900 dark:text-blue-100 flex items-start justify-between gap-3 text-sm">
+          <div className="w-full max-w-md p-4 rounded-2xl bg-(--accent-primary)/10  border border-(--accent-primary)/20 dark:border-blue-900 text-(--accent-primary) dark:text-blue-100 flex items-start justify-between gap-3 text-sm">
             <div className="flex items-start gap-2.5">
-              <Bell className="w-4 h-4 text-(--accent-primary) dark:text-blue-400 mt-0.5 shrink-0" />
+              <Bell className="w-4 h-4 text-(--accent-primary) dark:text-(--accent-primary) mt-0.5 shrink-0" />
               <div>
                 <span className="font-bold block">
                   {locale === 'ja' ? '新バージョン v1.2 アップデート' : locale === 'en' ? 'New Version v1.2 Release' : '새로운 버전 v1.2 업데이트'}
                 </span>
-                <span className="text-xs text-blue-700 dark:text-blue-300">
+                <span className="text-xs text-(--accent-primary) dark:text-(--accent-primary)">
                   {locale === 'ja'
                     ? 'W3C DTCG準拠スタイルディクショナリコンパイラが追加されました。'
                     : locale === 'en'
@@ -582,14 +588,25 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                 </span>
               </div>
             </div>
-            <button onClick={() => setShowAlert(false)} className="text-blue-400 hover:text-(--accent-primary)">
+            <Button
+              variant="ghost"
+              size="sm"
+              isIconOnly
+              onClick={() => setShowAlert(false)}
+              className="text-(--accent-primary) hover:text-(--accent-primary) h-auto p-1"
+            >
               <X className="w-3.5 h-3.5" />
-            </button>
+            </Button>
           </div>
         ) : (
-          <button onClick={() => setShowAlert(true)} className="text-sm text-(--accent-primary) font-semibold underline">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setShowAlert(true)}
+            className="text-sm text-(--accent-primary) font-semibold underline h-auto"
+          >
             {locale === 'ja' ? 'アラートを再表示' : locale === 'en' ? 'Reopen Alert' : '알림 다시 열기'}
-          </button>
+          </Button>
         );
 
       case 'tabs':
@@ -750,8 +767,8 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
         ];
 
         return (
-          <div className="w-full max-w-sm p-4 rounded-xl bg-white dark:bg-neutral-900 border border-(--border-subtle) dark:border-neutral-800 shadow-sm space-y-3">
-            <div className="flex items-center justify-between text-xs text-(--text-secondary) font-mono pb-2 border-b border-(--border-subtle) dark:border-neutral-800">
+          <div className="w-full max-w-sm p-4 rounded-xl bg-(--bg-primary) border border-(--border-subtle)  shadow-sm space-y-3">
+            <div className="flex items-center justify-between text-xs text-(--text-secondary) font-mono pb-2 border-b border-(--border-subtle) ">
               <span>EXPLORER</span>
               <span>{locale === 'ja' ? '選択: ' : locale === 'en' ? 'Selected: ' : '선택: '}<strong className="text-(--accent-primary)">{selectedTreeId}</strong></span>
             </div>
@@ -816,28 +833,24 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                 {locale === 'ja' ? 'ナビゲーションバー形式の切り替え' : locale === 'en' ? 'Navbar Variant Switcher' : '네비게이션 바 스타일 변수 선택'}
               </span>
               <div className="flex items-center gap-1 bg-(--bg-secondary) p-1 rounded-(--radius-sm) border border-(--border-subtle)">
-                <button
+                <Button
                   type="button"
+                  size="sm"
+                  variant={navbarVariable === 'default' ? 'primary' : 'ghost'}
                   onClick={() => setNavbarVariable('default')}
-                  className={`px-2.5 py-1 text-xs font-medium rounded transition ${
-                    navbarVariable === 'default'
-                      ? 'bg-(--bg-primary) text-(--text-primary) shadow-xs font-bold'
-                      : 'text-(--text-secondary) hover:text-(--text-primary)'
-                  }`}
+                  className="px-2.5 py-1 text-xs font-medium h-auto"
                 >
                   표준 스티키 (Standard)
-                </button>
-                <button
+                </Button>
+                <Button
                   type="button"
+                  size="sm"
+                  variant={navbarVariable === 'floating' ? 'primary' : 'ghost'}
                   onClick={() => setNavbarVariable('floating')}
-                  className={`px-2.5 py-1 text-xs font-medium rounded transition ${
-                    navbarVariable === 'floating'
-                      ? 'bg-(--bg-primary) text-(--text-primary) shadow-xs font-bold'
-                      : 'text-(--text-secondary) hover:text-(--text-primary)'
-                  }`}
+                  className="px-2.5 py-1 text-xs font-medium h-auto"
                 >
                   플로팅 필 (Floating Pill)
-                </button>
+                </Button>
               </div>
             </div>
 
@@ -910,28 +923,24 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                   {isSidebarCollapsed ? '전체 펼치기 (Expand)' : '슬림 접기 (Collapse)'}
                 </Button>
                 <div className="flex items-center gap-1 bg-(--bg-secondary) p-1 rounded-(--radius-sm) border border-(--border-subtle)">
-                  <button
+                  <Button
                     type="button"
+                    size="sm"
+                    variant={sidebarVariable === 'default' ? 'primary' : 'ghost'}
                     onClick={() => setSidebarVariable('default')}
-                    className={`px-2.5 py-1 text-xs font-medium rounded transition ${
-                      sidebarVariable === 'default'
-                        ? 'bg-(--bg-primary) text-(--text-primary) shadow-xs font-bold'
-                        : 'text-(--text-secondary) hover:text-(--text-primary)'
-                    }`}
+                    className="px-2.5 py-1 text-xs font-medium h-auto"
                   >
                     엔터프라이즈 (Default)
-                  </button>
-                  <button
+                  </Button>
+                  <Button
                     type="button"
+                    size="sm"
+                    variant={sidebarVariable === 'floating' ? 'primary' : 'ghost'}
                     onClick={() => setSidebarVariable('floating')}
-                    className={`px-2.5 py-1 text-xs font-medium rounded transition ${
-                      sidebarVariable === 'floating'
-                        ? 'bg-(--bg-primary) text-(--text-primary) shadow-xs font-bold'
-                        : 'text-(--text-secondary) hover:text-(--text-primary)'
-                    }`}
+                    className="px-2.5 py-1 text-xs font-medium h-auto"
                   >
                     플로팅 카드 (Floating)
-                  </button>
+                  </Button>
                 </div>
               </div>
             </div>
@@ -1030,7 +1039,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                   {!isSidebarCollapsed ? (
                     <div className="flex items-center justify-between text-xs text-(--text-secondary)">
                       <div className="flex items-center gap-2 min-w-0">
-                        <div className="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-600 font-bold flex items-center justify-center text-[10px]">
+                        <div className="w-6 h-6 rounded-full bg-(--atom-color-success)/20 text-(--atom-color-success) font-bold flex items-center justify-center text-[10px]">
                           JS
                         </div>
                         <span className="truncate font-medium">관리자 (Admin)</span>
@@ -1038,7 +1047,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                       <span className="font-mono text-[10px] text-(--text-muted)">v1.2.0</span>
                     </div>
                   ) : (
-                    <div className="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-600 font-bold flex items-center justify-center text-[10px] mx-auto">
+                    <div className="w-6 h-6 rounded-full bg-(--atom-color-success)/20 text-(--atom-color-success) font-bold flex items-center justify-center text-[10px] mx-auto">
                       JS
                     </div>
                   )}
@@ -1064,6 +1073,72 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                 </p>
               </div>
             </div>
+          </div>
+        );
+
+      case 'chart':
+        return (
+          <div className="w-full max-w-xl py-2 flex flex-col gap-4">
+            <Chart
+              type="area"
+              variant="primary"
+              data={[
+                { label: '1월', value: 120 },
+                { label: '2월', value: 180 },
+                { label: '3월', value: 150 },
+                { label: '4월', value: 240 },
+                { label: '5월', value: 310 },
+              ]}
+              height={200}
+            />
+          </div>
+        );
+
+      case 'offcanvas':
+        return (
+          <div className="w-full max-w-md py-2">
+            <Offcanvas
+              isOpen={true}
+              onClose={() => {}}
+              inline={true}
+              placement="right"
+              title="상세정보 인스펙터"
+              description="선택한 항목의 세부 속성을 편집합니다."
+              footer={
+                <div className="flex justify-end gap-2">
+                  <Button variant="secondary" size="sm">취소</Button>
+                  <Button variant="primary" size="sm">적용하기</Button>
+                </div>
+              }
+            >
+              <div className="space-y-3 py-2 text-xs">
+                <div className="p-3 rounded-(--radius) bg-(--bg-secondary) space-y-1">
+                  <div className="font-semibold text-(--text-primary)">오프캔버스 드로어</div>
+                  <div className="text-(--text-muted)">메인 화면의 컨텍스트를 유지하면서 추가 정보를 제공합니다.</div>
+                </div>
+              </div>
+            </Offcanvas>
+          </div>
+        );
+
+      case 'toast':
+        return (
+          <div className="w-full max-w-md py-2 flex flex-col gap-3">
+            <Toast
+              variant="success"
+              title="저장 완료"
+              description="변경 사항이 안전하게 클라우드에 동기화되었습니다."
+              inline={true}
+              onClose={() => {}}
+            />
+            <Toast
+              variant="action"
+              title="항목 삭제됨"
+              description="선택한 프로젝트가 휴지통으로 이동되었습니다."
+              inline={true}
+              action={{ label: '실행 취소', onClick: () => {} }}
+              onClose={() => {}}
+            />
           </div>
         );
 
@@ -1099,7 +1174,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                 </span>
                 <a
                   href="#tokens"
-                  className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-(--accent-primary)/10 text-(--accent-primary) dark:text-blue-400 border border-(--accent-primary)/20 hover:bg-(--accent-primary)/20 transition flex items-center gap-1.5 cursor-pointer shadow-xs"
+                  className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-(--accent-primary)/10 text-(--accent-primary) dark:text-(--accent-primary) border border-(--accent-primary)/20 hover:bg-(--accent-primary)/20 transition flex items-center gap-1.5 cursor-pointer shadow-xs"
                 >
                   <Layers className="w-3.5 h-3.5" />
                   <span>{t('componentsDoc.tokensBoundBadge', 'W3C 디자인 토큰 {n}개 연동됨 ↓').replace('{n}', String(componentTokens.length))}</span>
@@ -1132,30 +1207,26 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
               {t('componentsDoc.previewTitle', '인터랙티브 라이브 프리뷰 (Interactive Preview)')}
             </h2>
             <div className="flex items-center gap-1 bg-(--bg-secondary) p-1 rounded-(--radius) border border-(--border-subtle)">
-              <button
+              <Button
                 type="button"
+                size="sm"
+                variant={previewMode === 'preview' ? 'primary' : 'ghost'}
                 onClick={() => setPreviewMode('preview')}
-                className={`px-3 py-1.5 rounded-(--radius-sm) text-sm font-semibold transition flex items-center gap-1.5 ${
-                  previewMode === 'preview'
-                    ? 'bg-(--bg-primary) text-(--text-primary) shadow-xs'
-                    : 'text-(--text-secondary) hover:text-(--text-primary)'
-                }`}
+                className="text-sm font-semibold h-auto py-1.5 px-3 flex items-center gap-1.5"
               >
                 <Eye className="w-3.5 h-3.5" />
                 <span>{t('componentsDoc.tabLivePreview', '라이브 뷰')}</span>
-              </button>
-              <button
+              </Button>
+              <Button
                 type="button"
+                size="sm"
+                variant={previewMode === 'tokens' ? 'primary' : 'ghost'}
                 onClick={() => setPreviewMode('tokens')}
-                className={`px-3 py-1.5 rounded-(--radius-sm) text-sm font-semibold transition flex items-center gap-1.5 ${
-                  previewMode === 'tokens'
-                    ? 'bg-(--bg-primary) text-(--accent-primary) dark:text-blue-400 shadow-xs'
-                    : 'text-(--text-secondary) hover:text-(--text-primary)'
-                }`}
+                className="text-sm font-semibold h-auto py-1.5 px-3 flex items-center gap-1.5"
               >
                 <Layers className="w-3.5 h-3.5" />
                 <span>{t('componentsDoc.tabInspectTokens', '디자인 토큰값 조회')} ({componentTokens.length})</span>
-              </button>
+              </Button>
             </div>
           </div>
 
@@ -1175,7 +1246,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                         </span>
                       </div>
                       <div className="flex items-center justify-between mt-1">
-                        <code className="text-sm font-mono text-(--accent-primary) dark:text-blue-400 font-semibold">{tm.variable}</code>
+                        <code className="text-sm font-mono text-(--accent-primary) dark:text-(--accent-primary) font-semibold">{tm.variable}</code>
                         <div className="flex items-center gap-2">
                           {tm.type === 'color' && (
                             <span
@@ -1271,9 +1342,9 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
         <section id="tokens" className="scroll-mt-28 flex flex-col gap-3">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <h2 className="text-sm font-semibold uppercase tracking-wider text-(--text-secondary) flex items-center gap-1.5">
-              <Layers className="w-4 h-4 text-(--accent-primary) dark:text-blue-400" />
+              <Layers className="w-4 h-4 text-(--accent-primary) dark:text-(--accent-primary)" />
               <span className="text-(--text-primary)">{t('componentsDoc.tokensTitle', '연동된 W3C DTCG 디자인 토큰 (tokens/token.json)')}</span>
-              <span className="ml-1 px-2.5 py-0.5 rounded-full bg-(--accent-primary)/10 text-(--accent-primary) dark:text-blue-400 text-xs font-mono font-semibold">
+              <span className="ml-1 px-2.5 py-0.5 rounded-full bg-(--accent-primary)/10 text-(--accent-primary) dark:text-(--accent-primary) text-xs font-mono font-semibold">
                 {componentTokens.length} Tokens Bound
               </span>
             </h2>
@@ -1311,7 +1382,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                     <TableCell className="font-semibold text-sm text-(--text-primary)">
                       {locToken.role}
                     </TableCell>
-                    <TableCell className="font-mono text-sm text-(--accent-primary) dark:text-blue-400 font-semibold">
+                    <TableCell className="font-mono text-sm text-(--accent-primary) dark:text-(--accent-primary) font-semibold">
                       <code>{tm.variable}</code>
                     </TableCell>
                     <TableCell className="font-mono text-sm text-(--text-secondary)">
@@ -1368,7 +1439,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                 onClick={handleCopyCode}
                 className="text-sm font-medium flex items-center gap-1.5 h-auto py-1.5"
               >
-                {copied ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}
+                {copied ? <Check className="w-4 h-4 text-(--atom-color-success)" /> : <Copy className="w-4 h-4" />}
                 <span>{copied ? t('componentsDoc.copied', '복사됨!') : t('componentsDoc.copyCode', '전체 코드 복사')}</span>
               </Button>
             </div>
@@ -1429,8 +1500,8 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {displayDosAndDonts.map((rule, idx) => (
                 <React.Fragment key={idx}>
-                  <Card className="p-4 border-emerald-500/20 bg-emerald-500/5 flex flex-col gap-1.5">
-                    <div className="flex items-center gap-1.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+                  <Card className="p-4 border-(--atom-color-success)/20 bg-(--atom-color-success)/5 flex flex-col gap-1.5">
+                    <div className="flex items-center gap-1.5 text-xs font-semibold text-(--atom-color-success) dark:text-(--atom-color-success)">
                       <CheckCircle2 className="w-4 h-4" />
                       <span>{t('componentsDoc.doLabel', 'DO (권장)')}</span>
                     </div>
@@ -1439,8 +1510,8 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                     </p>
                   </Card>
 
-                  <Card className="p-4 border-rose-500/20 bg-rose-500/5 flex flex-col gap-1.5">
-                    <div className="flex items-center gap-1.5 text-xs font-semibold text-rose-600 dark:text-rose-400">
+                  <Card className="p-4 border-(--atom-color-destructive)/20 bg-rose-500/5 flex flex-col gap-1.5">
+                    <div className="flex items-center gap-1.5 text-xs font-semibold text-(--atom-color-destructive) dark:text-(--atom-color-destructive)">
                       <XCircle className="w-4 h-4" />
                       <span>{t('componentsDoc.dontLabel', "DON'T (지양)")}</span>
                     </div>
@@ -1539,7 +1610,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
               </li>
             )}
             <li>
-              <a href="#tokens" className="text-(--accent-primary) dark:text-blue-400 font-semibold py-1 block transition-colors flex items-center gap-1.5">
+              <a href="#tokens" className="text-(--accent-primary) dark:text-(--accent-primary) font-semibold py-1 block transition-colors flex items-center gap-1.5">
                 <Layers className="w-3.5 h-3.5" />
                 <span>{t('componentsDoc.tokensTitle', '디자인 토큰 명세')} ({componentTokens.length})</span>
               </a>

@@ -477,7 +477,7 @@ export function ModalDemo({ isOpen, onClose }) {
         <DialogHeader>
           <DialogTitle>송금 정보를 확인해주세요</DialogTitle>
         </DialogHeader>
-        <p className="text-sm text-(--text-secondary)">김토스님에게 500,000원을 송금합니다.</p>
+        <p className="text-sm text-(--text-secondary)">홍길동님에게 500,000원을 송금합니다.</p>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}>취소</Button>
           <Button variant="primary" onClick={onClose}>송금 실행</Button>
@@ -749,7 +749,7 @@ export function CardDemo() {
   return (
     <Card interactive>
       <CardHeader>
-        <CardTitle>토스뱅크 자유적금</CardTitle>
+        <CardTitle>스마트 자유적금</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="text-2xl font-bold">₩ 12,450,000</div>
@@ -952,13 +952,13 @@ export function CalendarDemo() {
 import { useState } from 'react';
 
 const BANK_OPTIONS = [
-  { value: 'toss', label: '토스뱅크' },
-  { value: 'kakao', label: '카카오뱅크' },
-  { value: 'shinhan', label: '신한은행' },
+  { value: 'standard', label: '스마트은행' },
+  { value: 'digital', label: '디지털뱅크' },
+  { value: 'prime', label: '프라임은행' },
 ];
 
 export function SelectDemo() {
-  const [bank, setBank] = useState('toss');
+  const [bank, setBank] = useState('standard');
   return <Select options={BANK_OPTIONS} value={bank} onChange={setBank} />;
 }`,
     vueSnippet: `<template>
@@ -1195,7 +1195,7 @@ export function PaginationDemo() {
       text: 'role="radiogroup"과 role="radio"를 적용하고 방향키(상/하/좌/우)로 옵션 간 포커스를 즉시 전환할 수 있어야 합니다.'
     },
     useCases: [
-      '결제 수단 선택 (신용카드, 카카오페이, 토스페이, 무통장입금)',
+      '결제 수단 선택 (신용카드, 간편결제, 계좌이체, 무통장입금)',
       '배송 옵션 선택 (일반 택배, 새벽 배송, 매장 픽업)',
       '성별 및 회원 등급 선택 폼',
       '요금제 플랜 선택 카드 (Basic, Pro, Enterprise)'
@@ -1223,8 +1223,8 @@ export function PaginationDemo() {
     <span>신용/체크카드</span>
   </label>
   <label class="atom-radio-label">
-    <input type="radio" name="payment" value="toss" class="atom-radio" />
-    <span>토스페이</span>
+    <input type="radio" name="payment" value="easy" class="atom-radio" />
+    <span>간편결제</span>
   </label>
 </div>`,
     reactSnippet: `import { RadioGroup, RadioItem } from '@/components/ui/radio';
@@ -1235,7 +1235,7 @@ export function RadioDemo() {
   return (
     <RadioGroup value={pay} onChange={setPay}>
       <RadioItem value="card" label="신용/체크카드" />
-      <RadioItem value="toss" label="토스페이 간편결제" />
+      <RadioItem value="easy" label="간편결제" />
     </RadioGroup>
   );
 }`,
@@ -1336,7 +1336,7 @@ export function SliderDemo() {
 export function AvatarDemo() {
   return (
     <div className="flex items-center gap-3">
-      <Avatar src="/user.jpg" alt="김토스" fallback="KT" size="md" status="online" />
+      <Avatar src="/user.jpg" alt="김철수" fallback="CS" size="md" status="online" />
       <Avatar fallback="JD" size="md" />
     </div>
   );
@@ -1797,7 +1797,7 @@ export function NavbarDemo() {
   },
   {
     id: 'sidebar',
-    name: '사이드 네비게이션 (Side Navigation)',
+    name: '사이드바 & 사이드메뉴 (Sidebar & SideMenu)',
     category: 'navigation',
     source: 'AtomSystem Universal',
     description: '업무용 대시보드 및 복잡한 웹 앱의 계층형 메뉴, 프로젝트 스위처 및 사용자 설정을 제공하는 사이드바',
@@ -1879,6 +1879,292 @@ export function SidebarDemo() {
         <span className="text-xs text-(--text-muted)">v1.2.0</span>
       </SidebarFooter>
     </Sidebar>
+  );
+}`
+  },
+  {
+    id: 'nav',
+    name: '유니버설 탐색 (Nav & NavItem)',
+    category: 'navigation',
+    source: 'AtomSystem Universal',
+    description: '화면 내 탭 바, 알약형 필터, 세그먼트 박스, 2-Depth 드롭다운을 일관되게 제공하는 만능 네비게이션 원자 (Nav, NavItem, NavLink, NavDropdown)',
+    callout: {
+      type: 'tip',
+      title: '유니버설 탐색 컴포넌트',
+      text: 'Nav는 variant="default" | "pills" | "tabs" | "segmented" 및 orientation="horizontal" | "vertical"을 제공하며, 내부 상태가 캡슐화된 NavDropdown과 함께 복잡한 2-Depth 메뉴를 선언적으로 조립합니다.'
+    },
+    propsSpec: [
+      { name: 'variant', type: "'default' | 'pills' | 'tabs' | 'segmented'", defaultValue: "'default'", description: '탐색 스타일 (기본 링크, 알약형 필터, 밑줄 탭, 박스형 분할)' },
+      { name: 'orientation', type: "'horizontal' | 'vertical'", defaultValue: "'horizontal'", description: '배치 방향' },
+      { name: 'size', type: "'sm' | 'md' | 'lg'", defaultValue: "'md'", description: '크기 스케일' },
+      { name: 'fluid', type: 'boolean', defaultValue: 'false', description: '너비 100% 여부' }
+    ],
+    useCases: [
+      '글로벌 헤더 및 사이드바 내 1-Depth / 2-Depth 메뉴 구성',
+      '데이터 테이블 및 목록 상단의 카테고리 필터링 알약 바 (pills)',
+      '폼 또는 뷰 모드 전환용 분할 컨트롤 (segmented)',
+      '문서 및 설정 페이지의 섹션 탭 (tabs)'
+    ],
+    usagePatterns: [
+      '컴포넌트 내에 인라인으로 div나 날림 태그를 작성하지 않고 Nav + NavItem + NavLink로 조립',
+      '2-Depth 하위 메뉴는 NavDropdown 및 NavDropdownItem을 사용하여 이벤트 캡슐화',
+      '버튼 액션 필요 시 NavLink asButton prop 활용'
+    ],
+    dosAndDonts: [
+      {
+        do: '카테고리 필터나 탭 바 작성 시 <Nav variant="pills"> 또는 <Nav variant="tabs">를 사용하십시오.',
+        dont: '임의의 <div className="flex gap-2">와 날림 버튼 묶음을 직접 구현하지 마십시오.'
+      },
+      {
+        do: '2-Depth 드롭다운이 필요할 때는 <NavDropdown label="..."> 컴포넌트를 사용하십시오.',
+        dont: '마우스 엔터/리브 타이머나 위치 계산을 개별 페이지 컴포넌트에 직접 인라인으로 작성하지 마십시오.'
+      }
+    ],
+    relatedPatternIds: ['dashboard-analytics', 'table-master-detail'],
+    htmlSnippet: `<nav class="atom-nav atom-nav--pills" role="navigation">
+  <div class="atom-nav-item">
+    <a href="#" class="atom-nav-link atom-nav-link--active">전체</a>
+  </div>
+  <div class="atom-nav-item">
+    <a href="#" class="atom-nav-link">디자인</a>
+  </div>
+  <div class="atom-nav-item">
+    <a href="#" class="atom-nav-link">개발</a>
+  </div>
+</nav>`,
+    reactSnippet: `import { Nav, NavItem, NavLink, NavDropdown, NavDropdownItem } from '@/components/ui';
+
+export function ExampleNav() {
+  return (
+    <Nav variant="pills" size="sm">
+      <NavItem active>
+        <NavLink asButton active>전체 (All)</NavLink>
+      </NavItem>
+      <NavItem>
+        <NavLink asButton>디자인 (Design)</NavLink>
+      </NavItem>
+      <NavItem>
+        <NavLink asButton>엔지니어링 (Engineering)</NavLink>
+      </NavItem>
+      <NavItem>
+        <NavDropdown label="라이브러리">
+          <NavDropdownItem title="토큰 (Tokens)" description="W3C DTCG 사양" />
+          <NavDropdownItem title="컴포넌트 (Components)" description="28개 원자/분자" />
+        </NavDropdown>
+      </NavItem>
+    </Nav>
+  );
+}`
+  },
+  {
+    id: 'chart',
+    name: '데이터 차트 (Chart)',
+    category: 'feedback',
+    source: 'AtomSystem Universal',
+    description: '시계열 데이터, 매출 추이, 카테고리 비교를 선언적으로 시각화하는 고성능 벡터 차트 컴포넌트 (Line, Bar, Area)',
+    callout: {
+      type: 'tip',
+      title: '제로 런타임 친화적 벡터 차트',
+      text: 'Chart 컴포넌트는 무거운 서드파티 라이브러리 없이 브라우저 네이티브 SVG 및 W3C DTCG 시맨틱 토큰(var(--accent-primary), var(--atom-color-success) 등)과 100% 결합하여 렌더링 오버헤드가 제로입니다.'
+    },
+    propsSpec: [
+      { name: 'data', type: 'ChartDataPoint[]', defaultValue: '[]', description: '차트 데이터 배열 ({ label, value })' },
+      { name: 'type', type: "'line' | 'bar' | 'area'", defaultValue: "'line'", description: '차트 유형 (라인, 바, 영역)' },
+      { name: 'variant', type: "'primary' | 'secondary' | 'success' | 'danger' | 'warning'", defaultValue: "'primary'", description: '시맨틱 색상 테마' },
+      { name: 'height', type: 'number', defaultValue: '200', description: '차트 높이(px)' },
+      { name: 'showGrid', type: 'boolean', defaultValue: 'true', description: '수평 배경 그리드 표시 여부' },
+      { name: 'showPoints', type: 'boolean', defaultValue: 'true', description: '데이터 포인트 점 표시 여부' },
+      { name: 'showLabels', type: 'boolean', defaultValue: 'true', description: 'X축 라벨 표시 여부' },
+      { name: 'showTooltip', type: 'boolean', defaultValue: 'true', description: '호버 툴팁 표시 여부' }
+    ],
+    useCases: [
+      '엔터프라이즈 대시보드의 실시간 매출 및 트래픽 시계열 모니터링',
+      '월별/분기별 성과 지표 비교 (Bar 차트)',
+      '누적 볼륨 및 전환율 추세 분석 (Area 차트)',
+      '핵심 KPI 카드 하단의 미니 스파크라인 트렌드 시각화'
+    ],
+    usagePatterns: [
+      '데이터 포인트는 { label: "1월", value: 120 } 형태의 표준 배열로 전달',
+      '상승/성공 지표에는 variant="success", 손실/경고 지표에는 variant="danger" 적용',
+      '인스펙터에서 토큰(strokeColor, fillColor, gridColor)과 1:1 바인딩하여 실시간 커스터마이징'
+    ],
+    dosAndDonts: [
+      {
+        do: '시계열 추세를 표현할 때는 <Chart type="line" data={...} />를 사용하십시오.',
+        dont: '복잡하고 무거운 외부 라이브러리(Chart.js, Recharts 등 500KB+)를 무분별하게 추가하여 번들 크기를 키우지 마십시오.'
+      },
+      {
+        do: '상승이나 위험 같은 비즈니스 의미가 담긴 차트는 variant="success" 또는 variant="danger"를 활용하십시오.',
+        dont: '하드코딩된 HEX 컬러(#3182f6, #10b981)를 차트에 인라인으로 직접 작성하지 마십시오.'
+      }
+    ],
+    relatedPatternIds: ['dashboard-analytics', 'metric-stat-card'],
+    htmlSnippet: `<div class="atom-chart" data-component="chart" data-type="line">
+  <svg viewBox="0 0 600 200" class="w-full">
+    <!-- W3C Token-bound SVG elements -->
+  </svg>
+</div>`,
+    reactSnippet: `import { Chart } from '@/components/ui';
+
+export function ExampleChart() {
+  const data = [
+    { label: '1월', value: 120 },
+    { label: '2월', value: 180 },
+    { label: '3월', value: 150 },
+    { label: '4월', value: 240 },
+    { label: '5월', value: 310 },
+  ];
+
+  return <Chart type="area" variant="primary" data={data} height={200} />;
+}`
+  },
+  {
+    id: 'offcanvas',
+    name: '오프캔버스 서랍 (Offcanvas)',
+    category: 'layout',
+    source: 'AtomSystem Universal',
+    description: '화면 가장자리(좌, 우, 상, 하)에서 부드럽게 슬라이드되어 나타나는 오프캔버스 패널 및 서랍형 오버레이 컴포넌트',
+    callout: {
+      type: 'tip',
+      title: '고접근성 슬라이드오버 서랍',
+      text: 'Offcanvas 컴포넌트는 메인 화면의 작업 흐름을 유지한 채 세부 속성 편집, 모바일 글로벌 내비게이션, 필터 시트를 제공하며 W3C DTCG 시맨틱 토큰과 완전하게 결합됩니다.'
+    },
+    propsSpec: [
+      { name: 'isOpen', type: 'boolean', defaultValue: 'false', description: '오프캔버스 서랍의 열림/닫힘 상태를 제어합니다.' },
+      { name: 'onClose', type: '() => void', defaultValue: '-', description: '서랍 닫기 요청 시 호출되는 콜백 함수입니다.' },
+      { name: 'placement', type: "'left' | 'right' | 'top' | 'bottom'", defaultValue: "'right'", description: '서랍이 슬라이드되어 나타나는 화면 위치입니다.' },
+      { name: 'size', type: "'sm' | 'md' | 'lg' | 'full'", defaultValue: "'md'", description: '서랍의 너비 또는 높이 크기 규격입니다.' },
+      { name: 'title', type: 'ReactNode', defaultValue: '-', description: '서랍 상단 헤더에 표시할 타이틀 텍스트 또는 노드입니다.' },
+      { name: 'description', type: 'string', defaultValue: '-', description: '서랍 헤더 하단에 표시할 보조 설명 문구입니다.' },
+      { name: 'footer', type: 'ReactNode', defaultValue: '-', description: '서랍 하단 고정 영역에 배치할 액션 버튼 묶음입니다.' },
+      { name: 'showCloseButton', type: 'boolean', defaultValue: 'true', description: '우측 상단 닫기 아이콘 버튼의 표시 여부입니다.' },
+      { name: 'closeOnBackdrop', type: 'boolean', defaultValue: 'true', description: '배경 백드롭 클릭 시 자동으로 onClose를 호출할지 여부입니다.' },
+      { name: 'inline', type: 'boolean', defaultValue: 'false', description: '문서나 스튜디오 프리뷰용 인라인 컨테이너 임베딩 모드입니다.' }
+    ],
+    useCases: [
+      '데이터 테이블 또는 카드 리스트의 항목 상세 정보 인스펙터 패널',
+      '모바일 및 반응형 뷰포트의 글로벌 햄버거 내비게이션 드로어',
+      '전자상거래 또는 목록 검색의 하단 필터/정렬 바텀 시트',
+      '시스템 환경설정 및 사용자 프로필 관리 슬라이드오버'
+    ],
+    usagePatterns: [
+      '오프캔버스 내부 액션 버튼은 @/components/ui/Button 컴포넌트를 사용',
+      '문서나 카탈로그 프리뷰 카드에서는 inline={true}를 전달하여 컨테이너 내 안전한 임베딩',
+      '스튜디오에서 헤더 배경색, 보더, 패딩 토큰을 실시간으로 커스터마이징'
+    ],
+    dosAndDonts: [
+      {
+        do: '모바일 내비게이션이나 세부 정보 검토 시 placement="left" 또는 placement="right"를 지정하십시오.',
+        dont: 'raw <button>을 서랍 내부나 닫기 버튼에 직접 작성하지 마십시오. 반드시 @/components/ui의 Button을 사용하십시오.'
+      },
+      {
+        do: '모바일 환경에서 필터나 옵션 시트를 제공할 때는 placement="bottom"을 활용하십시오.',
+        dont: '인라인 하드코딩된 HEX 컬러(#ffffff, #000000)를 쓰지 말고 W3C DTCG 시맨틱 토큰(var(--bg-primary))을 사용하십시오.'
+      }
+    ],
+    relatedPatternIds: ['navigation-drawer', 'detail-inspector-panel'],
+    htmlSnippet: `<aside class="atom-offcanvas atom-offcanvas--right atom-offcanvas--open" role="dialog" aria-modal="true">
+  <div class="atom-offcanvas__header">
+    <h3 class="atom-offcanvas__title">서랍 타이틀</h3>
+    <button class="atom-button atom-button--ghost atom-button--sm">✕</button>
+  </div>
+  <div class="atom-offcanvas__body">
+    <p>오프캔버스 본문 콘텐츠</p>
+  </div>
+  <div class="atom-offcanvas__footer">
+    <button class="atom-button atom-button--primary">확인</button>
+  </div>
+</aside>`,
+    reactSnippet: `import { useState } from 'react';
+import { Offcanvas, Button } from '@/components/ui';
+
+export function ExampleDrawer() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <Button variant="primary" onClick={() => setOpen(true)}>서랍 열기</Button>
+      <Offcanvas
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        placement="right"
+        title="항목 상세 속성"
+        footer={
+          <div className="flex justify-end gap-2">
+            <Button variant="secondary" onClick={() => setOpen(false)}>닫기</Button>
+            <Button variant="primary">저장</Button>
+          </div>
+        }
+      >
+        <div className="space-y-4">
+          <p>여기에 상세 정보 또는 폼이 렌더링됩니다.</p>
+        </div>
+      </Offcanvas>
+    </>
+  );
+}`
+  },
+  {
+    id: 'toast',
+    name: '토스트 알림 (Toast)',
+    category: 'feedback',
+    source: 'AtomSystem Universal',
+    description: '작업 결과 피드백 및 상태 변화를 화면 구석에 일시적으로 알리는 플로팅 토스트 컴포넌트',
+    callout: {
+      type: 'tip',
+      title: '비침습적 상태 알림 피드백',
+      text: 'Toast 컴포넌트는 모달과 달리 사용자의 화면 상호작용 흐름을 가로막지 않고 성공, 경고, 오류 및 실행 취소(Undo) 액션을 자연스럽게 전달합니다.'
+    },
+    propsSpec: [
+      { name: 'variant', type: "'info' | 'success' | 'warning' | 'danger' | 'action'", defaultValue: "'info'", description: '토스트 시맨틱 알림 유형' },
+      { name: 'title', type: 'ReactNode', defaultValue: '-', description: '토스트 상단 헤더 타이틀' },
+      { name: 'description', type: 'ReactNode', defaultValue: '-', description: '토스트 본문 세부 설명 문구' },
+      { name: 'icon', type: 'ReactNode', defaultValue: '자동 설정', description: '알림 유형에 따른 시맨틱 아이콘' },
+      { name: 'action', type: 'ToastAction | ReactNode', defaultValue: '-', description: '실행 취소(Undo) 등 부가 액션 버튼' },
+      { name: 'onClose', type: '() => void', defaultValue: '-', description: '토스트 닫기 콜백 함수' },
+      { name: 'duration', type: 'number', defaultValue: '0', description: '자동 소멸 시간 (ms, 0은 수동 닫기)' },
+      { name: 'inline', type: 'boolean', defaultValue: 'false', description: '문서나 스튜디오 프리뷰용 인라인 컨테이너 임베딩 모드' }
+    ],
+    useCases: [
+      '데이터 저장, 파일 업로드 완료 성공 피드백',
+      '네트워크 장애 또는 API 요청 실패 시 재시도 안내',
+      '항목 삭제 후 되돌릴 수 있는 실행 취소(Undo) 액션 제공',
+      '시스템 점검 안내 및 클립보드 복사 완료 알림'
+    ],
+    usagePatterns: [
+      '알림 목적에 맞게 variant="success", "warning", "danger"를 선언',
+      '삭제 같은 위험 작업 후에는 action={{ label: "실행 취소", onClick: handleUndo }} 결합',
+      '스튜디오에서 배경색, 보더, 패딩 토큰을 실시간으로 커스터마이징'
+    ],
+    dosAndDonts: [
+      {
+        do: '성공 완료는 variant="success", 오류 상황은 variant="danger"를 지정하여 색상과 아이콘이 일관되게 표현되도록 하십시오.',
+        dont: 'raw <button>을 토스트 액션에 사용하지 마십시오. 반드시 @/components/ui의 Button 컴포넌트를 사용하십시오.'
+      },
+      {
+        do: '되돌릴 수 있는 작업 후에는 실행 취소 액션을 제공하십시오.',
+        dont: '토스트 내부에 긴 장문의 문단을 넣어 사용자의 가독성을 해치지 마십시오.'
+      }
+    ],
+    relatedPatternIds: ['system-notification', 'interactive-chat-block'],
+    htmlSnippet: `<div class="atom-toast atom-toast--success" role="status" aria-live="polite">
+  <div class="atom-toast__icon">✓</div>
+  <div class="atom-toast__content">
+    <div class="atom-toast__title">저장 완료</div>
+    <div class="atom-toast__desc">변경 사항이 클라우드에 반영되었습니다.</div>
+  </div>
+  <button class="atom-button atom-button--ghost atom-button--sm">✕</button>
+</div>`,
+    reactSnippet: `import { Toast } from '@/components/ui';
+
+export function ExampleToast() {
+  return (
+    <Toast
+      variant="success"
+      title="저장 완료"
+      description="변경 사항이 안전하게 클라우드에 동기화되었습니다."
+      onClose={() => {}}
+    />
   );
 }`
   }

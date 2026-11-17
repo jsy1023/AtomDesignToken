@@ -660,8 +660,87 @@ export const Select: React.FC<SelectProps> = ({
     </div>
   );
 };
+
+export interface NativeSelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {}
+
+export const NativeSelect = React.forwardRef<HTMLSelectElement, NativeSelectProps>(
+  ({ className = '', children, ...props }, ref) => {
+    return (
+      <select
+        ref={ref}
+        className={['w-full text-xs p-2 rounded-(--radius-sm) border border-(--border-subtle) bg-(--bg-primary) text-(--text-primary) cursor-pointer focus:outline-none focus:border-(--accent-primary) focus:ring-1 focus:ring-(--accent-primary) transition', className].filter(Boolean).join(' ')}
+        {...props}
+      >
+        {children}
+      </select>
+    );
+  }
+);
+NativeSelect.displayName = 'NativeSelect';
 `;
   fs.writeFileSync(path.join(uiDir, 'Select.tsx'), selectCode, 'utf-8');
+
+  // Checkbox
+  const checkboxCode = `import React from 'react';
+
+export interface CheckboxProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'> {
+  label?: React.ReactNode;
+  description?: React.ReactNode;
+  error?: string;
+}
+
+export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
+  ({ label, description, error, className = '', id, disabled, checked, onChange, ...props }, ref) => {
+    const generatedId = React.useId();
+    const checkboxId = id || generatedId;
+
+    return (
+      <div className="flex items-start gap-2.5 select-none">
+        <div className="relative flex items-center justify-center mt-0.5">
+          <input
+            ref={ref}
+            id={checkboxId}
+            type="checkbox"
+            checked={checked}
+            onChange={onChange}
+            disabled={disabled}
+            data-component="checkbox"
+            className={["peer appearance-none w-4 h-4 rounded-(--radius-sm) border border-(--border-strong) bg-(--bg-primary) checked:bg-(--accent-primary) checked:border-(--accent-primary) focus:outline-none focus:ring-2 focus:ring-(--accent-primary)/30 transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed", className].filter(Boolean).join(" ")}
+            {...props}
+          />
+          <svg
+            className="pointer-events-none absolute w-2.5 h-2.5 text-white opacity-0 peer-checked:opacity-100 transition-opacity"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={3}
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+          </svg>
+        </div>
+        {(label || description || error) && (
+          <div className="flex flex-col gap-0.5 leading-none">
+            {label && (
+              <label
+                htmlFor={checkboxId}
+                className={["text-xs font-medium cursor-pointer", disabled ? "text-(--text-muted) cursor-not-allowed" : "text-(--text-primary)"].join(" ")}
+              >
+                {label}
+              </label>
+            )}
+            {description && (
+              <span className="text-[11px] text-(--text-secondary)">{description}</span>
+            )}
+            {error && <span className="text-[11px] text-(--atom-color-destructive)">{error}</span>}
+          </div>
+        )}
+      </div>
+    );
+  }
+);
+Checkbox.displayName = 'Checkbox';
+`;
+  fs.writeFileSync(path.join(uiDir, 'Checkbox.tsx'), checkboxCode, 'utf-8');
 
   // Accordion
   const accordionCode = `import React, { useState } from 'react';
@@ -1227,6 +1306,14 @@ export const Tree: React.FC<TreeProps> = ({
   const sidebarCode = fs.readFileSync(path.join(uiDir, 'Sidebar.tsx'), 'utf-8');
   fs.writeFileSync(path.join(uiDir, 'Sidebar.tsx'), sidebarCode, 'utf-8');
 
+  // SideMenu
+  const sideMenuCode = fs.readFileSync(path.join(uiDir, 'SideMenu.tsx'), 'utf-8');
+  fs.writeFileSync(path.join(uiDir, 'SideMenu.tsx'), sideMenuCode, 'utf-8');
+
+  // Chart
+  const chartCode = fs.readFileSync(path.join(uiDir, 'Chart.tsx'), 'utf-8');
+  fs.writeFileSync(path.join(uiDir, 'Chart.tsx'), chartCode, 'utf-8');
+
   // UI Components Index
   const indexCode = `export * from './Button';
 export * from './Input';
@@ -1254,6 +1341,12 @@ export * from './Container';
 export * from './Layout';
 export * from './Navbar';
 export * from './Sidebar';
+export * from './Checkbox';
+export * from './Nav';
+export * from './SideMenu';
+export * from './Chart';
+export * from './Offcanvas';
+export * from './Toast';
 `;
   fs.writeFileSync(path.join(uiDir, 'index.ts'), indexCode, 'utf-8');
   console.log('✅ Generated components/ui ready-to-use React components');
