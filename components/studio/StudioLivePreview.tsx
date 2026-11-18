@@ -101,8 +101,8 @@ export function StudioLivePreview({
       boxShadow = 'none';
     } else if (typeId.includes('soft')) {
       if (!isHover && !isActive) {
-        bg = 'var(--accent-primary)/10';
-        borderColor = 'transparent';
+        bg = bg || 'color-mix(in srgb, var(--accent-primary) 12%, transparent)';
+        if (!b.borderColor) borderColor = 'transparent';
       }
       boxShadow = 'none';
     } else if (typeId.includes('elevated')) {
