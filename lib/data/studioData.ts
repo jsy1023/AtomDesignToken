@@ -163,13 +163,6 @@ export const DEFAULT_COMPONENT_TYPES: Record<string, ComponentTypeSpec[]> = {
       whenToUseEn: 'Use for inline text actions like "Learn more" or "Skip step".',
     },
     {
-      id: 'dashed',
-      name: 'Dashed (점선 외곽선형)',
-      description: '점선 보더를 통해 비어 있는 슬롯이나 새로운 항목 추가를 시각적으로 은유하는 외형',
-      whenToUse: '+ 새 항목 추가, 파일 업로드 슬롯, 새 변수 생성 등 신규 생성 유도 액션에 사용합니다.',
-      whenToUseEn: 'Use for creation slots or drop zones like "+ Add Item" or "Upload File".',
-    },
-    {
       id: 'neumorphic',
       name: 'Neumorphic (소프트 엠보싱 입체형)',
       description: '바닥 서피스에서 부드럽게 솟아오른 듯한 이중 음양 섀도우를 가진 스큐어모픽 외형',

@@ -157,15 +157,6 @@ export function StudioLivePreview({
       boxShadow = 'none';
       textColor = themeColor;
       textDecoration = isHover ? 'underline' : 'none';
-    } else if (typeId.includes('dashed')) {
-      borderStyle = 'dashed';
-      borderWidth = '2px';
-      borderColor = themeColor;
-      textColor = themeColor;
-      if (!isHover && !isActive) bg = 'transparent';
-      if (isHover) {
-        bg = `color-mix(in srgb, ${themeColor} 8%, transparent)`;
-      }
     } else if (typeId.includes('neumorphic')) {
       bg = 'var(--bg-secondary, #f3f4f6)';
       textColor = themeColor;
@@ -179,18 +170,18 @@ export function StudioLivePreview({
     }
 
     if (isHover) {
-      if (b.hoverBackground && !typeId.includes('outline') && !typeId.includes('ghost') && !typeId.includes('soft') && !typeId.includes('link') && !typeId.includes('dashed') && !typeId.includes('glassmorphic') && !typeId.includes('neumorphic')) {
+      if (b.hoverBackground && !typeId.includes('outline') && !typeId.includes('ghost') && !typeId.includes('soft') && !typeId.includes('link') && !typeId.includes('glassmorphic') && !typeId.includes('neumorphic')) {
         bg = getPaletteValue(b.hoverBackground);
       }
-      if (b.hoverTextColor && !typeId.includes('outline') && !typeId.includes('ghost') && !typeId.includes('soft') && !typeId.includes('link') && !typeId.includes('dashed') && !typeId.includes('glassmorphic') && !typeId.includes('neumorphic')) {
+      if (b.hoverTextColor && !typeId.includes('outline') && !typeId.includes('ghost') && !typeId.includes('soft') && !typeId.includes('link') && !typeId.includes('glassmorphic') && !typeId.includes('neumorphic')) {
         textColor = getPaletteValue(b.hoverTextColor);
       }
       if (b.hoverBorderColor) borderColor = getPaletteValue(b.hoverBorderColor);
     } else if (isActive) {
-      if (b.activeBackground && !typeId.includes('outline') && !typeId.includes('ghost') && !typeId.includes('soft') && !typeId.includes('link') && !typeId.includes('dashed') && !typeId.includes('glassmorphic') && !typeId.includes('neumorphic')) {
+      if (b.activeBackground && !typeId.includes('outline') && !typeId.includes('ghost') && !typeId.includes('soft') && !typeId.includes('link') && !typeId.includes('glassmorphic') && !typeId.includes('neumorphic')) {
         bg = getPaletteValue(b.activeBackground);
       }
-      if (b.activeTextColor && !typeId.includes('outline') && !typeId.includes('ghost') && !typeId.includes('soft') && !typeId.includes('link') && !typeId.includes('dashed') && !typeId.includes('glassmorphic') && !typeId.includes('neumorphic')) {
+      if (b.activeTextColor && !typeId.includes('outline') && !typeId.includes('ghost') && !typeId.includes('soft') && !typeId.includes('link') && !typeId.includes('glassmorphic') && !typeId.includes('neumorphic')) {
         textColor = getPaletteValue(b.activeTextColor);
       }
       if (b.activeBorderColor) borderColor = getPaletteValue(b.activeBorderColor);
