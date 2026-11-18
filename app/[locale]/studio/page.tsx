@@ -752,8 +752,112 @@ function LocalStudioContent() {
           </div>
         </main>
       ) : (
-        /* Unified Sidebar + Main Studio Layout (Independent Scrolling) */
-        <div className="flex-1 w-full flex flex-col md:flex-row overflow-hidden border-t border-(--border-subtle) animate-in fade-in">
+        /* Unified Studio Top Toolbar + Body */
+        <div className="flex-1 flex flex-col overflow-hidden">
+          {/* ================= STUDIO GLOBAL TOP TOOLBAR (Pinned, Non-Breaking) ================= */}
+          <header className="shrink-0 w-full bg-(--bg-primary) border-b border-(--border-subtle) px-4 sm:px-6 py-2.5 flex items-center justify-between gap-4 z-20 shadow-xs">
+            {/* Left: Studio Identity & Connection Status */}
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="flex items-center gap-2 shrink-0">
+                <h1 className="text-sm sm:text-base font-extrabold tracking-tight text-(--text-primary) whitespace-nowrap">
+                  {t('title')}
+                </h1>
+                <span className="whitespace-nowrap font-mono text-[11px] px-2 py-0.5 rounded bg-(--atom-color-success)/10 text-(--atom-color-success) dark:text-(--atom-color-success) font-bold border border-(--atom-color-success)/20 flex items-center gap-1.5 shadow-xs">
+                  <span className="w-1.5 h-1.5 rounded-full bg-(--atom-color-success) inline-block" />
+                  {t('badgeConnected')}
+                </span>
+                <span className="whitespace-nowrap hidden lg:inline-block text-[11px] font-mono px-2 py-0.5 rounded bg-(--bg-secondary) text-(--text-secondary) border border-(--border-subtle)">
+                  {t('badgeFs')}
+                </span>
+              </div>
+              <p className="text-xs text-(--text-secondary) truncate hidden xl:inline-block border-l border-(--border-subtle) pl-3">
+                {t('desc')}
+              </p>
+            </div>
+
+            {/* Right: Quick Tools & Project Save */}
+            <div className="flex items-center gap-2 shrink-0">
+              {/* Theme Quick Switcher */}
+              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-(--radius-sm) bg-(--bg-secondary) border border-(--border-subtle) text-xs">
+                <Palette className="w-3.5 h-3.5 text-(--accent-primary) shrink-0" />
+                <span className="text-(--text-secondary) text-[11px] font-semibold hidden sm:inline whitespace-nowrap">
+                  {locale === 'ko' ? '테마:' : 'Theme:'}
+                </span>
+                <NativeSelect
+                  value={selectedThemeId}
+                  onChange={(e) => handleSelectTheme(e.target.value)}
+                  className="text-xs font-semibold bg-transparent border-0 h-auto p-0 cursor-pointer min-w-0"
+                >
+                  {themes.map((th) => (
+                    <option key={th.id} value={th.id}>
+                      {formatLocaleText(th.name, locale)}
+                    </option>
+                  ))}
+                </NativeSelect>
+              </div>
+
+              {/* Quick Light/Dark Toggle */}
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={handleToggleThemeMode}
+                className="flex items-center gap-1 text-xs py-1 px-2.5 h-7"
+                title="라이트 / 다크 모드 빠른 전환"
+              >
+                {themes.find((t) => t.id === selectedThemeId)?.mode === 'dark' ? (
+                  <>
+                    <Sun className="w-3.5 h-3.5 text-amber-500" />
+                    <span className="hidden md:inline">{locale === 'ko' ? '라이트' : 'Light'}</span>
+                  </>
+                ) : (
+                  <>
+                    <Moon className="w-3.5 h-3.5 text-indigo-500" />
+                    <span className="hidden md:inline">{locale === 'ko' ? '다크' : 'Dark'}</span>
+                  </>
+                )}
+              </Button>
+
+              {/* Reset */}
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={() => {
+                  setPaletteVariables(INITIAL_PALETTE_VARIABLES);
+                  setComponents(INITIAL_STUDIO_COMPONENTS);
+                  handleSelectTheme('ocean-blue');
+                  resetTheme();
+                }}
+                className="flex items-center gap-1 text-xs py-1 px-2.5 h-7"
+              >
+                <RotateCcw className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">{t('reset')}</span>
+              </Button>
+
+              {/* Save to Project */}
+              <Button
+                variant="primary"
+                size="sm"
+                onClick={handleSaveToProject}
+                disabled={isSaving}
+                className="flex items-center gap-1.5 text-xs py-1 px-3 h-7 font-bold bg-(--accent-primary) text-(--bg-primary)"
+              >
+                {saveSuccess ? (
+                  <>
+                    <Check className="w-3.5 h-3.5 text-(--atom-color-success)" />
+                    <span>{t('saveSuccess')}</span>
+                  </>
+                ) : (
+                  <>
+                    <Save className="w-3.5 h-3.5" />
+                    <span>{isSaving ? t('saving') : t('saveToProject')}</span>
+                  </>
+                )}
+              </Button>
+            </div>
+          </header>
+
+          {/* Unified Sidebar + Main Studio Layout (Independent Scrolling) */}
+          <div className="flex-1 w-full flex flex-col md:flex-row overflow-hidden animate-in fade-in">
           {/* ================= LEFT SIDEBAR (Independent Scrollable Container) ================= */}
           <aside className="w-full md:w-72 lg:w-80 shrink-0 border-r border-(--border-subtle) bg-(--bg-secondary)/30 flex flex-col h-full overflow-hidden">
             {/* 1. Main Studio Mode Navigation Menu (Fixed Top in Sidebar) */}
@@ -1083,104 +1187,6 @@ function LocalStudioContent() {
 
           {/* ================= RIGHT MAIN WORKSPACE (Independent Scrollable Container) ================= */}
           <main className="flex-1 h-full overflow-y-auto p-5 sm:p-7 flex flex-col gap-6">
-            {/* Header & Global Project Save Bar */}
-            <div className="shrink-0 flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-(--border-subtle) pb-5">
-              <div>
-                <div className="flex items-center gap-2 mb-1.5">
-                  <span className="font-mono text-xs px-2 py-0.5 rounded bg-(--atom-color-success)/10 text-(--atom-color-success) dark:text-(--atom-color-success) font-bold border border-(--atom-color-success)/20 flex items-center gap-1.5 shadow-xs">
-                    <span className="w-1.5 h-1.5 rounded-full bg-(--atom-color-success) inline-block" />
-                    {t('badgeConnected')}
-                  </span>
-                  <span className="text-xs font-mono px-2 py-0.5 rounded bg-(--bg-secondary) text-(--text-secondary) border border-(--border-subtle)">
-                    {t('badgeFs')}
-                  </span>
-                </div>
-                <h1 className="text-2xl font-extrabold tracking-tight text-(--text-primary)">
-                  {t('title')}
-                </h1>
-                <p className="text-xs sm:text-sm text-(--text-secondary) mt-0.5">
-                  {t('desc')}
-                </p>
-              </div>
-
-              <div className="flex items-center gap-2.5 shrink-0 flex-wrap">
-                {/* Theme Quick Switcher */}
-                <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-(--radius-sm) bg-(--bg-secondary) border border-(--border-subtle) text-xs shadow-xs">
-                  <Palette className="w-3.5 h-3.5 text-(--accent-primary) shrink-0" />
-                  <span className="text-(--text-secondary) text-[11px] font-semibold hidden md:inline">
-                    {locale === 'ko' ? '테마:' : 'Theme:'}
-                  </span>
-                  <NativeSelect
-                    value={selectedThemeId}
-                    onChange={(e) => handleSelectTheme(e.target.value)}
-                    className="text-xs font-semibold bg-transparent border-0 h-auto p-0 cursor-pointer min-w-0"
-                  >
-                    {themes.map((th) => (
-                      <option key={th.id} value={th.id}>
-                        {formatLocaleText(th.name, locale)}
-                      </option>
-                    ))}
-                  </NativeSelect>
-                </div>
-
-                {/* Quick Light/Dark Toggle */}
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  onClick={handleToggleThemeMode}
-                  className="flex items-center gap-1 text-xs py-1.5 px-2.5 h-auto"
-                  title="라이트 / 다크 모드 빠른 전환"
-                >
-                  {themes.find((t) => t.id === selectedThemeId)?.mode === 'dark' ? (
-                    <>
-                      <Sun className="w-3.5 h-3.5 text-amber-500" />
-                      <span className="hidden sm:inline">{locale === 'ko' ? '라이트' : 'Light'}</span>
-                    </>
-                  ) : (
-                    <>
-                      <Moon className="w-3.5 h-3.5 text-indigo-500" />
-                      <span className="hidden sm:inline">{locale === 'ko' ? '다크' : 'Dark'}</span>
-                    </>
-                  )}
-                </Button>
-
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  onClick={() => {
-                    setPaletteVariables(INITIAL_PALETTE_VARIABLES);
-                    setComponents(INITIAL_STUDIO_COMPONENTS);
-                    handleSelectTheme('ocean-blue');
-                    resetTheme();
-                  }}
-                  className="flex items-center gap-1.5"
-                >
-                  <RotateCcw className="w-3.5 h-3.5" />
-                  <span>{t('reset')}</span>
-                </Button>
-
-                <Button
-                  variant="primary"
-                  size="sm"
-                  onClick={handleSaveToProject}
-                  disabled={isSaving}
-                  className="flex items-center gap-2 bg-(--accent-primary) text-(--bg-primary)"
-                >
-                  {saveSuccess ? (
-                    <>
-                      <Check className="w-4 h-4 text-(--atom-color-success)" />
-                      <span>{t('saveSuccess')}</span>
-                    </>
-                  ) : (
-                    <>
-                      <Save className="w-4 h-4" />
-                      <span>{isSaving ? t('saving') : t('saveToProject')}</span>
-                    </>
-                  )}
-                </Button>
-              </div>
-            </div>
-
             {/* Status notification banner */}
             {statusMessage && (
               <div
@@ -2203,7 +2209,8 @@ function LocalStudioContent() {
             )}
           </main>
         </div>
-      )}
+      </div>
+    )}
 
       {/* MODAL 0: Add Component Design Type (새로운 디자인 외형 양식 신설) */}
       {isAddTypeOpen && (
