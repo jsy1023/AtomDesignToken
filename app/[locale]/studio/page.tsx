@@ -352,6 +352,23 @@ function LocalStudioContent() {
       whenToUse: newTypeWhenToUse.trim() || `${newTypeName.trim()} 디자인 형태가 필요한 상황에 사용합니다.`,
     };
 
+    // 신규 카드를 위한 기본 토큰 바인딩 생성
+    const initialBindings: Record<string, string> = {};
+    currentComponent.properties.forEach((prop) => {
+      initialBindings[prop.key] = currentVariable?.tokenBindings[prop.key] || prop.defaultPaletteId;
+    });
+
+    // 신규 Type을 즉시 탑재한 신규 컴포넌트 카드(Live Stage) 생성
+    const newVarId = `${cleanKey}-live`;
+    const newVar: ComponentVariable = {
+      id: newVarId,
+      name: `${newTypeName.trim()} (#${currentComponent.variables.length + 1})`,
+      description: newTypeDesc.trim() || `${newTypeName.trim()} 신규 디자인 형태의 라이브 스테이지`,
+      type: newType,
+      variableRole: resolveVariableRole(cleanKey),
+      tokenBindings: initialBindings,
+    };
+
     setComponents((prev) =>
       prev.map((c) => {
         if (c.id !== currentComponent.id) return c;
@@ -359,16 +376,27 @@ function LocalStudioContent() {
         return {
           ...c,
           types: [...existingTypes, newType],
+          variables: [...c.variables, newVar],
         };
       })
     );
 
     setSelectedTypeId(cleanKey);
+    setSelectedVariableId(newVarId);
+    updateUrl('components', currentComponent.id, newVarId, selectedThemeId);
     setIsAddTypeOpen(false);
     setNewTypeName('');
     setNewTypeKey('');
     setNewTypeDesc('');
     setNewTypeWhenToUse('');
+
+    // 생성된 신규 카드로 부드럽게 스크롤 이동
+    setTimeout(() => {
+      const el = document.getElementById(`live-stage-${newVarId}`);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }, 120);
   };
 
   const handleSelectVariable = (varId: string) => {
@@ -1232,17 +1260,9 @@ function LocalStudioContent() {
                           </span>
                         </div>
 
-                        {/* [+ 새 Type 추가] 버튼 - 눈에 확 띄는 버튼! */}
-                        <Button
-                          variant="primary"
-                          size="sm"
-                          onClick={() => setIsAddTypeOpen(true)}
-                          className="text-xs font-bold py-1.5 px-3 h-auto flex items-center gap-1.5 shadow-xs bg-indigo-600 hover:bg-indigo-700 text-white"
-                          title="새로운 형태의 디자인 외형(Type) 추가"
-                        >
-                          <Plus className="w-3.5 h-3.5" />
-                          <span>{locale === 'ko' ? '+ 새 Type 추가' : '+ Add New Type'}</span>
-                        </Button>
+                        <span className="text-[11px] font-mono font-semibold px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20">
+                          {currentTypes.length}{locale === 'ko' ? '개 Type 등록됨' : ' Types Active'}
+                        </span>
                       </div>
 
                       {/* Type Tabs (Scrollable Horizontal Row) */}
@@ -1619,6 +1639,23 @@ function LocalStudioContent() {
                         </div>
                       );
                     })}
+
+                    {/* Bottom Action: Add New Type & Generate Live Stage Card */}
+                    <div className="pt-2 flex flex-col gap-2.5">
+                      <Button
+                        variant="secondary"
+                        onClick={() => setIsAddTypeOpen(true)}
+                        className="w-full py-4 px-5 border-2 border-dashed border-indigo-500/30 hover:border-indigo-500 bg-indigo-500/5 hover:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 rounded-(--radius) flex items-center justify-center gap-2.5 font-bold transition-all shadow-xs group cursor-pointer"
+                        title={locale === 'ko' ? '새로운 외형 형태(Type)를 추가하고 아래에 라이브 스테이지 카드를 즉시 생성합니다' : 'Add a new visual design Type and generate a new Live Stage card below'}
+                      >
+                        <Sparkles className="w-4 h-4 text-indigo-500 group-hover:scale-110 transition-transform" />
+                        <span className="text-xs sm:text-sm">
+                          {locale === 'ko'
+                            ? '+ 새 Type(디자인 형태) 추가하고 아래에 Live Stage 카드 생성'
+                            : '+ Add New Design Type & Generate Live Stage Below'}
+                        </span>
+                      </Button>
+                    </div>
                   </div>
                 </div>
 
