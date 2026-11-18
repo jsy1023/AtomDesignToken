@@ -870,7 +870,7 @@ function LocalStudioContent() {
                   variant={activeTab === 'components' ? 'primary' : 'ghost'}
                   size="sm"
                   onClick={() => handleSelectTab('components')}
-                  className={`w-full justify-start text-left px-3 py-2 text-xs sm:text-sm font-semibold gap-2.5 ${
+                  className={`w-full !justify-start text-left px-3 py-2 text-xs sm:text-sm font-semibold gap-2.5 ${
                     activeTab === 'components'
                       ? 'bg-(--text-primary) text-(--bg-primary)'
                       : 'text-(--text-secondary) hover:text-(--text-primary)'
@@ -884,7 +884,7 @@ function LocalStudioContent() {
                   variant={activeTab === 'themes' ? 'primary' : 'ghost'}
                   size="sm"
                   onClick={() => handleSelectTab('themes')}
-                  className={`w-full justify-start text-left px-3 py-2 text-xs sm:text-sm font-semibold gap-2.5 ${
+                  className={`w-full !justify-start text-left px-3 py-2 text-xs sm:text-sm font-semibold gap-2.5 ${
                     activeTab === 'themes'
                       ? 'bg-(--text-primary) text-(--bg-primary)'
                       : 'text-(--text-secondary) hover:text-(--text-primary)'
@@ -898,7 +898,7 @@ function LocalStudioContent() {
                   variant={activeTab === 'palette' ? 'primary' : 'ghost'}
                   size="sm"
                   onClick={() => handleSelectTab('palette')}
-                  className={`w-full justify-start text-left px-3 py-2 text-xs sm:text-sm font-semibold gap-2.5 ${
+                  className={`w-full !justify-start text-left px-3 py-2 text-xs sm:text-sm font-semibold gap-2.5 ${
                     activeTab === 'palette'
                       ? 'bg-(--text-primary) text-(--bg-primary)'
                       : 'text-(--text-secondary) hover:text-(--text-primary)'
@@ -912,7 +912,7 @@ function LocalStudioContent() {
                   variant={activeTab === 'preview' ? 'primary' : 'ghost'}
                   size="sm"
                   onClick={() => handleSelectTab('preview')}
-                  className={`w-full justify-start text-left px-3 py-2 text-xs sm:text-sm font-semibold gap-2.5 ${
+                  className={`w-full !justify-start text-left px-3 py-2 text-xs sm:text-sm font-semibold gap-2.5 ${
                     activeTab === 'preview'
                       ? 'bg-(--text-primary) text-(--bg-primary)'
                       : 'text-(--text-secondary) hover:text-(--text-primary)'
@@ -926,7 +926,7 @@ function LocalStudioContent() {
                   variant={activeTab === 'brand' ? 'primary' : 'ghost'}
                   size="sm"
                   onClick={() => handleSelectTab('brand')}
-                  className={`w-full justify-start text-left px-3 py-2 text-xs sm:text-sm font-semibold gap-2.5 ${
+                  className={`w-full !justify-start text-left px-3 py-2 text-xs sm:text-sm font-semibold gap-2.5 ${
                     activeTab === 'brand'
                       ? 'bg-(--text-primary) text-(--bg-primary)'
                       : 'text-(--text-secondary) hover:text-(--text-primary)'
@@ -954,16 +954,14 @@ function LocalStudioContent() {
                   </div>
 
                   {/* Search */}
-                  <div className="relative">
-                    <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-(--text-muted)" />
-                    <Input
-                      type="text"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      placeholder={t('searchComponent')}
-                      className="w-full text-xs pl-8 pr-3 py-1.5"
-                    />
-                  </div>
+                  <Input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder={t('searchComponent')}
+                    leftIcon={<Search className="w-3.5 h-3.5" />}
+                    className="w-full text-xs pr-3 py-1.5"
+                  />
 
                   {/* Category Filter Pills */}
                   <div className="flex flex-wrap gap-1">
@@ -999,14 +997,14 @@ function LocalStudioContent() {
                         variant={isSelected ? 'primary' : 'ghost'}
                         size="sm"
                         onClick={() => handleSelectComponent(comp.id)}
-                        className={`w-full justify-between text-left p-2.5 h-auto text-xs font-medium ${
+                        className={`w-full !justify-between text-left p-2.5 h-auto text-xs font-medium ${
                           isSelected
                             ? 'bg-(--text-primary) text-(--bg-primary) font-semibold shadow-xs'
                             : 'hover:bg-(--bg-secondary) text-(--text-primary)'
                         }`}
                       >
-                        <span className="truncate">{formatLocaleText(comp.name, locale)}</span>
-                        <span className="text-[10px] font-mono opacity-60 ml-2">
+                        <span className="truncate text-left">{formatLocaleText(comp.name, locale)}</span>
+                        <span className="text-[10px] font-mono opacity-60 ml-2 shrink-0">
                           {comp.variables.length} vars
                         </span>
                       </Button>
@@ -1023,16 +1021,14 @@ function LocalStudioContent() {
                   <span className="text-xs font-mono font-bold text-(--text-secondary) uppercase tracking-wider block mb-2">
                     팔레트 카테고리
                   </span>
-                  <div className="relative">
-                    <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-(--text-muted)" />
-                    <Input
-                      type="text"
-                      value={paletteSearchQuery}
-                      onChange={(e) => setPaletteSearchQuery(e.target.value)}
-                      placeholder="팔레트 검색..."
-                      className="w-full text-xs pl-8 pr-3 py-1.5"
-                    />
-                  </div>
+                  <Input
+                    type="text"
+                    value={paletteSearchQuery}
+                    onChange={(e) => setPaletteSearchQuery(e.target.value)}
+                    placeholder="팔레트 검색..."
+                    leftIcon={<Search className="w-3.5 h-3.5" />}
+                    className="w-full text-xs pr-3 py-1.5"
+                  />
                 </div>
 
                 <div className="flex-1 overflow-y-auto p-4 space-y-1">
@@ -1041,7 +1037,7 @@ function LocalStudioContent() {
                     variant={paletteCategoryFilter === 'status' ? 'primary' : 'ghost'}
                     size="sm"
                     onClick={() => setPaletteCategoryFilter('status')}
-                    className={`w-full justify-between text-left p-2.5 h-auto text-xs font-medium ${
+                    className={`w-full !justify-between text-left p-2.5 h-auto text-xs font-medium ${
                       paletteCategoryFilter === 'status'
                         ? 'bg-(--text-primary) text-(--bg-primary) font-semibold shadow-xs'
                         : 'hover:bg-(--bg-secondary) text-(--text-primary)'
@@ -1062,7 +1058,7 @@ function LocalStudioContent() {
                       setPaletteCategoryFilter('color');
                       setColorFamilyFilter('all');
                     }}
-                    className={`w-full justify-between text-left p-2.5 h-auto text-xs font-medium ${
+                    className={`w-full !justify-between text-left p-2.5 h-auto text-xs font-medium ${
                       paletteCategoryFilter === 'color' && colorFamilyFilter === 'all'
                         ? 'bg-(--text-primary) text-(--bg-primary) font-semibold shadow-xs'
                         : 'hover:bg-(--bg-secondary) text-(--text-primary)'
@@ -1086,7 +1082,7 @@ function LocalStudioContent() {
                           variant={colorFamilyFilter === fam.id ? 'primary' : 'ghost'}
                           size="sm"
                           onClick={() => setColorFamilyFilter(fam.id)}
-                          className="w-full text-left px-2 py-1.5 h-auto text-[11px] font-medium flex items-center justify-between"
+                          className="w-full text-left px-2 py-1.5 h-auto text-[11px] font-medium flex items-center !justify-between"
                         >
                           <span className="flex items-center gap-2 truncate">
                             <span
@@ -1106,7 +1102,7 @@ function LocalStudioContent() {
                     variant={paletteCategoryFilter === 'size' ? 'primary' : 'ghost'}
                     size="sm"
                     onClick={() => setPaletteCategoryFilter('size')}
-                    className={`w-full justify-between text-left p-2.5 h-auto text-xs font-medium ${
+                    className={`w-full !justify-between text-left p-2.5 h-auto text-xs font-medium ${
                       paletteCategoryFilter === 'size'
                         ? 'bg-(--text-primary) text-(--bg-primary) font-semibold shadow-xs'
                         : 'hover:bg-(--bg-secondary) text-(--text-primary)'
@@ -1126,7 +1122,7 @@ function LocalStudioContent() {
                     variant={paletteCategoryFilter === 'radius' ? 'primary' : 'ghost'}
                     size="sm"
                     onClick={() => setPaletteCategoryFilter('radius')}
-                    className={`w-full justify-between text-left p-2.5 h-auto text-xs font-medium ${
+                    className={`w-full !justify-between text-left p-2.5 h-auto text-xs font-medium ${
                       paletteCategoryFilter === 'radius'
                         ? 'bg-(--text-primary) text-(--bg-primary) font-semibold shadow-xs'
                         : 'hover:bg-(--bg-secondary) text-(--text-primary)'
@@ -1146,7 +1142,7 @@ function LocalStudioContent() {
                     variant={paletteCategoryFilter === 'typography' ? 'primary' : 'ghost'}
                     size="sm"
                     onClick={() => setPaletteCategoryFilter('typography')}
-                    className={`w-full justify-between text-left p-2.5 h-auto text-xs font-medium ${
+                    className={`w-full !justify-between text-left p-2.5 h-auto text-xs font-medium ${
                       paletteCategoryFilter === 'typography'
                         ? 'bg-(--text-primary) text-(--bg-primary) font-semibold shadow-xs'
                         : 'hover:bg-(--bg-secondary) text-(--text-primary)'
@@ -1166,7 +1162,7 @@ function LocalStudioContent() {
                     variant={paletteCategoryFilter === 'all' ? 'primary' : 'ghost'}
                     size="sm"
                     onClick={() => setPaletteCategoryFilter('all')}
-                    className={`w-full justify-between text-left p-2.5 h-auto text-xs font-medium ${
+                    className={`w-full !justify-between text-left p-2.5 h-auto text-xs font-medium ${
                       paletteCategoryFilter === 'all'
                         ? 'bg-(--text-primary) text-(--bg-primary) font-semibold shadow-xs'
                         : 'hover:bg-(--bg-secondary) text-(--text-primary)'

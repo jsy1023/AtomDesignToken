@@ -721,6 +721,18 @@
   text-decoration: none;
   user-select: none;
 }
+.atom-btn--left,
+.atom-btn.justify-start,
+.atom-btn.\!justify-start {
+  justify-content: flex-start !important;
+  text-align: left !important;
+}
+.atom-btn--between,
+.atom-btn.justify-between,
+.atom-btn.\!justify-between {
+  justify-content: space-between !important;
+  width: 100%;
+}
 .atom-btn:focus-visible {
   outline: 2px solid var(--atom-primary);
   outline-offset: 2px;
