@@ -263,9 +263,9 @@ function LocalStudioContent() {
   // Active Status tab in the Inspector panel (Default, Hover, Active, Focus, Disabled, All)
   const [inspectorStatusTab, setInspectorStatusTab] = useState<ComponentInteractiveStatus | 'all'>('default');
 
-  // Additional Variables (size & slots / layout)
-  const [buttonSize, setButtonSize] = useState<'sm' | 'md' | 'lg'>('md');
-  const [buttonIconSlot, setButtonIconSlot] = useState<'none' | 'left' | 'right' | 'icon-only'>('none');
+  // Additional Variables per Live Stage Card (size & slots / layout)
+  const [stageSizes, setStageSizes] = useState<Record<string, 'sm' | 'md' | 'lg'>>({});
+  const [stageIconSlots, setStageIconSlots] = useState<Record<string, 'none' | 'left' | 'right' | 'icon-only'>>({});
 
   const [codeSnippetLang, setCodeSnippetLang] = useState<'react' | 'html' | 'vue'>('react');
   const [copiedVarCode, setCopiedVarCode] = useState<string | null>(null);
@@ -1197,144 +1197,24 @@ function LocalStudioContent() {
             {/* TAB 1: Component Studio (Stage & Token Inspector) */}
             {activeTab === 'components' && (
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start pb-10">
-                {/* Central Stage: Stacked Repeated Live Stages for all Variables (7 cols) */}
-                <div className="lg:col-span-7 min-w-0 flex flex-col gap-6">
-                  {/* Top Bar: Component Info + Variable (System Semantic Color) Selector */}
-                  <div className="p-4 sm:p-5 rounded-(--radius) bg-(--bg-secondary)/30 border border-(--border-subtle) flex flex-col gap-4">
-                    {/* Header Row: Component Title & Variable Badges */}
-                    <div className="flex items-center justify-between gap-2 flex-wrap">
-                      <div className="flex items-center gap-2">
-                        <Sliders className="w-4 h-4 text-(--accent-primary)" />
-                        <div>
-                          <h2 className="text-sm sm:text-base font-bold text-(--text-primary) flex items-center gap-2">
-                            <span>{formatLocaleText(currentComponent.name, locale)}</span>
-                            <span className="text-[11px] font-mono font-semibold px-2 py-0.5 rounded-full bg-(--accent-primary)/10 text-(--accent-primary) border border-(--accent-primary)/20">
-                              {currentTypes.length} Types · {currentComponent.variables.length} Variables
-                            </span>
-                          </h2>
-                          <p className="text-xs text-(--text-secondary) mt-0.5">
-                            {locale === 'ko'
-                              ? `선택된 시스템 변수: [Variable: ${currentVariable?.name} (${selectedVariableId})] · 아래 각 Type 카드에서 실시간 렌더링`
-                              : `Active Variable: [${currentVariable?.name} (${selectedVariableId})] · Rendered across all Type cards below`}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* [디자인 세부 옵션 (Variable)] 선택 및 추가 컨트롤 바 */}
-                    <div className="pt-3 border-t border-(--border-subtle) flex flex-col gap-3">
-                      {/* Sub-section 1: System Semantic Theme Colors */}
-                      <div className="flex flex-col gap-2">
-                        <div className="flex items-center justify-between gap-2 flex-wrap">
-                          <div className="flex items-center gap-1.5">
-                            <Layers className="w-3.5 h-3.5 text-(--accent-primary)" />
-                            <span className="text-xs font-bold text-(--text-primary)">
-                              {locale === 'ko' ? '1. 시스템 시맨틱 색상 (system)' : '1. System Semantic Color (system)'}
-                            </span>
-                            <span className="text-[10px] text-(--text-muted) hidden sm:inline">
-                              {locale === 'ko' ? '— 테마 토큰 연동 (위험, 경고, 성공 등)' : '— Semantic status token'}
-                            </span>
-                          </div>
-
-                          <Button
-                            variant="secondary"
-                            size="sm"
-                            onClick={() => setIsAddVariableOpen(true)}
-                            className="text-xs font-semibold py-1 px-2.5 h-auto flex items-center gap-1"
-                          >
-                            <Plus className="w-3.5 h-3.5" />
-                            <span>{t('addVariableBtn')}</span>
-                          </Button>
-                        </div>
-
-                        {/* Variable (System Color) Tabs */}
-                        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 studio-scrollbar">
-                          {currentComponent.variables.map((v) => {
-                            const isCurrentVal = v.id === selectedVariableId;
-                            return (
-                              <Button
-                                key={v.id}
-                                variant={isCurrentVal ? 'primary' : 'secondary'}
-                                size="sm"
-                                onClick={() => handleSelectVariable(v.id)}
-                                className={`text-xs py-1.5 px-3 h-auto whitespace-nowrap font-semibold transition-all shrink-0 ${
-                                  isCurrentVal
-                                    ? 'bg-(--accent-primary) text-white font-bold shadow-xs'
-                                    : 'bg-(--bg-primary) hover:bg-(--bg-secondary) text-(--text-secondary) border border-(--border-subtle)'
-                                }`}
-                              >
-                                <span>{formatLocaleText(v.name, locale)}</span>
-                                <span className="font-mono text-[10px] opacity-75 ml-1.5">
-                                  ({v.id})
-                                </span>
-                              </Button>
-                            );
-                          })}
-                        </div>
-                      </div>
-
-                      {/* Sub-section 2: Size & Icon Slot Variables */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2.5 border-t border-(--border-subtle)/60">
-                        {/* 2-1. Size (버튼 규격) */}
-                        <div className="flex flex-col gap-1.5">
-                          <span className="text-[11px] font-bold text-(--text-secondary) flex items-center gap-1">
-                            <span>{locale === 'ko' ? '2. 버튼 규격 (size)' : '2. Button Size (size)'}</span>
-                            <span className="text-[10px] font-mono font-normal text-(--text-muted)">sm · md · lg</span>
+                {/* Central Stage: Stacked Repeated Live Stages for all Types (7 cols) */}
+                <div className="lg:col-span-7 min-w-0 flex flex-col gap-5">
+                  {/* Top Header: Component Title */}
+                  <div className="flex items-center justify-between gap-2 flex-wrap pb-1">
+                    <div className="flex items-center gap-2">
+                      <Sliders className="w-4 h-4 text-(--accent-primary)" />
+                      <div>
+                        <h2 className="text-sm sm:text-base font-bold text-(--text-primary) flex items-center gap-2">
+                          <span>{formatLocaleText(currentComponent.name, locale)}</span>
+                          <span className="text-[11px] font-mono font-semibold px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20">
+                            {currentTypes.length} Types
                           </span>
-                          <div className="flex items-center gap-1">
-                            {[
-                              { id: 'sm', label: 'Small (sm)' },
-                              { id: 'md', label: 'Medium (md - 기본)' },
-                              { id: 'lg', label: 'Large (lg)' },
-                            ].map((sz) => {
-                              const isCur = buttonSize === sz.id;
-                              return (
-                                <Button
-                                  key={sz.id}
-                                  variant={isCur ? 'primary' : 'secondary'}
-                                  size="sm"
-                                  onClick={() => setButtonSize(sz.id as 'sm' | 'md' | 'lg')}
-                                  className={`text-xs py-1 px-2.5 h-auto font-semibold flex-1 ${
-                                    isCur ? 'bg-(--accent-primary) text-white font-bold shadow-2xs' : 'text-(--text-secondary)'
-                                  }`}
-                                >
-                                  {sz.label}
-                                </Button>
-                              );
-                            })}
-                          </div>
-                        </div>
-
-                        {/* 2-2. Icon Slot (아이콘 슬롯 / 레이아웃) */}
-                        <div className="flex flex-col gap-1.5">
-                          <span className="text-[11px] font-bold text-(--text-secondary) flex items-center gap-1">
-                            <span>{locale === 'ko' ? '3. 아이콘 슬롯 (slots)' : '3. Icon Slot (slots)'}</span>
-                            <span className="text-[10px] font-mono font-normal text-(--text-muted)">none · left · right · only</span>
-                          </span>
-                          <div className="flex items-center gap-1">
-                            {[
-                              { id: 'none', label: locale === 'ko' ? '없음' : 'None' },
-                              { id: 'left', label: locale === 'ko' ? '왼쪽' : 'Left' },
-                              { id: 'right', label: locale === 'ko' ? '오른쪽' : 'Right' },
-                              { id: 'icon-only', label: locale === 'ko' ? '아이콘만' : 'Only' },
-                            ].map((ic) => {
-                              const isCur = buttonIconSlot === ic.id;
-                              return (
-                                <Button
-                                  key={ic.id}
-                                  variant={isCur ? 'primary' : 'secondary'}
-                                  size="sm"
-                                  onClick={() => setButtonIconSlot(ic.id as 'none' | 'left' | 'right' | 'icon-only')}
-                                  className={`text-xs py-1 px-2 h-auto font-semibold flex-1 ${
-                                    isCur ? 'bg-(--accent-primary) text-white font-bold shadow-2xs' : 'text-(--text-secondary)'
-                                  }`}
-                                >
-                                  {ic.label}
-                                </Button>
-                              );
-                            })}
-                          </div>
-                        </div>
+                        </h2>
+                        <p className="text-xs text-(--text-secondary) mt-0.5">
+                          {locale === 'ko'
+                            ? '각 디자인 형태(Type) 카드 하위에서 버튼 규격(size)과 아이콘 슬롯(slots), 상태(status)를 독립적으로 설정할 수 있습니다.'
+                            : 'Adjust size, icon slot, and status independently on each Type card.'}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -1343,10 +1223,10 @@ function LocalStudioContent() {
                   <div className="flex flex-col gap-6">
                     {currentTypes.map((t, index) => {
                       const isSelected = (selectedTypeId || currentTypes[0]?.id) === t.id;
+                      const cardSize = stageSizes[t.id] || 'md';
+                      const cardIconSlot = stageIconSlots[t.id] || 'none';
                       const activeStatus = stageStatuses[t.id] || 'default';
                       const currentStatusObj = COMPONENT_STATUS_PRESETS.find((s) => s.status === activeStatus) || COMPONENT_STATUS_PRESETS[0];
-                      const roleKey = resolveVariableRole(currentVariable?.id || 'primary');
-                      const varDef = SEMANTIC_VARIABLE_DICTIONARY[roleKey];
 
                       return (
                         <div
@@ -1405,9 +1285,8 @@ function LocalStudioContent() {
                             </div>
                           </div>
 
-                          {/* 3-Tier Architecture Badges (1. Type & 2. Variable) */}
+                          {/* Type Architecture Badge & Guidance */}
                           <div className="flex flex-wrap items-center gap-2 p-2.5 rounded-(--radius-sm) bg-(--bg-secondary)/60 border border-(--border-subtle) text-xs">
-                            {/* 1. Type Badge */}
                             <div
                               className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 font-semibold border border-indigo-500/20 shrink-0"
                               title={t.whenToUse}
@@ -1416,39 +1295,95 @@ function LocalStudioContent() {
                               <span className="text-[11px] font-bold">{formatLocaleText(t.name, locale)}</span>
                             </div>
 
-                            {/* 2. Variable Badge */}
-                            <div
-                              className={`flex items-center gap-1.5 px-2 py-0.5 rounded font-semibold border shrink-0 ${varDef.badgeColorClass}`}
-                              title={varDef.meaning}
-                            >
-                              <span className="font-mono text-[10px] uppercase font-bold tracking-wider">VARIABLE</span>
-                              <span className="text-[11px] font-bold">{formatLocaleText(varDef.label, locale)}</span>
-                              <span className="font-mono text-[10px] opacity-75">({currentVariable?.id})</span>
-                              <span className="text-[10px] font-mono px-1 py-0.2 rounded bg-black/10 font-bold uppercase">{buttonSize}</span>
-                              {buttonIconSlot !== 'none' && (
-                                <span className="text-[10px] font-mono px-1 py-0.2 rounded bg-black/10 font-bold">{buttonIconSlot}</span>
-                              )}
-                            </div>
-
                             <span className="text-xs text-(--text-secondary) truncate flex-1 min-w-[200px]" title={locale === 'ko' ? t.whenToUse : (t.whenToUseEn || t.whenToUse)}>
                               💡 <strong className="text-(--text-primary)">{locale === 'ko' ? '상황:' : 'Context:'}</strong> {locale === 'ko' ? t.whenToUse : (t.whenToUseEn || t.whenToUse)}
                             </span>
                           </div>
 
-                          {/* Dynamic Component Live Preview with Active Type & Variable (Preview Canvas FIRST) */}
+                          {/* 1. Dynamic Component Live Preview (Preview Canvas FIRST) */}
                           <div className="p-8 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) flex items-center justify-center min-h-[170px] transition-all relative shadow-2xs">
                             <StudioLivePreview
                               componentId={currentComponent.id}
                               type={t}
                               variable={currentVariable}
-                              size={buttonSize}
-                              iconSlot={buttonIconSlot}
+                              size={cardSize}
+                              iconSlot={cardIconSlot}
                               getPaletteValue={getPaletteValue}
                               status={activeStatus}
                             />
                           </div>
 
-                          {/* 3. Status Bar: hover, disabled 등 상태 시뮬레이션 (Placed BELOW preview) */}
+                          {/* 2. Card 하위: Variable 컨트롤 (버튼 규격 & 아이콘 슬롯) */}
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 p-3 rounded-(--radius-sm) bg-(--bg-secondary)/40 border border-(--border-subtle)">
+                            {/* 규격 (Size) */}
+                            <div className="flex flex-col gap-1.5">
+                              <span className="text-[11px] font-bold text-(--text-secondary) flex items-center gap-1.5">
+                                <span className="font-mono text-[9px] px-1.5 py-0.2 rounded bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 font-bold uppercase">VARIABLE</span>
+                                <span>{locale === 'ko' ? '버튼 규격 (Size)' : 'Button Size'}</span>
+                              </span>
+                              <div className="flex items-center gap-1">
+                                {[
+                                  { id: 'sm', label: 'Small (sm)' },
+                                  { id: 'md', label: 'Medium (md)' },
+                                  { id: 'lg', label: 'Large (lg)' },
+                                ].map((sz) => {
+                                  const isCur = cardSize === sz.id;
+                                  return (
+                                    <Button
+                                      key={sz.id}
+                                      variant={isCur ? 'primary' : 'secondary'}
+                                      size="sm"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        setStageSizes((prev) => ({ ...prev, [t.id]: sz.id as 'sm' | 'md' | 'lg' }));
+                                      }}
+                                      className={`text-xs py-1 px-2.5 h-auto font-semibold flex-1 ${
+                                        isCur ? 'bg-(--accent-primary) text-white font-bold shadow-2xs' : 'text-(--text-secondary)'
+                                      }`}
+                                    >
+                                      {sz.label}
+                                    </Button>
+                                  );
+                                })}
+                              </div>
+                            </div>
+
+                            {/* 아이콘 슬롯 (Icon Slot) */}
+                            <div className="flex flex-col gap-1.5">
+                              <span className="text-[11px] font-bold text-(--text-secondary) flex items-center gap-1.5">
+                                <span className="font-mono text-[9px] px-1.5 py-0.2 rounded bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 font-bold uppercase">VARIABLE</span>
+                                <span>{locale === 'ko' ? '아이콘 슬롯 (Slots)' : 'Icon Slot'}</span>
+                              </span>
+                              <div className="flex items-center gap-1">
+                                {[
+                                  { id: 'none', label: locale === 'ko' ? '없음' : 'None' },
+                                  { id: 'left', label: locale === 'ko' ? '왼쪽' : 'Left' },
+                                  { id: 'right', label: locale === 'ko' ? '오른쪽' : 'Right' },
+                                  { id: 'icon-only', label: locale === 'ko' ? '아이콘만' : 'Only' },
+                                ].map((ic) => {
+                                  const isCur = cardIconSlot === ic.id;
+                                  return (
+                                    <Button
+                                      key={ic.id}
+                                      variant={isCur ? 'primary' : 'secondary'}
+                                      size="sm"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        setStageIconSlots((prev) => ({ ...prev, [t.id]: ic.id as 'none' | 'left' | 'right' | 'icon-only' }));
+                                      }}
+                                      className={`text-xs py-1 px-2 h-auto font-semibold flex-1 ${
+                                        isCur ? 'bg-(--accent-primary) text-white font-bold shadow-2xs' : 'text-(--text-secondary)'
+                                      }`}
+                                    >
+                                      {ic.label}
+                                    </Button>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* 3. Card 하위: Status 시뮬레이션 바 (Placed BELOW preview & variables) */}
                           <div className="flex flex-wrap items-center justify-between gap-2 p-2.5 rounded-(--radius-sm) bg-(--bg-primary) border border-(--border-subtle)">
                             <div className="flex items-center gap-1.5 shrink-0">
                               <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-(--bg-secondary) text-(--text-secondary) font-bold border border-(--border-subtle)">
@@ -1498,8 +1433,8 @@ function LocalStudioContent() {
                             const isDefaultStatus = activeStatus === 'default';
                             const varLabel = currentVariable ? formatLocaleText(currentVariable.name, locale) : 'Button';
                             const placeholderText = locale === 'ko' ? '내용을 입력하세요' : 'Enter text...';
-                            const sizeAttr = buttonSize !== 'md' ? ` size="${buttonSize}"` : '';
-                            const iconAttr = buttonIconSlot !== 'none' ? ` icon="${buttonIconSlot}"` : '';
+                            const sizeAttr = cardSize !== 'md' ? ` size="${cardSize}"` : '';
+                            const iconAttr = cardIconSlot !== 'none' ? ` icon="${cardIconSlot}"` : '';
                             let generatedCode = '';
 
                             if (codeSnippetLang === 'react') {
@@ -1518,7 +1453,7 @@ function LocalStudioContent() {
                               if (tag === 'input') {
                                 generatedCode = `<input class="atom-input atom-input--${t.id}" data-component="input" data-type="${t.id}" data-value="${currentVariable?.id}"${statusAttr}${disabledAttr} placeholder="${placeholderText}" />`;
                               } else {
-                                generatedCode = `<${tag} class="atom-${currentComponent.id} atom-${currentComponent.id}--${t.id} atom-${currentComponent.id}--${buttonSize}" data-component="${currentComponent.id}" data-type="${t.id}" data-value="${currentVariable?.id}"${statusAttr}${disabledAttr}>\n  ${varLabel}\n</${tag}>`;
+                                generatedCode = `<${tag} class="atom-${currentComponent.id} atom-${currentComponent.id}--${t.id} atom-${currentComponent.id}--${cardSize}" data-component="${currentComponent.id}" data-type="${t.id}" data-value="${currentVariable?.id}"${statusAttr}${disabledAttr}>\n  ${varLabel}\n</${tag}>`;
                               }
                             } else {
                               const statusProp = isDefaultStatus ? '' : ` status="${activeStatus}"`;
