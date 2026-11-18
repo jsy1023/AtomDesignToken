@@ -40,6 +40,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const variantClass = normalizedVariant === 'primary' ? 'atom-btn-primary' : `atom-btn-${normalizedVariant}`;
     const dangerClass = variant === 'danger' ? 'atom-btn-danger' : '';
     const variableClass = `atom-button--${activeVariable}`;
+    const typeClass = componentType ? `atom-btn--type-${componentType}` : '';
     const statusClass = status && status !== 'default' ? `atom-status--${status}` : '';
     const sizeClass = size === 'sm' ? 'text-xs px-2.5 py-1.5' : size === 'lg' ? 'text-base px-5 py-3' : '';
     const iconClass = isIconOnly ? 'p-2 aspect-square inline-flex items-center justify-center' : '';
@@ -69,7 +70,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={isActuallyDisabled}
         aria-disabled={isActuallyDisabled}
         aria-busy={isActuallyLoading}
-        className={`atom-btn ${variantClass} ${dangerClass} ${variableClass} ${statusClass} ${sizeClass} ${iconClass} ${alignClass} ${className}`}
+        className={`atom-btn ${typeClass} ${variantClass} ${dangerClass} ${variableClass} ${statusClass} ${sizeClass} ${iconClass} ${alignClass} ${className}`}
         style={customStyle}
         {...props}
       >

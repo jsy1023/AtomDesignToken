@@ -836,6 +836,155 @@
   border-radius: var(--atom-radius-lg);
 }
 
+/* === Button Type System (Solid, Outline, Ghost, Soft, Pill, Elevated) === */
+.atom-btn[data-type="solid"],
+.atom-btn--type-solid {
+  /* Default solid fill */
+}
+
+.atom-btn[data-type="pill"],
+.atom-btn--type-pill {
+  border-radius: var(--atom-radius-full, 9999px) !important;
+}
+
+.atom-btn[data-type="outline"],
+.atom-btn--type-outline {
+  background-color: transparent !important;
+  border-width: 1.5px !important;
+}
+.atom-btn[data-type="outline"].atom-btn-primary,
+.atom-btn--type-outline.atom-btn-primary {
+  color: var(--atom-color-primary, var(--atom-primary)) !important;
+  border-color: var(--atom-color-primary, var(--atom-primary)) !important;
+}
+.atom-btn[data-type="outline"].atom-btn-primary:hover:not(:disabled) {
+  background-color: color-mix(in srgb, var(--atom-color-primary, var(--atom-primary)) 12%, transparent) !important;
+}
+.atom-btn[data-type="outline"].atom-btn-secondary,
+.atom-btn--type-outline.atom-btn-secondary {
+  color: var(--atom-text-primary, var(--text-primary)) !important;
+  border-color: var(--atom-border-strong, var(--border-strong)) !important;
+}
+.atom-btn[data-type="outline"].atom-btn-destructive,
+.atom-btn--type-outline.atom-btn-destructive {
+  color: var(--atom-color-danger, var(--atom-destructive)) !important;
+  border-color: var(--atom-color-danger, var(--atom-destructive)) !important;
+}
+.atom-btn[data-type="outline"].atom-btn-destructive:hover:not(:disabled) {
+  background-color: color-mix(in srgb, var(--atom-color-danger, var(--atom-destructive)) 12%, transparent) !important;
+}
+.atom-btn[data-type="outline"].atom-btn-success,
+.atom-btn--type-outline.atom-btn-success {
+  color: var(--atom-color-success, var(--atom-success)) !important;
+  border-color: var(--atom-color-success, var(--atom-success)) !important;
+}
+.atom-btn[data-type="outline"].atom-btn-warning,
+.atom-btn--type-outline.atom-btn-warning {
+  color: var(--atom-color-warning, var(--atom-warning)) !important;
+  border-color: var(--atom-color-warning, var(--atom-warning)) !important;
+}
+
+.atom-btn[data-type="ghost"],
+.atom-btn--type-ghost {
+  background-color: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+.atom-btn[data-type="ghost"].atom-btn-primary,
+.atom-btn--type-ghost.atom-btn-primary {
+  color: var(--atom-color-primary, var(--atom-primary)) !important;
+}
+.atom-btn[data-type="ghost"].atom-btn-primary:hover:not(:disabled) {
+  background-color: color-mix(in srgb, var(--atom-color-primary, var(--atom-primary)) 12%, transparent) !important;
+}
+.atom-btn[data-type="ghost"].atom-btn-secondary,
+.atom-btn--type-ghost.atom-btn-secondary {
+  color: var(--atom-text-primary, var(--text-primary)) !important;
+}
+.atom-btn[data-type="ghost"].atom-btn-secondary:hover:not(:disabled) {
+  background-color: var(--atom-bg-secondary, var(--bg-secondary)) !important;
+}
+
+.atom-btn[data-type="soft"],
+.atom-btn--type-soft {
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+.atom-btn[data-type="soft"].atom-btn-primary,
+.atom-btn--type-soft.atom-btn-primary {
+  background-color: color-mix(in srgb, var(--atom-color-primary, var(--atom-primary)) 12%, transparent) !important;
+  color: var(--atom-color-primary, var(--atom-primary)) !important;
+}
+.atom-btn[data-type="soft"].atom-btn-primary:hover:not(:disabled) {
+  background-color: color-mix(in srgb, var(--atom-color-primary, var(--atom-primary)) 22%, transparent) !important;
+}
+.atom-btn[data-type="soft"].atom-btn-secondary,
+.atom-btn--type-soft.atom-btn-secondary {
+  background-color: var(--atom-bg-secondary, var(--bg-secondary)) !important;
+  color: var(--atom-text-primary, var(--text-primary)) !important;
+}
+.atom-btn[data-type="soft"].atom-btn-destructive,
+.atom-btn--type-soft.atom-btn-destructive {
+  background-color: color-mix(in srgb, var(--atom-color-danger, var(--atom-destructive)) 12%, transparent) !important;
+  color: var(--atom-color-danger, var(--atom-destructive)) !important;
+}
+.atom-btn[data-type="soft"].atom-btn-success,
+.atom-btn--type-soft.atom-btn-success {
+  background-color: color-mix(in srgb, var(--atom-color-success, var(--atom-success)) 12%, transparent) !important;
+  color: var(--atom-color-success, var(--atom-success)) !important;
+}
+.atom-btn[data-type="soft"].atom-btn-warning,
+.atom-btn--type-soft.atom-btn-warning {
+  background-color: color-mix(in srgb, var(--atom-color-warning, var(--atom-warning)) 12%, transparent) !important;
+  color: var(--atom-color-warning, var(--atom-warning)) !important;
+}
+
+.atom-btn[data-type="elevated"],
+.atom-btn--type-elevated {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1) !important;
+}
+.atom-btn[data-type="elevated"]:hover:not(:disabled) {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1) !important;
+  transform: translateY(-1px);
+}
+
+/* === Button Variable Scopes === */
+.atom-button--secondary,
+.atom-btn[data-variable="secondary"],
+[data-component="button"][data-variable="secondary"] {
+  background-color: var(--atom-color-secondary, var(--bg-secondary));
+  color: var(--atom-text-primary, var(--text-primary));
+  border-color: var(--atom-border-subtle, var(--border-subtle));
+}
+.atom-button--destructive,
+.atom-btn[data-variable="destructive"],
+[data-component="button"][data-variable="destructive"] {
+  background-color: var(--atom-color-danger, var(--atom-destructive));
+  color: #ffffff;
+  border-color: var(--atom-color-danger, var(--atom-destructive));
+}
+.atom-button--warning,
+.atom-btn[data-variable="warning"],
+[data-component="button"][data-variable="warning"] {
+  background-color: var(--atom-color-warning, var(--atom-warning));
+  color: #ffffff;
+  border-color: var(--atom-color-warning, var(--atom-warning));
+}
+.atom-button--success,
+.atom-btn[data-variable="success"],
+[data-component="button"][data-variable="success"] {
+  background-color: var(--atom-color-success, var(--atom-success));
+  color: #ffffff;
+  border-color: var(--atom-color-success, var(--atom-success));
+}
+.atom-button--info,
+.atom-btn[data-variable="info"],
+[data-component="button"][data-variable="info"] {
+  background-color: var(--atom-palette-blue-500);
+  color: #ffffff;
+  border-color: var(--atom-palette-blue-500);
+}
+
 /* Cards */
 .atom-card {
   background-color: var(--atom-bg-surface);

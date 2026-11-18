@@ -11,6 +11,7 @@ import {
   Badge,
   Card,
   Input,
+  NativeSelect,
   Modal,
   Table,
   TableHeader,
@@ -47,7 +48,7 @@ import {
   Offcanvas,
   Toast,
 } from '@/components/ui';
-import { INITIAL_STUDIO_COMPONENTS } from '@/lib/data/studioData';
+import { INITIAL_STUDIO_COMPONENTS, getComponentTypes, ComponentInteractiveStatus } from '@/lib/data/studioData';
 import { CodeHighlight } from '@/components/common/CodeHighlight';
 import { COMPONENT_TOKEN_MAPPINGS, getComponentTokens, getLocalizedToken } from '@/lib/data/componentTokens';
 import {
@@ -78,6 +79,7 @@ import {
   Settings,
   Palette,
   ExternalLink,
+  Box,
 } from 'lucide-react';
 
 interface ComponentDetailPageContentProps {
@@ -116,6 +118,14 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
   const [activeNavId, setActiveNavId] = useState('dash');
 
   const studioDef = INITIAL_STUDIO_COMPONENTS.find((sc) => sc.id === component.id);
+  const compTypes = getComponentTypes(component.id, studioDef?.types);
+
+  // Interactive Live Button State (Type · Variable · Status)
+  const [btnInteractiveType, setBtnInteractiveType] = useState<string>('solid');
+  const [btnInteractiveVar, setBtnInteractiveVar] = useState<string>('primary');
+  const [btnInteractiveSize, setBtnInteractiveSize] = useState<'sm' | 'md' | 'lg'>('md');
+  const [btnInteractiveSlot, setBtnInteractiveSlot] = useState<'none' | 'left' | 'right' | 'icon-only'>('none');
+  const [btnInteractiveStatus, setBtnInteractiveStatus] = useState<ComponentInteractiveStatus>('default');
 
   const rawSnippet =
     activeSnippetTab === 'react'
@@ -267,137 +277,244 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
 
       case 'button':
         return (
-          <div className="w-full max-w-2xl flex flex-col gap-6 py-2">
-            {/* 1. 계층별 (Hierarchy: 3-Tier) */}
-            <div className="space-y-2">
-              <span className="text-xs font-mono font-semibold text-(--text-secondary) uppercase tracking-wider">
-                {locale === 'ja'
-                  ? '1. 重要度に応じた3段階ヒエラルキー (HIERARCHY)'
-                  : locale === 'en'
-                  ? '1. 3-Tier Visual Hierarchy (HIERARCHY)'
-                  : '1. 중요도에 따른 3계층 위계 (HIERARCHY)'}
-              </span>
-              <div className="flex flex-wrap items-center gap-3 p-3 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle)">
-                <Button variant="primary">
-                  {locale === 'ja' ? 'Primary (第1階層 主行動)' : locale === 'en' ? 'Primary (Tier 1 Action)' : 'Primary (1계층 주행동)'}
+          <div className="w-full max-w-4xl flex flex-col gap-6 py-2">
+            {/* A. Live Interactive Playground (스튜디오와 100% 동일한 인터랙티브 제어기) */}
+            <div className="p-5 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) flex flex-col gap-4 shadow-sm">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-(--border-subtle) pb-3">
+                <div className="flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-(--accent-primary)" />
+                  <span className="font-bold text-xs uppercase tracking-wider text-(--text-primary)">
+                    {locale === 'ko' ? '인터랙티브 3대 아키텍처 라이브 스테이지 (Studio Sync)' : '3-Tier Interactive Live Stage'}
+                  </span>
+                </div>
+                <div className="flex items-center gap-1.5 text-xs">
+                  <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-(--accent-primary)/10 text-(--accent-primary) font-semibold">
+                    Type: {btnInteractiveType}
+                  </span>
+                  <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-(--bg-secondary) text-(--text-secondary) font-semibold">
+                    Variable: {btnInteractiveVar}
+                  </span>
+                  <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-(--bg-secondary) text-(--text-muted)">
+                    Status: {btnInteractiveStatus}
+                  </span>
+                </div>
+              </div>
+
+              {/* Controls Row */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+                {/* 1. Type Switcher */}
+                <div className="flex flex-col gap-1">
+                  <label className="font-semibold text-(--text-secondary) text-[11px]">1. Type (외형 양식)</label>
+                  <NativeSelect
+                    value={btnInteractiveType}
+                    onChange={(e) => setBtnInteractiveType(e.target.value)}
+                    className="text-xs"
+                  >
+                    <option value="solid">Solid (솔리드 채움형)</option>
+                    <option value="outline">Outline (외곽선형)</option>
+                    <option value="ghost">Ghost (고스트 투명형)</option>
+                    <option value="soft">Soft (소프트 연한 배경형)</option>
+                    <option value="pill">Pill (라운드형)</option>
+                    <option value="elevated">Elevated (그림자 입체형)</option>
+                  </NativeSelect>
+                </div>
+
+                {/* 2. Variable (System Color) Switcher */}
+                <div className="flex flex-col gap-1">
+                  <label className="font-semibold text-(--text-secondary) text-[11px]">2. Variable (시스템 색상)</label>
+                  <NativeSelect
+                    value={btnInteractiveVar}
+                    onChange={(e) => setBtnInteractiveVar(e.target.value)}
+                    className="text-xs"
+                  >
+                    <option value="primary">Primary (브랜드 대표)</option>
+                    <option value="secondary">Secondary (보조/중립)</option>
+                    <option value="destructive">Destructive (위험/삭제)</option>
+                    <option value="warning">Warning (주의/대기)</option>
+                    <option value="success">Success (성공/완료)</option>
+                    <option value="info">Info (안내/정보)</option>
+                  </NativeSelect>
+                </div>
+
+                {/* 3. Size Switcher */}
+                <div className="flex flex-col gap-1">
+                  <label className="font-semibold text-(--text-secondary) text-[11px]">규격 (Size)</label>
+                  <NativeSelect
+                    value={btnInteractiveSize}
+                    onChange={(e: any) => setBtnInteractiveSize(e.target.value)}
+                    className="text-xs"
+                  >
+                    <option value="sm">Small (sm - 콤팩트)</option>
+                    <option value="md">Medium (md - 표준)</option>
+                    <option value="lg">Large (lg - 와이드)</option>
+                  </NativeSelect>
+                </div>
+
+                {/* 4. Slot Switcher */}
+                <div className="flex flex-col gap-1">
+                  <label className="font-semibold text-(--text-secondary) text-[11px]">아이콘 슬롯 (Slots)</label>
+                  <NativeSelect
+                    value={btnInteractiveSlot}
+                    onChange={(e: any) => setBtnInteractiveSlot(e.target.value)}
+                    className="text-xs"
+                  >
+                    <option value="none">아이콘 없음 (none)</option>
+                    <option value="left">왼쪽 아이콘 (left)</option>
+                    <option value="right">오른쪽 아이콘 (right)</option>
+                    <option value="icon-only">아이콘 단독 (icon-only)</option>
+                  </NativeSelect>
+                </div>
+              </div>
+
+              {/* Status Simulation Buttons */}
+              <div className="flex flex-wrap items-center gap-1.5 pt-1 border-t border-(--border-subtle)/50">
+                <span className="text-[11px] font-semibold text-(--text-secondary) mr-2">3. Status 시뮬레이션:</span>
+                {(['default', 'hover', 'active', 'focus', 'disabled', 'loading'] as ComponentInteractiveStatus[]).map((st) => (
+                  <Button
+                    key={st}
+                    variant={btnInteractiveStatus === st ? 'primary' : 'ghost'}
+                    size="sm"
+                    onClick={() => setBtnInteractiveStatus(st)}
+                    className="text-[11px] px-2.5 py-1 h-auto"
+                  >
+                    {st === 'default' ? '기본' : st === 'hover' ? '호버' : st === 'active' ? '클릭' : st === 'focus' ? '포커스' : st === 'disabled' ? '비활성' : '로딩'}
+                  </Button>
+                ))}
+              </div>
+
+              {/* Center Live Stage Preview */}
+              <div className="py-8 px-4 rounded bg-(--bg-secondary)/40 border border-(--border-subtle) flex flex-col items-center justify-center gap-4">
+                <Button
+                  componentType={btnInteractiveType}
+                  variable={btnInteractiveVar}
+                  size={btnInteractiveSize}
+                  status={btnInteractiveStatus}
+                  isIconOnly={btnInteractiveSlot === 'icon-only'}
+                >
+                  {btnInteractiveSlot === 'left' && <Sparkles className="w-4 h-4" />}
+                  {btnInteractiveSlot === 'icon-only' ? (
+                    <Sparkles className="w-4 h-4" />
+                  ) : (
+                    <span>
+                      {btnInteractiveVar === 'primary' ? '프라이머리 액션' : btnInteractiveVar === 'secondary' ? '보조 액션 (취소)' : btnInteractiveVar === 'destructive' ? '영구 삭제' : btnInteractiveVar === 'warning' ? '주의 확인' : btnInteractiveVar === 'success' ? '승인 완료' : '정보 안내'}
+                    </span>
+                  )}
+                  {btnInteractiveSlot === 'right' && <ArrowRight className="w-4 h-4" />}
                 </Button>
-                <Button variant="secondary">
-                  {locale === 'ja' ? 'Secondary (第2階層 補助)' : locale === 'en' ? 'Secondary (Tier 2 Action)' : 'Secondary (2계층 보조)'}
-                </Button>
-                <Button variant="outline">
-                  {locale === 'ja' ? 'Outline (境界線)' : locale === 'en' ? 'Outline (Border)' : 'Outline (경계선)'}
-                </Button>
-                <Button variant="ghost">
-                  {locale === 'ja' ? 'Ghost (第3階層 付加)' : locale === 'en' ? 'Ghost (Tier 3 Action)' : 'Ghost (3계층 부가)'}
-                </Button>
+
+                {/* Generated Code Display */}
+                <div className="flex items-center gap-2 bg-(--bg-primary) px-3 py-1.5 rounded-(--radius-sm) border border-(--border-subtle) font-mono text-[11px] text-(--accent-primary) shadow-2xs">
+                  <code>
+                    &lt;Button componentType=&quot;{btnInteractiveType}&quot; variable=&quot;{btnInteractiveVar}&quot; size=&quot;{btnInteractiveSize}&quot;{btnInteractiveStatus !== 'default' ? ` status="${btnInteractiveStatus}"` : ''}&gt;
+                  </code>
+                </div>
               </div>
             </div>
 
-            {/* 2. 시스템 시맨틱 상태 색상 (Semantic Status) */}
-            <div className="space-y-2">
-              <span className="text-xs font-mono font-semibold text-(--text-secondary) uppercase tracking-wider">
-                {locale === 'ja'
-                  ? '2. システム機能マッピング状態色 (SEMANTIC STATUS COLORS)'
-                  : locale === 'en'
-                  ? '2. Semantic Status Colors (SEMANTIC STATUS COLORS)'
-                  : '2. 시스템 기능 매핑 상태 색상 (SEMANTIC STATUS COLORS)'}
-              </span>
-              <div className="flex flex-wrap items-center gap-3 p-3 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle)">
-                <Button variant="primary">Brand (Primary)</Button>
-                <Button variant="success">
-                  {locale === 'ja' ? '成功 (Success/Green)' : locale === 'en' ? 'Success (Green)' : '성공 (Success/Green)'}
-                </Button>
-                <Button variant="warning">
-                  {locale === 'ja' ? '警告 (Warning/Orange)' : locale === 'en' ? 'Warning (Orange)' : '경고 (Warning/Orange)'}
-                </Button>
-                <Button variant="destructive">
-                  {locale === 'ja' ? '危険 (Destructive/Red)' : locale === 'en' ? 'Destructive (Red)' : '위험 (Destructive/Red)'}
-                </Button>
-              </div>
-            </div>
-
-            {/* 3. 아이콘 단독 & 피드백 상태 (Icon-Only & States) */}
-            <div className="space-y-2">
-              <span className="text-xs font-mono font-semibold text-(--text-secondary) uppercase tracking-wider">
-                {locale === 'ja'
-                  ? '3. アイコンボタン & 状態フィードバック (ICON & STATES)'
-                  : locale === 'en'
-                  ? '3. Icon Buttons & States (ICON & STATES)'
-                  : '3. 아이콘 버튼 & 상호작용 피드백 (ICON & STATES)'}
-              </span>
-              <div className="flex flex-wrap items-center gap-3 p-3 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle)">
-                <Button isIconOnly variant="primary" aria-label={locale === 'ja' ? 'お気に入り' : locale === 'en' ? 'Favorite' : '즐겨찾기'}>
-                  <Sparkles className="w-4 h-4" />
-                </Button>
-                <Button isIconOnly variant="secondary" aria-label={locale === 'ja' ? 'コピー' : locale === 'en' ? 'Copy' : '복사'}>
-                  <Copy className="w-4 h-4" />
-                </Button>
-                <Button isIconOnly variant="ghost" aria-label={locale === 'ja' ? '閉じる' : locale === 'en' ? 'Close' : '닫기'}>
-                  <X className="w-4 h-4" />
-                </Button>
-                <Button isIconOnly variant="destructive" aria-label={locale === 'ja' ? '削除' : locale === 'en' ? 'Delete' : '삭제'}>
-                  <XCircle className="w-4 h-4" />
-                </Button>
-                <Button disabled>Disabled</Button>
-                <Button loading>{locale === 'ja' ? '読み込み中...' : locale === 'en' ? 'Loading...' : '로딩 중...'}</Button>
-              </div>
-            </div>
-
-            {/* 4. 버튼 상하/좌우 여백 토큰 제어 (Button Spacing Tokens) */}
-            <div className="space-y-2">
-              <span className="text-xs font-mono font-semibold text-(--text-secondary) uppercase tracking-wider">
-                {locale === 'ja'
-                  ? '4. ボタン上下・左右余白トークン制御 (SPACING TOKENS)'
-                  : locale === 'en'
-                  ? '4. Button Vertical & Horizontal Spacing Tokens (SPACING TOKENS)'
-                  : '4. 버튼 상하단 및 좌우 여백 토큰 제어 (SPACING TOKENS)'}
-              </span>
-              <div className="flex flex-wrap items-center gap-3 p-3 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle)">
-                <Button variant="primary">
-                  {locale === 'ja' ? '標準 (--atom-btn-py: 8px / px: 16px)' : locale === 'en' ? 'Default (py: 8px, px: 16px)' : '기본 규격 (py: 8px, px: 16px)'}
-                </Button>
-                <Button variant="secondary" paddingY="4px" paddingX="10px">
-                  {locale === 'ja' ? 'コンパクト (py: 4px / px: 10px)' : locale === 'en' ? 'Compact (py: 4px, px: 10px)' : '콤팩트 (py: 4px, px: 10px)'}
-                </Button>
-                <Button variant="outline" paddingY="12px" paddingX="24px">
-                  {locale === 'ja' ? 'ワイド (py: 12px / px: 24px)' : locale === 'en' ? 'Wide (py: 12px, px: 24px)' : '와이드 (py: 12px, px: 24px)'}
-                </Button>
-              </div>
-            </div>
-
-            {/* 5. 스튜디오 등록 커스텀 변수 (Studio Variables) */}
+            {/* B. 1. Type Showcase (6대 외형 양식 스펙트럼) */}
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-mono font-semibold text-(--text-secondary) uppercase tracking-wider">
-                  {locale === 'ja'
-                    ? '5. Studioで定義されたデザイン変数 (STUDIO VARIABLES)'
-                    : locale === 'en'
-                    ? '5. Studio-Configured Design Variables (STUDIO VARIABLES)'
-                    : '5. 스튜디오 등록 디자인 변수 연동 (STUDIO VARIABLES)'}
+                <span className="text-xs font-mono font-semibold text-(--text-secondary) uppercase tracking-wider flex items-center gap-1.5">
+                  <Badge variant="primary" className="text-[10px] px-1.5 py-0.5">1. TYPE</Badge>
+                  <span>{locale === 'ko' ? '새로운 디자인 외형 양식 (6 Types)' : 'Component Types Spectrum'}</span>
                 </span>
-                <Link
-                  href="/studio?component=button"
-                  className="text-xs font-semibold text-(--accent-primary) hover:underline flex items-center gap-1"
-                >
-                  <span>스튜디오에서 새 변수 만들기</span>
-                  <ExternalLink className="w-3 h-3" />
-                </Link>
+                <span className="text-xs text-(--text-muted) font-mono">6 Types Supported</span>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
+                {[
+                  { id: 'solid', name: 'Solid (솔리드)' },
+                  { id: 'outline', name: 'Outline (외곽선)' },
+                  { id: 'ghost', name: 'Ghost (고스트)' },
+                  { id: 'soft', name: 'Soft (소프트)' },
+                  { id: 'pill', name: 'Pill (라운드)' },
+                  { id: 'elevated', name: 'Elevated (그림자)' },
+                ].map((tp) => (
+                  <div key={tp.id} className="p-3 rounded-(--radius-sm) bg-(--bg-primary) border border-(--border-subtle) flex flex-col items-center gap-2 text-center">
+                    <span className="text-[10px] font-mono text-(--text-secondary) font-bold">{tp.name}</span>
+                    <Button componentType={tp.id} variable="primary" size="sm" className="w-full truncate text-[11px]">
+                      Button
+                    </Button>
+                    <code className="text-[9px] font-mono text-(--text-muted)">type=&quot;{tp.id}&quot;</code>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* C. 2. Variable Showcase (6대 시맨틱 시스템 색상 매핑) */}
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-mono font-semibold text-(--text-secondary) uppercase tracking-wider flex items-center gap-1.5">
+                  <Badge variant="neutral" className="text-[10px] px-1.5 py-0.5">2. VARIABLE</Badge>
+                  <span>{locale === 'ko' ? '시스템 시맨틱 색상 및 세부 옵션 (6 Variables)' : 'Semantic System Variables'}</span>
+                </span>
+                <span className="text-xs text-(--text-muted) font-mono">6 System Variables</span>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
+                {[
+                  { id: 'primary', label: 'Primary (브랜드)' },
+                  { id: 'secondary', label: 'Secondary (보조)' },
+                  { id: 'destructive', label: 'Destructive (위험)' },
+                  { id: 'warning', label: 'Warning (경고)' },
+                  { id: 'success', label: 'Success (성공)' },
+                  { id: 'info', label: 'Info (안내)' },
+                ].map((vr) => (
+                  <div key={vr.id} className="p-3 rounded-(--radius-sm) bg-(--bg-primary) border border-(--border-subtle) flex flex-col items-center gap-2 text-center">
+                    <span className="text-[10px] font-mono text-(--text-secondary) font-bold">{vr.label}</span>
+                    <Button variable={vr.id} size="sm" className="w-full truncate text-[11px]">
+                      {vr.id}
+                    </Button>
+                    <code className="text-[9px] font-mono text-(--text-muted)">variable=&quot;{vr.id}&quot;</code>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* D. 3. Status Showcase (6대 상호작용 피드백) */}
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-mono font-semibold text-(--text-secondary) uppercase tracking-wider flex items-center gap-1.5">
+                  <Badge variant="neutral" className="text-[10px] px-1.5 py-0.5">3. STATUS</Badge>
+                  <span>{locale === 'ko' ? '상호작용 인터랙션 상태 피드백 (6 Statuses)' : 'Interaction Status Feedback'}</span>
+                </span>
+                <span className="text-xs text-(--text-muted) font-mono">6 Interactive States</span>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
+                {[
+                  { id: 'default', label: '기본 (Default)' },
+                  { id: 'hover', label: '호버 (Hover)' },
+                  { id: 'active', label: '클릭 (Active)' },
+                  { id: 'focus', label: '포커스 (Focus)' },
+                  { id: 'disabled', label: '비활성 (Disabled)' },
+                  { id: 'loading', label: '로딩 (Loading)' },
+                ].map((st) => (
+                  <div key={st.id} className="p-3 rounded-(--radius-sm) bg-(--bg-primary) border border-(--border-subtle) flex flex-col items-center gap-2 text-center">
+                    <span className="text-[10px] font-mono text-(--text-secondary) font-bold">{st.label}</span>
+                    <Button variable="primary" status={st.id as ComponentInteractiveStatus} size="sm" className="w-full truncate text-[11px]">
+                      {st.id}
+                    </Button>
+                    <code className="text-[9px] font-mono text-(--text-muted)">status=&quot;{st.id}&quot;</code>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* E. Button Spacing Tokens */}
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-mono font-semibold text-(--text-secondary) uppercase tracking-wider flex items-center gap-1.5">
+                  <Badge variant="neutral" className="text-[10px] px-1.5 py-0.5">METRICS</Badge>
+                  <span>버튼 상하/좌우 여백 토큰 제어 (SPACING TOKENS)</span>
+                </span>
               </div>
               <div className="flex flex-wrap items-center gap-3 p-3.5 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle)">
-                <Button variable="pill-cta">
-                  Pill CTA (히어로 전용)
+                <Button variant="primary">
+                  기본 규격 (py: 8px, px: 16px)
                 </Button>
-                <Button variable="destructive">
-                  Destructive (위험/경고)
+                <Button variant="secondary" paddingY="4px" paddingX="10px">
+                  콤팩트 (py: 4px, px: 10px)
                 </Button>
-                <Button variable="ghost">
-                  Ghost (고스트)
-                </Button>
-                <Button variable="outline">
-                  Outline (아웃라인)
-                </Button>
-                <Button variable="success">
-                  Success (성공 완료)
+                <Button variant="outline" paddingY="12px" paddingX="24px">
+                  와이드 (py: 12px, px: 24px)
                 </Button>
               </div>
             </div>
@@ -1266,7 +1383,85 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
           </div>
         </section>
 
-        {/* 2. Studio Design Variables Inspection (스튜디오 연동 디자인 변수) */}
+        {/* 2-A. Studio Design Types Inspection (스튜디오 연동 1. Type 외형 양식 카탈로그) */}
+        {compTypes && compTypes.length > 0 && (
+          <section id="studio-types" className="scroll-mt-28 flex flex-col gap-3">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div className="flex items-center gap-2">
+                <Box className="w-4 h-4 text-(--accent-primary)" />
+                <h2 className="text-sm font-semibold uppercase tracking-wider text-(--text-primary)">
+                  {locale === 'ko' ? '1. Type 디자인 외형 양식 카탈로그 (Studio Types)' : '1. Component Type Specifications'}
+                </h2>
+                <span className="px-2 py-0.5 rounded-full bg-(--accent-primary)/10 text-(--accent-primary) text-xs font-mono font-semibold">
+                  {compTypes.length} Types Registered
+                </span>
+              </div>
+              <Link
+                href={`/studio?component=${component.id}`}
+                className="text-xs font-semibold px-3 py-1.5 rounded-(--radius-sm) bg-(--bg-secondary) text-(--text-primary) border border-(--border-subtle) hover:bg-(--bg-primary) transition flex items-center gap-1.5 shadow-xs"
+              >
+                <span>스튜디오에서 Type 관리</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {compTypes.map((tp, idx) => (
+                <div
+                  key={tp.id}
+                  className="p-4 rounded-(--radius-sm) border border-(--border-subtle) bg-(--bg-primary) flex flex-col justify-between gap-3 shadow-xs hover:border-(--accent-primary) transition group"
+                >
+                  <div className="space-y-2.5">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-(--bg-secondary) text-(--text-muted)">
+                          #{idx + 1}
+                        </span>
+                        <span className="font-bold text-xs text-(--text-primary)">{tp.name}</span>
+                      </div>
+                      <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-(--accent-primary)/10 text-(--accent-primary)">
+                        type="{tp.id}"
+                      </span>
+                    </div>
+
+                    {/* Live Preview of Type */}
+                    <div className="py-3 px-2 rounded bg-(--bg-secondary)/40 border border-(--border-subtle)/60 flex items-center justify-center">
+                      {component.id === 'button' ? (
+                        <Button componentType={tp.id} variable="primary" size="sm">
+                          {tp.name.split(' (')[0]}
+                        </Button>
+                      ) : (
+                        <div className="text-xs font-mono text-(--text-muted)">
+                          &lt;{component.name.split(' (')[0]} componentType="{tp.id}" /&gt;
+                        </div>
+                      )}
+                    </div>
+
+                    <p className="text-[11px] text-(--text-secondary) leading-snug">{tp.description}</p>
+                    {tp.whenToUse && (
+                      <div className="text-[10px] text-(--text-muted) bg-(--bg-secondary)/50 p-2 rounded leading-relaxed border border-(--border-subtle)/30">
+                        <strong className="text-(--text-secondary)">💡 추천 상황:</strong> {tp.whenToUse}
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="pt-2 border-t border-(--border-subtle)/40 flex items-center justify-between text-[11px]">
+                    <code className="text-[10px] text-(--text-muted) font-mono">componentType="{tp.id}"</code>
+                    <Link
+                      href={`/studio?component=${component.id}`}
+                      className="text-(--accent-primary) font-semibold hover:underline flex items-center gap-1"
+                    >
+                      <span>편집</span>
+                      <ArrowRight className="w-3 h-3" />
+                    </Link>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* 2-B. Studio Design Variables Inspection (스튜디오 연동 2. Variable 세부 옵션 명세) */}
         {studioDef && studioDef.variables.length > 0 && (
           <section id="studio-variables" className="scroll-mt-28 flex flex-col gap-3">
             <div className="flex flex-wrap items-center justify-between gap-2">
@@ -1274,10 +1469,10 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                 <Sliders className="w-4 h-4 text-(--accent-primary)" />
                 <h2 className="text-sm font-semibold uppercase tracking-wider text-(--text-primary)">
                   {locale === 'ja'
-                    ? 'Studio 登録デザイン変数仕様 (Studio Variables)'
+                    ? '2. Studio 登録デザイン変数仕様 (Studio Variables)'
                     : locale === 'en'
-                    ? 'Studio-Configured Design Variables'
-                    : '스튜디오 등록 디자인 변수 명세 (Studio Variables)'}
+                    ? '2. Studio-Configured Design Variables'
+                    : '2. Variable 디자인 세부 옵션 명세 (Studio Variables)'}
                 </h2>
                 <span className="px-2 py-0.5 rounded-full bg-(--accent-primary)/10 text-(--accent-primary) text-xs font-mono font-semibold">
                   {studioDef.variables.length} Variables Registered
@@ -1298,13 +1493,23 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                   key={v.id}
                   className="p-4 rounded-(--radius-sm) border border-(--border-subtle) bg-(--bg-primary) flex flex-col justify-between gap-3 shadow-xs hover:border-(--accent-primary) transition group"
                 >
-                  <div className="space-y-1.5">
+                  <div className="space-y-2">
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-xs text-(--text-primary)">{v.name}</span>
                       <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-(--bg-secondary) text-(--text-muted) border border-(--border-subtle)">
                         .{component.id}--{v.id}
                       </span>
                     </div>
+
+                    {/* Live Preview for Button variable */}
+                    {component.id === 'button' && (
+                      <div className="py-2.5 px-2 rounded bg-(--bg-secondary)/30 border border-(--border-subtle)/50 flex items-center justify-center">
+                        <Button variable={v.id} size="sm">
+                          {v.name.split(' (')[0]}
+                        </Button>
+                      </div>
+                    )}
+
                     <p className="text-[11px] text-(--text-secondary) leading-snug line-clamp-2">{v.description}</p>
                   </div>
 

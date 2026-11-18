@@ -273,31 +273,39 @@ export function SpacingDemo() {
 
 <!-- 3. 아이콘 단독 (Icon-Only) -->
 <button class="atom-btn atom-btn-icon atom-btn-secondary" aria-label="즐겨찾기">★</button>`,
-    reactSnippet: `import { Button } from '@/components/ui/button';
-import { Star, Trash2, Check } from 'lucide-react';
+    reactSnippet: `import { Button } from '@/components/ui';
+import { Sparkles, Trash2, ArrowRight } from 'lucide-react';
 
 export function ButtonDemo() {
   return (
-    <div className="flex flex-col gap-4">
-      {/* 3계층 위계 (Hierarchy) */}
-      <div className="flex gap-2">
-        <Button variant="primary">Primary (1계층)</Button>
-        <Button variant="secondary">Secondary (2계층)</Button>
-        <Button variant="ghost">Ghost (3계층)</Button>
+    <div className="flex flex-col gap-5">
+      {/* 1. Type (외형 양식) */}
+      <div className="flex flex-wrap gap-2">
+        <Button componentType="solid" variable="primary">Solid</Button>
+        <Button componentType="outline" variable="primary">Outline</Button>
+        <Button componentType="ghost" variable="primary">Ghost</Button>
+        <Button componentType="soft" variable="primary">Soft</Button>
+        <Button componentType="pill" variable="primary">Pill</Button>
+        <Button componentType="elevated" variable="primary">Elevated</Button>
       </div>
 
-      {/* 시스템 상태 색상 (Semantic Status) */}
-      <div className="flex gap-2">
-        <Button variant="success">성공 완료</Button>
-        <Button variant="warning">주의 확인</Button>
-        <Button variant="destructive">영구 삭제</Button>
+      {/* 2. Variable (시맨틱 시스템 색상) */}
+      <div className="flex flex-wrap gap-2">
+        <Button variable="primary">Primary</Button>
+        <Button variable="secondary">Secondary</Button>
+        <Button variable="destructive">Destructive</Button>
+        <Button variable="warning">Warning</Button>
+        <Button variable="success">Success</Button>
+        <Button variable="info">Info</Button>
       </div>
 
-      {/* 아이콘 버튼 & 로딩 */}
-      <div className="flex gap-2 items-center">
-        <Button isIconOnly variant="secondary" aria-label="즐겨찾기"><Star className="w-4 h-4" /></Button>
-        <Button isIconOnly variant="ghost" aria-label="삭제"><Trash2 className="w-4 h-4 text-rose-500" /></Button>
-        <Button loading>처리 중...</Button>
+      {/* 3. Status (상태 피드백) */}
+      <div className="flex flex-wrap gap-2 items-center">
+        <Button variable="primary">Default</Button>
+        <Button variable="primary" status="hover">Hover</Button>
+        <Button variable="primary" status="active">Active</Button>
+        <Button variable="primary" disabled>Disabled</Button>
+        <Button variable="primary" loading>Loading</Button>
       </div>
     </div>
   );
