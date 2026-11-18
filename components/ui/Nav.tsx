@@ -285,9 +285,10 @@ export interface NavDropdownItemProps extends Omit<React.AnchorHTMLAttributes<HT
   description?: React.ReactNode;
   badge?: React.ReactNode;
   asButton?: boolean;
+  as?: 'a' | 'button' | 'div';
 }
 
-export const NavDropdownItem = React.forwardRef<HTMLAnchorElement & HTMLButtonElement, NavDropdownItemProps>(
+export const NavDropdownItem = React.forwardRef<HTMLElement, NavDropdownItemProps>(
   (
     {
       active = false,
@@ -296,6 +297,7 @@ export const NavDropdownItem = React.forwardRef<HTMLAnchorElement & HTMLButtonEl
       description,
       badge,
       asButton = false,
+      as,
       className = '',
       ...props
     },
@@ -326,7 +328,7 @@ export const NavDropdownItem = React.forwardRef<HTMLAnchorElement & HTMLButtonEl
         : 'hover:bg-(--bg-secondary) text-(--text-primary)'
     } ${className}`;
 
-    if (asButton) {
+    if (asButton || as === 'button') {
       return (
         <button
           ref={ref as any}
@@ -337,6 +339,19 @@ export const NavDropdownItem = React.forwardRef<HTMLAnchorElement & HTMLButtonEl
         >
           {itemContent}
         </button>
+      );
+    }
+
+    if (as === 'div' || (!props.href && as !== 'a')) {
+      return (
+        <div
+          ref={ref as any}
+          role="menuitem"
+          className={baseClass}
+          {...(props as any)}
+        >
+          {itemContent}
+        </div>
       );
     }
 

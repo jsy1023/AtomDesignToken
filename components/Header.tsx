@@ -231,6 +231,7 @@ export function Header({ brandColor, rightExtra }: HeaderProps) {
                           className="no-underline block"
                         >
                           <NavDropdownItem
+                            as="div"
                             title={getSubNavTitle(sub.href, sub.title)}
                             description={getSubNavDescription(sub.href, sub.description)}
                             active={isSubActive}
