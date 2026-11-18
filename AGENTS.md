@@ -26,6 +26,44 @@
 
 ---
 
+## 🧬 2. 모든 컴포넌트 불변 3대 아키텍처: [Type · Variable · Status]
+
+모든 컴포넌트(Button, Badge, Card, Input, Modal, Tabs, Table 등)는 예외 없이 아래 **3대 계층 구조**를 엄격히 준수해야 하며, 사용자가 "컴포넌트화를 해달라"고 요청했을 때 AI는 반드시 이 과정을 거쳐야 합니다:
+
+```
+[Type (새로운 디자인 외형)] ➔ [Variable (디자인 세부 옵션/변경)] ➔ [Status (상호작용 인터랙션)]
+```
+
+### 1) Type (새로운 디자인의 컴포넌트 외형)
+- **정의**: 형태와 조형, 뼈대 자체가 다른 **새로운 디자인 양식**입니다.
+- **예시**:
+  - `Button`: `Solid`(솔리드 채움형), `Outline`(외곽선형), `Ghost`(고스트 투명형), `Soft`(연한 배경형), `Pill`(라운드형), `Elevated`(그림자 입체형)
+  - `Card`: `Outlined`(기본 테두리형), `Elevated`(그림자형), `Flat`(평면형), `Accent-Border`(강조 라인형)
+  - `Badge`: `Solid`(채움형), `Subtle`(연한 배경형), `Outline`(테두리형), `Dot`(점 인디케이터형)
+  - `Input`: `Outlined`(테두리형), `Filled`(배경형), `Underlined`(밑줄형)
+
+### 2) Variable (기존 디자인의 세부 옵션 / 변경)
+- **정의**: 특정 Type 디자인 내부에서 선택할 수 있는 **세부 설정 및 옵션 변형**입니다.
+- **포함 요소**:
+  - **`system` (시맨틱 색상 연동)**: 디자인 테마의 시스템 토큰을 가져와 적용 (`primary`, `destructive`/위험, `warning`/경고, `success`/성공, `info`/안내, `neutral`/중립)
+  - **`slots / layout` (구조적 변경)**: 왼쪽 아이콘(`icon-left`), 오른쪽 아이콘(`icon-right`), 아이콘 단독(`icon-only`), 아바타 포함, 서브라벨 포함 여부 등
+  - **`size / metrics` (규격)**: `sm`, `md`, `lg` 등 패딩 및 크기 변경
+
+### 3) Status (사용자 인터랙션 / 상호작용)
+- **정의**: 사용자 동작(Action) 및 시스템 상태에 따른 **실시간 시각 피드백**입니다.
+- **상태 목록**: `default`(기본), `hover`(마우스 오버), `active`(클릭/누름), `focus`(키보드 포커스 링), `disabled`(비활성 차단), `loading`(비동기 진행)
+
+### 🤖 AI 컴포넌트화 강제 프로토콜 (Mandatory Componentization Rule)
+사용자가 임의의 UI를 "컴포넌트화해줘"라고 요청하면 AI는 절대 임의의 단일 코드를 만들지 않고 다음 **4단계 절차**를 거쳐야 합니다:
+1. **[1단계: Type 선언]**: 컴포넌트의 핵심 디자인 외형 양식(Solid, Outline, Ghost 등)을 정의합니다.
+2. **[2단계: Variable 옵션화]**:
+   - 색상은 반드시 `system` 옵션(Primary, Destructive, Warning, Success 등)으로 테마 토큰과 바인딩합니다.
+   - 왼쪽/오른쪽 아이콘 슬롯, 크기(`size`) 등 옵션을 `Variable` 속성으로 구현합니다.
+3. **[3단계: Status 바인딩]**: `default`, `hover`, `active`, `focus`, `disabled` 등 상호작용 상태별 토큰을 연결합니다.
+4. **[4단계: @/components/ui 등록]**: 원자 단위로 캡슐화하고 표준 인터페이스를 export합니다.
+
+---
+
 ## 🔒 2. 정의된 컴포넌트 강제 규칙 (Zero Raw HTML Elements Guarantee)
 
 AI 어시스턴트는 화면을 구축할 때 **임의의 원시 HTML 인터랙티브 태그 작성을 엄격히 금지**하며, 반드시 아래 대응표에 따라 `@/components/ui`의 공식 컴포넌트를 사용해야 합니다:

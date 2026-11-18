@@ -86,9 +86,25 @@ components/ (Presentation Layer)
   - 토글 div ➔ `<Switch checked={...} onCheckedChange={...} />`
 - **자동 검증 명령어**: `npm run lint:components` (CI/CD 및 리팩토링 검증 시 원시 태그 발견 즉시 실패 처리)
 
+### G. 컴포넌트화 불변 3대 아키텍처: [Type · Variable · Status]
+모든 컴포넌트(Button, Badge, Card, Input, Modal, Tabs, Table 등) 및 사용자 요청에 따른 "컴포넌트화" 수행 시 반드시 아래 3단계를 거칩니다:
+1. **Type (새로운 디자인의 컴포넌트 외형)**:
+   - 본질적인 형태와 조형, 뼈대가 다른 새로운 디자인 양식을 정의합니다.
+   - 예: Button의 `Solid`, `Outline`, `Ghost`, `Soft`, `Pill` / Card의 `Outlined`, `Elevated`, `Flat`, `Accent-Border` 등.
+2. **Variable (기존 디자인의 세부 옵션 / 변경)**:
+   - 특정 Type 디자인 내에서 변경되는 세부 속성 및 레이아웃 옵션입니다.
+   - **`system`**: 디자인 테마의 시스템 토큰 연동 (Primary, Destructive/위험, Warning/경고, Success/성공, Info/안내, Neutral/중립)
+   - **`slots / layout`**: 아이콘 포함 여부(`icon-left`, `icon-right`, `icon-only`, `none`), 아바타, 뱃지 등 서브 요소 결합
+   - **`size / metrics`**: `sm`, `md`, `lg` 등 패딩 및 규격 옵션
+3. **Status (사용자 인터랙션 / 상호작용)**:
+   - 사용자 행동 및 시스템 상태에 따른 인터랙션 피드백을 바인딩합니다.
+   - `default`, `hover`, `active`, `focus`, `disabled`, `loading`
+
 ---
 
 ## 3. 작업 전/후 AI 점검 체크리스트
+- [ ] 컴포넌트를 설계하거나 컴포넌트화 요청을 처리할 때 [Type ➔ Variable ➔ Status] 3단계를 엄격히 준수했는가?
+- [ ] 색상 변경을 독립된 컴포넌트로 파편화하지 않고 `system` Variable(시맨틱 테마 토큰)로 처리했는가?
 - [ ] 새 데이터를 추가할 때 개별 페이지에 하드코딩하지 않고 `lib/data/`의 공통 도메인 모델에 추가했는가?
 - [ ] 컴포넌트가 렌더링 외의 과도한 데이터 가공 책임을 지고 있지 않은가?
 - [ ] 임의의 HEX/RGB나 `text-blue-500` 등의 하드코딩이 0건이며 시맨틱 토큰 변수(`var(--...)`)를 사용했는가?
