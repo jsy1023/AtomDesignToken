@@ -1322,127 +1322,126 @@ function LocalStudioContent() {
                             />
                           </div>
 
-                          {/* 2. Card 하위: Variable 셀렉트 선택 상자 (시스템 색상, 버튼 규격, 아이콘 슬롯) */}
-                          <div className="p-3.5 rounded-(--radius-sm) bg-(--bg-secondary)/40 border border-(--border-subtle) flex flex-col gap-2.5">
-                            <div className="flex items-center gap-1.5">
-                              <span className="font-mono text-[9px] px-1.5 py-0.2 rounded bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 font-bold uppercase">VARIABLE</span>
-                              <span className="text-xs font-bold text-(--text-primary)">
-                                {locale === 'ko' ? '디자인 세부 옵션 (Variable)' : 'Detail Variables'}
-                              </span>
-                              <span className="text-[10px] text-(--text-muted) hidden sm:inline">
-                                {locale === 'ko' ? '— 셀렉트 상자로 시스템 색상, 규격, 아이콘 슬롯 설정' : '— Select system color, size, and icon slots'}
-                              </span>
+                          {/* 2. Card 하위: Variable & Status 설정 (flex-col) */}
+                          <div className="p-4 rounded-(--radius-sm) bg-(--bg-secondary)/40 border border-(--border-subtle) flex flex-col gap-3.5">
+                            {/* Variable Section */}
+                            <div className="flex flex-col gap-2.5">
+                              <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-1.5">
+                                  <span className="font-mono text-[9px] px-1.5 py-0.2 rounded bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 font-bold uppercase">VARIABLE</span>
+                                  <span className="text-xs font-bold text-(--text-primary)">
+                                    {locale === 'ko' ? '디자인 세부 옵션 (Variable)' : 'Detail Variables'}
+                                  </span>
+                                </div>
+                                <span className="text-[10px] text-(--text-muted) font-mono">system · size · slots</span>
+                              </div>
+
+                              <div className="flex flex-col gap-2">
+                                {/* 1. 시스템 색상 (System Color) */}
+                                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5">
+                                  <label className="text-[11px] font-semibold text-(--text-secondary) shrink-0 sm:w-36 flex items-center justify-between sm:justify-start gap-1">
+                                    <span>{locale === 'ko' ? '시스템 색상 (system)' : 'System Color'}</span>
+                                    <span className="font-mono text-[10px] text-(--text-muted) sm:hidden">({cardVarId})</span>
+                                  </label>
+                                  <NativeSelect
+                                    value={cardVarId}
+                                    onChange={(e) => {
+                                      const nextVar = e.target.value;
+                                      setStageVariables((prev) => ({ ...prev, [t.id]: nextVar }));
+                                      if (isSelected) {
+                                        handleSelectVariable(nextVar);
+                                      }
+                                    }}
+                                    className="text-xs font-semibold py-1.5 px-2.5 h-auto bg-(--bg-primary) border border-(--border-subtle) flex-1"
+                                  >
+                                    {currentComponent.variables.map((v) => (
+                                      <option key={v.id} value={v.id}>
+                                        {formatLocaleText(v.name, locale)} ({v.id})
+                                      </option>
+                                    ))}
+                                  </NativeSelect>
+                                </div>
+
+                                {/* 2. 규격 (Size) */}
+                                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5">
+                                  <label className="text-[11px] font-semibold text-(--text-secondary) shrink-0 sm:w-36 flex items-center justify-between sm:justify-start gap-1">
+                                    <span>{locale === 'ko' ? '버튼 규격 (size)' : 'Button Size'}</span>
+                                    <span className="font-mono text-[10px] text-(--text-muted) sm:hidden">({cardSize})</span>
+                                  </label>
+                                  <NativeSelect
+                                    value={cardSize}
+                                    onChange={(e) => {
+                                      setStageSizes((prev) => ({ ...prev, [t.id]: e.target.value as 'sm' | 'md' | 'lg' }));
+                                    }}
+                                    className="text-xs font-semibold py-1.5 px-2.5 h-auto bg-(--bg-primary) border border-(--border-subtle) flex-1"
+                                  >
+                                    <option value="sm">Small (sm)</option>
+                                    <option value="md">Medium (md - 기본)</option>
+                                    <option value="lg">Large (lg)</option>
+                                  </NativeSelect>
+                                </div>
+
+                                {/* 3. 아이콘 슬롯 (Slots) */}
+                                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5">
+                                  <label className="text-[11px] font-semibold text-(--text-secondary) shrink-0 sm:w-36 flex items-center justify-between sm:justify-start gap-1">
+                                    <span>{locale === 'ko' ? '아이콘 슬롯 (slots)' : 'Icon Slot'}</span>
+                                    <span className="font-mono text-[10px] text-(--text-muted) sm:hidden">({cardIconSlot})</span>
+                                  </label>
+                                  <NativeSelect
+                                    value={cardIconSlot}
+                                    onChange={(e) => {
+                                      setStageIconSlots((prev) => ({ ...prev, [t.id]: e.target.value as 'none' | 'left' | 'right' | 'icon-only' }));
+                                    }}
+                                    className="text-xs font-semibold py-1.5 px-2.5 h-auto bg-(--bg-primary) border border-(--border-subtle) flex-1"
+                                  >
+                                    <option value="none">{locale === 'ko' ? '아이콘 없음 (none)' : 'None'}</option>
+                                    <option value="left">{locale === 'ko' ? '왼쪽 아이콘 (left)' : 'Left Icon'}</option>
+                                    <option value="right">{locale === 'ko' ? '오른쪽 아이콘 (right)' : 'Right Icon'}</option>
+                                    <option value="icon-only">{locale === 'ko' ? '아이콘 전용 (icon-only)' : 'Icon Only'}</option>
+                                  </NativeSelect>
+                                </div>
+                              </div>
                             </div>
 
-                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-                              {/* 1. 시스템 색상 (System Color) */}
-                              <div className="flex flex-col gap-1">
-                                <label className="text-[11px] font-semibold text-(--text-secondary) flex items-center justify-between">
-                                  <span>{locale === 'ko' ? '시스템 색상 (system)' : 'System Color'}</span>
-                                  <span className="font-mono text-[10px] text-(--text-muted)">{cardVarId}</span>
+                            {/* Status Section (Select + flex-col) */}
+                            <div className="flex flex-col gap-2.5 pt-3 border-t border-(--border-subtle)">
+                              <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-1.5">
+                                  <span className="font-mono text-[9px] px-1.5 py-0.2 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 font-bold uppercase">STATUS</span>
+                                  <span className="text-xs font-bold text-(--text-primary)">
+                                    {locale === 'ko' ? '상태 시뮬레이션 (Status)' : 'Interactive Status'}
+                                  </span>
+                                </div>
+                                <span className="text-[10px] text-(--text-muted) font-mono">{activeStatus}</span>
+                              </div>
+
+                              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5">
+                                <label className="text-[11px] font-semibold text-(--text-secondary) shrink-0 sm:w-36 flex items-center justify-between sm:justify-start gap-1">
+                                  <span>{locale === 'ko' ? '인터랙션 상태' : 'Interaction Status'}</span>
+                                  <span className="font-mono text-[10px] text-(--text-muted) sm:hidden">({activeStatus})</span>
                                 </label>
                                 <NativeSelect
-                                  value={cardVarId}
+                                  value={activeStatus}
                                   onChange={(e) => {
-                                    const nextVar = e.target.value;
-                                    setStageVariables((prev) => ({ ...prev, [t.id]: nextVar }));
-                                    if (isSelected) {
-                                      handleSelectVariable(nextVar);
-                                    }
+                                    const nextStatus = e.target.value as ComponentInteractiveStatus;
+                                    setSelectedTypeId(t.id);
+                                    setStageStatuses((prev) => ({ ...prev, [t.id]: nextStatus }));
+                                    setInspectorStatusTab(nextStatus);
                                   }}
-                                  className="text-xs font-semibold py-1.5 px-2.5 h-auto bg-(--bg-primary) border border-(--border-subtle)"
+                                  className="text-xs font-semibold py-1.5 px-2.5 h-auto bg-(--bg-primary) border border-(--border-subtle) flex-1"
                                 >
-                                  {currentComponent.variables.map((v) => (
-                                    <option key={v.id} value={v.id}>
-                                      {formatLocaleText(v.name, locale)} ({v.id})
+                                  {COMPONENT_STATUS_PRESETS.map((st) => (
+                                    <option key={st.status} value={st.status}>
+                                      {formatLocaleText(st.label, locale)} ({st.status}) — {locale === 'ko' ? st.description : (st.descriptionEn || st.description)}
                                     </option>
                                   ))}
                                 </NativeSelect>
                               </div>
 
-                              {/* 2. 규격 (Size) */}
-                              <div className="flex flex-col gap-1">
-                                <label className="text-[11px] font-semibold text-(--text-secondary) flex items-center justify-between">
-                                  <span>{locale === 'ko' ? '버튼 규격 (size)' : 'Button Size'}</span>
-                                  <span className="font-mono text-[10px] text-(--text-muted)">{cardSize}</span>
-                                </label>
-                                <NativeSelect
-                                  value={cardSize}
-                                  onChange={(e) => {
-                                    setStageSizes((prev) => ({ ...prev, [t.id]: e.target.value as 'sm' | 'md' | 'lg' }));
-                                  }}
-                                  className="text-xs font-semibold py-1.5 px-2.5 h-auto bg-(--bg-primary) border border-(--border-subtle)"
-                                >
-                                  <option value="sm">Small (sm)</option>
-                                  <option value="md">Medium (md - 기본)</option>
-                                  <option value="lg">Large (lg)</option>
-                                </NativeSelect>
-                              </div>
-
-                              {/* 3. 아이콘 슬롯 (Slots) */}
-                              <div className="flex flex-col gap-1">
-                                <label className="text-[11px] font-semibold text-(--text-secondary) flex items-center justify-between">
-                                  <span>{locale === 'ko' ? '아이콘 슬롯 (slots)' : 'Icon Slot'}</span>
-                                  <span className="font-mono text-[10px] text-(--text-muted)">{cardIconSlot}</span>
-                                </label>
-                                <NativeSelect
-                                  value={cardIconSlot}
-                                  onChange={(e) => {
-                                    setStageIconSlots((prev) => ({ ...prev, [t.id]: e.target.value as 'none' | 'left' | 'right' | 'icon-only' }));
-                                  }}
-                                  className="text-xs font-semibold py-1.5 px-2.5 h-auto bg-(--bg-primary) border border-(--border-subtle)"
-                                >
-                                  <option value="none">{locale === 'ko' ? '아이콘 없음 (none)' : 'None'}</option>
-                                  <option value="left">{locale === 'ko' ? '왼쪽 아이콘 (left)' : 'Left Icon'}</option>
-                                  <option value="right">{locale === 'ko' ? '오른쪽 아이콘 (right)' : 'Right Icon'}</option>
-                                  <option value="icon-only">{locale === 'ko' ? '아이콘 전용 (icon-only)' : 'Icon Only'}</option>
-                                </NativeSelect>
+                              <div className="text-[11px] text-(--text-muted) px-1 flex items-center gap-1.5 pt-0.5">
+                                <span>⚡ <strong>[{formatLocaleText(currentStatusObj.label, locale)}] {locale === 'ko' ? '상태 정보:' : 'Status Info:'}</strong> {locale === 'ko' ? currentStatusObj.description : (currentStatusObj.descriptionEn || currentStatusObj.description)} — <em>{locale === 'ko' ? currentStatusObj.behavior : (currentStatusObj.behaviorEn || currentStatusObj.behavior)}</em></span>
                               </div>
                             </div>
-                          </div>
-
-                          {/* 3. Card 하위: Status 시뮬레이션 바 (Placed BELOW preview & variables) */}
-                          <div className="flex flex-wrap items-center justify-between gap-2 p-2.5 rounded-(--radius-sm) bg-(--bg-primary) border border-(--border-subtle)">
-                            <div className="flex items-center gap-1.5 shrink-0">
-                              <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-(--bg-secondary) text-(--text-secondary) font-bold border border-(--border-subtle)">
-                                STATUS
-                              </span>
-                              <span className="text-xs font-semibold text-(--text-primary) whitespace-nowrap">
-                                {locale === 'ko' ? '상태 시뮬레이션:' : 'Simulate Status:'}
-                              </span>
-                            </div>
-
-                            {/* Status Pills */}
-                            <div className="flex flex-wrap items-center gap-1.5">
-                              {COMPONENT_STATUS_PRESETS.map((st) => {
-                                const isCurrentSt = activeStatus === st.status;
-                                return (
-                                  <Button
-                                    key={st.status}
-                                    variant={isCurrentSt ? 'primary' : 'secondary'}
-                                    size="sm"
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      setSelectedTypeId(t.id);
-                                      setStageStatuses((prev) => ({ ...prev, [t.id]: st.status }));
-                                      setInspectorStatusTab(st.status);
-                                    }}
-                                    className={`text-[11px] py-1 px-2 h-auto font-medium transition-all ${
-                                      isCurrentSt
-                                        ? 'bg-(--accent-primary) text-(--bg-primary) font-bold shadow-2xs'
-                                        : 'hover:bg-(--bg-secondary) text-(--text-secondary)'
-                                    }`}
-                                    title={`${st.description} (${st.behavior})`}
-                                  >
-                                    {formatLocaleText(st.label, locale)}
-                                  </Button>
-                                );
-                              })}
-                            </div>
-                          </div>
-
-                          <div className="text-[11px] text-(--text-muted) px-1 flex items-center gap-1.5">
-                            <span>⚡ <strong>[{formatLocaleText(currentStatusObj.label, locale)}] {locale === 'ko' ? '상태 정보:' : 'Status Info:'}</strong> {locale === 'ko' ? currentStatusObj.description : (currentStatusObj.descriptionEn || currentStatusObj.description)} — <em>{locale === 'ko' ? currentStatusObj.behavior : (currentStatusObj.behaviorEn || currentStatusObj.behavior)}</em></span>
                           </div>
 
                           {/* Code Snippet for this Type & Variable */}
