@@ -13,6 +13,9 @@ export async function GET() {
 
   try {
     const rawData = fs.readFileSync(tokenJsonPath, 'utf-8');
+    if (!rawData || !rawData.trim()) {
+      return NextResponse.json({ tokens: {} });
+    }
     const tokens = JSON.parse(rawData);
     return NextResponse.json({ tokens });
   } catch (error: any) {
@@ -37,7 +40,11 @@ export async function POST(req: NextRequest) {
   const cssPath = path.join(cwd, 'css', 'atom-ui.css');
 
   try {
-    const body = await req.json();
+    const rawText = await req.text();
+    if (!rawText || !rawText.trim()) {
+      return NextResponse.json({ error: 'Empty payload' }, { status: 400 });
+    }
+    const body = JSON.parse(rawText);
     const newTokens = body.tokens;
 
     if (!newTokens || typeof newTokens !== 'object') {

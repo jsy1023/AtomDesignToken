@@ -43,15 +43,21 @@ export function Header({ brandColor, rightExtra }: HeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [starCount, setStarCount] = useState<number | null>(null);
 
-  // Fetch GitHub Star Count
+  // Fetch GitHub Star Count safely
   useEffect(() => {
     fetch('https://api.github.com/repos/jsy1023/AtomDesignToken')
-      .then((res) => {
-        if (!res.ok) throw new Error('Network error');
-        return res.json();
+      .then(async (res) => {
+        if (!res.ok) return null;
+        const text = await res.text();
+        if (!text || !text.trim()) return null;
+        try {
+          return JSON.parse(text);
+        } catch {
+          return null;
+        }
       })
       .then((data) => {
-        if (typeof data.stargazers_count === 'number') {
+        if (data && typeof data.stargazers_count === 'number') {
           setStarCount(data.stargazers_count);
         }
       })
