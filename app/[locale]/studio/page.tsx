@@ -186,8 +186,6 @@ function LocalStudioContent() {
     }
   }, []);
 
-  // Stage View Mode: Focus (1 selected Value) vs All (Stack of all Variants)
-  const [stageViewMode, setStageViewMode] = useState<'focus' | 'all'>('focus');
 
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
@@ -352,23 +350,6 @@ function LocalStudioContent() {
       whenToUse: newTypeWhenToUse.trim() || `${newTypeName.trim()} 디자인 형태가 필요한 상황에 사용합니다.`,
     };
 
-    // 신규 카드를 위한 기본 토큰 바인딩 생성
-    const initialBindings: Record<string, string> = {};
-    currentComponent.properties.forEach((prop) => {
-      initialBindings[prop.key] = currentVariable?.tokenBindings[prop.key] || prop.defaultPaletteId;
-    });
-
-    // 신규 Type을 즉시 탑재한 신규 컴포넌트 카드(Live Stage) 생성
-    const newVarId = `${cleanKey}-live`;
-    const newVar: ComponentVariable = {
-      id: newVarId,
-      name: `${newTypeName.trim()} (#${currentComponent.variables.length + 1})`,
-      description: newTypeDesc.trim() || `${newTypeName.trim()} 신규 디자인 형태의 라이브 스테이지`,
-      type: newType,
-      variableRole: resolveVariableRole(cleanKey),
-      tokenBindings: initialBindings,
-    };
-
     setComponents((prev) =>
       prev.map((c) => {
         if (c.id !== currentComponent.id) return c;
@@ -376,27 +357,42 @@ function LocalStudioContent() {
         return {
           ...c,
           types: [...existingTypes, newType],
-          variables: [...c.variables, newVar],
         };
       })
     );
 
     setSelectedTypeId(cleanKey);
-    setSelectedVariableId(newVarId);
-    updateUrl('components', currentComponent.id, newVarId, selectedThemeId);
     setIsAddTypeOpen(false);
     setNewTypeName('');
     setNewTypeKey('');
     setNewTypeDesc('');
     setNewTypeWhenToUse('');
 
-    // 생성된 신규 카드로 부드럽게 스크롤 이동
+    // 생성된 신규 Type 카드로 부드럽게 스크롤 이동
     setTimeout(() => {
-      const el = document.getElementById(`live-stage-${newVarId}`);
+      const el = document.getElementById(`live-stage-type-${cleanKey}`);
       if (el) {
         el.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     }, 120);
+  };
+
+  const handleDeleteType = (typeId: string) => {
+    if (currentTypes.length <= 1) return;
+    setComponents((prev) =>
+      prev.map((c) => {
+        if (c.id !== currentComponent.id) return c;
+        const existingTypes = getComponentTypes(c.id, c.types);
+        return {
+          ...c,
+          types: existingTypes.filter((t) => t.id !== typeId),
+        };
+      })
+    );
+    if (selectedTypeId === typeId) {
+      const remaining = currentTypes.filter((t) => t.id !== typeId);
+      setSelectedTypeId(remaining[0]?.id || '');
+    }
   };
 
   const handleSelectVariable = (varId: string) => {
@@ -1199,9 +1195,9 @@ function LocalStudioContent() {
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start pb-10">
                 {/* Central Stage: Stacked Repeated Live Stages for all Variables (7 cols) */}
                 <div className="lg:col-span-7 min-w-0 flex flex-col gap-6">
-                  {/* Top Bar: Component Info + Type / Variable Hierarchy Controls */}
+                  {/* Top Bar: Component Info + Variable (System Semantic Color) Selector */}
                   <div className="p-4 sm:p-5 rounded-(--radius) bg-(--bg-secondary)/30 border border-(--border-subtle) flex flex-col gap-4">
-                    {/* Header Row: Component Title & View Mode Toggle */}
+                    {/* Header Row: Component Title & Variable Badges */}
                     <div className="flex items-center justify-between gap-2 flex-wrap">
                       <div className="flex items-center gap-2">
                         <Sliders className="w-4 h-4 text-(--accent-primary)" />
@@ -1214,98 +1210,20 @@ function LocalStudioContent() {
                           </h2>
                           <p className="text-xs text-(--text-secondary) mt-0.5">
                             {locale === 'ko'
-                              ? `현재 조립: [Type: ${currentType?.name}] ➔ [Variable: ${currentVariable?.name} (${selectedVariableId})]`
-                              : `Active Assembly: [Type: ${currentType?.name}] ➔ [Variable: ${currentVariable?.name} (${selectedVariableId})]`}
+                              ? `선택된 시스템 변수: [Variable: ${currentVariable?.name} (${selectedVariableId})] · 아래 각 Type 카드에서 실시간 렌더링`
+                              : `Active Variable: [${currentVariable?.name} (${selectedVariableId})] · Rendered across all Type cards below`}
                           </p>
                         </div>
                       </div>
-
-                      {/* View Mode Toggle: Focus vs All Variants */}
-                      <div className="flex items-center p-0.5 rounded-(--radius-sm) bg-(--bg-secondary) border border-(--border-subtle)">
-                        <Button
-                          variant={stageViewMode === 'focus' ? 'primary' : 'ghost'}
-                          size="sm"
-                          onClick={() => setStageViewMode('focus')}
-                          className={`text-[11px] py-1 px-2.5 h-auto font-medium transition ${
-                            stageViewMode === 'focus' ? 'bg-(--accent-primary) text-white font-bold shadow-xs' : 'text-(--text-secondary)'
-                          }`}
-                        >
-                          {locale === 'ko' ? '단일 집중 뷰 (Focus)' : 'Focus'}
-                        </Button>
-                        <Button
-                          variant={stageViewMode === 'all' ? 'primary' : 'ghost'}
-                          size="sm"
-                          onClick={() => setStageViewMode('all')}
-                          className={`text-[11px] py-1 px-2.5 h-auto font-medium transition ${
-                            stageViewMode === 'all' ? 'bg-(--accent-primary) text-white font-bold shadow-xs' : 'text-(--text-secondary)'
-                          }`}
-                        >
-                          {locale === 'ko' ? '전체 비교 뷰 (All)' : 'All'}
-                        </Button>
-                      </div>
                     </div>
 
-                    {/* ======================================================== */}
-                    {/* [1단계: Type (새로운 디자인 외형 양식)] 선택 및 추가 컨트롤 바 */}
-                    {/* ======================================================== */}
-                    <div className="pt-3 border-t border-(--border-subtle) flex flex-col gap-2.5">
-                      <div className="flex items-center justify-between gap-2 flex-wrap">
-                        <div className="flex items-center gap-1.5">
-                          <Sparkles className="w-3.5 h-3.5 text-indigo-500" />
-                          <span className="text-xs font-bold text-(--text-primary)">
-                            {locale === 'ko' ? '1. 디자인 외형 양식 (Type)' : '1. Design Visual Type'}
-                          </span>
-                          <span className="text-[10px] text-(--text-muted) hidden sm:inline">
-                            {locale === 'ko' ? '— 형태와 뼈대가 다른 새로운 디자인 외형' : '— Structural visual variations'}
-                          </span>
-                        </div>
-
-                        <span className="text-[11px] font-mono font-semibold px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20">
-                          {currentTypes.length}{locale === 'ko' ? '개 Type 등록됨' : ' Types Active'}
-                        </span>
-                      </div>
-
-                      {/* Type Tabs (Scrollable Horizontal Row) */}
-                      <div className="flex items-center gap-1.5 overflow-x-auto pb-1 studio-scrollbar">
-                        {currentTypes.map((t) => {
-                          const isSelected = (selectedTypeId || currentTypes[0]?.id) === t.id;
-                          return (
-                            <Button
-                              key={t.id}
-                              variant={isSelected ? 'primary' : 'secondary'}
-                              size="sm"
-                              onClick={() => setSelectedTypeId(t.id)}
-                              className={`text-xs py-1.5 px-3 h-auto shrink-0 font-semibold transition-all whitespace-nowrap ${
-                                isSelected
-                                  ? 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-xs font-bold'
-                                  : 'bg-(--bg-primary) hover:bg-(--bg-secondary) text-(--text-secondary) border border-(--border-subtle)'
-                              }`}
-                            >
-                              <span>{t.name}</span>
-                            </Button>
-                          );
-                        })}
-                      </div>
-
-                      {/* Active Type Usage Guidance */}
-                      {currentType && (
-                        <div className="p-2.5 rounded-(--radius-sm) bg-indigo-500/5 border border-indigo-500/20 text-[11px] text-(--text-secondary) flex items-center justify-between gap-2">
-                          <span className="truncate">
-                            💡 <strong>[{currentType.name}]</strong> {currentType.description || currentType.whenToUse}
-                          </span>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* ======================================================== */}
-                    {/* [2단계: Variable (세부 옵션 / 변경)] 선택 및 추가 컨트롤 바 */}
-                    {/* ======================================================== */}
+                    {/* [디자인 세부 옵션 (Variable)] 선택 및 추가 컨트롤 바 */}
                     <div className="pt-3 border-t border-(--border-subtle) flex flex-col gap-2.5">
                       <div className="flex items-center justify-between gap-2 flex-wrap">
                         <div className="flex items-center gap-1.5">
                           <Layers className="w-3.5 h-3.5 text-(--accent-primary)" />
                           <span className="text-xs font-bold text-(--text-primary)">
-                            {locale === 'ko' ? '2. 디자인 세부 옵션 (Variable)' : '2. Detail Variables'}
+                            {locale === 'ko' ? '디자인 세부 옵션 (Variable)' : 'Detail Variables'}
                           </span>
                           <span className="text-[10px] text-(--text-muted) hidden sm:inline">
                             {locale === 'ko' ? '— system 시맨틱 색상 및 변형 옵션' : '— System colors & options'}
@@ -1350,81 +1268,37 @@ function LocalStudioContent() {
                     </div>
                   </div>
 
-                  {/* Live Stage Cards (단일 집중 모드에서는 선택된 1개만, 전체 비교 모드에서는 전체 렌더링) */}
+                  {/* Live Stage Cards: Generated per Type! */}
                   <div className="flex flex-col gap-6">
-                    {(stageViewMode === 'focus'
-                      ? [currentVariable]
-                      : currentComponent.variables
-                    ).map((v, index) => {
-                      const isSelected = v.id === selectedVariableId;
-                      const isEditing = editingVariableId === v.id;
-                      const typeSpec = resolveTypeSpec(currentComponent.id, v.id, v.name);
-                      const roleKey = resolveVariableRole(v.id);
-                      const varDef = SEMANTIC_VARIABLE_DICTIONARY[roleKey];
-                      const activeStatus = stageStatuses[v.id] || 'default';
+                    {currentTypes.map((t, index) => {
+                      const isSelected = (selectedTypeId || currentTypes[0]?.id) === t.id;
+                      const activeStatus = stageStatuses[t.id] || 'default';
                       const currentStatusObj = COMPONENT_STATUS_PRESETS.find((s) => s.status === activeStatus) || COMPONENT_STATUS_PRESETS[0];
+                      const roleKey = resolveVariableRole(currentVariable?.id || 'primary');
+                      const varDef = SEMANTIC_VARIABLE_DICTIONARY[roleKey];
 
                       return (
                         <div
-                          key={v.id}
-                          id={`live-stage-${v.id}`}
-                          onClick={() => handleSelectVariable(v.id)}
+                          key={t.id}
+                          id={`live-stage-type-${t.id}`}
+                          onClick={() => setSelectedTypeId(t.id)}
                           className={`p-6 rounded-(--radius) bg-(--bg-secondary)/20 border transition-all cursor-pointer flex flex-col gap-4 ${
                             isSelected
-                              ? 'border-(--accent-primary) ring-2 ring-(--accent-primary)/20 shadow-md'
+                              ? 'border-indigo-500 ring-2 ring-indigo-500/20 shadow-md'
                               : 'border-(--border-subtle) hover:border-(--border-strong)'
                           }`}
                         >
                           {/* Stage Header */}
                           <div className="flex items-center justify-between gap-2 flex-wrap">
                             <div className="flex items-center gap-2">
-                              <span className="font-mono text-xs px-2 py-0.5 rounded bg-(--bg-secondary) text-(--text-secondary) font-bold">
+                              <span className="font-mono text-xs px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 font-bold border border-indigo-500/20">
                                 #{index + 1}
                               </span>
-                              {isEditing ? (
-                                <div
-                                  className="flex items-center gap-1"
-                                  onClick={(e) => e.stopPropagation()}
-                                >
-                                  <Input
-                                    type="text"
-                                    value={editingVariableName}
-                                    onChange={(e) => setEditingVariableName(e.target.value)}
-                                    className="text-xs px-2 py-1 font-bold"
-                                    autoFocus
-                                  />
-                                  <Button
-                                    variant="primary"
-                                    size="sm"
-                                    onClick={() => handleSaveRename(v.id)}
-                                    className="p-1 h-auto"
-                                  >
-                                    <Check className="w-3 h-3" />
-                                  </Button>
-                                </div>
-                              ) : (
-                                <div className="flex items-center gap-1.5">
-                                  <span className="font-bold text-sm text-(--text-primary)">
-                                    {formatLocaleText(v.name, locale)}
-                                  </span>
-                                  <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    isIconOnly
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      setEditingVariableId(v.id);
-                                      setEditingVariableName(v.name);
-                                    }}
-                                    className="opacity-50 hover:opacity-100 p-0.5 h-auto w-auto"
-                                    title="Rename Variable"
-                                  >
-                                    <Edit2 className="w-3 h-3 text-(--text-muted)" />
-                                  </Button>
-                                </div>
-                              )}
+                              <span className="font-bold text-sm sm:text-base text-(--text-primary)">
+                                {formatLocaleText(t.name, locale)}
+                              </span>
                               <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-(--bg-secondary) text-(--text-muted) border border-(--border-subtle)">
-                                value="{v.id}"
+                                type="{t.id}"
                               </span>
                             </div>
 
@@ -1434,23 +1308,25 @@ function LocalStudioContent() {
                                 size="sm"
                                 onClick={(e) => {
                                   e.stopPropagation();
-                                  handleSelectVariable(v.id);
+                                  setSelectedTypeId(t.id);
                                 }}
-                                className="text-xs py-1 px-2.5 h-auto font-medium"
+                                className={`text-xs py-1 px-2.5 h-auto font-medium ${
+                                  isSelected ? 'bg-indigo-600 hover:bg-indigo-700 text-white' : ''
+                                }`}
                               >
                                 {isSelected ? (locale === 'ko' ? '✓ 편집 중' : '✓ Selected') : (locale === 'ko' ? '토큰 편집' : 'Inspect')}
                               </Button>
-                              {currentComponent.variables.length > 1 && (
+                              {currentTypes.length > 1 && (
                                 <Button
                                   variant="ghost"
                                   size="sm"
                                   isIconOnly
                                   onClick={(e) => {
                                     e.stopPropagation();
-                                    handleDeleteVariable(v.id);
+                                    handleDeleteType(t.id);
                                   }}
                                   className="opacity-60 hover:opacity-100 hover:text-(--atom-color-destructive) p-1 h-auto w-auto"
-                                  title={t('deleteVariable')}
+                                  title={locale === 'ko' ? 'Type 삭제' : 'Delete Type'}
                                 >
                                   <Trash2 className="w-3.5 h-3.5" />
                                 </Button>
@@ -1458,32 +1334,33 @@ function LocalStudioContent() {
                             </div>
                           </div>
 
-                          {/* 3-Tier Architecture Badges (1. Type & 2. Value) */}
+                          {/* 3-Tier Architecture Badges (1. Type & 2. Variable) */}
                           <div className="flex flex-wrap items-center gap-2 p-2.5 rounded-(--radius-sm) bg-(--bg-secondary)/60 border border-(--border-subtle) text-xs">
-                            {/* 1. Type: ~상황에는 이 컴포넌트를 쓴다 */}
+                            {/* 1. Type Badge */}
                             <div
-                              className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-blue-500/10 text-blue-600 dark:text-blue-400 font-semibold border border-blue-500/20 shrink-0"
-                              title={typeSpec.whenToUse}
+                              className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 font-semibold border border-indigo-500/20 shrink-0"
+                              title={t.whenToUse}
                             >
                               <span className="font-mono text-[10px] uppercase font-bold tracking-wider">TYPE</span>
-                              <span className="text-[11px] font-bold">{formatLocaleText(typeSpec.name, locale)}</span>
+                              <span className="text-[11px] font-bold">{formatLocaleText(t.name, locale)}</span>
                             </div>
 
-                            {/* 2. Value: primary, secondary, warning, success, danger 등 시스템 시맨틱 Value */}
+                            {/* 2. Variable Badge */}
                             <div
                               className={`flex items-center gap-1.5 px-2 py-0.5 rounded font-semibold border shrink-0 ${varDef.badgeColorClass}`}
                               title={varDef.meaning}
                             >
-                              <span className="font-mono text-[10px] uppercase font-bold tracking-wider">VALUE</span>
+                              <span className="font-mono text-[10px] uppercase font-bold tracking-wider">VARIABLE</span>
                               <span className="text-[11px] font-bold">{formatLocaleText(varDef.label, locale)}</span>
+                              <span className="font-mono text-[10px] opacity-75">({currentVariable?.id})</span>
                             </div>
 
-                            <span className="text-xs text-(--text-secondary) truncate flex-1 min-w-[200px]" title={locale === 'ko' ? typeSpec.whenToUse : (typeSpec.whenToUseEn || typeSpec.whenToUse)}>
-                              💡 <strong className="text-(--text-primary)">{locale === 'ko' ? '상황:' : 'Context:'}</strong> {locale === 'ko' ? typeSpec.whenToUse : (typeSpec.whenToUseEn || typeSpec.whenToUse)}
+                            <span className="text-xs text-(--text-secondary) truncate flex-1 min-w-[200px]" title={locale === 'ko' ? t.whenToUse : (t.whenToUseEn || t.whenToUse)}>
+                              💡 <strong className="text-(--text-primary)">{locale === 'ko' ? '상황:' : 'Context:'}</strong> {locale === 'ko' ? t.whenToUse : (t.whenToUseEn || t.whenToUse)}
                             </span>
                           </div>
 
-                          {/* 3. Status Bar: hover, disabled 같은 상태 정보 구조 및 실시간 변경 */}
+                          {/* 3. Status Bar: hover, disabled 등 상태 시뮬레이션 */}
                           <div className="flex flex-wrap items-center justify-between gap-2 p-2.5 rounded-(--radius-sm) bg-(--bg-primary) border border-(--border-subtle)">
                             <div className="flex items-center gap-1.5 shrink-0">
                               <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-(--bg-secondary) text-(--text-secondary) font-bold border border-(--border-subtle)">
@@ -1505,8 +1382,8 @@ function LocalStudioContent() {
                                     size="sm"
                                     onClick={(e) => {
                                       e.stopPropagation();
-                                      handleSelectVariable(v.id);
-                                      setStageStatuses((prev) => ({ ...prev, [v.id]: st.status }));
+                                      setSelectedTypeId(t.id);
+                                      setStageStatuses((prev) => ({ ...prev, [t.id]: st.status }));
                                       setInspectorStatusTab(st.status);
                                     }}
                                     className={`text-[11px] py-1 px-2 h-auto font-medium transition-all ${
@@ -1527,54 +1404,46 @@ function LocalStudioContent() {
                             <span>⚡ <strong>[{formatLocaleText(currentStatusObj.label, locale)}] {locale === 'ko' ? '상태 정보:' : 'Status Info:'}</strong> {locale === 'ko' ? currentStatusObj.description : (currentStatusObj.descriptionEn || currentStatusObj.description)} — <em>{locale === 'ko' ? currentStatusObj.behavior : (currentStatusObj.behaviorEn || currentStatusObj.behavior)}</em></span>
                           </div>
 
-                          {/* Dynamic Component Live Preview with Active Status */}
+                          {/* Dynamic Component Live Preview with Active Type & Variable */}
                           <div className="p-8 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) flex items-center justify-center min-h-[180px] transition-all">
                             <StudioLivePreview
                               componentId={currentComponent.id}
-                              variable={v}
+                              type={t}
+                              variable={currentVariable}
                               getPaletteValue={getPaletteValue}
                               status={activeStatus}
                             />
                           </div>
 
-                          {/* Code Snippet for this variable (Connecting Type · Value · Status to Code) */}
+                          {/* Code Snippet for this Type & Variable */}
                           {(() => {
                             const baseName = currentComponent.name.split(' ')[0];
                             const isDefaultStatus = activeStatus === 'default';
-                            const varLabel = formatLocaleText(v.name, locale);
+                            const varLabel = currentVariable ? formatLocaleText(currentVariable.name, locale) : 'Button';
                             const placeholderText = locale === 'ko' ? '내용을 입력하세요' : 'Enter text...';
                             let generatedCode = '';
 
                             if (codeSnippetLang === 'react') {
                               const statusProp = isDefaultStatus ? '' : ` status="${activeStatus}"`;
                               if (currentComponent.id === 'input') {
-                                generatedCode = `<Input componentType="${typeSpec.id}" value="${v.id}"${statusProp} placeholder="${placeholderText}" />`;
+                                generatedCode = `<Input componentType="${t.id}" value="${currentVariable?.id}"${statusProp} placeholder="${placeholderText}" />`;
                               } else if (currentComponent.id === 'badge') {
-                                generatedCode = `<Badge componentType="${typeSpec.id}" value="${v.id}"${statusProp}>\n  ${varLabel}\n</Badge>`;
-                              } else if (currentComponent.id === 'chart') {
-                                generatedCode = `<Chart type="${v.id.includes('bar') ? 'bar' : v.id.includes('area') ? 'area' : 'line'}" variant="${v.id.includes('success') ? 'success' : v.id.includes('danger') ? 'danger' : 'primary'}" data={chartData}${statusProp} />`;
-                              } else if (currentComponent.id === 'offcanvas') {
-                                const placement = v.id.includes('left') ? 'left' : v.id.includes('bottom') ? 'bottom' : 'right';
-                                generatedCode = `<Offcanvas isOpen={isOpen} onClose={() => setIsOpen(false)} placement="${placement}" title="${varLabel}"${statusProp}>\n  <div className="p-4">{/* Content */}</div>\n</Offcanvas>`;
-                              } else if (currentComponent.id === 'toast') {
-                                const isAction = v.id.includes('action') || v.id.includes('undo');
-                                const actionProp = isAction ? ` action={{ label: '실행 취소', onClick: () => {} }}` : '';
-                                generatedCode = `<Toast variant="${v.id.includes('success') ? 'success' : v.id.includes('warning') ? 'warning' : v.id.includes('danger') ? 'danger' : 'info'}" title="${varLabel}"${actionProp} onClose={() => {}}${statusProp}>\n  ${placeholderText}\n</Toast>`;
+                                generatedCode = `<Badge componentType="${t.id}" value="${currentVariable?.id}"${statusProp}>\n  ${varLabel}\n</Badge>`;
                               } else {
-                                generatedCode = `<${baseName} componentType="${typeSpec.id}" value="${v.id}"${statusProp}>\n  ${varLabel}\n</${baseName}>`;
+                                generatedCode = `<${baseName} componentType="${t.id}" value="${currentVariable?.id}"${statusProp}>\n  ${varLabel}\n</${baseName}>`;
                               }
                             } else if (codeSnippetLang === 'html') {
                               const statusAttr = isDefaultStatus ? '' : ` data-status="${activeStatus}"`;
                               const tag = currentComponent.id === 'button' ? 'button' : currentComponent.id === 'input' ? 'input' : 'div';
                               const disabledAttr = (activeStatus === 'disabled' || activeStatus === 'loading') && (tag === 'button' || tag === 'input') ? ' disabled' : '';
                               if (tag === 'input') {
-                                generatedCode = `<input class="atom-input atom-input--${v.id}" data-component="input" data-type="${typeSpec.id}" data-value="${v.id}"${statusAttr}${disabledAttr} placeholder="${placeholderText}" />`;
+                                generatedCode = `<input class="atom-input atom-input--${t.id}" data-component="input" data-type="${t.id}" data-value="${currentVariable?.id}"${statusAttr}${disabledAttr} placeholder="${placeholderText}" />`;
                               } else {
-                                generatedCode = `<${tag} class="atom-${currentComponent.id} atom-${currentComponent.id}--${v.id}" data-component="${currentComponent.id}" data-type="${typeSpec.id}" data-value="${v.id}"${statusAttr}${disabledAttr}>\n  ${varLabel}\n</${tag}>`;
+                                generatedCode = `<${tag} class="atom-${currentComponent.id} atom-${currentComponent.id}--${t.id}" data-component="${currentComponent.id}" data-type="${t.id}" data-value="${currentVariable?.id}"${statusAttr}${disabledAttr}>\n  ${varLabel}\n</${tag}>`;
                               }
                             } else {
                               const statusProp = isDefaultStatus ? '' : ` status="${activeStatus}"`;
-                              generatedCode = `<Atom${baseName} component-type="${typeSpec.id}" value="${v.id}"${statusProp}>\n  ${varLabel}\n</Atom${baseName}>`;
+                              generatedCode = `<Atom${baseName} component-type="${t.id}" value="${currentVariable?.id}"${statusProp}>\n  ${varLabel}\n</Atom${baseName}>`;
                             }
 
                             return (
@@ -1614,12 +1483,12 @@ function LocalStudioContent() {
                                     size="sm"
                                     onClick={(e) => {
                                       e.stopPropagation();
-                                      handleCopyCode(generatedCode, v.id);
+                                      handleCopyCode(generatedCode, t.id);
                                     }}
                                     className="text-[11px] py-1 px-2.5 h-auto flex items-center gap-1 font-semibold shrink-0"
                                     title={locale === 'ko' ? '코드 복사' : 'Copy Code'}
                                   >
-                                    {copiedVarCode === v.id ? (
+                                    {copiedVarCode === t.id ? (
                                       <>
                                         <Check className="w-3 h-3 text-(--atom-color-success)" />
                                         <span className="text-(--atom-color-success)">{locale === 'ko' ? '복사 완료!' : 'Copied!'}</span>

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useLocale } from 'next-intl';
-import { ComponentVariable, ComponentInteractiveStatus } from '@/lib/data/studioData';
+import { ComponentVariable, ComponentInteractiveStatus, ComponentTypeSpec } from '@/lib/data/studioData';
 import { formatLocaleText } from '@/lib/utils/localeFormat';
 import { Loader2 } from 'lucide-react';
 import {
@@ -46,6 +46,8 @@ import {
 export interface StudioLivePreviewProps {
   componentId: string;
   variable: ComponentVariable;
+  type?: ComponentTypeSpec;
+  typeId?: string;
   getPaletteValue: (paletteId: string) => string;
   status?: ComponentInteractiveStatus;
 }
@@ -53,11 +55,14 @@ export interface StudioLivePreviewProps {
 export function StudioLivePreview({
   componentId,
   variable,
+  type,
+  typeId: typeIdProp,
   getPaletteValue,
   status = 'default',
 }: StudioLivePreviewProps) {
   const locale = useLocale();
   const b = variable?.tokenBindings || {};
+  const activeTypeId = (type?.id || typeIdProp || variable?.type?.id || '').toLowerCase();
 
   const isHover = status === 'hover';
   const isActive = status === 'active';
@@ -75,7 +80,7 @@ export function StudioLivePreview({
 
   // 1. Button
   if (componentId === 'button') {
-    const typeId = (variable?.type?.id || '').toLowerCase();
+    const typeId = activeTypeId;
     let bg = getPaletteValue(b.background || '');
     let textColor = getPaletteValue(b.textColor || '');
     let borderColor = getPaletteValue(b.borderColor || '');
