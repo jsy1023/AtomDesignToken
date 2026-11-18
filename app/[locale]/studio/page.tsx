@@ -183,6 +183,9 @@ function LocalStudioContent() {
     }
   }, []);
 
+  // Stage View Mode: Focus (1 selected Value) vs All (Stack of all Variants)
+  const [stageViewMode, setStageViewMode] = useState<'focus' | 'all'>('focus');
+
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
 
@@ -1120,35 +1123,95 @@ function LocalStudioContent() {
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start pb-10">
                 {/* Central Stage: Stacked Repeated Live Stages for all Variables (7 cols) */}
                 <div className="lg:col-span-7 min-w-0 flex flex-col gap-6">
-                  {/* Top Bar: Component Info + Add Variable Button */}
-                  <div className="p-4 rounded-(--radius) bg-(--bg-secondary)/30 border border-(--border-subtle) flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <Sliders className="w-4 h-4 text-(--accent-primary)" />
-                      <div>
-                        <h2 className="text-sm font-bold text-(--text-primary)">
-                          {formatLocaleText(currentComponent.name, locale)}
-                        </h2>
-                        <p className="text-xs text-(--text-secondary)">
-                          {locale === 'ko'
-                            ? `총 ${currentComponent.variables.length}개 변수 라이브 스테이지`
-                            : `${currentComponent.variables.length} Variants Live Stage`}
-                        </p>
+                  {/* Top Bar: Component Info + Add Variable Button + View Mode */}
+                  <div className="p-4 rounded-(--radius) bg-(--bg-secondary)/30 border border-(--border-subtle) flex flex-col gap-3">
+                    <div className="flex items-center justify-between gap-2 flex-wrap">
+                      <div className="flex items-center gap-2">
+                        <Sliders className="w-4 h-4 text-(--accent-primary)" />
+                        <div>
+                          <h2 className="text-sm font-bold text-(--text-primary)">
+                            {formatLocaleText(currentComponent.name, locale)}
+                          </h2>
+                          <p className="text-xs text-(--text-secondary)">
+                            {locale === 'ko'
+                              ? `선택된 Value: ${currentVariable?.name} (${selectedVariableId})`
+                              : `Selected Value: ${currentVariable?.name} (${selectedVariableId})`}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-2">
+                        {/* View Mode Toggle: Focus vs All Variants */}
+                        <div className="flex items-center p-0.5 rounded-(--radius-sm) bg-(--bg-secondary) border border-(--border-subtle)">
+                          <Button
+                            variant={stageViewMode === 'focus' ? 'primary' : 'ghost'}
+                            size="sm"
+                            onClick={() => setStageViewMode('focus')}
+                            className={`text-[11px] py-1 px-2.5 h-auto font-medium transition ${
+                              stageViewMode === 'focus' ? 'bg-(--accent-primary) text-white font-bold shadow-xs' : 'text-(--text-secondary)'
+                            }`}
+                          >
+                            {locale === 'ko' ? '단일 집중 뷰 (Focus)' : 'Focus'}
+                          </Button>
+                          <Button
+                            variant={stageViewMode === 'all' ? 'primary' : 'ghost'}
+                            size="sm"
+                            onClick={() => setStageViewMode('all')}
+                            className={`text-[11px] py-1 px-2.5 h-auto font-medium transition ${
+                              stageViewMode === 'all' ? 'bg-(--accent-primary) text-white font-bold shadow-xs' : 'text-(--text-secondary)'
+                            }`}
+                          >
+                            {locale === 'ko' ? '전체 비교 뷰 (All)' : 'All'}
+                          </Button>
+                        </div>
+
+                        <Button
+                          variant="primary"
+                          size="sm"
+                          onClick={() => setIsAddVariableOpen(true)}
+                          className="text-xs font-semibold flex items-center gap-1.5"
+                        >
+                          <Plus className="w-3.5 h-3.5" />
+                          <span>{t('addVariableBtn')}</span>
+                        </Button>
                       </div>
                     </div>
-                    <Button
-                      variant="primary"
-                      size="sm"
-                      onClick={() => setIsAddVariableOpen(true)}
-                      className="text-xs font-semibold flex items-center gap-1.5"
-                    >
-                      <Plus className="w-3.5 h-3.5" />
-                      <span>{t('addVariableBtn')}</span>
-                    </Button>
+
+                    {/* Value Tabs (변수 세그먼트 전환 바 - 중앙과 인스펙터를 1:1로 일체화) */}
+                    <div className="flex items-center gap-1.5 overflow-x-auto pt-2 border-t border-(--border-subtle)/60 pb-0.5">
+                      <span className="text-[10px] font-mono font-bold text-(--text-muted) uppercase shrink-0 mr-1">
+                        VALUE:
+                      </span>
+                      {currentComponent.variables.map((v) => {
+                        const isCurrentVal = v.id === selectedVariableId;
+                        return (
+                          <Button
+                            key={v.id}
+                            variant={isCurrentVal ? 'primary' : 'secondary'}
+                            size="sm"
+                            onClick={() => handleSelectVariable(v.id)}
+                            className={`text-xs py-1.5 px-3 h-auto whitespace-nowrap font-semibold transition-all shrink-0 ${
+                              isCurrentVal
+                                ? 'bg-(--accent-primary) text-white font-bold shadow-xs'
+                                : 'bg-(--bg-primary) hover:bg-(--bg-secondary) text-(--text-secondary) border border-(--border-subtle)'
+                            }`}
+                          >
+                            <span>{formatLocaleText(v.name, locale)}</span>
+                            <span className="font-mono text-[10px] opacity-75 ml-1.5">
+                              ({v.id})
+                            </span>
+                          </Button>
+                        );
+                      })}
+                    </div>
                   </div>
 
-                  {/* Stacked Repeated Live Stage Cards for each Variable/Value */}
+                  {/* Live Stage Cards (단일 집중 모드에서는 선택된 1개만, 전체 비교 모드에서는 전체 렌더링) */}
                   <div className="flex flex-col gap-6">
-                    {currentComponent.variables.map((v, index) => {
+                    {(stageViewMode === 'focus'
+                      ? [currentVariable]
+                      : currentComponent.variables
+                    ).map((v, index) => {
                       const isSelected = v.id === selectedVariableId;
                       const isEditing = editingVariableId === v.id;
                       const typeSpec = resolveTypeSpec(currentComponent.id, v.id, v.name);
@@ -1298,10 +1361,9 @@ function LocalStudioContent() {
                                     size="sm"
                                     onClick={(e) => {
                                       e.stopPropagation();
+                                      handleSelectVariable(v.id);
                                       setStageStatuses((prev) => ({ ...prev, [v.id]: st.status }));
-                                      if (isSelected) {
-                                        setInspectorStatusTab(st.status);
-                                      }
+                                      setInspectorStatusTab(st.status);
                                     }}
                                     className={`text-[11px] py-1 px-2 h-auto font-medium transition-all ${
                                       isCurrentSt
@@ -1445,21 +1507,31 @@ function LocalStudioContent() {
                         <Sliders className="w-4 h-4 text-(--accent-primary)" />
                         <span>{locale === 'ko' ? '토큰 바인딩 인스펙터' : 'Token Binding Inspector'}</span>
                       </h3>
-                      <div className="flex items-center gap-2 mt-1.5 flex-wrap">
+                      <div className="flex items-center gap-2 mt-2 flex-wrap">
                         <span className="text-xs font-semibold text-(--text-primary)">
                           {formatLocaleText(currentComponent.name, locale)}
                         </span>
-                        <span className="text-[11px] font-mono px-1.5 py-0.2 rounded bg-blue-500/10 text-blue-600 dark:text-blue-400 font-bold border border-blue-500/20">
+                        <span className="text-[11px] font-mono px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-600 dark:text-blue-400 font-bold border border-blue-500/20">
                           TYPE: {formatLocaleText(resolveTypeSpec(currentComponent.id, currentVariable?.id || 'primary', currentVariable?.name).name, locale)}
                         </span>
-                        <span className="text-[11px] font-mono px-1.5 py-0.2 rounded bg-amber-500/10 text-amber-600 dark:text-amber-400 font-bold border border-amber-500/20">
-                          VALUE: {currentVariable?.id}
-                        </span>
+                        
+                        {/* Interactive Value Switcher */}
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-[10px] font-mono font-bold text-(--text-muted)">VALUE:</span>
+                          <NativeSelect
+                            value={currentVariable?.id}
+                            onChange={(e) => handleSelectVariable(e.target.value)}
+                            className="text-xs font-mono font-bold py-0.5 px-2 h-auto"
+                          >
+                            {currentComponent.variables.map((v) => (
+                              <option key={v.id} value={v.id}>
+                                {formatLocaleText(v.name, locale)} ({v.id})
+                              </option>
+                            ))}
+                          </NativeSelect>
+                        </div>
                       </div>
                     </div>
-                    <Badge variant="primary" className="text-xs shrink-0 font-mono">
-                      {currentVariable?.id}
-                    </Badge>
                   </div>
 
                   {/* Status Selection Bar for Editing (각 상태별 토큰값 수정) */}
