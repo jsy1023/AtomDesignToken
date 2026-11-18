@@ -148,14 +148,6 @@ export const DEFAULT_COMPONENT_TYPES: Record<string, ComponentTypeSpec[]> = {
       antiPattern: '평면적인 미니멀 레이아웃에 남발하면 시각적 위계가 어지러워집니다.',
     },
     {
-      id: 'gradient',
-      name: 'Gradient (그라디언트 강조형)',
-      description: '2개 이상의 시스템 컬러가 부드럽게 전환되는 프리미엄 강조 외형',
-      whenToUse: 'AI 기능 트리거, Pro 플랜 업그레이드, VIP 혜택 등 특별한 기능 전환을 유도할 때 사용합니다.',
-      whenToUseEn: 'Use for premium conversion actions such as AI features or Pro upgrades.',
-      antiPattern: '일반적인 저장이나 확인 버튼에 그라디언트를 사용하면 시각적 피로를 초래합니다.',
-    },
-    {
       id: 'glassmorphic',
       name: 'Glassmorphic (글래스모피즘 반투명형)',
       description: '반투명 유리 질감(backdrop-blur)과 미세한 빛 반사 보더를 가진 미래지향적 외형',

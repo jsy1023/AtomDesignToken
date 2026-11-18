@@ -143,10 +143,6 @@ export function StudioLivePreview({
       boxShadow = isHover
         ? '0 10px 25px -3px rgba(0, 0, 0, 0.18), 0 4px 6px -2px rgba(0, 0, 0, 0.05)'
         : '0 4px 14px 0 rgba(0, 0, 0, 0.12)';
-    } else if (typeId.includes('gradient')) {
-      backgroundImage = `linear-gradient(135deg, ${themeColor} 0%, #8b5cf6 50%, #ec4899 100%)`;
-      textColor = '#ffffff';
-      borderColor = 'transparent';
     } else if (typeId.includes('glassmorphic') || typeId.includes('glass')) {
       bg = isHover
         ? `color-mix(in srgb, ${themeColor} 18%, rgba(255, 255, 255, 0.4))`
