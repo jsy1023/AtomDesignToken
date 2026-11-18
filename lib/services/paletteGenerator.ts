@@ -12,6 +12,22 @@ import { PaletteVariable } from '@/lib/data/studioData';
 export const PALETTE_SCALE_STEPS = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900] as const;
 export type PaletteScaleStepNumber = (typeof PALETTE_SCALE_STEPS)[number];
 
+/**
+ * Standard ideal lightness anchors for each step (0-100)
+ */
+export const STANDARD_STEP_LIGHTNESS: Record<PaletteScaleStepNumber, number> = {
+  50: 97,
+  100: 92,
+  200: 84,
+  300: 72,
+  400: 60,
+  500: 49,
+  600: 39,
+  700: 29,
+  800: 20,
+  900: 12,
+};
+
 export interface GeneratedPaletteStep {
   step: PaletteScaleStepNumber;
   id: string; // e.g. '--atom-palette-teal-500'
@@ -28,6 +44,9 @@ export interface GeneratedPaletteStep {
 export interface GeneratedPaletteResult {
   family: string;
   baseHex: string;
+  anchorStep: PaletteScaleStepNumber;
+  detectedAnchorStep: PaletteScaleStepNumber;
+  baseLightness: number;
   steps: GeneratedPaletteStep[];
   paletteVariables: PaletteVariable[];
 }
@@ -183,14 +202,52 @@ const STEP_DESCRIPTIONS: Record<PaletteScaleStepNumber, string> = {
 };
 
 /**
+ * Detect the optimal anchor step (50~900) based on base color lightness & luminance
+ */
+export function detectBestAnchorStep(hex: string): {
+  step: PaletteScaleStepNumber;
+  lightness: number;
+  luminance: number;
+  contrastWithWhite: number;
+} {
+  const cleanHex = hex.startsWith('#') ? hex : `#${hex}`;
+  const rgb = hexToRgb(cleanHex) || { r: 99, g: 102, b: 241 };
+  const { l } = rgbToHsl(rgb.r, rgb.g, rgb.b);
+  const luminance = getRelativeLuminance(rgb.r, rgb.g, rgb.b);
+  const contrastWithWhite = getContrastRatio(cleanHex, '#ffffff');
+
+  // Find step with closest standard lightness
+  let bestStep: PaletteScaleStepNumber = 500;
+  let minDiff = 999;
+
+  for (const step of PALETTE_SCALE_STEPS) {
+    const diff = Math.abs(STANDARD_STEP_LIGHTNESS[step] - l);
+    if (diff < minDiff) {
+      minDiff = diff;
+      bestStep = step;
+    }
+  }
+
+  return {
+    step: bestStep,
+    lightness: l,
+    luminance: Number(luminance.toFixed(3)),
+    contrastWithWhite,
+  };
+}
+
+/**
  * 단일 베이스 색상을 기반으로 50 ~ 900 계층 팔레트를 자동 연산하여 생성합니다.
+ * 베이스 색상의 명도에 따라 최적의 앵커 스텝(700, 800, 500 등)을 자동 배치하거나 수동 지정합니다.
  * 
- * @param baseHex - 사용자 입력 단일 색상 (예: '#3b82f6', '#ff6f0f', '#06b6d4' 등)
+ * @param baseHex - 사용자 입력 단일 색상 (예: '#3b82f6', '#ff6f0f', '#162c4e' 등)
  * @param familyName - 팔레트 그룹 명칭 (예: 'indigo', 'orange', 'teal', 'brand')
+ * @param customAnchorStep - 선택적 앵커 스텝 오버라이드 (미지정 시 베이스 색상 명도에 따라 50~900 중 최적 스텝 자동 결정)
  */
 export function generateColorPalette50to900(
   baseHex: string,
-  familyName: string = 'custom'
+  familyName: string = 'custom',
+  customAnchorStep?: PaletteScaleStepNumber
 ): GeneratedPaletteResult {
   const cleanHex = baseHex.startsWith('#') ? baseHex : `#${baseHex}`;
   const rgb = hexToRgb(cleanHex);
@@ -203,46 +260,74 @@ export function generateColorPalette50to900(
   const cleanFamily = familyName.trim().toLowerCase().replace(/[^a-z0-9_-]/g, '') || 'custom';
   const capitalFamily = cleanFamily.charAt(0).toUpperCase() + cleanFamily.slice(1);
 
-  // Ideal target lightness anchors
-  // 50: 97% -> 100: 92% -> 200: 84% -> 300: 72% -> 400: 60%
-  // 500: Base Lightness (Anchored)
-  // 600: 39% -> 700: 30% -> 800: 21% -> 900: 13%
-  const targetLightness: Record<PaletteScaleStepNumber, number> = {
-    50: Math.max(95, Math.min(98, 97)),
-    100: Math.max(90, Math.min(94, 92)),
-    200: Math.max(80, Math.min(87, 84)),
-    300: Math.max(68, Math.min(76, 72)),
-    400: Math.max(55, Math.min(65, 60)),
-    500: baseL, // Exact anchor level for base color
-    600: Math.max(34, Math.min(44, Math.round(baseL * 0.82))),
-    700: Math.max(25, Math.min(35, Math.round(baseL * 0.65))),
-    800: Math.max(17, Math.min(26, Math.round(baseL * 0.48))),
-    900: Math.max(10, Math.min(18, Math.round(baseL * 0.32))),
-  };
+  // 1. Detect best anchor step from base lightness or use custom override
+  const detection = detectBestAnchorStep(validHex);
+  const effectiveAnchorStep: PaletteScaleStepNumber = customAnchorStep || detection.step;
+  const anchorIndex = PALETTE_SCALE_STEPS.indexOf(effectiveAnchorStep);
+
+  // 2. Determine boundary target lightness
+  // Top (step 50) lightness: between 95% and 98.5%
+  const topLightness = anchorIndex === 0
+    ? baseL
+    : Math.max(95, Math.min(98.5, Math.max(baseL + 5, 96.5)));
+
+  // Bottom (step 900) lightness: between 6% and 15%
+  const bottomLightness = anchorIndex === 9
+    ? baseL
+    : Math.max(6, Math.min(14, Math.min(baseL - 5, 11)));
+
+  // 3. Compute lightness for all 10 steps using smooth sinusoidal curves
+  const targetLightness: Record<PaletteScaleStepNumber, number> = {} as any;
+
+  PALETTE_SCALE_STEPS.forEach((step, idx) => {
+    if (idx === anchorIndex) {
+      targetLightness[step] = baseL;
+    } else if (idx < anchorIndex) {
+      // Lighter steps (50 up to anchor)
+      const t = idx / anchorIndex; // 0 <= t < 1
+      const sinT = Math.sin((t * Math.PI) / 2);
+      const computedL = topLightness - (topLightness - baseL) * sinT;
+      targetLightness[step] = Math.round(computedL * 10) / 10;
+    } else {
+      // Darker steps (anchor down to 900)
+      const t = (idx - anchorIndex) / (9 - anchorIndex); // 0 < t <= 1
+      const sinT = Math.sin((t * Math.PI) / 2);
+      const computedL = baseL - (baseL - bottomLightness) * sinT;
+      targetLightness[step] = Math.round(computedL * 10) / 10;
+    }
+  });
+
+  // Strict monotonicity guard: each step must be lower in lightness than the previous
+  for (let i = 1; i < PALETTE_SCALE_STEPS.length; i++) {
+    const prevStep = PALETTE_SCALE_STEPS[i - 1];
+    const currStep = PALETTE_SCALE_STEPS[i];
+    if (targetLightness[currStep] >= targetLightness[prevStep]) {
+      targetLightness[currStep] = Math.max(5, targetLightness[prevStep] - 1.5);
+    }
+  }
 
   // Target saturation multipliers
-  // Subdue extreme saturation in very light tints (50, 100) and deep darks (900)
   const saturationMultipliers: Record<PaletteScaleStepNumber, number> = {
-    50: 0.75,
-    100: 0.85,
-    200: 0.92,
-    300: 0.98,
-    400: 1.0,
-    500: 1.0, // Unaltered base saturation
+    50: 0.68,
+    100: 0.80,
+    200: 0.90,
+    300: 0.96,
+    400: 0.99,
+    500: 1.0,
     600: 1.0,
     700: 0.98,
-    800: 0.92,
-    900: 0.85,
+    800: 0.94,
+    900: 0.88,
   };
 
   const steps: GeneratedPaletteStep[] = PALETTE_SCALE_STEPS.map((step) => {
     let hexValue: string;
 
-    if (step === 500) {
-      // Step 500 is strictly preserved as the user's exact input color!
+    if (step === effectiveAnchorStep) {
+      // The anchor step strictly preserves the user's exact input color!
       hexValue = validHex;
     } else {
-      const stepL = targetLightness[step];
+      const stepL = Math.max(4, Math.min(99, targetLightness[step]));
       const stepS = Math.max(5, Math.min(100, Math.round(s * saturationMultipliers[step])));
       hexValue = hslToHex(h, stepS, stepL);
     }
@@ -251,8 +336,8 @@ export function generateColorPalette50to900(
     const bestTextColor: '#ffffff' | '#0f172a' = contrastWithWhite >= 4.5 ? '#ffffff' : '#0f172a';
 
     const stepName =
-      step === 500
-        ? `${capitalFamily} 500 (Base Primary)`
+      step === effectiveAnchorStep
+        ? `${capitalFamily} ${step} (Base Anchor)`
         : `${capitalFamily} ${step}`;
 
     return {
@@ -263,7 +348,7 @@ export function generateColorPalette50to900(
       family: cleanFamily,
       category: 'color',
       description: STEP_DESCRIPTIONS[step],
-      isBaseAnchor: step === 500,
+      isBaseAnchor: step === effectiveAnchorStep,
       contrastRatioWithWhite: contrastWithWhite,
       bestTextColor,
     };
@@ -281,6 +366,9 @@ export function generateColorPalette50to900(
   return {
     family: cleanFamily,
     baseHex: validHex,
+    anchorStep: effectiveAnchorStep,
+    detectedAnchorStep: detection.step,
+    baseLightness: baseL,
     steps,
     paletteVariables,
   };

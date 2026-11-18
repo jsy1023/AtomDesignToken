@@ -21,6 +21,7 @@ import {
   generateColorPalette50to900,
   GeneratedPaletteResult,
   PaletteScaleStepNumber,
+  PALETTE_SCALE_STEPS,
 } from '@/lib/services/paletteGenerator';
 import { PaletteVariable } from '@/lib/data/studioData';
 
@@ -51,6 +52,7 @@ export const PaletteScaleGeneratorModal: React.FC<PaletteScaleGeneratorModalProp
 }) => {
   const [baseHex, setBaseHex] = useState('#6366f1');
   const [familyName, setFamilyName] = useState('indigo');
+  const [anchorStepOverride, setAnchorStepOverride] = useState<PaletteScaleStepNumber | null>(null);
   const [copiedStep, setCopiedStep] = useState<number | null>(null);
 
   // Close on ESC
@@ -68,10 +70,10 @@ export const PaletteScaleGeneratorModal: React.FC<PaletteScaleGeneratorModalProp
     };
   }, [isOpen, onClose]);
 
-  // Generate 50 ~ 900 scale dynamically
+  // Generate 50 ~ 900 scale dynamically with intelligent anchor placement
   const result: GeneratedPaletteResult = useMemo(() => {
-    return generateColorPalette50to900(baseHex, familyName);
-  }, [baseHex, familyName]);
+    return generateColorPalette50to900(baseHex, familyName, anchorStepOverride || undefined);
+  }, [baseHex, familyName, anchorStepOverride]);
 
   if (!isOpen) return null;
 
@@ -124,12 +126,19 @@ export const PaletteScaleGeneratorModal: React.FC<PaletteScaleGeneratorModalProp
 
         {/* Base Input & Family Name Controls */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 rounded-(--radius-sm) bg-(--bg-secondary)/40 border border-(--border-subtle)">
-          {/* Base Color Input */}
-          <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-(--text-primary) flex items-center justify-between">
-              <span>{locale === 'ko' ? '기준 베이스 색상 (Base Color)' : 'Base Color'}</span>
-              <span className="font-mono text-[11px] text-(--text-secondary)">500 Anchor</span>
-            </label>
+          {/* Base Color Input & Dynamic Anchor Step */}
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <label className="text-xs font-semibold text-(--text-primary)">
+                {locale === 'ko' ? '기준 베이스 색상 (Base Color)' : 'Base Color'}
+              </label>
+              <div className="flex items-center gap-1.5">
+                <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-(--accent-primary)/10 text-(--accent-primary) font-bold border border-(--accent-primary)/20">
+                  {result.anchorStep} ANCHOR {anchorStepOverride ? '(수동 지정)' : '(명도 자동 판별)'}
+                </span>
+              </div>
+            </div>
+
             <div className="flex items-center gap-2">
               <span
                 style={{ backgroundColor: result.baseHex }}
@@ -138,13 +147,17 @@ export const PaletteScaleGeneratorModal: React.FC<PaletteScaleGeneratorModalProp
               />
               <Input
                 value={baseHex}
-                onChange={(e) => setBaseHex(e.target.value)}
+                onChange={(e) => {
+                  setBaseHex(e.target.value);
+                  setAnchorStepOverride(null);
+                }}
                 placeholder="#3182f6"
                 className="font-mono text-xs"
               />
             </div>
+
             {/* Quick Presets */}
-            <div className="flex flex-wrap items-center gap-1 pt-1">
+            <div className="flex flex-wrap items-center gap-1 pt-0.5">
               <span className="text-[10px] text-(--text-muted) mr-1">추천:</span>
               {PRESET_ANCHORS.map((preset) => (
                 <span
@@ -154,6 +167,7 @@ export const PaletteScaleGeneratorModal: React.FC<PaletteScaleGeneratorModalProp
                   onClick={() => {
                     setBaseHex(preset.hex);
                     setFamilyName(preset.family);
+                    setAnchorStepOverride(null);
                   }}
                   className="text-[10px] font-mono px-1.5 py-0.5 rounded cursor-pointer transition border border-(--border-subtle) bg-(--bg-primary) hover:border-(--accent-primary) flex items-center gap-1"
                 >
@@ -165,22 +179,88 @@ export const PaletteScaleGeneratorModal: React.FC<PaletteScaleGeneratorModalProp
                 </span>
               ))}
             </div>
+
+            {/* Anchor Step Selector Bar (50 ~ 900) */}
+            <div className="pt-2 border-t border-(--border-subtle)/60 space-y-1.5">
+              <div className="flex items-center justify-between text-[11px]">
+                <span className="text-(--text-secondary) font-semibold flex items-center gap-1">
+                  <Sliders className="w-3 h-3 text-(--accent-primary)" />
+                  <span>{locale === 'ko' ? '기준 색상 배치 계층 (Anchor Step)' : 'Base Anchor Step'}</span>
+                </span>
+                <span className="text-[10px] font-mono text-(--text-muted)">
+                  명도 {Math.round(result.baseLightness)}% ➔ 추천: <strong className="text-(--accent-primary)">{result.detectedAnchorStep}</strong>
+                </span>
+              </div>
+              <div className="grid grid-cols-5 sm:grid-cols-10 gap-1">
+                {PALETTE_SCALE_STEPS.map((step) => {
+                  const isCurrentAnchor = result.anchorStep === step;
+                  const isAutoDetected = result.detectedAnchorStep === step;
+                  return (
+                    <Button
+                      key={step}
+                      variant={isCurrentAnchor ? 'primary' : 'secondary'}
+                      size="sm"
+                      onClick={() => setAnchorStepOverride(step)}
+                      className={`text-[10px] font-mono py-1 px-0.5 h-auto relative ${
+                        isCurrentAnchor
+                          ? 'bg-(--accent-primary) text-(--bg-primary) font-bold shadow-2xs'
+                          : 'text-(--text-secondary) bg-(--bg-primary) hover:bg-(--bg-secondary) border border-(--border-subtle)'
+                      }`}
+                      title={`${step} 단계에 기준 색상 고정${isAutoDetected ? ' (명도 기준 자동 추천 계층)' : ''}`}
+                    >
+                      <span>{step}</span>
+                      {isAutoDetected && !isCurrentAnchor && (
+                        <span className="absolute -top-1 -right-0.5 w-1.5 h-1.5 rounded-full bg-(--accent-primary)" title="명도 기반 추천" />
+                      )}
+                    </Button>
+                  );
+                })}
+              </div>
+              {anchorStepOverride && (
+                <div className="flex justify-end pt-0.5">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setAnchorStepOverride(null)}
+                    className="text-[10px] text-(--accent-primary) h-auto py-0.5 px-1 hover:underline"
+                  >
+                    <RefreshCw className="w-2.5 h-2.5 mr-1" />
+                    <span>{locale === 'ko' ? '명도 기반 자동 감지로 리셋' : 'Reset to auto-detect'}</span>
+                  </Button>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Color Family Name Input */}
-          <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-(--text-primary)">
-              {locale === 'ko' ? '팔레트 그룹 식별자 (Family Name)' : 'Family Identifier'}
-            </label>
-            <Input
-              value={familyName}
-              onChange={(e) => setFamilyName(e.target.value.toLowerCase().replace(/[^a-z0-9_-]/g, ''))}
-              placeholder="예: indigo, teal, brand"
-              className="font-mono text-xs"
-            />
-            <p className="text-[10px] text-(--text-muted)">
-              생성되는 CSS 변수 접두사: <code className="font-mono text-(--accent-primary)">--atom-palette-{result.family}-*</code>
-            </p>
+          <div className="space-y-2 flex flex-col justify-between">
+            <div className="space-y-1.5">
+              <label className="text-xs font-semibold text-(--text-primary)">
+                {locale === 'ko' ? '팔레트 그룹 식별자 (Family Name)' : 'Family Identifier'}
+              </label>
+              <Input
+                value={familyName}
+                onChange={(e) => setFamilyName(e.target.value.toLowerCase().replace(/[^a-z0-9_-]/g, ''))}
+                placeholder="예: indigo, teal, brand"
+                className="font-mono text-xs"
+              />
+              <p className="text-[10px] text-(--text-muted)">
+                생성되는 CSS 변수 접두사: <code className="font-mono text-(--accent-primary)">--atom-palette-{result.family}-*</code>
+              </p>
+            </div>
+
+            {/* Smart Perception Information Box */}
+            <div className="p-3 rounded-(--radius-sm) bg-(--bg-primary) border border-(--border-subtle) text-[11px] space-y-1 text-(--text-secondary)">
+              <div className="font-semibold text-(--text-primary) flex items-center gap-1">
+                <Sparkles className="w-3 h-3 text-(--accent-primary)" />
+                <span>{locale === 'ko' ? '지능형 명도 분석 결과' : 'Perceptual Lightness Analysis'}</span>
+              </div>
+              <p className="text-[10px] text-(--text-muted) leading-relaxed">
+                {locale === 'ko'
+                  ? `기준 색상(#${result.baseHex.replace('#', '')})의 명도가 ${Math.round(result.baseLightness)}%로 판별되어 ${result.anchorStep} 계층에 배치되었습니다. 50부터 900까지 명도가 역전 없이 완벽하게 단조 감소합니다.`
+                  : `Base color has ${Math.round(result.baseLightness)}% lightness, optimally anchored at step ${result.anchorStep}.`}
+              </p>
+            </div>
           </div>
         </div>
 
@@ -221,8 +301,8 @@ export const PaletteScaleGeneratorModal: React.FC<PaletteScaleGeneratorModalProp
                       {st.step}
                     </span>
                     {st.isBaseAnchor && (
-                      <span className="absolute bottom-1 text-[8px] uppercase tracking-tighter px-1 py-0.2 rounded bg-black/60 text-white font-mono">
-                        Base
+                      <span className="absolute bottom-1 text-[8px] uppercase tracking-tighter px-1 py-0.2 rounded bg-black/75 text-white font-mono font-bold shadow-2xs">
+                        BASE
                       </span>
                     )}
                   </div>
@@ -259,9 +339,14 @@ export const PaletteScaleGeneratorModal: React.FC<PaletteScaleGeneratorModalProp
             {result.steps.map((st) => (
               <span
                 key={st.id}
-                className="px-2 py-0.5 rounded bg-(--bg-primary) border border-(--border-subtle) text-(--text-secondary)"
+                className={`px-2 py-0.5 rounded border ${
+                  st.isBaseAnchor
+                    ? 'bg-(--accent-primary)/10 text-(--accent-primary) border-(--accent-primary)/40 font-bold'
+                    : 'bg-(--bg-primary) border-(--border-subtle) text-(--text-secondary)'
+                }`}
               >
-                var({st.id}) <span className="opacity-60">[{st.value}]</span>
+                var({st.id}) <span className="opacity-75">[{st.value}]</span>
+                {st.isBaseAnchor && <span className="ml-1 text-[9px] uppercase font-bold text-(--accent-primary)">★BASE</span>}
               </span>
             ))}
           </div>
