@@ -855,19 +855,19 @@ export const INITIAL_PALETTE_VARIABLES: PaletteVariable[] = [
   // ==========================================
   // 2. SIZE & SPACING PALETTES
   // ==========================================
-  { id: '--atom-space-1', name: 'Space 1 (4px)', category: 'size', value: '4px', description: '초미세 여백 및 아이콘 갭' },
-  { id: '--atom-space-1-5', name: 'Space 1.5 (6px)', category: 'size', value: '6px', description: '콤팩트 배지 및 버튼 인라인 갭' },
-  { id: '--atom-space-2', name: 'Space 2 (8px)', category: 'size', value: '8px', description: '버튼 내부 패딩 및 미세 간격' },
-  { id: '--atom-space-2-5', name: 'Space 2.5 (10px)', category: 'size', value: '10px', description: '슬림 컴포넌트 여백' },
-  { id: '--atom-space-3', name: 'Space 3 (12px)', category: 'size', value: '12px', description: '인풋 및 카드 내부 기본 갭' },
-  { id: '--atom-space-3-5', name: 'Space 3.5 (14px)', category: 'size', value: '14px', description: '모달 헤더 및 아이템 간격' },
-  { id: '--atom-space-4', name: 'Space 4 (16px)', category: 'size', value: '16px', description: '표준 컴포넌트 내부 패딩' },
-  { id: '--atom-space-5', name: 'Space 5 (20px)', category: 'size', value: '20px', description: '중간 크기 카드 패딩' },
-  { id: '--atom-space-6', name: 'Space 6 (24px)', category: 'size', value: '24px', description: '대형 카드 및 섹션 간격' },
-  { id: '--atom-space-8', name: 'Space 8 (32px)', category: 'size', value: '32px', description: '섹션 디바이더 및 블록 간격' },
-  { id: '--atom-space-10', name: 'Space 10 (40px)', category: 'size', value: '40px', description: '대형 컨테이너 패딩' },
-  { id: '--atom-space-12', name: 'Space 12 (48px)', category: 'size', value: '48px', description: '페이지 상하 헤더 여백' },
-  { id: '--atom-space-16', name: 'Space 16 (64px)', category: 'size', value: '64px', description: '히어로 섹션 및 뷰포트 여백' },
+  { id: '--atom-space-1', name: 'Space 1 (4px)', category: 'spacing', value: '4px', description: '초미세 여백 및 아이콘 갭' },
+  { id: '--atom-space-1-5', name: 'Space 1.5 (6px)', category: 'spacing', value: '6px', description: '콤팩트 배지 및 버튼 인라인 갭' },
+  { id: '--atom-space-2', name: 'Space 2 (8px)', category: 'spacing', value: '8px', description: '버튼 내부 패딩 및 미세 간격' },
+  { id: '--atom-space-2-5', name: 'Space 2.5 (10px)', category: 'spacing', value: '10px', description: '슬림 컴포넌트 여백' },
+  { id: '--atom-space-3', name: 'Space 3 (12px)', category: 'spacing', value: '12px', description: '인풋 및 카드 내부 기본 갭' },
+  { id: '--atom-space-3-5', name: 'Space 3.5 (14px)', category: 'spacing', value: '14px', description: '모달 헤더 및 아이템 간격' },
+  { id: '--atom-space-4', name: 'Space 4 (16px)', category: 'spacing', value: '16px', description: '표준 컴포넌트 내부 패딩' },
+  { id: '--atom-space-5', name: 'Space 5 (20px)', category: 'spacing', value: '20px', description: '중간 크기 카드 패딩' },
+  { id: '--atom-space-6', name: 'Space 6 (24px)', category: 'spacing', value: '24px', description: '대형 카드 및 섹션 간격' },
+  { id: '--atom-space-8', name: 'Space 8 (32px)', category: 'spacing', value: '32px', description: '섹션 디바이더 및 블록 간격' },
+  { id: '--atom-space-10', name: 'Space 10 (40px)', category: 'spacing', value: '40px', description: '대형 컨테이너 패딩' },
+  { id: '--atom-space-12', name: 'Space 12 (48px)', category: 'spacing', value: '48px', description: '페이지 상하 헤더 여백' },
+  { id: '--atom-space-16', name: 'Space 16 (64px)', category: 'spacing', value: '64px', description: '히어로 섹션 및 뷰포트 여백' },
 
   // ==========================================
   // 3. RADIUS PALETTES (Border Curvature)

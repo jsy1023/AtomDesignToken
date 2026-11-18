@@ -4,7 +4,7 @@ import React from 'react';
 import { useLocale } from 'next-intl';
 import { ComponentVariable, ComponentInteractiveStatus, ComponentTypeSpec } from '@/lib/data/studioData';
 import { formatLocaleText } from '@/lib/utils/localeFormat';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Sparkles, ArrowRight, Plus } from 'lucide-react';
 import {
   Button,
   Input,
@@ -48,6 +48,8 @@ export interface StudioLivePreviewProps {
   variable: ComponentVariable;
   type?: ComponentTypeSpec;
   typeId?: string;
+  size?: 'sm' | 'md' | 'lg';
+  iconSlot?: 'none' | 'left' | 'right' | 'icon-only';
   getPaletteValue: (paletteId: string) => string;
   status?: ComponentInteractiveStatus;
 }
@@ -57,6 +59,8 @@ export function StudioLivePreview({
   variable,
   type,
   typeId: typeIdProp,
+  size = 'md',
+  iconSlot = 'none',
   getPaletteValue,
   status = 'default',
 }: StudioLivePreviewProps) {
@@ -81,6 +85,7 @@ export function StudioLivePreview({
   // 1. Button
   if (componentId === 'button') {
     const typeId = activeTypeId;
+    const themeColor = getPaletteValue(b.background || '--atom-color-primary');
     let bg = getPaletteValue(b.background || '');
     let textColor = getPaletteValue(b.textColor || '');
     let borderColor = getPaletteValue(b.borderColor || '');
@@ -97,55 +102,101 @@ export function StudioLivePreview({
       borderRadius = '9999px';
     } else if (typeId.includes('outline')) {
       if (!isHover && !isActive) bg = 'transparent';
+      borderColor = themeColor;
+      textColor = themeColor;
       borderWidth = '1.5px';
+      if (isHover) {
+        bg = `color-mix(in srgb, ${themeColor} 12%, transparent)`;
+        textColor = themeColor;
+      } else if (isActive) {
+        bg = `color-mix(in srgb, ${themeColor} 20%, transparent)`;
+        textColor = themeColor;
+      }
     } else if (typeId.includes('ghost')) {
       if (!isHover && !isActive) {
         bg = 'transparent';
         borderColor = 'transparent';
       }
+      textColor = themeColor;
+      borderColor = 'transparent';
       boxShadow = 'none';
-    } else if (typeId.includes('soft')) {
-      if (!isHover && !isActive) {
-        bg = bg || 'color-mix(in srgb, var(--accent-primary) 12%, transparent)';
-        if (!b.borderColor) borderColor = 'transparent';
+      if (isHover) {
+        bg = `color-mix(in srgb, ${themeColor} 12%, transparent)`;
+        textColor = themeColor;
+      } else if (isActive) {
+        bg = `color-mix(in srgb, ${themeColor} 20%, transparent)`;
+        textColor = themeColor;
       }
+    } else if (typeId.includes('soft')) {
+      bg = `color-mix(in srgb, ${themeColor} 12%, transparent)`;
+      borderColor = 'transparent';
+      textColor = themeColor;
       boxShadow = 'none';
+      if (isHover) {
+        bg = `color-mix(in srgb, ${themeColor} 22%, transparent)`;
+        textColor = themeColor;
+      } else if (isActive) {
+        bg = `color-mix(in srgb, ${themeColor} 30%, transparent)`;
+        textColor = themeColor;
+      }
     } else if (typeId.includes('elevated')) {
       boxShadow = isHover
         ? '0 10px 25px -3px rgba(0, 0, 0, 0.18), 0 4px 6px -2px rgba(0, 0, 0, 0.05)'
         : '0 4px 14px 0 rgba(0, 0, 0, 0.12)';
     } else if (typeId.includes('gradient')) {
-      backgroundImage = 'linear-gradient(135deg, var(--atom-color-primary, #3182f6) 0%, #8b5cf6 50%, #ec4899 100%)';
+      backgroundImage = `linear-gradient(135deg, ${themeColor} 0%, #8b5cf6 50%, #ec4899 100%)`;
       textColor = '#ffffff';
       borderColor = 'transparent';
     } else if (typeId.includes('glassmorphic') || typeId.includes('glass')) {
-      bg = isHover ? 'rgba(255, 255, 255, 0.28)' : 'rgba(255, 255, 255, 0.16)';
+      bg = isHover
+        ? `color-mix(in srgb, ${themeColor} 18%, rgba(255, 255, 255, 0.4))`
+        : `color-mix(in srgb, ${themeColor} 10%, rgba(255, 255, 255, 0.25))`;
       backdropFilter = 'blur(12px)';
-      borderColor = 'rgba(255, 255, 255, 0.35)';
-      boxShadow = '0 8px 32px 0 rgba(0, 0, 0, 0.1)';
+      borderColor = `color-mix(in srgb, ${themeColor} 35%, transparent)`;
+      boxShadow = '0 8px 32px 0 rgba(0, 0, 0, 0.08)';
+      textColor = themeColor;
     } else if (typeId.includes('link')) {
       bg = 'transparent';
       borderColor = 'transparent';
       boxShadow = 'none';
+      textColor = themeColor;
       textDecoration = isHover ? 'underline' : 'none';
     } else if (typeId.includes('dashed')) {
       borderStyle = 'dashed';
       borderWidth = '2px';
+      borderColor = themeColor;
+      textColor = themeColor;
       if (!isHover && !isActive) bg = 'transparent';
+      if (isHover) {
+        bg = `color-mix(in srgb, ${themeColor} 8%, transparent)`;
+      }
     } else if (typeId.includes('neumorphic')) {
+      bg = 'var(--bg-secondary, #f3f4f6)';
+      textColor = themeColor;
+      borderColor = 'transparent';
       boxShadow = isActive
-        ? 'inset 3px 3px 6px rgba(0,0,0,0.2), inset -3px -3px 6px rgba(255,255,255,0.7)'
-        : '4px 4px 10px rgba(0,0,0,0.12), -4px -4px 10px rgba(255,255,255,0.8)';
+        ? 'inset 3px 3px 6px rgba(0,0,0,0.18), inset -3px -3px 6px rgba(255,255,255,0.7)'
+        : '5px 5px 12px rgba(0,0,0,0.08), -5px -5px 12px rgba(255,255,255,0.8)';
+    } else if (typeId.includes('floating-action') || typeId.includes('fab')) {
+      borderRadius = '9999px';
+      boxShadow = '0 10px 25px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.05)';
     }
 
     if (isHover) {
-      if (b.hoverBackground) bg = getPaletteValue(b.hoverBackground);
-      if (b.hoverTextColor) textColor = getPaletteValue(b.hoverTextColor);
+      if (b.hoverBackground && !typeId.includes('outline') && !typeId.includes('ghost') && !typeId.includes('soft') && !typeId.includes('link') && !typeId.includes('dashed') && !typeId.includes('glassmorphic') && !typeId.includes('neumorphic')) {
+        bg = getPaletteValue(b.hoverBackground);
+      }
+      if (b.hoverTextColor && !typeId.includes('outline') && !typeId.includes('ghost') && !typeId.includes('soft') && !typeId.includes('link') && !typeId.includes('dashed') && !typeId.includes('glassmorphic') && !typeId.includes('neumorphic')) {
+        textColor = getPaletteValue(b.hoverTextColor);
+      }
       if (b.hoverBorderColor) borderColor = getPaletteValue(b.hoverBorderColor);
     } else if (isActive) {
-      if (b.activeBackground) bg = getPaletteValue(b.activeBackground);
-      else if (b.hoverBackground) bg = getPaletteValue(b.hoverBackground);
-      if (b.activeTextColor) textColor = getPaletteValue(b.activeTextColor);
+      if (b.activeBackground && !typeId.includes('outline') && !typeId.includes('ghost') && !typeId.includes('soft') && !typeId.includes('link') && !typeId.includes('dashed') && !typeId.includes('glassmorphic') && !typeId.includes('neumorphic')) {
+        bg = getPaletteValue(b.activeBackground);
+      }
+      if (b.activeTextColor && !typeId.includes('outline') && !typeId.includes('ghost') && !typeId.includes('soft') && !typeId.includes('link') && !typeId.includes('dashed') && !typeId.includes('glassmorphic') && !typeId.includes('neumorphic')) {
+        textColor = getPaletteValue(b.activeTextColor);
+      }
       if (b.activeBorderColor) borderColor = getPaletteValue(b.activeBorderColor);
     } else if (isFocus) {
       if (b.focusBackground) bg = getPaletteValue(b.focusBackground);
@@ -156,9 +207,41 @@ export function StudioLivePreview({
       if (b.disabledBorderColor) borderColor = getPaletteValue(b.disabledBorderColor);
     }
 
+    // Size-specific metrics (Variable: size)
+    let padX = getPaletteValue(b.paddingX || '--atom-space-4');
+    let padY = getPaletteValue(b.paddingY || '--atom-space-2');
+    let fontSize = '14px';
+    let iconClass = 'w-4 h-4 shrink-0';
+
+    if (size === 'sm') {
+      padX = '10px';
+      padY = '6px';
+      fontSize = '12px';
+      iconClass = 'w-3.5 h-3.5 shrink-0';
+    } else if (size === 'lg') {
+      padX = '24px';
+      padY = '12px';
+      fontSize = '16px';
+      iconClass = 'w-5 h-5 shrink-0';
+    }
+
+    if (typeId.includes('link')) {
+      padX = '0px';
+    }
+
+    const isFab = typeId.includes('floating-action') || typeId.includes('fab');
+    if (isFab) {
+      padX = size === 'sm' ? '10px' : size === 'lg' ? '18px' : '14px';
+      padY = padX;
+    }
+
     const focusOutline = isFocus
       ? `2px solid ${b.focusBorderColor ? getPaletteValue(b.focusBorderColor) : 'var(--accent-primary)'}`
       : undefined;
+
+    const labelText = isLoading
+      ? (locale === 'ko' ? '로딩 중...' : 'Loading...')
+      : formatLocaleText(variable?.name, locale) || (locale === 'ko' ? '버튼' : 'Button');
 
     return (
       <Button
@@ -169,10 +252,11 @@ export function StudioLivePreview({
           color: textColor,
           border: `${borderWidth} ${borderStyle} ${borderColor}`,
           borderRadius,
-          paddingLeft: typeId.includes('link') ? '0' : getPaletteValue(b.paddingX || ''),
-          paddingRight: typeId.includes('link') ? '0' : getPaletteValue(b.paddingX || ''),
-          paddingTop: getPaletteValue(b.paddingY || ''),
-          paddingBottom: getPaletteValue(b.paddingY || ''),
+          paddingLeft: padX,
+          paddingRight: padX,
+          paddingTop: padY,
+          paddingBottom: padY,
+          fontSize,
           outline: focusOutline,
           outlineOffset: focusOutline ? '2px' : undefined,
           boxShadow,
@@ -181,10 +265,23 @@ export function StudioLivePreview({
           textDecoration,
           ...statusWrapperStyle,
         }}
-        className="font-medium text-sm transition-all flex items-center gap-2 cursor-pointer"
+        className={`font-medium transition-all inline-flex items-center justify-center gap-2 cursor-pointer ${
+          isFab ? 'rounded-full aspect-square' : ''
+        }`}
       >
-        {isLoading && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
-        <span>{isLoading ? (locale === 'ko' ? '로딩 중...' : 'Loading...') : formatLocaleText(variable?.name, locale) || (locale === 'ko' ? '버튼' : 'Button')}</span>
+        {isLoading && <Loader2 className={`${iconClass} animate-spin`} />}
+        {!isLoading && (iconSlot === 'left' || (isFab && iconSlot === 'none')) && (
+          <Sparkles className={iconClass} />
+        )}
+        {iconSlot !== 'icon-only' && !isFab && (
+          <span>{labelText}</span>
+        )}
+        {!isLoading && iconSlot === 'right' && (
+          <ArrowRight className={iconClass} />
+        )}
+        {!isLoading && iconSlot === 'icon-only' && !isFab && (
+          <Sparkles className={iconClass} />
+        )}
       </Button>
     );
   }
