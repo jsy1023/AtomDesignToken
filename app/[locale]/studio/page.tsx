@@ -1697,8 +1697,8 @@ function LocalStudioContent() {
                               )}
                               <span>{formatLocaleText(prop.label, locale)}</span>
                             </span>
-                            <span className="font-mono text-[10px] text-(--text-muted)">
-                              {matchedPalette?.value}
+                            <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-(--bg-secondary) text-(--accent-primary) border border-(--border-subtle) font-bold">
+                              var({boundPaletteId})
                             </span>
                           </div>
 
@@ -1714,7 +1714,7 @@ function LocalStudioContent() {
                               </option>
                               {relevantPalettes.map((pal) => (
                                 <option key={pal.id} value={pal.id}>
-                                  {formatLocaleText(pal.name, locale)} ({pal.value})
+                                  {formatLocaleText(pal.name, locale)} — var({pal.id}) [{pal.value}]
                                 </option>
                               ))}
                             </NativeSelect>
