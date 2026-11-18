@@ -10,6 +10,7 @@ import { CodeHighlight } from '@/components/common/CodeHighlight';
 import { StudioLivePreview } from '@/components/studio/StudioLivePreview';
 import { StudioThemeManager } from '@/components/studio/StudioThemeManager';
 import { StudioBrandSettings } from '@/components/studio/StudioBrandSettings';
+import { PaletteScaleGeneratorModal } from '@/components/studio/PaletteScaleGeneratorModal';
 import { formatLocaleText } from '@/lib/utils/localeFormat';
 import {
   Button,
@@ -213,6 +214,7 @@ function LocalStudioContent() {
   const [newVariableDesc, setNewVariableDesc] = useState('');
 
   const [isAddPaletteOpen, setIsAddPaletteOpen] = useState(false);
+  const [isPaletteGeneratorOpen, setIsPaletteGeneratorOpen] = useState(false);
   const [newPaletteName, setNewPaletteName] = useState('');
   const [newPaletteId, setNewPaletteId] = useState('');
   const [newPaletteCategory, setNewPaletteCategory] = useState<'color' | 'size' | 'spacing' | 'radius' | 'typography'>('color');
@@ -240,10 +242,11 @@ function LocalStudioContent() {
         if (isAddTypeOpen) setIsAddTypeOpen(false);
         else if (isAddVariableOpen) setIsAddVariableOpen(false);
         else if (isAddPaletteOpen) setIsAddPaletteOpen(false);
+        else if (isPaletteGeneratorOpen) setIsPaletteGeneratorOpen(false);
         else if (editingPalette) setEditingPalette(null);
       }
     };
-    const hasAnyOpen = isAddTypeOpen || isAddVariableOpen || isAddPaletteOpen || !!editingPalette;
+    const hasAnyOpen = isAddTypeOpen || isAddVariableOpen || isAddPaletteOpen || isPaletteGeneratorOpen || !!editingPalette;
     if (hasAnyOpen) {
       document.body.style.overflow = 'hidden';
       window.addEventListener('keydown', handleKeyDown);
@@ -252,7 +255,7 @@ function LocalStudioContent() {
       document.body.style.overflow = 'unset';
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [isAddTypeOpen, isAddVariableOpen, isAddPaletteOpen, editingPalette]);
+  }, [isAddTypeOpen, isAddVariableOpen, isAddPaletteOpen, isPaletteGeneratorOpen, editingPalette]);
 
   const handleSaveEditPalette = () => {
     if (!editingPalette) return;
@@ -692,14 +695,43 @@ function LocalStudioContent() {
     return matchesCat && matchesFamily && matchesSearch;
   });
 
+  const colorFamilyPresetColors: Record<string, string> = {
+    blue: '#3182f6',
+    gray: '#64748b',
+    emerald: '#10b981',
+    rose: '#f43f5e',
+    amber: '#f59e0b',
+    purple: '#8b5cf6',
+    indigo: '#6366f1',
+    cyan: '#06b6d4',
+    teal: '#14b8a6',
+    orange: '#f97316',
+    pink: '#ec4899',
+    lime: '#84cc16',
+  };
+
+  const dynamicFamilyKeys = Array.from(
+    new Set([
+      'blue',
+      'gray',
+      'emerald',
+      'rose',
+      'amber',
+      'purple',
+      ...paletteVariables.filter((p) => p.category === 'color' && p.family).map((p) => p.family!),
+    ])
+  );
+
   const colorFamilies = [
     { id: 'all', label: locale === 'ko' ? '전체' : 'All', color: 'var(--text-primary)' },
-    { id: 'blue', label: locale === 'ko' ? '블루' : 'Blue', color: '#3182f6' },
-    { id: 'gray', label: locale === 'ko' ? '그레이' : 'Gray', color: '#64748b' },
-    { id: 'emerald', label: locale === 'ko' ? '에메랄드' : 'Emerald', color: '#10b981' },
-    { id: 'rose', label: locale === 'ko' ? '로즈' : 'Rose', color: '#f43f5e' },
-    { id: 'amber', label: locale === 'ko' ? '앰버' : 'Amber', color: '#f59e0b' },
-    { id: 'purple', label: locale === 'ko' ? '퍼플' : 'Purple', color: '#8b5cf6' },
+    ...dynamicFamilyKeys.map((fam) => ({
+      id: fam,
+      label: fam.charAt(0).toUpperCase() + fam.slice(1),
+      color:
+        colorFamilyPresetColors[fam] ||
+        paletteVariables.find((p) => p.family === fam && p.id.includes('500'))?.value ||
+        '#3182f6',
+    })),
   ];
 
   // Resolve component types (1. Type: 새로운 디자인의 외형 양식)
@@ -1796,15 +1828,26 @@ function LocalStudioContent() {
                     </p>
                   </div>
 
-                  <Button
-                    variant="primary"
-                    size="sm"
-                    onClick={() => setIsAddPaletteOpen(true)}
-                    className="text-xs flex items-center gap-1.5 shrink-0"
-                  >
-                    <Plus className="w-3.5 h-3.5" />
-                    <span>{t('addPaletteBtn')}</span>
-                  </Button>
+                  <div className="flex items-center gap-2">
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      onClick={() => setIsPaletteGeneratorOpen(true)}
+                      className="text-xs flex items-center gap-1.5 shrink-0"
+                    >
+                      <Sparkles className="w-3.5 h-3.5 text-(--accent-primary)" />
+                      <span>{locale === 'ko' ? '50~900 자동 생성기' : 'Auto 50-900 Generator'}</span>
+                    </Button>
+                    <Button
+                      variant="primary"
+                      size="sm"
+                      onClick={() => setIsAddPaletteOpen(true)}
+                      className="text-xs flex items-center gap-1.5 shrink-0"
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                      <span>{t('addPaletteBtn')}</span>
+                    </Button>
+                  </div>
                 </div>
 
                 {/* 2. Color Palette 50-900 Grid Visualizer */}
@@ -1875,7 +1918,7 @@ function LocalStudioContent() {
 
                     {/* Color Families 50-900 Full Spectrum */}
                     {(colorFamilyFilter === 'all'
-                      ? ['blue', 'gray', 'emerald', 'rose', 'amber', 'purple']
+                      ? dynamicFamilyKeys
                       : [colorFamilyFilter]
                     ).map((famKey) => {
                       const famPalettes = paletteVariables.filter((p) => p.family === famKey);
@@ -2642,6 +2685,18 @@ function LocalStudioContent() {
           </div>
         </div>
       )}
+
+      {/* MODAL 4: 50~900 Color Palette Scale Generator */}
+      <PaletteScaleGeneratorModal
+        isOpen={isPaletteGeneratorOpen}
+        onClose={() => setIsPaletteGeneratorOpen(false)}
+        onAddScale={(newTokens, family) => {
+          setPaletteVariables((prev) => [...prev, ...newTokens]);
+          setColorFamilyFilter(family);
+          setPaletteCategoryFilter('color');
+        }}
+        locale={locale}
+      />
     </div>
   );
 }
