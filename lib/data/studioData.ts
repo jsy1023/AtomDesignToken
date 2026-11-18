@@ -75,15 +75,168 @@ export interface ComponentPropertySpec {
 }
 
 /**
- * 1. Type: "~상황에는 이 컴포넌트를 쓴다" 같은 개념
- * 컴포넌트의 사용 목적 및 맥락에 따른 분류와 사용 가이드라인
+ * 1. Type: 조형과 뼈대가 다른 "새로운 디자인의 컴포넌트 외형 양식"
+ * 예: Button의 Solid, Outline, Ghost, Soft, Pill, Elevated
+ *     Card의 Outlined, Elevated, Flat, Accent-Border
+ *     Badge의 Solid, Subtle, Outline, Dot
+ *     Input의 Outlined, Filled, Underlined
  */
 export interface ComponentTypeSpec {
-  id: string; // e.g. 'primary-cta', 'secondary-action', 'destructive-action', 'indicator-status'
-  name: string; // e.g. '주요 실행 (Primary CTA)', '보조 동작 (Secondary Action)', '위험/삭제 (Destructive)'
-  whenToUse: string; // "~상황에는 이 컴포넌트/타입을 쓴다"
+  id: string; // e.g. 'solid', 'outline', 'ghost', 'soft', 'pill', 'elevated'
+  name: string; // e.g. 'Solid (솔리드 채움형)', 'Outline (외곽선형)'
+  description?: string;
+  whenToUse: string; // "~상황에는 이 디자인 형태를 쓴다"
   whenToUseEn?: string;
   antiPattern?: string; // "~상황에서는 이 타입을 쓰지 마세요"
+  visualTraits?: {
+    hasBorder?: boolean;
+    hasBackground?: boolean;
+    borderRadius?: string;
+    shadow?: string;
+  };
+}
+
+/**
+ * 전 컴포넌트 기본 디자인 Type (외형 양식) 프리셋 카탈로그
+ */
+export const DEFAULT_COMPONENT_TYPES: Record<string, ComponentTypeSpec[]> = {
+  button: [
+    {
+      id: 'solid',
+      name: 'Solid (솔리드 채움형)',
+      description: '배경 색상이 꽉 찬 가장 직관적이고 표준적인 버튼 외형',
+      whenToUse: '화면에서 가장 주목을 받아야 하는 주요 전환 목표(CTA)나 시각적 비중이 큰 액션에 사용합니다.',
+      whenToUseEn: 'Use for high-priority CTA actions where visual prominence is paramount.',
+      antiPattern: '한 화면에 너무 많은 솔리드 버튼을 배치하면 시각적 위계가 무너집니다.',
+    },
+    {
+      id: 'outline',
+      name: 'Outline (외곽선형)',
+      description: '배경이 투명하고 테두리로 경계를 표현하는 정돈된 외형',
+      whenToUse: '솔리드 버튼을 보조하거나, 필터 열기, 다운로드 등 2차 액션에 사용합니다.',
+      whenToUseEn: 'Use to complement solid buttons for secondary actions like filters or downloads.',
+    },
+    {
+      id: 'ghost',
+      name: 'Ghost (고스트 투명형)',
+      description: '평상시 배경과 테두리가 없고 마우스 오버 시에만 서피스가 반응하는 미니멀 외형',
+      whenToUse: '툴바, 테이블 행 내 메뉴 등 주변 시각적 간섭을 최소화해야 하는 환경에 사용합니다.',
+      whenToUseEn: 'Use in dense toolbars or table actions to eliminate visual clutter.',
+    },
+    {
+      id: 'soft',
+      name: 'Soft (소프트 연한배경형)',
+      description: '10% 이하의 은은한 틴트 배경이 깔려 부드러운 느낌을 주는 모던 외형',
+      whenToUse: '솔리드보다 가볍지만 아웃라인보다 뚜렷한 영역감을 원할 때 사용합니다.',
+      whenToUseEn: 'Use for subtle emphasis softer than solid but more distinct than outline.',
+    },
+    {
+      id: 'pill',
+      name: 'Pill (라운드 캡슐형)',
+      description: '곡률 9999px로 양 끝이 완전히 둥글게 감싸진 라운드형 외형',
+      whenToUse: '랜딩 페이지의 히어로 CTA, 모바일 앱의 플로팅 액션 등에 친근한 룩앤필을 부여할 때 사용합니다.',
+      whenToUseEn: 'Use for consumer apps or hero CTA sections seeking a friendly aesthetic.',
+    },
+    {
+      id: 'elevated',
+      name: 'Elevated (그림자 입체형)',
+      description: '바닥면에서 떠 있는 듯한 입체적 섀도우를 가진 외형',
+      whenToUse: '지도 위 버튼, 플로팅 액션 버튼(FAB)처럼 다른 복잡한 콘텐츠 위에 띄워야 할 때 사용합니다.',
+      whenToUseEn: 'Use for Floating Action Buttons (FAB) resting above complex underlying content.',
+    },
+  ],
+  card: [
+    {
+      id: 'outlined',
+      name: 'Outlined (외곽선 테두리형)',
+      description: '은은한 1px 테두리로 콘텐츠 영역을 정갈하게 구획하는 기본 카드',
+      whenToUse: '대시보드 위젯, 그리드 목록 등 정돈된 구조적 정보 표시에 적합합니다.',
+    },
+    {
+      id: 'elevated',
+      name: 'Elevated (그림자 부각형)',
+      description: '부드러운 입체 음영을 통해 바닥면과 분리되는 플로팅 카드',
+      whenToUse: '추천 요금제, 클릭 가능한 인터랙티브 카드 등 시각적 몰입이 필요한 곳에 사용합니다.',
+    },
+    {
+      id: 'flat',
+      name: 'Flat (평면 배경형)',
+      description: '테두리 없이 은은한 보조 배경색으로만 영역을 구분하는 미니멀 카드',
+      whenToUse: '배경이 복잡하지 않은 깔끔한 화면에서 가벼운 그룹핑에 적합합니다.',
+    },
+    {
+      id: 'accent-border',
+      name: 'Accent-Border (강조 라인형)',
+      description: '상단이나 좌측에 브랜드 액센트 컬러 바가 들어간 상태 강조형 카드',
+      whenToUse: '공지사항, 경고 카드, 프리미엄 혜택 카드 등 특정 상태나 등급을 강조할 때 사용합니다.',
+    },
+  ],
+  badge: [
+    {
+      id: 'solid',
+      name: 'Solid (채움형)',
+      description: '선명한 배경색으로 시선을 끄는 고대비 배지',
+      whenToUse: '신규(New), 긴급 알림 등 즉각적인 주의가 필요한 경우에 사용합니다.',
+    },
+    {
+      id: 'subtle',
+      name: 'Subtle (소프트형)',
+      description: '연한 틴트 배경과 짙은 텍스트의 조화로 편안한 가독성을 제공하는 배지',
+      whenToUse: '테이블 상태 태그, 카테고리 분류 등 일상적인 정보 표시에 가장 권장됩니다.',
+    },
+    {
+      id: 'outline',
+      name: 'Outline (외곽선형)',
+      description: '투명 배경에 1px 테두리만 있는 미니멀 배지',
+      whenToUse: '버전 태그, 메타데이터 등 배경 색상을 오염시키지 않아야 할 때 사용합니다.',
+    },
+    {
+      id: 'dot',
+      name: 'Dot (인디케이터형)',
+      description: '좌측에 실시간 상태를 알리는 작은 원형 점(Dot)이 포함된 배지',
+      whenToUse: '서버 상태(온라인/오프라인), 빌드 진행 여부 등 라이브 상태 표시에 적합합니다.',
+    },
+  ],
+  input: [
+    {
+      id: 'outlined',
+      name: 'Outlined (테두리형)',
+      description: '1px 외곽선으로 입력 필드의 경계를 명확히 전달하는 표준 인풋',
+      whenToUse: '대부분의 웹 폼, 회원가입, 결제 등 신뢰도 높은 입력 양식에 사용합니다.',
+    },
+    {
+      id: 'filled',
+      name: 'Filled (배경 채움형)',
+      description: '은은한 회색 배경으로 터치 영역을 직관적으로 보여주는 모바일 친화형 인풋',
+      whenToUse: '모바일 뷰포트, 빠른 텍스트 입력창 등에 적합합니다.',
+    },
+    {
+      id: 'underlined',
+      name: 'Underlined (밑줄형)',
+      description: '하단에만 1px 경계선이 있는 미니멀 텍스트 인풋',
+      whenToUse: '디자인 위주의 럭셔리 커머스나 가벼운 인라인 편집에 사용합니다.',
+    },
+  ],
+};
+
+export function getComponentTypes(componentId: string, customTypes?: ComponentTypeSpec[]): ComponentTypeSpec[] {
+  if (customTypes && customTypes.length > 0) return customTypes;
+  const presets = DEFAULT_COMPONENT_TYPES[componentId.toLowerCase()];
+  if (presets && presets.length > 0) return presets;
+  return [
+    {
+      id: 'default-type',
+      name: 'Standard (표준 디자인형)',
+      description: '기본 시스템 토큰에 기반한 표준 디자인 양식',
+      whenToUse: '일반적인 UI 구성 및 기본 레이아웃 배치에 사용합니다.',
+    },
+    {
+      id: 'outlined-type',
+      name: 'Outlined (외곽선형)',
+      description: '테두리를 중심으로 가볍게 경계를 표현하는 보조 디자인 양식',
+      whenToUse: '주변 콘텐츠와의 시각적 간섭을 줄이고 싶을 때 사용합니다.',
+    },
+  ];
 }
 
 /**
@@ -551,6 +704,7 @@ export interface StudioComponentDefinition {
   name: string;
   category: 'Form' | 'Layout' | 'Feedback' | 'Navigation' | 'Data';
   description: string;
+  types?: ComponentTypeSpec[]; // 1. Type: 새로운 디자인의 외형 양식들 (Solid, Outline, Ghost, Soft, Pill 등)
   typeGuide?: {
     primaryType: string;
     whenToUse: string;
@@ -704,6 +858,7 @@ export const INITIAL_STUDIO_COMPONENTS: StudioComponentDefinition[] = [
     name: 'Button (버튼)',
     category: 'Form',
     description: '사용자 인터랙션을 유도하는 핵심 액션 컴포넌트',
+    types: DEFAULT_COMPONENT_TYPES['button'],
     properties: [
       { key: 'background', label: '배경 색상 (Background)', category: 'color', defaultPaletteId: '--atom-palette-blue-500' },
       { key: 'hoverBackground', label: '호버 배경 (Hover BG)', category: 'color', defaultPaletteId: '--atom-palette-blue-600' },
@@ -835,6 +990,7 @@ export const INITIAL_STUDIO_COMPONENTS: StudioComponentDefinition[] = [
     name: 'Badge (배지)',
     category: 'Feedback',
     description: '상태값, 카운트, 카테고리를 직관적으로 나타내는 칩 컴포넌트',
+    types: DEFAULT_COMPONENT_TYPES['badge'],
     properties: [
       { key: 'background', label: '배경 색상 (Background)', category: 'color', defaultPaletteId: '--atom-palette-blue-50' },
       { key: 'textColor', label: '텍스트 색상 (Text Color)', category: 'color', defaultPaletteId: '--atom-palette-blue-600' },
@@ -918,6 +1074,7 @@ export const INITIAL_STUDIO_COMPONENTS: StudioComponentDefinition[] = [
     name: 'Card (카드)',
     category: 'Layout',
     description: '콘텐츠를 논리적 블록으로 묶어주는 기본 컨테이너 표면',
+    types: DEFAULT_COMPONENT_TYPES['card'],
     properties: [
       { key: 'background', label: '배경 색상 (Background)', category: 'color', defaultPaletteId: '--atom-palette-white' },
       { key: 'borderColor', label: '테두리 색상 (Border Color)', category: 'color', defaultPaletteId: '--atom-palette-gray-200' },
@@ -967,6 +1124,7 @@ export const INITIAL_STUDIO_COMPONENTS: StudioComponentDefinition[] = [
     name: 'Input (입력 필드)',
     category: 'Form',
     description: '텍스트 입력을 수집하는 표준 폼 컨트롤',
+    types: DEFAULT_COMPONENT_TYPES['input'],
     properties: [
       { key: 'background', label: '배경 색상 (Background)', category: 'color', defaultPaletteId: '--atom-palette-white' },
       { key: 'borderColor', label: '테두리 색상 (Border Color)', category: 'color', defaultPaletteId: '--atom-palette-gray-300' },

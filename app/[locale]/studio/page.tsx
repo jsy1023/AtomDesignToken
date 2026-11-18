@@ -58,10 +58,13 @@ import {
   PaletteVariable,
   ComponentVariable,
   StudioComponentDefinition,
+  ComponentTypeSpec,
   SemanticStatusToken,
   INITIAL_PALETTE_VARIABLES,
   INITIAL_STUDIO_COMPONENTS,
   INITIAL_SEMANTIC_STATUS_TOKENS,
+  DEFAULT_COMPONENT_TYPES,
+  getComponentTypes,
   resolveTypeSpec,
   resolveVariableRole,
   SEMANTIC_VARIABLE_DICTIONARY,
@@ -197,6 +200,15 @@ function LocalStudioContent() {
   const [copiedPaletteId, setCopiedPaletteId] = useState<string | null>(null);
 
   // Modals / Dialogs
+  // 1. Type (새로운 디자인 외형 양식) 상태
+  const [selectedTypeId, setSelectedTypeId] = useState<string>('solid');
+  const [isAddTypeOpen, setIsAddTypeOpen] = useState(false);
+  const [newTypeName, setNewTypeName] = useState('');
+  const [newTypeKey, setNewTypeKey] = useState('');
+  const [newTypeDesc, setNewTypeDesc] = useState('');
+  const [newTypeWhenToUse, setNewTypeWhenToUse] = useState('');
+
+  // 2. Variable (세부 옵션/변경) 상태
   const [isAddVariableOpen, setIsAddVariableOpen] = useState(false);
   const [newVariableName, setNewVariableName] = useState('');
   const [newVariableKey, setNewVariableKey] = useState('');
@@ -322,9 +334,41 @@ function LocalStudioContent() {
   const handleSelectComponent = (compId: string) => {
     const comp = components.find((c) => c.id === compId);
     const firstVarId = comp?.variables[0]?.id || 'default';
+    const compTypes = getComponentTypes(compId, comp?.types);
+    const firstTypeId = compTypes[0]?.id || 'solid';
     setSelectedComponentId(compId);
     setSelectedVariableId(firstVarId);
+    setSelectedTypeId(firstTypeId);
     updateUrl('components', compId, firstVarId, selectedThemeId);
+  };
+
+  const handleCreateType = () => {
+    if (!newTypeName.trim() || !newTypeKey.trim()) return;
+    const cleanKey = newTypeKey.trim().toLowerCase().replace(/\s+/g, '-');
+    const newType: ComponentTypeSpec = {
+      id: cleanKey,
+      name: newTypeName.trim(),
+      description: newTypeDesc.trim() || `${newTypeName.trim()} 디자인 양식`,
+      whenToUse: newTypeWhenToUse.trim() || `${newTypeName.trim()} 디자인 형태가 필요한 상황에 사용합니다.`,
+    };
+
+    setComponents((prev) =>
+      prev.map((c) => {
+        if (c.id !== currentComponent.id) return c;
+        const existingTypes = getComponentTypes(c.id, c.types);
+        return {
+          ...c,
+          types: [...existingTypes, newType],
+        };
+      })
+    );
+
+    setSelectedTypeId(cleanKey);
+    setIsAddTypeOpen(false);
+    setNewTypeName('');
+    setNewTypeKey('');
+    setNewTypeDesc('');
+    setNewTypeWhenToUse('');
   };
 
   const handleSelectVariable = (varId: string) => {
@@ -607,6 +651,10 @@ function LocalStudioContent() {
     { id: 'amber', label: locale === 'ko' ? '앰버' : 'Amber', color: '#f59e0b' },
     { id: 'purple', label: locale === 'ko' ? '퍼플' : 'Purple', color: '#8b5cf6' },
   ];
+
+  // Resolve component types (1. Type: 새로운 디자인의 외형 양식)
+  const currentTypes = getComponentTypes(currentComponent.id, currentComponent.types);
+  const currentType = currentTypes.find((t) => t.id === selectedTypeId) || currentTypes[0];
 
   // Resolve status-specific properties for inspector
   const currentStatusProps = getComponentStatusProperties(
@@ -1123,86 +1171,162 @@ function LocalStudioContent() {
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start pb-10">
                 {/* Central Stage: Stacked Repeated Live Stages for all Variables (7 cols) */}
                 <div className="lg:col-span-7 min-w-0 flex flex-col gap-6">
-                  {/* Top Bar: Component Info + Add Variable Button + View Mode */}
-                  <div className="p-4 rounded-(--radius) bg-(--bg-secondary)/30 border border-(--border-subtle) flex flex-col gap-3">
+                  {/* Top Bar: Component Info + Type / Variable Hierarchy Controls */}
+                  <div className="p-4 sm:p-5 rounded-(--radius) bg-(--bg-secondary)/30 border border-(--border-subtle) flex flex-col gap-4">
+                    {/* Header Row: Component Title & View Mode Toggle */}
                     <div className="flex items-center justify-between gap-2 flex-wrap">
                       <div className="flex items-center gap-2">
                         <Sliders className="w-4 h-4 text-(--accent-primary)" />
                         <div>
-                          <h2 className="text-sm font-bold text-(--text-primary)">
-                            {formatLocaleText(currentComponent.name, locale)}
+                          <h2 className="text-sm sm:text-base font-bold text-(--text-primary) flex items-center gap-2">
+                            <span>{formatLocaleText(currentComponent.name, locale)}</span>
+                            <span className="text-[11px] font-mono font-semibold px-2 py-0.5 rounded-full bg-(--accent-primary)/10 text-(--accent-primary) border border-(--accent-primary)/20">
+                              {currentTypes.length} Types · {currentComponent.variables.length} Variables
+                            </span>
                           </h2>
-                          <p className="text-xs text-(--text-secondary)">
+                          <p className="text-xs text-(--text-secondary) mt-0.5">
                             {locale === 'ko'
-                              ? `선택된 Value: ${currentVariable?.name} (${selectedVariableId})`
-                              : `Selected Value: ${currentVariable?.name} (${selectedVariableId})`}
+                              ? `현재 조립: [Type: ${currentType?.name}] ➔ [Variable: ${currentVariable?.name} (${selectedVariableId})]`
+                              : `Active Assembly: [Type: ${currentType?.name}] ➔ [Variable: ${currentVariable?.name} (${selectedVariableId})]`}
                           </p>
                         </div>
                       </div>
 
-                      <div className="flex items-center gap-2">
-                        {/* View Mode Toggle: Focus vs All Variants */}
-                        <div className="flex items-center p-0.5 rounded-(--radius-sm) bg-(--bg-secondary) border border-(--border-subtle)">
-                          <Button
-                            variant={stageViewMode === 'focus' ? 'primary' : 'ghost'}
-                            size="sm"
-                            onClick={() => setStageViewMode('focus')}
-                            className={`text-[11px] py-1 px-2.5 h-auto font-medium transition ${
-                              stageViewMode === 'focus' ? 'bg-(--accent-primary) text-white font-bold shadow-xs' : 'text-(--text-secondary)'
-                            }`}
-                          >
-                            {locale === 'ko' ? '단일 집중 뷰 (Focus)' : 'Focus'}
-                          </Button>
-                          <Button
-                            variant={stageViewMode === 'all' ? 'primary' : 'ghost'}
-                            size="sm"
-                            onClick={() => setStageViewMode('all')}
-                            className={`text-[11px] py-1 px-2.5 h-auto font-medium transition ${
-                              stageViewMode === 'all' ? 'bg-(--accent-primary) text-white font-bold shadow-xs' : 'text-(--text-secondary)'
-                            }`}
-                          >
-                            {locale === 'ko' ? '전체 비교 뷰 (All)' : 'All'}
-                          </Button>
+                      {/* View Mode Toggle: Focus vs All Variants */}
+                      <div className="flex items-center p-0.5 rounded-(--radius-sm) bg-(--bg-secondary) border border-(--border-subtle)">
+                        <Button
+                          variant={stageViewMode === 'focus' ? 'primary' : 'ghost'}
+                          size="sm"
+                          onClick={() => setStageViewMode('focus')}
+                          className={`text-[11px] py-1 px-2.5 h-auto font-medium transition ${
+                            stageViewMode === 'focus' ? 'bg-(--accent-primary) text-white font-bold shadow-xs' : 'text-(--text-secondary)'
+                          }`}
+                        >
+                          {locale === 'ko' ? '단일 집중 뷰 (Focus)' : 'Focus'}
+                        </Button>
+                        <Button
+                          variant={stageViewMode === 'all' ? 'primary' : 'ghost'}
+                          size="sm"
+                          onClick={() => setStageViewMode('all')}
+                          className={`text-[11px] py-1 px-2.5 h-auto font-medium transition ${
+                            stageViewMode === 'all' ? 'bg-(--accent-primary) text-white font-bold shadow-xs' : 'text-(--text-secondary)'
+                          }`}
+                        >
+                          {locale === 'ko' ? '전체 비교 뷰 (All)' : 'All'}
+                        </Button>
+                      </div>
+                    </div>
+
+                    {/* ======================================================== */}
+                    {/* [1단계: Type (새로운 디자인 외형 양식)] 선택 및 추가 컨트롤 바 */}
+                    {/* ======================================================== */}
+                    <div className="pt-3 border-t border-(--border-subtle) flex flex-col gap-2.5">
+                      <div className="flex items-center justify-between gap-2 flex-wrap">
+                        <div className="flex items-center gap-1.5">
+                          <Sparkles className="w-3.5 h-3.5 text-indigo-500" />
+                          <span className="text-xs font-bold text-(--text-primary)">
+                            {locale === 'ko' ? '1. 디자인 외형 양식 (Type)' : '1. Design Visual Type'}
+                          </span>
+                          <span className="text-[10px] text-(--text-muted) hidden sm:inline">
+                            {locale === 'ko' ? '— 형태와 뼈대가 다른 새로운 디자인 외형' : '— Structural visual variations'}
+                          </span>
                         </div>
 
+                        {/* [+ 새 Type 추가] 버튼 - 눈에 확 띄는 버튼! */}
                         <Button
                           variant="primary"
                           size="sm"
+                          onClick={() => setIsAddTypeOpen(true)}
+                          className="text-xs font-bold py-1.5 px-3 h-auto flex items-center gap-1.5 shadow-xs bg-indigo-600 hover:bg-indigo-700 text-white"
+                          title="새로운 형태의 디자인 외형(Type) 추가"
+                        >
+                          <Plus className="w-3.5 h-3.5" />
+                          <span>{locale === 'ko' ? '+ 새 Type 추가' : '+ Add New Type'}</span>
+                        </Button>
+                      </div>
+
+                      {/* Type Tabs (Scrollable Horizontal Row) */}
+                      <div className="flex items-center gap-1.5 overflow-x-auto pb-1 studio-scrollbar">
+                        {currentTypes.map((t) => {
+                          const isSelected = (selectedTypeId || currentTypes[0]?.id) === t.id;
+                          return (
+                            <Button
+                              key={t.id}
+                              variant={isSelected ? 'primary' : 'secondary'}
+                              size="sm"
+                              onClick={() => setSelectedTypeId(t.id)}
+                              className={`text-xs py-1.5 px-3 h-auto shrink-0 font-semibold transition-all whitespace-nowrap ${
+                                isSelected
+                                  ? 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-xs font-bold'
+                                  : 'bg-(--bg-primary) hover:bg-(--bg-secondary) text-(--text-secondary) border border-(--border-subtle)'
+                              }`}
+                            >
+                              <span>{t.name}</span>
+                            </Button>
+                          );
+                        })}
+                      </div>
+
+                      {/* Active Type Usage Guidance */}
+                      {currentType && (
+                        <div className="p-2.5 rounded-(--radius-sm) bg-indigo-500/5 border border-indigo-500/20 text-[11px] text-(--text-secondary) flex items-center justify-between gap-2">
+                          <span className="truncate">
+                            💡 <strong>[{currentType.name}]</strong> {currentType.description || currentType.whenToUse}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* ======================================================== */}
+                    {/* [2단계: Variable (세부 옵션 / 변경)] 선택 및 추가 컨트롤 바 */}
+                    {/* ======================================================== */}
+                    <div className="pt-3 border-t border-(--border-subtle) flex flex-col gap-2.5">
+                      <div className="flex items-center justify-between gap-2 flex-wrap">
+                        <div className="flex items-center gap-1.5">
+                          <Layers className="w-3.5 h-3.5 text-(--accent-primary)" />
+                          <span className="text-xs font-bold text-(--text-primary)">
+                            {locale === 'ko' ? '2. 디자인 세부 옵션 (Variable)' : '2. Detail Variables'}
+                          </span>
+                          <span className="text-[10px] text-(--text-muted) hidden sm:inline">
+                            {locale === 'ko' ? '— system 시맨틱 색상 및 변형 옵션' : '— System colors & options'}
+                          </span>
+                        </div>
+
+                        <Button
+                          variant="secondary"
+                          size="sm"
                           onClick={() => setIsAddVariableOpen(true)}
-                          className="text-xs font-semibold flex items-center gap-1.5"
+                          className="text-xs font-semibold py-1 px-2.5 h-auto flex items-center gap-1"
                         >
                           <Plus className="w-3.5 h-3.5" />
                           <span>{t('addVariableBtn')}</span>
                         </Button>
                       </div>
-                    </div>
 
-                    {/* Value Tabs (변수 세그먼트 전환 바 - 중앙과 인스펙터를 1:1로 일체화) */}
-                    <div className="flex items-center gap-1.5 overflow-x-auto pt-2 border-t border-(--border-subtle)/60 pb-0.5">
-                      <span className="text-[10px] font-mono font-bold text-(--text-muted) uppercase shrink-0 mr-1">
-                        VALUE:
-                      </span>
-                      {currentComponent.variables.map((v) => {
-                        const isCurrentVal = v.id === selectedVariableId;
-                        return (
-                          <Button
-                            key={v.id}
-                            variant={isCurrentVal ? 'primary' : 'secondary'}
-                            size="sm"
-                            onClick={() => handleSelectVariable(v.id)}
-                            className={`text-xs py-1.5 px-3 h-auto whitespace-nowrap font-semibold transition-all shrink-0 ${
-                              isCurrentVal
-                                ? 'bg-(--accent-primary) text-white font-bold shadow-xs'
-                                : 'bg-(--bg-primary) hover:bg-(--bg-secondary) text-(--text-secondary) border border-(--border-subtle)'
-                            }`}
-                          >
-                            <span>{formatLocaleText(v.name, locale)}</span>
-                            <span className="font-mono text-[10px] opacity-75 ml-1.5">
-                              ({v.id})
-                            </span>
-                          </Button>
-                        );
-                      })}
+                      {/* Variable (Value) Tabs */}
+                      <div className="flex items-center gap-1.5 overflow-x-auto pb-1 studio-scrollbar">
+                        {currentComponent.variables.map((v) => {
+                          const isCurrentVal = v.id === selectedVariableId;
+                          return (
+                            <Button
+                              key={v.id}
+                              variant={isCurrentVal ? 'primary' : 'secondary'}
+                              size="sm"
+                              onClick={() => handleSelectVariable(v.id)}
+                              className={`text-xs py-1.5 px-3 h-auto whitespace-nowrap font-semibold transition-all shrink-0 ${
+                                isCurrentVal
+                                  ? 'bg-(--accent-primary) text-white font-bold shadow-xs'
+                                  : 'bg-(--bg-primary) hover:bg-(--bg-secondary) text-(--text-secondary) border border-(--border-subtle)'
+                              }`}
+                            >
+                              <span>{formatLocaleText(v.name, locale)}</span>
+                              <span className="font-mono text-[10px] opacity-75 ml-1.5">
+                                ({v.id})
+                              </span>
+                            </Button>
+                          );
+                        })}
+                      </div>
                     </div>
                   </div>
 
@@ -1513,8 +1637,8 @@ function LocalStudioContent() {
                           <span className="text-xs font-semibold text-(--text-primary) whitespace-nowrap">
                             {formatLocaleText(currentComponent.name, locale)}
                           </span>
-                          <span className="text-[11px] font-mono px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-600 dark:text-blue-400 font-bold border border-blue-500/20 whitespace-nowrap">
-                            TYPE: {formatLocaleText(resolveTypeSpec(currentComponent.id, currentVariable?.id || 'primary', currentVariable?.name).name, locale)}
+                          <span className="text-[11px] font-mono px-1.5 py-0.5 rounded bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 font-bold border border-indigo-500/20 whitespace-nowrap">
+                            TYPE: {currentType?.name || 'Solid'}
                           </span>
                           
                           {/* Interactive Value Switcher */}
@@ -2144,6 +2268,99 @@ function LocalStudioContent() {
               <StudioBrandSettings />
             )}
           </main>
+        </div>
+      )}
+
+      {/* MODAL 0: Add Component Design Type (새로운 디자인 외형 양식 신설) */}
+      {isAddTypeOpen && (
+        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="w-full max-w-md p-6 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) shadow-xl flex flex-col gap-4 animate-in fade-in">
+            <div className="flex items-center justify-between pb-2 border-b border-(--border-subtle)">
+              <h3 className="font-bold text-base text-(--text-primary) flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-indigo-500" />
+                <span>{locale === 'ko' ? '새 디자인 양식(Type) 추가' : 'Add New Design Type'}</span>
+              </h3>
+              <span className="text-xs font-mono px-2 py-0.5 rounded bg-(--bg-secondary) text-(--text-secondary)">
+                {formatLocaleText(currentComponent.name, locale)}
+              </span>
+            </div>
+
+            <p className="text-xs text-(--text-secondary) leading-relaxed">
+              {locale === 'ko'
+                ? '기존 디자인의 색상 옵션(Variable)이 아닌, 형태와 조형 자체가 다른 새로운 디자인 양식(예: Ghost, Pill, Floating, Glassmorphic 등)을 신설합니다.'
+                : 'Define a completely new visual structure/shape rather than a simple color variation.'}
+            </p>
+
+            <div className="space-y-3 text-xs">
+              <div>
+                <label className="font-semibold text-(--text-secondary) block mb-1">
+                  {locale === 'ko' ? 'Type 이름 (예: Pill 라운드 캡슐형)' : 'Type Name'}
+                </label>
+                <Input
+                  type="text"
+                  value={newTypeName}
+                  onChange={(e) => setNewTypeName(e.target.value)}
+                  placeholder={locale === 'ko' ? '예: Floating 그림자형' : 'e.g. Floating Elevated'}
+                  autoFocus
+                />
+              </div>
+
+              <div>
+                <label className="font-semibold text-(--text-secondary) block mb-1">
+                  {locale === 'ko' ? 'Type Key/식별자 (영문)' : 'Type Key'}
+                </label>
+                <Input
+                  type="text"
+                  value={newTypeKey}
+                  onChange={(e) => setNewTypeKey(e.target.value)}
+                  placeholder="예: floating-elevated"
+                  className="font-mono"
+                />
+              </div>
+
+              <div>
+                <label className="font-semibold text-(--text-secondary) block mb-1">
+                  {locale === 'ko' ? '디자인 설명 (특징 요약)' : 'Description'}
+                </label>
+                <Input
+                  type="text"
+                  value={newTypeDesc}
+                  onChange={(e) => setNewTypeDesc(e.target.value)}
+                  placeholder="예: 바닥면과 분리되는 입체 섀도우 플로팅 형태"
+                />
+              </div>
+
+              <div>
+                <label className="font-semibold text-(--text-secondary) block mb-1">
+                  {locale === 'ko' ? '사용 시점 및 가이드 (When to use)' : 'When To Use'}
+                </label>
+                <Input
+                  type="text"
+                  value={newTypeWhenToUse}
+                  onChange={(e) => setNewTypeWhenToUse(e.target.value)}
+                  placeholder="예: 복잡한 리스트 상단이나 지도 화면의 플로팅 액션에 사용"
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-2 pt-2 border-t border-(--border-subtle)">
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={() => setIsAddTypeOpen(false)}
+              >
+                {t('cancel')}
+              </Button>
+              <Button
+                variant="primary"
+                size="sm"
+                onClick={handleCreateType}
+                className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold"
+              >
+                {locale === 'ko' ? 'Type 신설하기' : 'Create Type'}
+              </Button>
+            </div>
+          </div>
         </div>
       )}
 
