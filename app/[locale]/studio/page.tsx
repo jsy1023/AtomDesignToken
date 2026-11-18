@@ -50,6 +50,7 @@ import {
   Pagination,
   Separator,
   Calendar,
+  TokenSelect,
   SideMenu,
   SideMenuGroup,
   SideMenuItem,
@@ -1775,22 +1776,24 @@ function LocalStudioContent() {
                             </span>
                           </div>
 
-                          {/* Palette Selector Dropdown */}
+                          {/* Palette Selector Dropdown with Token Search */}
                           <div className="flex items-center gap-2 min-w-0">
-                            <NativeSelect
+                            <TokenSelect
+                              options={relevantPalettes.map((pal) => ({
+                                id: pal.id,
+                                name: formatLocaleText(pal.name, locale),
+                                value: pal.value,
+                                category: pal.category,
+                                family: pal.family,
+                                description: pal.description,
+                              }))}
                               value={boundPaletteId}
-                              onChange={(e) => handleUpdateBinding(prop.key, e.target.value)}
-                              className="flex-1 text-xs font-mono min-w-0 truncate"
-                            >
-                              <option value="" disabled>
-                                {t('selectPalettePlaceholder')}
-                              </option>
-                              {relevantPalettes.map((pal) => (
-                                <option key={pal.id} value={pal.id}>
-                                  {formatLocaleText(pal.name, locale)} — var({pal.id}) [{pal.value}]
-                                </option>
-                              ))}
-                            </NativeSelect>
+                              onChange={(val) => handleUpdateBinding(prop.key, val)}
+                              placeholder={t('selectPalettePlaceholder')}
+                              size="sm"
+                              showColorSwatch={prop.category === 'color'}
+                              className="w-full"
+                            />
                           </div>
                         </div>
                       );
