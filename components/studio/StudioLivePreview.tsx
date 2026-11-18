@@ -75,9 +75,63 @@ export function StudioLivePreview({
 
   // 1. Button
   if (componentId === 'button') {
+    const typeId = (variable?.type?.id || '').toLowerCase();
     let bg = getPaletteValue(b.background || '');
     let textColor = getPaletteValue(b.textColor || '');
     let borderColor = getPaletteValue(b.borderColor || '');
+    let borderRadius = getPaletteValue(b.borderRadius || '');
+    let borderStyle = 'solid';
+    let borderWidth = '1px';
+    let boxShadow = 'var(--shadow-xs, 0 1px 2px rgba(0,0,0,0.05))';
+    let backdropFilter: string | undefined = undefined;
+    let textDecoration: string | undefined = undefined;
+    let backgroundImage: string | undefined = undefined;
+
+    // Type-specific visual architecture customization
+    if (typeId.includes('pill')) {
+      borderRadius = '9999px';
+    } else if (typeId.includes('outline')) {
+      if (!isHover && !isActive) bg = 'transparent';
+      borderWidth = '1.5px';
+    } else if (typeId.includes('ghost')) {
+      if (!isHover && !isActive) {
+        bg = 'transparent';
+        borderColor = 'transparent';
+      }
+      boxShadow = 'none';
+    } else if (typeId.includes('soft')) {
+      if (!isHover && !isActive) {
+        bg = 'var(--accent-primary)/10';
+        borderColor = 'transparent';
+      }
+      boxShadow = 'none';
+    } else if (typeId.includes('elevated')) {
+      boxShadow = isHover
+        ? '0 10px 25px -3px rgba(0, 0, 0, 0.18), 0 4px 6px -2px rgba(0, 0, 0, 0.05)'
+        : '0 4px 14px 0 rgba(0, 0, 0, 0.12)';
+    } else if (typeId.includes('gradient')) {
+      backgroundImage = 'linear-gradient(135deg, var(--atom-color-primary, #3182f6) 0%, #8b5cf6 50%, #ec4899 100%)';
+      textColor = '#ffffff';
+      borderColor = 'transparent';
+    } else if (typeId.includes('glassmorphic') || typeId.includes('glass')) {
+      bg = isHover ? 'rgba(255, 255, 255, 0.28)' : 'rgba(255, 255, 255, 0.16)';
+      backdropFilter = 'blur(12px)';
+      borderColor = 'rgba(255, 255, 255, 0.35)';
+      boxShadow = '0 8px 32px 0 rgba(0, 0, 0, 0.1)';
+    } else if (typeId.includes('link')) {
+      bg = 'transparent';
+      borderColor = 'transparent';
+      boxShadow = 'none';
+      textDecoration = isHover ? 'underline' : 'none';
+    } else if (typeId.includes('dashed')) {
+      borderStyle = 'dashed';
+      borderWidth = '2px';
+      if (!isHover && !isActive) bg = 'transparent';
+    } else if (typeId.includes('neumorphic')) {
+      boxShadow = isActive
+        ? 'inset 3px 3px 6px rgba(0,0,0,0.2), inset -3px -3px 6px rgba(255,255,255,0.7)'
+        : '4px 4px 10px rgba(0,0,0,0.12), -4px -4px 10px rgba(255,255,255,0.8)';
+    }
 
     if (isHover) {
       if (b.hoverBackground) bg = getPaletteValue(b.hoverBackground);
@@ -106,18 +160,23 @@ export function StudioLivePreview({
         disabled={isDisabled || isLoading}
         style={{
           backgroundColor: bg,
+          backgroundImage,
           color: textColor,
-          border: `1px solid ${borderColor}`,
-          borderRadius: getPaletteValue(b.borderRadius || ''),
-          paddingLeft: getPaletteValue(b.paddingX || ''),
-          paddingRight: getPaletteValue(b.paddingX || ''),
+          border: `${borderWidth} ${borderStyle} ${borderColor}`,
+          borderRadius,
+          paddingLeft: typeId.includes('link') ? '0' : getPaletteValue(b.paddingX || ''),
+          paddingRight: typeId.includes('link') ? '0' : getPaletteValue(b.paddingX || ''),
           paddingTop: getPaletteValue(b.paddingY || ''),
           paddingBottom: getPaletteValue(b.paddingY || ''),
           outline: focusOutline,
           outlineOffset: focusOutline ? '2px' : undefined,
+          boxShadow,
+          backdropFilter,
+          WebkitBackdropFilter: backdropFilter,
+          textDecoration,
           ...statusWrapperStyle,
         }}
-        className="font-medium text-sm transition-all shadow-xs flex items-center gap-2 cursor-pointer"
+        className="font-medium text-sm transition-all flex items-center gap-2 cursor-pointer"
       >
         {isLoading && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
         <span>{isLoading ? (locale === 'ko' ? '로딩 중...' : 'Loading...') : formatLocaleText(variable?.name, locale) || (locale === 'ko' ? '버튼' : 'Button')}</span>
