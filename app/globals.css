@@ -89,6 +89,26 @@
   scrollbar-width: none;
 }
 
+/* Studio custom scrollbar: Sleek & Token-integrated */
+.studio-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.studio-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.studio-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: var(--radius);
+}
+.studio-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+.studio-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+}
+
 body {
   font-family: var(--font-sans);
   background-color: var(--bg-primary);

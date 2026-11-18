@@ -1499,92 +1499,95 @@ function LocalStudioContent() {
                 </div>
 
                 {/* Right Panel: Status-Specific Token Binding Inspector (5 cols) */}
-                <div className="lg:col-span-5 min-w-0 sticky top-4 self-start p-4 sm:p-5 rounded-(--radius) bg-(--bg-secondary)/30 border border-(--border-subtle) flex flex-col gap-4">
-                  {/* Panel Title & Current Selection */}
-                  <div className="flex items-start justify-between gap-2 pb-3 border-b border-(--border-subtle)">
-                    <div className="min-w-0 flex-1">
-                      <h3 className="font-bold text-sm sm:text-base text-(--text-primary) flex items-center gap-1.5">
-                        <Sliders className="w-4 h-4 text-(--accent-primary)" />
-                        <span>{locale === 'ko' ? '토큰 바인딩 인스펙터' : 'Token Binding Inspector'}</span>
-                      </h3>
-                      <div className="flex items-center gap-2 mt-2 flex-wrap">
-                        <span className="text-xs font-semibold text-(--text-primary)">
-                          {formatLocaleText(currentComponent.name, locale)}
-                        </span>
-                        <span className="text-[11px] font-mono px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-600 dark:text-blue-400 font-bold border border-blue-500/20">
-                          TYPE: {formatLocaleText(resolveTypeSpec(currentComponent.id, currentVariable?.id || 'primary', currentVariable?.name).name, locale)}
-                        </span>
-                        
-                        {/* Interactive Value Switcher */}
-                        <div className="flex items-center gap-1.5">
-                          <span className="text-[10px] font-mono font-bold text-(--text-muted)">VALUE:</span>
-                          <NativeSelect
-                            value={currentVariable?.id}
-                            onChange={(e) => handleSelectVariable(e.target.value)}
-                            className="text-xs font-mono font-bold py-0.5 px-2 h-auto"
-                          >
-                            {currentComponent.variables.map((v) => (
-                              <option key={v.id} value={v.id}>
-                                {formatLocaleText(v.name, locale)} ({v.id})
-                              </option>
-                            ))}
-                          </NativeSelect>
+                <div className="lg:col-span-5 min-w-0 sticky top-4 self-start max-h-[calc(100vh-6.5rem)] flex flex-col rounded-(--radius) bg-(--bg-secondary)/30 border border-(--border-subtle) shadow-xs overflow-hidden">
+                  {/* Sticky Top Header: Panel Title, Current Selection & Status Tabs */}
+                  <div className="p-4 sm:p-5 pb-3 shrink-0 flex flex-col gap-3 border-b border-(--border-subtle) bg-(--bg-secondary)/60 backdrop-blur-xs">
+                    {/* Panel Title & Current Selection */}
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="min-w-0 flex-1">
+                        <h3 className="font-bold text-sm sm:text-base text-(--text-primary) flex items-center gap-1.5 whitespace-nowrap">
+                          <Sliders className="w-4 h-4 text-(--accent-primary) shrink-0" />
+                          <span className="truncate">{locale === 'ko' ? '토큰 바인딩 인스펙터' : 'Token Binding Inspector'}</span>
+                        </h3>
+                        <div className="flex items-center gap-2 mt-2 flex-wrap">
+                          <span className="text-xs font-semibold text-(--text-primary) whitespace-nowrap">
+                            {formatLocaleText(currentComponent.name, locale)}
+                          </span>
+                          <span className="text-[11px] font-mono px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-600 dark:text-blue-400 font-bold border border-blue-500/20 whitespace-nowrap">
+                            TYPE: {formatLocaleText(resolveTypeSpec(currentComponent.id, currentVariable?.id || 'primary', currentVariable?.name).name, locale)}
+                          </span>
+                          
+                          {/* Interactive Value Switcher */}
+                          <div className="flex items-center gap-1.5">
+                            <span className="text-[10px] font-mono font-bold text-(--text-muted)">VALUE:</span>
+                            <NativeSelect
+                              value={currentVariable?.id}
+                              onChange={(e) => handleSelectVariable(e.target.value)}
+                              className="text-xs font-mono font-bold py-0.5 px-2 h-auto"
+                            >
+                              {currentComponent.variables.map((v) => (
+                                <option key={v.id} value={v.id}>
+                                  {formatLocaleText(v.name, locale)} ({v.id})
+                                </option>
+                              ))}
+                            </NativeSelect>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Status Selection Bar for Editing (각 상태별 토큰값 수정) */}
-                  <div className="p-3.5 rounded-(--radius-sm) bg-(--bg-secondary)/40 border border-(--border-subtle) flex flex-col gap-2.5">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-1.5">
-                        <Sparkles className="w-3.5 h-3.5 text-(--accent-primary)" />
-                        <span className="text-xs font-bold text-(--text-primary)">
-                          {locale === 'ko' ? '수정할 상태 선택' : 'Select Status to Edit'}
+                    {/* Status Selection Bar for Editing (각 상태별 토큰값 수정) */}
+                    <div className="p-3 rounded-(--radius-sm) bg-(--bg-secondary)/40 border border-(--border-subtle) flex flex-col gap-2">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-1.5">
+                          <Sparkles className="w-3.5 h-3.5 text-(--accent-primary) shrink-0" />
+                          <span className="text-xs font-bold text-(--text-primary) whitespace-nowrap">
+                            {locale === 'ko' ? '수정할 상태 선택' : 'Select Status to Edit'}
+                          </span>
+                        </div>
+                        <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-(--accent-primary)/10 text-(--accent-primary) font-bold border border-(--accent-primary)/20 whitespace-nowrap">
+                          STATUS: {inspectorStatusTab.toUpperCase()}
                         </span>
                       </div>
-                      <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-(--accent-primary)/10 text-(--accent-primary) font-bold border border-(--accent-primary)/20">
-                        STATUS: {inspectorStatusTab.toUpperCase()}
-                      </span>
-                    </div>
 
-                    {/* Status Tabs */}
-                    <div className="grid grid-cols-3 gap-1.5 pt-1">
-                      {[
-                        { status: 'default', label: locale === 'ko' ? '기본' : 'Default' },
-                        { status: 'hover', label: locale === 'ko' ? '호버' : 'Hover' },
-                        { status: 'active', label: locale === 'ko' ? '클릭' : 'Active' },
-                        { status: 'focus', label: locale === 'ko' ? '포커스' : 'Focus' },
-                        { status: 'disabled', label: locale === 'ko' ? '비활성' : 'Disabled' },
-                        { status: 'all', label: locale === 'ko' ? '전체' : 'All' },
-                      ].map((item) => {
-                        const isCurrent = inspectorStatusTab === item.status;
-                        return (
-                          <Button
-                            key={item.status}
-                            variant={isCurrent ? 'primary' : 'secondary'}
-                            size="sm"
-                            onClick={() => handleSelectInspectorStatus(item.status as ComponentInteractiveStatus | 'all')}
-                            className={`text-xs py-2 px-2 h-auto font-semibold transition-all whitespace-nowrap text-center ${
-                              isCurrent
-                                ? 'bg-(--accent-primary) text-(--bg-primary) shadow-xs font-bold'
-                                : 'bg-(--bg-primary) hover:bg-(--bg-secondary) text-(--text-secondary) border border-(--border-subtle)'
-                            }`}
-                          >
-                            <span>{item.label}</span>
-                          </Button>
-                        );
-                      })}
-                    </div>
+                      {/* Status Tabs */}
+                      <div className="grid grid-cols-3 gap-1.5 pt-0.5">
+                        {[
+                          { status: 'default', label: locale === 'ko' ? '기본' : 'Default' },
+                          { status: 'hover', label: locale === 'ko' ? '호버' : 'Hover' },
+                          { status: 'active', label: locale === 'ko' ? '클릭' : 'Active' },
+                          { status: 'focus', label: locale === 'ko' ? '포커스' : 'Focus' },
+                          { status: 'disabled', label: locale === 'ko' ? '비활성' : 'Disabled' },
+                          { status: 'all', label: locale === 'ko' ? '전체' : 'All' },
+                        ].map((item) => {
+                          const isCurrent = inspectorStatusTab === item.status;
+                          return (
+                            <Button
+                              key={item.status}
+                              variant={isCurrent ? 'primary' : 'secondary'}
+                              size="sm"
+                              onClick={() => handleSelectInspectorStatus(item.status as ComponentInteractiveStatus | 'all')}
+                              className={`text-xs py-1.5 px-2 h-auto font-semibold transition-all whitespace-nowrap text-center ${
+                                isCurrent
+                                  ? 'bg-(--accent-primary) text-(--bg-primary) shadow-xs font-bold'
+                                  : 'bg-(--bg-primary) hover:bg-(--bg-secondary) text-(--text-secondary) border border-(--border-subtle)'
+                              }`}
+                            >
+                              <span>{item.label}</span>
+                            </Button>
+                          );
+                        })}
+                      </div>
 
-                    <p className="text-[11px] text-(--text-secondary) leading-relaxed mt-0.5">
-                      ⚡ <strong>[{inspectorStatusTab.toUpperCase()}]</strong> {locale === 'ko' ? '상태에 적용되는 디자인 토큰을 아래에서 수정하세요. 수정 즉시 스테이지 및 실제 코드/CSS에 실시간 반영됩니다.' : 'Modify tokens applied to this state below. Reflects in preview and CSS immediately.'}
-                    </p>
+                      <p className="text-[11px] text-(--text-secondary) leading-relaxed mt-0.5">
+                        ⚡ <strong>[{inspectorStatusTab.toUpperCase()}]</strong> {locale === 'ko' ? '상태에 적용되는 디자인 토큰을 아래에서 수정하세요. 수정 즉시 스테이지 및 실제 코드/CSS에 실시간 반영됩니다.' : 'Modify tokens applied to this state below. Reflects in preview and CSS immediately.'}
+                      </p>
+                    </div>
                   </div>
 
-                  {/* Status-specific Property Bindings List */}
-                  <div className="space-y-3.5 pt-2 border-t border-(--border-subtle)">
-                    <div className="flex items-center justify-between text-xs font-bold text-(--text-secondary) px-0.5">
+                  {/* Status-specific Property Bindings List (Scrollable Area) */}
+                  <div className="flex-1 min-h-0 overflow-y-auto p-4 sm:p-5 space-y-3.5 studio-scrollbar">
+                    <div className="flex items-center justify-between text-xs font-bold text-(--text-secondary) px-0.5 sticky top-0 bg-(--bg-secondary)/95 backdrop-blur-xs py-1 z-10">
                       <span>{locale === 'ko' ? `[${inspectorStatusTab.toUpperCase()}] 적용 토큰 목록` : `[${inspectorStatusTab.toUpperCase()}] Token List`}</span>
                       <span className="text-[11px] font-mono text-(--text-muted)">{currentStatusProps.length}{locale === 'ko' ? '개 속성' : ' properties'}</span>
                     </div>
