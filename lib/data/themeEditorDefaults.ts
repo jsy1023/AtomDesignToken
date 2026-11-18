@@ -22,6 +22,9 @@ export interface ColorConfig {
   primary: string;
   primaryHover: string;
   primaryLight: string;
+  secondary?: string;
+  secondaryHover?: string;
+  secondaryLight?: string;
   bgPrimary: string;
   bgSecondary: string;
   textPrimary: string;

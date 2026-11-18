@@ -15,6 +15,7 @@ const FONT_IMPORT_MAP: Record<string, string> = {
  */
 export function generateThemeCSS(theme: ThemeConfig): string {
   const { color, typography, borderRadius } = theme;
+  const isDark = isDarkColor(color.bgPrimary);
 
   // Detect font import if Google font selected
   let fontImportCSS = '';
@@ -47,6 +48,12 @@ ${fontImportCSS}/* [AtomDesignToken] Live Injected Theme Variables */
   --atom-color-primary: ${color.primary};
   --atom-color-primary-hover: ${color.primaryHover};
   --atom-color-primary-subtle: ${color.primaryLight};
+  --atom-color-secondary: ${color.secondary || (isDark ? '#334155' : '#e2e8f0')};
+  --atom-color-secondary-hover: ${color.secondaryHover || (isDark ? '#475569' : '#cbd5e1')};
+  --atom-color-secondary-subtle: ${color.secondaryLight || (isDark ? '#1e293b' : '#f8fafc')};
+  --atom-secondary: var(--atom-color-secondary);
+  --atom-secondary-hover: var(--atom-color-secondary-hover);
+  --atom-secondary-light: var(--atom-color-secondary-subtle);
   --atom-color-bg: ${color.bgPrimary};
   --atom-color-surface: ${color.bgSecondary};
   --atom-color-text: ${color.textPrimary};

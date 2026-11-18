@@ -78,6 +78,10 @@ export function StudioThemeManager({
   const [formPrimaryHoverPalId, setFormPrimaryHoverPalId] = useState('--atom-palette-blue-600');
   const [formPrimaryLightPalId, setFormPrimaryLightPalId] = useState('--atom-palette-blue-50');
 
+  const [formSecondaryPalId, setFormSecondaryPalId] = useState('--atom-palette-gray-200');
+  const [formSecondaryHoverPalId, setFormSecondaryHoverPalId] = useState('--atom-palette-gray-300');
+  const [formSecondaryLightPalId, setFormSecondaryLightPalId] = useState('--atom-palette-gray-50');
+
   const [formBgPrimaryPalId, setFormBgPrimaryPalId] = useState('--atom-palette-white');
   const [formBgSecondaryPalId, setFormBgSecondaryPalId] = useState('--atom-palette-gray-50');
 
@@ -97,6 +101,10 @@ export function StudioThemeManager({
   const formPrimary = findPaletteById(formPrimaryPalId)?.value || '#3182f6';
   const formPrimaryHover = findPaletteById(formPrimaryHoverPalId)?.value || '#1b64da';
   const formPrimaryLight = findPaletteById(formPrimaryLightPalId)?.value || '#eff6ff';
+
+  const formSecondary = findPaletteById(formSecondaryPalId)?.value || (formMode === 'dark' ? '#334155' : '#e2e8f0');
+  const formSecondaryHover = findPaletteById(formSecondaryHoverPalId)?.value || (formMode === 'dark' ? '#475569' : '#cbd5e1');
+  const formSecondaryLight = findPaletteById(formSecondaryLightPalId)?.value || (formMode === 'dark' ? '#1e293b' : '#f8fafc');
 
   const formBgPrimary = findPaletteById(formBgPrimaryPalId)?.value || (formMode === 'dark' ? '#0f172a' : '#ffffff');
   const formBgSecondary = findPaletteById(formBgSecondaryPalId)?.value || (formMode === 'dark' ? '#1e293b' : '#f8fafc');
@@ -145,6 +153,9 @@ export function StudioThemeManager({
     setFormPrimaryPalId('--atom-palette-blue-500');
     setFormPrimaryHoverPalId('--atom-palette-blue-600');
     setFormPrimaryLightPalId('--atom-palette-blue-50');
+    setFormSecondaryPalId('--atom-palette-gray-200');
+    setFormSecondaryHoverPalId('--atom-palette-gray-300');
+    setFormSecondaryLightPalId('--atom-palette-gray-50');
     setFormBgPrimaryPalId('--atom-palette-white');
     setFormBgSecondaryPalId('--atom-palette-gray-50');
     setFormTextPrimaryPalId('--atom-palette-gray-900');
@@ -171,6 +182,10 @@ export function StudioThemeManager({
     setFormPrimaryPalId(pb.primary || findPaletteByValue(t.colors.primary)?.id || '--atom-palette-blue-500');
     setFormPrimaryHoverPalId(pb.primaryHover || findPaletteByValue(t.colors.primaryHover)?.id || '--atom-palette-blue-600');
     setFormPrimaryLightPalId(pb.primaryLight || findPaletteByValue(t.colors.primaryLight)?.id || '--atom-palette-blue-50');
+
+    setFormSecondaryPalId(pb.secondary || findPaletteByValue(t.colors.secondary || '')?.id || (t.mode === 'dark' ? '--atom-palette-gray-700' : '--atom-palette-gray-200'));
+    setFormSecondaryHoverPalId(pb.secondaryHover || findPaletteByValue(t.colors.secondaryHover || '')?.id || (t.mode === 'dark' ? '--atom-palette-gray-600' : '--atom-palette-gray-300'));
+    setFormSecondaryLightPalId(pb.secondaryLight || findPaletteByValue(t.colors.secondaryLight || '')?.id || (t.mode === 'dark' ? '--atom-palette-gray-800' : '--atom-palette-gray-50'));
 
     setFormBgPrimaryPalId(pb.bgPrimary || findPaletteByValue(t.colors.bgPrimary)?.id || (t.mode === 'dark' ? '--atom-palette-gray-900' : '--atom-palette-white'));
     setFormBgSecondaryPalId(pb.bgSecondary || findPaletteByValue(t.colors.bgSecondary)?.id || (t.mode === 'dark' ? '--atom-palette-gray-800' : '--atom-palette-gray-50'));
@@ -218,6 +233,9 @@ export function StudioThemeManager({
         primary: formPrimaryPalId,
         primaryHover: formPrimaryHoverPalId,
         primaryLight: formPrimaryLightPalId,
+        secondary: formSecondaryPalId,
+        secondaryHover: formSecondaryHoverPalId,
+        secondaryLight: formSecondaryLightPalId,
         bgPrimary: formBgPrimaryPalId,
         bgSecondary: formBgSecondaryPalId,
         textPrimary: formTextPrimaryPalId,
@@ -233,6 +251,9 @@ export function StudioThemeManager({
         primary: formPrimary,
         primaryHover: formPrimaryHover,
         primaryLight: formPrimaryLight,
+        secondary: formSecondary,
+        secondaryHover: formSecondaryHover,
+        secondaryLight: formSecondaryLight,
         bgPrimary: formBgPrimary,
         bgSecondary: formBgSecondary,
         textPrimary: formTextPrimary,
@@ -840,6 +861,115 @@ export function StudioThemeManager({
                     </div>
                     <span className="text-[10px] font-mono text-(--text-muted) block truncate">
                       var({formPrimaryLightPalId})
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* 2-1. Secondary & Neutral Action Tokens (Palette-Driven) */}
+              <div className="p-3.5 rounded-(--radius) bg-(--bg-secondary)/40 border border-(--border-subtle) space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="font-bold text-xs text-(--text-primary) flex items-center gap-1.5 uppercase tracking-wider">
+                    <Sparkles className="w-3.5 h-3.5 text-(--text-secondary)" />
+                    {locale === 'ko' ? '세컨더리 & 보조 액션 토큰 (팔레트 기반)' : 'Secondary & Neutral Action Tokens (Palette-Based)'}
+                  </span>
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-(--bg-primary) text-(--text-muted) border border-(--border-subtle)">
+                    W3C DTCG ALIAS
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  {/* Secondary Action */}
+                  <div className="space-y-1">
+                    <label className="text-[11px] text-(--text-secondary) font-medium block">
+                      {locale === 'ko' ? '세컨더리 액션 컬러' : 'Secondary Action Color'}
+                    </label>
+                    <div className="flex items-center gap-2">
+                      <span
+                        style={{ backgroundColor: formSecondary }}
+                        className="w-7 h-7 rounded border border-(--border-subtle) shrink-0 shadow-xs"
+                        title={formSecondary}
+                      />
+                      <NativeSelect
+                        value={formSecondaryPalId}
+                        onChange={(e) => {
+                          const pId = e.target.value;
+                          setFormSecondaryPalId(pId);
+                          const pal = findPaletteById(pId);
+                          if (pal?.family) {
+                            const hoverMatch = colorPalettes.find((p) => p.family === pal.family && (p.id.endsWith('-300') || p.id.endsWith('-600')));
+                            const lightMatch = colorPalettes.find((p) => p.family === pal.family && (p.id.endsWith('-50') || p.id.endsWith('-100')));
+                            if (hoverMatch) setFormSecondaryHoverPalId(hoverMatch.id);
+                            if (lightMatch) setFormSecondaryLightPalId(lightMatch.id);
+                          }
+                        }}
+                        className="w-full text-xs font-mono"
+                      >
+                        {colorPalettes.map((p) => (
+                          <option key={p.id} value={p.id}>
+                            {p.name} ({p.value})
+                          </option>
+                        ))}
+                      </NativeSelect>
+                    </div>
+                    <span className="text-[10px] font-mono text-(--text-muted) block truncate">
+                      var({formSecondaryPalId})
+                    </span>
+                  </div>
+
+                  {/* Secondary Hover */}
+                  <div className="space-y-1">
+                    <label className="text-[11px] text-(--text-secondary) font-medium block">
+                      {locale === 'ko' ? '호버 상태 배경' : 'Secondary Hover State'}
+                    </label>
+                    <div className="flex items-center gap-2">
+                      <span
+                        style={{ backgroundColor: formSecondaryHover }}
+                        className="w-7 h-7 rounded border border-(--border-subtle) shrink-0 shadow-xs"
+                        title={formSecondaryHover}
+                      />
+                      <NativeSelect
+                        value={formSecondaryHoverPalId}
+                        onChange={(e) => setFormSecondaryHoverPalId(e.target.value)}
+                        className="w-full text-xs font-mono"
+                      >
+                        {colorPalettes.map((p) => (
+                          <option key={p.id} value={p.id}>
+                            {p.name} ({p.value})
+                          </option>
+                        ))}
+                      </NativeSelect>
+                    </div>
+                    <span className="text-[10px] font-mono text-(--text-muted) block truncate">
+                      var({formSecondaryHoverPalId})
+                    </span>
+                  </div>
+
+                  {/* Secondary Subtle Light */}
+                  <div className="space-y-1">
+                    <label className="text-[11px] text-(--text-secondary) font-medium block">
+                      {locale === 'ko' ? '은은한 틴트 배경/태그' : 'Secondary Subtle Light'}
+                    </label>
+                    <div className="flex items-center gap-2">
+                      <span
+                        style={{ backgroundColor: formSecondaryLight }}
+                        className="w-7 h-7 rounded border border-(--border-subtle) shrink-0 shadow-xs"
+                        title={formSecondaryLight}
+                      />
+                      <NativeSelect
+                        value={formSecondaryLightPalId}
+                        onChange={(e) => setFormSecondaryLightPalId(e.target.value)}
+                        className="w-full text-xs font-mono"
+                      >
+                        {colorPalettes.map((p) => (
+                          <option key={p.id} value={p.id}>
+                            {p.name} ({p.value})
+                          </option>
+                        ))}
+                      </NativeSelect>
+                    </div>
+                    <span className="text-[10px] font-mono text-(--text-muted) block truncate">
+                      var({formSecondaryLightPalId})
                     </span>
                   </div>
                 </div>

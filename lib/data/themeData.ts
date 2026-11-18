@@ -6,6 +6,9 @@ export interface ThemePaletteBindings {
   primary: string;        // e.g. '--atom-palette-blue-500'
   primaryHover: string;   // e.g. '--atom-palette-blue-600'
   primaryLight: string;   // e.g. '--atom-palette-blue-50'
+  secondary?: string;     // e.g. '--atom-palette-gray-200'
+  secondaryHover?: string;// e.g. '--atom-palette-gray-300'
+  secondaryLight?: string;// e.g. '--atom-palette-gray-50'
   bgPrimary: string;      // e.g. '--atom-palette-white'
   bgSecondary: string;    // e.g. '--atom-palette-gray-50'
   textPrimary: string;    // e.g. '--atom-palette-gray-900'
@@ -30,6 +33,9 @@ export interface StudioTheme {
     primary: string;
     primaryHover: string;
     primaryLight: string;
+    secondary?: string;
+    secondaryHover?: string;
+    secondaryLight?: string;
     bgPrimary: string;
     bgSecondary: string;
     textPrimary: string;
@@ -383,6 +389,9 @@ export function resolveThemeColors(
     primary: (pb.primary && lookup.get(pb.primary)) || theme.colors.primary,
     primaryHover: (pb.primaryHover && lookup.get(pb.primaryHover)) || theme.colors.primaryHover,
     primaryLight: (pb.primaryLight && lookup.get(pb.primaryLight)) || theme.colors.primaryLight,
+    secondary: (pb.secondary && lookup.get(pb.secondary)) || theme.colors.secondary || (theme.mode === 'dark' ? '#334155' : '#e2e8f0'),
+    secondaryHover: (pb.secondaryHover && lookup.get(pb.secondaryHover)) || theme.colors.secondaryHover || (theme.mode === 'dark' ? '#475569' : '#cbd5e1'),
+    secondaryLight: (pb.secondaryLight && lookup.get(pb.secondaryLight)) || theme.colors.secondaryLight || (theme.mode === 'dark' ? '#1e293b' : '#f8fafc'),
     bgPrimary: (pb.bgPrimary && lookup.get(pb.bgPrimary)) || theme.colors.bgPrimary,
     bgSecondary: (pb.bgSecondary && lookup.get(pb.bgSecondary)) || theme.colors.bgSecondary,
     textPrimary: (pb.textPrimary && lookup.get(pb.textPrimary)) || theme.colors.textPrimary,
