@@ -1,7 +1,7 @@
-import { Button } from '@/components/ui';
 'use client';
 
 import React, { useState } from 'react';
+import { Button } from '@/components/ui';
 import { PatternItem, PATTERNS_COLLECTION } from '@/lib/data/patterns';
 import { DeviceMockupView } from './DeviceMockupView';
 import { PatternQuickSwitcher } from './PatternQuickSwitcher';

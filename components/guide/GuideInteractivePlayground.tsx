@@ -1,7 +1,7 @@
-import { Button, Input, Badge, Card } from '@/components/ui';
 'use client';
 
 import React, { useState } from 'react';
+import { Button, Input, Badge, Card } from '@/components/ui';
 import { Play, Sparkles, Check, Copy, Sliders, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';
