@@ -137,6 +137,9 @@ interface ColorConfig {
     primary: string;
     primaryHover: string;
     primaryLight: string;
+    secondary?: string;
+    secondaryHover?: string;
+    secondaryLight?: string;
     bgPrimary: string;
     bgSecondary: string;
     textPrimary: string;
@@ -148,6 +151,13 @@ interface ColorConfig {
     statusDanger: string;
     statusWarning: string;
 }
+interface BrandConfig {
+    name: string;
+    logoUrl?: string | null;
+    slogan?: string;
+    logoHeight?: number;
+}
+declare const DEFAULT_BRAND_CONFIG: BrandConfig;
 interface ButtonSpacingConfig {
     paddingY: string;
     paddingX: string;
@@ -269,7 +279,7 @@ declare const ATOM_UI_CSS_PATH = "atomsystem/css/atom-ui.css";
 /**
  * CLI Banner & Metadata
  */
-declare const ATOM_VERSION = "0.14.0";
+declare const ATOM_VERSION = "0.14.1";
 declare const ATOM_LIB_NAME = "atomsystem";
 
-export { ATOM_LIB_NAME, ATOM_UI_CSS_PATH, ATOM_VERSION, AWESOME_CATEGORIES, AWESOME_DESIGN_MD_THEMES, type AwesomeDesignMdTheme, BASE_COLOR_TOKENS, BRAND_PRESETS, type BrandPreset, type ButtonSpacingConfig, COLOR_PRESETS, type ColorConfig, type ColorPreset, type ColorToken, type ComponentCategory, DEFAULT_THEME_CONFIG, type DosAndDont, EnterpriseDashboardUseCase, FONT_FAMILY_PRESETS, GALLERY_COMPONENTS, type GalleryComponent, type KpiMetric, LAYOUT_TOKENS, type LayoutToken, PATTERNS_COLLECTION, type PatternItem, type PatternPlatform, type PatternVariant, type PropItem, RADIUS_TOKENS, type RadiusToken, type RefactorMatch, type RefactorReport, SHADOW_TOKENS, SPACING_TOKENS, type ShadowToken, type SpacingToken, TOKEN_REPLACEMENTS, TYPOGRAPHY_TOKENS, type ThemeConfig, type TokenCategory, type TransactionItem, type TypographyConfig, type TypographyLevelConfig, type TypographyToken, applyThemeToDOM, cn, exportToCSS, exportToTailwind, exportToTokensJson, generateThemeCSS, isDarkColor, scanAndRefactorDirectory };
+export { ATOM_LIB_NAME, ATOM_UI_CSS_PATH, ATOM_VERSION, AWESOME_CATEGORIES, AWESOME_DESIGN_MD_THEMES, type AwesomeDesignMdTheme, BASE_COLOR_TOKENS, BRAND_PRESETS, type BrandConfig, type BrandPreset, type ButtonSpacingConfig, COLOR_PRESETS, type ColorConfig, type ColorPreset, type ColorToken, type ComponentCategory, DEFAULT_BRAND_CONFIG, DEFAULT_THEME_CONFIG, type DosAndDont, EnterpriseDashboardUseCase, FONT_FAMILY_PRESETS, GALLERY_COMPONENTS, type GalleryComponent, type KpiMetric, LAYOUT_TOKENS, type LayoutToken, PATTERNS_COLLECTION, type PatternItem, type PatternPlatform, type PatternVariant, type PropItem, RADIUS_TOKENS, type RadiusToken, type RefactorMatch, type RefactorReport, SHADOW_TOKENS, SPACING_TOKENS, type ShadowToken, type SpacingToken, TOKEN_REPLACEMENTS, TYPOGRAPHY_TOKENS, type ThemeConfig, type TokenCategory, type TransactionItem, type TypographyConfig, type TypographyLevelConfig, type TypographyToken, applyThemeToDOM, cn, exportToCSS, exportToTailwind, exportToTokensJson, generateThemeCSS, isDarkColor, scanAndRefactorDirectory };

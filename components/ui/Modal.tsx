@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { Button } from './Button';
 
 export interface ModalProps {
   isOpen: boolean;
@@ -39,16 +38,13 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }
         {title && (
           <div className="flex items-center justify-between pb-4 border-b border-[var(--atom-border-subtle)]">
             <h3 className="text-lg font-bold text-[var(--atom-text-primary)]">{title}</h3>
-            <Button
-              variant="ghost"
-              size="sm"
-              isIconOnly
+            <button
               onClick={onClose}
               aria-label="닫기"
-              className="text-[var(--atom-text-secondary)] hover:text-[var(--atom-text-primary)] text-base leading-none"
+              className="text-[var(--atom-text-secondary)] hover:text-[var(--atom-text-primary)] text-xl leading-none"
             >
-              ✕
-            </Button>
+              ×
+            </button>
           </div>
         )}
         <div className="py-4">{children}</div>

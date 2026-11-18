@@ -30,4 +30,3 @@ export * from './SideMenu';
 export * from './Chart';
 export * from './Offcanvas';
 export * from './Toast';
-export * from './TokenSelect';
