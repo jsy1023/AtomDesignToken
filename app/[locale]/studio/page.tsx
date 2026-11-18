@@ -263,7 +263,8 @@ function LocalStudioContent() {
   // Active Status tab in the Inspector panel (Default, Hover, Active, Focus, Disabled, All)
   const [inspectorStatusTab, setInspectorStatusTab] = useState<ComponentInteractiveStatus | 'all'>('default');
 
-  // Additional Variables per Live Stage Card (size & slots / layout)
+  // Additional Variables per Live Stage Card (system variable, size & slots / layout)
+  const [stageVariables, setStageVariables] = useState<Record<string, string>>({});
   const [stageSizes, setStageSizes] = useState<Record<string, 'sm' | 'md' | 'lg'>>({});
   const [stageIconSlots, setStageIconSlots] = useState<Record<string, 'none' | 'left' | 'right' | 'icon-only'>>({});
 
@@ -1223,6 +1224,8 @@ function LocalStudioContent() {
                   <div className="flex flex-col gap-6">
                     {currentTypes.map((t, index) => {
                       const isSelected = (selectedTypeId || currentTypes[0]?.id) === t.id;
+                      const cardVarId = stageVariables[t.id] || selectedVariableId || currentComponent.variables[0]?.id;
+                      const cardVariable = currentComponent.variables.find((v) => v.id === cardVarId) || currentVariable;
                       const cardSize = stageSizes[t.id] || 'md';
                       const cardIconSlot = stageIconSlots[t.id] || 'none';
                       const activeStatus = stageStatuses[t.id] || 'default';
@@ -1305,7 +1308,7 @@ function LocalStudioContent() {
                             <StudioLivePreview
                               componentId={currentComponent.id}
                               type={t}
-                              variable={currentVariable}
+                              variable={cardVariable}
                               size={cardSize}
                               iconSlot={cardIconSlot}
                               getPaletteValue={getPaletteValue}
@@ -1313,72 +1316,81 @@ function LocalStudioContent() {
                             />
                           </div>
 
-                          {/* 2. Card 하위: Variable 컨트롤 (버튼 규격 & 아이콘 슬롯) */}
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 p-3 rounded-(--radius-sm) bg-(--bg-secondary)/40 border border-(--border-subtle)">
-                            {/* 규격 (Size) */}
-                            <div className="flex flex-col gap-1.5">
-                              <span className="text-[11px] font-bold text-(--text-secondary) flex items-center gap-1.5">
-                                <span className="font-mono text-[9px] px-1.5 py-0.2 rounded bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 font-bold uppercase">VARIABLE</span>
-                                <span>{locale === 'ko' ? '버튼 규격 (Size)' : 'Button Size'}</span>
+                          {/* 2. Card 하위: Variable 셀렉트 선택 상자 (시스템 색상, 버튼 규격, 아이콘 슬롯) */}
+                          <div className="p-3.5 rounded-(--radius-sm) bg-(--bg-secondary)/40 border border-(--border-subtle) flex flex-col gap-2.5">
+                            <div className="flex items-center gap-1.5">
+                              <span className="font-mono text-[9px] px-1.5 py-0.2 rounded bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 font-bold uppercase">VARIABLE</span>
+                              <span className="text-xs font-bold text-(--text-primary)">
+                                {locale === 'ko' ? '디자인 세부 옵션 (Variable)' : 'Detail Variables'}
                               </span>
-                              <div className="flex items-center gap-1">
-                                {[
-                                  { id: 'sm', label: 'Small (sm)' },
-                                  { id: 'md', label: 'Medium (md)' },
-                                  { id: 'lg', label: 'Large (lg)' },
-                                ].map((sz) => {
-                                  const isCur = cardSize === sz.id;
-                                  return (
-                                    <Button
-                                      key={sz.id}
-                                      variant={isCur ? 'primary' : 'secondary'}
-                                      size="sm"
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        setStageSizes((prev) => ({ ...prev, [t.id]: sz.id as 'sm' | 'md' | 'lg' }));
-                                      }}
-                                      className={`text-xs py-1 px-2.5 h-auto font-semibold flex-1 ${
-                                        isCur ? 'bg-(--accent-primary) text-white font-bold shadow-2xs' : 'text-(--text-secondary)'
-                                      }`}
-                                    >
-                                      {sz.label}
-                                    </Button>
-                                  );
-                                })}
-                              </div>
+                              <span className="text-[10px] text-(--text-muted) hidden sm:inline">
+                                {locale === 'ko' ? '— 셀렉트 상자로 시스템 색상, 규격, 아이콘 슬롯 설정' : '— Select system color, size, and icon slots'}
+                              </span>
                             </div>
 
-                            {/* 아이콘 슬롯 (Icon Slot) */}
-                            <div className="flex flex-col gap-1.5">
-                              <span className="text-[11px] font-bold text-(--text-secondary) flex items-center gap-1.5">
-                                <span className="font-mono text-[9px] px-1.5 py-0.2 rounded bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 font-bold uppercase">VARIABLE</span>
-                                <span>{locale === 'ko' ? '아이콘 슬롯 (Slots)' : 'Icon Slot'}</span>
-                              </span>
-                              <div className="flex items-center gap-1">
-                                {[
-                                  { id: 'none', label: locale === 'ko' ? '없음' : 'None' },
-                                  { id: 'left', label: locale === 'ko' ? '왼쪽' : 'Left' },
-                                  { id: 'right', label: locale === 'ko' ? '오른쪽' : 'Right' },
-                                  { id: 'icon-only', label: locale === 'ko' ? '아이콘만' : 'Only' },
-                                ].map((ic) => {
-                                  const isCur = cardIconSlot === ic.id;
-                                  return (
-                                    <Button
-                                      key={ic.id}
-                                      variant={isCur ? 'primary' : 'secondary'}
-                                      size="sm"
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        setStageIconSlots((prev) => ({ ...prev, [t.id]: ic.id as 'none' | 'left' | 'right' | 'icon-only' }));
-                                      }}
-                                      className={`text-xs py-1 px-2 h-auto font-semibold flex-1 ${
-                                        isCur ? 'bg-(--accent-primary) text-white font-bold shadow-2xs' : 'text-(--text-secondary)'
-                                      }`}
-                                    >
-                                      {ic.label}
-                                    </Button>
-                                  );
-                                })}
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                              {/* 1. 시스템 색상 (System Color) */}
+                              <div className="flex flex-col gap-1">
+                                <label className="text-[11px] font-semibold text-(--text-secondary) flex items-center justify-between">
+                                  <span>{locale === 'ko' ? '시스템 색상 (system)' : 'System Color'}</span>
+                                  <span className="font-mono text-[10px] text-(--text-muted)">{cardVarId}</span>
+                                </label>
+                                <NativeSelect
+                                  value={cardVarId}
+                                  onChange={(e) => {
+                                    const nextVar = e.target.value;
+                                    setStageVariables((prev) => ({ ...prev, [t.id]: nextVar }));
+                                    if (isSelected) {
+                                      handleSelectVariable(nextVar);
+                                    }
+                                  }}
+                                  className="text-xs font-semibold py-1.5 px-2.5 h-auto bg-(--bg-primary) border border-(--border-subtle)"
+                                >
+                                  {currentComponent.variables.map((v) => (
+                                    <option key={v.id} value={v.id}>
+                                      {formatLocaleText(v.name, locale)} ({v.id})
+                                    </option>
+                                  ))}
+                                </NativeSelect>
+                              </div>
+
+                              {/* 2. 규격 (Size) */}
+                              <div className="flex flex-col gap-1">
+                                <label className="text-[11px] font-semibold text-(--text-secondary) flex items-center justify-between">
+                                  <span>{locale === 'ko' ? '버튼 규격 (size)' : 'Button Size'}</span>
+                                  <span className="font-mono text-[10px] text-(--text-muted)">{cardSize}</span>
+                                </label>
+                                <NativeSelect
+                                  value={cardSize}
+                                  onChange={(e) => {
+                                    setStageSizes((prev) => ({ ...prev, [t.id]: e.target.value as 'sm' | 'md' | 'lg' }));
+                                  }}
+                                  className="text-xs font-semibold py-1.5 px-2.5 h-auto bg-(--bg-primary) border border-(--border-subtle)"
+                                >
+                                  <option value="sm">Small (sm)</option>
+                                  <option value="md">Medium (md - 기본)</option>
+                                  <option value="lg">Large (lg)</option>
+                                </NativeSelect>
+                              </div>
+
+                              {/* 3. 아이콘 슬롯 (Slots) */}
+                              <div className="flex flex-col gap-1">
+                                <label className="text-[11px] font-semibold text-(--text-secondary) flex items-center justify-between">
+                                  <span>{locale === 'ko' ? '아이콘 슬롯 (slots)' : 'Icon Slot'}</span>
+                                  <span className="font-mono text-[10px] text-(--text-muted)">{cardIconSlot}</span>
+                                </label>
+                                <NativeSelect
+                                  value={cardIconSlot}
+                                  onChange={(e) => {
+                                    setStageIconSlots((prev) => ({ ...prev, [t.id]: e.target.value as 'none' | 'left' | 'right' | 'icon-only' }));
+                                  }}
+                                  className="text-xs font-semibold py-1.5 px-2.5 h-auto bg-(--bg-primary) border border-(--border-subtle)"
+                                >
+                                  <option value="none">{locale === 'ko' ? '아이콘 없음 (none)' : 'None'}</option>
+                                  <option value="left">{locale === 'ko' ? '왼쪽 아이콘 (left)' : 'Left Icon'}</option>
+                                  <option value="right">{locale === 'ko' ? '오른쪽 아이콘 (right)' : 'Right Icon'}</option>
+                                  <option value="icon-only">{locale === 'ko' ? '아이콘 전용 (icon-only)' : 'Icon Only'}</option>
+                                </NativeSelect>
                               </div>
                             </div>
                           </div>
@@ -1431,7 +1443,7 @@ function LocalStudioContent() {
                           {(() => {
                             const baseName = currentComponent.name.split(' ')[0];
                             const isDefaultStatus = activeStatus === 'default';
-                            const varLabel = currentVariable ? formatLocaleText(currentVariable.name, locale) : 'Button';
+                            const varLabel = cardVariable ? formatLocaleText(cardVariable.name, locale) : 'Button';
                             const placeholderText = locale === 'ko' ? '내용을 입력하세요' : 'Enter text...';
                             const sizeAttr = cardSize !== 'md' ? ` size="${cardSize}"` : '';
                             const iconAttr = cardIconSlot !== 'none' ? ` icon="${cardIconSlot}"` : '';
@@ -1440,24 +1452,24 @@ function LocalStudioContent() {
                             if (codeSnippetLang === 'react') {
                               const statusProp = isDefaultStatus ? '' : ` status="${activeStatus}"`;
                               if (currentComponent.id === 'input') {
-                                generatedCode = `<Input componentType="${t.id}" value="${currentVariable?.id}"${statusProp} placeholder="${placeholderText}" />`;
+                                generatedCode = `<Input componentType="${t.id}" value="${cardVariable?.id}"${statusProp} placeholder="${placeholderText}" />`;
                               } else if (currentComponent.id === 'badge') {
-                                generatedCode = `<Badge componentType="${t.id}" value="${currentVariable?.id}"${statusProp}>\n  ${varLabel}\n</Badge>`;
+                                generatedCode = `<Badge componentType="${t.id}" value="${cardVariable?.id}"${statusProp}>\n  ${varLabel}\n</Badge>`;
                               } else {
-                                generatedCode = `<${baseName} componentType="${t.id}" value="${currentVariable?.id}"${sizeAttr}${iconAttr}${statusProp}>\n  ${varLabel}\n</${baseName}>`;
+                                generatedCode = `<${baseName} componentType="${t.id}" value="${cardVariable?.id}"${sizeAttr}${iconAttr}${statusProp}>\n  ${varLabel}\n</${baseName}>`;
                               }
                             } else if (codeSnippetLang === 'html') {
                               const statusAttr = isDefaultStatus ? '' : ` data-status="${activeStatus}"`;
                               const tag = currentComponent.id === 'button' ? 'button' : currentComponent.id === 'input' ? 'input' : 'div';
                               const disabledAttr = (activeStatus === 'disabled' || activeStatus === 'loading') && (tag === 'button' || tag === 'input') ? ' disabled' : '';
                               if (tag === 'input') {
-                                generatedCode = `<input class="atom-input atom-input--${t.id}" data-component="input" data-type="${t.id}" data-value="${currentVariable?.id}"${statusAttr}${disabledAttr} placeholder="${placeholderText}" />`;
+                                generatedCode = `<input class="atom-input atom-input--${t.id}" data-component="input" data-type="${t.id}" data-value="${cardVariable?.id}"${statusAttr}${disabledAttr} placeholder="${placeholderText}" />`;
                               } else {
-                                generatedCode = `<${tag} class="atom-${currentComponent.id} atom-${currentComponent.id}--${t.id} atom-${currentComponent.id}--${cardSize}" data-component="${currentComponent.id}" data-type="${t.id}" data-value="${currentVariable?.id}"${statusAttr}${disabledAttr}>\n  ${varLabel}\n</${tag}>`;
+                                generatedCode = `<${tag} class="atom-${currentComponent.id} atom-${currentComponent.id}--${t.id} atom-${currentComponent.id}--${cardSize}" data-component="${currentComponent.id}" data-type="${t.id}" data-value="${cardVariable?.id}"${statusAttr}${disabledAttr}>\n  ${varLabel}\n</${tag}>`;
                               }
                             } else {
                               const statusProp = isDefaultStatus ? '' : ` status="${activeStatus}"`;
-                              generatedCode = `<Atom${baseName} component-type="${t.id}" value="${currentVariable?.id}"${sizeAttr}${iconAttr}${statusProp}>\n  ${varLabel}\n</Atom${baseName}>`;
+                              generatedCode = `<Atom${baseName} component-type="${t.id}" value="${cardVariable?.id}"${sizeAttr}${iconAttr}${statusProp}>\n  ${varLabel}\n</Atom${baseName}>`;
                             }
 
                             return (
