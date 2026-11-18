@@ -81,13 +81,13 @@ export function PatternDocsSidebar({
     >
       {/* 1. Search Bar */}
       <div className="relative">
-        <Search className="w-3.5 h-3.5 text-(--text-muted) absolute left-3 top-1/2 -translate-y-1/2" />
         <Input
           type="text"
+          leftIcon={<Search className="w-3.5 h-3.5 text-(--text-muted)" />}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="패턴 검색 (대시보드, 폼...)"
-          className="w-full pl-8 pr-3 py-1.5 text-xs"
+          className="w-full text-xs pr-7"
         />
         {searchQuery && (
           <Button

@@ -43,16 +43,14 @@ export function BlocksSidebar({ activeId }: BlocksSidebarProps) {
           </span>
         </div>
 
-        <div className="relative">
-          <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-(--text-secondary) z-10" />
-          <Input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="블록 검색..."
-            className="text-xs pl-7 pr-2.5 py-1.5 h-auto"
-          />
-        </div>
+        <Input
+          type="text"
+          leftIcon={<Search className="w-3.5 h-3.5 text-(--text-secondary)" />}
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="블록 검색..."
+          className="text-xs py-1.5 h-auto"
+        />
       </div>
 
       {/* 2. Block List by Category using SideMenu */}

@@ -86,16 +86,14 @@ export function DocsSidebar({
       </div>
 
       {/* 2. Fast Component Search Box */}
-      <div className="relative">
-        <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-(--text-secondary) z-10" />
-        <Input
-          type="text"
-          placeholder={t('sidebar.searchPlaceholder', '컴포넌트 검색 (Cmd + K)...')}
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          className="pl-9"
-        />
-      </div>
+      <Input
+        type="text"
+        leftIcon={<Search className="w-4 h-4 text-(--text-secondary)" />}
+        placeholder={t('sidebar.searchPlaceholder', '컴포넌트 검색 (Cmd + K)...')}
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        className="w-full text-xs"
+      />
 
       {/* 3. Foundational Essentials: Layout, Structure, Font, Color (맨 위에 배치) */}
       <div className="flex flex-col gap-1 pb-2 border-b border-(--border-subtle)">

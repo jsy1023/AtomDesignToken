@@ -290,13 +290,13 @@ export default function TokensPage() {
 
             {/* Search Input - Clean Minimal Line */}
             <div className="relative w-full sm:w-60">
-              <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-(--text-muted) z-10" />
               <Input
                 type="text"
+                leftIcon={<Search className="w-3.5 h-3.5 text-(--text-muted)" />}
                 placeholder={t('common.search')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-8 pr-7 py-1 text-xs h-auto"
+                className="pr-7 py-1 text-xs h-auto"
               />
               {searchQuery && (
                 <Button

@@ -114,14 +114,14 @@ export default function BlocksHubPage() {
             </Nav>
 
             {/* Search Input */}
-            <div className="relative shrink-0">
-              <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-(--text-secondary) z-10" />
+            <div className="shrink-0">
               <Input
                 type="text"
+                leftIcon={<Search className="w-3.5 h-3.5 text-(--text-secondary)" />}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder={t('blocks.searchPlaceholder')}
-                className="w-full sm:w-64 text-xs pl-8 pr-3 py-1.5 h-auto"
+                className="w-full sm:w-64 text-xs pr-3 py-1.5 h-auto"
               />
             </div>
           </div>
