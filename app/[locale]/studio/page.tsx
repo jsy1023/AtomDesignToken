@@ -233,6 +233,27 @@ function LocalStudioContent() {
     setEditPaletteDesc(pal.description || '');
   };
 
+  // Close any open Studio modal on ESC key press
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        if (isAddTypeOpen) setIsAddTypeOpen(false);
+        else if (isAddVariableOpen) setIsAddVariableOpen(false);
+        else if (isAddPaletteOpen) setIsAddPaletteOpen(false);
+        else if (editingPalette) setEditingPalette(null);
+      }
+    };
+    const hasAnyOpen = isAddTypeOpen || isAddVariableOpen || isAddPaletteOpen || !!editingPalette;
+    if (hasAnyOpen) {
+      document.body.style.overflow = 'hidden';
+      window.addEventListener('keydown', handleKeyDown);
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isAddTypeOpen, isAddVariableOpen, isAddPaletteOpen, editingPalette]);
+
   const handleSaveEditPalette = () => {
     if (!editingPalette) return;
     const trimmedVal = editPaletteValue.trim();
@@ -2209,8 +2230,16 @@ function LocalStudioContent() {
 
       {/* MODAL 0: Add Component Design Type (새로운 디자인 외형 양식 신설) */}
       {isAddTypeOpen && (
-        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="w-full max-w-md p-6 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) shadow-xl flex flex-col gap-4 animate-in fade-in">
+        <div
+          role="dialog"
+          aria-modal="true"
+          onClick={() => setIsAddTypeOpen(false)}
+          className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="w-full max-w-md p-6 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) shadow-xl flex flex-col gap-4 animate-in fade-in"
+          >
             <div className="flex items-center justify-between pb-2 border-b border-(--border-subtle)">
               <h3 className="font-bold text-base text-(--text-primary) flex items-center gap-2">
                 <Sparkles className="w-4 h-4 text-indigo-500" />
@@ -2302,8 +2331,16 @@ function LocalStudioContent() {
 
       {/* MODAL 1: Add Component Variable */}
       {isAddVariableOpen && (
-        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="w-full max-w-md p-6 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) shadow-xl flex flex-col gap-4 animate-in fade-in">
+        <div
+          role="dialog"
+          aria-modal="true"
+          onClick={() => setIsAddVariableOpen(false)}
+          className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="w-full max-w-md p-6 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) shadow-xl flex flex-col gap-4 animate-in fade-in"
+          >
             <h3 className="font-bold text-base text-(--text-primary)">
               {t('addVariableBtn')} ({formatLocaleText(currentComponent.name, locale)})
             </h3>
@@ -2370,8 +2407,16 @@ function LocalStudioContent() {
 
       {/* MODAL 2: Add Palette Variable */}
       {isAddPaletteOpen && (
-        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="w-full max-w-md p-6 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) shadow-xl flex flex-col gap-4 animate-in fade-in">
+        <div
+          role="dialog"
+          aria-modal="true"
+          onClick={() => setIsAddPaletteOpen(false)}
+          className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="w-full max-w-md p-6 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) shadow-xl flex flex-col gap-4 animate-in fade-in"
+          >
             <h3 className="font-bold text-base text-(--text-primary)">
               {t('addPaletteBtn')}
             </h3>
@@ -2490,8 +2535,16 @@ function LocalStudioContent() {
 
       {/* MODAL 3: Edit Palette Variable */}
       {editingPalette && (
-        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="w-full max-w-md p-6 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) shadow-xl flex flex-col gap-4 animate-in fade-in">
+        <div
+          role="dialog"
+          aria-modal="true"
+          onClick={() => setEditingPalette(null)}
+          className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="w-full max-w-md p-6 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) shadow-xl flex flex-col gap-4 animate-in fade-in"
+          >
             <div className="flex items-center justify-between">
               <h3 className="font-bold text-base text-(--text-primary) flex items-center gap-2">
                 <Edit2 className="w-4 h-4 text-(--accent-primary)" />

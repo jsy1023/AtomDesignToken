@@ -206,6 +206,23 @@ export function StudioThemeManager({
     setIsEditorOpen(true);
   };
 
+  // Close theme editor modal on ESC key press
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsEditorOpen(false);
+      }
+    };
+    if (isEditorOpen) {
+      document.body.style.overflow = 'hidden';
+      window.addEventListener('keydown', handleKeyDown);
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isEditorOpen]);
+
   // Open editor for Duplicating an existing theme
   const handleOpenDuplicate = (baseTheme: StudioTheme) => {
     handleOpenEdit(baseTheme);
@@ -618,8 +635,16 @@ export function StudioThemeManager({
 
       {/* 5. Theme Token Customizer & Editor Modal (추가 / 수정 / 저장) */}
       {isEditorOpen && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
-          <div className="w-full max-w-2xl rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) shadow-2xl p-6 flex flex-col gap-5 my-8 animate-in fade-in zoom-in-95 max-h-[90vh] overflow-y-auto">
+        <div
+          role="dialog"
+          aria-modal="true"
+          onClick={() => setIsEditorOpen(false)}
+          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="w-full max-w-2xl rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) shadow-2xl p-6 flex flex-col gap-5 my-8 animate-in fade-in zoom-in-95 max-h-[90vh] overflow-y-auto"
+          >
             {/* Modal Header */}
             <div className="flex items-center justify-between border-b border-(--border-subtle) pb-3.5">
               <div>
