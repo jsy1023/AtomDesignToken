@@ -1,7 +1,7 @@
-export { TOKEN_REPLACEMENTS, scanAndRefactorDirectory } from './chunk-CVOGJG4Z.js';
+export { TOKEN_REPLACEMENTS, scanAndRefactorDirectory } from './chunk-DWGXPQK5.js';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import React32, { useState } from 'react';
+import React33, { useState } from 'react';
 import { Sparkles, RefreshCw, Download, TrendingUp, TrendingDown, Search, Filter, CreditCard, Activity, Users, DollarSign } from 'lucide-react';
 
 // lib/data/tokens.ts
@@ -9654,10 +9654,12 @@ function exportToTokensJson(theme) {
 function cn(...inputs) {
   return twMerge(clsx(inputs));
 }
-var Button = React32.forwardRef(
+var Button = React33.forwardRef(
   ({
     variant = "primary",
     variable,
+    status = "default",
+    componentType,
     size = "md",
     loading = false,
     isIconOnly = false,
@@ -9674,52 +9676,75 @@ var Button = React32.forwardRef(
     const variantClass = normalizedVariant === "primary" ? "atom-btn-primary" : `atom-btn-${normalizedVariant}`;
     const dangerClass = variant === "danger" ? "atom-btn-danger" : "";
     const variableClass = `atom-button--${activeVariable}`;
+    const typeClass = componentType ? `atom-btn--type-${componentType}` : "";
+    const statusClass = status && status !== "default" ? `atom-status--${status}` : "";
     const sizeClass = size === "sm" ? "text-xs px-2.5 py-1.5" : size === "lg" ? "text-base px-5 py-3" : "";
     const iconClass = isIconOnly ? "p-2 aspect-square inline-flex items-center justify-center" : "";
+    const isActuallyDisabled = disabled || status === "disabled" || loading || status === "loading";
+    const isActuallyLoading = loading || status === "loading";
     const customStyle = {
       ...style,
       ...paddingX ? { paddingLeft: paddingX, paddingRight: paddingX } : {},
       ...paddingY ? { paddingTop: paddingY, paddingBottom: paddingY } : {}
     };
-    return /* @__PURE__ */ React32.createElement(
+    const alignClass = className.includes("justify-start") || className.includes("text-left") ? "atom-btn--left" : className.includes("justify-between") ? "atom-btn--between" : "";
+    return /* @__PURE__ */ React33.createElement(
       "button",
       {
         ref,
         "data-component": "button",
         "data-variable": activeVariable,
-        disabled: disabled || loading,
-        "aria-disabled": disabled || loading,
-        className: `atom-btn ${variantClass} ${dangerClass} ${variableClass} ${sizeClass} ${iconClass} ${className}`,
+        "data-status": status,
+        "data-type": componentType,
+        disabled: isActuallyDisabled,
+        "aria-disabled": isActuallyDisabled,
+        "aria-busy": isActuallyLoading,
+        className: `atom-btn ${typeClass} ${variantClass} ${dangerClass} ${variableClass} ${statusClass} ${sizeClass} ${iconClass} ${alignClass} ${className}`,
         style: customStyle,
         ...props
       },
-      loading && /* @__PURE__ */ React32.createElement("svg", { className: "animate-spin -ml-1 mr-2 h-4 w-4", fill: "none", viewBox: "0 0 24 24" }, /* @__PURE__ */ React32.createElement("circle", { className: "opacity-25", cx: "12", cy: "12", r: "10", stroke: "currentColor", strokeWidth: "4" }), /* @__PURE__ */ React32.createElement("path", { className: "opacity-75", fill: "currentColor", d: "M4 12a8 8 0 018-8v8H4z" })),
+      isActuallyLoading && /* @__PURE__ */ React33.createElement("svg", { className: "animate-spin -ml-1 mr-2 h-4 w-4 shrink-0", fill: "none", viewBox: "0 0 24 24" }, /* @__PURE__ */ React33.createElement("circle", { className: "opacity-25", cx: "12", cy: "12", r: "10", stroke: "currentColor", strokeWidth: "4" }), /* @__PURE__ */ React33.createElement("path", { className: "opacity-75", fill: "currentColor", d: "M4 12a8 8 0 018-8v8H4z" })),
       children
     );
   }
 );
 Button.displayName = "Button";
-var Input = React32.forwardRef(
-  ({ label, error, helperText, variable = "standard", className = "", id, ...props }, ref) => {
-    const inputId = id || React32.useId();
-    return /* @__PURE__ */ React32.createElement("div", { className: "w-full flex flex-col gap-1.5" }, label && /* @__PURE__ */ React32.createElement("label", { htmlFor: inputId, className: "text-sm font-medium text-[var(--atom-text-primary)]" }, label), /* @__PURE__ */ React32.createElement(
+var Input = React33.forwardRef(
+  ({ label, error, helperText, variable = "standard", status = "default", componentType, leftIcon, rightIcon, className = "", id, disabled, style, ...props }, ref) => {
+    const inputId = id || React33.useId();
+    const isActuallyDisabled = disabled || status === "disabled" || status === "loading";
+    const statusClass = status && status !== "default" ? `atom-status--${status}` : "";
+    const plMatch = className.match(/\bpl-([0-9]+)\b/);
+    const prMatch = className.match(/\bpr-([0-9]+)\b/);
+    const computedPaddingLeft = leftIcon ? "2.25rem" : plMatch ? `${Number(plMatch[1]) * 0.25}rem` : void 0;
+    const computedPaddingRight = rightIcon ? "2.25rem" : prMatch ? `${Number(prMatch[1]) * 0.25}rem` : void 0;
+    return /* @__PURE__ */ React33.createElement("div", { className: "w-full flex flex-col gap-1.5" }, label && /* @__PURE__ */ React33.createElement("label", { htmlFor: inputId, className: "text-sm font-medium text-[var(--atom-text-primary)]" }, label), /* @__PURE__ */ React33.createElement("div", { className: "relative w-full" }, leftIcon && /* @__PURE__ */ React33.createElement("div", { className: "absolute left-2.5 top-1/2 -translate-y-1/2 text-(--text-muted) pointer-events-none z-10 flex items-center justify-center" }, leftIcon), /* @__PURE__ */ React33.createElement(
       "input",
       {
         ref,
         id: inputId,
         "data-component": "input",
         "data-variable": variable,
-        "aria-invalid": !!error,
-        className: `atom-input ${error ? "atom-input-error" : ""} atom-input--${variable} ${className}`,
+        "data-status": status,
+        "data-type": componentType,
+        disabled: isActuallyDisabled,
+        "aria-disabled": isActuallyDisabled,
+        "aria-invalid": !!error || variable === "error",
+        style: {
+          ...computedPaddingLeft ? { paddingLeft: computedPaddingLeft } : {},
+          ...computedPaddingRight ? { paddingRight: computedPaddingRight } : {},
+          ...style
+        },
+        className: `atom-input ${error ? "atom-input-error" : ""} atom-input--${variable} ${statusClass} ${leftIcon ? "!pl-9" : ""} ${className}`,
         ...props
       }
-    ), error ? /* @__PURE__ */ React32.createElement("span", { className: "text-xs text-[var(--atom-destructive,#dc2626)]" }, error) : helperText ? /* @__PURE__ */ React32.createElement("span", { className: "text-xs text-[var(--atom-text-secondary,#8b95a1)]" }, helperText) : null);
+    ), rightIcon && /* @__PURE__ */ React33.createElement("div", { className: "absolute right-2.5 top-1/2 -translate-y-1/2 text-(--text-muted) z-10 flex items-center justify-center" }, rightIcon)), error ? /* @__PURE__ */ React33.createElement("span", { className: "text-xs text-[var(--atom-destructive,#dc2626)]" }, error) : helperText ? /* @__PURE__ */ React33.createElement("span", { className: "text-xs text-[var(--atom-text-secondary,#8b95a1)]" }, helperText) : null);
   }
 );
 Input.displayName = "Input";
-var Card = React32.forwardRef(
+var Card = React33.forwardRef(
   ({ interactive = false, variable = "elevated", className = "", children, ...props }, ref) => {
-    return /* @__PURE__ */ React32.createElement(
+    return /* @__PURE__ */ React33.createElement(
       "div",
       {
         ref,
@@ -9733,16 +9758,19 @@ var Card = React32.forwardRef(
   }
 );
 Card.displayName = "Card";
-var Badge = React32.forwardRef(
-  ({ variant = "neutral", variable, className = "", children, ...props }, ref) => {
+var Badge = React33.forwardRef(
+  ({ variant = "neutral", variable, status = "default", componentType, className = "", children, ...props }, ref) => {
     const activeVariable = variable || variant;
-    return /* @__PURE__ */ React32.createElement(
+    const statusClass = status && status !== "default" ? `atom-status--${status}` : "";
+    return /* @__PURE__ */ React33.createElement(
       "span",
       {
         ref,
         "data-component": "badge",
         "data-variable": activeVariable,
-        className: `atom-badge atom-badge-${variant} atom-badge--${activeVariable} ${className}`,
+        "data-status": status,
+        "data-type": componentType,
+        className: `atom-badge atom-badge-${variant} atom-badge--${activeVariable} ${statusClass} ${className}`,
         ...props
       },
       children
@@ -9750,9 +9778,9 @@ var Badge = React32.forwardRef(
   }
 );
 Badge.displayName = "Badge";
-var NativeSelect = React32.forwardRef(
+var NativeSelect = React33.forwardRef(
   ({ className = "", children, ...props }, ref) => {
-    return /* @__PURE__ */ React32.createElement(
+    return /* @__PURE__ */ React33.createElement(
       "select",
       {
         ref,
@@ -9764,15 +9792,15 @@ var NativeSelect = React32.forwardRef(
   }
 );
 NativeSelect.displayName = "NativeSelect";
-var Textarea = React32.forwardRef(
+var Textarea = React33.forwardRef(
   ({ maxLength, label, value, className = "", ...props }, ref) => {
     const currentLength = typeof value === "string" ? value.length : 0;
-    return /* @__PURE__ */ React32.createElement("div", { className: "atom-textarea-group" }, label && /* @__PURE__ */ React32.createElement("label", { className: "text-xs font-semibold text-neutral-600 dark:text-neutral-400" }, label), /* @__PURE__ */ React32.createElement("textarea", { ref, value, maxLength, className: `atom-textarea ${className}`, ...props }), maxLength && /* @__PURE__ */ React32.createElement("div", { className: "atom-textarea-counter" }, currentLength, " / ", maxLength, "\uC790"));
+    return /* @__PURE__ */ React33.createElement("div", { className: "atom-textarea-group" }, label && /* @__PURE__ */ React33.createElement("label", { className: "text-xs font-semibold text-neutral-600 dark:text-neutral-400" }, label), /* @__PURE__ */ React33.createElement("textarea", { ref, value, maxLength, className: `atom-textarea ${className}`, ...props }), maxLength && /* @__PURE__ */ React33.createElement("div", { className: "atom-textarea-counter" }, currentLength, " / ", maxLength, "\uC790"));
   }
 );
 Textarea.displayName = "Textarea";
-var Table = React32.forwardRef(
-  ({ className = "", children, ...props }, ref) => /* @__PURE__ */ React32.createElement("div", { className: "w-full overflow-auto rounded-(--radius) border border-(--border-subtle)" }, /* @__PURE__ */ React32.createElement(
+var Table = React33.forwardRef(
+  ({ className = "", children, ...props }, ref) => /* @__PURE__ */ React33.createElement("div", { className: "w-full overflow-auto rounded-(--radius) border border-(--border-subtle)" }, /* @__PURE__ */ React33.createElement(
     "table",
     {
       ref,
@@ -9783,7 +9811,7 @@ var Table = React32.forwardRef(
   ))
 );
 Table.displayName = "Table";
-var TableHeader = React32.forwardRef(({ className = "", children, ...props }, ref) => /* @__PURE__ */ React32.createElement(
+var TableHeader = React33.forwardRef(({ className = "", children, ...props }, ref) => /* @__PURE__ */ React33.createElement(
   "thead",
   {
     ref,
@@ -9793,7 +9821,7 @@ var TableHeader = React32.forwardRef(({ className = "", children, ...props }, re
   children
 ));
 TableHeader.displayName = "TableHeader";
-var TableBody = React32.forwardRef(({ className = "", children, ...props }, ref) => /* @__PURE__ */ React32.createElement(
+var TableBody = React33.forwardRef(({ className = "", children, ...props }, ref) => /* @__PURE__ */ React33.createElement(
   "tbody",
   {
     ref,
@@ -9803,7 +9831,7 @@ var TableBody = React32.forwardRef(({ className = "", children, ...props }, ref)
   children
 ));
 TableBody.displayName = "TableBody";
-var TableRow = React32.forwardRef(({ className = "", children, ...props }, ref) => /* @__PURE__ */ React32.createElement(
+var TableRow = React33.forwardRef(({ className = "", children, ...props }, ref) => /* @__PURE__ */ React33.createElement(
   "tr",
   {
     ref,
@@ -9813,7 +9841,7 @@ var TableRow = React32.forwardRef(({ className = "", children, ...props }, ref) 
   children
 ));
 TableRow.displayName = "TableRow";
-var TableHead = React32.forwardRef(({ className = "", children, ...props }, ref) => /* @__PURE__ */ React32.createElement(
+var TableHead = React33.forwardRef(({ className = "", children, ...props }, ref) => /* @__PURE__ */ React33.createElement(
   "th",
   {
     ref,
@@ -9823,7 +9851,7 @@ var TableHead = React32.forwardRef(({ className = "", children, ...props }, ref)
   children
 ));
 TableHead.displayName = "TableHead";
-var TableCell = React32.forwardRef(({ className = "", children, ...props }, ref) => /* @__PURE__ */ React32.createElement(
+var TableCell = React33.forwardRef(({ className = "", children, ...props }, ref) => /* @__PURE__ */ React33.createElement(
   "td",
   {
     ref,
@@ -9833,8 +9861,8 @@ var TableCell = React32.forwardRef(({ className = "", children, ...props }, ref)
   children
 ));
 TableCell.displayName = "TableCell";
-var TabsList = React32.forwardRef(
-  ({ className = "", children, ...props }, ref) => /* @__PURE__ */ React32.createElement(
+var TabsList = React33.forwardRef(
+  ({ className = "", children, ...props }, ref) => /* @__PURE__ */ React33.createElement(
     "div",
     {
       ref,
@@ -9845,8 +9873,8 @@ var TabsList = React32.forwardRef(
   )
 );
 TabsList.displayName = "TabsList";
-var TabsTrigger = React32.forwardRef(
-  ({ active = false, className = "", children, ...props }, ref) => /* @__PURE__ */ React32.createElement(
+var TabsTrigger = React33.forwardRef(
+  ({ active = false, className = "", children, ...props }, ref) => /* @__PURE__ */ React33.createElement(
     "button",
     {
       ref,
@@ -9858,10 +9886,10 @@ var TabsTrigger = React32.forwardRef(
   )
 );
 TabsTrigger.displayName = "TabsTrigger";
-var TabsContent = React32.forwardRef(
+var TabsContent = React33.forwardRef(
   ({ active = false, className = "", children, ...props }, ref) => {
     if (!active) return null;
-    return /* @__PURE__ */ React32.createElement(
+    return /* @__PURE__ */ React33.createElement(
       "div",
       {
         ref,
@@ -9873,7 +9901,7 @@ var TabsContent = React32.forwardRef(
   }
 );
 TabsContent.displayName = "TabsContent";
-var Navbar = React32.forwardRef(
+var Navbar = React33.forwardRef(
   ({
     sticky = false,
     bordered = true,
@@ -9885,7 +9913,7 @@ var Navbar = React32.forwardRef(
     children,
     ...props
   }, ref) => {
-    return /* @__PURE__ */ React32.createElement(
+    return /* @__PURE__ */ React33.createElement(
       "header",
       {
         ref,
@@ -9894,15 +9922,15 @@ var Navbar = React32.forwardRef(
         className: `atom-navbar atom-navbar--${variable} ${sticky ? "sticky top-0 z-40" : "relative"} ${bordered ? "border-b border-(--border-subtle)" : ""} ${blur ? "backdrop-blur-md bg-(--bg-primary)/95" : "bg-(--bg-primary)"} w-full transition-colors ${className}`,
         ...props
       },
-      /* @__PURE__ */ React32.createElement("div", { className: `max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between gap-4 ${innerClassName}` }, children),
+      /* @__PURE__ */ React33.createElement("div", { className: `max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between gap-4 ${innerClassName}` }, children),
       mobileMenu
     );
   }
 );
 Navbar.displayName = "Navbar";
-var NavbarBrand = React32.forwardRef(
+var NavbarBrand = React33.forwardRef(
   ({ href, className = "", children, ...props }, ref) => {
-    const content = /* @__PURE__ */ React32.createElement(
+    const content = /* @__PURE__ */ React33.createElement(
       "div",
       {
         ref,
@@ -9912,15 +9940,15 @@ var NavbarBrand = React32.forwardRef(
       children
     );
     if (href) {
-      return /* @__PURE__ */ React32.createElement("a", { href, className: "no-underline" }, content);
+      return /* @__PURE__ */ React33.createElement("a", { href, className: "no-underline" }, content);
     }
     return content;
   }
 );
 NavbarBrand.displayName = "NavbarBrand";
-var NavbarNav = React32.forwardRef(
+var NavbarNav = React33.forwardRef(
   ({ className = "", children, ...props }, ref) => {
-    return /* @__PURE__ */ React32.createElement(
+    return /* @__PURE__ */ React33.createElement(
       "div",
       {
         ref,
@@ -9932,9 +9960,9 @@ var NavbarNav = React32.forwardRef(
   }
 );
 NavbarNav.displayName = "NavbarNav";
-var NavbarLink = React32.forwardRef(
+var NavbarLink = React33.forwardRef(
   ({ active = false, className = "", children, ...props }, ref) => {
-    return /* @__PURE__ */ React32.createElement(
+    return /* @__PURE__ */ React33.createElement(
       "a",
       {
         ref,
@@ -9946,9 +9974,9 @@ var NavbarLink = React32.forwardRef(
   }
 );
 NavbarLink.displayName = "NavbarLink";
-var NavbarActions = React32.forwardRef(
+var NavbarActions = React33.forwardRef(
   ({ className = "", children, ...props }, ref) => {
-    return /* @__PURE__ */ React32.createElement(
+    return /* @__PURE__ */ React33.createElement(
       "div",
       {
         ref,
@@ -9960,9 +9988,9 @@ var NavbarActions = React32.forwardRef(
   }
 );
 NavbarActions.displayName = "NavbarActions";
-var NavbarToggle = React32.forwardRef(
+var NavbarToggle = React33.forwardRef(
   ({ isOpen = false, onToggle, className = "", ...props }, ref) => {
-    return /* @__PURE__ */ React32.createElement(
+    return /* @__PURE__ */ React33.createElement(
       "button",
       {
         ref,
@@ -9972,7 +10000,7 @@ var NavbarToggle = React32.forwardRef(
         className: `md:hidden p-2 rounded-(--radius-sm) text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary) transition ${className}`,
         ...props
       },
-      /* @__PURE__ */ React32.createElement(
+      /* @__PURE__ */ React33.createElement(
         "svg",
         {
           className: "w-5 h-5",
@@ -9980,13 +10008,13 @@ var NavbarToggle = React32.forwardRef(
           stroke: "currentColor",
           viewBox: "0 0 24 24"
         },
-        isOpen ? /* @__PURE__ */ React32.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "2", d: "M6 18L18 6M6 6l12 12" }) : /* @__PURE__ */ React32.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "2", d: "M4 6h16M4 12h16M4 18h16" })
+        isOpen ? /* @__PURE__ */ React33.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "2", d: "M6 18L18 6M6 6l12 12" }) : /* @__PURE__ */ React33.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "2", d: "M4 6h16M4 12h16M4 18h16" })
       )
     );
   }
 );
 NavbarToggle.displayName = "NavbarToggle";
-var Sidebar = React32.forwardRef(
+var Sidebar = React33.forwardRef(
   ({
     collapsed = false,
     variable = "default",
@@ -10001,7 +10029,7 @@ var Sidebar = React32.forwardRef(
   }, ref) => {
     const currentWidth = collapsed ? collapsedWidth : width;
     const activeVar = variant || variable;
-    return /* @__PURE__ */ React32.createElement(
+    return /* @__PURE__ */ React33.createElement(
       "aside",
       {
         ref,
@@ -10017,9 +10045,9 @@ var Sidebar = React32.forwardRef(
   }
 );
 Sidebar.displayName = "Sidebar";
-var SidebarHeader = React32.forwardRef(
+var SidebarHeader = React33.forwardRef(
   ({ className = "", children, ...props }, ref) => {
-    return /* @__PURE__ */ React32.createElement(
+    return /* @__PURE__ */ React33.createElement(
       "div",
       {
         ref,
@@ -10031,9 +10059,9 @@ var SidebarHeader = React32.forwardRef(
   }
 );
 SidebarHeader.displayName = "SidebarHeader";
-var SidebarContent = React32.forwardRef(
+var SidebarContent = React33.forwardRef(
   ({ className = "", children, ...props }, ref) => {
-    return /* @__PURE__ */ React32.createElement(
+    return /* @__PURE__ */ React33.createElement(
       "div",
       {
         ref,
@@ -10045,17 +10073,17 @@ var SidebarContent = React32.forwardRef(
   }
 );
 SidebarContent.displayName = "SidebarContent";
-var SidebarGroup = React32.forwardRef(
+var SidebarGroup = React33.forwardRef(
   ({ label, collapsible = false, defaultOpen = true, className = "", children, ...props }, ref) => {
-    const [isOpen, setIsOpen] = React32.useState(defaultOpen);
-    return /* @__PURE__ */ React32.createElement("div", { ref, "data-component": "sidebar-group", className: `space-y-1 ${className}`, ...props }, label && /* @__PURE__ */ React32.createElement(
+    const [isOpen, setIsOpen] = React33.useState(defaultOpen);
+    return /* @__PURE__ */ React33.createElement("div", { ref, "data-component": "sidebar-group", className: `space-y-1 ${className}`, ...props }, label && /* @__PURE__ */ React33.createElement(
       "div",
       {
         onClick: collapsible ? () => setIsOpen(!isOpen) : void 0,
         className: `px-3 py-1.5 text-[11px] font-mono font-bold uppercase tracking-wider text-(--text-muted) truncate flex items-center justify-between ${collapsible ? "cursor-pointer select-none hover:text-(--text-primary)" : ""}`
       },
-      /* @__PURE__ */ React32.createElement("span", null, label),
-      collapsible && /* @__PURE__ */ React32.createElement(
+      /* @__PURE__ */ React33.createElement("span", null, label),
+      collapsible && /* @__PURE__ */ React33.createElement(
         "svg",
         {
           className: `w-3.5 h-3.5 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`,
@@ -10064,15 +10092,15 @@ var SidebarGroup = React32.forwardRef(
           stroke: "currentColor",
           strokeWidth: 2
         },
-        /* @__PURE__ */ React32.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", d: "M9 5l7 7-7 7" })
+        /* @__PURE__ */ React33.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", d: "M9 5l7 7-7 7" })
       )
     ), (!collapsible || isOpen) && children);
   }
 );
 SidebarGroup.displayName = "SidebarGroup";
-var SidebarGroupLabel = React32.forwardRef(
+var SidebarGroupLabel = React33.forwardRef(
   ({ className = "", children, ...props }, ref) => {
-    return /* @__PURE__ */ React32.createElement(
+    return /* @__PURE__ */ React33.createElement(
       "div",
       {
         ref,
@@ -10084,26 +10112,26 @@ var SidebarGroupLabel = React32.forwardRef(
   }
 );
 SidebarGroupLabel.displayName = "SidebarGroupLabel";
-var SidebarMenu = React32.forwardRef(
+var SidebarMenu = React33.forwardRef(
   ({ className = "", children, ...props }, ref) => {
-    return /* @__PURE__ */ React32.createElement("ul", { ref, className: `space-y-0.5 list-none m-0 p-0 ${className}`, ...props }, children);
+    return /* @__PURE__ */ React33.createElement("ul", { ref, className: `space-y-0.5 list-none m-0 p-0 ${className}`, ...props }, children);
   }
 );
 SidebarMenu.displayName = "SidebarMenu";
-var SidebarMenuItem = React32.forwardRef(
+var SidebarMenuItem = React33.forwardRef(
   ({ active = false, icon, badge, label, className = "", children, ...props }, ref) => {
-    return /* @__PURE__ */ React32.createElement("li", { ref, "data-active": active, className: `list-none ${className}`, ...props }, children ? children : /* @__PURE__ */ React32.createElement(
+    return /* @__PURE__ */ React33.createElement("li", { ref, "data-active": active, className: `list-none ${className}`, ...props }, children ? children : /* @__PURE__ */ React33.createElement(
       "div",
       {
         className: `flex items-center justify-between px-3 py-2 rounded-(--radius-sm) text-xs sm:text-sm font-medium transition cursor-pointer select-none ${active ? "bg-(--accent-primary) text-(--bg-primary) font-semibold shadow-xs" : "text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary)"}`
       },
-      /* @__PURE__ */ React32.createElement("div", { className: "flex items-center gap-2.5 min-w-0" }, icon && /* @__PURE__ */ React32.createElement("span", { className: "shrink-0 w-4 h-4 flex items-center justify-center" }, icon), /* @__PURE__ */ React32.createElement("span", { className: "truncate" }, label)),
-      badge && /* @__PURE__ */ React32.createElement("span", { className: "shrink-0 ml-2" }, badge)
+      /* @__PURE__ */ React33.createElement("div", { className: "flex items-center gap-2.5 min-w-0" }, icon && /* @__PURE__ */ React33.createElement("span", { className: "shrink-0 w-4 h-4 flex items-center justify-center" }, icon), /* @__PURE__ */ React33.createElement("span", { className: "truncate" }, label)),
+      badge && /* @__PURE__ */ React33.createElement("span", { className: "shrink-0 ml-2" }, badge)
     ));
   }
 );
 SidebarMenuItem.displayName = "SidebarMenuItem";
-var SidebarMenuButton = React32.forwardRef(
+var SidebarMenuButton = React33.forwardRef(
   ({
     active = false,
     icon,
@@ -10113,7 +10141,7 @@ var SidebarMenuButton = React32.forwardRef(
     children,
     ...props
   }, ref) => {
-    return /* @__PURE__ */ React32.createElement(
+    return /* @__PURE__ */ React33.createElement(
       "button",
       {
         ref,
@@ -10123,15 +10151,15 @@ var SidebarMenuButton = React32.forwardRef(
         className: `w-full flex items-center gap-3 px-3 py-2 rounded-(--radius-sm) text-xs sm:text-sm font-medium transition cursor-pointer ${collapsed ? "justify-center px-2" : "justify-between"} ${active ? "bg-(--atom-color-primary,#3182f6) text-white font-semibold shadow-xs" : "text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-primary)"} ${className}`,
         ...props
       },
-      /* @__PURE__ */ React32.createElement("div", { className: "flex items-center gap-2.5 min-w-0" }, icon && /* @__PURE__ */ React32.createElement("span", { className: "shrink-0 w-4 h-4 flex items-center justify-center" }, icon), !collapsed && /* @__PURE__ */ React32.createElement("span", { className: "truncate" }, children)),
-      !collapsed && badge && /* @__PURE__ */ React32.createElement("span", { className: "shrink-0" }, badge)
+      /* @__PURE__ */ React33.createElement("div", { className: "flex items-center gap-2.5 min-w-0" }, icon && /* @__PURE__ */ React33.createElement("span", { className: "shrink-0 w-4 h-4 flex items-center justify-center" }, icon), !collapsed && /* @__PURE__ */ React33.createElement("span", { className: "truncate" }, children)),
+      !collapsed && badge && /* @__PURE__ */ React33.createElement("span", { className: "shrink-0" }, badge)
     );
   }
 );
 SidebarMenuButton.displayName = "SidebarMenuButton";
-var SidebarFooter = React32.forwardRef(
+var SidebarFooter = React33.forwardRef(
   ({ className = "", children, ...props }, ref) => {
-    return /* @__PURE__ */ React32.createElement(
+    return /* @__PURE__ */ React33.createElement(
       "div",
       {
         ref,
@@ -10143,9 +10171,9 @@ var SidebarFooter = React32.forwardRef(
   }
 );
 SidebarFooter.displayName = "SidebarFooter";
-var SidebarToggle = React32.forwardRef(
+var SidebarToggle = React33.forwardRef(
   ({ collapsed = false, onToggle, className = "", ...props }, ref) => {
-    return /* @__PURE__ */ React32.createElement(
+    return /* @__PURE__ */ React33.createElement(
       "button",
       {
         ref,
@@ -10155,7 +10183,7 @@ var SidebarToggle = React32.forwardRef(
         className: `p-1.5 rounded-(--radius-sm) text-(--text-muted) hover:text-(--text-primary) hover:bg-(--bg-secondary) transition ${className}`,
         ...props
       },
-      /* @__PURE__ */ React32.createElement(
+      /* @__PURE__ */ React33.createElement(
         "svg",
         {
           className: `w-4 h-4 transition-transform duration-200 ${collapsed ? "rotate-180" : ""}`,
@@ -10163,17 +10191,17 @@ var SidebarToggle = React32.forwardRef(
           stroke: "currentColor",
           viewBox: "0 0 24 24"
         },
-        /* @__PURE__ */ React32.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "2", d: "M11 19l-7-7 7-7m8 14l-7-7 7-7" })
+        /* @__PURE__ */ React33.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "2", d: "M11 19l-7-7 7-7m8 14l-7-7 7-7" })
       )
     );
   }
 );
 SidebarToggle.displayName = "SidebarToggle";
-var Checkbox = React32.forwardRef(
+var Checkbox = React33.forwardRef(
   ({ label, description, error, className = "", id, disabled, checked, onChange, ...props }, ref) => {
-    const generatedId = React32.useId();
+    const generatedId = React33.useId();
     const checkboxId = id || generatedId;
-    return /* @__PURE__ */ React32.createElement("div", { className: "flex items-start gap-2.5 select-none" }, /* @__PURE__ */ React32.createElement("div", { className: "relative flex items-center justify-center mt-0.5" }, /* @__PURE__ */ React32.createElement(
+    return /* @__PURE__ */ React33.createElement("div", { className: "flex items-start gap-2.5 select-none" }, /* @__PURE__ */ React33.createElement("div", { className: "relative flex items-center justify-center mt-0.5" }, /* @__PURE__ */ React33.createElement(
       "input",
       {
         ref,
@@ -10186,7 +10214,7 @@ var Checkbox = React32.forwardRef(
         className: ["peer appearance-none w-4 h-4 rounded-(--radius-sm) border border-(--border-strong) bg-(--bg-primary) checked:bg-(--accent-primary) checked:border-(--accent-primary) focus:outline-none focus:ring-2 focus:ring-(--accent-primary)/30 transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed", className].filter(Boolean).join(" "),
         ...props
       }
-    ), /* @__PURE__ */ React32.createElement(
+    ), /* @__PURE__ */ React33.createElement(
       "svg",
       {
         className: "pointer-events-none absolute w-2.5 h-2.5 text-white opacity-0 peer-checked:opacity-100 transition-opacity",
@@ -10195,24 +10223,24 @@ var Checkbox = React32.forwardRef(
         stroke: "currentColor",
         strokeWidth: 3
       },
-      /* @__PURE__ */ React32.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", d: "M4.5 12.75l6 6 9-13.5" })
-    )), (label || description || error) && /* @__PURE__ */ React32.createElement("div", { className: "flex flex-col gap-0.5 leading-none" }, label && /* @__PURE__ */ React32.createElement(
+      /* @__PURE__ */ React33.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", d: "M4.5 12.75l6 6 9-13.5" })
+    )), (label || description || error) && /* @__PURE__ */ React33.createElement("div", { className: "flex flex-col gap-0.5 leading-none" }, label && /* @__PURE__ */ React33.createElement(
       "label",
       {
         htmlFor: checkboxId,
         className: ["text-xs font-medium cursor-pointer", disabled ? "text-(--text-muted) cursor-not-allowed" : "text-(--text-primary)"].join(" ")
       },
       label
-    ), description && /* @__PURE__ */ React32.createElement("span", { className: "text-[11px] text-(--text-secondary)" }, description), error && /* @__PURE__ */ React32.createElement("span", { className: "text-[11px] text-(--atom-color-destructive)" }, error)));
+    ), description && /* @__PURE__ */ React33.createElement("span", { className: "text-[11px] text-(--text-secondary)" }, description), error && /* @__PURE__ */ React33.createElement("span", { className: "text-[11px] text-(--atom-color-destructive)" }, error)));
   }
 );
 Checkbox.displayName = "Checkbox";
-var NavContext = React32.createContext({
+var NavContext = React33.createContext({
   variant: "default",
   size: "md",
   orientation: "horizontal"
 });
-var Nav = React32.forwardRef(
+var Nav = React33.forwardRef(
   ({
     variant = "default",
     size = "md",
@@ -10227,7 +10255,7 @@ var Nav = React32.forwardRef(
     const isTabs = variant === "tabs";
     const containerStyle = isSegmented ? "p-1 rounded-(--radius) bg-(--bg-secondary)/80 border border-(--border-subtle)" : isPills ? "p-1.5 rounded-(--radius) bg-(--bg-secondary)/60 border border-(--border-subtle) flex-wrap" : isTabs ? "border-b border-(--border-subtle) gap-6" : "gap-1";
     const orientationStyle = orientation === "vertical" ? "flex-col" : "flex-row items-center";
-    return /* @__PURE__ */ React32.createElement(NavContext.Provider, { value: { variant, size, orientation } }, /* @__PURE__ */ React32.createElement(
+    return /* @__PURE__ */ React33.createElement(NavContext.Provider, { value: { variant, size, orientation } }, /* @__PURE__ */ React33.createElement(
       "nav",
       {
         ref,
@@ -10242,9 +10270,9 @@ var Nav = React32.forwardRef(
   }
 );
 Nav.displayName = "Nav";
-var NavItem = React32.forwardRef(
+var NavItem = React33.forwardRef(
   ({ active = false, className = "", children, ...props }, ref) => {
-    return /* @__PURE__ */ React32.createElement(
+    return /* @__PURE__ */ React33.createElement(
       "li",
       {
         ref,
@@ -10257,7 +10285,7 @@ var NavItem = React32.forwardRef(
   }
 );
 NavItem.displayName = "NavItem";
-var NavLink = React32.forwardRef(
+var NavLink = React33.forwardRef(
   ({
     active = false,
     disabled = false,
@@ -10270,7 +10298,7 @@ var NavLink = React32.forwardRef(
     children,
     ...props
   }, ref) => {
-    const context = React32.useContext(NavContext);
+    const context = React33.useContext(NavContext);
     const variant = overrideVariant || context.variant;
     const size = overrideSize || context.size;
     const sizeClasses = size === "sm" ? "text-xs px-2.5 py-1" : size === "lg" ? "text-base px-4 py-2.5" : "text-sm px-3 py-1.5";
@@ -10284,7 +10312,7 @@ var NavLink = React32.forwardRef(
     }
     const baseClasses = `inline-flex items-center gap-1.5 rounded-(--radius-sm) font-medium transition cursor-pointer select-none no-underline ${sizeClasses} ${variantClasses} ${disabled ? "opacity-50 pointer-events-none cursor-not-allowed" : ""} ${className}`;
     if (asButton) {
-      return /* @__PURE__ */ React32.createElement(
+      return /* @__PURE__ */ React33.createElement(
         "button",
         {
           ref,
@@ -10295,12 +10323,12 @@ var NavLink = React32.forwardRef(
           className: baseClasses,
           ...props
         },
-        icon && /* @__PURE__ */ React32.createElement("span", { className: "shrink-0" }, icon),
-        /* @__PURE__ */ React32.createElement("span", null, children),
-        badge && /* @__PURE__ */ React32.createElement("span", { className: "shrink-0 ml-1" }, badge)
+        icon && /* @__PURE__ */ React33.createElement("span", { className: "shrink-0" }, icon),
+        /* @__PURE__ */ React33.createElement("span", null, children),
+        badge && /* @__PURE__ */ React33.createElement("span", { className: "shrink-0 ml-1" }, badge)
       );
     }
-    return /* @__PURE__ */ React32.createElement(
+    return /* @__PURE__ */ React33.createElement(
       "a",
       {
         ref,
@@ -10309,14 +10337,14 @@ var NavLink = React32.forwardRef(
         className: baseClasses,
         ...props
       },
-      icon && /* @__PURE__ */ React32.createElement("span", { className: "shrink-0" }, icon),
-      /* @__PURE__ */ React32.createElement("span", null, children),
-      badge && /* @__PURE__ */ React32.createElement("span", { className: "shrink-0 ml-1" }, badge)
+      icon && /* @__PURE__ */ React33.createElement("span", { className: "shrink-0" }, icon),
+      /* @__PURE__ */ React33.createElement("span", null, children),
+      badge && /* @__PURE__ */ React33.createElement("span", { className: "shrink-0 ml-1" }, badge)
     );
   }
 );
 NavLink.displayName = "NavLink";
-var NavDropdownItem = React32.forwardRef(
+var NavDropdownItem = React33.forwardRef(
   ({
     active = false,
     icon,
@@ -10328,10 +10356,10 @@ var NavDropdownItem = React32.forwardRef(
     className = "",
     ...props
   }, ref) => {
-    const itemContent = /* @__PURE__ */ React32.createElement(React32.Fragment, null, icon && /* @__PURE__ */ React32.createElement("span", { className: "shrink-0 w-4 h-4 text-(--accent-primary) mt-0.5" }, icon), /* @__PURE__ */ React32.createElement("div", { className: "flex-1 min-w-0" }, /* @__PURE__ */ React32.createElement("div", { className: "flex items-center justify-between gap-2" }, /* @__PURE__ */ React32.createElement("span", { className: `text-xs font-semibold ${active ? "text-(--accent-primary)" : "text-(--text-primary)"}` }, title), badge && /* @__PURE__ */ React32.createElement("span", { className: "shrink-0" }, badge)), description && /* @__PURE__ */ React32.createElement("p", { className: "text-[11px] text-(--text-secondary) truncate mt-0.5 leading-snug" }, description)));
+    const itemContent = /* @__PURE__ */ React33.createElement(React33.Fragment, null, icon && /* @__PURE__ */ React33.createElement("span", { className: "shrink-0 w-4 h-4 text-(--accent-primary) mt-0.5" }, icon), /* @__PURE__ */ React33.createElement("div", { className: "flex-1 min-w-0" }, /* @__PURE__ */ React33.createElement("div", { className: "flex items-center justify-between gap-2" }, /* @__PURE__ */ React33.createElement("span", { className: `text-xs font-semibold ${active ? "text-(--accent-primary)" : "text-(--text-primary)"}` }, title), badge && /* @__PURE__ */ React33.createElement("span", { className: "shrink-0" }, badge)), description && /* @__PURE__ */ React33.createElement("p", { className: "text-[11px] text-(--text-secondary) truncate mt-0.5 leading-snug" }, description)));
     const baseClass = `w-full flex items-start gap-2.5 p-2 rounded-(--radius-sm) transition text-left cursor-pointer no-underline ${active ? "bg-(--accent-primary)/10 text-(--accent-primary)" : "hover:bg-(--bg-secondary) text-(--text-primary)"} ${className}`;
     if (asButton || as === "button") {
-      return /* @__PURE__ */ React32.createElement(
+      return /* @__PURE__ */ React33.createElement(
         "button",
         {
           ref,
@@ -10344,7 +10372,7 @@ var NavDropdownItem = React32.forwardRef(
       );
     }
     if (as === "div" || !props.href && as !== "a") {
-      return /* @__PURE__ */ React32.createElement(
+      return /* @__PURE__ */ React33.createElement(
         "div",
         {
           ref,
@@ -10355,7 +10383,7 @@ var NavDropdownItem = React32.forwardRef(
         itemContent
       );
     }
-    return /* @__PURE__ */ React32.createElement(
+    return /* @__PURE__ */ React33.createElement(
       "a",
       {
         ref,
@@ -10398,26 +10426,26 @@ function EnterpriseDashboardUseCase() {
   const getMetricIcon = (icon) => {
     switch (icon) {
       case "dollar":
-        return /* @__PURE__ */ React32.createElement(DollarSign, { className: "w-5 h-5 text-(--accent-primary)" });
+        return /* @__PURE__ */ React33.createElement(DollarSign, { className: "w-5 h-5 text-(--accent-primary)" });
       case "users":
-        return /* @__PURE__ */ React32.createElement(Users, { className: "w-5 h-5 text-(--accent-primary)" });
+        return /* @__PURE__ */ React33.createElement(Users, { className: "w-5 h-5 text-(--accent-primary)" });
       case "activity":
-        return /* @__PURE__ */ React32.createElement(Activity, { className: "w-5 h-5 text-(--accent-primary)" });
+        return /* @__PURE__ */ React33.createElement(Activity, { className: "w-5 h-5 text-(--accent-primary)" });
       case "card":
-        return /* @__PURE__ */ React32.createElement(CreditCard, { className: "w-5 h-5 text-(--accent-primary)" });
+        return /* @__PURE__ */ React33.createElement(CreditCard, { className: "w-5 h-5 text-(--accent-primary)" });
     }
   };
   const getStatusBadge = (status) => {
     switch (status) {
       case "active":
-        return /* @__PURE__ */ React32.createElement(Badge, { variant: "primary" }, "\uC644\uB8CC (Active)");
+        return /* @__PURE__ */ React33.createElement(Badge, { variant: "primary" }, "\uC644\uB8CC (Active)");
       case "pending":
-        return /* @__PURE__ */ React32.createElement(Badge, { variant: "neutral" }, "\uCC98\uB9AC\uC911 (Pending)");
+        return /* @__PURE__ */ React33.createElement(Badge, { variant: "neutral" }, "\uCC98\uB9AC\uC911 (Pending)");
       case "failed":
-        return /* @__PURE__ */ React32.createElement(Badge, { variant: "destructive" }, "\uC2E4\uD328 (Failed)");
+        return /* @__PURE__ */ React33.createElement(Badge, { variant: "destructive" }, "\uC2E4\uD328 (Failed)");
     }
   };
-  return /* @__PURE__ */ React32.createElement("div", { className: "w-full flex flex-col gap-(--space-6) animate-in fade-in" }, /* @__PURE__ */ React32.createElement("div", { className: "flex flex-col sm:flex-row sm:items-center justify-between gap-(--space-4) pb-(--space-4) border-b border-(--border-subtle)" }, /* @__PURE__ */ React32.createElement("div", null, /* @__PURE__ */ React32.createElement("div", { className: "flex items-center gap-(--space-2) mb-1" }, /* @__PURE__ */ React32.createElement("span", { className: "font-mono text-xs px-2 py-0.5 rounded-(--radius-sm) bg-(--bg-secondary) text-(--text-secondary) border border-(--border-subtle) flex items-center gap-1.5" }, /* @__PURE__ */ React32.createElement(Sparkles, { className: "w-3 h-3 text-(--accent-primary)" }), "AtomSystem UseCase #01"), /* @__PURE__ */ React32.createElement("span", { className: "text-xs font-mono text-(--text-muted)" }, "B2B SaaS")), /* @__PURE__ */ React32.createElement("h2", { className: "text-xl sm:text-2xl font-extrabold tracking-tight text-(--text-primary)" }, "\uC131\uACFC \uBD84\uC11D & \uACE0\uAC1D \uACB0\uC81C \uAD00\uB9AC \uB300\uC2DC\uBCF4\uB4DC"), /* @__PURE__ */ React32.createElement("p", { className: "text-xs sm:text-sm text-(--text-secondary) mt-0.5" }, "\uD1A0\uD070 \uB2E8\uC77C \uC9C4\uC2E4 \uACF5\uAE09\uC6D0(SSOT)\uACFC \uACE0\uC811\uADFC\uC131 \uC6D0\uC790 \uCEF4\uD3EC\uB10C\uD2B8\uB85C\uB9CC \uAD6C\uCD95\uB41C \uC644\uC131\uD615 \uC5D4\uD130\uD504\uB77C\uC774\uC988 \uC194\uB8E8\uC158")), /* @__PURE__ */ React32.createElement("div", { className: "flex items-center gap-(--space-2) shrink-0" }, /* @__PURE__ */ React32.createElement("div", { className: "bg-(--bg-secondary) p-1 rounded-(--radius) border border-(--border-subtle) flex items-center gap-1" }, ["7d", "30d", "90d", "1y"].map((r) => /* @__PURE__ */ React32.createElement(
+  return /* @__PURE__ */ React33.createElement("div", { className: "w-full flex flex-col gap-(--space-6) animate-in fade-in" }, /* @__PURE__ */ React33.createElement("div", { className: "flex flex-col sm:flex-row sm:items-center justify-between gap-(--space-4) pb-(--space-4) border-b border-(--border-subtle)" }, /* @__PURE__ */ React33.createElement("div", null, /* @__PURE__ */ React33.createElement("div", { className: "flex items-center gap-(--space-2) mb-1" }, /* @__PURE__ */ React33.createElement("span", { className: "font-mono text-xs px-2 py-0.5 rounded-(--radius-sm) bg-(--bg-secondary) text-(--text-secondary) border border-(--border-subtle) flex items-center gap-1.5" }, /* @__PURE__ */ React33.createElement(Sparkles, { className: "w-3 h-3 text-(--accent-primary)" }), "AtomSystem UseCase #01"), /* @__PURE__ */ React33.createElement("span", { className: "text-xs font-mono text-(--text-muted)" }, "B2B SaaS")), /* @__PURE__ */ React33.createElement("h2", { className: "text-xl sm:text-2xl font-extrabold tracking-tight text-(--text-primary)" }, "\uC131\uACFC \uBD84\uC11D & \uACE0\uAC1D \uACB0\uC81C \uAD00\uB9AC \uB300\uC2DC\uBCF4\uB4DC"), /* @__PURE__ */ React33.createElement("p", { className: "text-xs sm:text-sm text-(--text-secondary) mt-0.5" }, "\uD1A0\uD070 \uB2E8\uC77C \uC9C4\uC2E4 \uACF5\uAE09\uC6D0(SSOT)\uACFC \uACE0\uC811\uADFC\uC131 \uC6D0\uC790 \uCEF4\uD3EC\uB10C\uD2B8\uB85C\uB9CC \uAD6C\uCD95\uB41C \uC644\uC131\uD615 \uC5D4\uD130\uD504\uB77C\uC774\uC988 \uC194\uB8E8\uC158")), /* @__PURE__ */ React33.createElement("div", { className: "flex items-center gap-(--space-2) shrink-0" }, /* @__PURE__ */ React33.createElement("div", { className: "bg-(--bg-secondary) p-1 rounded-(--radius) border border-(--border-subtle) flex items-center gap-1" }, ["7d", "30d", "90d", "1y"].map((r) => /* @__PURE__ */ React33.createElement(
     Button,
     {
       key: r,
@@ -10427,7 +10455,7 @@ function EnterpriseDashboardUseCase() {
       className: `px-2.5 py-1 text-xs h-auto rounded-(--radius-sm) ${timeRange === r ? "font-semibold" : "text-(--text-muted) hover:text-(--text-primary)"}`
     },
     r === "7d" ? "7\uC77C" : r === "30d" ? "30\uC77C" : r === "90d" ? "3\uAC1C\uC6D4" : "1\uB144"
-  ))), /* @__PURE__ */ React32.createElement(
+  ))), /* @__PURE__ */ React33.createElement(
     Button,
     {
       variant: "outline",
@@ -10436,16 +10464,16 @@ function EnterpriseDashboardUseCase() {
       className: "flex items-center gap-1.5",
       disabled: isRefreshing
     },
-    /* @__PURE__ */ React32.createElement(RefreshCw, { className: `w-3.5 h-3.5 ${isRefreshing ? "animate-spin" : ""}` }),
-    /* @__PURE__ */ React32.createElement("span", null, "\uC0C8\uB85C\uACE0\uCE68")
-  ), /* @__PURE__ */ React32.createElement(Button, { variant: "primary", size: "sm", className: "flex items-center gap-1.5" }, /* @__PURE__ */ React32.createElement(Download, { className: "w-3.5 h-3.5" }), /* @__PURE__ */ React32.createElement("span", null, "CSV \uB0B4\uBCF4\uB0B4\uAE30")))), /* @__PURE__ */ React32.createElement("div", { className: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-(--space-4)" }, INITIAL_METRICS.map((kpi) => /* @__PURE__ */ React32.createElement(Card, { key: kpi.id, className: "p-(--space-5) bg-(--bg-primary) border border-(--border-subtle) rounded-(--radius)" }, /* @__PURE__ */ React32.createElement("div", { className: "flex items-center justify-between mb-3" }, /* @__PURE__ */ React32.createElement("span", { className: "text-xs font-medium text-(--text-secondary)" }, kpi.label), /* @__PURE__ */ React32.createElement("div", { className: "w-9 h-9 rounded-(--radius-sm) bg-(--bg-secondary) flex items-center justify-center border border-(--border-subtle)" }, getMetricIcon(kpi.icon))), /* @__PURE__ */ React32.createElement("div", { className: "text-2xl font-black tracking-tight text-(--text-primary) mb-1.5" }, kpi.value), /* @__PURE__ */ React32.createElement("div", { className: "flex items-center gap-1.5 text-xs" }, /* @__PURE__ */ React32.createElement(
+    /* @__PURE__ */ React33.createElement(RefreshCw, { className: `w-3.5 h-3.5 ${isRefreshing ? "animate-spin" : ""}` }),
+    /* @__PURE__ */ React33.createElement("span", null, "\uC0C8\uB85C\uACE0\uCE68")
+  ), /* @__PURE__ */ React33.createElement(Button, { variant: "primary", size: "sm", className: "flex items-center gap-1.5" }, /* @__PURE__ */ React33.createElement(Download, { className: "w-3.5 h-3.5" }), /* @__PURE__ */ React33.createElement("span", null, "CSV \uB0B4\uBCF4\uB0B4\uAE30")))), /* @__PURE__ */ React33.createElement("div", { className: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-(--space-4)" }, INITIAL_METRICS.map((kpi) => /* @__PURE__ */ React33.createElement(Card, { key: kpi.id, className: "p-(--space-5) bg-(--bg-primary) border border-(--border-subtle) rounded-(--radius)" }, /* @__PURE__ */ React33.createElement("div", { className: "flex items-center justify-between mb-3" }, /* @__PURE__ */ React33.createElement("span", { className: "text-xs font-medium text-(--text-secondary)" }, kpi.label), /* @__PURE__ */ React33.createElement("div", { className: "w-9 h-9 rounded-(--radius-sm) bg-(--bg-secondary) flex items-center justify-center border border-(--border-subtle)" }, getMetricIcon(kpi.icon))), /* @__PURE__ */ React33.createElement("div", { className: "text-2xl font-black tracking-tight text-(--text-primary) mb-1.5" }, kpi.value), /* @__PURE__ */ React33.createElement("div", { className: "flex items-center gap-1.5 text-xs" }, /* @__PURE__ */ React33.createElement(
     "span",
     {
       className: `font-semibold flex items-center gap-0.5 ${kpi.isPositive ? "text-(--atom-color-success) dark:text-(--atom-color-success)" : "text-(--atom-color-destructive) dark:text-(--atom-color-destructive)"}`
     },
-    kpi.isPositive ? /* @__PURE__ */ React32.createElement(TrendingUp, { className: "w-3.5 h-3.5" }) : /* @__PURE__ */ React32.createElement(TrendingDown, { className: "w-3.5 h-3.5" }),
+    kpi.isPositive ? /* @__PURE__ */ React33.createElement(TrendingUp, { className: "w-3.5 h-3.5" }) : /* @__PURE__ */ React33.createElement(TrendingDown, { className: "w-3.5 h-3.5" }),
     kpi.change
-  ), /* @__PURE__ */ React32.createElement("span", { className: "text-(--text-muted)" }, "\uC9C0\uB09C \uAE30\uAC04 \uB300\uBE44"))))), /* @__PURE__ */ React32.createElement(Card, { className: "p-(--space-5) bg-(--bg-primary) border border-(--border-subtle) rounded-(--radius) flex flex-col gap-(--space-4)" }, /* @__PURE__ */ React32.createElement("div", { className: "flex flex-col sm:flex-row sm:items-center justify-between gap-(--space-3)" }, /* @__PURE__ */ React32.createElement("div", { className: "flex items-center gap-(--space-2) flex-1 max-w-sm" }, /* @__PURE__ */ React32.createElement("div", { className: "relative w-full" }, /* @__PURE__ */ React32.createElement(Search, { className: "w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-(--text-muted)" }), /* @__PURE__ */ React32.createElement(
+  ), /* @__PURE__ */ React33.createElement("span", { className: "text-(--text-muted)" }, "\uC9C0\uB09C \uAE30\uAC04 \uB300\uBE44"))))), /* @__PURE__ */ React33.createElement(Card, { className: "p-(--space-5) bg-(--bg-primary) border border-(--border-subtle) rounded-(--radius) flex flex-col gap-(--space-4)" }, /* @__PURE__ */ React33.createElement("div", { className: "flex flex-col sm:flex-row sm:items-center justify-between gap-(--space-3)" }, /* @__PURE__ */ React33.createElement("div", { className: "flex items-center gap-(--space-2) flex-1 max-w-sm" }, /* @__PURE__ */ React33.createElement("div", { className: "relative w-full" }, /* @__PURE__ */ React33.createElement(Search, { className: "w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-(--text-muted)" }), /* @__PURE__ */ React33.createElement(
     Input,
     {
       type: "text",
@@ -10454,7 +10482,7 @@ function EnterpriseDashboardUseCase() {
       onChange: (e) => setSearchQuery(e.target.value),
       className: "w-full pl-9 pr-3 py-1.5 text-xs"
     }
-  ))), /* @__PURE__ */ React32.createElement("div", { className: "flex items-center gap-(--space-2)" }, /* @__PURE__ */ React32.createElement("span", { className: "text-xs text-(--text-secondary) font-medium flex items-center gap-1" }, /* @__PURE__ */ React32.createElement(Filter, { className: "w-3.5 h-3.5 text-(--text-muted)" }), "\uC0C1\uD0DC \uD544\uD130:"), /* @__PURE__ */ React32.createElement("div", { className: "flex items-center gap-1" }, ["all", "active", "pending", "failed"].map((st) => /* @__PURE__ */ React32.createElement(
+  ))), /* @__PURE__ */ React33.createElement("div", { className: "flex items-center gap-(--space-2)" }, /* @__PURE__ */ React33.createElement("span", { className: "text-xs text-(--text-secondary) font-medium flex items-center gap-1" }, /* @__PURE__ */ React33.createElement(Filter, { className: "w-3.5 h-3.5 text-(--text-muted)" }), "\uC0C1\uD0DC \uD544\uD130:"), /* @__PURE__ */ React33.createElement("div", { className: "flex items-center gap-1" }, ["all", "active", "pending", "failed"].map((st) => /* @__PURE__ */ React33.createElement(
     Button,
     {
       key: st,
@@ -10464,7 +10492,7 @@ function EnterpriseDashboardUseCase() {
       className: `px-2 py-1 text-xs h-auto rounded-(--radius-sm) ${statusFilter === st ? "font-semibold" : "text-(--text-secondary) hover:text-(--text-primary)"}`
     },
     st === "all" ? "\uC804\uCCB4" : st === "active" ? "\uC644\uB8CC" : st === "pending" ? "\uCC98\uB9AC\uC911" : "\uC2E4\uD328"
-  ))))), /* @__PURE__ */ React32.createElement("div", { className: "overflow-x-auto rounded-(--radius-sm) border border-(--border-subtle)" }, /* @__PURE__ */ React32.createElement(Table, { className: "w-full text-left text-xs" }, /* @__PURE__ */ React32.createElement(TableHeader, { className: "bg-(--bg-secondary)/50 border-b border-(--border-subtle)" }, /* @__PURE__ */ React32.createElement(TableRow, null, /* @__PURE__ */ React32.createElement(TableHead, { className: "p-3 font-semibold text-(--text-primary)" }, "\uAC70\uB798\uBC88\uD638 (ID)"), /* @__PURE__ */ React32.createElement(TableHead, { className: "p-3 font-semibold text-(--text-primary)" }, "\uACE0\uAC1D\uC0AC / \uC774\uBA54\uC77C"), /* @__PURE__ */ React32.createElement(TableHead, { className: "p-3 font-semibold text-(--text-primary)" }, "\uAD6C\uB3C5 \uD50C\uB79C"), /* @__PURE__ */ React32.createElement(TableHead, { className: "p-3 font-semibold text-(--text-primary)" }, "\uACB0\uC81C \uAE08\uC561"), /* @__PURE__ */ React32.createElement(TableHead, { className: "p-3 font-semibold text-(--text-primary)" }, "\uC0C1\uD0DC"), /* @__PURE__ */ React32.createElement(TableHead, { className: "p-3 font-semibold text-(--text-primary)" }, "\uACB0\uC81C \uC77C\uC2DC"), /* @__PURE__ */ React32.createElement(TableHead, { className: "p-3 font-semibold text-(--text-primary) text-right" }, "\uAD00\uB9AC"))), /* @__PURE__ */ React32.createElement(TableBody, { className: "divide-y divide-(--border-subtle)" }, filteredTransactions.length === 0 ? /* @__PURE__ */ React32.createElement(TableRow, null, /* @__PURE__ */ React32.createElement(TableCell, { colSpan: 7, className: "p-8 text-center text-(--text-muted)" }, "\uAC80\uC0C9 \uACB0\uACFC\uC640 \uC77C\uCE58\uD558\uB294 \uAC70\uB798 \uB0B4\uC5ED\uC774 \uC5C6\uC2B5\uB2C8\uB2E4.")) : filteredTransactions.map((tx) => /* @__PURE__ */ React32.createElement(TableRow, { key: tx.id, className: "hover:bg-(--bg-secondary)/40 transition-colors" }, /* @__PURE__ */ React32.createElement(TableCell, { className: "p-3 font-mono font-medium text-(--text-primary)" }, tx.id), /* @__PURE__ */ React32.createElement(TableCell, { className: "p-3" }, /* @__PURE__ */ React32.createElement("div", { className: "font-semibold text-(--text-primary)" }, tx.customer), /* @__PURE__ */ React32.createElement("div", { className: "text-[11px] text-(--text-muted)" }, tx.email)), /* @__PURE__ */ React32.createElement(TableCell, { className: "p-3 font-medium text-(--text-secondary)" }, tx.plan), /* @__PURE__ */ React32.createElement(TableCell, { className: "p-3 font-mono font-semibold text-(--text-primary)" }, tx.amount), /* @__PURE__ */ React32.createElement(TableCell, { className: "p-3" }, getStatusBadge(tx.status)), /* @__PURE__ */ React32.createElement(TableCell, { className: "p-3 text-(--text-secondary)" }, tx.date), /* @__PURE__ */ React32.createElement(TableCell, { className: "p-3 text-right" }, /* @__PURE__ */ React32.createElement(Button, { variant: "ghost", size: "sm", className: "text-xs h-7 px-2" }, "\uC0C1\uC138 \uC601\uC218\uC99D"))))))), /* @__PURE__ */ React32.createElement("div", { className: "flex items-center justify-between text-xs text-(--text-muted) pt-2" }, /* @__PURE__ */ React32.createElement("span", null, "\uCD1D ", filteredTransactions.length, "\uAC74\uC758 \uAC70\uB798 \uB0B4\uC5ED \uC870\uD68C\uB428"), /* @__PURE__ */ React32.createElement("span", { className: "font-mono" }, "W3C DTCG Token Reactive System"))));
+  ))))), /* @__PURE__ */ React33.createElement("div", { className: "overflow-x-auto rounded-(--radius-sm) border border-(--border-subtle)" }, /* @__PURE__ */ React33.createElement(Table, { className: "w-full text-left text-xs" }, /* @__PURE__ */ React33.createElement(TableHeader, { className: "bg-(--bg-secondary)/50 border-b border-(--border-subtle)" }, /* @__PURE__ */ React33.createElement(TableRow, null, /* @__PURE__ */ React33.createElement(TableHead, { className: "p-3 font-semibold text-(--text-primary)" }, "\uAC70\uB798\uBC88\uD638 (ID)"), /* @__PURE__ */ React33.createElement(TableHead, { className: "p-3 font-semibold text-(--text-primary)" }, "\uACE0\uAC1D\uC0AC / \uC774\uBA54\uC77C"), /* @__PURE__ */ React33.createElement(TableHead, { className: "p-3 font-semibold text-(--text-primary)" }, "\uAD6C\uB3C5 \uD50C\uB79C"), /* @__PURE__ */ React33.createElement(TableHead, { className: "p-3 font-semibold text-(--text-primary)" }, "\uACB0\uC81C \uAE08\uC561"), /* @__PURE__ */ React33.createElement(TableHead, { className: "p-3 font-semibold text-(--text-primary)" }, "\uC0C1\uD0DC"), /* @__PURE__ */ React33.createElement(TableHead, { className: "p-3 font-semibold text-(--text-primary)" }, "\uACB0\uC81C \uC77C\uC2DC"), /* @__PURE__ */ React33.createElement(TableHead, { className: "p-3 font-semibold text-(--text-primary) text-right" }, "\uAD00\uB9AC"))), /* @__PURE__ */ React33.createElement(TableBody, { className: "divide-y divide-(--border-subtle)" }, filteredTransactions.length === 0 ? /* @__PURE__ */ React33.createElement(TableRow, null, /* @__PURE__ */ React33.createElement(TableCell, { colSpan: 7, className: "p-8 text-center text-(--text-muted)" }, "\uAC80\uC0C9 \uACB0\uACFC\uC640 \uC77C\uCE58\uD558\uB294 \uAC70\uB798 \uB0B4\uC5ED\uC774 \uC5C6\uC2B5\uB2C8\uB2E4.")) : filteredTransactions.map((tx) => /* @__PURE__ */ React33.createElement(TableRow, { key: tx.id, className: "hover:bg-(--bg-secondary)/40 transition-colors" }, /* @__PURE__ */ React33.createElement(TableCell, { className: "p-3 font-mono font-medium text-(--text-primary)" }, tx.id), /* @__PURE__ */ React33.createElement(TableCell, { className: "p-3" }, /* @__PURE__ */ React33.createElement("div", { className: "font-semibold text-(--text-primary)" }, tx.customer), /* @__PURE__ */ React33.createElement("div", { className: "text-[11px] text-(--text-muted)" }, tx.email)), /* @__PURE__ */ React33.createElement(TableCell, { className: "p-3 font-medium text-(--text-secondary)" }, tx.plan), /* @__PURE__ */ React33.createElement(TableCell, { className: "p-3 font-mono font-semibold text-(--text-primary)" }, tx.amount), /* @__PURE__ */ React33.createElement(TableCell, { className: "p-3" }, getStatusBadge(tx.status)), /* @__PURE__ */ React33.createElement(TableCell, { className: "p-3 text-(--text-secondary)" }, tx.date), /* @__PURE__ */ React33.createElement(TableCell, { className: "p-3 text-right" }, /* @__PURE__ */ React33.createElement(Button, { variant: "ghost", size: "sm", className: "text-xs h-7 px-2" }, "\uC0C1\uC138 \uC601\uC218\uC99D"))))))), /* @__PURE__ */ React33.createElement("div", { className: "flex items-center justify-between text-xs text-(--text-muted) pt-2" }, /* @__PURE__ */ React33.createElement("span", null, "\uCD1D ", filteredTransactions.length, "\uAC74\uC758 \uAC70\uB798 \uB0B4\uC5ED \uC870\uD68C\uB428"), /* @__PURE__ */ React33.createElement("span", { className: "font-mono" }, "W3C DTCG Token Reactive System"))));
 }
 
 // src/index.ts

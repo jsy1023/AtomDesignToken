@@ -1358,7 +1358,8 @@ function main() {
   generateDesignMd();
   generateUxPatternMd();
   syncSkillMd();
-  generateUiComponents();
+  // DO NOT overwrite components/ui: Real components in components/ui/ are the source of truth!
+  // generateUiComponents();
   console.log('✨ All package distribution assets generated successfully!');
 }
 
