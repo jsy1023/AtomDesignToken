@@ -1583,15 +1583,21 @@ function LocalStudioContent() {
                         ⚡ <strong>[{inspectorStatusTab.toUpperCase()}]</strong> {locale === 'ko' ? '상태에 적용되는 디자인 토큰을 아래에서 수정하세요. 수정 즉시 스테이지 및 실제 코드/CSS에 실시간 반영됩니다.' : 'Modify tokens applied to this state below. Reflects in preview and CSS immediately.'}
                       </p>
                     </div>
+
+                    {/* Subheader: Property Count Badge pinned in header */}
+                    <div className="flex items-center justify-between text-xs font-bold text-(--text-secondary) pt-1 px-0.5">
+                      <span className="flex items-center gap-1.5">
+                        <Sliders className="w-3.5 h-3.5 text-(--accent-primary)" />
+                        <span>{locale === 'ko' ? `[${inspectorStatusTab.toUpperCase()}] 적용 토큰 속성` : `[${inspectorStatusTab.toUpperCase()}] Token Properties`}</span>
+                      </span>
+                      <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-(--bg-primary) border border-(--border-subtle) text-(--text-muted)">
+                        {currentStatusProps.length}{locale === 'ko' ? '개 속성' : ' properties'}
+                      </span>
+                    </div>
                   </div>
 
-                  {/* Status-specific Property Bindings List (Scrollable Area) */}
+                  {/* Status-specific Property Bindings List (Pure Scrollable Card Stream) */}
                   <div className="flex-1 min-h-0 overflow-y-auto p-4 sm:p-5 space-y-3.5 studio-scrollbar">
-                    <div className="flex items-center justify-between text-xs font-bold text-(--text-secondary) px-0.5 sticky top-0 bg-(--bg-secondary)/95 backdrop-blur-xs py-1 z-10">
-                      <span>{locale === 'ko' ? `[${inspectorStatusTab.toUpperCase()}] 적용 토큰 목록` : `[${inspectorStatusTab.toUpperCase()}] Token List`}</span>
-                      <span className="text-[11px] font-mono text-(--text-muted)">{currentStatusProps.length}{locale === 'ko' ? '개 속성' : ' properties'}</span>
-                    </div>
-
                     {currentStatusProps.map((prop) => {
                       // Fallback logic if token binding not explicitly set yet
                       let boundPaletteId = currentVariable?.tokenBindings[prop.key];
