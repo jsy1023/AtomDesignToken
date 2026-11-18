@@ -777,23 +777,43 @@ function LocalStudioContent() {
         <div className="flex-1 flex flex-col overflow-hidden">
           {/* ================= STUDIO GLOBAL TOP TOOLBAR (Pinned, Non-Breaking) ================= */}
           <header className="shrink-0 w-full bg-(--bg-primary) border-b border-(--border-subtle) px-4 sm:px-6 py-2.5 flex items-center justify-between gap-4 z-20 shadow-xs">
-            {/* Left: Studio Identity & Connection Status */}
-            <div className="flex items-center gap-3 min-w-0">
-              <div className="flex items-center gap-2 shrink-0">
-                <h1 className="text-sm sm:text-base font-extrabold tracking-tight text-(--text-primary) whitespace-nowrap">
-                  {t('title')}
-                </h1>
-                <span className="whitespace-nowrap font-mono text-[11px] px-2 py-0.5 rounded bg-(--atom-color-success)/10 text-(--atom-color-success) dark:text-(--atom-color-success) font-bold border border-(--atom-color-success)/20 flex items-center gap-1.5 shadow-xs">
-                  <span className="w-1.5 h-1.5 rounded-full bg-(--atom-color-success) inline-block" />
-                  {t('badgeConnected')}
-                </span>
-                <span className="whitespace-nowrap hidden lg:inline-block text-[11px] font-mono px-2 py-0.5 rounded bg-(--bg-secondary) text-(--text-secondary) border border-(--border-subtle)">
-                  {t('badgeFs')}
-                </span>
+            {/* Left: Studio View Switcher Dropdown & Connection Status */}
+            <div className="flex items-center gap-2.5 min-w-0">
+              {/* Studio View Dropdown Selector */}
+              <div className="flex items-center gap-2 px-2.5 py-1 rounded-(--radius-sm) bg-(--bg-secondary) border border-(--border-subtle) shadow-2xs">
+                <Sliders className="w-3.5 h-3.5 text-(--accent-primary) shrink-0" />
+                <NativeSelect
+                  value={activeTab}
+                  onChange={(e) => handleSelectTab(e.target.value as StudioTab)}
+                  className="text-xs sm:text-sm font-bold bg-transparent border-0 h-auto p-0 cursor-pointer text-(--text-primary) tracking-tight"
+                  aria-label="스튜디오 메뉴 선택"
+                >
+                  <option value="components">
+                    {locale === 'ko' ? '🧩 컴포넌트 스튜디오' : '🧩 Component Studio'}
+                  </option>
+                  <option value="themes">
+                    {locale === 'ko' ? '🎨 디자인 테마 스튜디오' : '🎨 Design Theme Studio'}
+                  </option>
+                  <option value="palette">
+                    {locale === 'ko' ? '🎛️ 팔레트 토큰 관리자' : '🎛️ Palette Manager'}
+                  </option>
+                  <option value="preview">
+                    {locale === 'ko' ? '📜 W3C JSON & CSS 내보내기' : '📜 W3C JSON & CSS Export'}
+                  </option>
+                  <option value="brand">
+                    {locale === 'ko' ? '🏢 브랜드 셋팅' : '🏢 Brand Settings'}
+                  </option>
+                </NativeSelect>
               </div>
-              <p className="text-xs text-(--text-secondary) truncate hidden xl:inline-block border-l border-(--border-subtle) pl-3">
-                {t('desc')}
-              </p>
+
+              {/* Status Badge */}
+              <span
+                className="whitespace-nowrap font-mono text-[11px] px-2 py-0.5 rounded bg-(--atom-color-success)/10 text-(--atom-color-success) font-semibold border border-(--atom-color-success)/20 flex items-center gap-1.5 shadow-2xs"
+                title="로컬 파일시스템 연동 (/studio)"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-(--atom-color-success) inline-block" />
+                <span>{locale === 'ko' ? '로컬 연결됨' : 'Connected'}</span>
+              </span>
             </div>
 
             {/* Right: Quick Tools & Project Save */}
