@@ -24,5 +24,5 @@ export const ATOM_UI_CSS_PATH = 'atomsystem/css/atom-ui.css';
 /**
  * CLI Banner & Metadata
  */
-export const ATOM_VERSION = '0.14.2';
+export const ATOM_VERSION = '0.14.3';
 export const ATOM_LIB_NAME = 'atomsystem';
