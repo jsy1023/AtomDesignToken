@@ -284,6 +284,32 @@ import { Toast } from '@/components/ui';
 - **Variants**: `info`, `success`, `warning`, `danger`, `action`
 - **Features**: W3C DTCG 시맨틱 토큰 1:1 결합, 시맨틱 아이콘 자동 설정, 실행 취소(Undo) 액션 슬롯, 자동 소멸(`duration`) 타이머, 0 Raw HTML(모든 액션 Button 캡슐화)
 
+### 20. Token Search Select (`components/ui/TokenSelect.tsx`)
+```tsx
+import { TokenSelect } from '@/components/ui';
+
+<TokenSelect
+  options={paletteVariables}
+  value={selectedTokenId}
+  onChange={(tokenId, tokenOption) => handleSelectToken(tokenId)}
+  placeholder="디자인 토큰 검색 및 선택..."
+  size="md" // "sm" | "md" | "lg"
+  variant="outlined" // "outlined" | "filled" | "subtle"
+  showColorSwatch={true}
+  showVarId={true}
+  showValueBadge={true}
+/>
+```
+- **Type**: `outlined`, `filled`, `subtle`
+- **Variable**: `size` (`sm`, `md`, `lg`), `showColorSwatch`, `showVarId`, `showValueBadge`
+- **Status**: `default`, `hover`, `focus`, `open`, `disabled`
+- **Features**:
+  - 실시간 토큰 검색창 (토큰명, var ID, HEX/단위값, 컬러 패밀리 검색)
+  - 패밀리/카테고리 원클릭 퀵 필터 칩 (`전체`, `blue`, `gray`, `emerald`, `status` 등)
+  - 실시간 색상 스와치 및 CSS Var ID (`var(--atom-...)`), HEX/px 배지 렌더링
+  - 키보드 접근성 (`Escape` 닫기, `Enter` 선택, 외부 클릭 자동 닫힘)
+  - 0 Raw HTML (모든 컨트롤 `@/components/ui/Input`, `@/components/ui/Badge` 캡슐화)
+
 ---
 
 ## 🚫 원시 태그 금지 강제 규칙 (Zero-Raw-HTML-Tags Enforcement)

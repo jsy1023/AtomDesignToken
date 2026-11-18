@@ -9,6 +9,7 @@ import {
   Badge,
   Card,
   NativeSelect,
+  TokenSelect,
 } from '@/components/ui';
 import { StudioTheme, ThemeCategory, ThemePaletteBindings } from '@/lib/data/themeData';
 import { PaletteVariable, INITIAL_PALETTE_VARIABLES } from '@/lib/data/studioData';
@@ -774,35 +775,22 @@ export function StudioThemeManager({
                     <label className="text-[11px] text-(--text-secondary) font-medium block">
                       {locale === 'ko' ? '프라이머리 액션 컬러' : 'Primary Action Color'}
                     </label>
-                    <div className="flex items-center gap-2">
-                      <span
-                        style={{ backgroundColor: formPrimary }}
-                        className="w-7 h-7 rounded border border-(--border-subtle) shrink-0 shadow-xs"
-                        title={formPrimary}
-                      />
-                      <NativeSelect
-                        value={formPrimaryPalId}
-                        onChange={(e) => {
-                          const pId = e.target.value;
-                          setFormPrimaryPalId(pId);
-                          // Auto recommend hover & subtle light if standard color family
-                          const pal = findPaletteById(pId);
-                          if (pal?.family && pal.family !== 'neutral' && pal.family !== 'status') {
-                            const hoverMatch = colorPalettes.find((p) => p.family === pal.family && p.id.endsWith('-600'));
-                            const lightMatch = colorPalettes.find((p) => p.family === pal.family && p.id.endsWith('-50'));
-                            if (hoverMatch) setFormPrimaryHoverPalId(hoverMatch.id);
-                            if (lightMatch) setFormPrimaryLightPalId(lightMatch.id);
-                          }
-                        }}
-                        className="w-full text-xs font-mono"
-                      >
-                        {colorPalettes.map((p) => (
-                          <option key={p.id} value={p.id}>
-                            {p.name} ({p.value})
-                          </option>
-                        ))}
-                      </NativeSelect>
-                    </div>
+                    <TokenSelect
+                      options={colorPalettes}
+                      value={formPrimaryPalId}
+                      onChange={(pId) => {
+                        setFormPrimaryPalId(pId);
+                        // Auto recommend hover & subtle light if standard color family
+                        const pal = findPaletteById(pId);
+                        if (pal?.family && pal.family !== 'neutral' && pal.family !== 'status') {
+                          const hoverMatch = colorPalettes.find((p) => p.family === pal.family && p.id.endsWith('-600'));
+                          const lightMatch = colorPalettes.find((p) => p.family === pal.family && p.id.endsWith('-50'));
+                          if (hoverMatch) setFormPrimaryHoverPalId(hoverMatch.id);
+                          if (lightMatch) setFormPrimaryLightPalId(lightMatch.id);
+                        }
+                      }}
+                      className="w-full"
+                    />
                     <span className="text-[10px] font-mono text-(--text-muted) block truncate">
                       var({formPrimaryPalId})
                     </span>
@@ -813,24 +801,12 @@ export function StudioThemeManager({
                     <label className="text-[11px] text-(--text-secondary) font-medium block">
                       {locale === 'ko' ? '호버 상태 배경' : 'Primary Hover State'}
                     </label>
-                    <div className="flex items-center gap-2">
-                      <span
-                        style={{ backgroundColor: formPrimaryHover }}
-                        className="w-7 h-7 rounded border border-(--border-subtle) shrink-0 shadow-xs"
-                        title={formPrimaryHover}
-                      />
-                      <NativeSelect
-                        value={formPrimaryHoverPalId}
-                        onChange={(e) => setFormPrimaryHoverPalId(e.target.value)}
-                        className="w-full text-xs font-mono"
-                      >
-                        {colorPalettes.map((p) => (
-                          <option key={p.id} value={p.id}>
-                            {p.name} ({p.value})
-                          </option>
-                        ))}
-                      </NativeSelect>
-                    </div>
+                    <TokenSelect
+                      options={colorPalettes}
+                      value={formPrimaryHoverPalId}
+                      onChange={(pId) => setFormPrimaryHoverPalId(pId)}
+                      className="w-full"
+                    />
                     <span className="text-[10px] font-mono text-(--text-muted) block truncate">
                       var({formPrimaryHoverPalId})
                     </span>
@@ -841,24 +817,12 @@ export function StudioThemeManager({
                     <label className="text-[11px] text-(--text-secondary) font-medium block">
                       {locale === 'ko' ? '은은한 틴트 배경/태그' : 'Primary Subtle Light'}
                     </label>
-                    <div className="flex items-center gap-2">
-                      <span
-                        style={{ backgroundColor: formPrimaryLight }}
-                        className="w-7 h-7 rounded border border-(--border-subtle) shrink-0 shadow-xs"
-                        title={formPrimaryLight}
-                      />
-                      <NativeSelect
-                        value={formPrimaryLightPalId}
-                        onChange={(e) => setFormPrimaryLightPalId(e.target.value)}
-                        className="w-full text-xs font-mono"
-                      >
-                        {colorPalettes.map((p) => (
-                          <option key={p.id} value={p.id}>
-                            {p.name} ({p.value})
-                          </option>
-                        ))}
-                      </NativeSelect>
-                    </div>
+                    <TokenSelect
+                      options={colorPalettes}
+                      value={formPrimaryLightPalId}
+                      onChange={(pId) => setFormPrimaryLightPalId(pId)}
+                      className="w-full"
+                    />
                     <span className="text-[10px] font-mono text-(--text-muted) block truncate">
                       var({formPrimaryLightPalId})
                     </span>
@@ -884,34 +848,21 @@ export function StudioThemeManager({
                     <label className="text-[11px] text-(--text-secondary) font-medium block">
                       {locale === 'ko' ? '세컨더리 액션 컬러' : 'Secondary Action Color'}
                     </label>
-                    <div className="flex items-center gap-2">
-                      <span
-                        style={{ backgroundColor: formSecondary }}
-                        className="w-7 h-7 rounded border border-(--border-subtle) shrink-0 shadow-xs"
-                        title={formSecondary}
-                      />
-                      <NativeSelect
-                        value={formSecondaryPalId}
-                        onChange={(e) => {
-                          const pId = e.target.value;
-                          setFormSecondaryPalId(pId);
-                          const pal = findPaletteById(pId);
-                          if (pal?.family) {
-                            const hoverMatch = colorPalettes.find((p) => p.family === pal.family && (p.id.endsWith('-300') || p.id.endsWith('-600')));
-                            const lightMatch = colorPalettes.find((p) => p.family === pal.family && (p.id.endsWith('-50') || p.id.endsWith('-100')));
-                            if (hoverMatch) setFormSecondaryHoverPalId(hoverMatch.id);
-                            if (lightMatch) setFormSecondaryLightPalId(lightMatch.id);
-                          }
-                        }}
-                        className="w-full text-xs font-mono"
-                      >
-                        {colorPalettes.map((p) => (
-                          <option key={p.id} value={p.id}>
-                            {p.name} ({p.value})
-                          </option>
-                        ))}
-                      </NativeSelect>
-                    </div>
+                    <TokenSelect
+                      options={colorPalettes}
+                      value={formSecondaryPalId}
+                      onChange={(pId) => {
+                        setFormSecondaryPalId(pId);
+                        const pal = findPaletteById(pId);
+                        if (pal?.family) {
+                          const hoverMatch = colorPalettes.find((p) => p.family === pal.family && (p.id.endsWith('-300') || p.id.endsWith('-600')));
+                          const lightMatch = colorPalettes.find((p) => p.family === pal.family && (p.id.endsWith('-50') || p.id.endsWith('-100')));
+                          if (hoverMatch) setFormSecondaryHoverPalId(hoverMatch.id);
+                          if (lightMatch) setFormSecondaryLightPalId(lightMatch.id);
+                        }
+                      }}
+                      className="w-full"
+                    />
                     <span className="text-[10px] font-mono text-(--text-muted) block truncate">
                       var({formSecondaryPalId})
                     </span>
@@ -922,24 +873,12 @@ export function StudioThemeManager({
                     <label className="text-[11px] text-(--text-secondary) font-medium block">
                       {locale === 'ko' ? '호버 상태 배경' : 'Secondary Hover State'}
                     </label>
-                    <div className="flex items-center gap-2">
-                      <span
-                        style={{ backgroundColor: formSecondaryHover }}
-                        className="w-7 h-7 rounded border border-(--border-subtle) shrink-0 shadow-xs"
-                        title={formSecondaryHover}
-                      />
-                      <NativeSelect
-                        value={formSecondaryHoverPalId}
-                        onChange={(e) => setFormSecondaryHoverPalId(e.target.value)}
-                        className="w-full text-xs font-mono"
-                      >
-                        {colorPalettes.map((p) => (
-                          <option key={p.id} value={p.id}>
-                            {p.name} ({p.value})
-                          </option>
-                        ))}
-                      </NativeSelect>
-                    </div>
+                    <TokenSelect
+                      options={colorPalettes}
+                      value={formSecondaryHoverPalId}
+                      onChange={(pId) => setFormSecondaryHoverPalId(pId)}
+                      className="w-full"
+                    />
                     <span className="text-[10px] font-mono text-(--text-muted) block truncate">
                       var({formSecondaryHoverPalId})
                     </span>
@@ -950,24 +889,12 @@ export function StudioThemeManager({
                     <label className="text-[11px] text-(--text-secondary) font-medium block">
                       {locale === 'ko' ? '은은한 틴트 배경/태그' : 'Secondary Subtle Light'}
                     </label>
-                    <div className="flex items-center gap-2">
-                      <span
-                        style={{ backgroundColor: formSecondaryLight }}
-                        className="w-7 h-7 rounded border border-(--border-subtle) shrink-0 shadow-xs"
-                        title={formSecondaryLight}
-                      />
-                      <NativeSelect
-                        value={formSecondaryLightPalId}
-                        onChange={(e) => setFormSecondaryLightPalId(e.target.value)}
-                        className="w-full text-xs font-mono"
-                      >
-                        {colorPalettes.map((p) => (
-                          <option key={p.id} value={p.id}>
-                            {p.name} ({p.value})
-                          </option>
-                        ))}
-                      </NativeSelect>
-                    </div>
+                    <TokenSelect
+                      options={colorPalettes}
+                      value={formSecondaryLightPalId}
+                      onChange={(pId) => setFormSecondaryLightPalId(pId)}
+                      className="w-full"
+                    />
                     <span className="text-[10px] font-mono text-(--text-muted) block truncate">
                       var({formSecondaryLightPalId})
                     </span>
@@ -988,24 +915,12 @@ export function StudioThemeManager({
                     <label className="text-[11px] text-(--text-secondary) font-medium block">
                       {locale === 'ko' ? '기본 배경 (Canvas)' : 'Background Primary (Canvas)'}
                     </label>
-                    <div className="flex items-center gap-2">
-                      <span
-                        style={{ backgroundColor: formBgPrimary }}
-                        className="w-7 h-7 rounded border border-(--border-subtle) shrink-0 shadow-xs"
-                        title={formBgPrimary}
-                      />
-                      <NativeSelect
-                        value={formBgPrimaryPalId}
-                        onChange={(e) => setFormBgPrimaryPalId(e.target.value)}
-                        className="w-full text-xs font-mono"
-                      >
-                        {colorPalettes.map((p) => (
-                          <option key={p.id} value={p.id}>
-                            {p.name} ({p.value})
-                          </option>
-                        ))}
-                      </NativeSelect>
-                    </div>
+                    <TokenSelect
+                      options={colorPalettes}
+                      value={formBgPrimaryPalId}
+                      onChange={(pId) => setFormBgPrimaryPalId(pId)}
+                      className="w-full"
+                    />
                     <span className="text-[10px] font-mono text-(--text-muted) block truncate">
                       var({formBgPrimaryPalId})
                     </span>
@@ -1016,24 +931,12 @@ export function StudioThemeManager({
                     <label className="text-[11px] text-(--text-secondary) font-medium block">
                       {locale === 'ko' ? '카드/서피스 보조 배경' : 'Background Secondary / Card'}
                     </label>
-                    <div className="flex items-center gap-2">
-                      <span
-                        style={{ backgroundColor: formBgSecondary }}
-                        className="w-7 h-7 rounded border border-(--border-subtle) shrink-0 shadow-xs"
-                        title={formBgSecondary}
-                      />
-                      <NativeSelect
-                        value={formBgSecondaryPalId}
-                        onChange={(e) => setFormBgSecondaryPalId(e.target.value)}
-                        className="w-full text-xs font-mono"
-                      >
-                        {colorPalettes.map((p) => (
-                          <option key={p.id} value={p.id}>
-                            {p.name} ({p.value})
-                          </option>
-                        ))}
-                      </NativeSelect>
-                    </div>
+                    <TokenSelect
+                      options={colorPalettes}
+                      value={formBgSecondaryPalId}
+                      onChange={(pId) => setFormBgSecondaryPalId(pId)}
+                      className="w-full"
+                    />
                     <span className="text-[10px] font-mono text-(--text-muted) block truncate">
                       var({formBgSecondaryPalId})
                     </span>
@@ -1044,24 +947,12 @@ export function StudioThemeManager({
                     <label className="text-[11px] text-(--text-secondary) font-medium block">
                       {locale === 'ko' ? '본문 주요 텍스트' : 'Text Primary (Headlines)'}
                     </label>
-                    <div className="flex items-center gap-2">
-                      <span
-                        style={{ backgroundColor: formTextPrimary }}
-                        className="w-7 h-7 rounded border border-(--border-subtle) shrink-0 shadow-xs"
-                        title={formTextPrimary}
-                      />
-                      <NativeSelect
-                        value={formTextPrimaryPalId}
-                        onChange={(e) => setFormTextPrimaryPalId(e.target.value)}
-                        className="w-full text-xs font-mono"
-                      >
-                        {colorPalettes.map((p) => (
-                          <option key={p.id} value={p.id}>
-                            {p.name} ({p.value})
-                          </option>
-                        ))}
-                      </NativeSelect>
-                    </div>
+                    <TokenSelect
+                      options={colorPalettes}
+                      value={formTextPrimaryPalId}
+                      onChange={(pId) => setFormTextPrimaryPalId(pId)}
+                      className="w-full"
+                    />
                     <span className="text-[10px] font-mono text-(--text-muted) block truncate">
                       var({formTextPrimaryPalId})
                     </span>
@@ -1072,24 +963,12 @@ export function StudioThemeManager({
                     <label className="text-[11px] text-(--text-secondary) font-medium block">
                       {locale === 'ko' ? '은은한 경계선 (Border Subtle)' : 'Border Subtle'}
                     </label>
-                    <div className="flex items-center gap-2">
-                      <span
-                        style={{ backgroundColor: formBorderSubtle }}
-                        className="w-7 h-7 rounded border border-(--border-subtle) shrink-0 shadow-xs"
-                        title={formBorderSubtle}
-                      />
-                      <NativeSelect
-                        value={formBorderSubtlePalId}
-                        onChange={(e) => setFormBorderSubtlePalId(e.target.value)}
-                        className="w-full text-xs font-mono"
-                      >
-                        {colorPalettes.map((p) => (
-                          <option key={p.id} value={p.id}>
-                            {p.name} ({p.value})
-                          </option>
-                        ))}
-                      </NativeSelect>
-                    </div>
+                    <TokenSelect
+                      options={colorPalettes}
+                      value={formBorderSubtlePalId}
+                      onChange={(pId) => setFormBorderSubtlePalId(pId)}
+                      className="w-full"
+                    />
                     <span className="text-[10px] font-mono text-(--text-muted) block truncate">
                       var({formBorderSubtlePalId})
                     </span>
@@ -1110,24 +989,15 @@ export function StudioThemeManager({
                     <label className="text-[11px] text-(--text-secondary) font-medium block">
                       {locale === 'ko' ? '성공 (Success)' : 'Success'}
                     </label>
-                    <div className="flex items-center gap-2">
-                      <span
-                        style={{ backgroundColor: formStatusSuccess }}
-                        className="w-7 h-7 rounded border border-(--border-subtle) shrink-0 shadow-xs"
-                        title={formStatusSuccess}
-                      />
-                      <NativeSelect
-                        value={formStatusSuccessPalId}
-                        onChange={(e) => setFormStatusSuccessPalId(e.target.value)}
-                        className="w-full text-xs font-mono"
-                      >
-                        {colorPalettes.map((p) => (
-                          <option key={p.id} value={p.id}>
-                            {p.name} ({p.value})
-                          </option>
-                        ))}
-                      </NativeSelect>
-                    </div>
+                    <TokenSelect
+                      options={colorPalettes}
+                      value={formStatusSuccessPalId}
+                      onChange={(pId) => setFormStatusSuccessPalId(pId)}
+                      className="w-full"
+                    />
+                    <span className="text-[10px] font-mono text-(--text-muted) block truncate">
+                      var({formStatusSuccessPalId})
+                    </span>
                   </div>
 
                   {/* Danger */}
@@ -1135,24 +1005,15 @@ export function StudioThemeManager({
                     <label className="text-[11px] text-(--text-secondary) font-medium block">
                       {locale === 'ko' ? '위험 (Danger / Destructive)' : 'Danger / Destructive'}
                     </label>
-                    <div className="flex items-center gap-2">
-                      <span
-                        style={{ backgroundColor: formStatusDanger }}
-                        className="w-7 h-7 rounded border border-(--border-subtle) shrink-0 shadow-xs"
-                        title={formStatusDanger}
-                      />
-                      <NativeSelect
-                        value={formStatusDangerPalId}
-                        onChange={(e) => setFormStatusDangerPalId(e.target.value)}
-                        className="w-full text-xs font-mono"
-                      >
-                        {colorPalettes.map((p) => (
-                          <option key={p.id} value={p.id}>
-                            {p.name} ({p.value})
-                          </option>
-                        ))}
-                      </NativeSelect>
-                    </div>
+                    <TokenSelect
+                      options={colorPalettes}
+                      value={formStatusDangerPalId}
+                      onChange={(pId) => setFormStatusDangerPalId(pId)}
+                      className="w-full"
+                    />
+                    <span className="text-[10px] font-mono text-(--text-muted) block truncate">
+                      var({formStatusDangerPalId})
+                    </span>
                   </div>
 
                   {/* Warning */}
@@ -1160,24 +1021,15 @@ export function StudioThemeManager({
                     <label className="text-[11px] text-(--text-secondary) font-medium block">
                       {locale === 'ko' ? '주의 (Warning)' : 'Warning'}
                     </label>
-                    <div className="flex items-center gap-2">
-                      <span
-                        style={{ backgroundColor: formStatusWarning }}
-                        className="w-7 h-7 rounded border border-(--border-subtle) shrink-0 shadow-xs"
-                        title={formStatusWarning}
-                      />
-                      <NativeSelect
-                        value={formStatusWarningPalId}
-                        onChange={(e) => setFormStatusWarningPalId(e.target.value)}
-                        className="w-full text-xs font-mono"
-                      >
-                        {colorPalettes.map((p) => (
-                          <option key={p.id} value={p.id}>
-                            {p.name} ({p.value})
-                          </option>
-                        ))}
-                      </NativeSelect>
-                    </div>
+                    <TokenSelect
+                      options={colorPalettes}
+                      value={formStatusWarningPalId}
+                      onChange={(pId) => setFormStatusWarningPalId(pId)}
+                      className="w-full"
+                    />
+                    <span className="text-[10px] font-mono text-(--text-muted) block truncate">
+                      var({formStatusWarningPalId})
+                    </span>
                   </div>
                 </div>
               </div>
