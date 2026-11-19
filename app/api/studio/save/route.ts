@@ -47,13 +47,21 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // 2. Save css/atom-ui.css if provided
+    // 2. Save css/atom-ui.css if provided (preserve Universal Component Classes)
     if (cssString && typeof cssString === 'string') {
       const cssDir = path.dirname(cssPath);
       if (!fs.existsSync(cssDir)) {
         fs.mkdirSync(cssDir, { recursive: true });
       }
-      fs.writeFileSync(cssPath, cssString, 'utf-8');
+      let fullCss = cssString;
+      if (fs.existsSync(cssPath) && !cssString.includes('/* === Universal Component Classes === */')) {
+        const existingCss = fs.readFileSync(cssPath, 'utf-8');
+        const splitIndex = existingCss.indexOf('/* === Universal Component Classes === */');
+        if (splitIndex !== -1) {
+          fullCss = `${cssString.trimEnd()}\n\n${existingCss.slice(splitIndex)}`;
+        }
+      }
+      fs.writeFileSync(cssPath, fullCss, 'utf-8');
     }
 
     return NextResponse.json({
