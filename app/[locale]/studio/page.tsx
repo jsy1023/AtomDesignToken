@@ -801,6 +801,19 @@ function LocalStudioContent() {
     currentComponent.properties
   );
 
+  const statusBanner = statusMessage ? (
+    <div
+      className={`p-3 rounded-(--radius) text-xs font-medium flex items-center gap-2 shrink-0 ${
+        saveSuccess
+          ? 'bg-(--atom-color-success)/10 text-(--atom-color-success) dark:text-(--atom-color-success) border border-(--atom-color-success)/20'
+          : 'bg-(--atom-color-destructive)/10 text-(--atom-color-destructive) dark:text-(--atom-color-destructive) border border-(--atom-color-destructive)/20'
+      }`}
+    >
+      <Sparkles className="w-4 h-4 shrink-0" />
+      <span>{statusMessage}</span>
+    </div>
+  ) : null;
+
   return (
     <div className="min-h-screen bg-(--bg-primary) text-(--text-primary) flex flex-col h-screen overflow-hidden">
       {/* 1. Global Navigation Header */}
@@ -988,90 +1001,44 @@ function LocalStudioContent() {
           {/* Unified Sidebar + Main Studio Layout (Independent Scrolling) */}
           <div className="flex-1 w-full flex flex-col md:flex-row overflow-hidden animate-in fade-in">
           {/* ================= LEFT SIDEBAR (Independent Scrollable Container) ================= */}
-          <aside className="w-full md:w-72 lg:w-80 shrink-0 border-r border-(--border-subtle) bg-(--bg-secondary)/30 flex flex-col h-full overflow-hidden">
-            {/* 1. Main Studio Mode Navigation Menu (Fixed Top in Sidebar) */}
-            <div className="shrink-0 p-4 border-b border-(--border-subtle)/60 space-y-1.5">
-              <span className="text-[11px] font-mono font-bold text-(--text-muted) uppercase tracking-wider block px-1">
-                {locale === 'ko' ? '스튜디오 메뉴' : 'Studio Menu'}
-              </span>
-              <div className="flex flex-col gap-1">
-                <Button
-                  variant={activeTab === 'components' ? 'primary' : 'ghost'}
-                  size="sm"
-                  onClick={() => handleSelectTab('components')}
-                  className={`w-full !justify-start text-left px-3 py-2 text-xs sm:text-sm font-semibold gap-2.5 ${
-                    activeTab === 'components'
-                      ? 'bg-(--text-primary) text-(--bg-primary)'
-                      : 'text-(--text-secondary) hover:text-(--text-primary)'
-                  }`}
-                >
-                  <Component className="w-4 h-4" />
-                  <span>{t('tabComponents')}</span>
-                </Button>
-
-                <Button
-                  variant={activeTab === 'themes' ? 'primary' : 'ghost'}
-                  size="sm"
-                  onClick={() => handleSelectTab('themes')}
-                  className={`w-full !justify-start text-left px-3 py-2 text-xs sm:text-sm font-semibold gap-2.5 ${
-                    activeTab === 'themes'
-                      ? 'bg-(--text-primary) text-(--bg-primary)'
-                      : 'text-(--text-secondary) hover:text-(--text-primary)'
-                  }`}
-                >
-                  <Sparkles className="w-4 h-4" />
-                  <span>{t('tabThemes')}</span>
-                </Button>
-
-                <Button
-                  variant={activeTab === 'palette' ? 'primary' : 'ghost'}
-                  size="sm"
-                  onClick={() => handleSelectTab('palette')}
-                  className={`w-full !justify-start text-left px-3 py-2 text-xs sm:text-sm font-semibold gap-2.5 ${
-                    activeTab === 'palette'
-                      ? 'bg-(--text-primary) text-(--bg-primary)'
-                      : 'text-(--text-secondary) hover:text-(--text-primary)'
-                  }`}
-                >
-                  <Palette className="w-4 h-4" />
-                  <span>{t('tabPalette')}</span>
-                </Button>
-
-                <Button
-                  variant={activeTab === 'preview' ? 'primary' : 'ghost'}
-                  size="sm"
-                  onClick={() => handleSelectTab('preview')}
-                  className={`w-full !justify-start text-left px-3 py-2 text-xs sm:text-sm font-semibold gap-2.5 ${
-                    activeTab === 'preview'
-                      ? 'bg-(--text-primary) text-(--bg-primary)'
-                      : 'text-(--text-secondary) hover:text-(--text-primary)'
-                  }`}
-                >
-                  <FileCode className="w-4 h-4" />
-                  <span>{t('tabJson')}</span>
-                </Button>
-
-                <Button
-                  variant={activeTab === 'brand' ? 'primary' : 'ghost'}
-                  size="sm"
-                  onClick={() => handleSelectTab('brand')}
-                  className={`w-full !justify-start text-left px-3 py-2 text-xs sm:text-sm font-semibold gap-2.5 ${
-                    activeTab === 'brand'
-                      ? 'bg-(--text-primary) text-(--bg-primary)'
-                      : 'text-(--text-secondary) hover:text-(--text-primary)'
-                  }`}
-                >
-                  <Building2 className="w-4 h-4" />
-                  <span>{t('tabBrand')}</span>
-                </Button>
-              </div>
+          <aside className="w-full md:w-64 lg:w-72 shrink-0 border-r border-(--border-subtle) bg-(--bg-secondary)/30 flex flex-col h-full overflow-hidden">
+            {/* 1. Compact 5-Column Segmented Studio Mode Menu (Reclaims Vertical Scroll Height) */}
+            <div className="shrink-0 grid grid-cols-5 gap-1 p-2 border-b border-(--border-subtle)/60 bg-(--bg-primary)/40">
+              {[
+                { id: 'components' as StudioTab, icon: Component, shortLabel: locale === 'ko' ? '컴포넌트' : 'UI', title: t('tabComponents') },
+                { id: 'themes' as StudioTab, icon: Sparkles, shortLabel: locale === 'ko' ? '테마' : 'Theme', title: t('tabThemes') },
+                { id: 'palette' as StudioTab, icon: Palette, shortLabel: locale === 'ko' ? '팔레트' : 'Tokens', title: t('tabPalette') },
+                { id: 'preview' as StudioTab, icon: FileCode, shortLabel: locale === 'ko' ? '코드' : 'Code', title: t('tabJson') },
+                { id: 'brand' as StudioTab, icon: Building2, shortLabel: locale === 'ko' ? '브랜드' : 'Brand', title: t('tabBrand') },
+              ].map((item) => {
+                const Icon = item.icon;
+                const isActive = activeTab === item.id;
+                return (
+                  <Button
+                    key={item.id}
+                    variant={isActive ? 'primary' : 'ghost'}
+                    size="sm"
+                    onClick={() => handleSelectTab(item.id)}
+                    title={item.title}
+                    aria-label={item.title}
+                    className={`flex-col items-center justify-center py-1.5 px-1 h-auto gap-0.5 text-[10px] font-semibold leading-tight rounded-(--radius-sm) ${
+                      isActive
+                        ? 'bg-(--text-primary) text-(--bg-primary) shadow-2xs'
+                        : 'text-(--text-secondary) hover:text-(--text-primary)'
+                    }`}
+                  >
+                    <Icon className="w-3.5 h-3.5 shrink-0" />
+                    <span className="truncate w-full text-center">{item.shortLabel}</span>
+                  </Button>
+                );
+              })}
             </div>
 
             {/* 2. UI Components Tree/List (Scrollable inside Left Sidebar only) */}
             {activeTab === 'components' && (
               <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
-                {/* Search & Category Filter (Fixed inside Component Section) */}
-                <div className="shrink-0 p-4 pb-2.5 space-y-2.5 border-b border-(--border-subtle)/30">
+                {/* Search & Category Filter (Compact Fixed Header) */}
+                <div className="shrink-0 p-2.5 pb-2 space-y-2 border-b border-(--border-subtle)/30">
                   <div className="flex items-center justify-between px-0.5">
                     <span className="text-xs font-mono font-bold text-(--text-secondary) uppercase tracking-wider flex items-center gap-1.5">
                       <Layers className="w-3.5 h-3.5 text-(--accent-primary)" />
@@ -1089,18 +1056,18 @@ function LocalStudioContent() {
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder={t('searchComponent')}
                     leftIcon={<Search className="w-3.5 h-3.5" />}
-                    className="w-full text-xs pr-3 py-1.5"
+                    className="w-full text-xs pr-3 py-1"
                   />
 
-                  {/* Category Filter Pills */}
+                  {/* Category Filter Pills (All 6 categories) */}
                   <div className="flex flex-wrap gap-1">
-                    {['all', 'Form', 'Layout', 'Feedback'].map((cat) => (
+                    {['all', 'Form', 'Layout', 'Navigation', 'Data', 'Feedback'].map((cat) => (
                       <Button
                         key={cat}
                         variant={categoryFilter === cat ? 'primary' : 'secondary'}
                         size="sm"
                         onClick={() => setCategoryFilter(cat)}
-                        className={`text-[10px] font-mono px-2 py-0.5 h-6 rounded cursor-pointer transition ${
+                        className={`text-[10px] font-mono px-1.5 py-0.5 h-5 rounded cursor-pointer transition ${
                           categoryFilter === cat
                             ? 'bg-(--accent-primary) text-(--bg-primary) font-semibold'
                             : 'bg-(--bg-secondary) text-(--text-secondary) hover:text-(--text-primary) border border-(--border-subtle)'
@@ -1109,7 +1076,17 @@ function LocalStudioContent() {
                         {cat === 'all'
                           ? t('categoryAll')
                           : locale === 'ko'
-                            ? (cat === 'Form' ? '폼' : cat === 'Layout' ? '레이아웃' : cat === 'Feedback' ? '피드백' : cat)
+                            ? (cat === 'Form'
+                                ? '폼'
+                                : cat === 'Layout'
+                                ? '레이아웃'
+                                : cat === 'Navigation'
+                                ? '네비게이션'
+                                : cat === 'Data'
+                                ? '데이터'
+                                : cat === 'Feedback'
+                                ? '피드백'
+                                : cat)
                             : cat}
                       </Button>
                     ))}
@@ -1117,7 +1094,7 @@ function LocalStudioContent() {
                 </div>
 
                 {/* Independent Scrollable Component Items */}
-                <div className="flex-1 overflow-y-auto p-4 space-y-1">
+                <div className="flex-1 min-h-0 overflow-y-auto px-2.5 py-2 space-y-0.5 studio-scrollbar">
                   {filteredComponents.map((comp) => {
                     const isSelected = comp.id === selectedComponentId;
                     return (
@@ -1126,7 +1103,7 @@ function LocalStudioContent() {
                         variant={isSelected ? 'primary' : 'ghost'}
                         size="sm"
                         onClick={() => handleSelectComponent(comp.id)}
-                        className={`w-full !justify-between text-left p-2.5 h-auto text-xs font-medium ${
+                        className={`w-full !justify-between text-left px-2.5 py-1.5 h-auto text-xs font-medium ${
                           isSelected
                             ? 'bg-(--text-primary) text-(--bg-primary) font-semibold shadow-xs'
                             : 'hover:bg-(--bg-secondary) text-(--text-primary)'
@@ -1146,8 +1123,8 @@ function LocalStudioContent() {
             {/* 3. Palette Left Sidebar Navigation (When Palette Tab is Active) */}
             {activeTab === 'palette' && (
               <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
-                <div className="shrink-0 p-4 pb-2.5 border-b border-(--border-subtle)/30">
-                  <span className="text-xs font-mono font-bold text-(--text-secondary) uppercase tracking-wider block mb-2">
+                <div className="shrink-0 p-2.5 pb-2 border-b border-(--border-subtle)/30">
+                  <span className="text-xs font-mono font-bold text-(--text-secondary) uppercase tracking-wider block mb-1.5">
                     팔레트 카테고리
                   </span>
                   <Input
@@ -1156,11 +1133,11 @@ function LocalStudioContent() {
                     onChange={(e) => setPaletteSearchQuery(e.target.value)}
                     placeholder="팔레트 검색..."
                     leftIcon={<Search className="w-3.5 h-3.5" />}
-                    className="w-full text-xs pr-3 py-1.5"
+                    className="w-full text-xs pr-3 py-1"
                   />
                 </div>
 
-                <div className="flex-1 overflow-y-auto p-4 space-y-1">
+                <div className="flex-1 min-h-0 overflow-y-auto px-2.5 py-2 space-y-0.5 studio-scrollbar">
                   {/* Category 0: Status Semantic Tokens */}
                   <Button
                     variant={paletteCategoryFilter === 'status' ? 'primary' : 'ghost'}
@@ -1310,27 +1287,15 @@ function LocalStudioContent() {
             )}
           </aside>
 
-          {/* ================= RIGHT MAIN WORKSPACE (Independent Scrollable Container) ================= */}
-          <main className="flex-1 h-full overflow-y-auto p-5 sm:p-7 flex flex-col gap-6">
-            {/* Status notification banner */}
-            {statusMessage && (
-              <div
-                className={`p-3 rounded-(--radius) text-xs font-medium flex items-center gap-2 shrink-0 ${
-                  saveSuccess
-                    ? 'bg-(--atom-color-success)/10 text-(--atom-color-success) dark:text-(--atom-color-success) border border-(--atom-color-success)/20'
-                    : 'bg-(--atom-color-destructive)/10 text-(--atom-color-destructive) dark:text-(--atom-color-destructive) border border-(--atom-color-destructive)/20'
-                }`}
-              >
-                <Sparkles className="w-4 h-4 shrink-0" />
-                <span>{statusMessage}</span>
-              </div>
-            )}
+          {/* ================= RIGHT MAIN WORKSPACE (Full-Height 3-Pane Split) ================= */}
+          {activeTab === 'components' ? (
+            <div className="flex-1 min-w-0 h-full flex flex-col lg:flex-row overflow-y-auto lg:overflow-hidden">
+              {/* Central Live Stage Pane (Independent Scrollable Area) */}
+              <main className="flex-1 min-w-0 lg:h-full lg:overflow-y-auto p-4 sm:p-6 studio-scrollbar flex flex-col gap-5">
+                {statusBanner}
 
-            {/* TAB 1: Component Studio (Stage & Token Inspector) */}
-            {activeTab === 'components' && (
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start pb-10">
-                {/* Central Stage: Stacked Repeated Live Stages for all Types (7 cols) */}
-                <div className="lg:col-span-7 min-w-0 flex flex-col gap-5">
+                {/* Stacked Repeated Live Stages for all Types */}
+                <div className="flex flex-col gap-5 pb-10">
                   {/* Top Header: Component Title */}
                   <div className="flex items-center justify-between gap-2 flex-wrap pb-1">
                     <div className="flex items-center gap-2">
@@ -1683,183 +1648,158 @@ function LocalStudioContent() {
                     </div>
                   </div>
                 </div>
+              </main>
 
-                {/* Right Panel: Status-Specific Token Binding Inspector (5 cols) */}
-                <div className="lg:col-span-5 min-w-0 sticky top-4 self-start max-h-[calc(100vh-6.5rem)] flex flex-col rounded-(--radius) bg-(--bg-secondary)/30 border border-(--border-subtle) shadow-xs overflow-hidden">
-                  {/* Sticky Top Header: Panel Title, Current Selection & Status Tabs */}
-                  <div className="p-4 sm:p-5 pb-3 shrink-0 flex flex-col gap-3 border-b border-(--border-subtle) bg-(--bg-secondary)/60 backdrop-blur-xs">
-                    {/* Panel Title & Current Selection */}
-                    <div className="flex items-start justify-between gap-2">
-                      <div className="min-w-0 flex-1">
-                        <h3 className="font-bold text-sm sm:text-base text-(--text-primary) flex items-center gap-1.5 whitespace-nowrap">
-                          <Sliders className="w-4 h-4 text-(--accent-primary) shrink-0" />
-                          <span className="truncate">{locale === 'ko' ? '토큰 바인딩 인스펙터' : 'Token Binding Inspector'}</span>
-                        </h3>
-                        <div className="flex items-center gap-2 mt-2 flex-wrap">
-                          <span className="text-xs font-semibold text-(--text-primary) whitespace-nowrap">
-                            {formatLocaleText(currentComponent.name, locale)}
-                          </span>
-                          <span className="text-[11px] font-mono px-1.5 py-0.5 rounded bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 font-bold border border-indigo-500/20 whitespace-nowrap">
-                            TYPE: {currentType?.name || 'Solid'}
-                          </span>
-                          
-                          {/* Interactive Value Switcher */}
-                          <div className="flex items-center gap-1.5">
-                            <span className="text-[10px] font-mono font-bold text-(--text-muted)">VALUE:</span>
-                            <NativeSelect
-                              value={currentVariable?.id}
-                              onChange={(e) => handleSelectVariable(e.target.value)}
-                              className="text-xs font-mono font-bold py-0.5 px-2 h-auto"
-                            >
-                              {currentComponent.variables.map((v) => (
-                                <option key={v.id} value={v.id}>
-                                  {formatLocaleText(v.name, locale)} ({v.id})
-                                </option>
-                              ))}
-                            </NativeSelect>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+              {/* Right Panel: Full-Height Status-Specific Token Binding Inspector */}
+              <aside className="w-full lg:w-[370px] xl:w-[410px] shrink-0 lg:h-full border-t lg:border-t-0 lg:border-l border-(--border-subtle) bg-(--bg-secondary)/25 flex flex-col overflow-hidden">
+                {/* Compact Fixed Top Header (Reclaims Vertical Scroll Height for Bindings) */}
+                <div className="p-3 sm:p-3.5 shrink-0 flex flex-col gap-2 border-b border-(--border-subtle) bg-(--bg-secondary)/60 backdrop-blur-xs">
+                  {/* Row 1: Panel Title + Status & Property Count Badge */}
+                  <div className="flex items-center justify-between gap-2">
+                    <h3 className="font-bold text-xs sm:text-sm text-(--text-primary) flex items-center gap-1.5 min-w-0">
+                      <Sliders className="w-3.5 h-3.5 text-(--accent-primary) shrink-0" />
+                      <span className="truncate">{locale === 'ko' ? '토큰 바인딩 인스펙터' : 'Token Binding Inspector'}</span>
+                    </h3>
+                    <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-(--accent-primary)/10 text-(--accent-primary) font-bold border border-(--accent-primary)/20 whitespace-nowrap shrink-0">
+                      [{inspectorStatusTab.toUpperCase()}] {currentStatusProps.length}{locale === 'ko' ? '개 속성' : ' props'}
+                    </span>
+                  </div>
 
-                    {/* Status Selection Bar for Editing (각 상태별 토큰값 수정) */}
-                    <div className="p-3 rounded-(--radius-sm) bg-(--bg-secondary)/40 border border-(--border-subtle) flex flex-col gap-2">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-1.5">
-                          <Sparkles className="w-3.5 h-3.5 text-(--accent-primary) shrink-0" />
-                          <span className="text-xs font-bold text-(--text-primary) whitespace-nowrap">
-                            {locale === 'ko' ? '수정할 상태 선택' : 'Select Status to Edit'}
-                          </span>
-                        </div>
-                        <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-(--accent-primary)/10 text-(--accent-primary) font-bold border border-(--accent-primary)/20 whitespace-nowrap">
-                          STATUS: {inspectorStatusTab.toUpperCase()}
-                        </span>
-                      </div>
-
-                      {/* Status Tabs */}
-                      <div className="grid grid-cols-3 gap-1.5 pt-0.5">
-                        {[
-                          { status: 'default', label: locale === 'ko' ? '기본' : 'Default' },
-                          { status: 'hover', label: locale === 'ko' ? '호버' : 'Hover' },
-                          { status: 'active', label: locale === 'ko' ? '클릭' : 'Active' },
-                          { status: 'focus', label: locale === 'ko' ? '포커스' : 'Focus' },
-                          { status: 'disabled', label: locale === 'ko' ? '비활성' : 'Disabled' },
-                          { status: 'all', label: locale === 'ko' ? '전체' : 'All' },
-                        ].map((item) => {
-                          const isCurrent = inspectorStatusTab === item.status;
-                          return (
-                            <Button
-                              key={item.status}
-                              variant={isCurrent ? 'primary' : 'secondary'}
-                              size="sm"
-                              onClick={() => handleSelectInspectorStatus(item.status as ComponentInteractiveStatus | 'all')}
-                              className={`text-xs py-1.5 px-2 h-auto font-semibold transition-all whitespace-nowrap text-center ${
-                                isCurrent
-                                  ? 'bg-(--accent-primary) text-(--bg-primary) shadow-xs font-bold'
-                                  : 'bg-(--bg-primary) hover:bg-(--bg-secondary) text-(--text-secondary) border border-(--border-subtle)'
-                              }`}
-                            >
-                              <span>{item.label}</span>
-                            </Button>
-                          );
-                        })}
-                      </div>
-
-                      <p className="text-[11px] text-(--text-secondary) leading-relaxed mt-0.5">
-                        ⚡ <strong>[{inspectorStatusTab.toUpperCase()}]</strong> {locale === 'ko' ? '상태에 적용되는 디자인 토큰을 아래에서 수정하세요. 수정 즉시 스테이지 및 실제 코드/CSS에 실시간 반영됩니다.' : 'Modify tokens applied to this state below. Reflects in preview and CSS immediately.'}
-                      </p>
-                    </div>
-
-                    {/* Subheader: Property Count Badge pinned in header */}
-                    <div className="flex items-center justify-between text-xs font-bold text-(--text-secondary) pt-1 px-0.5">
-                      <span className="flex items-center gap-1.5">
-                        <Sliders className="w-3.5 h-3.5 text-(--accent-primary)" />
-                        <span>{locale === 'ko' ? `[${inspectorStatusTab.toUpperCase()}] 적용 토큰 속성` : `[${inspectorStatusTab.toUpperCase()}] Token Properties`}</span>
-                      </span>
-                      <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-(--bg-primary) border border-(--border-subtle) text-(--text-muted)">
-                        {currentStatusProps.length}{locale === 'ko' ? '개 속성' : ' properties'}
-                      </span>
+                  {/* Row 2: Component Name + TYPE Badge + Inline VALUE Switcher */}
+                  <div className="flex items-center gap-1.5 flex-wrap">
+                    <span className="text-xs font-semibold text-(--text-primary) whitespace-nowrap">
+                      {formatLocaleText(currentComponent.name, locale)}
+                    </span>
+                    <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 font-bold border border-indigo-500/20 whitespace-nowrap">
+                      TYPE: {currentType?.name || 'Solid'}
+                    </span>
+                    <div className="flex items-center gap-1 ml-auto min-w-0">
+                      <span className="text-[10px] font-mono font-bold text-(--text-muted) shrink-0">VALUE:</span>
+                      <NativeSelect
+                        value={currentVariable?.id}
+                        onChange={(e) => handleSelectVariable(e.target.value)}
+                        className="text-[11px] font-mono font-bold py-0.5 px-1.5 h-auto max-w-[170px]"
+                        aria-label="VALUE"
+                      >
+                        {currentComponent.variables.map((v) => (
+                          <option key={v.id} value={v.id}>
+                            {formatLocaleText(v.name, locale)} ({v.id})
+                          </option>
+                        ))}
+                      </NativeSelect>
                     </div>
                   </div>
 
-                  {/* Status-specific Property Bindings List (Pure Scrollable Card Stream) */}
-                  <div className="flex-1 min-h-0 overflow-y-auto p-4 sm:p-5 space-y-3.5 studio-scrollbar">
-                    {currentStatusProps.map((prop) => {
-                      // Fallback logic if token binding not explicitly set yet
-                      let boundPaletteId = currentVariable?.tokenBindings[prop.key];
-                      if (!boundPaletteId) {
-                        if (prop.key === 'hoverBackground') {
-                          boundPaletteId = currentVariable?.tokenBindings.background ? `${currentVariable.tokenBindings.background}-hover` : prop.defaultPaletteId;
-                        } else if (prop.key === 'hoverTextColor') {
-                          boundPaletteId = currentVariable?.tokenBindings.textColor || prop.defaultPaletteId;
-                        } else if (prop.key === 'hoverBorderColor') {
-                          boundPaletteId = currentVariable?.tokenBindings.borderColor || prop.defaultPaletteId;
-                        } else if (prop.key === 'activeBackground') {
-                          boundPaletteId = currentVariable?.tokenBindings.hoverBackground || currentVariable?.tokenBindings.background || prop.defaultPaletteId;
-                        } else if (prop.key === 'focusBorderColor') {
-                          boundPaletteId = currentVariable?.tokenBindings.borderColor || '--atom-color-primary';
-                        } else if (prop.key === 'disabledBackground') {
-                          boundPaletteId = currentVariable?.tokenBindings.background || '--atom-palette-gray-200';
-                        } else if (prop.key === 'disabledTextColor') {
-                          boundPaletteId = currentVariable?.tokenBindings.textColor || '--atom-palette-gray-400';
-                        } else {
-                          boundPaletteId = prop.defaultPaletteId;
-                        }
-                      }
-
-                      const matchedPalette = paletteVariables.find((p) => p.id === boundPaletteId);
-                      const relevantPalettes = prop.category === 'color'
-                        ? paletteVariables.filter((p) => p.category === 'color' || p.category === 'status')
-                        : prop.category === 'spacing' || prop.category === 'size'
-                        ? paletteVariables.filter((p) => p.category === 'spacing' || p.category === 'size')
-                        : paletteVariables.filter((p) => p.category === prop.category);
-
+                  {/* Row 3: Compact Single-Row 6-Column Status Selector */}
+                  <div className="grid grid-cols-6 gap-1">
+                    {[
+                      { status: 'default', label: locale === 'ko' ? '기본' : 'Default' },
+                      { status: 'hover', label: locale === 'ko' ? '호버' : 'Hover' },
+                      { status: 'active', label: locale === 'ko' ? '클릭' : 'Active' },
+                      { status: 'focus', label: locale === 'ko' ? '포커스' : 'Focus' },
+                      { status: 'disabled', label: locale === 'ko' ? '비활성' : 'Disabled' },
+                      { status: 'all', label: locale === 'ko' ? '전체' : 'All' },
+                    ].map((item) => {
+                      const isCurrent = inspectorStatusTab === item.status;
                       return (
-                        <div key={prop.key} className="p-3 rounded-(--radius-sm) bg-(--bg-primary) border border-(--border-subtle) space-y-2 shadow-2xs">
-                          <div className="flex items-center justify-between text-xs">
-                            <span className="font-semibold text-(--text-primary) flex items-center gap-2">
-                              {prop.category === 'color' && (
-                                <span
-                                  style={{ backgroundColor: matchedPalette?.value || '#ccc' }}
-                                  className="w-4 h-4 rounded-full border border-(--border-subtle) shrink-0 shadow-2xs"
-                                />
-                              )}
-                              <span>{formatLocaleText(prop.label, locale)}</span>
-                            </span>
-                            <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-(--bg-secondary) text-(--accent-primary) border border-(--border-subtle) font-bold">
-                              var({boundPaletteId})
-                            </span>
-                          </div>
-
-                          {/* Palette Selector Dropdown with Token Search */}
-                          <div className="flex items-center gap-2 min-w-0">
-                            <TokenSelect
-                              options={relevantPalettes.map((pal) => ({
-                                id: pal.id,
-                                name: formatLocaleText(pal.name, locale),
-                                value: pal.value,
-                                category: pal.category,
-                                family: pal.family,
-                                description: pal.description,
-                              }))}
-                              value={boundPaletteId}
-                              onChange={(val) => handleUpdateBinding(prop.key, val)}
-                              placeholder={t('selectPalettePlaceholder')}
-                              size="sm"
-                              showColorSwatch={prop.category === 'color'}
-                              className="w-full"
-                            />
-                          </div>
-                        </div>
+                        <Button
+                          key={item.status}
+                          variant={isCurrent ? 'primary' : 'secondary'}
+                          size="sm"
+                          onClick={() => handleSelectInspectorStatus(item.status as ComponentInteractiveStatus | 'all')}
+                          className={`text-[11px] py-1 px-1 h-auto font-semibold transition-all whitespace-nowrap text-center ${
+                            isCurrent
+                              ? 'bg-(--accent-primary) text-(--bg-primary) shadow-xs font-bold'
+                              : 'bg-(--bg-primary) hover:bg-(--bg-secondary) text-(--text-secondary) border border-(--border-subtle)'
+                          }`}
+                        >
+                          <span>{item.label}</span>
+                        </Button>
                       );
                     })}
                   </div>
                 </div>
-              </div>
-            )}
 
-            {/* TAB: Design Theme Studio (Theme Presets & Custom Themes) */}
-            {activeTab === 'themes' && (
+                {/* Status-specific Property Bindings List (Expanded Full-Height Scrollable Stream) */}
+                <div className="flex-1 min-h-0 overflow-y-auto p-3 sm:p-3.5 pb-56 space-y-2.5 studio-scrollbar">
+                  {currentStatusProps.map((prop) => {
+                    // Fallback logic if token binding not explicitly set yet
+                    let boundPaletteId = currentVariable?.tokenBindings[prop.key];
+                    if (!boundPaletteId) {
+                      if (prop.key === 'hoverBackground') {
+                        boundPaletteId = currentVariable?.tokenBindings.background ? `${currentVariable.tokenBindings.background}-hover` : prop.defaultPaletteId;
+                      } else if (prop.key === 'hoverTextColor') {
+                        boundPaletteId = currentVariable?.tokenBindings.textColor || prop.defaultPaletteId;
+                      } else if (prop.key === 'hoverBorderColor') {
+                        boundPaletteId = currentVariable?.tokenBindings.borderColor || prop.defaultPaletteId;
+                      } else if (prop.key === 'activeBackground') {
+                        boundPaletteId = currentVariable?.tokenBindings.hoverBackground || currentVariable?.tokenBindings.background || prop.defaultPaletteId;
+                      } else if (prop.key === 'focusBorderColor') {
+                        boundPaletteId = currentVariable?.tokenBindings.borderColor || '--atom-color-primary';
+                      } else if (prop.key === 'disabledBackground') {
+                        boundPaletteId = currentVariable?.tokenBindings.background || '--atom-palette-gray-200';
+                      } else if (prop.key === 'disabledTextColor') {
+                        boundPaletteId = currentVariable?.tokenBindings.textColor || '--atom-palette-gray-400';
+                      } else {
+                        boundPaletteId = prop.defaultPaletteId;
+                      }
+                    }
+
+                    const matchedPalette = paletteVariables.find((p) => p.id === boundPaletteId);
+                    const relevantPalettes = prop.category === 'color'
+                      ? paletteVariables.filter((p) => p.category === 'color' || p.category === 'status')
+                      : prop.category === 'spacing' || prop.category === 'size'
+                      ? paletteVariables.filter((p) => p.category === 'spacing' || p.category === 'size')
+                      : paletteVariables.filter((p) => p.category === prop.category);
+
+                    return (
+                      <div key={prop.key} className="p-2.5 rounded-(--radius-sm) bg-(--bg-primary) border border-(--border-subtle) space-y-1.5 shadow-2xs">
+                        <div className="flex items-center justify-between gap-2 text-xs">
+                          <span className="font-semibold text-(--text-primary) flex items-center gap-2 min-w-0 truncate">
+                            {prop.category === 'color' && (
+                              <span
+                                style={{ backgroundColor: matchedPalette?.value || '#ccc' }}
+                                className="w-3.5 h-3.5 rounded-full border border-(--border-subtle) shrink-0 shadow-2xs"
+                              />
+                            )}
+                            <span className="truncate">{formatLocaleText(prop.label, locale)}</span>
+                          </span>
+                          <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-(--bg-secondary) text-(--accent-primary) border border-(--border-subtle) font-bold shrink-0">
+                            var({boundPaletteId})
+                          </span>
+                        </div>
+
+                        {/* Palette Selector Dropdown with Token Search */}
+                        <div className="flex items-center gap-2 min-w-0">
+                          <TokenSelect
+                            options={relevantPalettes.map((pal) => ({
+                              id: pal.id,
+                              name: formatLocaleText(pal.name, locale),
+                              value: pal.value,
+                              category: pal.category,
+                              family: pal.family,
+                              description: pal.description,
+                            }))}
+                            value={boundPaletteId}
+                            onChange={(val) => handleUpdateBinding(prop.key, val)}
+                            placeholder={t('selectPalettePlaceholder')}
+                            size="sm"
+                            showColorSwatch={prop.category === 'color'}
+                            className="w-full"
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </aside>
+            </div>
+          ) : (
+            <main className="flex-1 h-full overflow-y-auto p-5 sm:p-7 studio-scrollbar flex flex-col gap-6">
+              {statusBanner}
+
+              {/* TAB: Design Theme Studio (Theme Presets & Custom Themes) */}
+              {activeTab === 'themes' && (
               <StudioThemeManager
                 themes={themes}
                 activeThemeId={selectedThemeId}
@@ -2367,6 +2307,7 @@ function LocalStudioContent() {
               <StudioBrandSettings />
             )}
           </main>
+          )}
         </div>
       </div>
     )}
