@@ -1,8 +1,8 @@
-export { TOKEN_REPLACEMENTS, scanAndRefactorDirectory } from './chunk-CVOGJG4Z.js';
+export { AI_COMPONENT_SUBMISSION_TEMPLATE, COMPONENT_STATUS_PRESETS, DEFAULT_COMPONENT_TYPES, INITIAL_PALETTE_VARIABLES, INITIAL_SEMANTIC_STATUS_TOKENS, INITIAL_STUDIO_COMPONENTS, SEMANTIC_VARIABLE_DICTIONARY, STUDIO_CUSTOM_STYLES_END, STUDIO_CUSTOM_STYLES_START, TOKEN_REPLACEMENTS, buildAiComponentSubmissionPrompt, exportStudioCustomComponentStyles, exportStudioToCSS, exportStudioToTokensJson, getComponentStatusProperties, getComponentTypes, resolveStudioComponentId, resolveTypeSpec, resolveVariableRole, scanAndRefactorDirectory } from './chunk-R6RZT3NA.js';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import React33, { useState } from 'react';
-import { Sparkles, RefreshCw, Download, TrendingUp, TrendingDown, Search, Filter, CreditCard, Activity, Users, DollarSign } from 'lucide-react';
+import React34, { useState } from 'react';
+import { X, Bell, AlertCircle, AlertTriangle, CheckCircle2, Info, Sparkles, RefreshCw, Download, TrendingUp, TrendingDown, Search, Filter, CreditCard, Activity, Users, DollarSign } from 'lucide-react';
 
 // lib/data/tokens.ts
 var BRAND_PRESETS = [
@@ -1454,63 +1454,6 @@ export function TooltipDemo() {
 </template>`
   },
   {
-    id: "toast",
-    name: "\uD1A0\uC2A4\uD2B8 \uC54C\uB9BC (Toast & Notification)",
-    category: "feedback",
-    source: "sonner + shadcn",
-    description: "\uC791\uC5C5\uC758 \uC131\uACF5, \uC2E4\uD328, \uACBD\uACE0 \uBA54\uC2DC\uC9C0\uB97C \uC0AC\uC6A9\uC790 \uD654\uBA74 \uBAA8\uC11C\uB9AC\uC5D0 \uBE44\uAC04\uC12D\uC801(Non-intrusive)\uC73C\uB85C \uB744\uC6B0\uACE0 \uC790\uB3D9 \uC18C\uBA78\uC2DC\uD0A4\uB294 \uD1A0\uC2A4\uD2B8 \uC2A4\uB0B5\uBC14",
-    callout: {
-      type: "tip",
-      title: "\uC790\uB3D9 \uC18C\uBA78 \uC2DC\uAC04 \uBC0F \uC77C\uC2DC \uC815\uC9C0",
-      text: "\uAE30\uBCF8 3~4\uCD08 \uD6C4 \uC790\uB3D9 \uB2EB\uD798\uC744 \uC9C0\uC6D0\uD558\uB418, \uC0AC\uC6A9\uC790\uAC00 \uB9C8\uC6B0\uC2A4\uB97C \uC62C\uB9AC\uAC70\uB098 \uD130\uCE58 \uC911\uC77C \uB54C\uB294 \uD0C0\uC774\uBA38\uAC00 \uC77C\uC2DC \uC815\uC9C0\uB418\uC5B4 \uCDA9\uBD84\uD788 \uC77D\uC744 \uC2DC\uAC04\uC744 \uBCF4\uC7A5\uD558\uC138\uC694."
-    },
-    useCases: [
-      '\uD074\uB9BD\uBCF4\uB4DC \uBCF5\uC0AC \uC644\uB8CC ("\uB9C1\uD06C\uAC00 \uBCF5\uC0AC\uB418\uC5C8\uC2B5\uB2C8\uB2E4")',
-      "\uC124\uC815 \uC800\uC7A5 \uBC0F \uD504\uB85C\uD544 \uC218\uC815 \uC644\uB8CC \uD53C\uB4DC\uBC31",
-      "\uB124\uD2B8\uC6CC\uD06C \uC77C\uC2DC \uC624\uB958 \uB610\uB294 API \uC694\uCCAD \uC2E4\uD328 \uC2DC \uC7AC\uC2DC\uB3C4 \uC548\uB0B4",
-      '\uC7A5\uBC14\uAD6C\uB2C8 \uB2F4\uAE30 \uC644\uB8CC \uD6C4 "\uC7A5\uBC14\uAD6C\uB2C8 \uBC14\uB85C\uAC00\uAE30" \uC778\uB77C\uC778 \uC561\uC158 \uBC84\uD2BC \uC81C\uACF5'
-    ],
-    usagePatterns: [
-      "\uBAA8\uBC14\uC77C\uC5D0\uC11C\uB294 \uD654\uBA74 \uCD5C\uC0C1\uB2E8 \uB610\uB294 \uCD5C\uD558\uB2E8 \uC804\uCCB4 \uB108\uBE44\uB85C \uB178\uCD9C\uD558\uACE0, \uB370\uC2A4\uD06C\uD1B1\uC5D0\uC11C\uB294 \uC6B0\uCE21 \uC0C1\uB2E8/\uD558\uB2E8\uC5D0 \uCEF4\uD329\uD2B8\uD558\uAC8C \uBC30\uCE58\uD569\uB2C8\uB2E4.",
-      "\uB3D9\uC2DC\uC5D0 \uC5EC\uB7EC \uC54C\uB9BC\uC774 \uBC1C\uC0DD\uD560 \uACBD\uC6B0 \uCD5C\uB300 3\uAC1C\uAE4C\uC9C0 \uC2A4\uD0DD(Stacking)\uD558\uC5EC \uACB9\uCCD0 \uBCF4\uC5EC\uC8FC\uACE0 \uC624\uB798\uB41C \uC54C\uB9BC\uBD80\uD130 \uC21C\uCC28\uC801\uC73C\uB85C \uC81C\uAC70\uD569\uB2C8\uB2E4."
-    ],
-    dosAndDonts: [
-      {
-        do: "\uC131\uACF5\uC740 \uB179\uC0C9(Emerald), \uC5D0\uB7EC\uB294 \uC801\uC0C9(Rose), \uC815\uBCF4\uB294 \uCCAD\uC0C9(Blue)\uC73C\uB85C \uC0C1\uD0DC\uBCC4 \uC2DC\uBA58\uD2F1 \uC0C9\uC0C1\uC744 \uC9C1\uAD00\uC801\uC73C\uB85C \uBD80\uC5EC\uD569\uB2C8\uB2E4.",
-        dont: "\uC0AC\uC6A9\uC790\uAC00 \uC989\uC2DC \uD655\uC778\uD558\uACE0 \uACB0\uC815\uD574\uC57C \uD558\uB294 \uC911\uC694\uD55C \uD655\uC778 \uC808\uCC28(\uC608: \uACB0\uC81C \uC644\uB8CC \uD6C4 \uACC4\uC88C \uCC28\uAC10)\uC5D0 \uBAA8\uB2EC \uB300\uC2E0 \uD1A0\uC2A4\uD2B8\uB9CC \uC4F0\uACE0 \uB2EB\uD788\uAC8C \uB450\uC9C0 \uB9C8\uC138\uC694."
-      }
-    ],
-    relatedPatternIds: ["fintech-transfer", "ecommerce-checkout"],
-    propsSpec: [
-      { name: "message", type: "string", defaultValue: "''", description: "\uD1A0\uC2A4\uD2B8 \uBCF8\uBB38 \uBA54\uC2DC\uC9C0" },
-      { name: "type", type: "'success' | 'error' | 'info' | 'warning'", defaultValue: "'info'", description: "\uD1A0\uC2A4\uD2B8 \uC0C1\uD0DC \uC2DC\uBA58\uD2F1 \uC2A4\uD0C0\uC77C" },
-      { name: "duration", type: "number", defaultValue: "3000", description: "\uD654\uBA74\uC5D0 \uC720\uC9C0\uB420 \uBC00\uB9AC\uCD08 \uB2E8\uC704 \uC2DC\uAC04" }
-    ],
-    htmlSnippet: `<div class="atom-toast-container">
-  <div class="atom-toast atom-toast-success">
-    <span class="atom-toast-icon">\u2713</span>
-    <span class="atom-toast-message">\uC800\uC7A5\uC774 \uC644\uB8CC\uB418\uC5C8\uC2B5\uB2C8\uB2E4.</span>
-  </div>
-</div>`,
-    reactSnippet: `import { Toast, useToast } from '@/components/ui/toast';
-
-export function ToastDemo() {
-  const { toast } = useToast();
-
-  return (
-    <button 
-      onClick={() => toast({ title: '\uC131\uACF5', message: '\uACC4\uC88C \uC1A1\uAE08\uC774 \uC644\uB8CC\uB418\uC5C8\uC2B5\uB2C8\uB2E4.', type: 'success' })}
-      className="atom-btn atom-btn-primary"
-    >
-      \uC1A1\uAE08\uD558\uAE30
-    </button>
-  );
-}`,
-    vueSnippet: `<template>
-  <button @click="$toast.success('\uC800\uC7A5\uB418\uC5C8\uC2B5\uB2C8\uB2E4')">\uC800\uC7A5</button>
-</template>`
-  },
-  {
     id: "pagination",
     name: "\uD398\uC774\uC9C0\uB124\uC774\uC158 (Pagination)",
     category: "navigation",
@@ -2573,6 +2516,62 @@ export function ExampleToast() {
       title="\uC800\uC7A5 \uC644\uB8CC"
       description="\uBCC0\uACBD \uC0AC\uD56D\uC774 \uC548\uC804\uD558\uAC8C \uD074\uB77C\uC6B0\uB4DC\uC5D0 \uB3D9\uAE30\uD654\uB418\uC5C8\uC2B5\uB2C8\uB2E4."
       onClose={() => {}}
+    />
+  );
+}`
+  },
+  {
+    id: "token-select",
+    name: "\uD1A0\uD070 \uAC80\uC0C9 \uB4DC\uB86D\uB2E4\uC6B4 (TokenSelect)",
+    category: "form",
+    source: "AtomSystem Universal",
+    description: "\uB514\uC790\uC778 \uD1A0\uD070(\uCEEC\uB7EC, \uC5EC\uBC31, \uACE1\uB960 \uB4F1)\uC744 \uD328\uBC00\uB9AC \uD544\uD130 \uCE69\uACFC \uD0A4\uC6CC\uB4DC \uAC80\uC0C9\uC73C\uB85C \uD0D0\uC0C9\uD558\uACE0 \uC2E4\uC2DC\uAC04 \uC2A4\uC640\uCE58\uC640 \uD568\uAED8 \uC120\uD0DD\uD558\uB294 \uC2DC\uB9E8\uD2F1 \uC140\uB809\uD2B8 \uCEF4\uD3EC\uB10C\uD2B8",
+    callout: {
+      type: "tip",
+      title: "\uB514\uC790\uC778 \uD1A0\uD070 \uBC14\uC778\uB529 \uC804\uC6A9 \uC140\uB809\uD2B8",
+      text: "\uC77C\uBC18 \uD14D\uC2A4\uD2B8 \uBAA9\uB85D\uC744 \uACE0\uB974\uB294 Select\uC640 \uB2EC\uB9AC TokenSelect\uB294 \uCEEC\uB7EC \uC2A4\uC640\uCE58, CSS \uBCC0\uC218\uBA85(--atom-*), \uC2E4\uC81C \uC801\uC6A9\uAC12\uC744 \uB3D9\uC2DC\uC5D0 \uD504\uB9AC\uBDF0\uD558\uC5EC \uC778\uC2A4\uD399\uD130\uC640 \uD14C\uB9C8 \uD3B8\uC9D1\uAE30\uC5D0\uC11C \uC815\uD655\uD55C \uD1A0\uD070 \uB9E4\uD551\uC744 \uC9C0\uC6D0\uD569\uB2C8\uB2E4."
+    },
+    propsSpec: [
+      { name: "options", type: "TokenOption[]", defaultValue: "[]", description: "id, name, value, category, family\uB97C \uD3EC\uD568\uD558\uB294 \uD1A0\uD070 \uC635\uC158 \uBC30\uC5F4" },
+      { name: "value", type: "string", defaultValue: "''", description: "\uD604\uC7AC \uC120\uD0DD\uB41C \uD1A0\uD070 id \uB610\uB294 CSS \uBCC0\uC218 \uAC12" },
+      { name: "onChange", type: "(value: string, option?: TokenOption) => void", defaultValue: "-", description: "\uD1A0\uD070 \uC120\uD0DD \uBCC0\uACBD \uCF5C\uBC31" },
+      { name: "variant", type: "'outlined' | 'filled' | 'subtle'", defaultValue: "'outlined'", description: "\uD2B8\uB9AC\uAC70 \uC678\uD615 \uC2A4\uD0C0\uC77C" },
+      { name: "size", type: "'sm' | 'md' | 'lg'", defaultValue: "'md'", description: "\uCEE8\uD2B8\uB864 \uB192\uC774 \uBC0F \uD0C0\uC774\uD3EC \uADDC\uACA9" },
+      { name: "showColorSwatch", type: "boolean", defaultValue: "true", description: "\uC0C9\uC0C1 \uD1A0\uD070\uC77C \uACBD\uC6B0 \uCEEC\uB7EC \uC2A4\uC640\uCE58 \uCE69 \uD45C\uC2DC \uC5EC\uBD80" }
+    ],
+    useCases: [
+      "\uCEF4\uD3EC\uB10C\uD2B8 \uC2A4\uD29C\uB514\uC624 \uC778\uC2A4\uD399\uD130\uC5D0\uC11C \uBC30\uACBD\uC0C9\xB7\uD14D\uC2A4\uD2B8\xB7\uBCF4\uB354 \uC2DC\uB9E8\uD2F1 \uD1A0\uD070 \uBC14\uC778\uB529",
+      "\uD14C\uB9C8 \uD3B8\uC9D1\uAE30\uC5D0\uC11C \uBE0C\uB79C\uB4DC Primary/Accent \uD314\uB808\uD2B8 \uD1A0\uD070 \uC120\uD0DD",
+      "\uAC04\uACA9(Spacing) \uBC0F \uBAA8\uC11C\uB9AC \uACE1\uB960(Radius) \uB514\uC790\uC778 \uC2DC\uC2A4\uD15C \uD1A0\uD070 \uD53C\uCEE4"
+    ],
+    usagePatterns: [
+      "\uC218\uC2ED \uAC1C \uC774\uC0C1\uC758 \uD314\uB808\uD2B8 \uBCC0\uC218\uB97C \uACE0\uB97C \uB54C\uB294 \uD328\uBC00\uB9AC \uD544\uD130 \uCE69\uACFC \uAC80\uC0C9 \uC785\uB825\uC744 \uD568\uAED8 \uD65C\uC131\uD654\uD558\uC138\uC694.",
+      "\uC120\uD0DD\uB41C \uAC12\uC740 CSS \uBCC0\uC218 \uC2DD\uBCC4\uC790(--atom-palette-blue-500 \uB4F1)\uC640 \uC5F0\uACC4\uD558\uC5EC \uD14C\uB9C8 \uBCC0\uACBD \uC2DC \uC790\uB3D9\uC73C\uB85C \uCD94\uC801\uB418\uAC8C \uC720\uC9C0\uD558\uC138\uC694."
+    ],
+    dosAndDonts: [
+      {
+        do: "\uC0C9\uC0C1\xB7\uAC04\uACA9\xB7\uACE1\uB960 \uD1A0\uD070 \uC120\uD0DD UI\uC5D0\uB294 \uC77C\uBC18 Select \uB300\uC2E0 TokenSelect\uB97C \uC0AC\uC6A9\uD574 \uD1A0\uD070 ID\uC640 \uC2DC\uAC01 \uBBF8\uB9AC\uBCF4\uAE30\uB97C \uD568\uAED8 \uC81C\uACF5\uD558\uC138\uC694.",
+        dont: "\uD558\uB4DC\uCF54\uB529\uB41C HEX \uBB38\uC790\uC5F4\uB9CC \uB098\uC5F4\uD558\uC9C0 \uB9D0\uACE0 \uBC18\uB4DC\uC2DC \uC2DC\uB9E8\uD2F1 \uBCC0\uC218 \uC2DD\uBCC4\uC790(id)\uB97C \uD568\uAED8 \uC804\uB2EC\uD558\uC138\uC694."
+      }
+    ],
+    relatedPatternIds: ["settings-preference"],
+    htmlSnippet: `<div class="atom-token-select">
+  <button type="button" class="atom-token-select__trigger">
+    <span class="atom-token-select__swatch" style="background: var(--atom-palette-blue-500)"></span>
+    <span>--atom-palette-blue-500</span>
+  </button>
+</div>`,
+    reactSnippet: `import { TokenSelect } from '@/components/ui';
+import { INITIAL_PALETTE_VARIABLES } from '@/lib/data/studioData';
+
+export function ExampleTokenSelect() {
+  const [tokenId, setTokenId] = useState('--atom-palette-blue-500');
+  return (
+    <TokenSelect
+      label="\uBE0C\uB79C\uB4DC \uCEEC\uB7EC \uD1A0\uD070"
+      options={INITIAL_PALETTE_VARIABLES.filter((p) => p.category === 'color')}
+      value={tokenId}
+      onChange={(val) => setTokenId(val)}
     />
   );
 }`
@@ -9015,8 +9014,8 @@ var DEFAULT_BRAND_CONFIG = {
 };
 var DEFAULT_THEME_CONFIG = {
   color: {
-    primary: "var(--accent-primary)",
-    primaryHover: "var(--accent-primary-hover)",
+    primary: "#3182f6",
+    primaryHover: "#1b64da",
     primaryLight: "#e8f3ff",
     bgPrimary: "#ffffff",
     bgSecondary: "#f8f9fa",
@@ -9030,7 +9029,7 @@ var DEFAULT_THEME_CONFIG = {
     statusWarning: "#f59e0b"
   },
   typography: {
-    fontFamily: '"Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif',
+    fontFamily: "'Spoqa Han Sans Neo', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif",
     h1: {
       fontSize: 36,
       lineHeight: 1.25,
@@ -9100,8 +9099,8 @@ var COLOR_PRESETS = [
     description: "\uCCAD\uB7C9\uD55C \uBE44\uBE44\uB4DC \uBE14\uB8E8\uC640 \uBAA8\uB358 \uB77C\uC6B4\uB529",
     borderRadius: "16px",
     colors: {
-      primary: "var(--accent-primary)",
-      primaryHover: "var(--accent-primary-hover)",
+      primary: "#3182f6",
+      primaryHover: "#1b64da",
       primaryLight: "#e8f3ff",
       bgPrimary: "#ffffff",
       bgSecondary: "#f8f9fa",
@@ -9223,38 +9222,98 @@ var COLOR_PRESETS = [
 ];
 var FONT_FAMILY_PRESETS = [
   {
-    name: "Pretendard (\uAE30\uBCF8 \uAD8C\uC7A5)",
-    value: '"Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif'
+    id: "spoqa",
+    name: "Spoqa Han Sans Neo (\uAE30\uBCF8 \uAD8C\uC7A5 \xB7 CDN)",
+    value: "'Spoqa Han Sans Neo', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif",
+    cdnUrl: "https://spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css",
+    category: "sans",
+    description: "\uD55C\uAE00\xB7\uC601\uBB38\xB7\uC22B\uC790 \uAC00\uB3C5\uC131\uC774 \uD0C1\uC6D4\uD55C \uC2A4\uD3EC\uCE74 \uD55C \uC0B0\uC2A4 \uB124\uC624 \uC6F9\uD3F0\uD2B8 (CDN \uAE30\uBCF8 \uD0D1\uC7AC)"
   },
   {
-    name: "Inter (\uAE00\uB85C\uBC8C \uD14C\uD06C)",
-    value: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
+    id: "pretendard",
+    name: "Pretendard (CDN)",
+    value: '"Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif',
+    cdnUrl: "https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css",
+    category: "sans",
+    description: "\uD604\uB300\uC801\uC778 UI/\uD504\uB85C\uB355\uD2B8 \uB514\uC790\uC778\uC5D0 \uCD5C\uC801\uD654\uB41C \uB2E4\uC774\uB098\uBBF9 \uC11C\uBE0C\uC14B \uC6F9\uD3F0\uD2B8"
   },
   {
+    id: "noto-sans-kr",
+    name: "Noto Sans KR (Google CDN)",
+    value: '"Noto Sans KR", -apple-system, BlinkMacSystemFont, sans-serif',
+    cdnUrl: "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap",
+    category: "sans",
+    description: "\uAD6C\uAE00/\uC5B4\uB3C4\uBE44 \uD45C\uC900 \uACE0\uB515 \uD3F0\uD2B8"
+  },
+  {
+    id: "inter",
+    name: "Inter (\uAE00\uB85C\uBC8C \uD14C\uD06C \xB7 Google CDN)",
+    value: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    cdnUrl: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap",
+    category: "sans",
+    description: "\uAE00\uB85C\uBC8C SaaS \uBC0F \uC601\uBB38 \uB300\uC2DC\uBCF4\uB4DC \uD45C\uC900 \uC0B0\uC138\uB9AC\uD504"
+  },
+  {
+    id: "plus-jakarta",
+    name: "Plus Jakarta Sans (\uBAA8\uB358 \uAE30\uD558\uD559 \xB7 Google CDN)",
+    value: '"Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif',
+    cdnUrl: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap",
+    category: "sans",
+    description: "\uAE30\uD558\uD559\uC801 \uC870\uD615\uBBF8\uB97C \uAC16\uCD98 \uBAA8\uB358 UI \uD3F0\uD2B8"
+  },
+  {
+    id: "system",
     name: "System UI (\uC2DC\uC2A4\uD15C \uB124\uC774\uD2F0\uBE0C)",
-    value: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif'
+    value: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
+    category: "sans",
+    description: "\uBCC4\uB3C4 CDN \uB85C\uB4DC \uC5C6\uC774 OS \uAE30\uBCF8 \uD3F0\uD2B8\uB97C \uC0AC\uC6A9\uD558\uB294 \uC81C\uB85C \uB808\uC774\uD134\uC2DC \uC2A4\uD0DD"
   },
   {
-    name: "Noto Sans KR (\uAD6C\uAE00 \uD45C\uC900 \uD55C\uAD6D\uC5B4)",
-    value: '"Noto Sans KR", sans-serif'
-  },
-  {
-    name: "Monospace (\uCF54\uB529 / \uBAA8\uB178)",
-    value: '"JetBrains Mono", "Fira Code", monospace'
+    id: "jetbrains-mono",
+    name: "JetBrains Mono (\uCF54\uB4DC / \uBAA8\uB178 \xB7 Google CDN)",
+    value: '"JetBrains Mono", "Fira Code", ui-monospace, monospace',
+    cdnUrl: "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap",
+    category: "mono",
+    description: "\uD1A0\uD070 ID, \uCF54\uB4DC \uC2A4\uB2C8\uD3AB, \uC218\uCE58 \uD45C\uC2DC\uC6A9 \uB4F1\uD3ED \uD3F0\uD2B8"
   }
 ];
 
 // lib/services/themeEngine.ts
 var STYLE_ELEMENT_ID = "atom-theme-live-engine-style";
 var FONT_IMPORT_MAP = {
+  "Spoqa Han Sans Neo": '@import url("https://spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css");',
+  Pretendard: '@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");',
   Inter: '@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");',
   "Noto Sans KR": '@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap");',
   "JetBrains Mono": '@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap");',
   Outfit: '@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap");',
   "Plus Jakarta Sans": '@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");'
 };
+function injectWebfontLink(cdnUrl, linkId = "atom-custom-webfont-cdn") {
+  if (typeof document === "undefined") return;
+  const trimmed = cdnUrl?.trim() || "";
+  let linkEl = document.getElementById(linkId);
+  if (!trimmed || !(trimmed.startsWith("http://") || trimmed.startsWith("https://") || trimmed.startsWith("//"))) {
+    if (linkEl) {
+      linkEl.remove();
+    }
+    return;
+  }
+  if (!linkEl) {
+    linkEl = document.createElement("link");
+    linkEl.id = linkId;
+    linkEl.rel = "stylesheet";
+    linkEl.type = "text/css";
+    document.head.appendChild(linkEl);
+  }
+  if (linkEl.href !== trimmed) {
+    linkEl.href = trimmed;
+  }
+}
 function generateThemeCSS(theme) {
   const { color, typography, borderRadius } = theme;
+  const safePrimary = color.primary && !color.primary.includes("var(--accent-primary)") && !color.primary.includes("var(--atom-color-primary)") ? color.primary : "#3182f6";
+  const safePrimaryHover = color.primaryHover && !color.primaryHover.includes("var(--accent-hover)") && !color.primaryHover.includes("var(--accent-primary-hover)") ? color.primaryHover : "#1b64da";
   const isDark = isDarkColor(color.bgPrimary);
   let fontImportCSS = "";
   for (const [fontKey, importRule] of Object.entries(FONT_IMPORT_MAP)) {
@@ -9269,10 +9328,11 @@ ${fontImportCSS}/* [AtomDesignToken] Live Injected Theme Variables */
 :root, .dark, [data-theme="dark"], [data-theme="light"] {
   /* Font Family */
   --font-sans: ${typography.fontFamily};
+  --atom-font-sans: ${typography.fontFamily};
 
   /* Semantic Colors */
-  --accent-primary: ${color.primary};
-  --accent-hover: ${color.primaryHover};
+  --accent-primary: ${safePrimary};
+  --accent-hover: ${safePrimaryHover};
   --accent-light: ${color.primaryLight};
   --bg-primary: ${color.bgPrimary};
   --bg-secondary: ${color.bgSecondary};
@@ -9283,8 +9343,8 @@ ${fontImportCSS}/* [AtomDesignToken] Live Injected Theme Variables */
   --border-strong: ${color.borderStrong};
 
   /* Atom System Specific Variables */
-  --atom-color-primary: ${color.primary};
-  --atom-color-primary-hover: ${color.primaryHover};
+  --atom-color-primary: ${safePrimary};
+  --atom-color-primary-hover: ${safePrimaryHover};
   --atom-color-primary-subtle: ${color.primaryLight};
   --atom-color-secondary: ${color.secondary || (isDark ? "#334155" : "#e2e8f0")};
   --atom-color-secondary-hover: ${color.secondaryHover || (isDark ? "#475569" : "#cbd5e1")};
@@ -9453,13 +9513,13 @@ html.dark {
 }
 
 .atom-button-primary {
-  background-color: ${color.primary} !important;
+  background-color: ${safePrimary} !important;
   color: #ffffff !important;
   border-radius: ${borderRadius} !important;
 }
 
 .atom-button-primary:hover {
-  background-color: ${color.primaryHover} !important;
+  background-color: ${safePrimaryHover} !important;
 }
 
 .atom-card {
@@ -9470,7 +9530,7 @@ html.dark {
 
 .atom-tree-node.is-selected {
   background-color: ${color.primaryLight} !important;
-  color: ${color.primary} !important;
+  color: ${safePrimary} !important;
   border-radius: ${borderRadius} !important;
 }
 
@@ -9485,7 +9545,7 @@ html.dark .border-(--border-subtle)\\/80 {
 
 /* Ensure tab active pills and chips using dark:bg-white take brand accent */
 html.dark [class*="dark:bg-white"]:not([data-keep-white]) {
-  background-color: ${color.primary} !important;
+  background-color: ${safePrimary} !important;
   color: #ffffff !important;
 }
 `.trim();
@@ -9654,7 +9714,7 @@ function exportToTokensJson(theme) {
 function cn(...inputs) {
   return twMerge(clsx(inputs));
 }
-var Button = React33.forwardRef(
+var Button = React34.forwardRef(
   ({
     variant = "primary",
     variable,
@@ -9672,9 +9732,9 @@ var Button = React33.forwardRef(
     ...props
   }, ref) => {
     const activeVariable = variable || (variant === "danger" ? "destructive" : variant);
-    const normalizedVariant = variant === "danger" ? "destructive" : variant;
+    const normalizedVariant = activeVariable === "danger" ? "destructive" : activeVariable;
     const variantClass = normalizedVariant === "primary" ? "atom-btn-primary" : `atom-btn-${normalizedVariant}`;
-    const dangerClass = variant === "danger" ? "atom-btn-danger" : "";
+    const dangerClass = activeVariable === "danger" || activeVariable === "destructive" ? "atom-btn-danger" : "";
     const variableClass = `atom-button--${activeVariable}`;
     const typeClass = componentType ? `atom-btn--type-${componentType}` : "";
     const statusClass = status && status !== "default" ? `atom-status--${status}` : "";
@@ -9688,7 +9748,7 @@ var Button = React33.forwardRef(
       ...paddingY ? { paddingTop: paddingY, paddingBottom: paddingY } : {}
     };
     const alignClass = className.includes("justify-start") || className.includes("text-left") ? "atom-btn--left" : className.includes("justify-between") ? "atom-btn--between" : "";
-    return /* @__PURE__ */ React33.createElement(
+    return /* @__PURE__ */ React34.createElement(
       "button",
       {
         ref,
@@ -9703,22 +9763,22 @@ var Button = React33.forwardRef(
         style: customStyle,
         ...props
       },
-      isActuallyLoading && /* @__PURE__ */ React33.createElement("svg", { className: "animate-spin -ml-1 mr-2 h-4 w-4 shrink-0", fill: "none", viewBox: "0 0 24 24" }, /* @__PURE__ */ React33.createElement("circle", { className: "opacity-25", cx: "12", cy: "12", r: "10", stroke: "currentColor", strokeWidth: "4" }), /* @__PURE__ */ React33.createElement("path", { className: "opacity-75", fill: "currentColor", d: "M4 12a8 8 0 018-8v8H4z" })),
+      isActuallyLoading && /* @__PURE__ */ React34.createElement("svg", { className: "animate-spin -ml-1 mr-2 h-4 w-4 shrink-0", fill: "none", viewBox: "0 0 24 24" }, /* @__PURE__ */ React34.createElement("circle", { className: "opacity-25", cx: "12", cy: "12", r: "10", stroke: "currentColor", strokeWidth: "4" }), /* @__PURE__ */ React34.createElement("path", { className: "opacity-75", fill: "currentColor", d: "M4 12a8 8 0 018-8v8H4z" })),
       children
     );
   }
 );
 Button.displayName = "Button";
-var Input = React33.forwardRef(
+var Input = React34.forwardRef(
   ({ label, error, helperText, variable = "standard", status = "default", componentType, leftIcon, rightIcon, className = "", id, disabled, style, ...props }, ref) => {
-    const inputId = id || React33.useId();
+    const inputId = id || React34.useId();
     const isActuallyDisabled = disabled || status === "disabled" || status === "loading";
     const statusClass = status && status !== "default" ? `atom-status--${status}` : "";
     const plMatch = className.match(/\bpl-([0-9]+)\b/);
     const prMatch = className.match(/\bpr-([0-9]+)\b/);
     const computedPaddingLeft = leftIcon ? "2.25rem" : plMatch ? `${Number(plMatch[1]) * 0.25}rem` : void 0;
     const computedPaddingRight = rightIcon ? "2.25rem" : prMatch ? `${Number(prMatch[1]) * 0.25}rem` : void 0;
-    return /* @__PURE__ */ React33.createElement("div", { className: "w-full flex flex-col gap-1.5" }, label && /* @__PURE__ */ React33.createElement("label", { htmlFor: inputId, className: "text-sm font-medium text-[var(--atom-text-primary)]" }, label), /* @__PURE__ */ React33.createElement("div", { className: "relative w-full" }, leftIcon && /* @__PURE__ */ React33.createElement("div", { className: "absolute left-2.5 top-1/2 -translate-y-1/2 text-(--text-muted) pointer-events-none z-10 flex items-center justify-center" }, leftIcon), /* @__PURE__ */ React33.createElement(
+    return /* @__PURE__ */ React34.createElement("div", { className: "w-full flex flex-col gap-1.5" }, label && /* @__PURE__ */ React34.createElement("label", { htmlFor: inputId, className: "text-sm font-medium text-[var(--atom-text-primary)]" }, label), /* @__PURE__ */ React34.createElement("div", { className: "relative w-full" }, leftIcon && /* @__PURE__ */ React34.createElement("div", { className: "absolute left-2.5 top-1/2 -translate-y-1/2 text-(--text-muted) pointer-events-none z-10 flex items-center justify-center" }, leftIcon), /* @__PURE__ */ React34.createElement(
       "input",
       {
         ref,
@@ -9738,13 +9798,13 @@ var Input = React33.forwardRef(
         className: `atom-input ${error ? "atom-input-error" : ""} atom-input--${variable} ${statusClass} ${leftIcon ? "!pl-9" : ""} ${className}`,
         ...props
       }
-    ), rightIcon && /* @__PURE__ */ React33.createElement("div", { className: "absolute right-2.5 top-1/2 -translate-y-1/2 text-(--text-muted) z-10 flex items-center justify-center" }, rightIcon)), error ? /* @__PURE__ */ React33.createElement("span", { className: "text-xs text-[var(--atom-destructive,#dc2626)]" }, error) : helperText ? /* @__PURE__ */ React33.createElement("span", { className: "text-xs text-[var(--atom-text-secondary,#8b95a1)]" }, helperText) : null);
+    ), rightIcon && /* @__PURE__ */ React34.createElement("div", { className: "absolute right-2.5 top-1/2 -translate-y-1/2 text-(--text-muted) z-10 flex items-center justify-center" }, rightIcon)), error ? /* @__PURE__ */ React34.createElement("span", { className: "text-xs text-[var(--atom-destructive,#dc2626)]" }, error) : helperText ? /* @__PURE__ */ React34.createElement("span", { className: "text-xs text-[var(--atom-text-secondary,#8b95a1)]" }, helperText) : null);
   }
 );
 Input.displayName = "Input";
-var Card = React33.forwardRef(
+var Card = React34.forwardRef(
   ({ interactive = false, variable = "elevated", className = "", children, ...props }, ref) => {
-    return /* @__PURE__ */ React33.createElement(
+    return /* @__PURE__ */ React34.createElement(
       "div",
       {
         ref,
@@ -9758,11 +9818,11 @@ var Card = React33.forwardRef(
   }
 );
 Card.displayName = "Card";
-var Badge = React33.forwardRef(
+var Badge = React34.forwardRef(
   ({ variant = "neutral", variable, status = "default", componentType, className = "", children, ...props }, ref) => {
     const activeVariable = variable || variant;
     const statusClass = status && status !== "default" ? `atom-status--${status}` : "";
-    return /* @__PURE__ */ React33.createElement(
+    return /* @__PURE__ */ React34.createElement(
       "span",
       {
         ref,
@@ -9778,9 +9838,9 @@ var Badge = React33.forwardRef(
   }
 );
 Badge.displayName = "Badge";
-var NativeSelect = React33.forwardRef(
+var NativeSelect = React34.forwardRef(
   ({ className = "", children, ...props }, ref) => {
-    return /* @__PURE__ */ React33.createElement(
+    return /* @__PURE__ */ React34.createElement(
       "select",
       {
         ref,
@@ -9792,15 +9852,15 @@ var NativeSelect = React33.forwardRef(
   }
 );
 NativeSelect.displayName = "NativeSelect";
-var Textarea = React33.forwardRef(
+var Textarea = React34.forwardRef(
   ({ maxLength, label, value, className = "", ...props }, ref) => {
     const currentLength = typeof value === "string" ? value.length : 0;
-    return /* @__PURE__ */ React33.createElement("div", { className: "atom-textarea-group" }, label && /* @__PURE__ */ React33.createElement("label", { className: "text-xs font-semibold text-neutral-600 dark:text-neutral-400" }, label), /* @__PURE__ */ React33.createElement("textarea", { ref, value, maxLength, className: `atom-textarea ${className}`, ...props }), maxLength && /* @__PURE__ */ React33.createElement("div", { className: "atom-textarea-counter" }, currentLength, " / ", maxLength, "\uC790"));
+    return /* @__PURE__ */ React34.createElement("div", { className: "atom-textarea-group" }, label && /* @__PURE__ */ React34.createElement("label", { className: "text-xs font-semibold text-neutral-600 dark:text-neutral-400" }, label), /* @__PURE__ */ React34.createElement("textarea", { ref, value, maxLength, className: `atom-textarea ${className}`, ...props }), maxLength && /* @__PURE__ */ React34.createElement("div", { className: "atom-textarea-counter" }, currentLength, " / ", maxLength, "\uC790"));
   }
 );
 Textarea.displayName = "Textarea";
-var Table = React33.forwardRef(
-  ({ className = "", children, ...props }, ref) => /* @__PURE__ */ React33.createElement("div", { className: "w-full overflow-auto rounded-(--radius) border border-(--border-subtle)" }, /* @__PURE__ */ React33.createElement(
+var Table = React34.forwardRef(
+  ({ className = "", children, ...props }, ref) => /* @__PURE__ */ React34.createElement("div", { className: "w-full overflow-auto rounded-(--radius) border border-(--border-subtle)" }, /* @__PURE__ */ React34.createElement(
     "table",
     {
       ref,
@@ -9811,7 +9871,7 @@ var Table = React33.forwardRef(
   ))
 );
 Table.displayName = "Table";
-var TableHeader = React33.forwardRef(({ className = "", children, ...props }, ref) => /* @__PURE__ */ React33.createElement(
+var TableHeader = React34.forwardRef(({ className = "", children, ...props }, ref) => /* @__PURE__ */ React34.createElement(
   "thead",
   {
     ref,
@@ -9821,7 +9881,7 @@ var TableHeader = React33.forwardRef(({ className = "", children, ...props }, re
   children
 ));
 TableHeader.displayName = "TableHeader";
-var TableBody = React33.forwardRef(({ className = "", children, ...props }, ref) => /* @__PURE__ */ React33.createElement(
+var TableBody = React34.forwardRef(({ className = "", children, ...props }, ref) => /* @__PURE__ */ React34.createElement(
   "tbody",
   {
     ref,
@@ -9831,7 +9891,7 @@ var TableBody = React33.forwardRef(({ className = "", children, ...props }, ref)
   children
 ));
 TableBody.displayName = "TableBody";
-var TableRow = React33.forwardRef(({ className = "", children, ...props }, ref) => /* @__PURE__ */ React33.createElement(
+var TableRow = React34.forwardRef(({ className = "", children, ...props }, ref) => /* @__PURE__ */ React34.createElement(
   "tr",
   {
     ref,
@@ -9841,7 +9901,7 @@ var TableRow = React33.forwardRef(({ className = "", children, ...props }, ref) 
   children
 ));
 TableRow.displayName = "TableRow";
-var TableHead = React33.forwardRef(({ className = "", children, ...props }, ref) => /* @__PURE__ */ React33.createElement(
+var TableHead = React34.forwardRef(({ className = "", children, ...props }, ref) => /* @__PURE__ */ React34.createElement(
   "th",
   {
     ref,
@@ -9851,7 +9911,7 @@ var TableHead = React33.forwardRef(({ className = "", children, ...props }, ref)
   children
 ));
 TableHead.displayName = "TableHead";
-var TableCell = React33.forwardRef(({ className = "", children, ...props }, ref) => /* @__PURE__ */ React33.createElement(
+var TableCell = React34.forwardRef(({ className = "", children, ...props }, ref) => /* @__PURE__ */ React34.createElement(
   "td",
   {
     ref,
@@ -9861,8 +9921,8 @@ var TableCell = React33.forwardRef(({ className = "", children, ...props }, ref)
   children
 ));
 TableCell.displayName = "TableCell";
-var TabsList = React33.forwardRef(
-  ({ className = "", children, ...props }, ref) => /* @__PURE__ */ React33.createElement(
+var TabsList = React34.forwardRef(
+  ({ className = "", children, ...props }, ref) => /* @__PURE__ */ React34.createElement(
     "div",
     {
       ref,
@@ -9873,8 +9933,8 @@ var TabsList = React33.forwardRef(
   )
 );
 TabsList.displayName = "TabsList";
-var TabsTrigger = React33.forwardRef(
-  ({ active = false, className = "", children, ...props }, ref) => /* @__PURE__ */ React33.createElement(
+var TabsTrigger = React34.forwardRef(
+  ({ active = false, className = "", children, ...props }, ref) => /* @__PURE__ */ React34.createElement(
     "button",
     {
       ref,
@@ -9886,10 +9946,10 @@ var TabsTrigger = React33.forwardRef(
   )
 );
 TabsTrigger.displayName = "TabsTrigger";
-var TabsContent = React33.forwardRef(
+var TabsContent = React34.forwardRef(
   ({ active = false, className = "", children, ...props }, ref) => {
     if (!active) return null;
-    return /* @__PURE__ */ React33.createElement(
+    return /* @__PURE__ */ React34.createElement(
       "div",
       {
         ref,
@@ -9901,7 +9961,7 @@ var TabsContent = React33.forwardRef(
   }
 );
 TabsContent.displayName = "TabsContent";
-var Navbar = React33.forwardRef(
+var Navbar = React34.forwardRef(
   ({
     sticky = false,
     bordered = true,
@@ -9913,7 +9973,7 @@ var Navbar = React33.forwardRef(
     children,
     ...props
   }, ref) => {
-    return /* @__PURE__ */ React33.createElement(
+    return /* @__PURE__ */ React34.createElement(
       "header",
       {
         ref,
@@ -9922,15 +9982,15 @@ var Navbar = React33.forwardRef(
         className: `atom-navbar atom-navbar--${variable} ${sticky ? "sticky top-0 z-40" : "relative"} ${bordered ? "border-b border-(--border-subtle)" : ""} ${blur ? "backdrop-blur-md bg-(--bg-primary)/95" : "bg-(--bg-primary)"} w-full transition-colors ${className}`,
         ...props
       },
-      /* @__PURE__ */ React33.createElement("div", { className: `max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between gap-4 ${innerClassName}` }, children),
+      /* @__PURE__ */ React34.createElement("div", { className: `max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between gap-4 ${innerClassName}` }, children),
       mobileMenu
     );
   }
 );
 Navbar.displayName = "Navbar";
-var NavbarBrand = React33.forwardRef(
+var NavbarBrand = React34.forwardRef(
   ({ href, className = "", children, ...props }, ref) => {
-    const content = /* @__PURE__ */ React33.createElement(
+    const content = /* @__PURE__ */ React34.createElement(
       "div",
       {
         ref,
@@ -9940,15 +10000,15 @@ var NavbarBrand = React33.forwardRef(
       children
     );
     if (href) {
-      return /* @__PURE__ */ React33.createElement("a", { href, className: "no-underline" }, content);
+      return /* @__PURE__ */ React34.createElement("a", { href, className: "no-underline" }, content);
     }
     return content;
   }
 );
 NavbarBrand.displayName = "NavbarBrand";
-var NavbarNav = React33.forwardRef(
+var NavbarNav = React34.forwardRef(
   ({ className = "", children, ...props }, ref) => {
-    return /* @__PURE__ */ React33.createElement(
+    return /* @__PURE__ */ React34.createElement(
       "div",
       {
         ref,
@@ -9960,9 +10020,9 @@ var NavbarNav = React33.forwardRef(
   }
 );
 NavbarNav.displayName = "NavbarNav";
-var NavbarLink = React33.forwardRef(
+var NavbarLink = React34.forwardRef(
   ({ active = false, className = "", children, ...props }, ref) => {
-    return /* @__PURE__ */ React33.createElement(
+    return /* @__PURE__ */ React34.createElement(
       "a",
       {
         ref,
@@ -9974,9 +10034,9 @@ var NavbarLink = React33.forwardRef(
   }
 );
 NavbarLink.displayName = "NavbarLink";
-var NavbarActions = React33.forwardRef(
+var NavbarActions = React34.forwardRef(
   ({ className = "", children, ...props }, ref) => {
-    return /* @__PURE__ */ React33.createElement(
+    return /* @__PURE__ */ React34.createElement(
       "div",
       {
         ref,
@@ -9988,9 +10048,9 @@ var NavbarActions = React33.forwardRef(
   }
 );
 NavbarActions.displayName = "NavbarActions";
-var NavbarToggle = React33.forwardRef(
+var NavbarToggle = React34.forwardRef(
   ({ isOpen = false, onToggle, className = "", ...props }, ref) => {
-    return /* @__PURE__ */ React33.createElement(
+    return /* @__PURE__ */ React34.createElement(
       "button",
       {
         ref,
@@ -10000,7 +10060,7 @@ var NavbarToggle = React33.forwardRef(
         className: `md:hidden p-2 rounded-(--radius-sm) text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary) transition ${className}`,
         ...props
       },
-      /* @__PURE__ */ React33.createElement(
+      /* @__PURE__ */ React34.createElement(
         "svg",
         {
           className: "w-5 h-5",
@@ -10008,13 +10068,13 @@ var NavbarToggle = React33.forwardRef(
           stroke: "currentColor",
           viewBox: "0 0 24 24"
         },
-        isOpen ? /* @__PURE__ */ React33.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "2", d: "M6 18L18 6M6 6l12 12" }) : /* @__PURE__ */ React33.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "2", d: "M4 6h16M4 12h16M4 18h16" })
+        isOpen ? /* @__PURE__ */ React34.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "2", d: "M6 18L18 6M6 6l12 12" }) : /* @__PURE__ */ React34.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "2", d: "M4 6h16M4 12h16M4 18h16" })
       )
     );
   }
 );
 NavbarToggle.displayName = "NavbarToggle";
-var Sidebar = React33.forwardRef(
+var Sidebar = React34.forwardRef(
   ({
     collapsed = false,
     variable = "default",
@@ -10029,7 +10089,7 @@ var Sidebar = React33.forwardRef(
   }, ref) => {
     const currentWidth = collapsed ? collapsedWidth : width;
     const activeVar = variant || variable;
-    return /* @__PURE__ */ React33.createElement(
+    return /* @__PURE__ */ React34.createElement(
       "aside",
       {
         ref,
@@ -10045,9 +10105,9 @@ var Sidebar = React33.forwardRef(
   }
 );
 Sidebar.displayName = "Sidebar";
-var SidebarHeader = React33.forwardRef(
+var SidebarHeader = React34.forwardRef(
   ({ className = "", children, ...props }, ref) => {
-    return /* @__PURE__ */ React33.createElement(
+    return /* @__PURE__ */ React34.createElement(
       "div",
       {
         ref,
@@ -10059,9 +10119,9 @@ var SidebarHeader = React33.forwardRef(
   }
 );
 SidebarHeader.displayName = "SidebarHeader";
-var SidebarContent = React33.forwardRef(
+var SidebarContent = React34.forwardRef(
   ({ className = "", children, ...props }, ref) => {
-    return /* @__PURE__ */ React33.createElement(
+    return /* @__PURE__ */ React34.createElement(
       "div",
       {
         ref,
@@ -10073,17 +10133,17 @@ var SidebarContent = React33.forwardRef(
   }
 );
 SidebarContent.displayName = "SidebarContent";
-var SidebarGroup = React33.forwardRef(
+var SidebarGroup = React34.forwardRef(
   ({ label, collapsible = false, defaultOpen = true, className = "", children, ...props }, ref) => {
-    const [isOpen, setIsOpen] = React33.useState(defaultOpen);
-    return /* @__PURE__ */ React33.createElement("div", { ref, "data-component": "sidebar-group", className: `space-y-1 ${className}`, ...props }, label && /* @__PURE__ */ React33.createElement(
+    const [isOpen, setIsOpen] = React34.useState(defaultOpen);
+    return /* @__PURE__ */ React34.createElement("div", { ref, "data-component": "sidebar-group", className: `space-y-1 ${className}`, ...props }, label && /* @__PURE__ */ React34.createElement(
       "div",
       {
         onClick: collapsible ? () => setIsOpen(!isOpen) : void 0,
         className: `px-3 py-1.5 text-[11px] font-mono font-bold uppercase tracking-wider text-(--text-muted) truncate flex items-center justify-between ${collapsible ? "cursor-pointer select-none hover:text-(--text-primary)" : ""}`
       },
-      /* @__PURE__ */ React33.createElement("span", null, label),
-      collapsible && /* @__PURE__ */ React33.createElement(
+      /* @__PURE__ */ React34.createElement("span", null, label),
+      collapsible && /* @__PURE__ */ React34.createElement(
         "svg",
         {
           className: `w-3.5 h-3.5 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`,
@@ -10092,15 +10152,15 @@ var SidebarGroup = React33.forwardRef(
           stroke: "currentColor",
           strokeWidth: 2
         },
-        /* @__PURE__ */ React33.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", d: "M9 5l7 7-7 7" })
+        /* @__PURE__ */ React34.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", d: "M9 5l7 7-7 7" })
       )
     ), (!collapsible || isOpen) && children);
   }
 );
 SidebarGroup.displayName = "SidebarGroup";
-var SidebarGroupLabel = React33.forwardRef(
+var SidebarGroupLabel = React34.forwardRef(
   ({ className = "", children, ...props }, ref) => {
-    return /* @__PURE__ */ React33.createElement(
+    return /* @__PURE__ */ React34.createElement(
       "div",
       {
         ref,
@@ -10112,26 +10172,26 @@ var SidebarGroupLabel = React33.forwardRef(
   }
 );
 SidebarGroupLabel.displayName = "SidebarGroupLabel";
-var SidebarMenu = React33.forwardRef(
+var SidebarMenu = React34.forwardRef(
   ({ className = "", children, ...props }, ref) => {
-    return /* @__PURE__ */ React33.createElement("ul", { ref, className: `space-y-0.5 list-none m-0 p-0 ${className}`, ...props }, children);
+    return /* @__PURE__ */ React34.createElement("ul", { ref, className: `space-y-0.5 list-none m-0 p-0 ${className}`, ...props }, children);
   }
 );
 SidebarMenu.displayName = "SidebarMenu";
-var SidebarMenuItem = React33.forwardRef(
+var SidebarMenuItem = React34.forwardRef(
   ({ active = false, icon, badge, label, className = "", children, ...props }, ref) => {
-    return /* @__PURE__ */ React33.createElement("li", { ref, "data-active": active, className: `list-none ${className}`, ...props }, children ? children : /* @__PURE__ */ React33.createElement(
+    return /* @__PURE__ */ React34.createElement("li", { ref, "data-active": active, className: `list-none ${className}`, ...props }, children ? children : /* @__PURE__ */ React34.createElement(
       "div",
       {
         className: `flex items-center justify-between px-3 py-2 rounded-(--radius-sm) text-xs sm:text-sm font-medium transition cursor-pointer select-none ${active ? "bg-(--accent-primary) text-(--bg-primary) font-semibold shadow-xs" : "text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary)"}`
       },
-      /* @__PURE__ */ React33.createElement("div", { className: "flex items-center gap-2.5 min-w-0" }, icon && /* @__PURE__ */ React33.createElement("span", { className: "shrink-0 w-4 h-4 flex items-center justify-center" }, icon), /* @__PURE__ */ React33.createElement("span", { className: "truncate" }, label)),
-      badge && /* @__PURE__ */ React33.createElement("span", { className: "shrink-0 ml-2" }, badge)
+      /* @__PURE__ */ React34.createElement("div", { className: "flex items-center gap-2.5 min-w-0" }, icon && /* @__PURE__ */ React34.createElement("span", { className: "shrink-0 w-4 h-4 flex items-center justify-center" }, icon), /* @__PURE__ */ React34.createElement("span", { className: "truncate" }, label)),
+      badge && /* @__PURE__ */ React34.createElement("span", { className: "shrink-0 ml-2" }, badge)
     ));
   }
 );
 SidebarMenuItem.displayName = "SidebarMenuItem";
-var SidebarMenuButton = React33.forwardRef(
+var SidebarMenuButton = React34.forwardRef(
   ({
     active = false,
     icon,
@@ -10141,7 +10201,7 @@ var SidebarMenuButton = React33.forwardRef(
     children,
     ...props
   }, ref) => {
-    return /* @__PURE__ */ React33.createElement(
+    return /* @__PURE__ */ React34.createElement(
       "button",
       {
         ref,
@@ -10151,15 +10211,15 @@ var SidebarMenuButton = React33.forwardRef(
         className: `w-full flex items-center gap-3 px-3 py-2 rounded-(--radius-sm) text-xs sm:text-sm font-medium transition cursor-pointer ${collapsed ? "justify-center px-2" : "justify-between"} ${active ? "bg-(--atom-color-primary,#3182f6) text-white font-semibold shadow-xs" : "text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-primary)"} ${className}`,
         ...props
       },
-      /* @__PURE__ */ React33.createElement("div", { className: "flex items-center gap-2.5 min-w-0" }, icon && /* @__PURE__ */ React33.createElement("span", { className: "shrink-0 w-4 h-4 flex items-center justify-center" }, icon), !collapsed && /* @__PURE__ */ React33.createElement("span", { className: "truncate" }, children)),
-      !collapsed && badge && /* @__PURE__ */ React33.createElement("span", { className: "shrink-0" }, badge)
+      /* @__PURE__ */ React34.createElement("div", { className: "flex items-center gap-2.5 min-w-0" }, icon && /* @__PURE__ */ React34.createElement("span", { className: "shrink-0 w-4 h-4 flex items-center justify-center" }, icon), !collapsed && /* @__PURE__ */ React34.createElement("span", { className: "truncate" }, children)),
+      !collapsed && badge && /* @__PURE__ */ React34.createElement("span", { className: "shrink-0" }, badge)
     );
   }
 );
 SidebarMenuButton.displayName = "SidebarMenuButton";
-var SidebarFooter = React33.forwardRef(
+var SidebarFooter = React34.forwardRef(
   ({ className = "", children, ...props }, ref) => {
-    return /* @__PURE__ */ React33.createElement(
+    return /* @__PURE__ */ React34.createElement(
       "div",
       {
         ref,
@@ -10171,9 +10231,9 @@ var SidebarFooter = React33.forwardRef(
   }
 );
 SidebarFooter.displayName = "SidebarFooter";
-var SidebarToggle = React33.forwardRef(
+var SidebarToggle = React34.forwardRef(
   ({ collapsed = false, onToggle, className = "", ...props }, ref) => {
-    return /* @__PURE__ */ React33.createElement(
+    return /* @__PURE__ */ React34.createElement(
       "button",
       {
         ref,
@@ -10183,7 +10243,7 @@ var SidebarToggle = React33.forwardRef(
         className: `p-1.5 rounded-(--radius-sm) text-(--text-muted) hover:text-(--text-primary) hover:bg-(--bg-secondary) transition ${className}`,
         ...props
       },
-      /* @__PURE__ */ React33.createElement(
+      /* @__PURE__ */ React34.createElement(
         "svg",
         {
           className: `w-4 h-4 transition-transform duration-200 ${collapsed ? "rotate-180" : ""}`,
@@ -10191,17 +10251,17 @@ var SidebarToggle = React33.forwardRef(
           stroke: "currentColor",
           viewBox: "0 0 24 24"
         },
-        /* @__PURE__ */ React33.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "2", d: "M11 19l-7-7 7-7m8 14l-7-7 7-7" })
+        /* @__PURE__ */ React34.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "2", d: "M11 19l-7-7 7-7m8 14l-7-7 7-7" })
       )
     );
   }
 );
 SidebarToggle.displayName = "SidebarToggle";
-var Checkbox = React33.forwardRef(
+var Checkbox = React34.forwardRef(
   ({ label, description, error, className = "", id, disabled, checked, onChange, ...props }, ref) => {
-    const generatedId = React33.useId();
+    const generatedId = React34.useId();
     const checkboxId = id || generatedId;
-    return /* @__PURE__ */ React33.createElement("div", { className: "flex items-start gap-2.5 select-none" }, /* @__PURE__ */ React33.createElement("div", { className: "relative flex items-center justify-center mt-0.5" }, /* @__PURE__ */ React33.createElement(
+    return /* @__PURE__ */ React34.createElement("div", { className: "flex items-start gap-2.5 select-none" }, /* @__PURE__ */ React34.createElement("div", { className: "relative flex items-center justify-center mt-0.5" }, /* @__PURE__ */ React34.createElement(
       "input",
       {
         ref,
@@ -10214,7 +10274,7 @@ var Checkbox = React33.forwardRef(
         className: ["peer appearance-none w-4 h-4 rounded-(--radius-sm) border border-(--border-strong) bg-(--bg-primary) checked:bg-(--accent-primary) checked:border-(--accent-primary) focus:outline-none focus:ring-2 focus:ring-(--accent-primary)/30 transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed", className].filter(Boolean).join(" "),
         ...props
       }
-    ), /* @__PURE__ */ React33.createElement(
+    ), /* @__PURE__ */ React34.createElement(
       "svg",
       {
         className: "pointer-events-none absolute w-2.5 h-2.5 text-white opacity-0 peer-checked:opacity-100 transition-opacity",
@@ -10223,24 +10283,24 @@ var Checkbox = React33.forwardRef(
         stroke: "currentColor",
         strokeWidth: 3
       },
-      /* @__PURE__ */ React33.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", d: "M4.5 12.75l6 6 9-13.5" })
-    )), (label || description || error) && /* @__PURE__ */ React33.createElement("div", { className: "flex flex-col gap-0.5 leading-none" }, label && /* @__PURE__ */ React33.createElement(
+      /* @__PURE__ */ React34.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", d: "M4.5 12.75l6 6 9-13.5" })
+    )), (label || description || error) && /* @__PURE__ */ React34.createElement("div", { className: "flex flex-col gap-0.5 leading-none" }, label && /* @__PURE__ */ React34.createElement(
       "label",
       {
         htmlFor: checkboxId,
         className: ["text-xs font-medium cursor-pointer", disabled ? "text-(--text-muted) cursor-not-allowed" : "text-(--text-primary)"].join(" ")
       },
       label
-    ), description && /* @__PURE__ */ React33.createElement("span", { className: "text-[11px] text-(--text-secondary)" }, description), error && /* @__PURE__ */ React33.createElement("span", { className: "text-[11px] text-(--atom-color-destructive)" }, error)));
+    ), description && /* @__PURE__ */ React34.createElement("span", { className: "text-[11px] text-(--text-secondary)" }, description), error && /* @__PURE__ */ React34.createElement("span", { className: "text-[11px] text-(--atom-color-destructive)" }, error)));
   }
 );
 Checkbox.displayName = "Checkbox";
-var NavContext = React33.createContext({
+var NavContext = React34.createContext({
   variant: "default",
   size: "md",
   orientation: "horizontal"
 });
-var Nav = React33.forwardRef(
+var Nav = React34.forwardRef(
   ({
     variant = "default",
     size = "md",
@@ -10255,7 +10315,7 @@ var Nav = React33.forwardRef(
     const isTabs = variant === "tabs";
     const containerStyle = isSegmented ? "p-1 rounded-(--radius) bg-(--bg-secondary)/80 border border-(--border-subtle)" : isPills ? "p-1.5 rounded-(--radius) bg-(--bg-secondary)/60 border border-(--border-subtle) flex-wrap" : isTabs ? "border-b border-(--border-subtle) gap-6" : "gap-1";
     const orientationStyle = orientation === "vertical" ? "flex-col" : "flex-row items-center";
-    return /* @__PURE__ */ React33.createElement(NavContext.Provider, { value: { variant, size, orientation } }, /* @__PURE__ */ React33.createElement(
+    return /* @__PURE__ */ React34.createElement(NavContext.Provider, { value: { variant, size, orientation } }, /* @__PURE__ */ React34.createElement(
       "nav",
       {
         ref,
@@ -10270,9 +10330,9 @@ var Nav = React33.forwardRef(
   }
 );
 Nav.displayName = "Nav";
-var NavItem = React33.forwardRef(
+var NavItem = React34.forwardRef(
   ({ active = false, className = "", children, ...props }, ref) => {
-    return /* @__PURE__ */ React33.createElement(
+    return /* @__PURE__ */ React34.createElement(
       "li",
       {
         ref,
@@ -10285,7 +10345,7 @@ var NavItem = React33.forwardRef(
   }
 );
 NavItem.displayName = "NavItem";
-var NavLink = React33.forwardRef(
+var NavLink = React34.forwardRef(
   ({
     active = false,
     disabled = false,
@@ -10298,7 +10358,7 @@ var NavLink = React33.forwardRef(
     children,
     ...props
   }, ref) => {
-    const context = React33.useContext(NavContext);
+    const context = React34.useContext(NavContext);
     const variant = overrideVariant || context.variant;
     const size = overrideSize || context.size;
     const sizeClasses = size === "sm" ? "text-xs px-2.5 py-1" : size === "lg" ? "text-base px-4 py-2.5" : "text-sm px-3 py-1.5";
@@ -10312,7 +10372,7 @@ var NavLink = React33.forwardRef(
     }
     const baseClasses = `inline-flex items-center gap-1.5 rounded-(--radius-sm) font-medium transition cursor-pointer select-none no-underline ${sizeClasses} ${variantClasses} ${disabled ? "opacity-50 pointer-events-none cursor-not-allowed" : ""} ${className}`;
     if (asButton) {
-      return /* @__PURE__ */ React33.createElement(
+      return /* @__PURE__ */ React34.createElement(
         "button",
         {
           ref,
@@ -10323,12 +10383,12 @@ var NavLink = React33.forwardRef(
           className: baseClasses,
           ...props
         },
-        icon && /* @__PURE__ */ React33.createElement("span", { className: "shrink-0" }, icon),
-        /* @__PURE__ */ React33.createElement("span", null, children),
-        badge && /* @__PURE__ */ React33.createElement("span", { className: "shrink-0 ml-1" }, badge)
+        icon && /* @__PURE__ */ React34.createElement("span", { className: "shrink-0" }, icon),
+        /* @__PURE__ */ React34.createElement("span", null, children),
+        badge && /* @__PURE__ */ React34.createElement("span", { className: "shrink-0 ml-1" }, badge)
       );
     }
-    return /* @__PURE__ */ React33.createElement(
+    return /* @__PURE__ */ React34.createElement(
       "a",
       {
         ref,
@@ -10337,14 +10397,14 @@ var NavLink = React33.forwardRef(
         className: baseClasses,
         ...props
       },
-      icon && /* @__PURE__ */ React33.createElement("span", { className: "shrink-0" }, icon),
-      /* @__PURE__ */ React33.createElement("span", null, children),
-      badge && /* @__PURE__ */ React33.createElement("span", { className: "shrink-0 ml-1" }, badge)
+      icon && /* @__PURE__ */ React34.createElement("span", { className: "shrink-0" }, icon),
+      /* @__PURE__ */ React34.createElement("span", null, children),
+      badge && /* @__PURE__ */ React34.createElement("span", { className: "shrink-0 ml-1" }, badge)
     );
   }
 );
 NavLink.displayName = "NavLink";
-var NavDropdownItem = React33.forwardRef(
+var NavDropdownItem = React34.forwardRef(
   ({
     active = false,
     icon,
@@ -10356,10 +10416,10 @@ var NavDropdownItem = React33.forwardRef(
     className = "",
     ...props
   }, ref) => {
-    const itemContent = /* @__PURE__ */ React33.createElement(React33.Fragment, null, icon && /* @__PURE__ */ React33.createElement("span", { className: "shrink-0 w-4 h-4 text-(--accent-primary) mt-0.5" }, icon), /* @__PURE__ */ React33.createElement("div", { className: "flex-1 min-w-0" }, /* @__PURE__ */ React33.createElement("div", { className: "flex items-center justify-between gap-2" }, /* @__PURE__ */ React33.createElement("span", { className: `text-xs font-semibold ${active ? "text-(--accent-primary)" : "text-(--text-primary)"}` }, title), badge && /* @__PURE__ */ React33.createElement("span", { className: "shrink-0" }, badge)), description && /* @__PURE__ */ React33.createElement("p", { className: "text-[11px] text-(--text-secondary) truncate mt-0.5 leading-snug" }, description)));
+    const itemContent = /* @__PURE__ */ React34.createElement(React34.Fragment, null, icon && /* @__PURE__ */ React34.createElement("span", { className: "shrink-0 w-4 h-4 text-(--accent-primary) mt-0.5" }, icon), /* @__PURE__ */ React34.createElement("div", { className: "flex-1 min-w-0" }, /* @__PURE__ */ React34.createElement("div", { className: "flex items-center justify-between gap-2" }, /* @__PURE__ */ React34.createElement("span", { className: `text-xs font-semibold ${active ? "text-(--accent-primary)" : "text-(--text-primary)"}` }, title), badge && /* @__PURE__ */ React34.createElement("span", { className: "shrink-0" }, badge)), description && /* @__PURE__ */ React34.createElement("p", { className: "text-[11px] text-(--text-secondary) truncate mt-0.5 leading-snug" }, description)));
     const baseClass = `w-full flex items-start gap-2.5 p-2 rounded-(--radius-sm) transition text-left cursor-pointer no-underline ${active ? "bg-(--accent-primary)/10 text-(--accent-primary)" : "hover:bg-(--bg-secondary) text-(--text-primary)"} ${className}`;
     if (asButton || as === "button") {
-      return /* @__PURE__ */ React33.createElement(
+      return /* @__PURE__ */ React34.createElement(
         "button",
         {
           ref,
@@ -10372,7 +10432,7 @@ var NavDropdownItem = React33.forwardRef(
       );
     }
     if (as === "div" || !props.href && as !== "a") {
-      return /* @__PURE__ */ React33.createElement(
+      return /* @__PURE__ */ React34.createElement(
         "div",
         {
           ref,
@@ -10383,7 +10443,7 @@ var NavDropdownItem = React33.forwardRef(
         itemContent
       );
     }
-    return /* @__PURE__ */ React33.createElement(
+    return /* @__PURE__ */ React34.createElement(
       "a",
       {
         ref,
@@ -10396,6 +10456,118 @@ var NavDropdownItem = React33.forwardRef(
   }
 );
 NavDropdownItem.displayName = "NavDropdownItem";
+var TONE_TOKEN_MAP = {
+  info: {
+    color: "var(--accent-primary, var(--atom-color-primary, #3182f6))",
+    bgVar: "var(--atom-color-primary-subtle, rgba(49, 130, 246, 0.08))",
+    borderVar: "var(--accent-primary, var(--atom-color-primary, #3182f6))"
+  },
+  success: {
+    color: "var(--atom-color-success, #10b981)",
+    bgVar: "var(--atom-color-success-subtle, rgba(16, 185, 129, 0.08))",
+    borderVar: "var(--atom-color-success, #10b981)"
+  },
+  warning: {
+    color: "var(--atom-color-warning, #f59e0b)",
+    bgVar: "var(--atom-color-warning-subtle, rgba(245, 158, 11, 0.08))",
+    borderVar: "var(--atom-color-warning, #f59e0b)"
+  },
+  destructive: {
+    color: "var(--atom-color-destructive, var(--atom-color-danger, #ef4444))",
+    bgVar: "var(--atom-color-danger-subtle, rgba(239, 68, 68, 0.08))",
+    borderVar: "var(--atom-color-destructive, var(--atom-color-danger, #ef4444))"
+  },
+  neutral: {
+    color: "var(--text-primary)",
+    bgVar: "var(--bg-secondary)",
+    borderVar: "var(--border-strong)"
+  }
+};
+var DEFAULT_ICONS = {
+  info: /* @__PURE__ */ React34.createElement(Info, { className: "w-4 h-4 shrink-0" }),
+  success: /* @__PURE__ */ React34.createElement(CheckCircle2, { className: "w-4 h-4 shrink-0" }),
+  warning: /* @__PURE__ */ React34.createElement(AlertTriangle, { className: "w-4 h-4 shrink-0" }),
+  destructive: /* @__PURE__ */ React34.createElement(AlertCircle, { className: "w-4 h-4 shrink-0" }),
+  neutral: /* @__PURE__ */ React34.createElement(Bell, { className: "w-4 h-4 shrink-0" })
+};
+var Alert = React34.forwardRef(
+  ({
+    componentType = "soft",
+    variant = "info",
+    variable,
+    status = "default",
+    title,
+    description,
+    icon,
+    action,
+    onClose,
+    children,
+    className = "",
+    style,
+    ...props
+  }, ref) => {
+    const rawTone = (variable || variant || "info").toLowerCase();
+    const activeTone = rawTone === "danger" || rawTone === "error" ? "destructive" : rawTone;
+    const toneMeta = TONE_TOKEN_MAP[activeTone] || TONE_TOKEN_MAP.info;
+    const resolvedIcon = icon !== void 0 ? icon : DEFAULT_ICONS[activeTone] || DEFAULT_ICONS.info;
+    const typeKey = (componentType || "soft").toLowerCase();
+    const isSolid = typeKey.includes("solid");
+    const isOutlined = typeKey.includes("outline");
+    const isAccentBorder = typeKey.includes("accent");
+    const computedTypeStyle = isSolid ? {
+      backgroundColor: toneMeta.color,
+      borderColor: toneMeta.color,
+      color: activeTone === "neutral" ? "var(--bg-primary)" : "#ffffff"
+    } : isOutlined ? {
+      backgroundColor: "var(--bg-primary)",
+      borderColor: toneMeta.borderVar,
+      color: "var(--text-primary)"
+    } : isAccentBorder ? {
+      backgroundColor: "var(--bg-secondary)",
+      borderColor: "var(--border-subtle)",
+      borderLeftWidth: "4px",
+      borderLeftColor: toneMeta.borderVar,
+      color: "var(--text-primary)"
+    } : {
+      backgroundColor: `color-mix(in srgb, ${toneMeta.color} 10%, var(--bg-primary))`,
+      borderColor: `color-mix(in srgb, ${toneMeta.color} 28%, transparent)`,
+      color: "var(--text-primary)"
+    };
+    const statusClass = status && status !== "default" ? `atom-status--${status}` : "";
+    const iconColor = isSolid ? activeTone === "neutral" ? "var(--bg-primary)" : "#ffffff" : toneMeta.color;
+    return /* @__PURE__ */ React34.createElement(
+      "div",
+      {
+        ref,
+        role: "alert",
+        "data-component": "alert",
+        "data-type": componentType,
+        "data-variable": activeTone,
+        "data-status": status,
+        className: `atom-alert atom-alert--${activeTone} atom-alert--type-${typeKey} ${statusClass} w-full rounded-(--radius) border p-4 flex items-start justify-between gap-3 transition-all ${className}`.trim(),
+        style: {
+          ...computedTypeStyle,
+          ...style
+        },
+        ...props
+      },
+      /* @__PURE__ */ React34.createElement("div", { className: "flex items-start gap-2.5 min-w-0 flex-1" }, resolvedIcon && /* @__PURE__ */ React34.createElement("span", { className: "mt-0.5 shrink-0", style: { color: iconColor } }, resolvedIcon), /* @__PURE__ */ React34.createElement("div", { className: "min-w-0 flex-1 space-y-1" }, title && /* @__PURE__ */ React34.createElement("div", { className: "font-bold text-sm leading-snug text-inherit" }, title), (description || children) && /* @__PURE__ */ React34.createElement("div", { className: "text-xs leading-relaxed opacity-90 text-inherit" }, description || children), action && /* @__PURE__ */ React34.createElement("div", { className: "pt-1.5" }, action))),
+      onClose && /* @__PURE__ */ React34.createElement(
+        Button,
+        {
+          variant: "ghost",
+          size: "sm",
+          isIconOnly: true,
+          onClick: onClose,
+          "aria-label": "\uB2EB\uAE30",
+          className: "h-6 w-6 p-0 shrink-0 text-inherit opacity-70 hover:opacity-100"
+        },
+        /* @__PURE__ */ React34.createElement(X, { className: "w-3.5 h-3.5" })
+      )
+    );
+  }
+);
+Alert.displayName = "Alert";
 var INITIAL_METRICS = [
   { id: "arr", label: "\uC5F0\uAC04 \uBC18\uBCF5 \uB9E4\uCD9C (ARR)", value: "\u20A9124.8M", change: "+14.2%", isPositive: true, icon: "dollar" },
   { id: "users", label: "\uD65C\uC131 \uAD6C\uB3C5 \uACE0\uAC1D (Active)", value: "1,429\uBA85", change: "+8.6%", isPositive: true, icon: "users" },
@@ -10426,26 +10598,26 @@ function EnterpriseDashboardUseCase() {
   const getMetricIcon = (icon) => {
     switch (icon) {
       case "dollar":
-        return /* @__PURE__ */ React33.createElement(DollarSign, { className: "w-5 h-5 text-(--accent-primary)" });
+        return /* @__PURE__ */ React34.createElement(DollarSign, { className: "w-5 h-5 text-(--accent-primary)" });
       case "users":
-        return /* @__PURE__ */ React33.createElement(Users, { className: "w-5 h-5 text-(--accent-primary)" });
+        return /* @__PURE__ */ React34.createElement(Users, { className: "w-5 h-5 text-(--accent-primary)" });
       case "activity":
-        return /* @__PURE__ */ React33.createElement(Activity, { className: "w-5 h-5 text-(--accent-primary)" });
+        return /* @__PURE__ */ React34.createElement(Activity, { className: "w-5 h-5 text-(--accent-primary)" });
       case "card":
-        return /* @__PURE__ */ React33.createElement(CreditCard, { className: "w-5 h-5 text-(--accent-primary)" });
+        return /* @__PURE__ */ React34.createElement(CreditCard, { className: "w-5 h-5 text-(--accent-primary)" });
     }
   };
   const getStatusBadge = (status) => {
     switch (status) {
       case "active":
-        return /* @__PURE__ */ React33.createElement(Badge, { variant: "primary" }, "\uC644\uB8CC (Active)");
+        return /* @__PURE__ */ React34.createElement(Badge, { variant: "primary" }, "\uC644\uB8CC (Active)");
       case "pending":
-        return /* @__PURE__ */ React33.createElement(Badge, { variant: "neutral" }, "\uCC98\uB9AC\uC911 (Pending)");
+        return /* @__PURE__ */ React34.createElement(Badge, { variant: "neutral" }, "\uCC98\uB9AC\uC911 (Pending)");
       case "failed":
-        return /* @__PURE__ */ React33.createElement(Badge, { variant: "destructive" }, "\uC2E4\uD328 (Failed)");
+        return /* @__PURE__ */ React34.createElement(Badge, { variant: "destructive" }, "\uC2E4\uD328 (Failed)");
     }
   };
-  return /* @__PURE__ */ React33.createElement("div", { className: "w-full flex flex-col gap-(--space-6) animate-in fade-in" }, /* @__PURE__ */ React33.createElement("div", { className: "flex flex-col sm:flex-row sm:items-center justify-between gap-(--space-4) pb-(--space-4) border-b border-(--border-subtle)" }, /* @__PURE__ */ React33.createElement("div", null, /* @__PURE__ */ React33.createElement("div", { className: "flex items-center gap-(--space-2) mb-1" }, /* @__PURE__ */ React33.createElement("span", { className: "font-mono text-xs px-2 py-0.5 rounded-(--radius-sm) bg-(--bg-secondary) text-(--text-secondary) border border-(--border-subtle) flex items-center gap-1.5" }, /* @__PURE__ */ React33.createElement(Sparkles, { className: "w-3 h-3 text-(--accent-primary)" }), "AtomSystem UseCase #01"), /* @__PURE__ */ React33.createElement("span", { className: "text-xs font-mono text-(--text-muted)" }, "B2B SaaS")), /* @__PURE__ */ React33.createElement("h2", { className: "text-xl sm:text-2xl font-extrabold tracking-tight text-(--text-primary)" }, "\uC131\uACFC \uBD84\uC11D & \uACE0\uAC1D \uACB0\uC81C \uAD00\uB9AC \uB300\uC2DC\uBCF4\uB4DC"), /* @__PURE__ */ React33.createElement("p", { className: "text-xs sm:text-sm text-(--text-secondary) mt-0.5" }, "\uD1A0\uD070 \uB2E8\uC77C \uC9C4\uC2E4 \uACF5\uAE09\uC6D0(SSOT)\uACFC \uACE0\uC811\uADFC\uC131 \uC6D0\uC790 \uCEF4\uD3EC\uB10C\uD2B8\uB85C\uB9CC \uAD6C\uCD95\uB41C \uC644\uC131\uD615 \uC5D4\uD130\uD504\uB77C\uC774\uC988 \uC194\uB8E8\uC158")), /* @__PURE__ */ React33.createElement("div", { className: "flex items-center gap-(--space-2) shrink-0" }, /* @__PURE__ */ React33.createElement("div", { className: "bg-(--bg-secondary) p-1 rounded-(--radius) border border-(--border-subtle) flex items-center gap-1" }, ["7d", "30d", "90d", "1y"].map((r) => /* @__PURE__ */ React33.createElement(
+  return /* @__PURE__ */ React34.createElement("div", { className: "w-full flex flex-col gap-(--space-6) animate-in fade-in" }, /* @__PURE__ */ React34.createElement("div", { className: "flex flex-col sm:flex-row sm:items-center justify-between gap-(--space-4) pb-(--space-4) border-b border-(--border-subtle)" }, /* @__PURE__ */ React34.createElement("div", null, /* @__PURE__ */ React34.createElement("div", { className: "flex items-center gap-(--space-2) mb-1" }, /* @__PURE__ */ React34.createElement("span", { className: "font-mono text-xs px-2 py-0.5 rounded-(--radius-sm) bg-(--bg-secondary) text-(--text-secondary) border border-(--border-subtle) flex items-center gap-1.5" }, /* @__PURE__ */ React34.createElement(Sparkles, { className: "w-3 h-3 text-(--accent-primary)" }), "AtomSystem UseCase #01"), /* @__PURE__ */ React34.createElement("span", { className: "text-xs font-mono text-(--text-muted)" }, "B2B SaaS")), /* @__PURE__ */ React34.createElement("h2", { className: "text-xl sm:text-2xl font-extrabold tracking-tight text-(--text-primary)" }, "\uC131\uACFC \uBD84\uC11D & \uACE0\uAC1D \uACB0\uC81C \uAD00\uB9AC \uB300\uC2DC\uBCF4\uB4DC"), /* @__PURE__ */ React34.createElement("p", { className: "text-xs sm:text-sm text-(--text-secondary) mt-0.5" }, "\uD1A0\uD070 \uB2E8\uC77C \uC9C4\uC2E4 \uACF5\uAE09\uC6D0(SSOT)\uACFC \uACE0\uC811\uADFC\uC131 \uC6D0\uC790 \uCEF4\uD3EC\uB10C\uD2B8\uB85C\uB9CC \uAD6C\uCD95\uB41C \uC644\uC131\uD615 \uC5D4\uD130\uD504\uB77C\uC774\uC988 \uC194\uB8E8\uC158")), /* @__PURE__ */ React34.createElement("div", { className: "flex items-center gap-(--space-2) shrink-0" }, /* @__PURE__ */ React34.createElement("div", { className: "bg-(--bg-secondary) p-1 rounded-(--radius) border border-(--border-subtle) flex items-center gap-1" }, ["7d", "30d", "90d", "1y"].map((r) => /* @__PURE__ */ React34.createElement(
     Button,
     {
       key: r,
@@ -10455,7 +10627,7 @@ function EnterpriseDashboardUseCase() {
       className: `px-2.5 py-1 text-xs h-auto rounded-(--radius-sm) ${timeRange === r ? "font-semibold" : "text-(--text-muted) hover:text-(--text-primary)"}`
     },
     r === "7d" ? "7\uC77C" : r === "30d" ? "30\uC77C" : r === "90d" ? "3\uAC1C\uC6D4" : "1\uB144"
-  ))), /* @__PURE__ */ React33.createElement(
+  ))), /* @__PURE__ */ React34.createElement(
     Button,
     {
       variant: "outline",
@@ -10464,16 +10636,16 @@ function EnterpriseDashboardUseCase() {
       className: "flex items-center gap-1.5",
       disabled: isRefreshing
     },
-    /* @__PURE__ */ React33.createElement(RefreshCw, { className: `w-3.5 h-3.5 ${isRefreshing ? "animate-spin" : ""}` }),
-    /* @__PURE__ */ React33.createElement("span", null, "\uC0C8\uB85C\uACE0\uCE68")
-  ), /* @__PURE__ */ React33.createElement(Button, { variant: "primary", size: "sm", className: "flex items-center gap-1.5" }, /* @__PURE__ */ React33.createElement(Download, { className: "w-3.5 h-3.5" }), /* @__PURE__ */ React33.createElement("span", null, "CSV \uB0B4\uBCF4\uB0B4\uAE30")))), /* @__PURE__ */ React33.createElement("div", { className: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-(--space-4)" }, INITIAL_METRICS.map((kpi) => /* @__PURE__ */ React33.createElement(Card, { key: kpi.id, className: "p-(--space-5) bg-(--bg-primary) border border-(--border-subtle) rounded-(--radius)" }, /* @__PURE__ */ React33.createElement("div", { className: "flex items-center justify-between mb-3" }, /* @__PURE__ */ React33.createElement("span", { className: "text-xs font-medium text-(--text-secondary)" }, kpi.label), /* @__PURE__ */ React33.createElement("div", { className: "w-9 h-9 rounded-(--radius-sm) bg-(--bg-secondary) flex items-center justify-center border border-(--border-subtle)" }, getMetricIcon(kpi.icon))), /* @__PURE__ */ React33.createElement("div", { className: "text-2xl font-black tracking-tight text-(--text-primary) mb-1.5" }, kpi.value), /* @__PURE__ */ React33.createElement("div", { className: "flex items-center gap-1.5 text-xs" }, /* @__PURE__ */ React33.createElement(
+    /* @__PURE__ */ React34.createElement(RefreshCw, { className: `w-3.5 h-3.5 ${isRefreshing ? "animate-spin" : ""}` }),
+    /* @__PURE__ */ React34.createElement("span", null, "\uC0C8\uB85C\uACE0\uCE68")
+  ), /* @__PURE__ */ React34.createElement(Button, { variant: "primary", size: "sm", className: "flex items-center gap-1.5" }, /* @__PURE__ */ React34.createElement(Download, { className: "w-3.5 h-3.5" }), /* @__PURE__ */ React34.createElement("span", null, "CSV \uB0B4\uBCF4\uB0B4\uAE30")))), /* @__PURE__ */ React34.createElement("div", { className: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-(--space-4)" }, INITIAL_METRICS.map((kpi) => /* @__PURE__ */ React34.createElement(Card, { key: kpi.id, className: "p-(--space-5) bg-(--bg-primary) border border-(--border-subtle) rounded-(--radius)" }, /* @__PURE__ */ React34.createElement("div", { className: "flex items-center justify-between mb-3" }, /* @__PURE__ */ React34.createElement("span", { className: "text-xs font-medium text-(--text-secondary)" }, kpi.label), /* @__PURE__ */ React34.createElement("div", { className: "w-9 h-9 rounded-(--radius-sm) bg-(--bg-secondary) flex items-center justify-center border border-(--border-subtle)" }, getMetricIcon(kpi.icon))), /* @__PURE__ */ React34.createElement("div", { className: "text-2xl font-black tracking-tight text-(--text-primary) mb-1.5" }, kpi.value), /* @__PURE__ */ React34.createElement("div", { className: "flex items-center gap-1.5 text-xs" }, /* @__PURE__ */ React34.createElement(
     "span",
     {
       className: `font-semibold flex items-center gap-0.5 ${kpi.isPositive ? "text-(--atom-color-success) dark:text-(--atom-color-success)" : "text-(--atom-color-destructive) dark:text-(--atom-color-destructive)"}`
     },
-    kpi.isPositive ? /* @__PURE__ */ React33.createElement(TrendingUp, { className: "w-3.5 h-3.5" }) : /* @__PURE__ */ React33.createElement(TrendingDown, { className: "w-3.5 h-3.5" }),
+    kpi.isPositive ? /* @__PURE__ */ React34.createElement(TrendingUp, { className: "w-3.5 h-3.5" }) : /* @__PURE__ */ React34.createElement(TrendingDown, { className: "w-3.5 h-3.5" }),
     kpi.change
-  ), /* @__PURE__ */ React33.createElement("span", { className: "text-(--text-muted)" }, "\uC9C0\uB09C \uAE30\uAC04 \uB300\uBE44"))))), /* @__PURE__ */ React33.createElement(Card, { className: "p-(--space-5) bg-(--bg-primary) border border-(--border-subtle) rounded-(--radius) flex flex-col gap-(--space-4)" }, /* @__PURE__ */ React33.createElement("div", { className: "flex flex-col sm:flex-row sm:items-center justify-between gap-(--space-3)" }, /* @__PURE__ */ React33.createElement("div", { className: "flex items-center gap-(--space-2) flex-1 max-w-sm" }, /* @__PURE__ */ React33.createElement("div", { className: "relative w-full" }, /* @__PURE__ */ React33.createElement(Search, { className: "w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-(--text-muted)" }), /* @__PURE__ */ React33.createElement(
+  ), /* @__PURE__ */ React34.createElement("span", { className: "text-(--text-muted)" }, "\uC9C0\uB09C \uAE30\uAC04 \uB300\uBE44"))))), /* @__PURE__ */ React34.createElement(Card, { className: "p-(--space-5) bg-(--bg-primary) border border-(--border-subtle) rounded-(--radius) flex flex-col gap-(--space-4)" }, /* @__PURE__ */ React34.createElement("div", { className: "flex flex-col sm:flex-row sm:items-center justify-between gap-(--space-3)" }, /* @__PURE__ */ React34.createElement("div", { className: "flex items-center gap-(--space-2) flex-1 max-w-sm" }, /* @__PURE__ */ React34.createElement("div", { className: "relative w-full" }, /* @__PURE__ */ React34.createElement(Search, { className: "w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-(--text-muted)" }), /* @__PURE__ */ React34.createElement(
     Input,
     {
       type: "text",
@@ -10482,7 +10654,7 @@ function EnterpriseDashboardUseCase() {
       onChange: (e) => setSearchQuery(e.target.value),
       className: "w-full pl-9 pr-3 py-1.5 text-xs"
     }
-  ))), /* @__PURE__ */ React33.createElement("div", { className: "flex items-center gap-(--space-2)" }, /* @__PURE__ */ React33.createElement("span", { className: "text-xs text-(--text-secondary) font-medium flex items-center gap-1" }, /* @__PURE__ */ React33.createElement(Filter, { className: "w-3.5 h-3.5 text-(--text-muted)" }), "\uC0C1\uD0DC \uD544\uD130:"), /* @__PURE__ */ React33.createElement("div", { className: "flex items-center gap-1" }, ["all", "active", "pending", "failed"].map((st) => /* @__PURE__ */ React33.createElement(
+  ))), /* @__PURE__ */ React34.createElement("div", { className: "flex items-center gap-(--space-2)" }, /* @__PURE__ */ React34.createElement("span", { className: "text-xs text-(--text-secondary) font-medium flex items-center gap-1" }, /* @__PURE__ */ React34.createElement(Filter, { className: "w-3.5 h-3.5 text-(--text-muted)" }), "\uC0C1\uD0DC \uD544\uD130:"), /* @__PURE__ */ React34.createElement("div", { className: "flex items-center gap-1" }, ["all", "active", "pending", "failed"].map((st) => /* @__PURE__ */ React34.createElement(
     Button,
     {
       key: st,
@@ -10492,14 +10664,15 @@ function EnterpriseDashboardUseCase() {
       className: `px-2 py-1 text-xs h-auto rounded-(--radius-sm) ${statusFilter === st ? "font-semibold" : "text-(--text-secondary) hover:text-(--text-primary)"}`
     },
     st === "all" ? "\uC804\uCCB4" : st === "active" ? "\uC644\uB8CC" : st === "pending" ? "\uCC98\uB9AC\uC911" : "\uC2E4\uD328"
-  ))))), /* @__PURE__ */ React33.createElement("div", { className: "overflow-x-auto rounded-(--radius-sm) border border-(--border-subtle)" }, /* @__PURE__ */ React33.createElement(Table, { className: "w-full text-left text-xs" }, /* @__PURE__ */ React33.createElement(TableHeader, { className: "bg-(--bg-secondary)/50 border-b border-(--border-subtle)" }, /* @__PURE__ */ React33.createElement(TableRow, null, /* @__PURE__ */ React33.createElement(TableHead, { className: "p-3 font-semibold text-(--text-primary)" }, "\uAC70\uB798\uBC88\uD638 (ID)"), /* @__PURE__ */ React33.createElement(TableHead, { className: "p-3 font-semibold text-(--text-primary)" }, "\uACE0\uAC1D\uC0AC / \uC774\uBA54\uC77C"), /* @__PURE__ */ React33.createElement(TableHead, { className: "p-3 font-semibold text-(--text-primary)" }, "\uAD6C\uB3C5 \uD50C\uB79C"), /* @__PURE__ */ React33.createElement(TableHead, { className: "p-3 font-semibold text-(--text-primary)" }, "\uACB0\uC81C \uAE08\uC561"), /* @__PURE__ */ React33.createElement(TableHead, { className: "p-3 font-semibold text-(--text-primary)" }, "\uC0C1\uD0DC"), /* @__PURE__ */ React33.createElement(TableHead, { className: "p-3 font-semibold text-(--text-primary)" }, "\uACB0\uC81C \uC77C\uC2DC"), /* @__PURE__ */ React33.createElement(TableHead, { className: "p-3 font-semibold text-(--text-primary) text-right" }, "\uAD00\uB9AC"))), /* @__PURE__ */ React33.createElement(TableBody, { className: "divide-y divide-(--border-subtle)" }, filteredTransactions.length === 0 ? /* @__PURE__ */ React33.createElement(TableRow, null, /* @__PURE__ */ React33.createElement(TableCell, { colSpan: 7, className: "p-8 text-center text-(--text-muted)" }, "\uAC80\uC0C9 \uACB0\uACFC\uC640 \uC77C\uCE58\uD558\uB294 \uAC70\uB798 \uB0B4\uC5ED\uC774 \uC5C6\uC2B5\uB2C8\uB2E4.")) : filteredTransactions.map((tx) => /* @__PURE__ */ React33.createElement(TableRow, { key: tx.id, className: "hover:bg-(--bg-secondary)/40 transition-colors" }, /* @__PURE__ */ React33.createElement(TableCell, { className: "p-3 font-mono font-medium text-(--text-primary)" }, tx.id), /* @__PURE__ */ React33.createElement(TableCell, { className: "p-3" }, /* @__PURE__ */ React33.createElement("div", { className: "font-semibold text-(--text-primary)" }, tx.customer), /* @__PURE__ */ React33.createElement("div", { className: "text-[11px] text-(--text-muted)" }, tx.email)), /* @__PURE__ */ React33.createElement(TableCell, { className: "p-3 font-medium text-(--text-secondary)" }, tx.plan), /* @__PURE__ */ React33.createElement(TableCell, { className: "p-3 font-mono font-semibold text-(--text-primary)" }, tx.amount), /* @__PURE__ */ React33.createElement(TableCell, { className: "p-3" }, getStatusBadge(tx.status)), /* @__PURE__ */ React33.createElement(TableCell, { className: "p-3 text-(--text-secondary)" }, tx.date), /* @__PURE__ */ React33.createElement(TableCell, { className: "p-3 text-right" }, /* @__PURE__ */ React33.createElement(Button, { variant: "ghost", size: "sm", className: "text-xs h-7 px-2" }, "\uC0C1\uC138 \uC601\uC218\uC99D"))))))), /* @__PURE__ */ React33.createElement("div", { className: "flex items-center justify-between text-xs text-(--text-muted) pt-2" }, /* @__PURE__ */ React33.createElement("span", null, "\uCD1D ", filteredTransactions.length, "\uAC74\uC758 \uAC70\uB798 \uB0B4\uC5ED \uC870\uD68C\uB428"), /* @__PURE__ */ React33.createElement("span", { className: "font-mono" }, "W3C DTCG Token Reactive System"))));
+  ))))), /* @__PURE__ */ React34.createElement("div", { className: "overflow-x-auto rounded-(--radius-sm) border border-(--border-subtle)" }, /* @__PURE__ */ React34.createElement(Table, { className: "w-full text-left text-xs" }, /* @__PURE__ */ React34.createElement(TableHeader, { className: "bg-(--bg-secondary)/50 border-b border-(--border-subtle)" }, /* @__PURE__ */ React34.createElement(TableRow, null, /* @__PURE__ */ React34.createElement(TableHead, { className: "p-3 font-semibold text-(--text-primary)" }, "\uAC70\uB798\uBC88\uD638 (ID)"), /* @__PURE__ */ React34.createElement(TableHead, { className: "p-3 font-semibold text-(--text-primary)" }, "\uACE0\uAC1D\uC0AC / \uC774\uBA54\uC77C"), /* @__PURE__ */ React34.createElement(TableHead, { className: "p-3 font-semibold text-(--text-primary)" }, "\uAD6C\uB3C5 \uD50C\uB79C"), /* @__PURE__ */ React34.createElement(TableHead, { className: "p-3 font-semibold text-(--text-primary)" }, "\uACB0\uC81C \uAE08\uC561"), /* @__PURE__ */ React34.createElement(TableHead, { className: "p-3 font-semibold text-(--text-primary)" }, "\uC0C1\uD0DC"), /* @__PURE__ */ React34.createElement(TableHead, { className: "p-3 font-semibold text-(--text-primary)" }, "\uACB0\uC81C \uC77C\uC2DC"), /* @__PURE__ */ React34.createElement(TableHead, { className: "p-3 font-semibold text-(--text-primary) text-right" }, "\uAD00\uB9AC"))), /* @__PURE__ */ React34.createElement(TableBody, { className: "divide-y divide-(--border-subtle)" }, filteredTransactions.length === 0 ? /* @__PURE__ */ React34.createElement(TableRow, null, /* @__PURE__ */ React34.createElement(TableCell, { colSpan: 7, className: "p-8 text-center text-(--text-muted)" }, "\uAC80\uC0C9 \uACB0\uACFC\uC640 \uC77C\uCE58\uD558\uB294 \uAC70\uB798 \uB0B4\uC5ED\uC774 \uC5C6\uC2B5\uB2C8\uB2E4.")) : filteredTransactions.map((tx) => /* @__PURE__ */ React34.createElement(TableRow, { key: tx.id, className: "hover:bg-(--bg-secondary)/40 transition-colors" }, /* @__PURE__ */ React34.createElement(TableCell, { className: "p-3 font-mono font-medium text-(--text-primary)" }, tx.id), /* @__PURE__ */ React34.createElement(TableCell, { className: "p-3" }, /* @__PURE__ */ React34.createElement("div", { className: "font-semibold text-(--text-primary)" }, tx.customer), /* @__PURE__ */ React34.createElement("div", { className: "text-[11px] text-(--text-muted)" }, tx.email)), /* @__PURE__ */ React34.createElement(TableCell, { className: "p-3 font-medium text-(--text-secondary)" }, tx.plan), /* @__PURE__ */ React34.createElement(TableCell, { className: "p-3 font-mono font-semibold text-(--text-primary)" }, tx.amount), /* @__PURE__ */ React34.createElement(TableCell, { className: "p-3" }, getStatusBadge(tx.status)), /* @__PURE__ */ React34.createElement(TableCell, { className: "p-3 text-(--text-secondary)" }, tx.date), /* @__PURE__ */ React34.createElement(TableCell, { className: "p-3 text-right" }, /* @__PURE__ */ React34.createElement(Button, { variant: "ghost", size: "sm", className: "text-xs h-7 px-2" }, "\uC0C1\uC138 \uC601\uC218\uC99D"))))))), /* @__PURE__ */ React34.createElement("div", { className: "flex items-center justify-between text-xs text-(--text-muted) pt-2" }, /* @__PURE__ */ React34.createElement("span", null, "\uCD1D ", filteredTransactions.length, "\uAC74\uC758 \uAC70\uB798 \uB0B4\uC5ED \uC870\uD68C\uB428"), /* @__PURE__ */ React34.createElement("span", { className: "font-mono" }, "W3C DTCG Token Reactive System"))));
 }
 
 // src/index.ts
 var ATOM_UI_CSS_PATH = "atomsystem/css/atom-ui.css";
+var ATOM_STUDIO_REGISTRY_PATH = "atomsystem/studio.registry.json";
 var ATOM_VERSION = "0.14.2";
 var ATOM_LIB_NAME = "atomsystem";
 
-export { ATOM_LIB_NAME, ATOM_UI_CSS_PATH, ATOM_VERSION, AWESOME_CATEGORIES, AWESOME_DESIGN_MD_THEMES, BASE_COLOR_TOKENS, BRAND_PRESETS, COLOR_PRESETS, DEFAULT_BRAND_CONFIG, DEFAULT_THEME_CONFIG, EnterpriseDashboardUseCase, FONT_FAMILY_PRESETS, GALLERY_COMPONENTS, LAYOUT_TOKENS, PATTERNS_COLLECTION, RADIUS_TOKENS, SHADOW_TOKENS, SPACING_TOKENS, TYPOGRAPHY_TOKENS, applyThemeToDOM, cn, exportToCSS, exportToTailwind, exportToTokensJson, generateThemeCSS, isDarkColor };
+export { ATOM_LIB_NAME, ATOM_STUDIO_REGISTRY_PATH, ATOM_UI_CSS_PATH, ATOM_VERSION, AWESOME_CATEGORIES, AWESOME_DESIGN_MD_THEMES, BASE_COLOR_TOKENS, BRAND_PRESETS, COLOR_PRESETS, DEFAULT_BRAND_CONFIG, DEFAULT_THEME_CONFIG, EnterpriseDashboardUseCase, FONT_FAMILY_PRESETS, GALLERY_COMPONENTS, LAYOUT_TOKENS, PATTERNS_COLLECTION, RADIUS_TOKENS, SHADOW_TOKENS, SPACING_TOKENS, TYPOGRAPHY_TOKENS, applyThemeToDOM, cn, exportToCSS, exportToTailwind, exportToTokensJson, generateThemeCSS, injectWebfontLink, isDarkColor };
 //# sourceMappingURL=index.js.map
 //# sourceMappingURL=index.js.map

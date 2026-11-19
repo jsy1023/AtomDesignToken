@@ -15,18 +15,19 @@ export function GuideLocalStudioSection() {
     setTimeout(() => setCopiedId(null), 2000);
   };
 
-  const cliWorkflowCode = `# 1. 패키지 설치 및 로컬 환경 초기화 (토큰 & AI 규격 파일 자동 생성)
+  const cliWorkflowCode = `# 1. 패키지 설치 및 로컬 환경 초기화 (SSOT 레지스트리 · 토큰 · AI 규격 파일 생성)
 npx atomsystem init
 
-# 2. 로컬 웹 토큰 스튜디오(GUI) 실행 (독립 서버 모드)
+# 2. AI 컴포넌트 표준 JSON 스키마 확인 및 제출 (스캐폴딩 + 스튜디오/CSS 자동 반영)
+npx atomsystem schema
+npx atomsystem submit rating-chip.atom.json
+
+# 3. 로컬 웹 SSOT 스튜디오(GUI) 실행 (독립 서버 모드)
 npx atomsystem studio
-# 브라우저에서 http://localhost:4000 접속
+# 브라우저에서 http://localhost:4000 접속 (또는 http://localhost:3000/studio)
 
-# 3. Next.js / 웹 프로젝트 내장 스튜디오로 접속 시
-# 개발 서버 구동 중 http://localhost:3000/studio 접속
-
-# 4. CLI를 통해 수동으로 CSS 재컴파일할 경우
-npx atomsystem build:tokens`;
+# 4. components/ui/*.tsx 자동 스캔 동기화 & CSS 재컴파일
+npx atomsystem sync`;
 
   return (
     <section className="py-12 border-b border-[var(--border-subtle)] bg-(--bg-secondary)/30">

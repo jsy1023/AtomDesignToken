@@ -5,6 +5,15 @@ import { fileURLToPath } from 'url';
 import { startLocalTokenStudio } from './studioServer';
 import { compileTokensToCss } from './tokenCompiler';
 import { scanAndRefactorDirectory } from './refactorEngine';
+import {
+  AI_COMPONENT_SUBMISSION_TEMPLATE,
+  buildAiComponentSubmissionPrompt,
+} from '../lib/data/studioData';
+import {
+  loadProjectRegistry,
+  saveProjectRegistry,
+  submitComponentSpec,
+} from '../lib/services/studioRegistryServer';
 
 function getPkgRoot(): string {
   try {
@@ -78,6 +87,19 @@ function handleInit() {
     copyFileSafe(srcCss, path.join(cwd, 'css', 'atom-ui.css'), 'Zero-Runtime Semantic CSS (css/atom-ui.css)');
   }
 
+  const srcRegistry = path.join(PKG_ROOT, 'tokens', 'studio.registry.json');
+  if (fs.existsSync(srcRegistry)) {
+    copyFileSafe(
+      srcRegistry,
+      path.join(cwd, 'tokens', 'studio.registry.json'),
+      'Studio SSOT Registry (tokens/studio.registry.json)'
+    );
+  } else {
+    const { registry } = loadProjectRegistry(cwd);
+    saveProjectRegistry(cwd, registry);
+    console.log('  ✓ Studio SSOT Registry -> tokens/studio.registry.json');
+  }
+
   console.log('\n✨ AtomSystem initialization completed successfully!');
   console.log('\n🎨 Local Token Studio Available:');
   console.log('  Run "npx atomsystem studio" to launch the local web customizer GUI.');
@@ -91,16 +113,40 @@ function handleInit() {
 }
 
 const COMPONENT_MAP: Record<string, string> = {
-  button: 'Button.tsx',
-  card: 'Card.tsx',
+  accordion: 'Accordion.tsx',
+  alert: 'Alert.tsx',
+  avatar: 'Avatar.tsx',
   badge: 'Badge.tsx',
+  breadcrumb: 'Breadcrumb.tsx',
+  button: 'Button.tsx',
+  calendar: 'Calendar.tsx',
+  card: 'Card.tsx',
+  chart: 'Chart.tsx',
+  checkbox: 'Checkbox.tsx',
+  container: 'Container.tsx',
   input: 'Input.tsx',
+  layout: 'Layout.tsx',
+  modal: 'Modal.tsx',
+  nav: 'Nav.tsx',
+  navbar: 'Navbar.tsx',
+  offcanvas: 'Offcanvas.tsx',
+  pagination: 'Pagination.tsx',
+  progress: 'Progress.tsx',
+  radio: 'Radio.tsx',
+  select: 'Select.tsx',
+  separator: 'Separator.tsx',
+  sidebar: 'Sidebar.tsx',
+  sidemenu: 'SideMenu.tsx',
+  skeleton: 'Skeleton.tsx',
+  slider: 'Slider.tsx',
+  switch: 'Switch.tsx',
   table: 'Table.tsx',
   tabs: 'Tabs.tsx',
-  switch: 'Switch.tsx',
-  modal: 'Modal.tsx',
-  container: 'Container.tsx',
-  layout: 'Layout.tsx',
+  textarea: 'Textarea.tsx',
+  toast: 'Toast.tsx',
+  'token-select': 'TokenSelect.tsx',
+  tooltip: 'Tooltip.tsx',
+  tree: 'Tree.tsx',
 };
 
 const BLOCK_MAP: Record<string, { file: string; deps: string[] }> = {
@@ -300,6 +346,62 @@ function handleRefactor() {
   }
 }
 
+function handleSubmit(filePathArg?: string) {
+  if (!filePathArg) {
+    console.error('\n❌ Please provide a component spec JSON file. Example: npx atomsystem submit rating-chip.atom.json\n');
+    console.log('💡 Run "npx atomsystem schema" to print a template JSON spec.\n');
+    process.exitCode = 1;
+    return;
+  }
+
+  const cwd = process.cwd();
+  const absPath = path.resolve(cwd, filePathArg);
+  if (!fs.existsSync(absPath)) {
+    console.error(`\n❌ Spec file not found: ${absPath}\n`);
+    process.exitCode = 1;
+    return;
+  }
+
+  try {
+    const raw = JSON.parse(fs.readFileSync(absPath, 'utf-8'));
+    const spec = raw?.spec && typeof raw.spec === 'object' ? raw.spec : raw;
+    const result = submitComponentSpec(cwd, spec);
+    if (!result.success) {
+      console.error('\n❌ Component spec validation failed:');
+      (result.errors || []).forEach((err) => console.error(`  - ${err}`));
+      process.exitCode = 1;
+      return;
+    }
+
+    console.log(`\n✨ Registered component "${result.component?.id}" into AtomSystem SSOT!\n`);
+    (result.filesWritten || []).forEach((f) => console.log(`  ✓ Updated ${f}`));
+    console.log('');
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : 'Unknown error';
+    console.error(`\n❌ Failed to submit component spec: ${msg}\n`);
+    process.exitCode = 1;
+  }
+}
+
+function handleSync() {
+  const cwd = process.cwd();
+  const loaded = loadProjectRegistry(cwd);
+  const saved = saveProjectRegistry(cwd, loaded.registry);
+  console.log(`\n🔄 Synchronized AtomSystem SSOT Registry!`);
+  console.log(`  - Components Managed : ${saved.registry.components.length}`);
+  console.log(`  - Scanned UI Files   : ${loaded.discoveredFiles.length}`);
+  saved.filesWritten.forEach((f) => console.log(`  ✓ Recompiled ${f}`));
+  console.log('');
+}
+
+function handleSchema() {
+  if (args.includes('--prompt')) {
+    console.log(buildAiComponentSubmissionPrompt('요청한 신규 UI 컴포넌트'));
+    return;
+  }
+  console.log(JSON.stringify(AI_COMPONENT_SUBMISSION_TEMPLATE, null, 2));
+}
+
 function showHelp() {
   console.log(`
 AtomSystem CLI - Universal Design Token & Agentic UI System
@@ -308,11 +410,14 @@ Usage:
   npx atomsystem <command> [options]
 
 Commands:
-  init            Initialize AI guidelines, tokens, specs, and CSS in your project
+  init            Initialize AI guidelines, tokens, studio.registry.json, specs, and CSS
+  studio          Launch Local SSOT Web Studio GUI (Component Registry + AI Submit + Tokens)
+  submit <file>   Register & scaffold an AI component spec JSON into the project SSOT
+  sync            Auto-discover components/ui/*.tsx & *.atom.json and recompile SSOT CSS/JSON
+  schema          Print standardized AI Component Submission JSON template (--prompt for AI prompt)
+  build:tokens    Compile tokens/token.json into zero-runtime css/atom-ui.css
   refactor        Scan & replace hardcoded HEX/px/Tailwind colors with tokens (--fix)
   skill install   Install AI Agent Skill and guidelines (.cursorrules, CLAUDE.md)
-  studio          Launch Local Web Token Studio GUI (interactive token customizer)
-  build:tokens    Compile tokens/token.json into zero-runtime css/atom-ui.css
   add <name>      Add a component or block directly to your project
   list            List all available components and blocks
   help            Display this help message
@@ -349,6 +454,16 @@ switch (command) {
   case 'studio':
   case 'editor':
     handleStudio();
+    break;
+  case 'submit':
+  case 'register':
+    handleSubmit(targetName);
+    break;
+  case 'sync':
+    handleSync();
+    break;
+  case 'schema':
+    handleSchema();
     break;
   case 'build:tokens':
   case 'compile':

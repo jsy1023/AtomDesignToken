@@ -178,10 +178,15 @@ interface ColorPreset {
 }
 declare const DEFAULT_THEME_CONFIG: ThemeConfig;
 declare const COLOR_PRESETS: ColorPreset[];
-declare const FONT_FAMILY_PRESETS: {
+interface FontFamilyPreset {
+    id: string;
     name: string;
     value: string;
-}[];
+    cdnUrl?: string;
+    category: 'sans' | 'mono';
+    description?: string;
+}
+declare const FONT_FAMILY_PRESETS: FontFamilyPreset[];
 
 interface AwesomeDesignMdTheme {
     id: string;
@@ -196,6 +201,176 @@ interface AwesomeDesignMdTheme {
 declare const AWESOME_DESIGN_MD_THEMES: AwesomeDesignMdTheme[];
 declare const AWESOME_CATEGORIES: readonly ["All", "AI & LLM", "Developer Tools", "Fintech & Web3", "Tech & Lifestyle", "Automotive & Luxury"];
 
+type PaletteCategory = 'color' | 'size' | 'spacing' | 'radius' | 'typography' | 'status';
+interface SemanticStatusToken {
+    id: string;
+    key: 'primary' | 'secondary' | 'success' | 'danger' | 'warning';
+    name: string;
+    description: string;
+    paletteId: string;
+    hoverPaletteId: string;
+    subtlePaletteId: string;
+}
+declare const INITIAL_SEMANTIC_STATUS_TOKENS: SemanticStatusToken[];
+interface PaletteVariable {
+    id: string;
+    name: string;
+    category: PaletteCategory;
+    value: string;
+    cdnUrl?: string;
+    description?: string;
+    family?: string;
+}
+interface ComponentPropertySpec {
+    key: string;
+    label: string;
+    category: 'color' | 'radius' | 'spacing' | 'size' | 'typography';
+    defaultPaletteId: string;
+}
+/**
+ * 1. Type: 조형과 뼈대가 다른 "새로운 디자인의 컴포넌트 외형 양식"
+ * 예: Button의 Solid, Outline, Ghost, Soft, Pill, Elevated
+ *     Card의 Outlined, Elevated, Flat, Accent-Border
+ *     Badge의 Solid, Subtle, Outline, Dot
+ *     Input의 Outlined, Filled, Underlined
+ */
+interface ComponentTypeSpec {
+    id: string;
+    name: string;
+    description?: string;
+    whenToUse: string;
+    whenToUseEn?: string;
+    antiPattern?: string;
+    visualTraits?: {
+        hasBorder?: boolean;
+        hasBackground?: boolean;
+        borderRadius?: string;
+        shadow?: string;
+    };
+}
+/**
+ * 전 컴포넌트 기본 디자인 Type (외형 양식) 프리셋 카탈로그
+ */
+declare const DEFAULT_COMPONENT_TYPES: Record<string, ComponentTypeSpec[]>;
+/**
+ * 문서/UI 컴포넌트 식별자(예: 'dialog', 'selection', 'sidemenu')를 스튜디오 정규 컴포넌트 ID로 매핑합니다.
+ */
+declare function resolveStudioComponentId(rawId: string): string;
+declare function getComponentTypes(componentId: string, customTypes?: ComponentTypeSpec[]): ComponentTypeSpec[];
+/**
+ * 2. Variable: "빨강은 위험, 노랑은 경고, primary는 브랜드" 같은 시맨틱 역할 및 비주얼 의미론
+ */
+type SemanticVariableRole = 'primary' | 'secondary' | 'danger' | 'warning' | 'success' | 'info' | 'outline' | 'ghost';
+interface SemanticVariableDefinition {
+    role: SemanticVariableRole;
+    label: string;
+    meaning: string;
+    badgeColorClass: string;
+}
+declare const SEMANTIC_VARIABLE_DICTIONARY: Record<SemanticVariableRole, SemanticVariableDefinition>;
+/**
+ * 3. Status: "hover, disabled 같은 상태 정보 구조"
+ * UI 컴포넌트의 인터랙션 라이프사이클에 따른 상태 정보
+ */
+type ComponentInteractiveStatus = 'default' | 'hover' | 'active' | 'focus' | 'disabled' | 'loading';
+interface ComponentStatusSpec {
+    status: ComponentInteractiveStatus;
+    label: string;
+    description: string;
+    descriptionEn?: string;
+    behavior: string;
+    behaviorEn?: string;
+}
+declare const COMPONENT_STATUS_PRESETS: ComponentStatusSpec[];
+declare function resolveVariableRole(variableId: string): SemanticVariableRole;
+declare function resolveTypeSpec(componentId: string, variableId: string, customName?: string): ComponentTypeSpec;
+/**
+ * 각 상태(Status)별로 수정 가능한 토큰 프로퍼티 목록을 반환하는 함수
+ * - Default: 표준 배경, 텍스트, 테두리, 곡률, 여백
+ * - Hover: 마우스 오버 시 피드백 토큰 (hoverBackground, hoverTextColor, hoverBorderColor)
+ * - Active: 클릭 시 피드백 토큰 (activeBackground, activeTextColor, activeBorderColor)
+ * - Focus: 키보드 포커스 링 토큰 (focusBorderColor, focusBackground)
+ * - Disabled: 비활성 시 차단 토큰 (disabledBackground, disabledTextColor, disabledBorderColor)
+ */
+declare function getComponentStatusProperties(componentId: string, status: ComponentInteractiveStatus | 'all', baseProperties?: ComponentPropertySpec[]): ComponentPropertySpec[];
+interface ComponentVariable {
+    id: string;
+    name: string;
+    description?: string;
+    type?: ComponentTypeSpec;
+    variableRole?: SemanticVariableRole;
+    supportedStatuses?: ComponentInteractiveStatus[];
+    tokenBindings: Record<string, string>;
+}
+interface StudioComponentDefinition {
+    id: string;
+    name: string;
+    category: 'Form' | 'Layout' | 'Feedback' | 'Navigation' | 'Data';
+    description: string;
+    types?: ComponentTypeSpec[];
+    typeGuide?: {
+        primaryType: string;
+        whenToUse: string;
+        variantsSummary: string;
+    };
+    supportedStatuses?: ComponentInteractiveStatus[];
+    properties: ComponentPropertySpec[];
+    variables: ComponentVariable[];
+    sourceFile?: string;
+    autoDiscovered?: boolean;
+    customCss?: string;
+    docs?: {
+        useCases?: string[];
+        usagePatterns?: string[];
+        propsSpec?: {
+            name: string;
+            type: string;
+            defaultValue: string;
+            description: string;
+        }[];
+    };
+}
+declare const INITIAL_PALETTE_VARIABLES: PaletteVariable[];
+declare const INITIAL_STUDIO_COMPONENTS: StudioComponentDefinition[];
+interface StudioRegistry {
+    $schema?: string;
+    version: string;
+    updatedAt: string;
+    activeThemeId?: string;
+    statusTokens: SemanticStatusToken[];
+    paletteVariables: PaletteVariable[];
+    components: StudioComponentDefinition[];
+}
+interface AtomComponentSubmissionSpec {
+    id: string;
+    name: string;
+    category: 'Form' | 'Layout' | 'Feedback' | 'Navigation' | 'Data';
+    description: string;
+    types: ComponentTypeSpec[];
+    properties?: ComponentPropertySpec[];
+    variables: ComponentVariable[];
+    supportedStatuses?: ComponentInteractiveStatus[];
+    componentCode?: string;
+    overwriteCode?: boolean;
+    customCss?: string;
+    docs?: {
+        useCases?: string[];
+        usagePatterns?: string[];
+        propsSpec?: {
+            name: string;
+            type: string;
+            defaultValue: string;
+            description: string;
+        }[];
+    };
+}
+declare const AI_COMPONENT_SUBMISSION_TEMPLATE: AtomComponentSubmissionSpec;
+declare function buildAiComponentSubmissionPrompt(componentRequest?: string): string;
+
+/**
+ * Dynamically injects or updates a stylesheet <link> tag in document.head for a custom webfont CDN URL.
+ */
+declare function injectWebfontLink(cdnUrl?: string, linkId?: string): void;
 /**
  * ThemeConfig를 받아 전역에 적용될 동적 CSS 문자열을 생성합니다.
  */
@@ -221,6 +396,16 @@ declare function exportToTailwind(theme: ThemeConfig): string;
  * W3C Design Token Community Group (DTCG) 호환 tokens.json 생성
  */
 declare function exportToTokensJson(theme: ThemeConfig): string;
+
+declare const STUDIO_CUSTOM_STYLES_START = "/* === Studio Registered Component Styles Start === */";
+declare const STUDIO_CUSTOM_STYLES_END = "/* === Studio Registered Component Styles End === */";
+declare function exportStudioToTokensJson(palette: PaletteVariable[], components: StudioComponentDefinition[], statusTokens?: SemanticStatusToken[]): string;
+declare function exportStudioToCSS(palette: PaletteVariable[], components: StudioComponentDefinition[], statusTokens?: SemanticStatusToken[]): string;
+/**
+ * Generates delimited dynamic CSS rules for custom components submitted via Studio/AI
+ * and any visualTraits declared on component Types so they work identically across the project.
+ */
+declare function exportStudioCustomComponentStyles(components: StudioComponentDefinition[]): string;
 
 /**
  * Combines multiple class names using clsx and merges Tailwind classes
@@ -276,10 +461,11 @@ declare function EnterpriseDashboardUseCase(): React.JSX.Element;
  */
 
 declare const ATOM_UI_CSS_PATH = "atomsystem/css/atom-ui.css";
+declare const ATOM_STUDIO_REGISTRY_PATH = "atomsystem/studio.registry.json";
 /**
  * CLI Banner & Metadata
  */
 declare const ATOM_VERSION = "0.14.2";
 declare const ATOM_LIB_NAME = "atomsystem";
 
-export { ATOM_LIB_NAME, ATOM_UI_CSS_PATH, ATOM_VERSION, AWESOME_CATEGORIES, AWESOME_DESIGN_MD_THEMES, type AwesomeDesignMdTheme, BASE_COLOR_TOKENS, BRAND_PRESETS, type BrandConfig, type BrandPreset, type ButtonSpacingConfig, COLOR_PRESETS, type ColorConfig, type ColorPreset, type ColorToken, type ComponentCategory, DEFAULT_BRAND_CONFIG, DEFAULT_THEME_CONFIG, type DosAndDont, EnterpriseDashboardUseCase, FONT_FAMILY_PRESETS, GALLERY_COMPONENTS, type GalleryComponent, type KpiMetric, LAYOUT_TOKENS, type LayoutToken, PATTERNS_COLLECTION, type PatternItem, type PatternPlatform, type PatternVariant, type PropItem, RADIUS_TOKENS, type RadiusToken, type RefactorMatch, type RefactorReport, SHADOW_TOKENS, SPACING_TOKENS, type ShadowToken, type SpacingToken, TOKEN_REPLACEMENTS, TYPOGRAPHY_TOKENS, type ThemeConfig, type TokenCategory, type TransactionItem, type TypographyConfig, type TypographyLevelConfig, type TypographyToken, applyThemeToDOM, cn, exportToCSS, exportToTailwind, exportToTokensJson, generateThemeCSS, isDarkColor, scanAndRefactorDirectory };
+export { AI_COMPONENT_SUBMISSION_TEMPLATE, ATOM_LIB_NAME, ATOM_STUDIO_REGISTRY_PATH, ATOM_UI_CSS_PATH, ATOM_VERSION, AWESOME_CATEGORIES, AWESOME_DESIGN_MD_THEMES, type AtomComponentSubmissionSpec, type AwesomeDesignMdTheme, BASE_COLOR_TOKENS, BRAND_PRESETS, type BrandConfig, type BrandPreset, type ButtonSpacingConfig, COLOR_PRESETS, COMPONENT_STATUS_PRESETS, type ColorConfig, type ColorPreset, type ColorToken, type ComponentCategory, type ComponentInteractiveStatus, type ComponentPropertySpec, type ComponentStatusSpec, type ComponentTypeSpec, type ComponentVariable, DEFAULT_BRAND_CONFIG, DEFAULT_COMPONENT_TYPES, DEFAULT_THEME_CONFIG, type DosAndDont, EnterpriseDashboardUseCase, FONT_FAMILY_PRESETS, type FontFamilyPreset, GALLERY_COMPONENTS, type GalleryComponent, INITIAL_PALETTE_VARIABLES, INITIAL_SEMANTIC_STATUS_TOKENS, INITIAL_STUDIO_COMPONENTS, type KpiMetric, LAYOUT_TOKENS, type LayoutToken, PATTERNS_COLLECTION, type PaletteCategory, type PaletteVariable, type PatternItem, type PatternPlatform, type PatternVariant, type PropItem, RADIUS_TOKENS, type RadiusToken, type RefactorMatch, type RefactorReport, SEMANTIC_VARIABLE_DICTIONARY, SHADOW_TOKENS, SPACING_TOKENS, STUDIO_CUSTOM_STYLES_END, STUDIO_CUSTOM_STYLES_START, type SemanticStatusToken, type SemanticVariableDefinition, type SemanticVariableRole, type ShadowToken, type SpacingToken, type StudioComponentDefinition, type StudioRegistry, TOKEN_REPLACEMENTS, TYPOGRAPHY_TOKENS, type ThemeConfig, type TokenCategory, type TransactionItem, type TypographyConfig, type TypographyLevelConfig, type TypographyToken, applyThemeToDOM, buildAiComponentSubmissionPrompt, cn, exportStudioCustomComponentStyles, exportStudioToCSS, exportStudioToTokensJson, exportToCSS, exportToTailwind, exportToTokensJson, generateThemeCSS, getComponentStatusProperties, getComponentTypes, injectWebfontLink, isDarkColor, resolveStudioComponentId, resolveTypeSpec, resolveVariableRole, scanAndRefactorDirectory };

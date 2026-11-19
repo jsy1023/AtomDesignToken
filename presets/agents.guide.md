@@ -50,7 +50,17 @@
 
 ---
 
-## 💡 4. AI 작업 시 필수 체크리스트
+## 🛠️ 4. 로컬 스튜디오 SSOT & AI 컴포넌트 제출 프로토콜
+- **프로젝트 SSOT**: `tokens/studio.registry.json`이 프로젝트의 모든 컴포넌트(`Type · Variable · Status`)와 토큰을 통합 관리합니다.
+- **AI 컴포넌트 표준 제출**:
+  1. `npx atomsystem schema`로 표준 명세 JSON 양식 확인
+  2. `npx atomsystem submit <name>.atom.json` 또는 로컬 스튜디오(`POST /api/studio/components`, `/studio` UI `+ AI 제출`)에 제출
+  3. 제출 즉시 `components/ui/<PascalName>.tsx`, `components/ui/index.ts`, `tokens/studio.registry.json`, `tokens/token.json`, `css/atom-ui.css`가 자동 생성·동기화됩니다.
+- **자동 스캔 동기화**: `npx atomsystem sync` 또는 `npx atomsystem studio`
+
+---
+
+## 💡 5. AI 작업 시 필수 체크리스트
 - [ ] Tailwind 임의의 컬러(`blue-500`, `gray-100`)를 하드코딩하지 않고 시맨틱 토큰 변수를 사용했는가?
 - [ ] 버튼, 카드, 뱃지 등 UI를 날림 태그 대신 `components/ui/`에서 import하여 조립했는가?
 - [ ] 복잡한 화면을 만들 때 `atom.blocks.md` 및 `atom.uxPattern.md`의 검증된 패턴을 따랐는가?
