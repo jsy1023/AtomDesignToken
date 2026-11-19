@@ -74,8 +74,8 @@ export interface ColorPreset {
 
 export const DEFAULT_THEME_CONFIG: ThemeConfig = {
   color: {
-    primary: 'var(--accent-primary)',
-    primaryHover: 'var(--accent-primary-hover)',
+    primary: '#3182f6',
+    primaryHover: '#1b64da',
     primaryLight: '#e8f3ff',
     bgPrimary: '#ffffff',
     bgSecondary: '#f8f9fa',
@@ -160,8 +160,8 @@ export const COLOR_PRESETS: ColorPreset[] = [
     description: '청량한 비비드 블루와 모던 라운딩',
     borderRadius: '16px',
     colors: {
-      primary: 'var(--accent-primary)',
-      primaryHover: 'var(--accent-primary-hover)',
+      primary: '#3182f6',
+      primaryHover: '#1b64da',
       primaryLight: '#e8f3ff',
       bgPrimary: '#ffffff',
       bgSecondary: '#f8f9fa',

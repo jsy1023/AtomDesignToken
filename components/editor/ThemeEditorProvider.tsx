@@ -101,6 +101,15 @@ export function ThemeEditorProvider({ children }: { children: React.ReactNode })
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved && saved.trim() !== '') {
         const parsed = JSON.parse(saved);
+        // Heal legacy self-referential CSS variable values that collapse --accent-primary in CSS
+        if (parsed?.color) {
+          if (typeof parsed.color.primary === 'string' && parsed.color.primary.includes('var(--')) {
+            parsed.color.primary = '#3182f6';
+          }
+          if (typeof parsed.color.primaryHover === 'string' && parsed.color.primaryHover.includes('var(--')) {
+            parsed.color.primaryHover = '#1b64da';
+          }
+        }
         // Stale theme self-healing: 다크 배경인데 카드가 흰색(#f8f9fa 등)으로 남아있다면 최신 토큰으로 보정
         if (parsed?.color?.bgPrimary && isDarkColor(parsed.color.bgPrimary) && !isDarkColor(parsed.color.bgSecondary)) {
           const match = AWESOME_DESIGN_MD_THEMES.find(

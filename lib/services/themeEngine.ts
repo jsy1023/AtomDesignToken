@@ -44,6 +44,16 @@ export function injectWebfontLink(cdnUrl?: string, linkId: string = 'atom-custom
  */
 export function generateThemeCSS(theme: ThemeConfig): string {
   const { color, typography, borderRadius } = theme;
+  const safePrimary =
+    color.primary && !color.primary.includes('var(--accent-primary)') && !color.primary.includes('var(--atom-color-primary)')
+      ? color.primary
+      : '#3182f6';
+  const safePrimaryHover =
+    color.primaryHover &&
+    !color.primaryHover.includes('var(--accent-hover)') &&
+    !color.primaryHover.includes('var(--accent-primary-hover)')
+      ? color.primaryHover
+      : '#1b64da';
   const isDark = isDarkColor(color.bgPrimary);
 
   // Detect font import if Google font selected
@@ -63,8 +73,8 @@ ${fontImportCSS}/* [AtomDesignToken] Live Injected Theme Variables */
   --atom-font-sans: ${typography.fontFamily};
 
   /* Semantic Colors */
-  --accent-primary: ${color.primary};
-  --accent-hover: ${color.primaryHover};
+  --accent-primary: ${safePrimary};
+  --accent-hover: ${safePrimaryHover};
   --accent-light: ${color.primaryLight};
   --bg-primary: ${color.bgPrimary};
   --bg-secondary: ${color.bgSecondary};
@@ -75,8 +85,8 @@ ${fontImportCSS}/* [AtomDesignToken] Live Injected Theme Variables */
   --border-strong: ${color.borderStrong};
 
   /* Atom System Specific Variables */
-  --atom-color-primary: ${color.primary};
-  --atom-color-primary-hover: ${color.primaryHover};
+  --atom-color-primary: ${safePrimary};
+  --atom-color-primary-hover: ${safePrimaryHover};
   --atom-color-primary-subtle: ${color.primaryLight};
   --atom-color-secondary: ${color.secondary || (isDark ? '#334155' : '#e2e8f0')};
   --atom-color-secondary-hover: ${color.secondaryHover || (isDark ? '#475569' : '#cbd5e1')};
@@ -245,13 +255,13 @@ html.dark {
 }
 
 .atom-button-primary {
-  background-color: ${color.primary} !important;
+  background-color: ${safePrimary} !important;
   color: #ffffff !important;
   border-radius: ${borderRadius} !important;
 }
 
 .atom-button-primary:hover {
-  background-color: ${color.primaryHover} !important;
+  background-color: ${safePrimaryHover} !important;
 }
 
 .atom-card {
@@ -262,7 +272,7 @@ html.dark {
 
 .atom-tree-node.is-selected {
   background-color: ${color.primaryLight} !important;
-  color: ${color.primary} !important;
+  color: ${safePrimary} !important;
   border-radius: ${borderRadius} !important;
 }
 
@@ -277,7 +287,7 @@ html.dark .border-(--border-subtle)\\/80 {
 
 /* Ensure tab active pills and chips using dark:bg-white take brand accent */
 html.dark [class*="dark:bg-white"]:not([data-keep-white]) {
-  background-color: ${color.primary} !important;
+  background-color: ${safePrimary} !important;
   color: #ffffff !important;
 }
 `.trim();
