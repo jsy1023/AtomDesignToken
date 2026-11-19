@@ -1084,63 +1084,6 @@ export function TooltipDemo() {
 </template>`
   },
   {
-    id: 'toast',
-    name: '토스트 알림 (Toast & Notification)',
-    category: 'feedback',
-    source: 'sonner + shadcn',
-    description: '작업의 성공, 실패, 경고 메시지를 사용자 화면 모서리에 비간섭적(Non-intrusive)으로 띄우고 자동 소멸시키는 토스트 스낵바',
-    callout: {
-      type: 'tip',
-      title: '자동 소멸 시간 및 일시 정지',
-      text: '기본 3~4초 후 자동 닫힘을 지원하되, 사용자가 마우스를 올리거나 터치 중일 때는 타이머가 일시 정지되어 충분히 읽을 시간을 보장하세요.'
-    },
-    useCases: [
-      '클립보드 복사 완료 ("링크가 복사되었습니다")',
-      '설정 저장 및 프로필 수정 완료 피드백',
-      '네트워크 일시 오류 또는 API 요청 실패 시 재시도 안내',
-      '장바구니 담기 완료 후 "장바구니 바로가기" 인라인 액션 버튼 제공'
-    ],
-    usagePatterns: [
-      '모바일에서는 화면 최상단 또는 최하단 전체 너비로 노출하고, 데스크톱에서는 우측 상단/하단에 컴팩트하게 배치합니다.',
-      '동시에 여러 알림이 발생할 경우 최대 3개까지 스택(Stacking)하여 겹쳐 보여주고 오래된 알림부터 순차적으로 제거합니다.'
-    ],
-    dosAndDonts: [
-      {
-        do: '성공은 녹색(Emerald), 에러는 적색(Rose), 정보는 청색(Blue)으로 상태별 시멘틱 색상을 직관적으로 부여합니다.',
-        dont: '사용자가 즉시 확인하고 결정해야 하는 중요한 확인 절차(예: 결제 완료 후 계좌 차감)에 모달 대신 토스트만 쓰고 닫히게 두지 마세요.'
-      }
-    ],
-    relatedPatternIds: ['fintech-transfer', 'ecommerce-checkout'],
-    propsSpec: [
-      { name: 'message', type: 'string', defaultValue: "''", description: '토스트 본문 메시지' },
-      { name: 'type', type: "'success' | 'error' | 'info' | 'warning'", defaultValue: "'info'", description: '토스트 상태 시멘틱 스타일' },
-      { name: 'duration', type: 'number', defaultValue: '3000', description: '화면에 유지될 밀리초 단위 시간' }
-    ],
-    htmlSnippet: `<div class="atom-toast-container">
-  <div class="atom-toast atom-toast-success">
-    <span class="atom-toast-icon">✓</span>
-    <span class="atom-toast-message">저장이 완료되었습니다.</span>
-  </div>
-</div>`,
-    reactSnippet: `import { Toast, useToast } from '@/components/ui/toast';
-
-export function ToastDemo() {
-  const { toast } = useToast();
-
-  return (
-    <button 
-      onClick={() => toast({ title: '성공', message: '계좌 송금이 완료되었습니다.', type: 'success' })}
-      className="atom-btn atom-btn-primary"
-    >
-      송금하기
-    </button>
-  );
-}`,
-    vueSnippet: `<template>
-  <button @click="$toast.success('저장되었습니다')">저장</button>
-</template>`
-  },
-  {
     id: 'pagination',
     name: '페이지네이션 (Pagination)',
     category: 'navigation',
@@ -2172,6 +2115,62 @@ export function ExampleToast() {
       title="저장 완료"
       description="변경 사항이 안전하게 클라우드에 동기화되었습니다."
       onClose={() => {}}
+    />
+  );
+}`
+  },
+  {
+    id: 'token-select',
+    name: '토큰 검색 드롭다운 (TokenSelect)',
+    category: 'form',
+    source: 'AtomSystem Universal',
+    description: '디자인 토큰(컬러, 여백, 곡률 등)을 패밀리 필터 칩과 키워드 검색으로 탐색하고 실시간 스와치와 함께 선택하는 시맨틱 셀렉트 컴포넌트',
+    callout: {
+      type: 'tip',
+      title: '디자인 토큰 바인딩 전용 셀렉트',
+      text: '일반 텍스트 목록을 고르는 Select와 달리 TokenSelect는 컬러 스와치, CSS 변수명(--atom-*), 실제 적용값을 동시에 프리뷰하여 인스펙터와 테마 편집기에서 정확한 토큰 매핑을 지원합니다.'
+    },
+    propsSpec: [
+      { name: 'options', type: 'TokenOption[]', defaultValue: '[]', description: 'id, name, value, category, family를 포함하는 토큰 옵션 배열' },
+      { name: 'value', type: 'string', defaultValue: "''", description: '현재 선택된 토큰 id 또는 CSS 변수 값' },
+      { name: 'onChange', type: '(value: string, option?: TokenOption) => void', defaultValue: '-', description: '토큰 선택 변경 콜백' },
+      { name: 'variant', type: "'outlined' | 'filled' | 'subtle'", defaultValue: "'outlined'", description: '트리거 외형 스타일' },
+      { name: 'size', type: "'sm' | 'md' | 'lg'", defaultValue: "'md'", description: '컨트롤 높이 및 타이포 규격' },
+      { name: 'showColorSwatch', type: 'boolean', defaultValue: 'true', description: '색상 토큰일 경우 컬러 스와치 칩 표시 여부' }
+    ],
+    useCases: [
+      '컴포넌트 스튜디오 인스펙터에서 배경색·텍스트·보더 시맨틱 토큰 바인딩',
+      '테마 편집기에서 브랜드 Primary/Accent 팔레트 토큰 선택',
+      '간격(Spacing) 및 모서리 곡률(Radius) 디자인 시스템 토큰 피커'
+    ],
+    usagePatterns: [
+      '수십 개 이상의 팔레트 변수를 고를 때는 패밀리 필터 칩과 검색 입력을 함께 활성화하세요.',
+      '선택된 값은 CSS 변수 식별자(--atom-palette-blue-500 등)와 연계하여 테마 변경 시 자동으로 추적되게 유지하세요.'
+    ],
+    dosAndDonts: [
+      {
+        do: '색상·간격·곡률 토큰 선택 UI에는 일반 Select 대신 TokenSelect를 사용해 토큰 ID와 시각 미리보기를 함께 제공하세요.',
+        dont: '하드코딩된 HEX 문자열만 나열하지 말고 반드시 시맨틱 변수 식별자(id)를 함께 전달하세요.'
+      }
+    ],
+    relatedPatternIds: ['settings-preference'],
+    htmlSnippet: `<div class="atom-token-select">
+  <button type="button" class="atom-token-select__trigger">
+    <span class="atom-token-select__swatch" style="background: var(--atom-palette-blue-500)"></span>
+    <span>--atom-palette-blue-500</span>
+  </button>
+</div>`,
+    reactSnippet: `import { TokenSelect } from '@/components/ui';
+import { INITIAL_PALETTE_VARIABLES } from '@/lib/data/studioData';
+
+export function ExampleTokenSelect() {
+  const [tokenId, setTokenId] = useState('--atom-palette-blue-500');
+  return (
+    <TokenSelect
+      label="브랜드 컬러 토큰"
+      options={INITIAL_PALETTE_VARIABLES.filter((p) => p.category === 'color')}
+      value={tokenId}
+      onChange={(val) => setTokenId(val)}
     />
   );
 }`

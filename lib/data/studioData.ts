@@ -250,11 +250,166 @@ export const DEFAULT_COMPONENT_TYPES: Record<string, ComponentTypeSpec[]> = {
       whenToUse: '디자인 위주의 럭셔리 커머스나 가벼운 인라인 편집에 사용합니다.',
     },
   ],
+  container: [
+    {
+      id: 'boxed',
+      name: 'Boxed (표준 중앙 정렬 컨테이너)',
+      description: '최대 너비(max-width)와 좌우 거터(gutter)를 유지하는 표준 페이지 컨테이너',
+      whenToUse: '대부분의 본문 콘텐츠, 대시보드, 문서 페이지의 기본 레이아웃 래퍼로 사용합니다.',
+    },
+    {
+      id: 'fluid',
+      name: 'Fluid (풀 와이드 컨테이너)',
+      description: '화면 전체 너비를 채우며 좌우 여백만 유지하는 확장형 컨테이너',
+      whenToUse: '데이터 그리드, 캔버스, 스튜디오 등 넓은 작업 공간이 필요한 화면에 사용합니다.',
+    },
+    {
+      id: 'bordered',
+      name: 'Bordered (테두리 섹션 컨테이너)',
+      description: '외곽선과 곡률이 적용되어 독립된 섹션 구획을 형성하는 카드형 컨테이너',
+      whenToUse: '설정 그룹, 요약 패널 등 시각적 경계가 필요한 컨테이너에 사용합니다.',
+    },
+    {
+      id: 'centered',
+      name: 'Centered (내로우 포커스 컨테이너)',
+      description: '읽기 가독성을 위해 좁은 폭(sm/md)으로 중앙 집중 배치한 컨테이너',
+      whenToUse: '로그인 폼, 아티클 본문, 체크아웃 단계 등에 사용합니다.',
+    },
+  ],
+  layout: [
+    {
+      id: 'stack-vertical',
+      name: 'Vertical Stack (수직 스택)',
+      description: '일정한 gap 간격으로 요소들을 수직으로 쌓는 1차원 스택 레이아웃',
+      whenToUse: '폼 필드, 카드 리스트, 설정 섹션을 위아래로 정렬할 때 사용합니다.',
+    },
+    {
+      id: 'stack-horizontal',
+      name: 'Horizontal Stack (수평 스택)',
+      description: '아이템들을 수평 행으로 균일하게 나열하는 인라인 플렉스 스택',
+      whenToUse: '툴바 액션, 배지 목록, 폼 라벨-입력 짝을 배치할 때 사용합니다.',
+    },
+    {
+      id: 'grid-3col',
+      name: 'Responsive Grid (반응형 그리드)',
+      description: '뷰포트에 맞춰 열(Column) 개수가 유동적으로 전환되는 다단 그리드',
+      whenToUse: '대시보드 KPI 카드, 컴포넌트 카탈로그 갤러리 등에 사용합니다.',
+    },
+    {
+      id: 'app-shell',
+      name: 'App Shell (앱 쉘 골격)',
+      description: '헤더·사이드바·메인 본문·푸터로 구성된 전체 애플리케이션 쉘 구조',
+      whenToUse: 'SaaS 콘솔, 어드민 대시보드, 스튜디오 메인 프레임에 사용합니다.',
+    },
+  ],
+  tree: [
+    {
+      id: 'directory',
+      name: 'Directory (파일 탐색 트리)',
+      description: '폴더와 파일을 점선 가이드 및 접기/펼치기 화살표로 표현하는 기본 트리',
+      whenToUse: '프로젝트 파일 탐색기, MIB/OID 트리, 다단계 카테고리 탐색에 사용합니다.',
+    },
+    {
+      id: 'compact',
+      name: 'Compact (고밀도 압축 트리)',
+      description: '행 높이와 들여쓰기를 줄여 많은 노드를 한눈에 조망하는 압축 트리',
+      whenToUse: '대규모 데이터 스키마, 코드 아웃라인, 조직도 패널에 사용합니다.',
+    },
+    {
+      id: 'bordered',
+      name: 'Bordered (카드 패널형 트리)',
+      description: '외곽선 보더와 서피스 배경이 결합된 독립 패널형 트리 뷰',
+      whenToUse: '설정 마법사, 권한 선택 트리, 좌측 사이드 인스펙터에 사용합니다.',
+    },
+  ],
+  'token-select': [
+    {
+      id: 'outlined',
+      name: 'Outlined (표준 검색 드롭다운)',
+      description: '명확한 1px 테두리와 검색 인풋, 컬러 스와치 프리뷰를 제공하는 표준 토큰 셀렉트',
+      whenToUse: '인스펙터 속성 바인딩, 테마 에디터 토큰 선택 등 정밀한 토큰 조회에 사용합니다.',
+    },
+    {
+      id: 'filled',
+      name: 'Filled (배경 채움형 셀렉트)',
+      description: '은은한 서피스 배경이 채워져 클릭 영역이 명확한 필터링용 토큰 셀렉트',
+      whenToUse: '툴바 필터, 모달 상단 빠른 토큰 전환 컨트롤에 사용합니다.',
+    },
+    {
+      id: 'subtle',
+      name: 'Subtle (미니멀 인라인 셀렉트)',
+      description: '테두리를 숨기고 호버 시에만 반응하여 좁은 공간에 녹아드는 인라인 셀렉트',
+      whenToUse: '테이블 셀 내부 편집, 고밀도 인스펙터 헤더에 사용합니다.',
+    },
+  ],
+  alert: [
+    {
+      id: 'soft',
+      name: 'Soft (연한 틴트 콜아웃)',
+      description: '시맨틱 색상의 10% 틴트 배경으로 부드럽게 주의를 환기하는 기본 알림 배너',
+      whenToUse: '페이지 상단 안내, 폼 검증 결과, 팁 콜아웃에 가장 널리 사용합니다.',
+    },
+    {
+      id: 'outlined',
+      name: 'Outlined (선명한 외곽선형)',
+      description: '깨끗한 배경 위에 시맨틱 1px 테두리로 경계를 강조하는 정갈한 알림',
+      whenToUse: '배경 색상 간섭이 적은 카드 내부나 미니멀 문서 섹션에 사용합니다.',
+    },
+    {
+      id: 'solid',
+      name: 'Solid (고대비 채움형)',
+      description: '시맨틱 컬러가 꽉 차서 즉각적인 시선 집중을 유도하는 고강도 알림 배너',
+      whenToUse: '치명적 시스템 장애, 서비스 점검 공지 등 최우선 알림에 사용합니다.',
+    },
+    {
+      id: 'accent-border',
+      name: 'Accent-Border (좌측 강조 바형)',
+      description: '좌측 4px 컬러 인디케이터 바가 특징인 문서·노트 스타일 콜아웃',
+      whenToUse: '가이드 문서 주의사항, AI 제안 요약, 인용 블록에 사용합니다.',
+    },
+  ],
+  sheet: [
+    {
+      id: 'bottom-sheet',
+      name: 'Bottom Sheet (하단 슬라이드 시트)',
+      description: '모바일/태블릿 뷰포트 하단에서 위로 미끄러져 올라오는 둥근 상단 액션 시트',
+      whenToUse: '필터 선택, 공유 메뉴, 결제 확인 등 엄지 손가락 영역 인터랙션에 사용합니다.',
+    },
+    {
+      id: 'side-drawer',
+      name: 'Side Drawer (우측 상세 시트)',
+      description: '현재 목록 컨텍스트를 유지한 채 우측에서 슬라이드 인 되는 상세 편집 시트',
+      whenToUse: '항목 상세 조회, 인스펙터 편집, 장바구니 미리보기에 사용합니다.',
+    },
+    {
+      id: 'floating-sheet',
+      name: 'Floating Sheet (여백 플로팅 시트)',
+      description: '화면 가장자리에서 약간 띄워져 입체 그림자를 갖는 모던 플로팅 시트',
+      whenToUse: '대시보드 멀티 태스킹 패널, AI 코파일럿 보조 창에 사용합니다.',
+    },
+  ],
 };
+
+const STUDIO_ID_ALIASES: Record<string, string> = {
+  dialog: 'modal',
+  selection: 'switch',
+  sidemenu: 'sidebar',
+  'side-menu': 'sidebar',
+  tokenselect: 'token-select',
+};
+
+/**
+ * 문서/UI 컴포넌트 식별자(예: 'dialog', 'selection', 'sidemenu')를 스튜디오 정규 컴포넌트 ID로 매핑합니다.
+ */
+export function resolveStudioComponentId(rawId: string): string {
+  const normalized = (rawId || '').trim().toLowerCase();
+  return STUDIO_ID_ALIASES[normalized] || normalized;
+}
 
 export function getComponentTypes(componentId: string, customTypes?: ComponentTypeSpec[]): ComponentTypeSpec[] {
   if (customTypes && customTypes.length > 0) return customTypes;
-  const presets = DEFAULT_COMPONENT_TYPES[componentId.toLowerCase()];
+  const resolvedId = resolveStudioComponentId(componentId);
+  const presets = DEFAULT_COMPONENT_TYPES[resolvedId];
   if (presets && presets.length > 0) return presets;
   return [
     {
@@ -2178,6 +2333,325 @@ export const INITIAL_STUDIO_COMPONENTS: StudioComponentDefinition[] = [
           padding: '--atom-space-4',
           hoverBackground: '--atom-palette-gray-800',
           activeBackground: '--atom-palette-gray-700',
+        },
+      },
+    ],
+  },
+  // 29. Container (Layout)
+  {
+    id: 'container',
+    name: 'Container (컨테이너)',
+    category: 'Layout',
+    description: '화면 너비에 맞춰 최대 폭과 좌우 여백(Gutter)을 일정하게 유지하는 중심 레이아웃 래퍼',
+    properties: [
+      { key: 'background', label: '컨테이너 배경색 (Background)', category: 'color', defaultPaletteId: '--atom-palette-white' },
+      { key: 'borderColor', label: '외곽선 색상 (Border Color)', category: 'color', defaultPaletteId: '--atom-palette-gray-200' },
+      { key: 'textColor', label: '내부 텍스트 (Text Color)', category: 'color', defaultPaletteId: '--atom-palette-gray-900' },
+      { key: 'borderRadius', label: '모서리 곡률 (Border Radius)', category: 'radius', defaultPaletteId: '--atom-radius-lg' },
+      { key: 'paddingX', label: '좌우 거터 여백 (Gutter X)', category: 'spacing', defaultPaletteId: '--atom-space-6' },
+      { key: 'paddingY', label: '상하 패딩 (Padding Y)', category: 'spacing', defaultPaletteId: '--atom-space-4' },
+    ],
+    variables: [
+      {
+        id: 'standard',
+        name: '표준 콘텐츠 컨테이너 (Standard Boxed)',
+        description: '일반 문서 및 대시보드 본문을 감싸는 기본 1280px 기준 컨테이너',
+        tokenBindings: {
+          background: '--atom-palette-white',
+          borderColor: '--atom-palette-gray-200',
+          textColor: '--atom-palette-gray-900',
+          borderRadius: '--atom-radius-lg',
+          paddingX: '--atom-space-6',
+          paddingY: '--atom-space-4',
+        },
+      },
+      {
+        id: 'surface',
+        name: '강조 서피스 컨테이너 (Subtle Surface)',
+        description: '히어로 섹션이나 요약 블록을 구분하기 위해 보조 배경색이 입혀진 컨테이너',
+        tokenBindings: {
+          background: '--atom-palette-gray-50',
+          borderColor: '--atom-palette-gray-300',
+          textColor: '--atom-palette-gray-900',
+          borderRadius: '--atom-radius-xl',
+          paddingX: '--atom-space-8',
+          paddingY: '--atom-space-6',
+        },
+      },
+      {
+        id: 'compact',
+        name: '모바일·내로우 컨테이너 (Compact Focused)',
+        description: '결제/로그인 등 단일 태스크 집중을 위한 컴팩트 너비 컨테이너',
+        tokenBindings: {
+          background: '--atom-palette-white',
+          borderColor: '--atom-palette-blue-200',
+          textColor: '--atom-palette-gray-900',
+          borderRadius: '--atom-radius-md',
+          paddingX: '--atom-space-4',
+          paddingY: '--atom-space-4',
+        },
+      },
+    ],
+  },
+  // 30. Layout & Stack (Layout)
+  {
+    id: 'layout',
+    name: 'Layout & Stack (레이아웃 & 스택)',
+    category: 'Layout',
+    description: '요소 간 일정한 간격(Gap)과 다단 그리드, 앱 쉘 배치를 제어하는 구조적 레이아웃 프리미티브',
+    properties: [
+      { key: 'background', label: '셀 배경색 (Background)', category: 'color', defaultPaletteId: '--atom-palette-gray-50' },
+      { key: 'borderColor', label: '가이드 테두리 (Border Color)', category: 'color', defaultPaletteId: '--atom-palette-gray-200' },
+      { key: 'textColor', label: '라벨 색상 (Text Color)', category: 'color', defaultPaletteId: '--atom-palette-gray-800' },
+      { key: 'gap', label: '아이템 간격 (Gap Spacing)', category: 'spacing', defaultPaletteId: '--atom-space-4' },
+      { key: 'padding', label: '컨테이너 패딩 (Padding)', category: 'spacing', defaultPaletteId: '--atom-space-4' },
+      { key: 'borderRadius', label: '셀 모서리 곡률 (Radius)', category: 'radius', defaultPaletteId: '--atom-radius-md' },
+    ],
+    variables: [
+      {
+        id: 'balanced',
+        name: '표준 균형 간격 (Balanced Stack)',
+        description: '16px 기본 간격으로 카드와 입력 필드를 정갈하게 배치하는 표준 스택',
+        tokenBindings: {
+          background: '--atom-palette-gray-50',
+          borderColor: '--atom-palette-gray-200',
+          textColor: '--atom-palette-gray-800',
+          gap: '--atom-space-4',
+          padding: '--atom-space-4',
+          borderRadius: '--atom-radius-md',
+        },
+      },
+      {
+        id: 'dense',
+        name: '고밀도 컴팩트 (Dense Grid)',
+        description: '8px 조밀한 간격으로 대량 정보를 압축 배치하는 어드민 그리드 레이아웃',
+        tokenBindings: {
+          background: '--atom-palette-white',
+          borderColor: '--atom-palette-gray-300',
+          textColor: '--atom-palette-gray-900',
+          gap: '--atom-space-2',
+          padding: '--atom-space-3',
+          borderRadius: '--atom-radius-sm',
+        },
+      },
+      {
+        id: 'spacious',
+        name: '여유로운 섹션 (Spacious Editorial)',
+        description: '24px 이상의 넉넉한 여백으로 콘텐츠 몰입도를 높이는 랜딩·쇼케이스 레이아웃',
+        tokenBindings: {
+          background: '--atom-palette-blue-50',
+          borderColor: '--atom-palette-blue-200',
+          textColor: '--atom-palette-gray-900',
+          gap: '--atom-space-6',
+          padding: '--atom-space-6',
+          borderRadius: '--atom-radius-lg',
+        },
+      },
+    ],
+  },
+  // 31. Tree View (Data)
+  {
+    id: 'tree',
+    name: 'Tree View (트리 뷰)',
+    category: 'Data',
+    description: '계층형 폴더·파일·카테고리 노드를 접고 펼치며 탐색하는 인터랙티브 트리 컴포넌트',
+    properties: [
+      { key: 'background', label: '패널 배경색 (Background)', category: 'color', defaultPaletteId: '--atom-palette-white' },
+      { key: 'borderColor', label: '패널 테두리 (Border Color)', category: 'color', defaultPaletteId: '--atom-palette-gray-200' },
+      { key: 'textColor', label: '기본 노드 텍스트 (Text Color)', category: 'color', defaultPaletteId: '--atom-palette-gray-800' },
+      { key: 'activeBackground', label: '선택 노드 배경 (Selected BG)', category: 'color', defaultPaletteId: '--atom-palette-blue-50' },
+      { key: 'activeText', label: '선택 노드 텍스트 (Selected Text)', category: 'color', defaultPaletteId: '--atom-color-primary' },
+      { key: 'borderRadius', label: '모서리 곡률 (Border Radius)', category: 'radius', defaultPaletteId: '--atom-radius-md' },
+      { key: 'padding', label: '컨테이너 패딩 (Padding)', category: 'spacing', defaultPaletteId: '--atom-space-3' },
+    ],
+    variables: [
+      {
+        id: 'explorer',
+        name: '파일 탐색기 트리 (File Explorer)',
+        description: '좌측 패널에 배치되어 소스 코드나 디자인 토큰 계층을 탐색하는 기본 트리',
+        tokenBindings: {
+          background: '--atom-palette-white',
+          borderColor: '--atom-palette-gray-200',
+          textColor: '--atom-palette-gray-800',
+          activeBackground: '--atom-palette-blue-50',
+          activeText: '--atom-color-primary',
+          borderRadius: '--atom-radius-md',
+          padding: '--atom-space-3',
+        },
+      },
+      {
+        id: 'dark-sidebar',
+        name: '다크 콘솔 트리 (Dark Console Tree)',
+        description: '개발자 IDE 및 인프라 관리 도구에 어울리는 다크 서피스 트리',
+        tokenBindings: {
+          background: '--atom-palette-gray-900',
+          borderColor: '--atom-palette-gray-800',
+          textColor: '--atom-palette-gray-200',
+          activeBackground: '--atom-palette-blue-600',
+          activeText: '--atom-palette-white',
+          borderRadius: '--atom-radius-md',
+          padding: '--atom-space-3',
+        },
+      },
+    ],
+  },
+  // 32. TokenSelect (Form)
+  {
+    id: 'token-select',
+    name: 'TokenSelect (토큰 검색 드롭다운)',
+    category: 'Form',
+    description: '디자인 토큰명, CSS 변수 ID, 컬러 스와치 및 계열 필터를 실시간 검색·선택하는 전문 셀렉트 컴포넌트',
+    properties: [
+      { key: 'background', label: '트리거 배경색 (Background)', category: 'color', defaultPaletteId: '--atom-palette-white' },
+      { key: 'borderColor', label: '테두리 색상 (Border Color)', category: 'color', defaultPaletteId: '--atom-palette-gray-300' },
+      { key: 'textColor', label: '텍스트 색상 (Text Color)', category: 'color', defaultPaletteId: '--atom-palette-gray-900' },
+      { key: 'focusBorderColor', label: '열림/포커스 보더 (Focus Border)', category: 'color', defaultPaletteId: '--atom-color-primary' },
+      { key: 'borderRadius', label: '모서리 곡률 (Border Radius)', category: 'radius', defaultPaletteId: '--atom-radius-sm' },
+      { key: 'paddingX', label: '좌우 패딩 (Padding X)', category: 'spacing', defaultPaletteId: '--atom-space-2-5' },
+    ],
+    variables: [
+      {
+        id: 'primary',
+        name: '표준 토큰 검색 (Primary Token Picker)',
+        description: '인스펙터와 테마 매니저에서 컬러/사이즈/곡률 토큰을 즉시 검색해 바인딩',
+        variableRole: 'primary',
+        tokenBindings: {
+          background: '--atom-palette-white',
+          borderColor: '--atom-palette-gray-300',
+          textColor: '--atom-palette-gray-900',
+          focusBorderColor: '--atom-color-primary',
+          borderRadius: '--atom-radius-sm',
+          paddingX: '--atom-space-2-5',
+        },
+      },
+      {
+        id: 'subtle-surface',
+        name: '서피스 보조 셀렉트 (Subtle Filled Picker)',
+        description: '연한 회색 배경으로 폼 영역과 조화롭게 어우러지는 토큰 셀렉트',
+        variableRole: 'secondary',
+        tokenBindings: {
+          background: '--atom-palette-gray-50',
+          borderColor: '--atom-palette-gray-200',
+          textColor: '--atom-palette-gray-800',
+          focusBorderColor: '--atom-color-primary',
+          borderRadius: '--atom-radius-md',
+          paddingX: '--atom-space-3',
+        },
+      },
+    ],
+  },
+  // 33. Alert (Feedback)
+  {
+    id: 'alert',
+    name: 'Alert (알림 콜아웃)',
+    category: 'Feedback',
+    description: '화면 인라인 영역에 정보, 성공, 경고, 위험 메시지를 구조화하여 강조 표시하는 알림 배너',
+    properties: [
+      { key: 'background', label: '콜아웃 배경색 (Background)', category: 'color', defaultPaletteId: '--atom-palette-blue-50' },
+      { key: 'borderColor', label: '테두리 색상 (Border Color)', category: 'color', defaultPaletteId: '--atom-palette-blue-200' },
+      { key: 'textColor', label: '본문 텍스트 (Text Color)', category: 'color', defaultPaletteId: '--atom-palette-gray-900' },
+      { key: 'iconColor', label: '아이콘 강조색 (Icon Color)', category: 'color', defaultPaletteId: '--atom-color-primary' },
+      { key: 'borderRadius', label: '모서리 곡률 (Border Radius)', category: 'radius', defaultPaletteId: '--atom-radius-md' },
+      { key: 'padding', label: '내부 패딩 (Padding)', category: 'spacing', defaultPaletteId: '--atom-space-4' },
+    ],
+    variables: [
+      {
+        id: 'info',
+        name: '안내 콜아웃 (Info Alert)',
+        description: '업데이트 공지, 가이드 팁 등 일반 정보를 전달하는 블루 톤 알림',
+        variableRole: 'info',
+        tokenBindings: {
+          background: '--atom-palette-blue-50',
+          borderColor: '--atom-palette-blue-200',
+          textColor: '--atom-palette-gray-900',
+          iconColor: '--atom-color-primary',
+          borderRadius: '--atom-radius-md',
+          padding: '--atom-space-4',
+        },
+      },
+      {
+        id: 'success',
+        name: '성공 확인 (Success Alert)',
+        description: '저장, 배포, 인증 완료 상태를 알리는 에메랄드 콜아웃',
+        variableRole: 'success',
+        tokenBindings: {
+          background: '--atom-palette-emerald-50',
+          borderColor: '--atom-palette-emerald-200',
+          textColor: '--atom-palette-gray-900',
+          iconColor: '--atom-color-success',
+          borderRadius: '--atom-radius-md',
+          padding: '--atom-space-4',
+        },
+      },
+      {
+        id: 'warning',
+        name: '주의 경고 (Warning Alert)',
+        description: '만료 임박, 비권장 옵션 등 사전 주의를 환기하는 앰버 콜아웃',
+        variableRole: 'warning',
+        tokenBindings: {
+          background: '--atom-palette-amber-50',
+          borderColor: '--atom-palette-amber-200',
+          textColor: '--atom-palette-gray-900',
+          iconColor: '--atom-color-warning',
+          borderRadius: '--atom-radius-md',
+          padding: '--atom-space-4',
+        },
+      },
+      {
+        id: 'destructive',
+        name: '위험 오류 (Destructive Alert)',
+        description: '권한 차단, 검증 실패 등 즉각적 대응이 필요한 로즈 레드 콜아웃',
+        variableRole: 'danger',
+        tokenBindings: {
+          background: '--atom-palette-rose-50',
+          borderColor: '--atom-palette-rose-200',
+          textColor: '--atom-palette-gray-900',
+          iconColor: '--atom-color-danger',
+          borderRadius: '--atom-radius-md',
+          padding: '--atom-space-4',
+        },
+      },
+    ],
+  },
+  // 34. Sheet (Feedback)
+  {
+    id: 'sheet',
+    name: 'Sheet (바텀시트 & 드로어)',
+    category: 'Feedback',
+    description: '화면 하단이나 측면에서 부드럽게 슬라이드되어 필터·상세·확인 플로우를 제공하는 오버레이 시트',
+    properties: [
+      { key: 'background', label: '시트 배경색 (Background)', category: 'color', defaultPaletteId: '--atom-palette-white' },
+      { key: 'borderColor', label: '경계선 색상 (Border Color)', category: 'color', defaultPaletteId: '--atom-palette-gray-200' },
+      { key: 'textColor', label: '본문 텍스트 (Text Color)', category: 'color', defaultPaletteId: '--atom-palette-gray-900' },
+      { key: 'headerBackground', label: '상단 헤더 배경 (Header BG)', category: 'color', defaultPaletteId: '--atom-palette-gray-50' },
+      { key: 'borderRadius', label: '모서리 곡률 (Border Radius)', category: 'radius', defaultPaletteId: '--atom-radius-xl' },
+      { key: 'padding', label: '내부 패딩 (Padding)', category: 'spacing', defaultPaletteId: '--atom-space-4' },
+    ],
+    variables: [
+      {
+        id: 'bottom-action',
+        name: '모바일 바텀 시트 (Bottom Action Sheet)',
+        description: '모바일 하단에서 올라와 빠른 선택과 확인 액션을 제공하는 둥근 바텀시트',
+        tokenBindings: {
+          background: '--atom-palette-white',
+          borderColor: '--atom-palette-gray-200',
+          textColor: '--atom-palette-gray-900',
+          headerBackground: '--atom-palette-gray-50',
+          borderRadius: '--atom-radius-xl',
+          padding: '--atom-space-4',
+        },
+      },
+      {
+        id: 'side-detail',
+        name: '측면 상세 드로어 (Side Detail Sheet)',
+        description: '우측에서 열려 목록을 가리지 않고 세부 정보를 수정하는 사이드 시트',
+        tokenBindings: {
+          background: '--atom-palette-white',
+          borderColor: '--atom-palette-gray-300',
+          textColor: '--atom-palette-gray-900',
+          headerBackground: '--atom-palette-gray-50',
+          borderRadius: '--atom-radius-lg',
+          padding: '--atom-space-5',
         },
       },
     ],

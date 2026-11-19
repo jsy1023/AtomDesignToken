@@ -74,6 +74,7 @@ import {
   COMPONENT_STATUS_PRESETS,
   ComponentInteractiveStatus,
   getComponentStatusProperties,
+  resolveStudioComponentId,
 } from '@/lib/data/studioData';
 import {
   exportStudioToTokensJson,
@@ -129,6 +130,7 @@ function LocalStudioContent() {
   const urlComponent = searchParams.get('component');
   const urlVariable = searchParams.get('variable');
   const urlTheme = searchParams.get('theme');
+  const resolvedUrlComp = urlComponent ? resolveStudioComponentId(urlComponent) : '';
 
   // Themes State
   const [themes, setThemes] = useState<StudioTheme[]>(INITIAL_STUDIO_THEMES);
@@ -150,14 +152,14 @@ function LocalStudioContent() {
   const [components, setComponents] = useState<StudioComponentDefinition[]>(INITIAL_STUDIO_COMPONENTS);
 
   const [selectedComponentId, setSelectedComponentId] = useState<string>(() => {
-    if (urlComponent && INITIAL_STUDIO_COMPONENTS.some((c) => c.id === urlComponent)) {
-      return urlComponent;
+    if (resolvedUrlComp && INITIAL_STUDIO_COMPONENTS.some((c) => c.id === resolvedUrlComp)) {
+      return resolvedUrlComp;
     }
     return 'button';
   });
 
   const [selectedVariableId, setSelectedVariableId] = useState<string>(() => {
-    const comp = INITIAL_STUDIO_COMPONENTS.find((c) => c.id === (urlComponent || 'button')) || INITIAL_STUDIO_COMPONENTS[0];
+    const comp = INITIAL_STUDIO_COMPONENTS.find((c) => c.id === (resolvedUrlComp || 'button')) || INITIAL_STUDIO_COMPONENTS[0];
     if (urlVariable && comp.variables.some((v) => v.id === urlVariable)) {
       return urlVariable;
     }
@@ -169,8 +171,8 @@ function LocalStudioContent() {
     if (urlTab && (urlTab === 'components' || urlTab === 'themes' || urlTab === 'palette' || urlTab === 'preview' || urlTab === 'brand')) {
       setActiveTab((prev) => (prev !== urlTab ? urlTab : prev));
     }
-    if (urlComponent && components.some((c) => c.id === urlComponent)) {
-      setSelectedComponentId((prev) => (prev !== urlComponent ? urlComponent : prev));
+    if (resolvedUrlComp && components.some((c) => c.id === resolvedUrlComp)) {
+      setSelectedComponentId((prev) => (prev !== resolvedUrlComp ? resolvedUrlComp : prev));
     }
     if (urlVariable) {
       setSelectedVariableId((prev) => (prev !== urlVariable ? urlVariable : prev));
@@ -178,7 +180,7 @@ function LocalStudioContent() {
     if (urlTheme && themes.some((th) => th.id === urlTheme)) {
       setSelectedThemeId((prev) => (prev !== urlTheme ? urlTheme : prev));
     }
-  }, [urlTab, urlComponent, urlVariable, urlTheme, components, themes]);
+  }, [urlTab, resolvedUrlComp, urlVariable, urlTheme, components, themes]);
 
   // Synchronize active theme with DOM on initial mount
   useEffect(() => {
@@ -224,7 +226,7 @@ function LocalStudioContent() {
 
   // Modals / Dialogs
   // 1. Type (새로운 디자인 외형 양식) 상태
-  const [selectedTypeId, setSelectedTypeId] = useState<string>('solid');
+  const [selectedTypeId, setSelectedTypeId] = useState<string>(() => getComponentTypes(resolvedUrlComp || 'button')[0]?.id || 'solid');
   const [isAddTypeOpen, setIsAddTypeOpen] = useState(false);
   const [newTypeName, setNewTypeName] = useState('');
   const [newTypeKey, setNewTypeKey] = useState('');

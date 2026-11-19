@@ -47,8 +47,15 @@ import {
   Chart,
   Offcanvas,
   Toast,
+  Alert,
+  TokenSelect,
 } from '@/components/ui';
-import { INITIAL_STUDIO_COMPONENTS, getComponentTypes, ComponentInteractiveStatus } from '@/lib/data/studioData';
+import {
+  INITIAL_STUDIO_COMPONENTS,
+  getComponentTypes,
+  ComponentInteractiveStatus,
+  resolveStudioComponentId,
+} from '@/lib/data/studioData';
 import { CodeHighlight } from '@/components/common/CodeHighlight';
 import { COMPONENT_TOKEN_MAPPINGS, getComponentTokens, getLocalizedToken } from '@/lib/data/componentTokens';
 import {
@@ -116,9 +123,11 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
   const [sidebarVariable, setSidebarVariable] = useState<'default' | 'floating'>('default');
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [activeNavId, setActiveNavId] = useState('dash');
+  const [demoTokenSelectVal, setDemoTokenSelectVal] = useState('--atom-palette-blue-500');
 
-  const studioDef = INITIAL_STUDIO_COMPONENTS.find((sc) => sc.id === component.id);
-  const compTypes = getComponentTypes(component.id, studioDef?.types);
+  const studioCompId = resolveStudioComponentId(component.id);
+  const studioDef = INITIAL_STUDIO_COMPONENTS.find((sc) => sc.id === studioCompId);
+  const compTypes = getComponentTypes(studioCompId, studioDef?.types);
 
   // Interactive Live Button State (Type · Variable · Status)
   const [btnInteractiveType, setBtnInteractiveType] = useState<string>('solid');
@@ -689,32 +698,20 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
 
       case 'alert':
         return showAlert ? (
-          <div className="w-full max-w-md p-4 rounded-2xl bg-(--accent-primary)/10  border border-(--accent-primary)/20 dark:border-blue-900 text-(--accent-primary) dark:text-blue-100 flex items-start justify-between gap-3 text-sm">
-            <div className="flex items-start gap-2.5">
-              <Bell className="w-4 h-4 text-(--accent-primary) dark:text-(--accent-primary) mt-0.5 shrink-0" />
-              <div>
-                <span className="font-bold block">
-                  {locale === 'ja' ? '新バージョン v1.2 アップデート' : locale === 'en' ? 'New Version v1.2 Release' : '새로운 버전 v1.2 업데이트'}
-                </span>
-                <span className="text-xs text-(--accent-primary) dark:text-(--accent-primary)">
-                  {locale === 'ja'
-                    ? 'W3C DTCG準拠スタイルディクショナリコンパイラが追加されました。'
-                    : locale === 'en'
-                    ? 'W3C DTCG-compliant style dictionary compiler has been integrated.'
-                    : 'W3C DTCG 호환 스타일 딕셔너리 컴파일러가 추가되었습니다.'}
-                </span>
-              </div>
-            </div>
-            <Button
-              variant="ghost"
-              size="sm"
-              isIconOnly
-              onClick={() => setShowAlert(false)}
-              className="text-(--accent-primary) hover:text-(--accent-primary) h-auto p-1"
-            >
-              <X className="w-3.5 h-3.5" />
-            </Button>
-          </div>
+          <Alert
+            className="w-full max-w-md"
+            componentType="soft"
+            variant="info"
+            title={locale === 'ja' ? '新バージョン v1.2 アップデート' : locale === 'en' ? 'New Version v1.2 Release' : '새로운 버전 v1.2 업데이트'}
+            description={
+              locale === 'ja'
+                ? 'W3C DTCG準拠スタイルディクショナリコンパイラが追加されました。'
+                : locale === 'en'
+                ? 'W3C DTCG-compliant style dictionary compiler has been integrated.'
+                : 'W3C DTCG 호환 스타일 딕셔너리 컴파일러가 추가되었습니다.'
+            }
+            onClose={() => setShowAlert(false)}
+          />
         ) : (
           <Button
             variant="ghost"
@@ -724,6 +721,25 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
           >
             {locale === 'ja' ? 'アラートを再表示' : locale === 'en' ? 'Reopen Alert' : '알림 다시 열기'}
           </Button>
+        );
+
+      case 'token-select':
+        return (
+          <div className="w-full max-w-md py-2">
+            <TokenSelect
+              label={locale === 'ja' ? 'デザイン 토큰 선택' : locale === 'en' ? 'Select Design Token' : '디자인 토큰 바인딩 선택'}
+              value={demoTokenSelectVal}
+              onChange={(val) => setDemoTokenSelectVal(val)}
+              options={[
+                { id: '--atom-palette-blue-500', name: 'Blue 500 (Brand Primary)', value: 'var(--atom-palette-blue-500)', category: 'color', family: 'blue' },
+                { id: '--atom-color-success', name: 'Success Semantic Token', value: 'var(--atom-color-success)', category: 'color', family: 'status' },
+                { id: '--atom-color-warning', name: 'Warning Semantic Token', value: 'var(--atom-color-warning)', category: 'color', family: 'status' },
+                { id: '--atom-color-destructive', name: 'Destructive Token', value: 'var(--atom-color-destructive)', category: 'color', family: 'status' },
+                { id: '--atom-radius-md', name: 'Radius Medium', value: 'var(--radius)', category: 'radius', family: 'radius' },
+                { id: '--atom-space-4', name: 'Spacing Scale 4', value: 'var(--space-4)', category: 'spacing', family: 'spacing' },
+              ]}
+            />
+          </div>
         );
 
       case 'tabs':
@@ -1397,7 +1413,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                 </span>
               </div>
               <Link
-                href={`/studio?component=${component.id}`}
+                href={`/studio?component=${studioCompId}`}
                 className="text-xs font-semibold px-3 py-1.5 rounded-(--radius-sm) bg-(--bg-secondary) text-(--text-primary) border border-(--border-subtle) hover:bg-(--bg-primary) transition flex items-center gap-1.5 shadow-xs"
               >
                 <span>스튜디오에서 Type 관리</span>
@@ -1448,7 +1464,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                   <div className="pt-2 border-t border-(--border-subtle)/40 flex items-center justify-between text-[11px]">
                     <code className="text-[10px] text-(--text-muted) font-mono">componentType="{tp.id}"</code>
                     <Link
-                      href={`/studio?component=${component.id}`}
+                      href={`/studio?component=${studioCompId}`}
                       className="text-(--accent-primary) font-semibold hover:underline flex items-center gap-1"
                     >
                       <span>편집</span>
@@ -1479,7 +1495,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                 </span>
               </div>
               <Link
-                href={`/studio?component=${component.id}`}
+                href={`/studio?component=${studioCompId}`}
                 className="text-xs font-semibold px-3 py-1.5 rounded-(--radius-sm) bg-(--accent-primary) text-white hover:opacity-90 transition flex items-center gap-1.5 shadow-xs"
               >
                 <span>스튜디오에서 변수 커스텀하기</span>
@@ -1530,7 +1546,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                   <div className="pt-2 border-t border-(--border-subtle)/40 flex items-center justify-between text-[11px]">
                     <code className="text-[10px] text-(--text-muted) font-mono">variable="{v.id}"</code>
                     <Link
-                      href={`/studio?component=${component.id}`}
+                      href={`/studio?component=${studioCompId}`}
                       className="text-(--accent-primary) font-semibold hover:underline flex items-center gap-1"
                     >
                       <span>편집</span>

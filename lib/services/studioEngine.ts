@@ -267,6 +267,28 @@ export function exportStudioToCSS(
           if (v.tokenBindings.activeText) css += `  color: var(--atom-${comp.id}-${v.id}-activeText);\n`;
           css += `}\n\n`;
         }
+      } else if (comp.id === 'alert') {
+        css += `.atom-alert.atom-alert--${v.id},\n.atom-alert[data-variable="${v.id}"],\n[data-component="alert"][data-variable="${v.id}"] {\n`;
+        if (v.tokenBindings.background) css += `  background-color: var(--atom-${comp.id}-${v.id}-background);\n`;
+        if (v.tokenBindings.borderColor) css += `  border-color: var(--atom-${comp.id}-${v.id}-borderColor);\n`;
+        if (v.tokenBindings.textColor) css += `  color: var(--atom-${comp.id}-${v.id}-textColor);\n`;
+        if (v.tokenBindings.borderRadius) css += `  border-radius: var(--atom-${comp.id}-${v.id}-borderRadius);\n`;
+        if (v.tokenBindings.padding) css += `  padding: var(--atom-${comp.id}-${v.id}-padding);\n`;
+        css += `}\n\n`;
+      } else if (comp.id === 'tree') {
+        css += `.atom-tree.atom-tree--${v.id},\n.atom-tree[data-variable="${v.id}"],\n[data-component="tree"][data-variable="${v.id}"] {\n`;
+        if (v.tokenBindings.background) css += `  background-color: var(--atom-${comp.id}-${v.id}-background);\n`;
+        if (v.tokenBindings.borderColor) css += `  border-color: var(--atom-${comp.id}-${v.id}-borderColor);\n`;
+        if (v.tokenBindings.textColor) css += `  color: var(--atom-${comp.id}-${v.id}-textColor);\n`;
+        if (v.tokenBindings.borderRadius) css += `  border-radius: var(--atom-${comp.id}-${v.id}-borderRadius);\n`;
+        if (v.tokenBindings.padding) css += `  padding: var(--atom-${comp.id}-${v.id}-padding);\n`;
+        css += `}\n`;
+        if (v.tokenBindings.activeBackground || v.tokenBindings.activeText) {
+          css += `.atom-tree.atom-tree--${v.id} .atom-tree-node.is-selected,\n[data-component="tree"][data-variable="${v.id}"] .atom-tree-node.is-selected {\n`;
+          if (v.tokenBindings.activeBackground) css += `  background-color: var(--atom-${comp.id}-${v.id}-activeBackground);\n`;
+          if (v.tokenBindings.activeText) css += `  color: var(--atom-${comp.id}-${v.id}-activeText);\n`;
+          css += `}\n\n`;
+        }
       }
     });
   });

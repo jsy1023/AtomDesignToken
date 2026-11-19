@@ -4,7 +4,7 @@ import React from 'react';
 import { useLocale } from 'next-intl';
 import { ComponentVariable, ComponentInteractiveStatus, ComponentTypeSpec } from '@/lib/data/studioData';
 import { formatLocaleText } from '@/lib/utils/localeFormat';
-import { Loader2, Sparkles, ArrowRight, Plus } from 'lucide-react';
+import { Loader2, Sparkles, ArrowRight, Plus, Folder, FileCode } from 'lucide-react';
 import {
   Button,
   Input,
@@ -41,6 +41,14 @@ import {
   Offcanvas,
   Toast,
   type ToastVariant,
+  Container,
+  Stack,
+  Grid,
+  Tree,
+  type TreeNode,
+  TokenSelect,
+  type TokenOption,
+  Alert,
 } from '@/components/ui';
 
 export interface StudioLivePreviewProps {
@@ -65,6 +73,8 @@ export function StudioLivePreview({
   status = 'default',
 }: StudioLivePreviewProps) {
   const locale = useLocale();
+  const [previewTokenVal, setPreviewTokenVal] = React.useState('--atom-palette-blue-500');
+  const [previewTreeId, setPreviewTreeId] = React.useState('Button.tsx');
   const b = variable?.tokenBindings || {};
   const activeTypeId = (type?.id || typeIdProp || variable?.type?.id || '').toLowerCase();
 
@@ -1228,6 +1238,305 @@ export function StudioLivePreview({
             padding,
           }}
         />
+      </div>
+    );
+  }
+
+  // 29. Container (컨테이너 레이아웃)
+  if (componentId === 'container') {
+    const bg = b.background ? getPaletteValue(b.background) : 'var(--bg-primary)';
+    const border = b.borderColor ? getPaletteValue(b.borderColor) : 'var(--border-subtle)';
+    const text = b.textColor ? getPaletteValue(b.textColor) : 'var(--text-primary)';
+    const radius = b.borderRadius ? getPaletteValue(b.borderRadius) : 'var(--radius)';
+    const px = b.paddingX ? getPaletteValue(b.paddingX) : '16px';
+    const py = b.paddingY ? getPaletteValue(b.paddingY) : '12px';
+
+    const containerSize =
+      activeTypeId.includes('fluid')
+        ? 'full'
+        : activeTypeId.includes('centered')
+        ? 'sm'
+        : 'lg';
+
+    return (
+      <div className="w-full max-w-lg transition-all" style={statusWrapperStyle}>
+        <div className="p-2 rounded-(--radius) border border-dashed border-(--border-strong) bg-(--bg-secondary)/30">
+          <Container
+            size={containerSize}
+            style={{
+              backgroundColor: bg,
+              borderColor: border,
+              color: text,
+              borderRadius: radius,
+              paddingLeft: px,
+              paddingRight: px,
+              paddingTop: py,
+              paddingBottom: py,
+            }}
+            className={`${activeTypeId.includes('bordered') ? 'border-2' : 'border'} shadow-2xs transition-all`}
+          >
+            <div className="flex items-center justify-between gap-2 pb-2 mb-2 border-b border-(--border-subtle)/60">
+              <span className="font-mono text-[11px] font-bold text-(--accent-primary)">
+                &lt;Container size=&quot;{containerSize}&quot; /&gt;
+              </span>
+              <Badge variant="primary" className="text-[10px]">
+                {activeTypeId || 'boxed'}
+              </Badge>
+            </div>
+            <p className="text-xs opacity-80 leading-relaxed">
+              {locale === 'ko'
+                ? '뷰포트 크기에 따라 최대 너비와 좌우 거터(Gutter)가 토큰 값에 맞춰 자동 정렬됩니다.'
+                : 'Max-width and horizontal gutters automatically adapt to bound spacing and radius tokens.'}
+            </p>
+          </Container>
+        </div>
+      </div>
+    );
+  }
+
+  // 30. Layout & Stack (레이아웃 & 스택)
+  if (componentId === 'layout') {
+    const bg = b.background ? getPaletteValue(b.background) : 'var(--bg-secondary)';
+    const border = b.borderColor ? getPaletteValue(b.borderColor) : 'var(--border-subtle)';
+    const text = b.textColor ? getPaletteValue(b.textColor) : 'var(--text-primary)';
+    const gap = b.gap ? getPaletteValue(b.gap) : '12px';
+    const padding = b.padding ? getPaletteValue(b.padding) : '12px';
+    const radius = b.borderRadius ? getPaletteValue(b.borderRadius) : 'var(--radius-sm)';
+
+    const isHorizontal = activeTypeId.includes('horizontal');
+    const isGrid = activeTypeId.includes('grid');
+    const isAppShell = activeTypeId.includes('shell');
+
+    return (
+      <div className="w-full max-w-lg transition-all" style={statusWrapperStyle}>
+        {isAppShell ? (
+          <div
+            className="border overflow-hidden shadow-2xs"
+            style={{ borderColor: border, borderRadius: radius, backgroundColor: bg, color: text }}
+          >
+            <div className="px-3 py-2 border-b text-[11px] font-mono font-bold flex items-center justify-between bg-(--bg-primary)" style={{ borderColor: border }}>
+              <span>Layout.Header</span>
+              <Badge variant="neutral" className="text-[9px]">AppShell</Badge>
+            </div>
+            <div className="flex min-h-[110px]" style={{ gap, padding }}>
+              <div className="w-24 shrink-0 border p-2 text-[10px] font-mono bg-(--bg-primary)" style={{ borderColor: border, borderRadius: radius }}>
+                Sidebar
+              </div>
+              <div className="flex-1 border p-2 text-[10px] font-mono bg-(--bg-primary)" style={{ borderColor: border, borderRadius: radius }}>
+                Layout.Content (flex-1)
+              </div>
+            </div>
+          </div>
+        ) : isGrid ? (
+          <Grid
+            cols={3}
+            style={{ gap, padding, borderColor: border, borderRadius: radius, backgroundColor: bg, color: text }}
+            className="border"
+          >
+            {[1, 2, 3].map((n) => (
+              <div
+                key={n}
+                style={{ borderColor: border, borderRadius: radius }}
+                className="p-3 bg-(--bg-primary) border text-center font-mono text-xs font-semibold shadow-2xs"
+              >
+                Grid #{n}
+              </div>
+            ))}
+          </Grid>
+        ) : (
+          <Stack
+            direction={isHorizontal ? 'horizontal' : 'vertical'}
+            style={{ gap, padding, borderColor: border, borderRadius: radius, backgroundColor: bg, color: text }}
+            className="border"
+          >
+            {['Item A', 'Item B', 'Item C'].map((label) => (
+              <div
+                key={label}
+                style={{ borderColor: border, borderRadius: radius }}
+                className="flex-1 px-3 py-2 bg-(--bg-primary) border text-center font-mono text-xs font-semibold shadow-2xs"
+              >
+                {label}
+              </div>
+            ))}
+          </Stack>
+        )}
+      </div>
+    );
+  }
+
+  // 31. Tree View (트리 뷰)
+  if (componentId === 'tree') {
+    const bg = b.background ? getPaletteValue(b.background) : 'var(--bg-primary)';
+    const border = b.borderColor ? getPaletteValue(b.borderColor) : 'var(--border-subtle)';
+    const text = b.textColor ? getPaletteValue(b.textColor) : 'var(--text-primary)';
+    const radius = b.borderRadius ? getPaletteValue(b.borderRadius) : 'var(--radius-md)';
+    const padding = b.padding ? getPaletteValue(b.padding) : '12px';
+
+    const treeData: TreeNode[] = [
+      {
+        id: 'components',
+        label: 'components/ui',
+        icon: <Folder className="w-3.5 h-3.5" />,
+        children: [
+          { id: 'Button.tsx', label: 'Button.tsx', icon: <FileCode className="w-3.5 h-3.5" /> },
+          { id: 'TokenSelect.tsx', label: 'TokenSelect.tsx', icon: <FileCode className="w-3.5 h-3.5" /> },
+          { id: 'Alert.tsx', label: 'Alert.tsx', icon: <FileCode className="w-3.5 h-3.5" /> },
+        ],
+      },
+      {
+        id: 'tokens',
+        label: 'tokens/token.json',
+        icon: <FileCode className="w-3.5 h-3.5" />,
+      },
+    ];
+
+    return (
+      <div className="w-full max-w-sm transition-all" style={statusWrapperStyle}>
+        <div
+          style={{
+            backgroundColor: bg,
+            borderColor: border,
+            color: text,
+            borderRadius: radius,
+            padding,
+          }}
+          className={`${activeTypeId.includes('bordered') ? 'border-2' : 'border'} shadow-2xs ${activeTypeId.includes('compact') ? 'text-xs' : ''}`}
+        >
+          <Tree
+            data={treeData}
+            defaultExpandedIds={['components']}
+            selectedId={previewTreeId}
+            onSelect={(node) => setPreviewTreeId(node.id)}
+          />
+        </div>
+      </div>
+    );
+  }
+
+  // 32. TokenSelect (토큰 검색 드롭다운)
+  if (componentId === 'token-select') {
+    const sampleTokens: TokenOption[] = [
+      { id: '--atom-palette-blue-500', name: 'Blue 500 (Primary)', value: '#3182f6', category: 'color', family: 'blue' },
+      { id: '--atom-palette-blue-600', name: 'Blue 600 (Hover)', value: '#1b64da', category: 'color', family: 'blue' },
+      { id: '--atom-palette-emerald-500', name: 'Emerald 500 (Success)', value: '#10b981', category: 'color', family: 'emerald' },
+      { id: '--atom-palette-rose-500', name: 'Rose 500 (Destructive)', value: '#ef4444', category: 'color', family: 'rose' },
+      { id: '--atom-radius-md', name: 'Radius Medium', value: '8px', category: 'radius', family: 'radius' },
+    ];
+    const variantMode = activeTypeId.includes('filled')
+      ? 'filled'
+      : activeTypeId.includes('subtle')
+      ? 'subtle'
+      : 'outlined';
+
+    return (
+      <div className="w-full max-w-sm transition-all" style={statusWrapperStyle}>
+        <TokenSelect
+          options={sampleTokens}
+          value={previewTokenVal}
+          onChange={(val) => setPreviewTokenVal(val)}
+          variant={variantMode}
+          size={size}
+          disabled={isDisabled}
+          label={locale === 'ko' ? '실시간 토큰 검색' : 'Live Token Picker'}
+        />
+      </div>
+    );
+  }
+
+  // 33. Alert (알림 콜아웃)
+  if (componentId === 'alert') {
+    const toneVariant = variable.id.includes('success')
+      ? 'success'
+      : variable.id.includes('warning')
+      ? 'warning'
+      : variable.id.includes('danger') || variable.id.includes('destructive')
+      ? 'destructive'
+      : 'info';
+
+    const bg = b.background ? getPaletteValue(b.background) : undefined;
+    const border = b.borderColor ? getPaletteValue(b.borderColor) : undefined;
+    const text = b.textColor ? getPaletteValue(b.textColor) : undefined;
+    const radius = b.borderRadius ? getPaletteValue(b.borderRadius) : undefined;
+    const padding = b.padding ? getPaletteValue(b.padding) : undefined;
+
+    const typeStyleOverride = activeTypeId.includes('solid') || activeTypeId.includes('outlined') || activeTypeId.includes('accent')
+      ? undefined
+      : { backgroundColor: bg, borderColor: border, color: text };
+
+    return (
+      <div className="w-full max-w-md transition-all" style={statusWrapperStyle}>
+        <Alert
+          componentType={(activeTypeId || 'soft') as any}
+          variant={toneVariant}
+          status={status}
+          title={
+            toneVariant === 'success'
+              ? (locale === 'ko' ? '토큰 동기화 완료' : 'Tokens Synchronized')
+              : toneVariant === 'warning'
+              ? (locale === 'ko' ? '대비율 확인 권장' : 'Contrast Check Recommended')
+              : toneVariant === 'destructive'
+              ? (locale === 'ko' ? '유효성 검증 오류' : 'Validation Error')
+              : (locale === 'ko' ? '디자인 시스템 안내' : 'Design System Notice')
+          }
+          description={
+            locale === 'ko'
+              ? '시맨틱 상태 토큰(Type · Variable · Status)에 맞춰 콜아웃 외형이 실시간 반영됩니다.'
+              : 'Alert appearance dynamically binds to semantic status tokens.'
+          }
+          onClose={() => {}}
+          style={{
+            ...typeStyleOverride,
+            borderRadius: radius,
+            padding,
+          }}
+        />
+      </div>
+    );
+  }
+
+  // 34. Sheet (바텀시트 & 드로어)
+  if (componentId === 'sheet') {
+    const placement = activeTypeId.includes('side') || variable.id.includes('side') ? 'right' : 'bottom';
+    const bg = b.background ? getPaletteValue(b.background) : undefined;
+    const border = b.borderColor ? getPaletteValue(b.borderColor) : undefined;
+    const text = b.textColor ? getPaletteValue(b.textColor) : undefined;
+    const radius = b.borderRadius ? getPaletteValue(b.borderRadius) : undefined;
+    const padding = b.padding ? getPaletteValue(b.padding) : undefined;
+
+    return (
+      <div className="w-full max-w-md transition-all" style={statusWrapperStyle}>
+        <Offcanvas
+          isOpen={true}
+          onClose={() => {}}
+          inline={true}
+          placement={placement}
+          title={placement === 'bottom' ? (locale === 'ko' ? '필터 및 정렬 시트' : 'Filter & Sort Sheet') : (locale === 'ko' ? '상세 정보 시트' : 'Detail Sheet')}
+          description={locale === 'ko' ? '현재 컨텍스트를 유지한 채 추가 옵션을 선택합니다.' : 'Select options while keeping current view context.'}
+          className={activeTypeId.includes('floating') ? 'shadow-2xl m-1' : ''}
+          style={{
+            backgroundColor: bg,
+            borderColor: border,
+            color: text,
+            borderRadius: radius,
+          }}
+          footer={
+            <div className="flex items-center justify-end gap-2 w-full">
+              <Button variant="secondary" size="sm">{locale === 'ko' ? '닫기' : 'Close'}</Button>
+              <Button variant="primary" size="sm">{locale === 'ko' ? '선택 완료' : 'Confirm'}</Button>
+            </div>
+          }
+        >
+          <div className="space-y-2 text-xs" style={{ padding }}>
+            <div className="flex items-center justify-between p-2 rounded-(--radius-sm) bg-(--bg-secondary)">
+              <span className="font-medium">{locale === 'ko' ? '최신순 정렬' : 'Sort by Newest'}</span>
+              <Badge variant="primary">Active</Badge>
+            </div>
+            <div className="flex items-center justify-between p-2 rounded-(--radius-sm) border border-(--border-subtle)">
+              <span className="text-(--text-secondary)">{locale === 'ko' ? '인기순 정렬' : 'Sort by Popular'}</span>
+              <span className="font-mono text-[10px] text-(--text-muted)">default</span>
+            </div>
+          </div>
+        </Offcanvas>
       </div>
     );
   }
