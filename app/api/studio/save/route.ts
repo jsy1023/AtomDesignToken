@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
+import { saveProjectRegistry } from '@/lib/services/studioRegistryServer';
+import type { StudioRegistry } from '@/lib/data/studioData';
 
 export async function POST(req: NextRequest) {
   // Security Guard: Restrict file modification to local development environments only
@@ -28,18 +30,43 @@ export async function POST(req: NextRequest) {
     }
 
     const body = JSON.parse(rawText);
-    const { tokensJson, cssString } = body;
+    const { tokensJson, cssString, registry } = body as {
+      tokensJson?: unknown;
+      cssString?: string;
+      registry?: StudioRegistry;
+    };
 
-    // 1. Save tokens/token.json & tokens/tokens.json if provided
+    // Preferred SSOT Save Path: saves tokens/studio.registry.json + token.json + css/atom-ui.css atomically
+    if (registry && typeof registry === 'object' && Array.isArray(registry.components)) {
+      const formattedTokens =
+        typeof tokensJson === 'string'
+          ? tokensJson
+          : tokensJson
+          ? JSON.stringify(tokensJson, null, 2)
+          : undefined;
+      const result = saveProjectRegistry(cwd, registry, {
+        tokensJson: formattedTokens,
+        cssString: typeof cssString === 'string' ? cssString : undefined,
+      });
+      return NextResponse.json({
+        success: true,
+        filesWritten: result.filesWritten,
+        registry: result.registry,
+        message: 'Studio registry, tokens, and CSS saved to project files.',
+      });
+    }
+
+    // Legacy backward-compatible path (tokensJson + cssString only)
     if (tokensJson) {
       const tokensDir = path.dirname(tokenJsonPath);
       if (!fs.existsSync(tokensDir)) {
         fs.mkdirSync(tokensDir, { recursive: true });
       }
 
-      const formattedJson = typeof tokensJson === 'string'
-        ? tokensJson
-        : JSON.stringify(tokensJson, null, 2);
+      const formattedJson =
+        typeof tokensJson === 'string'
+          ? tokensJson
+          : JSON.stringify(tokensJson, null, 2);
 
       fs.writeFileSync(tokenJsonPath, formattedJson, 'utf-8');
       if (fs.existsSync(tokensJsonAltPath)) {
@@ -47,7 +74,6 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // 2. Save css/atom-ui.css if provided (preserve Universal Component Classes)
     if (cssString && typeof cssString === 'string') {
       const cssDir = path.dirname(cssPath);
       if (!fs.existsSync(cssDir)) {
@@ -68,10 +94,11 @@ export async function POST(req: NextRequest) {
       success: true,
       message: 'Studio changes successfully saved to project files (token.json & atom-ui.css)',
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Unknown error';
     console.error('Error saving studio project files:', error);
     return NextResponse.json(
-      { error: 'Failed to save studio files: ' + (error?.message || 'Unknown error') },
+      { error: 'Failed to save studio files: ' + message },
       { status: 500 }
     );
   }

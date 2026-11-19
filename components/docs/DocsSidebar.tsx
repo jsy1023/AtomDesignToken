@@ -4,7 +4,9 @@ import React, { useState } from 'react';
 import { Link } from '@/i18n/routing';
 import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';
 import { useI18n } from '@/lib/i18n';
-import { GALLERY_COMPONENTS } from '@/lib/data/components';
+import { GALLERY_COMPONENTS, GalleryComponent } from '@/lib/data/components';
+import { resolveStudioComponentId } from '@/lib/data/studioData';
+import { useStudioRegistry } from '@/lib/hooks/useStudioRegistry';
 import { Input, Badge } from '@/components/ui';
 import { Search, BookOpen, Layers, Layout, Palette, Type, Box } from 'lucide-react';
 
@@ -28,7 +30,23 @@ export function DocsSidebar({
   const query = externalSearchQuery !== undefined ? externalSearchQuery : internalQuery;
   const setQuery = externalOnSearchChange || setInternalQuery;
 
-  const filtered = GALLERY_COMPONENTS.filter((comp) => {
+  const { components: studioComponents } = useStudioRegistry();
+  const knownResolvedIds = new Set(
+    GALLERY_COMPONENTS.map((c) => resolveStudioComponentId(c.id))
+  );
+
+  const mergedGallery: Pick<GalleryComponent, 'id' | 'name' | 'category'>[] = [
+    ...GALLERY_COMPONENTS,
+    ...studioComponents
+      .filter((sc) => !knownResolvedIds.has(sc.id) && !GALLERY_COMPONENTS.some((g) => g.id === sc.id))
+      .map((sc) => ({
+        id: sc.id,
+        name: sc.name,
+        category: (sc.category.toLowerCase() as GalleryComponent['category']) || 'form',
+      })),
+  ];
+
+  const filtered = mergedGallery.filter((comp) => {
     if (!query.trim()) return true;
     const q = query.toLowerCase();
     const localized = dictionary?.sidebar?.components?.[comp.id] || '';
@@ -46,7 +64,7 @@ export function DocsSidebar({
   const dataComps = filtered.filter((c) => c.category === 'data');
   const layoutComps = filtered.filter((c) => c.category === 'layout');
 
-  const renderCompItem = (comp: (typeof GALLERY_COMPONENTS)[number]) => {
+  const renderCompItem = (comp: Pick<GalleryComponent, 'id' | 'name' | 'category'>) => {
     const isActive = activeId === comp.id;
     const localizedName = dictionary?.sidebar?.components?.[comp.id]
       || (locale === 'en' ? comp.name.match(/\(([^)]+)\)/)?.[1] || comp.name.split(' (')[0] : comp.name.split(' (')[0]);

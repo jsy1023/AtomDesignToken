@@ -51,11 +51,13 @@ import {
   TokenSelect,
 } from '@/components/ui';
 import {
-  INITIAL_STUDIO_COMPONENTS,
   getComponentTypes,
   ComponentInteractiveStatus,
   resolveStudioComponentId,
 } from '@/lib/data/studioData';
+import { useStudioRegistry, getStudioComponentById } from '@/lib/hooks/useStudioRegistry';
+import { StudioLivePreview } from '@/components/studio/StudioLivePreview';
+import { formatLocaleText } from '@/lib/utils/localeFormat';
 import { CodeHighlight } from '@/components/common/CodeHighlight';
 import { COMPONENT_TOKEN_MAPPINGS, getComponentTokens, getLocalizedToken } from '@/lib/data/componentTokens';
 import {
@@ -125,9 +127,11 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
   const [activeNavId, setActiveNavId] = useState('dash');
   const [demoTokenSelectVal, setDemoTokenSelectVal] = useState('--atom-palette-blue-500');
 
+  const { components: studioComponents, paletteVariables: studioPalette } = useStudioRegistry();
   const studioCompId = resolveStudioComponentId(component.id);
-  const studioDef = INITIAL_STUDIO_COMPONENTS.find((sc) => sc.id === studioCompId);
+  const studioDef = getStudioComponentById(studioComponents, component.id);
   const compTypes = getComponentTypes(studioCompId, studioDef?.types);
+  const studioVariables = studioDef?.variables || [];
 
   // Interactive Live Button State (Type · Variable · Status)
   const [btnInteractiveType, setBtnInteractiveType] = useState<string>('solid');
@@ -309,39 +313,41 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                 </div>
               </div>
 
-              {/* Controls Row */}
+              {/* Controls Row (Studio SSOT Synced Types & Variables) */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
                 {/* 1. Type Switcher */}
                 <div className="flex flex-col gap-1">
-                  <label className="font-semibold text-(--text-secondary) text-[11px]">1. Type (외형 양식)</label>
+                  <label className="font-semibold text-(--text-secondary) text-[11px]">
+                    1. Type (외형 양식 · {compTypes.length})
+                  </label>
                   <NativeSelect
                     value={btnInteractiveType}
                     onChange={(e) => setBtnInteractiveType(e.target.value)}
                     className="text-xs"
                   >
-                    <option value="solid">Solid (솔리드 채움형)</option>
-                    <option value="outline">Outline (외곽선형)</option>
-                    <option value="ghost">Ghost (고스트 투명형)</option>
-                    <option value="soft">Soft (소프트 연한 배경형)</option>
-                    <option value="pill">Pill (라운드형)</option>
-                    <option value="elevated">Elevated (그림자 입체형)</option>
+                    {compTypes.map((tp) => (
+                      <option key={tp.id} value={tp.id}>
+                        {tp.name}
+                      </option>
+                    ))}
                   </NativeSelect>
                 </div>
 
                 {/* 2. Variable (System Color) Switcher */}
                 <div className="flex flex-col gap-1">
-                  <label className="font-semibold text-(--text-secondary) text-[11px]">2. Variable (시스템 색상)</label>
+                  <label className="font-semibold text-(--text-secondary) text-[11px]">
+                    2. Variable (시스템 색상 · {studioVariables.length})
+                  </label>
                   <NativeSelect
                     value={btnInteractiveVar}
                     onChange={(e) => setBtnInteractiveVar(e.target.value)}
                     className="text-xs"
                   >
-                    <option value="primary">Primary (브랜드 대표)</option>
-                    <option value="secondary">Secondary (보조/중립)</option>
-                    <option value="destructive">Destructive (위험/삭제)</option>
-                    <option value="warning">Warning (주의/대기)</option>
-                    <option value="success">Success (성공/완료)</option>
-                    <option value="info">Info (안내/정보)</option>
+                    {studioVariables.map((vr) => (
+                      <option key={vr.id} value={vr.id}>
+                        {vr.name}
+                      </option>
+                    ))}
                   </NativeSelect>
                 </div>
 
@@ -405,7 +411,10 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                     <Sparkles className="w-4 h-4" />
                   ) : (
                     <span>
-                      {btnInteractiveVar === 'primary' ? '프라이머리 액션' : btnInteractiveVar === 'secondary' ? '보조 액션 (취소)' : btnInteractiveVar === 'destructive' ? '영구 삭제' : btnInteractiveVar === 'warning' ? '주의 확인' : btnInteractiveVar === 'success' ? '승인 완료' : '정보 안내'}
+                      {formatLocaleText(
+                        studioVariables.find((v) => v.id === btnInteractiveVar)?.name || btnInteractiveVar,
+                        locale
+                      )}
                     </span>
                   )}
                   {btnInteractiveSlot === 'right' && <ArrowRight className="w-4 h-4" />}
@@ -420,26 +429,25 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
               </div>
             </div>
 
-            {/* B. 1. Type Showcase (6대 외형 양식 스펙트럼) */}
+            {/* B. 1. Type Showcase (Studio SSOT 동기화 외형 양식 스펙트럼) */}
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-mono font-semibold text-(--text-secondary) uppercase tracking-wider flex items-center gap-1.5">
                   <Badge variant="primary" className="text-[10px] px-1.5 py-0.5">1. TYPE</Badge>
-                  <span>{locale === 'ko' ? '새로운 디자인 외형 양식 (6 Types)' : 'Component Types Spectrum'}</span>
+                  <span>
+                    {locale === 'ko'
+                      ? `새로운 디자인 외형 양식 (${compTypes.length} Types)`
+                      : `Component Types Spectrum (${compTypes.length} Types)`}
+                  </span>
                 </span>
-                <span className="text-xs text-(--text-muted) font-mono">6 Types Supported</span>
+                <span className="text-xs text-(--text-muted) font-mono">{compTypes.length} Types Supported</span>
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
-                {[
-                  { id: 'solid', name: 'Solid (솔리드)' },
-                  { id: 'outline', name: 'Outline (외곽선)' },
-                  { id: 'ghost', name: 'Ghost (고스트)' },
-                  { id: 'soft', name: 'Soft (소프트)' },
-                  { id: 'pill', name: 'Pill (라운드)' },
-                  { id: 'elevated', name: 'Elevated (그림자)' },
-                ].map((tp) => (
-                  <div key={tp.id} className="p-3 rounded-(--radius-sm) bg-(--bg-primary) border border-(--border-subtle) flex flex-col items-center gap-2 text-center">
-                    <span className="text-[10px] font-mono text-(--text-secondary) font-bold">{tp.name}</span>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5">
+                {compTypes.map((tp) => (
+                  <div key={tp.id} className="p-3 rounded-(--radius-sm) bg-(--bg-primary) border border-(--border-subtle) flex flex-col items-center justify-between gap-2 text-center">
+                    <span className="text-[10px] font-mono text-(--text-secondary) font-bold line-clamp-1" title={tp.name}>
+                      {tp.name}
+                    </span>
                     <Button componentType={tp.id} variable="primary" size="sm" className="w-full truncate text-[11px]">
                       Button
                     </Button>
@@ -449,26 +457,25 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
               </div>
             </div>
 
-            {/* C. 2. Variable Showcase (6대 시맨틱 시스템 색상 매핑) */}
+            {/* C. 2. Variable Showcase (Studio SSOT 시맨틱 시스템 색상 매핑) */}
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-mono font-semibold text-(--text-secondary) uppercase tracking-wider flex items-center gap-1.5">
                   <Badge variant="neutral" className="text-[10px] px-1.5 py-0.5">2. VARIABLE</Badge>
-                  <span>{locale === 'ko' ? '시스템 시맨틱 색상 및 세부 옵션 (6 Variables)' : 'Semantic System Variables'}</span>
+                  <span>
+                    {locale === 'ko'
+                      ? `시스템 시맨틱 색상 및 세부 옵션 (${studioVariables.length} Variables)`
+                      : `Semantic System Variables (${studioVariables.length} Variables)`}
+                  </span>
                 </span>
-                <span className="text-xs text-(--text-muted) font-mono">6 System Variables</span>
+                <span className="text-xs text-(--text-muted) font-mono">{studioVariables.length} System Variables</span>
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
-                {[
-                  { id: 'primary', label: 'Primary (브랜드)' },
-                  { id: 'secondary', label: 'Secondary (보조)' },
-                  { id: 'destructive', label: 'Destructive (위험)' },
-                  { id: 'warning', label: 'Warning (경고)' },
-                  { id: 'success', label: 'Success (성공)' },
-                  { id: 'info', label: 'Info (안내)' },
-                ].map((vr) => (
-                  <div key={vr.id} className="p-3 rounded-(--radius-sm) bg-(--bg-primary) border border-(--border-subtle) flex flex-col items-center gap-2 text-center">
-                    <span className="text-[10px] font-mono text-(--text-secondary) font-bold">{vr.label}</span>
+                {studioVariables.map((vr) => (
+                  <div key={vr.id} className="p-3 rounded-(--radius-sm) bg-(--bg-primary) border border-(--border-subtle) flex flex-col items-center justify-between gap-2 text-center">
+                    <span className="text-[10px] font-mono text-(--text-secondary) font-bold line-clamp-1" title={vr.name}>
+                      {vr.name}
+                    </span>
                     <Button variable={vr.id} size="sm" className="w-full truncate text-[11px]">
                       {vr.id}
                     </Button>
@@ -1276,6 +1283,34 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
         );
 
       default:
+        if (studioDef) {
+          const activeVar = studioDef.variables[0];
+          const activeType = compTypes[0];
+          return (
+            <div className="w-full max-w-md flex flex-col items-center gap-4 py-2">
+              <div className="w-full flex items-center justify-between">
+                <span className="text-xs font-mono font-semibold text-(--text-secondary) uppercase tracking-wider">
+                  Studio SSOT Synchronized Preview
+                </span>
+                <Link
+                  href={`/studio?component=${studioCompId}`}
+                  className="text-xs font-semibold text-(--accent-primary) hover:underline flex items-center gap-1"
+                >
+                  <span>스튜디오에서 편집</span>
+                  <ExternalLink className="w-3 h-3" />
+                </Link>
+              </div>
+              <StudioLivePreview
+                componentId={studioDef.id}
+                variable={activeVar}
+                type={activeType}
+                getPaletteValue={(palId) =>
+                  studioPalette.find((p) => p.id === palId)?.value || `var(${palId})`
+                }
+              />
+            </div>
+          );
+        }
         return null;
     }
   };

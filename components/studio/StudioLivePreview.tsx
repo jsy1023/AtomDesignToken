@@ -242,6 +242,8 @@ export function StudioLivePreview({
 
     return (
       <Button
+        componentType={type?.id || activeTypeId}
+        variable={variable?.id}
         disabled={isDisabled || isLoading}
         style={{
           backgroundColor: bg,
@@ -1541,9 +1543,63 @@ export function StudioLivePreview({
     );
   }
 
+  // Generic Token-Driven Preview for Studio-registered / AI-submitted / auto-discovered components
+  const genBg = b.background ? getPaletteValue(b.background) : 'var(--bg-secondary)';
+  const genText = b.textColor ? getPaletteValue(b.textColor) : 'var(--text-primary)';
+  const genBorder = b.borderColor ? getPaletteValue(b.borderColor) : 'var(--border-subtle)';
+  const genRadius = b.borderRadius ? getPaletteValue(b.borderRadius) : 'var(--radius)';
+  const genPadX = b.paddingX ? getPaletteValue(b.paddingX) : b.padding ? getPaletteValue(b.padding) : '16px';
+  const genPadY = b.paddingY ? getPaletteValue(b.paddingY) : b.padding ? getPaletteValue(b.padding) : '10px';
+  const fallbackTypeId = activeTypeId || 'standard';
+  const isOutlineType = fallbackTypeId.includes('outline');
+  const isGhostType = fallbackTypeId.includes('ghost') || fallbackTypeId.includes('link');
+  const pascalLabel = (componentId || 'component')
+    .split(/[^a-zA-Z0-9]+/)
+    .filter(Boolean)
+    .map((p) => p.charAt(0).toUpperCase() + p.slice(1))
+    .join('');
+
   return (
-    <div className="text-xs text-(--text-muted) italic">
-      미리보기가 지원되지 않는 컴포넌트입니다.
+    <div className="w-full max-w-md flex flex-col items-center gap-3" style={statusWrapperStyle}>
+      <div
+        data-component={componentId}
+        data-type={fallbackTypeId}
+        data-variable={variable?.id || 'default'}
+        data-status={status}
+        style={{
+          backgroundColor: isOutlineType || isGhostType ? 'transparent' : genBg,
+          color: isOutlineType || isGhostType ? genBorder : genText,
+          borderColor: isGhostType ? 'transparent' : genBorder,
+          borderStyle: 'solid',
+          borderWidth: '1px',
+          borderRadius: genRadius,
+          paddingLeft: genPadX,
+          paddingRight: genPadX,
+          paddingTop: genPadY,
+          paddingBottom: genPadY,
+          ...(size === 'sm' ? { transform: 'scale(0.94)' } : size === 'lg' ? { transform: 'scale(1.06)' } : {}),
+        }}
+        className="w-full transition-all shadow-xs flex items-center justify-between gap-3"
+      >
+        <div className="flex items-center gap-2.5 min-w-0">
+          {iconSlot !== 'right' && <Sparkles className="w-4 h-4 shrink-0" />}
+          <div className="min-w-0">
+            <div className="text-xs font-bold truncate">
+              {formatLocaleText(variable?.name, locale) || pascalLabel}
+            </div>
+            <div className="text-[11px] opacity-80 truncate">
+              {type?.name || fallbackTypeId} · status="{status}"
+            </div>
+          </div>
+          {iconSlot === 'right' && <ArrowRight className="w-4 h-4 shrink-0" />}
+        </div>
+        <Badge variant="neutral" className="text-[10px] font-mono shrink-0">
+          {componentId}
+        </Badge>
+      </div>
+      <code className="text-[10px] font-mono text-(--text-muted) px-2 py-0.5 rounded bg-(--bg-secondary) border border-(--border-subtle)">
+        &lt;{pascalLabel} componentType="{fallbackTypeId}" variable="{variable?.id || 'default'}" /&gt;
+      </code>
     </div>
   );
 }

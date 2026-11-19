@@ -12,6 +12,8 @@ import { StudioThemeManager } from '@/components/studio/StudioThemeManager';
 import { StudioBrandSettings } from '@/components/studio/StudioBrandSettings';
 import { PaletteScaleGeneratorModal } from '@/components/studio/PaletteScaleGeneratorModal';
 import { StudioFontFamilyPanel } from '@/components/studio/StudioFontFamilyPanel';
+import { StudioComponentSubmitModal } from '@/components/studio/StudioComponentSubmitModal';
+import { emitStudioRegistryUpdated } from '@/lib/hooks/useStudioRegistry';
 import { formatLocaleText } from '@/lib/utils/localeFormat';
 import {
   Button,
@@ -61,6 +63,7 @@ import {
   PaletteVariable,
   ComponentVariable,
   StudioComponentDefinition,
+  StudioRegistry,
   ComponentTypeSpec,
   SemanticStatusToken,
   INITIAL_PALETTE_VARIABLES,
@@ -182,13 +185,47 @@ function LocalStudioContent() {
     }
   }, [urlTab, resolvedUrlComp, urlVariable, urlTheme, components, themes]);
 
-  // Synchronize active theme with DOM on initial mount
+  // Synchronize active theme with DOM & hydrate SSOT project registry on initial mount
   useEffect(() => {
     const initial = themes.find((th) => th.id === selectedThemeId);
     if (initial) {
       const cfg = studioThemeToThemeConfig(initial, paletteVariables);
       applyThemeToDOM(cfg);
     }
+
+    let cancelled = false;
+    fetch('/api/studio/registry', { cache: 'no-store' })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (cancelled || !data?.registry) return;
+        const reg = data.registry as StudioRegistry;
+        if (Array.isArray(reg.statusTokens) && reg.statusTokens.length > 0) {
+          setStatusTokens(reg.statusTokens);
+        }
+        if (Array.isArray(reg.paletteVariables) && reg.paletteVariables.length > 0) {
+          setPaletteVariables(reg.paletteVariables);
+        }
+        if (Array.isArray(reg.components) && reg.components.length > 0) {
+          setComponents(reg.components);
+          if (resolvedUrlComp) {
+            const matched = reg.components.find((c) => c.id === resolvedUrlComp);
+            if (matched) {
+              setSelectedComponentId(matched.id);
+              const tList = getComponentTypes(matched.id, matched.types);
+              setSelectedTypeId(tList[0]?.id || 'standard');
+              if (!urlVariable || !matched.variables.some((v) => v.id === urlVariable)) {
+                setSelectedVariableId(matched.variables[0]?.id || 'default');
+              }
+            }
+          }
+        }
+      })
+      .catch(() => {
+        // Keep static baseline when offline
+      });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   // Synchronize font-family tokens (--atom-font-sans / --atom-font-mono) with live DOM & Webfont CDN
@@ -241,6 +278,7 @@ function LocalStudioContent() {
 
   const [isAddPaletteOpen, setIsAddPaletteOpen] = useState(false);
   const [isPaletteGeneratorOpen, setIsPaletteGeneratorOpen] = useState(false);
+  const [isSubmitComponentOpen, setIsSubmitComponentOpen] = useState(false);
   const [newPaletteName, setNewPaletteName] = useState('');
   const [newPaletteId, setNewPaletteId] = useState('');
   const [newPaletteCategory, setNewPaletteCategory] = useState<'color' | 'size' | 'spacing' | 'radius' | 'typography'>('color');
@@ -703,24 +741,34 @@ function LocalStudioContent() {
     setTimeout(() => setCopiedPaletteId(null), 1800);
   };
 
-  // Save Studio to Project Files (FS API)
+  // Save Studio to Project Files (FS API -> SSOT registry + token.json + atom-ui.css)
   const handleSaveToProject = async () => {
     setIsSaving(true);
     setStatusMessage(null);
     try {
       const tokensJson = exportStudioToTokensJson(paletteVariables, components, statusTokens);
       const cssString = exportStudioToCSS(paletteVariables, components, statusTokens);
+      const registryPayload: StudioRegistry = {
+        version: '0.14.2',
+        updatedAt: new Date().toISOString(),
+        activeThemeId: selectedThemeId,
+        statusTokens,
+        paletteVariables,
+        components,
+      };
 
       const res = await fetch('/api/studio/save', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tokensJson, cssString }),
+        body: JSON.stringify({ registry: registryPayload, tokensJson, cssString }),
       });
 
       if (!res.ok) {
         throw new Error(`HTTP error! status: ${res.status}`);
       }
 
+      const data = await res.json().catch(() => null);
+      emitStudioRegistryUpdated(data?.registry || registryPayload);
       setSaveSuccess(true);
       setStatusMessage(t('saveSuccessMsg'));
       setTimeout(() => {
@@ -1041,14 +1089,26 @@ function LocalStudioContent() {
               <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
                 {/* Search & Category Filter (Compact Fixed Header) */}
                 <div className="shrink-0 p-2.5 pb-2 space-y-2 border-b border-(--border-subtle)/30">
-                  <div className="flex items-center justify-between px-0.5">
+                  <div className="flex items-center justify-between gap-1 px-0.5">
                     <span className="text-xs font-mono font-bold text-(--text-secondary) uppercase tracking-wider flex items-center gap-1.5">
                       <Layers className="w-3.5 h-3.5 text-(--accent-primary)" />
                       {locale === 'ko' ? 'UI 컴포넌트' : 'UI Components'}
                     </span>
-                    <span className="text-[11px] font-mono px-1.5 py-0.5 rounded bg-(--bg-secondary) text-(--text-muted) border border-(--border-subtle)">
-                      {filteredComponents.length}
-                    </span>
+                    <div className="flex items-center gap-1">
+                      <span className="text-[11px] font-mono px-1.5 py-0.5 rounded bg-(--bg-secondary) text-(--text-muted) border border-(--border-subtle)">
+                        {filteredComponents.length}
+                      </span>
+                      <Button
+                        variant="secondary"
+                        size="sm"
+                        onClick={() => setIsSubmitComponentOpen(true)}
+                        title={locale === 'ko' ? 'AI 양식으로 새 컴포넌트 등록 & 프로젝트 자동 반영' : 'Submit AI Component Spec'}
+                        className="h-6 px-1.5 py-0 text-[10px] font-bold flex items-center gap-1 bg-(--accent-primary)/10 text-(--accent-primary) border-(--accent-primary)/30 hover:bg-(--accent-primary)/20"
+                      >
+                        <Plus className="w-3 h-3" />
+                        <span>{locale === 'ko' ? 'AI 제출' : 'Submit'}</span>
+                      </Button>
+                    </div>
                   </div>
 
                   {/* Search */}
@@ -2719,6 +2779,38 @@ function LocalStudioContent() {
           setPaletteCategoryFilter('color');
         }}
         locale={locale}
+      />
+
+      {/* MODAL 5: AI Component Submission & Auto-Scaffolding Modal */}
+      <StudioComponentSubmitModal
+        isOpen={isSubmitComponentOpen}
+        onClose={() => setIsSubmitComponentOpen(false)}
+        locale={locale}
+        onSubmitted={({ component, registry, filesWritten }) => {
+          if (Array.isArray(registry.statusTokens) && registry.statusTokens.length > 0) {
+            setStatusTokens(registry.statusTokens);
+          }
+          if (Array.isArray(registry.paletteVariables) && registry.paletteVariables.length > 0) {
+            setPaletteVariables(registry.paletteVariables);
+          }
+          if (Array.isArray(registry.components) && registry.components.length > 0) {
+            setComponents(registry.components);
+          }
+          const firstTypeId = component.types?.[0]?.id || 'standard';
+          const firstVarId = component.variables?.[0]?.id || 'default';
+          setActiveTab('components');
+          setSelectedComponentId(component.id);
+          setSelectedTypeId(firstTypeId);
+          setSelectedVariableId(firstVarId);
+          updateUrl('components', component.id, firstVarId, selectedThemeId);
+          emitStudioRegistryUpdated(registry);
+          setStatusMessage(
+            locale === 'ko'
+              ? `✅ '${component.id}' 등록 및 프로젝트 반영 완료 (${filesWritten.join(', ')})`
+              : `✅ Registered '${component.id}' (${filesWritten.join(', ')})`
+          );
+          setTimeout(() => setStatusMessage(null), 5000);
+        }}
       />
     </div>
   );
