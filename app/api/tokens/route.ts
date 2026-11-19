@@ -5,21 +5,21 @@ import { compileTokensToCss } from '@/src/tokenCompiler';
 
 export async function GET() {
   const cwd = process.cwd();
-  const tokenJsonPath = path.join(cwd, 'tokens', 'token.json');
+  const tokensJsonPath = path.join(cwd, 'tokens', 'tokens.json');
 
-  if (!fs.existsSync(tokenJsonPath)) {
-    return NextResponse.json({ error: 'tokens/token.json not found' }, { status: 404 });
+  if (!fs.existsSync(tokensJsonPath)) {
+    return NextResponse.json({ error: 'tokens/tokens.json not found' }, { status: 404 });
   }
 
   try {
-    const rawData = fs.readFileSync(tokenJsonPath, 'utf-8');
+    const rawData = fs.readFileSync(tokensJsonPath, 'utf-8');
     if (!rawData || !rawData.trim()) {
       return NextResponse.json({ tokens: {} });
     }
     const tokens = JSON.parse(rawData);
     return NextResponse.json({ tokens });
   } catch (error: any) {
-    return NextResponse.json({ error: 'Failed to read token.json: ' + error.message }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to read tokens.json: ' + error.message }, { status: 500 });
   }
 }
 
@@ -35,8 +35,7 @@ export async function POST(req: NextRequest) {
   }
 
   const cwd = process.cwd();
-  const tokenJsonPath = path.join(cwd, 'tokens', 'token.json');
-  const tokensJsonAltPath = path.join(cwd, 'tokens', 'tokens.json');
+  const tokensJsonPath = path.join(cwd, 'tokens', 'tokens.json');
   const cssPath = path.join(cwd, 'css', 'atom-ui.css');
 
   try {
@@ -51,17 +50,14 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Invalid tokens payload' }, { status: 400 });
     }
 
-    // 1. Save tokens/token.json & tokens/tokens.json
-    const tokensDir = path.dirname(tokenJsonPath);
+    // 1. Save unified SSOT tokens/tokens.json
+    const tokensDir = path.dirname(tokensJsonPath);
     if (!fs.existsSync(tokensDir)) {
       fs.mkdirSync(tokensDir, { recursive: true });
     }
 
-    const formattedJson = JSON.stringify(newTokens, null, 2);
-    fs.writeFileSync(tokenJsonPath, formattedJson, 'utf-8');
-    if (fs.existsSync(tokensJsonAltPath)) {
-      fs.writeFileSync(tokensJsonAltPath, formattedJson, 'utf-8');
-    }
+    const formattedJson = `${JSON.stringify(newTokens, null, 2)}\n`;
+    fs.writeFileSync(tokensJsonPath, formattedJson, 'utf-8');
 
     // 2. Auto-compile into css/atom-ui.css
     try {
@@ -85,7 +81,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      message: 'Successfully updated tokens/token.json and recompiled css/atom-ui.css',
+      message: 'Successfully updated tokens/tokens.json and recompiled css/atom-ui.css',
     });
   } catch (error: any) {
     return NextResponse.json({ error: 'Failed to save tokens: ' + error.message }, { status: 500 });

@@ -8,6 +8,12 @@ import {
   resolveVariableRole,
   SEMANTIC_VARIABLE_DICTIONARY,
 } from '../data/studioData';
+import type { StudioTheme } from '../data/themeData';
+import {
+  AtomTokenSystem,
+  UNIFIED_TOKENS_DOCUMENT,
+  UnifiedTokensDocument,
+} from '../tokens';
 
 export const STUDIO_CUSTOM_STYLES_START = '/* === Studio Registered Component Styles Start === */';
 export const STUDIO_CUSTOM_STYLES_END = '/* === Studio Registered Component Styles End === */';
@@ -26,119 +32,40 @@ const BUILTIN_CSS_HANDLED_IDS = new Set([
 export function exportStudioToTokensJson(
   palette: PaletteVariable[],
   components: StudioComponentDefinition[],
-  statusTokens: SemanticStatusToken[] = INITIAL_SEMANTIC_STATUS_TOKENS
+  statusTokens: SemanticStatusToken[] = INITIAL_SEMANTIC_STATUS_TOKENS,
+  options?: {
+    activeThemeId?: string;
+    themes?: StudioTheme[];
+    baseDocument?: UnifiedTokensDocument;
+    version?: string;
+  }
 ): string {
-  const result: any = {
-    $schema: 'https://design-tokens.github.io/community-group/format/',
-    name: 'AtomDesignToken System (Studio Generated)',
-    version: '0.7.0',
-    status: {},
-    palette: {
-      color: {},
-      radius: {},
-      spacing: {},
-      status: {},
+  const baseDocument = options?.baseDocument || UNIFIED_TOKENS_DOCUMENT;
+  const system = AtomTokenSystem.fromStudioRegistry(
+    {
+      version: options?.version || baseDocument.version || '0.14.2',
+      updatedAt: new Date().toISOString(),
+      activeThemeId:
+        options?.activeThemeId || baseDocument.theme?.activeThemeId || 'ocean-blue',
+      statusTokens,
+      paletteVariables: palette,
+      components,
+      ...(options?.themes ? { themes: options.themes } : {}),
     },
-    components: {},
-  };
-
-  // 1. Export Semantic Status Tokens
-  statusTokens.forEach((st) => {
-    result.status[st.key] = {
-      $value: `{${st.paletteId}}`,
-      $description: st.description,
-      variable: st.id,
-      hover: `{${st.hoverPaletteId}}`,
-      subtle: `{${st.subtlePaletteId}}`,
-    };
-  });
-
-  // 2. Export Palette
-  palette.forEach((p) => {
-    const key = p.id.replace(/^--atom-(palette-|radius-|space-|color-|typography-|font-)/, '');
-    if (!result.palette[p.category]) {
-      result.palette[p.category] = {};
+    {
+      themes: options?.themes,
+      baseDocument,
     }
-    const isFontFamily = p.family === 'font-family' || p.id.includes('font-sans') || p.id.includes('font-mono');
-    const tokenType = isFontFamily
-      ? 'fontFamily'
-      : p.id.includes('weight')
-      ? 'fontWeight'
-      : p.category === 'color' || p.category === 'status'
-      ? 'color'
-      : 'dimension';
+  );
 
-    result.palette[p.category][key] = {
-      $value: p.value,
-      $type: tokenType,
-      $description: p.description || p.name,
-      variable: p.id,
-      ...(p.cdnUrl ? { cdnUrl: p.cdnUrl } : {}),
-    };
-  });
-
-  // 3. Export Component Variables
-  components.forEach((comp) => {
-    const resolvedTypes = getComponentTypes(comp.id, comp.types);
-    result.components[comp.id] = {
-      $description: comp.description,
-      ...(comp.sourceFile ? { sourceFile: comp.sourceFile } : {}),
-      types: resolvedTypes.map((tp) => ({
-        id: tp.id,
-        name: tp.name,
-        description: tp.description || '',
-        whenToUse: tp.whenToUse,
-      })),
-      variables: {},
-    };
-
-    comp.variables.forEach((v) => {
-      const bindingsObj: Record<string, any> = {};
-      Object.entries(v.tokenBindings).forEach(([propKey, paletteId]) => {
-        const matchedPalette = palette.find((p) => p.id === paletteId);
-        bindingsObj[propKey] = {
-          $value: `{${paletteId}}`,
-          resolvedValue: matchedPalette?.value || '',
-          targetVariable: paletteId,
-        };
-      });
-
-      const typeSpec = resolveTypeSpec(comp.id, v.id, v.name);
-      const role = resolveVariableRole(v.id);
-
-      result.components[comp.id].variables[v.id] = {
-        name: v.name,
-        description: v.description || '',
-        type: {
-          id: typeSpec.id,
-          name: typeSpec.name,
-          whenToUse: typeSpec.whenToUse,
-        },
-        variable: {
-          role: role,
-          label: SEMANTIC_VARIABLE_DICTIONARY[role]?.label || role,
-          meaning: SEMANTIC_VARIABLE_DICTIONARY[role]?.meaning || '',
-        },
-        statuses: {
-          default: { behavior: '표준 background 및 border 토큰 적용' },
-          hover: { behavior: 'hoverBackground 토큰 적용, cursor: pointer' },
-          active: { behavior: 'scale-[0.97] 압축 애니메이션 및 진한 색상 피드백' },
-          focus: { behavior: 'outline 2px solid primary, outline-offset 2px' },
-          disabled: { behavior: 'opacity 40%, cursor: not-allowed' },
-          loading: { behavior: '스피너 인디케이터 회전, pointer-events: none' },
-        },
-        tokens: bindingsObj,
-      };
-    });
-  });
-
-  return JSON.stringify(result, null, 2);
+  return `${system.toJson(true)}\n`;
 }
 
 export function exportStudioToCSS(
   palette: PaletteVariable[],
   components: StudioComponentDefinition[],
-  statusTokens: SemanticStatusToken[] = INITIAL_SEMANTIC_STATUS_TOKENS
+  statusTokens: SemanticStatusToken[] = INITIAL_SEMANTIC_STATUS_TOKENS,
+  basePalette = UNIFIED_TOKENS_DOCUMENT.palette
 ): string {
   // Collect unique Webfont CDN URLs before :root (CSS @import rules must precede style rules)
   const cdnUrls = new Set<string>();
@@ -153,12 +80,36 @@ export function exportStudioToCSS(
     .map((url) => `@import url("${url}");`)
     .join('\n');
 
-  let css = `${importBlock ? `${importBlock}\n\n` : ''}/**\n * AtomDesignToken Studio Variables & Components CSS\n * Auto-generated by AtomDesignToken Studio\n */\n\n:root {\n  /* === 1. Global Palette Tokens === */\n`;
+  let css = `${importBlock ? `${importBlock}\n\n` : ''}/**\n * AtomDesignToken Studio Variables & Components CSS\n * Auto-generated by AtomDesignToken Studio from tokens/tokens.json\n */\n\n:root {\n  /* === 1. Global Palette Tokens === */\n`;
+
+  const emittedVars = new Set<string>();
 
   // Palette variables
   palette.forEach((p) => {
+    emittedVars.add(p.id);
     css += `  ${p.id}: ${p.value}; /* ${p.name} */\n`;
   });
+
+  // Shadow & Layout variables from Palette layer
+  if (basePalette?.shadow) {
+    Object.values(basePalette.shadow).forEach((s) => {
+      if (s.variable && !emittedVars.has(s.variable)) {
+        emittedVars.add(s.variable);
+        css += `  ${s.variable}: ${s.$value}; /* ${s.name || s.variable} */\n`;
+      }
+    });
+  }
+  if (basePalette?.layout) {
+    for (const grp of [basePalette.layout.container, basePalette.layout.gutter, basePalette.layout.gap]) {
+      if (!grp) continue;
+      Object.values(grp).forEach((l) => {
+        if (l.variable && !emittedVars.has(l.variable)) {
+          emittedVars.add(l.variable);
+          css += `  ${l.variable}: ${l.$value}; /* ${l.name || l.variable} */\n`;
+        }
+      });
+    }
+  }
 
   // 2. Semantic System State Tokens
   css += `\n  /* === 2. Semantic System State Tokens (상태 토큰) === */\n`;

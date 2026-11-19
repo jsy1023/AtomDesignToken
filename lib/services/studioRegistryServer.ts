@@ -27,8 +27,17 @@ import {
   toPascalCase,
   validateSubmissionSpec,
 } from './componentScaffold';
+import {
+  atomTokens,
+  AtomTokenSystem,
+  isUnifiedTokensDocument,
+  UNIFIED_TOKENS_DOCUMENT,
+  UnifiedTokensDocument,
+} from '../tokens';
 
-export const REGISTRY_REL_PATH = path.join('tokens', 'studio.registry.json');
+export const TOKENS_SSOT_REL_PATH = path.join('tokens', 'tokens.json');
+export const REGISTRY_REL_PATH = TOKENS_SSOT_REL_PATH;
+const LEGACY_REGISTRY_REL_PATH = path.join('tokens', 'studio.registry.json');
 const UNIVERSAL_MARKER = '/* === Universal Component Classes === */';
 
 function readProjectVersion(cwd: string): string {
@@ -110,36 +119,68 @@ function specToStudioDefinition(
 }
 
 function buildBaselineRegistry(cwd: string): StudioRegistry {
+  const fromUnified = atomTokens.toRegistry();
   return {
-    $schema: 'https://system.atomground.com/schemas/studio-registry.schema.json',
-    version: readProjectVersion(cwd),
-    updatedAt: new Date().toISOString(),
-    activeThemeId: 'ocean-blue',
-    statusTokens: INITIAL_SEMANTIC_STATUS_TOKENS,
-    paletteVariables: INITIAL_PALETTE_VARIABLES,
-    components: INITIAL_STUDIO_COMPONENTS.map((comp) => ({
+    ...fromUnified,
+    version: readProjectVersion(cwd) || fromUnified.version,
+    components: fromUnified.components.map((comp) => ({
       ...comp,
       types: comp.types || DEFAULT_COMPONENT_TYPES[comp.id],
     })),
   };
 }
 
+function readExistingBaseDocument(cwd: string): UnifiedTokensDocument {
+  const ssotPath = path.join(cwd, TOKENS_SSOT_REL_PATH);
+  if (fs.existsSync(ssotPath)) {
+    try {
+      const raw = fs.readFileSync(ssotPath, 'utf-8');
+      if (raw && raw.trim()) {
+        const parsed = JSON.parse(raw);
+        if (isUnifiedTokensDocument(parsed)) {
+          return parsed;
+        }
+      }
+    } catch {
+      // ignore invalid JSON and use package default
+    }
+  }
+  return UNIFIED_TOKENS_DOCUMENT;
+}
+
 /**
- * Loads `tokens/studio.registry.json` (falling back to INITIAL defaults if absent)
- * and automatically discovers any `*.atom.json` or unmanaged `*.tsx` files in `components/ui/`.
+ * Loads the project's single SSOT `tokens/tokens.json` (falling back safely to legacy
+ * `tokens/studio.registry.json` or baseline defaults if absent) and discovers any
+ * `*.atom.json` or unmanaged `*.tsx` files in `components/ui/`.
  */
 export function loadProjectRegistry(cwd: string): {
   registry: StudioRegistry;
   discoveredFiles: string[];
   existsOnDisk: boolean;
 } {
-  const registryPath = path.join(cwd, REGISTRY_REL_PATH);
+  const ssotPath = path.join(cwd, TOKENS_SSOT_REL_PATH);
+  const legacyPath = path.join(cwd, LEGACY_REGISTRY_REL_PATH);
   let existsOnDisk = false;
   let registry = buildBaselineRegistry(cwd);
 
-  if (fs.existsSync(registryPath)) {
+  if (fs.existsSync(ssotPath)) {
     try {
-      const raw = fs.readFileSync(registryPath, 'utf-8');
+      const raw = fs.readFileSync(ssotPath, 'utf-8');
+      if (raw && raw.trim()) {
+        const parsed = JSON.parse(raw);
+        if (isUnifiedTokensDocument(parsed)) {
+          existsOnDisk = true;
+          registry = AtomTokenSystem.fromDocument(parsed).toRegistry();
+        }
+      }
+    } catch {
+      // Fallback safely if unified tokens.json is temporarily malformed
+    }
+  }
+
+  if (!existsOnDisk && fs.existsSync(legacyPath)) {
+    try {
+      const raw = fs.readFileSync(legacyPath, 'utf-8');
       if (raw && raw.trim()) {
         const parsed = JSON.parse(raw) as Partial<StudioRegistry>;
         existsOnDisk = true;
@@ -165,7 +206,7 @@ export function loadProjectRegistry(cwd: string): {
         };
       }
     } catch {
-      // Fallback safely to baseline if registry JSON is malformed
+      // Fallback safely to baseline if legacy JSON is malformed
     }
   }
 
@@ -276,9 +317,9 @@ function stripDelimitedCustomStyles(cssText: string): string {
 }
 
 /**
- * Persists the full `StudioRegistry` (tokens/studio.registry.json), compiles `tokens/token.json`
- * (and `tokens/tokens.json` if present), and updates `css/atom-ui.css` while preserving
- * `Universal Component Classes` and keeping registered component styles idempotent.
+ * Persists the unified SSOT document (`tokens/tokens.json`) covering `palette`, `theme`,
+ * and `components`, and compiles `css/atom-ui.css` while preserving `Universal Component Classes`
+ * and keeping registered component styles idempotent.
  */
 export function saveProjectRegistry(
   cwd: string,
@@ -300,43 +341,37 @@ export function saveProjectRegistry(
         ? registry.paletteVariables
         : INITIAL_PALETTE_VARIABLES,
     components: registry.components || [],
+    ...(registry.themes && registry.themes.length > 0 ? { themes: registry.themes } : {}),
   };
 
+  const baseDocument = readExistingBaseDocument(cwd);
   const filesWritten: string[] = [];
   const tokensDir = path.join(cwd, 'tokens');
   if (!fs.existsSync(tokensDir)) {
     fs.mkdirSync(tokensDir, { recursive: true });
   }
 
-  // 1. Write tokens/studio.registry.json (Project SSOT)
-  const registryPath = path.join(cwd, REGISTRY_REL_PATH);
-  fs.writeFileSync(registryPath, `${JSON.stringify(normalizedRegistry, null, 2)}\n`, 'utf-8');
-  filesWritten.push('tokens/studio.registry.json');
-
-  // 2. Write tokens/token.json & tokens/tokens.json (if present)
-  const tokensJsonRaw =
-    options?.tokensJson ||
-    exportStudioToTokensJson(
-      normalizedRegistry.paletteVariables,
-      normalizedRegistry.components,
-      normalizedRegistry.statusTokens
-    );
+  // 1. Write unified SSOT tokens/tokens.json (palette -> theme -> components)
   const formattedTokensJson =
-    typeof tokensJsonRaw === 'string'
-      ? tokensJsonRaw
-      : JSON.stringify(tokensJsonRaw, null, 2);
+    options?.tokensJson && options.tokensJson.trim()
+      ? options.tokensJson
+      : exportStudioToTokensJson(
+          normalizedRegistry.paletteVariables,
+          normalizedRegistry.components,
+          normalizedRegistry.statusTokens,
+          {
+            activeThemeId: normalizedRegistry.activeThemeId,
+            themes: normalizedRegistry.themes,
+            baseDocument,
+            version: normalizedRegistry.version,
+          }
+        );
 
-  const tokenJsonPath = path.join(tokensDir, 'token.json');
-  fs.writeFileSync(tokenJsonPath, formattedTokensJson, 'utf-8');
-  filesWritten.push('tokens/token.json');
+  const tokensJsonPath = path.join(cwd, TOKENS_SSOT_REL_PATH);
+  fs.writeFileSync(tokensJsonPath, formattedTokensJson, 'utf-8');
+  filesWritten.push('tokens/tokens.json');
 
-  const tokensJsonAltPath = path.join(tokensDir, 'tokens.json');
-  if (fs.existsSync(tokensJsonAltPath)) {
-    fs.writeFileSync(tokensJsonAltPath, formattedTokensJson, 'utf-8');
-    filesWritten.push('tokens/tokens.json');
-  }
-
-  // 3. Compile css/atom-ui.css safely preserving Universal Component Classes
+  // 2. Compile css/atom-ui.css safely preserving Universal Component Classes
   const cssDir = path.join(cwd, 'css');
   if (!fs.existsSync(cssDir)) {
     fs.mkdirSync(cssDir, { recursive: true });
@@ -349,7 +384,8 @@ export function saveProjectRegistry(
       : exportStudioToCSS(
           normalizedRegistry.paletteVariables,
           normalizedRegistry.components,
-          normalizedRegistry.statusTokens
+          normalizedRegistry.statusTokens,
+          baseDocument.palette
         );
 
   const customStylesBlock = exportStudioCustomComponentStyles(normalizedRegistry.components);
@@ -382,7 +418,7 @@ export function saveProjectRegistry(
  * 1) Validates schema [Type · Variable · Status]
  * 2) Scaffolds `components/ui/<PascalName>.tsx`
  * 3) Exports in `components/ui/index.ts`
- * 4) Updates SSOT `tokens/studio.registry.json` & recompiles `tokens/token.json` and `css/atom-ui.css`.
+ * 4) Updates SSOT `tokens/tokens.json` & recompiles `css/atom-ui.css`.
  */
 export function submitComponentSpec(
   cwd: string,

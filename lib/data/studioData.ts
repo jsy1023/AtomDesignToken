@@ -1,3 +1,5 @@
+import type { StudioTheme } from './themeData';
+
 export type PaletteCategory = 'color' | 'size' | 'spacing' | 'radius' | 'typography' | 'status';
 
 export interface SemanticStatusToken {
@@ -953,6 +955,7 @@ export const INITIAL_PALETTE_VARIABLES: PaletteVariable[] = [
   { id: '--atom-palette-gray-700', name: 'Gray 700 (Text Secondary)', category: 'color', value: '#334155', description: '보조 본문 텍스트', family: 'gray' },
   { id: '--atom-palette-gray-800', name: 'Gray 800', category: 'color', value: '#1e293b', description: '강조 텍스트 및 다크 모드 카드', family: 'gray' },
   { id: '--atom-palette-gray-900', name: 'Gray 900 (Text Primary)', category: 'color', value: '#0f172a', description: '헤드라인 및 주요 본문 텍스트', family: 'gray' },
+  { id: '--atom-palette-gray-950', name: 'Gray 950 (Ultra Dark)', category: 'color', value: '#020617', description: '최고 대비 다크 서피스 및 다크 텍스트', family: 'gray' },
 
   // --- Emerald / Green Scale (Success, Online, Positive) ---
   { id: '--atom-palette-emerald-50', name: 'Emerald 50', category: 'color', value: '#ecfdf5', description: '성공 소프트 틴트 배경', family: 'emerald' },
@@ -2679,6 +2682,7 @@ export interface StudioRegistry {
   statusTokens: SemanticStatusToken[];
   paletteVariables: PaletteVariable[];
   components: StudioComponentDefinition[];
+  themes?: StudioTheme[];
 }
 
 export interface AtomComponentSubmissionSpec {

@@ -23,6 +23,7 @@ import {
 
 import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';
 import {
+  atomTokens,
   TokenCategory,
   ColorToken,
   BASE_COLOR_TOKENS,
@@ -35,16 +36,24 @@ import {
 } from '@/lib/data/tokens';
 import { CodeHighlight } from '@/components/common/CodeHighlight';
 import { useI18n } from '@/lib/i18n';
-import tokenJsonData from '@/tokens/token.json';
 import { Button, Input, Badge, NativeSelect, Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Nav, NavItem, NavLink } from '@/components/ui';
+
+type TokenJsonLayerSlice = 'all' | 'palette' | 'theme' | 'components';
 
 export default function TokensPage() {
   const { theme, updateColor, updateBorderRadius } = useThemeEditor();
   const { t } = useI18n();
   const [activeCategory, setActiveCategory] = useState<TokenCategory | 'json'>('color');
+  const [jsonLayer, setJsonLayer] = useState<TokenJsonLayerSlice>('all');
   const [copiedVar, setCopiedVar] = useState<string | null>(null);
   const [copiedJson, setCopiedJson] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+
+  const tokenJsonData = atomTokens.document;
+  const displayedJsonText =
+    jsonLayer === 'all'
+      ? JSON.stringify(tokenJsonData, null, 2)
+      : JSON.stringify({ [jsonLayer]: tokenJsonData[jsonLayer] }, null, 2);
 
   // Live Token Customizer State linked to ThemeEditor
   const liveBrandColor = theme?.color?.primary || 'var(--accent-primary)';
@@ -57,19 +66,19 @@ export default function TokensPage() {
   };
 
   const handleCopyJson = () => {
-    navigator.clipboard.writeText(JSON.stringify(tokenJsonData, null, 2));
+    navigator.clipboard.writeText(displayedJsonText);
     setCopiedJson(true);
     setTimeout(() => setCopiedJson(false), 2000);
   };
 
   const handleDownloadJson = () => {
-    const blob = new Blob([JSON.stringify(tokenJsonData, null, 2)], {
+    const blob = new Blob([displayedJsonText], {
       type: 'application/json',
     });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'token.json';
+    a.download = jsonLayer === 'all' ? 'tokens.json' : `tokens.${jsonLayer}.json`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -672,17 +681,30 @@ export default function TokensPage() {
             <div className="rounded-(--radius) border border-(--border-subtle) bg-(--bg-primary) overflow-hidden space-y-0">
               {/* Toolbar */}
               <div className="px-4 py-3 border-b border-(--border-subtle) bg-(--bg-secondary)/40 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                   <div className="flex items-center gap-1.5 font-mono text-xs font-semibold text-(--text-primary)">
                     <FileCode className="w-4 h-4 text-(--accent-primary)" />
-                    <span>tokens/token.json</span>
+                    <span>tokens/tokens.json</span>
                   </div>
                   <span className="text-[11px] font-mono px-1.5 py-0.5 rounded bg-(--bg-secondary) text-(--text-muted) border border-(--border-subtle)">
-                    W3C DTCG Format
+                    Unified SSOT (palette · theme · components)
                   </span>
                   <span className="text-[11px] font-mono text-(--text-muted)">
-                    v{tokenJsonData.version || '0.4.3'}
+                    v{tokenJsonData.version || '0.14.2'}
                   </span>
+                  <div className="flex items-center gap-1 ml-1">
+                    {(['all', 'palette', 'theme', 'components'] as const).map((layer) => (
+                      <Button
+                        key={layer}
+                        variant={jsonLayer === layer ? 'primary' : 'outline'}
+                        size="sm"
+                        onClick={() => setJsonLayer(layer)}
+                        className="h-6 px-2 text-[11px] font-mono"
+                      >
+                        {layer === 'all' ? '전체' : layer}
+                      </Button>
+                    ))}
+                  </div>
                 </div>
 
                 <div className="flex items-center gap-2">
@@ -715,7 +737,7 @@ export default function TokensPage() {
               {/* Code Viewer */}
               <div className="bg-(--bg-primary)">
                 <CodeHighlight
-                  code={JSON.stringify(tokenJsonData, null, 2)}
+                  code={displayedJsonText}
                   language="json"
                   className="p-4 max-h-[640px]"
                 />

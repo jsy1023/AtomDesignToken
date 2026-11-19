@@ -1,3 +1,7 @@
+import { atomTokens, SemanticStatusGroupNode, TokenLeaf } from '../tokens';
+
+export * from '../tokens';
+
 export type TokenCategory = 'color' | 'typography' | 'radius' | 'spacing' | 'shadow' | 'layout';
 
 export interface BrandPreset {
@@ -54,406 +58,199 @@ export interface LayoutToken {
   type: 'container' | 'gutter' | 'gap';
 }
 
-export const BRAND_PRESETS: BrandPreset[] = [
-  {
-    id: 'ocean-blue',
-    name: '오션 블루 스타일 (Ocean Blue)',
-    brandColor: '#3182f6',
-    radius: '16px',
-    description: 'Vivid Blue, 16px 볼드 라운딩, 시원한 여백과 극도의 미니멀리즘'
-  },
-  {
-    id: 'warm-orange',
-    name: '웜 오렌지 스타일 (Warm Orange)',
-    brandColor: '#ff6f0f',
-    radius: '12px',
-    description: 'Warm Orange, 12px 소프트 라운딩, 친근하고 따뜻한 커뮤니티 감성'
-  },
-  {
-    id: 'hyper-violet',
-    name: '모던 바이올렛 (Violet Tech)',
-    brandColor: '#7c3aed',
-    radius: '8px',
-    description: '세련된 보라색 테크 감성, 8px 샤프 라운딩, 개발자/B2B 최적화'
-  },
-  {
-    id: 'forest-emerald',
-    name: '에코 에메랄드 (Emerald)',
-    brandColor: '#10b981',
-    radius: '14px',
-    description: '자연스럽고 편안한 딥 그린, 핀테크 자산 및 웰니스 서비스용'
+const BRAND_THEME_IDS = ['ocean-blue', 'warm-orange', 'violet-tech', 'emerald-eco'];
+
+export const BRAND_PRESETS: BrandPreset[] = (() => {
+  const allThemes = atomTokens.theme.toStudioThemes();
+  const picked = BRAND_THEME_IDS.map((id) => allThemes.find((t) => t.id === id)).filter(
+    (t): t is NonNullable<typeof t> => Boolean(t)
+  );
+  const source = picked.length > 0 ? picked : allThemes.slice(0, 4);
+  return source.map((t) => ({
+    id: t.id,
+    name: t.name,
+    brandColor: t.brandColor,
+    radius: t.borderRadius,
+    description: t.description,
+  }));
+})();
+
+function toSemanticColorEntry(
+  leaf: TokenLeaf<string> | undefined,
+  category: ColorToken['category'],
+  fallbackName: string,
+  fallbackVar: string
+): ColorToken | null {
+  if (!leaf) return null;
+  return {
+    name: leaf.name || fallbackName,
+    variable: leaf.variable || fallbackVar,
+    value: atomTokens.resolve(leaf.$value),
+    description: leaf.$description || '',
+    category,
+  };
+}
+
+function appendStatusTriplet(
+  list: ColorToken[],
+  node: SemanticStatusGroupNode | undefined,
+  category: ColorToken['category'],
+  labels: { base: string; hover: string; subtle: string }
+): void {
+  if (!node) return;
+  const base = toSemanticColorEntry(node, category, labels.base, node.variable);
+  const hover = toSemanticColorEntry(node.hover, category, labels.hover, `${node.variable}-hover`);
+  const subtle = toSemanticColorEntry(node.subtle, category, labels.subtle, `${node.variable}-subtle`);
+  if (base) list.push(base);
+  if (hover) list.push(hover);
+  if (subtle) list.push(subtle);
+}
+
+export const BASE_COLOR_TOKENS: ColorToken[] = (() => {
+  const sem = atomTokens.theme.raw.semantic;
+  const list: ColorToken[] = [];
+
+  appendStatusTriplet(list, sem.primary, 'brand', {
+    base: 'Primary Accent',
+    hover: 'Primary Hover',
+    subtle: 'Primary Subtle / Light',
+  });
+
+  const appendGroup = (
+    group: Record<string, TokenLeaf<string>> | undefined,
+    category: ColorToken['category'],
+    prefix: string
+  ) => {
+    if (!group) return;
+    for (const [k, leaf] of Object.entries(group)) {
+      const entry = toSemanticColorEntry(leaf, category, `${prefix} ${k}`, `--atom-${category}-${k}`);
+      if (entry) list.push(entry);
+    }
+  };
+
+  appendGroup(sem.surface, 'surface', 'Background');
+  appendGroup(sem.text, 'text', 'Text');
+  appendGroup(sem.border, 'border', 'Border');
+
+  appendStatusTriplet(list, sem.success, 'status', {
+    base: 'Status Success',
+    hover: 'Status Success Hover',
+    subtle: 'Status Success Subtle',
+  });
+  appendStatusTriplet(list, sem.danger, 'status', {
+    base: 'Status Danger / Destructive',
+    hover: 'Status Danger Hover',
+    subtle: 'Status Danger Subtle',
+  });
+  appendStatusTriplet(list, sem.warning, 'status', {
+    base: 'Status Warning',
+    hover: 'Status Warning Hover',
+    subtle: 'Status Warning Subtle',
+  });
+
+  if (sem.success) {
+    list.push({
+      name: 'Legacy Status Success',
+      variable: '--atom-status-success',
+      value: `var(${sem.success.variable})`,
+      description: '기존 호환용 상태 토큰 (Success)',
+      category: 'status',
+    });
   }
-];
-
-export const BASE_COLOR_TOKENS: ColorToken[] = [
-  // Brand
-  {
-    name: 'Primary Accent',
-    variable: '--atom-color-primary',
-    value: '#3182f6',
-    description: '주요 액션 버튼, 활성 탭, 브랜드 강조 영역의 핵심 색상',
-    category: 'brand'
-  },
-  {
-    name: 'Primary Hover',
-    variable: '--atom-color-primary-hover',
-    value: '#1b64da',
-    description: 'Primary 컴포넌트에 마우스를 올렸을 때 적용되는 딥 톤',
-    category: 'brand'
-  },
-  {
-    name: 'Primary Subtle / Light',
-    variable: '--atom-color-primary-subtle',
-    value: '#e8f3ff',
-    description: '배지 배경, 활성 리스트 아이템, 선택 하이라이트 배경',
-    category: 'brand'
-  },
-  // Surface & Background
-  {
-    name: 'Background Primary',
-    variable: '--atom-bg-primary',
-    value: '#ffffff',
-    description: '웹 전체 페이지의 기본 캔버스 배경 (다크모드: #090a0f)',
-    category: 'surface'
-  },
-  {
-    name: 'Background Surface / Card',
-    variable: '--atom-bg-surface',
-    value: '#f8f9fa',
-    description: '카드, 모달 다이얼로그, 패널, 드롭다운 메뉴의 바탕색',
-    category: 'surface'
-  },
-  {
-    name: 'Background Muted',
-    variable: '--atom-bg-muted',
-    value: '#f1f3f5',
-    description: '비활성화된 폼 필드, 태그 칩, 보조 영역 배경',
-    category: 'surface'
-  },
-  // Text
-  {
-    name: 'Text Primary',
-    variable: '--atom-text-primary',
-    value: '#191f28',
-    description: '가장 높은 명도 대비를 갖는 핵심 본문 및 헤드라인 텍스트',
-    category: 'text'
-  },
-  {
-    name: 'Text Secondary',
-    variable: '--atom-text-secondary',
-    value: '#8b95a1',
-    description: '설명문, 부가 라벨, 플레이스홀더, 서브 텍스트',
-    category: 'text'
-  },
-  {
-    name: 'Text Muted',
-    variable: '--atom-text-muted',
-    value: '#b0b8c1',
-    description: '타임스탬프, 비활성화된 라벨, 장식성 힌트 텍스트',
-    category: 'text'
-  },
-  // Border
-  {
-    name: 'Border Subtle',
-    variable: '--atom-border-subtle',
-    value: '#f2f4f6',
-    description: '카드 구분선, 리스트 경계선 등 부드러운 분리선',
-    category: 'border'
-  },
-  {
-    name: 'Border Strong',
-    variable: '--atom-border-strong',
-    value: '#e5e8eb',
-    description: '인풋 필드 외곽선, 명확한 아웃라인 버튼, 모달 경계선',
-    category: 'border'
-  },
-  // Status
-  {
-    name: 'Status Success',
-    variable: '--atom-color-success',
-    value: '#10b981',
-    description: '성공 완료 알림, 온라인 상태, 송금 완료 상태',
-    category: 'status'
-  },
-  {
-    name: 'Status Success Hover',
-    variable: '--atom-color-success-hover',
-    value: '#059669',
-    description: '성공 버튼 및 액션 호버 색상',
-    category: 'status'
-  },
-  {
-    name: 'Status Success Subtle',
-    variable: '--atom-color-success-subtle',
-    value: '#ecfdf5',
-    description: '성공 배지 배경 및 소프트 알림 배경',
-    category: 'status'
-  },
-  {
-    name: 'Status Danger / Destructive',
-    variable: '--atom-color-danger',
-    value: '#ef4444',
-    description: '폼 유효성 에러, 위험/삭제 액션 버튼, 치명적 경고',
-    category: 'status'
-  },
-  {
-    name: 'Status Danger Hover',
-    variable: '--atom-color-danger-hover',
-    value: '#e11d48',
-    description: '위험/삭제 버튼 호버 색상',
-    category: 'status'
-  },
-  {
-    name: 'Status Danger Subtle',
-    variable: '--atom-color-danger-subtle',
-    value: '#fff1f2',
-    description: '에러 알림 배경 및 위험 배지 배경',
-    category: 'status'
-  },
-  {
-    name: 'Status Warning',
-    variable: '--atom-color-warning',
-    value: '#f59e0b',
-    description: '주의 알림, 대기 중인 상태, 결제 보류',
-    category: 'status'
-  },
-  {
-    name: 'Status Warning Hover',
-    variable: '--atom-color-warning-hover',
-    value: '#d97706',
-    description: '주의 버튼 호버 색상',
-    category: 'status'
-  },
-  {
-    name: 'Status Warning Subtle',
-    variable: '--atom-color-warning-subtle',
-    value: '#fffbeb',
-    description: '주의 배지 배경 및 대기 알림 배경',
-    category: 'status'
-  },
-  {
-    name: 'Legacy Status Success',
-    variable: '--atom-status-success',
-    value: 'var(--atom-color-success, #10b981)',
-    description: '기존 호환용 상태 토큰 (Success)',
-    category: 'status'
-  },
-  {
-    name: 'Legacy Status Danger',
-    variable: '--atom-status-danger',
-    value: 'var(--atom-color-danger, #ef4444)',
-    description: '기존 호환용 상태 토큰 (Danger)',
-    category: 'status'
-  },
-  {
-    name: 'Legacy Status Warning',
-    variable: '--atom-status-warning',
-    value: 'var(--atom-color-warning, #f59e0b)',
-    description: '기존 호환용 상태 토큰 (Warning)',
-    category: 'status'
+  if (sem.danger) {
+    list.push({
+      name: 'Legacy Status Danger',
+      variable: '--atom-status-danger',
+      value: `var(${sem.danger.variable})`,
+      description: '기존 호환용 상태 토큰 (Danger)',
+      category: 'status',
+    });
   }
-];
-
-export const TYPOGRAPHY_TOKENS: TypographyToken[] = [
-  {
-    name: 'Display / Hero Title',
-    variable: '--atom-font-display',
-    fontSize: '36px (2.25rem)',
-    lineHeight: '1.25',
-    weight: '800 (ExtraBold)',
-    sample: '디자이너의 피그마 해방, 말로 디자인하는 시대'
-  },
-  {
-    name: 'Title 1 (Page Title)',
-    variable: '--atom-font-title-1',
-    fontSize: '28px (1.75rem)',
-    lineHeight: '1.3',
-    weight: '700 (Bold)',
-    sample: '원클릭으로 끝내는 디자인 토큰 시스템'
-  },
-  {
-    name: 'Title 2 (Section Title)',
-    variable: '--atom-font-title-2',
-    fontSize: '20px (1.25rem)',
-    lineHeight: '1.35',
-    weight: '700 (Bold)',
-    sample: '프레임워크 무관한 표준 CSS 변수 체계'
-  },
-  {
-    name: 'Title 3 (Card Title)',
-    variable: '--atom-font-title-3',
-    fontSize: '16px (1.0rem)',
-    lineHeight: '1.4',
-    weight: '600 (SemiBold)',
-    sample: '계좌 송금 및 실시간 인증 패턴'
-  },
-  {
-    name: 'Body 1 (Regular Body)',
-    variable: '--atom-font-body-1',
-    fontSize: '14px (0.875rem)',
-    lineHeight: '1.5',
-    weight: '400 (Regular)',
-    sample: 'React, Vue, 바닐라 HTML 어디서나 복사 한 번으로 즉시 렌더링됩니다.'
-  },
-  {
-    name: 'Body 2 / Caption',
-    variable: '--atom-font-body-2',
-    fontSize: '12px (0.75rem)',
-    lineHeight: '1.5',
-    weight: '500 (Medium)',
-    sample: 'W3C DTCG 호환 tokens.json 기반 스타일 딕셔너리 컴파일'
-  },
-  {
-    name: 'Mono Code',
-    variable: '--atom-font-mono',
-    fontSize: '11px (0.6875rem)',
-    lineHeight: '1.6',
-    weight: '500 (Medium)',
-    sample: 'npx atomsystem init --preset ocean-blue'
+  if (sem.warning) {
+    list.push({
+      name: 'Legacy Status Warning',
+      variable: '--atom-status-warning',
+      value: `var(${sem.warning.variable})`,
+      description: '기존 호환용 상태 토큰 (Warning)',
+      category: 'status',
+    });
   }
-];
 
-export const RADIUS_TOKENS: RadiusToken[] = [
-  {
-    name: 'None (직각)',
-    variable: '--atom-radius-none',
-    value: '0px',
-    description: '단단한 테크니컬 대시보드 및 플랫 디자인'
-  },
-  {
-    name: 'Small (샤프)',
-    variable: '--atom-radius-sm',
-    value: '6px',
-    description: '태그 배지, 미니 인풋, 정밀 데이터 테이블 컨트롤'
-  },
-  {
-    name: 'Medium (소프트)',
-    variable: '--atom-radius-md',
-    value: '10px',
-    description: '일반적인 버튼, 인풋 필드, 툴팁'
-  },
-  {
-    name: 'Large (볼드 스타일 기본)',
-    variable: '--atom-radius-lg',
-    value: '16px',
-    description: '카드, 대화상자 모달, 주요 모바일 시트'
-  },
-  {
-    name: 'Extra Large (슈퍼 라운드)',
-    variable: '--atom-radius-xl',
-    value: '24px',
-    description: '바텀시트 최상단 모서리, 히어로 배너 카드'
-  },
-  {
-    name: 'Pill / Full (캡슐)',
-    variable: '--atom-radius-full',
-    value: '9999px',
-    description: '필터 칩, 플로팅 액션 버튼(FAB), 원형 아바타'
+  return list;
+})();
+
+function formatFontSizeLabel(rawOrRef: string, presetLabel?: string): string {
+  const resolved = atomTokens.resolve(rawOrRef);
+  if (presetLabel && presetLabel.startsWith(resolved)) {
+    return presetLabel;
   }
-];
-
-export const SPACING_TOKENS: SpacingToken[] = [
-  { name: 'Space 1 (Extra Small)', variable: '--atom-space-1', value: '4px', px: 4 },
-  { name: 'Space 2 (Small)', variable: '--atom-space-2', value: '8px', px: 8 },
-  { name: 'Space 3 (Compact)', variable: '--atom-space-3', value: '12px', px: 12 },
-  { name: 'Space 4 (Base)', variable: '--atom-space-4', value: '16px', px: 16 },
-  { name: 'Space 5 (Medium)', variable: '--atom-space-5', value: '20px', px: 20 },
-  { name: 'Space 6 (Large)', variable: '--atom-space-6', value: '24px', px: 24 },
-  { name: 'Space 8 (Section)', variable: '--atom-space-8', value: '32px', px: 32 },
-  { name: 'Space 12 (Hero)', variable: '--atom-space-12', value: '48px', px: 48 },
-  { name: 'Space 16 (Page Gap)', variable: '--atom-space-16', value: '64px', px: 64 }
-];
-
-export const SHADOW_TOKENS: ShadowToken[] = [
-  {
-    name: 'Elevation 1 (Subtle)',
-    variable: '--atom-shadow-sm',
-    value: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
-    description: '기본 카드, 인풋 포커스 상태, 미세한 구분'
-  },
-  {
-    name: 'Elevation 2 (Medium)',
-    variable: '--atom-shadow-md',
-    value: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
-    description: '호버된 카드, 드롭다운 메뉴, 팝오버 툴팁'
-  },
-  {
-    name: 'Elevation 3 (Floating)',
-    variable: '--atom-shadow-lg',
-    value: '0 10px 15px -3px rgb(0 0 0 / 0.1)',
-    description: '플로팅 내비게이션 바, 토스트 알림 메시지'
-  },
-  {
-    name: 'Elevation 4 (Modal / Overlay)',
-    variable: '--atom-shadow-xl',
-    value: '0 20px 25px -5px rgb(0 0 0 / 0.15)',
-    description: '화면 최상단 레이어의 모달 다이얼로그, 바텀시트'
+  const pxMatch = resolved.match(/^(\d+(?:\.\d+)?)px$/);
+  if (pxMatch) {
+    const px = Number(pxMatch[1]);
+    const rem = Number((px / 16).toFixed(4));
+    return `${resolved} (${rem}rem)`;
   }
-];
+  return presetLabel || resolved;
+}
 
-export const LAYOUT_TOKENS: LayoutToken[] = [
-  {
-    name: 'Container Small (Narrow / Form)',
-    variable: '--atom-container-sm',
-    value: '640px',
-    description: '인증 폼, 결제 모달, 단일 컬럼 콘텐츠',
-    type: 'container'
-  },
-  {
-    name: 'Container Medium (Article / Content)',
-    variable: '--atom-container-md',
-    value: '768px',
-    description: '블로그 아티클, 프로필 뷰어, 설정 폼',
-    type: 'container'
-  },
-  {
-    name: 'Container Large (Standard Catalog)',
-    variable: '--atom-container-lg',
-    value: '1024px',
-    description: '표준 랩탑 뷰, 카탈로그 카드 그리드',
-    type: 'container'
-  },
-  {
-    name: 'Container Extra Large (Default Dashboard)',
-    variable: '--atom-container-xl',
-    value: '1280px',
-    description: '기본 데스크톱 와이드 레이아웃 및 대시보드 허브',
-    type: 'container'
-  },
-  {
-    name: 'Container 2X Large (Ultra Wide Grid)',
-    variable: '--atom-container-2xl',
-    value: '1536px',
-    description: '초광폭 고밀도 데이터 그리드, 핀테크 차트 워크스페이스',
-    type: 'container'
-  },
-  {
-    name: 'Container Full (Fluid Fluid 100%)',
-    variable: '--atom-container-full',
-    value: '100%',
-    description: '전체 화면 플루이드 유연 뷰어',
-    type: 'container'
-  },
-  {
-    name: 'Layout Gutter (Mobile / Base)',
-    variable: '--atom-layout-gutter',
-    value: '16px',
-    description: '화면 좌우 기본 안전 여백 (Safe Padding)',
-    type: 'gutter'
-  },
-  {
-    name: 'Layout Gutter Large (Desktop)',
-    variable: '--atom-layout-gutter-lg',
-    value: '24px',
-    description: '데스크톱 화면 좌우 안전 여백',
-    type: 'gutter'
-  },
-  {
-    name: 'Layout Section Gap',
-    variable: '--atom-layout-gap',
-    value: '32px',
-    description: '섹션과 섹션 간의 기본 레이아웃 간격',
-    type: 'gap'
+export const TYPOGRAPHY_TOKENS: TypographyToken[] = Object.entries(
+  atomTokens.palette.raw.typography?.scale || {}
+).map(([key, node]) => ({
+  name: node.name || key,
+  variable: node.variable || `--atom-font-${key}`,
+  fontSize: formatFontSizeLabel(node.$value.fontSize, node.fontSizeLabel),
+  lineHeight: node.$value.lineHeight,
+  weight: node.weightLabel || atomTokens.resolve(node.$value.fontWeight),
+  sample: node.sample,
+}));
+
+export const RADIUS_TOKENS: RadiusToken[] = Object.entries(atomTokens.palette.raw.radius || {}).map(
+  ([key, leaf]) => ({
+    name: leaf.name || key,
+    variable: leaf.variable || `--atom-radius-${key}`,
+    value: leaf.$value,
+    description: leaf.$description || '',
+  })
+);
+
+export const SPACING_TOKENS: SpacingToken[] = Object.entries(atomTokens.palette.raw.spacing || {}).map(
+  ([key, leaf]) => {
+    const pxMatch = leaf.$value.match(/^(\d+(?:\.\d+)?)px$/);
+    return {
+      name: leaf.name || `Space ${key}`,
+      variable: leaf.variable || `--atom-space-${key}`,
+      value: leaf.$value,
+      px: leaf.px ?? (pxMatch ? Number(pxMatch[1]) : 0),
+    };
   }
-];
+);
 
+export const SHADOW_TOKENS: ShadowToken[] = Object.entries(atomTokens.palette.raw.shadow || {}).map(
+  ([key, leaf]) => ({
+    name: leaf.name || key,
+    variable: leaf.variable || `--atom-shadow-${key}`,
+    value: leaf.$value,
+    description: leaf.$description || '',
+  })
+);
+
+export const LAYOUT_TOKENS: LayoutToken[] = (() => {
+  const layout = atomTokens.palette.raw.layout;
+  const list: LayoutToken[] = [];
+  const pushGroup = (group: Record<string, TokenLeaf<string>> | undefined, type: LayoutToken['type']) => {
+    if (!group) return;
+    for (const [key, leaf] of Object.entries(group)) {
+      list.push({
+        name: leaf.name || key,
+        variable: leaf.variable || `--atom-layout-${key}`,
+        value: leaf.$value,
+        description: leaf.$description || '',
+        type,
+      });
+    }
+  };
+  pushGroup(layout?.container, 'container');
+  pushGroup(layout?.gutter, 'gutter');
+  pushGroup(layout?.gap, 'gap');
+  return list;
+})();

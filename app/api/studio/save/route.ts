@@ -19,8 +19,7 @@ export async function POST(req: NextRequest) {
   }
 
   const cwd = process.cwd();
-  const tokenJsonPath = path.join(cwd, 'tokens', 'token.json');
-  const tokensJsonAltPath = path.join(cwd, 'tokens', 'tokens.json');
+  const tokensJsonPath = path.join(cwd, 'tokens', 'tokens.json');
   const cssPath = path.join(cwd, 'css', 'atom-ui.css');
 
   try {
@@ -36,7 +35,7 @@ export async function POST(req: NextRequest) {
       registry?: StudioRegistry;
     };
 
-    // Preferred SSOT Save Path: saves tokens/studio.registry.json + token.json + css/atom-ui.css atomically
+    // Preferred SSOT Save Path: saves unified tokens/tokens.json + css/atom-ui.css atomically
     if (registry && typeof registry === 'object' && Array.isArray(registry.components)) {
       const formattedTokens =
         typeof tokensJson === 'string'
@@ -52,13 +51,13 @@ export async function POST(req: NextRequest) {
         success: true,
         filesWritten: result.filesWritten,
         registry: result.registry,
-        message: 'Studio registry, tokens, and CSS saved to project files.',
+        message: 'Unified tokens/tokens.json and css/atom-ui.css saved to project files.',
       });
     }
 
     // Legacy backward-compatible path (tokensJson + cssString only)
     if (tokensJson) {
-      const tokensDir = path.dirname(tokenJsonPath);
+      const tokensDir = path.dirname(tokensJsonPath);
       if (!fs.existsSync(tokensDir)) {
         fs.mkdirSync(tokensDir, { recursive: true });
       }
@@ -68,10 +67,7 @@ export async function POST(req: NextRequest) {
           ? tokensJson
           : JSON.stringify(tokensJson, null, 2);
 
-      fs.writeFileSync(tokenJsonPath, formattedJson, 'utf-8');
-      if (fs.existsSync(tokensJsonAltPath)) {
-        fs.writeFileSync(tokensJsonAltPath, formattedJson, 'utf-8');
-      }
+      fs.writeFileSync(tokensJsonPath, formattedJson, 'utf-8');
     }
 
     if (cssString && typeof cssString === 'string') {
@@ -92,7 +88,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      message: 'Studio changes successfully saved to project files (token.json & atom-ui.css)',
+      message: 'Studio changes successfully saved to project files (tokens.json & atom-ui.css)',
     });
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown error';
