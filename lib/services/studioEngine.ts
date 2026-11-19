@@ -3,10 +3,25 @@ import {
   StudioComponentDefinition,
   SemanticStatusToken,
   INITIAL_SEMANTIC_STATUS_TOKENS,
+  getComponentTypes,
   resolveTypeSpec,
   resolveVariableRole,
   SEMANTIC_VARIABLE_DICTIONARY,
-} from '@/lib/data/studioData';
+} from '../data/studioData';
+
+export const STUDIO_CUSTOM_STYLES_START = '/* === Studio Registered Component Styles Start === */';
+export const STUDIO_CUSTOM_STYLES_END = '/* === Studio Registered Component Styles End === */';
+
+const BUILTIN_CSS_HANDLED_IDS = new Set([
+  'button',
+  'badge',
+  'card',
+  'input',
+  'navbar',
+  'sidebar',
+  'alert',
+  'tree',
+]);
 
 export function exportStudioToTokensJson(
   palette: PaletteVariable[],
@@ -64,8 +79,16 @@ export function exportStudioToTokensJson(
 
   // 3. Export Component Variables
   components.forEach((comp) => {
+    const resolvedTypes = getComponentTypes(comp.id, comp.types);
     result.components[comp.id] = {
       $description: comp.description,
+      ...(comp.sourceFile ? { sourceFile: comp.sourceFile } : {}),
+      types: resolvedTypes.map((tp) => ({
+        id: tp.id,
+        name: tp.name,
+        description: tp.description || '',
+        whenToUse: tp.whenToUse,
+      })),
       variables: {},
     };
 
@@ -293,5 +316,86 @@ export function exportStudioToCSS(
     });
   });
 
+  const customStyles = exportStudioCustomComponentStyles(components);
+  if (customStyles) {
+    css += `\n${customStyles}\n`;
+  }
+
   return css;
+}
+
+/**
+ * Generates delimited dynamic CSS rules for custom components submitted via Studio/AI
+ * and any visualTraits declared on component Types so they work identically across the project.
+ */
+export function exportStudioCustomComponentStyles(
+  components: StudioComponentDefinition[]
+): string {
+  const blocks: string[] = [];
+
+  components.forEach((comp) => {
+    if (!BUILTIN_CSS_HANDLED_IDS.has(comp.id)) {
+      const varBlocks: string[] = [];
+      comp.variables.forEach((v) => {
+        const b = v.tokenBindings || {};
+        const lines: string[] = [];
+        if (b.background) lines.push(`  background-color: var(--atom-${comp.id}-${v.id}-background, var(${b.background}));`);
+        if (b.textColor) lines.push(`  color: var(--atom-${comp.id}-${v.id}-textColor, var(${b.textColor}));`);
+        if (b.borderColor) {
+          lines.push(`  border-color: var(--atom-${comp.id}-${v.id}-borderColor, var(${b.borderColor}));`);
+          lines.push(`  border-style: solid;`);
+          lines.push(`  border-width: 1px;`);
+        }
+        if (b.borderRadius) lines.push(`  border-radius: var(--atom-${comp.id}-${v.id}-borderRadius, var(${b.borderRadius}));`);
+        if (b.padding) {
+          lines.push(`  padding: var(--atom-${comp.id}-${v.id}-padding, var(${b.padding}));`);
+        } else if (b.paddingX || b.paddingY) {
+          const py = b.paddingY ? `var(--atom-${comp.id}-${v.id}-paddingY, var(${b.paddingY}))` : '8px';
+          const px = b.paddingX ? `var(--atom-${comp.id}-${v.id}-paddingX, var(${b.paddingX}))` : '14px';
+          lines.push(`  padding: ${py} ${px};`);
+        }
+        if (lines.length > 0) {
+          varBlocks.push(
+            `.atom-${comp.id}.atom-${comp.id}--${v.id},\n.atom-${comp.id}[data-variable="${v.id}"],\n[data-component="${comp.id}"][data-variable="${v.id}"] {\n${lines.join('\n')}\n}`
+          );
+        }
+
+        const hoverLines: string[] = [];
+        if (b.hoverBackground) hoverLines.push(`  background-color: var(--atom-${comp.id}-${v.id}-hoverBackground, var(${b.hoverBackground}));`);
+        if (b.hoverTextColor) hoverLines.push(`  color: var(--atom-${comp.id}-${v.id}-hoverTextColor, var(${b.hoverTextColor}));`);
+        if (b.hoverBorderColor) hoverLines.push(`  border-color: var(--atom-${comp.id}-${v.id}-hoverBorderColor, var(${b.hoverBorderColor}));`);
+        if (hoverLines.length > 0) {
+          varBlocks.push(
+            `.atom-${comp.id}[data-variable="${v.id}"]:hover:not(:disabled),\n[data-component="${comp.id}"][data-variable="${v.id}"]:hover:not(:disabled) {\n${hoverLines.join('\n')}\n}`
+          );
+        }
+      });
+
+      if (varBlocks.length > 0) {
+        blocks.push(`/* Component: ${comp.id} */\n${varBlocks.join('\n')}`);
+      }
+    }
+
+    (comp.types || []).forEach((tp) => {
+      if (!tp.visualTraits) return;
+      const traitLines: string[] = [];
+      if (tp.visualTraits.hasBackground === false) traitLines.push(`  background-color: transparent;`);
+      if (tp.visualTraits.hasBorder === false) traitLines.push(`  border-color: transparent;`);
+      else if (tp.visualTraits.hasBorder === true) traitLines.push(`  border-style: solid; border-width: 1px;`);
+      if (tp.visualTraits.borderRadius) traitLines.push(`  border-radius: ${tp.visualTraits.borderRadius};`);
+      if (tp.visualTraits.shadow) traitLines.push(`  box-shadow: ${tp.visualTraits.shadow};`);
+      if (traitLines.length > 0) {
+        blocks.push(
+          `[data-component="${comp.id}"][data-type="${tp.id}"],\n.atom-${comp.id}--type-${tp.id} {\n${traitLines.join('\n')}\n}`
+        );
+      }
+    });
+
+    if (comp.customCss && comp.customCss.trim()) {
+      blocks.push(`/* Custom CSS: ${comp.id} */\n${comp.customCss.trim()}`);
+    }
+  });
+
+  if (blocks.length === 0) return '';
+  return `${STUDIO_CUSTOM_STYLES_START}\n${blocks.join('\n\n')}\n${STUDIO_CUSTOM_STYLES_END}`;
 }

@@ -901,6 +901,19 @@ export interface StudioComponentDefinition {
   supportedStatuses?: ComponentInteractiveStatus[];
   properties: ComponentPropertySpec[];
   variables: ComponentVariable[];
+  sourceFile?: string;
+  autoDiscovered?: boolean;
+  customCss?: string;
+  docs?: {
+    useCases?: string[];
+    usagePatterns?: string[];
+    propsSpec?: {
+      name: string;
+      type: string;
+      defaultValue: string;
+      description: string;
+    }[];
+  };
 }
 
 export const INITIAL_PALETTE_VARIABLES: PaletteVariable[] = [
@@ -2657,3 +2670,116 @@ export const INITIAL_STUDIO_COMPONENTS: StudioComponentDefinition[] = [
     ],
   },
 ];
+
+export interface StudioRegistry {
+  $schema?: string;
+  version: string;
+  updatedAt: string;
+  activeThemeId?: string;
+  statusTokens: SemanticStatusToken[];
+  paletteVariables: PaletteVariable[];
+  components: StudioComponentDefinition[];
+}
+
+export interface AtomComponentSubmissionSpec {
+  id: string;
+  name: string;
+  category: 'Form' | 'Layout' | 'Feedback' | 'Navigation' | 'Data';
+  description: string;
+  types: ComponentTypeSpec[];
+  properties?: ComponentPropertySpec[];
+  variables: ComponentVariable[];
+  supportedStatuses?: ComponentInteractiveStatus[];
+  componentCode?: string;
+  overwriteCode?: boolean;
+  customCss?: string;
+  docs?: {
+    useCases?: string[];
+    usagePatterns?: string[];
+    propsSpec?: {
+      name: string;
+      type: string;
+      defaultValue: string;
+      description: string;
+    }[];
+  };
+}
+
+export const AI_COMPONENT_SUBMISSION_TEMPLATE: AtomComponentSubmissionSpec = {
+  id: 'rating-chip',
+  name: 'Rating Chip (별점 평가 칩)',
+  category: 'Feedback',
+  description: '사용자의 평점, 리뷰 점수, 신뢰 등급을 Type·Variable·Status 구조로 표시하는 평가 배지',
+  types: [
+    {
+      id: 'soft',
+      name: 'Soft (연한 틴트형)',
+      description: '은은한 시맨틱 배경 위에 별점과 점수를 표시하는 기본 외형',
+      whenToUse: '상품 카드, 리스트 행, 요약 헤더에서 시각적 부담 없이 점수를 노출할 때 사용합니다.',
+    },
+    {
+      id: 'solid',
+      name: 'Solid (고대비 채움형)',
+      description: '선명한 강조 배경으로 추천·우수 등급을 돋보이게 하는 외형',
+      whenToUse: '에디터 추천, 베스트셀러 등 최우선 강조가 필요한 영역에 사용합니다.',
+    },
+    {
+      id: 'outlined',
+      name: 'Outlined (외곽선형)',
+      description: '투명 배경과 1px 시맨틱 보더로 정돈된 외형',
+      whenToUse: '이미 배경색이 깔린 카드 위에서 경계를 선명히 분리할 때 사용합니다.',
+    },
+  ],
+  variables: [
+    {
+      id: 'primary',
+      name: '기본 브랜드 평점 (Primary)',
+      description: '브랜드 프라이머리 토큰 기반 기본 평점 표시',
+      variableRole: 'primary',
+      tokenBindings: {
+        background: '--atom-color-primary-subtle',
+        textColor: '--atom-color-primary',
+        borderColor: '--atom-color-primary',
+        borderRadius: '--atom-radius-full',
+        paddingX: '--atom-space-3',
+        paddingY: '--atom-space-1',
+      },
+    },
+    {
+      id: 'warning',
+      name: '골드 별점 강조 (Warning / Star)',
+      description: '별점 및 주의 환기에 사용하는 앰버/골드 시맨틱 토큰 조합',
+      variableRole: 'warning',
+      tokenBindings: {
+        background: '--atom-palette-amber-50',
+        textColor: '--atom-palette-amber-700',
+        borderColor: '--atom-palette-amber-300',
+        borderRadius: '--atom-radius-full',
+        paddingX: '--atom-space-3',
+        paddingY: '--atom-space-1',
+      },
+    },
+  ],
+  supportedStatuses: ['default', 'hover', 'active', 'focus', 'disabled'],
+  docs: {
+    useCases: ['상품 목록 별점 뱃지', '전문가 신뢰도 요약 헤더', 'AI 응답 품질 피드백 점수 표시'],
+    usagePatterns: [
+      'Type(soft/solid/outlined)으로 시각적 무게감을 선택하고 Variable(primary/warning)로 의미를 부여합니다.',
+    ],
+  },
+};
+
+export function buildAiComponentSubmissionPrompt(
+  componentRequest: string = '새 UI 컴포넌트'
+): string {
+  return `아래 AtomSystem 스키마(JSON) 형식에 맞춰 "${componentRequest}" 컴포넌트를 설계해줘.
+규칙:
+1. 반드시 [Type (외형 양식) · Variable (시스템 색상/옵션) · Status (default/hover/active/focus/disabled)] 3대 아키텍처를 모두 포함할 것.
+2. tokenBindings 값에는 반드시 '--atom-'로 시작하는 시맨틱/팔레트 CSS 변수 ID만 사용할 것 (HEX 하드코딩 금지).
+3. componentCode를 포함할 경우 '@/components/ui' 컴포넌트와 시맨틱 CSS 변수(var(--atom-...))만 사용하고 원시 <button>/<input>/<select>/<table> 태그 및 임의 HEX 컬러를 쓰지 말 것.
+4. 제출 양식(JSON Only):
+\`\`\`json
+${JSON.stringify(AI_COMPONENT_SUBMISSION_TEMPLATE, null, 2)}
+\`\`\`
+위 JSON을 완성한 뒤 AtomSystem 로컬 스튜디오(+ AI 제출) 또는 'npx atomsystem submit <file.atom.json>'으로 등록하면 components/ui/, tokens/studio.registry.json, tokens/token.json, css/atom-ui.css에 자동 반영됩니다.`;
+}

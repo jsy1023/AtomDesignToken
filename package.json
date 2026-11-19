@@ -24,6 +24,7 @@
     },
     "./token.json": "./tokens/token.json",
     "./tokens": "./tokens/tokens.json",
+    "./studio.registry.json": "./tokens/studio.registry.json",
     "./design.md": "./presets/default.design.md",
     "./uxPattern.md": "./presets/uxPattern.md",
     "./skill": "./skills/atomsystem.skill.md",

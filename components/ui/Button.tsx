@@ -4,8 +4,8 @@ import type { ComponentInteractiveStatus } from '@/lib/data/studioData';
 export type { ComponentInteractiveStatus };
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive' | 'danger' | 'success' | 'warning' | (string & {});
-  variable?: 'primary' | 'secondary' | 'destructive' | 'danger' | 'warning' | 'success' | 'ghost' | 'outline' | (string & {});
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive' | 'danger' | 'success' | 'warning' | 'info' | (string & {});
+  variable?: 'primary' | 'secondary' | 'destructive' | 'danger' | 'warning' | 'success' | 'info' | 'ghost' | 'outline' | (string & {});
   status?: ComponentInteractiveStatus;
   componentType?: string; // Type: e.g. 'primary-cta', 'secondary-action', 'destructive-action'
   size?: 'sm' | 'md' | 'lg';
@@ -36,9 +36,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ref
   ) => {
     const activeVariable = variable || (variant === 'danger' ? 'destructive' : variant);
-    const normalizedVariant = variant === 'danger' ? 'destructive' : variant;
+    const normalizedVariant = activeVariable === 'danger' ? 'destructive' : activeVariable;
     const variantClass = normalizedVariant === 'primary' ? 'atom-btn-primary' : `atom-btn-${normalizedVariant}`;
-    const dangerClass = variant === 'danger' ? 'atom-btn-danger' : '';
+    const dangerClass = activeVariable === 'danger' || activeVariable === 'destructive' ? 'atom-btn-danger' : '';
     const variableClass = `atom-button--${activeVariable}`;
     const typeClass = componentType ? `atom-btn--type-${componentType}` : '';
     const statusClass = status && status !== 'default' ? `atom-status--${status}` : '';
