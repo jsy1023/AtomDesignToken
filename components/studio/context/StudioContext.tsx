@@ -296,6 +296,9 @@ export function StudioProvider({ children }: { children: React.ReactNode }) {
     StudioPersistenceClient.loadRegistry().then((data) => {
       if (cancelled || !data?.registry) return;
       const reg = data.registry;
+      if (Array.isArray(reg.themes) && reg.themes.length > 0) {
+        setThemes(reg.themes);
+      }
       if (Array.isArray(reg.statusTokens) && reg.statusTokens.length > 0) {
         setStatusTokens(reg.statusTokens);
       }
@@ -633,7 +636,10 @@ export function StudioProvider({ children }: { children: React.ReactNode }) {
     setIsSaving(true);
     setStatusMessage(null);
     try {
-      const tokensJson = exportStudioToTokensJson(paletteVariables, components, statusTokens);
+      const tokensJson = exportStudioToTokensJson(paletteVariables, components, statusTokens, {
+        activeThemeId: selectedThemeId,
+        themes,
+      });
       const cssString = exportStudioToCSS(paletteVariables, components, statusTokens);
       const registryPayload: StudioRegistry = {
         version: '0.14.2',
@@ -642,6 +648,7 @@ export function StudioProvider({ children }: { children: React.ReactNode }) {
         statusTokens,
         paletteVariables,
         components,
+        themes,
       };
       const data = await StudioPersistenceClient.saveProject({
         registry: registryPayload,

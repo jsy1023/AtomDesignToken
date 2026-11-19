@@ -56,9 +56,9 @@ export function StudioSidebar() {
   };
 
   return (
-    <aside className="w-full md:w-64 lg:w-72 shrink-0 border-r border-(--border-subtle) bg-(--bg-secondary)/30 flex flex-col h-full overflow-hidden">
+    <aside className="w-full md:w-64 lg:w-72 shrink-0 border-r border-(--border-subtle) bg-(--bg-secondary)/30 flex flex-col h-full min-h-0 overflow-y-auto studio-scrollbar">
       {/* 1. Compact 5-Column Segmented Studio Mode Menu */}
-      <div className="shrink-0 grid grid-cols-5 gap-1 p-2 border-b border-(--border-subtle)/60 bg-(--bg-primary)/40">
+      <div className="shrink-0 sticky top-0 z-10 grid grid-cols-5 gap-1 p-2 border-b border-(--border-subtle)/60 bg-(--bg-primary)/95 backdrop-blur-xs">
         {[
           {
             id: 'components' as StudioTab,
@@ -116,8 +116,8 @@ export function StudioSidebar() {
 
       {/* 2. UI Components List (Expanded Scrollable Area) */}
       {activeTab === 'components' && (
-        <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
-          <div className="shrink-0 p-2.5 pb-2 space-y-2 border-b border-(--border-subtle)/30">
+        <div className="flex-1 flex flex-col min-h-0">
+          <div className="shrink-0 sticky top-[49px] z-10 p-2.5 pb-2 space-y-2 border-b border-(--border-subtle)/30 bg-(--bg-primary)/95 backdrop-blur-xs">
             <div className="flex items-center justify-between gap-1 px-0.5">
               <span className="text-xs font-mono font-bold text-(--text-secondary) uppercase tracking-wider flex items-center gap-1.5">
                 <Layers className="w-3.5 h-3.5 text-(--accent-primary)" />
@@ -172,7 +172,7 @@ export function StudioSidebar() {
             </div>
           </div>
 
-          <div className="flex-1 min-h-0 overflow-y-auto px-2.5 py-2 space-y-0.5 studio-scrollbar">
+          <div className="flex-1 px-2.5 py-2 space-y-0.5">
             {filteredComponents.map((comp) => {
               const isSelected = comp.id === selectedComponentId;
               return (
@@ -200,8 +200,8 @@ export function StudioSidebar() {
 
       {/* 3. Palette Categories Sidebar */}
       {activeTab === 'palette' && (
-        <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
-          <div className="shrink-0 p-2.5 pb-2 border-b border-(--border-subtle)/30">
+        <div className="flex-1 flex flex-col min-h-0">
+          <div className="shrink-0 sticky top-[49px] z-10 p-2.5 pb-2 border-b border-(--border-subtle)/30 bg-(--bg-primary)/95 backdrop-blur-xs">
             <span className="text-xs font-mono font-bold text-(--text-secondary) uppercase tracking-wider block mb-1.5">
               팔레트 카테고리
             </span>
@@ -215,7 +215,7 @@ export function StudioSidebar() {
             />
           </div>
 
-          <div className="flex-1 min-h-0 overflow-y-auto px-2.5 py-2 space-y-0.5 studio-scrollbar">
+          <div className="flex-1 px-2.5 py-2 space-y-0.5">
             <Button
               variant={paletteCategoryFilter === 'status' ? 'primary' : 'ghost'}
               size="sm"
