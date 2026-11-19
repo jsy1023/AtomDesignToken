@@ -19,7 +19,7 @@ var tokens_default = {
   registrySchema: "https://system.atomground.com/schemas/studio-registry.schema.json",
   name: "AtomDesignToken System",
   version: "0.14.2",
-  updatedAt: "2026-11-19T05:20:07.723Z",
+  updatedAt: "2026-11-19T07:35:10.678Z",
   palette: {
     color: {
       blue: {
@@ -2247,24 +2247,6 @@ var tokens_default = {
           name: "Solid (\uCC44\uC6C0\uD615)",
           description: "\uC120\uBA85\uD55C \uBC30\uACBD\uC0C9\uC73C\uB85C \uC2DC\uC120\uC744 \uB044\uB294 \uACE0\uB300\uBE44 \uBC30\uC9C0",
           whenToUse: "\uC2E0\uADDC(New), \uAE34\uAE09 \uC54C\uB9BC \uB4F1 \uC989\uAC01\uC801\uC778 \uC8FC\uC758\uAC00 \uD544\uC694\uD55C \uACBD\uC6B0\uC5D0 \uC0AC\uC6A9\uD569\uB2C8\uB2E4."
-        },
-        {
-          id: "subtle",
-          name: "Subtle (\uC18C\uD504\uD2B8\uD615)",
-          description: "\uC5F0\uD55C \uD2F4\uD2B8 \uBC30\uACBD\uACFC \uC9D9\uC740 \uD14D\uC2A4\uD2B8\uC758 \uC870\uD654\uB85C \uD3B8\uC548\uD55C \uAC00\uB3C5\uC131\uC744 \uC81C\uACF5\uD558\uB294 \uBC30\uC9C0",
-          whenToUse: "\uD14C\uC774\uBE14 \uC0C1\uD0DC \uD0DC\uADF8, \uCE74\uD14C\uACE0\uB9AC \uBD84\uB958 \uB4F1 \uC77C\uC0C1\uC801\uC778 \uC815\uBCF4 \uD45C\uC2DC\uC5D0 \uAC00\uC7A5 \uAD8C\uC7A5\uB429\uB2C8\uB2E4."
-        },
-        {
-          id: "outline",
-          name: "Outline (\uC678\uACFD\uC120\uD615)",
-          description: "\uD22C\uBA85 \uBC30\uACBD\uC5D0 1px \uD14C\uB450\uB9AC\uB9CC \uC788\uB294 \uBBF8\uB2C8\uBA40 \uBC30\uC9C0",
-          whenToUse: "\uBC84\uC804 \uD0DC\uADF8, \uBA54\uD0C0\uB370\uC774\uD130 \uB4F1 \uBC30\uACBD \uC0C9\uC0C1\uC744 \uC624\uC5FC\uC2DC\uD0A4\uC9C0 \uC54A\uC544\uC57C \uD560 \uB54C \uC0AC\uC6A9\uD569\uB2C8\uB2E4."
-        },
-        {
-          id: "dot",
-          name: "Dot (\uC778\uB514\uCF00\uC774\uD130\uD615)",
-          description: "\uC88C\uCE21\uC5D0 \uC2E4\uC2DC\uAC04 \uC0C1\uD0DC\uB97C \uC54C\uB9AC\uB294 \uC791\uC740 \uC6D0\uD615 \uC810(Dot)\uC774 \uD3EC\uD568\uB41C \uBC30\uC9C0",
-          whenToUse: "\uC11C\uBC84 \uC0C1\uD0DC(\uC628\uB77C\uC778/\uC624\uD504\uB77C\uC778), \uBE4C\uB4DC \uC9C4\uD589 \uC5EC\uBD80 \uB4F1 \uB77C\uC774\uBE0C \uC0C1\uD0DC \uD45C\uC2DC\uC5D0 \uC801\uD569\uD569\uB2C8\uB2E4."
         }
       ],
       variables: {
@@ -2304,8 +2286,8 @@ var tokens_default = {
           },
           tokens: {
             background: {
-              $value: "{theme.semantic.primary.subtle}",
-              targetVariable: "--atom-color-primary-subtle"
+              $value: "{theme.semantic.secondary}",
+              targetVariable: "--atom-color-secondary"
             },
             textColor: {
               $value: "{theme.semantic.primary}",
@@ -22986,7 +22968,7 @@ function EnterpriseDashboardUseCase() {
 var ATOM_UI_CSS_PATH = "atomsystem/css/atom-ui.css";
 var ATOM_TOKENS_PATH = "atomsystem/tokens.json";
 var ATOM_STUDIO_REGISTRY_PATH = ATOM_TOKENS_PATH;
-var ATOM_VERSION = "0.14.2";
+var ATOM_VERSION = "0.14.4";
 var ATOM_LIB_NAME = "atomsystem";
 
 exports.AI_COMPONENT_SUBMISSION_TEMPLATE = AI_COMPONENT_SUBMISSION_TEMPLATE;

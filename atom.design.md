@@ -149,39 +149,41 @@ AtomSystem은 단일 모델의 환각을 방지하기 위해 4대 전문 역할�
 ### 🎨 시맨틱 컬러 토큰
 | 분류 | 토큰 변수명 | 기본값 | 용도 및 설명 |
 | :--- | :--- | :--- | :--- |
-| brand | `--atom-color-primary` | `#3182f6` | 주요 액션 버튼, 활성 탭, 브랜드 강조 영역의 핵심 색상 |
-| brand | `--atom-color-primary-hover` | `#1b64da` | Primary 컴포넌트에 마우스를 올렸을 때 적용되는 딥 톤 |
-| brand | `--atom-color-primary-subtle` | `#e8f3ff` | 배지 배경, 활성 리스트 아이템, 선택 하이라이트 배경 |
+| brand | `--atom-color-primary` | `#3182f6` | 핵심 액션 버튼, 링크, 활성 탭 인디케이터, 포커스 하이라이트 |
+| brand | `--atom-color-primary-hover` | `#1b64da` | Primary (주요 브랜드 액션) hover state |
+| brand | `--atom-color-primary-subtle` | `#eff6ff` | Primary (주요 브랜드 액션) subtle surface |
 | surface | `--atom-bg-primary` | `#ffffff` | 웹 전체 페이지의 기본 캔버스 배경 (다크모드: #090a0f) |
-| surface | `--atom-bg-surface` | `#f8f9fa` | 카드, 모달 다이얼로그, 패널, 드롭다운 메뉴의 바탕색 |
-| surface | `--atom-bg-muted` | `#f1f3f5` | 비활성화된 폼 필드, 태그 칩, 보조 영역 배경 |
-| text | `--atom-text-primary` | `#191f28` | 가장 높은 명도 대비를 갖는 핵심 본문 및 헤드라인 텍스트 |
-| text | `--atom-text-secondary` | `#8b95a1` | 설명문, 부가 라벨, 플레이스홀더, 서브 텍스트 |
-| text | `--atom-text-muted` | `#b0b8c1` | 타임스탬프, 비활성화된 라벨, 장식성 힌트 텍스트 |
-| border | `--atom-border-subtle` | `#f2f4f6` | 카드 구분선, 리스트 경계선 등 부드러운 분리선 |
-| border | `--atom-border-strong` | `#e5e8eb` | 인풋 필드 외곽선, 명확한 아웃라인 버튼, 모달 경계선 |
-| status | `--atom-color-success` | `#10b981` | 성공 완료 알림, 온라인 상태, 송금 완료 상태 |
-| status | `--atom-color-success-hover` | `#059669` | 성공 버튼 및 액션 호버 색상 |
-| status | `--atom-color-success-subtle` | `#ecfdf5` | 성공 배지 배경 및 소프트 알림 배경 |
-| status | `--atom-color-danger` | `#ef4444` | 폼 유효성 에러, 위험/삭제 액션 버튼, 치명적 경고 |
-| status | `--atom-color-danger-hover` | `#e11d48` | 위험/삭제 버튼 호버 색상 |
-| status | `--atom-color-danger-subtle` | `#fff1f2` | 에러 알림 배경 및 위험 배지 배경 |
-| status | `--atom-color-warning` | `#f59e0b` | 주의 알림, 대기 중인 상태, 결제 보류 |
-| status | `--atom-color-warning-hover` | `#d97706` | 주의 버튼 호버 색상 |
-| status | `--atom-color-warning-subtle` | `#fffbeb` | 주의 배지 배경 및 대기 알림 배경 |
-| status | `--atom-status-success` | `var(--atom-color-success, #10b981)` | 기존 호환용 상태 토큰 (Success) |
-| status | `--atom-status-danger` | `var(--atom-color-danger, #ef4444)` | 기존 호환용 상태 토큰 (Danger) |
-| status | `--atom-status-warning` | `var(--atom-color-warning, #f59e0b)` | 기존 호환용 상태 토큰 (Warning) |
+| surface | `--atom-bg-surface` | `#f8fafc` | 카드, 모달 다이얼로그, 패널, 드롭다운 메뉴의 바탕색 |
+| surface | `--atom-bg-muted` | `#f1f5f9` | 비활성화된 폼 필드, 태그 칩, 보조 영역 배경 |
+| text | `--atom-text-primary` | `#0f172a` | 가장 높은 명도 대비를 갖는 핵심 본문 및 헤드라인 텍스트 |
+| text | `--atom-text-secondary` | `#334155` | 설명문, 부가 라벨, 플레이스홀더, 서브 텍스트 |
+| text | `--atom-text-muted` | `#64748b` | 타임스탬프, 비활성화된 라벨, 장식성 힌트 텍스트 |
+| border | `--atom-border-subtle` | `#e2e8f0` | 카드 구분선, 리스트 경계선 등 부드러운 분리선 |
+| border | `--atom-border-strong` | `#cbd5e1` | 인풋 필드 외곽선, 명확한 아웃라인 버튼, 모달 경계선 |
+| status | `--atom-color-success` | `#10b981` | 결제/승인 완료 버튼, 상태 성공 배지, 정상 가동 상태 |
+| status | `--atom-color-success-hover` | `#059669` | Success (성공 및 긍정 지표) hover state |
+| status | `--atom-color-success-subtle` | `#ecfdf5` | Success (성공 및 긍정 지표) subtle surface |
+| status | `--atom-color-danger` | `#ef4444` | 영구 삭제/취소 버튼, 폼 유효성 에러 보더, 치명적 경고 배지 |
+| status | `--atom-color-danger-hover` | `#e11d48` | Danger / Destructive (위험 및 에러) hover state |
+| status | `--atom-color-danger-subtle` | `#fff1f2` | Danger / Destructive (위험 및 에러) subtle surface |
+| status | `--atom-color-warning` | `#f59e0b` | 주의 환기 버튼, 검토 대기 배지, 만료 임박 알림 |
+| status | `--atom-color-warning-hover` | `#d97706` | Warning (주의 및 대기) hover state |
+| status | `--atom-color-warning-subtle` | `#fffbeb` | Warning (주의 및 대기) subtle surface |
+| status | `--atom-status-success` | `var(--atom-color-success)` | 기존 호환용 상태 토큰 (Success) |
+| status | `--atom-status-danger` | `var(--atom-color-danger)` | 기존 호환용 상태 토큰 (Danger) |
+| status | `--atom-status-warning` | `var(--atom-color-warning)` | 기존 호환용 상태 토큰 (Warning) |
 
 ### 📐 라운딩 (Border Radius)
 | 토큰 변수명 | 값 | 설명 |
 | :--- | :--- | :--- |
-| `--atom-radius-none` | `0px` | 단단한 테크니컬 대시보드 및 플랫 디자인 |
-| `--atom-radius-sm` | `6px` | 태그 배지, 미니 인풋, 정밀 데이터 테이블 컨트롤 |
-| `--atom-radius-md` | `10px` | 일반적인 버튼, 인풋 필드, 툴팁 |
-| `--atom-radius-lg` | `16px` | 카드, 대화상자 모달, 주요 모바일 시트 |
-| `--atom-radius-xl` | `24px` | 바텀시트 최상단 모서리, 히어로 배너 카드 |
-| `--atom-radius-full` | `9999px` | 필터 칩, 플로팅 액션 버튼(FAB), 원형 아바타 |
+| `--atom-radius-none` | `0px` | 각진 직사각 |
+| `--atom-radius-xs` | `2px` | 미세 라운딩 |
+| `--atom-radius-sm` | `4px` | 콤팩트 태그 및 배지 곡률 |
+| `--atom-radius-md` | `8px` | 표준 버튼 및 인풋 곡률 |
+| `--atom-radius-lg` | `12px` | 카드 및 다이얼로그 모달 곡률 |
+| `--atom-radius-xl` | `16px` | 볼드 라운딩 패널 |
+| `--atom-radius-2xl` | `24px` | 모바일 바텀 시트 곡률 |
+| `--atom-radius-full` | `9999px` | 완전 둥근 알약(Pill) 곡률 |
 
 ### 🔲 그림자 (Elevation Shadows)
 | 토큰 변수명 | 값 | 설명 |
@@ -201,13 +203,17 @@ AtomSystem은 단일 모델의 환각을 방지하기 위해 4대 전문 역할�
 | `--atom-space-5` | 20px | 20px |
 | `--atom-space-6` | 24px | 24px |
 | `--atom-space-8` | 32px | 32px |
+| `--atom-space-10` | 40px | 40px |
 | `--atom-space-12` | 48px | 48px |
 | `--atom-space-16` | 64px | 64px |
+| `--atom-space-1-5` | 6px | 6px |
+| `--atom-space-2-5` | 10px | 10px |
+| `--atom-space-3-5` | 14px | 14px |
 
 ---
 
 ## 3. 브랜드 프리셋 (Presets)
-- **오션 블루 스타일 (Ocean Blue) (`ocean-blue`)**: 메인 색상 `#3182f6`, 기본 곡률 `16px` — Vivid Blue, 16px 볼드 라운딩, 시원한 여백과 극도의 미니멀리즘
-- **웜 오렌지 스타일 (Warm Orange) (`warm-orange`)**: 메인 색상 `#ff6f0f`, 기본 곡률 `12px` — Warm Orange, 12px 소프트 라운딩, 친근하고 따뜻한 커뮤니티 감성
-- **모던 바이올렛 (Violet Tech) (`hyper-violet`)**: 메인 색상 `#7c3aed`, 기본 곡률 `8px` — 세련된 보라색 테크 감성, 8px 샤프 라운딩, 개발자/B2B 최적화
-- **에코 에메랄드 (Emerald) (`forest-emerald`)**: 메인 색상 `#10b981`, 기본 곡률 `14px` — 자연스럽고 편안한 딥 그린, 핀테크 자산 및 웰니스 서비스용
+- **오션 블루 (Ocean Blue) (`ocean-blue`)**: 메인 색상 `#3182f6`, 기본 곡률 `8px` — 신뢰감을 주는 모던 시그니처 블루와 정갈한 백색 서피스, 8px 소프트 라운딩
+- **웜 오렌지 (Warm Orange) (`warm-orange`)**: 메인 색상 `#f59e0b`, 기본 곡률 `12px` — 따뜻하고 친근한 감성의 비비드 앰버 오렌지와 크리미한 서피스, 12px 소프트 라운딩
+- **모던 바이올렛 (Modern Violet) (`violet-tech`)**: 메인 색상 `#8b5cf6`, 기본 곡률 `8px` — B2B SaaS 및 개발자 플랫폼에 최적화된 감각적인 퍼플과 징크(Zinc) 서피스
+- **포레스트 에코 (Forest Eco) (`emerald-eco`)**: 메인 색상 `#10b981`, 기본 곡률 `14px` — 자연 감성의 깊은 딥그린과 편안한 웰니스 핀테크 인터페이스, 14px 라운딩
