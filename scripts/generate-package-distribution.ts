@@ -13,6 +13,7 @@ import {
 import { PRINCIPLES_DATA } from '../lib/data/principles';
 import { PATTERNS_COLLECTION } from '../lib/data/patterns';
 import { GALLERY_COMPONENTS } from '../lib/data/components';
+import { loadProjectRegistry, saveProjectRegistry } from '../lib/services/studioRegistryServer';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -24,121 +25,11 @@ function ensureDir(dirPath: string) {
   }
 }
 
-// 1. Generate tokens/token.json & tokens/tokens.json (W3C DTCG Format)
+// 1. Sync unified SSOT tokens/tokens.json (palette · theme · components) & css/atom-ui.css
 function generateTokenJson() {
-  const tokensDir = path.join(ROOT_DIR, 'tokens');
-  ensureDir(tokensDir);
-
-  const tokenStructure: Record<string, any> = {
-    $schema: 'https://design-tokens.github.io/community-group/format/',
-    name: 'AtomDesignToken System',
-    version: (function() {
-      try {
-        const pkg = JSON.parse(fs.readFileSync(path.join(ROOT_DIR, 'package.json'), 'utf-8'));
-        return pkg.version || '0.1.0';
-      } catch {
-        return '0.1.0';
-      }
-    })(),
-    color: {
-      brand: {},
-      surface: {},
-      text: {},
-      border: {},
-      status: {},
-    },
-    typography: {},
-    radius: {},
-    spacing: {},
-    shadow: {},
-    layout: {
-      container: {},
-      gutter: {},
-      gap: {},
-    },
-    presets: {},
-  };
-
-  BASE_COLOR_TOKENS.forEach((t) => {
-    const key = t.variable.replace('--atom-', '').replace('--', '');
-    const cat = t.category || 'surface';
-    if (!tokenStructure.color[cat]) tokenStructure.color[cat] = {};
-    tokenStructure.color[cat][key] = {
-      $value: t.value,
-      $type: 'color',
-      $description: t.description,
-      variable: t.variable,
-    };
-  });
-
-  TYPOGRAPHY_TOKENS.forEach((t) => {
-    const key = t.variable.replace('--atom-typography-', '');
-    tokenStructure.typography[key] = {
-      $value: {
-        fontSize: t.fontSize,
-        lineHeight: t.lineHeight,
-        fontWeight: t.weight,
-      },
-      $type: 'typography',
-      variable: t.variable,
-      sample: t.sample,
-    };
-  });
-
-  RADIUS_TOKENS.forEach((t) => {
-    const key = t.variable.replace('--atom-radius-', '');
-    tokenStructure.radius[key] = {
-      $value: t.value,
-      $type: 'dimension',
-      $description: t.description,
-      variable: t.variable,
-    };
-  });
-
-  SPACING_TOKENS.forEach((t) => {
-    const key = t.variable.replace('--atom-space-', '');
-    tokenStructure.spacing[key] = {
-      $value: t.value,
-      $type: 'dimension',
-      px: t.px,
-      variable: t.variable,
-    };
-  });
-
-  SHADOW_TOKENS.forEach((t) => {
-    const key = t.variable.replace('--atom-shadow-', '');
-    tokenStructure.shadow[key] = {
-      $value: t.value,
-      $type: 'shadow',
-      $description: t.description,
-      variable: t.variable,
-    };
-  });
-
-  LAYOUT_TOKENS.forEach((t) => {
-    const key = t.variable.replace('--atom-', '').replace('container-', '').replace('layout-', '');
-    const targetGroup = tokenStructure.layout[t.type] || tokenStructure.layout.container;
-    targetGroup[key] = {
-      $value: t.value,
-      $type: 'dimension',
-      $description: t.description,
-      variable: t.variable,
-    };
-  });
-
-  BRAND_PRESETS.forEach((b) => {
-    tokenStructure.presets[b.id] = {
-      name: b.name,
-      brandColor: b.brandColor,
-      radius: b.radius,
-      description: b.description,
-    };
-  });
-
-  const jsonContent = JSON.stringify(tokenStructure, null, 2);
-  fs.writeFileSync(path.join(tokensDir, 'token.json'), jsonContent, 'utf-8');
-  fs.writeFileSync(path.join(tokensDir, 'tokens.json'), jsonContent, 'utf-8');
-  console.log('✅ Generated tokens/token.json & tokens/tokens.json');
+  const { registry } = loadProjectRegistry(ROOT_DIR);
+  const result = saveProjectRegistry(ROOT_DIR, registry);
+  console.log(`✅ Synced ${result.filesWritten.join(', ')}`);
 }
 
 // 2. Generate presets/default.design.md & atom.design.md

@@ -1,21 +1,29 @@
 #!/usr/bin/env node
-import { buildAiComponentSubmissionPrompt, AI_COMPONENT_SUBMISSION_TEMPLATE, scanAndRefactorDirectory, INITIAL_PALETTE_VARIABLES, INITIAL_SEMANTIC_STATUS_TOKENS, resolveStudioComponentId, DEFAULT_COMPONENT_TYPES, exportStudioToTokensJson, exportStudioToCSS, exportStudioCustomComponentStyles, INITIAL_STUDIO_COMPONENTS, STUDIO_CUSTOM_STYLES_START, STUDIO_CUSTOM_STYLES_END } from './chunk-R6RZT3NA.js';
+import { buildAiComponentSubmissionPrompt, AI_COMPONENT_SUBMISSION_TEMPLATE, scanAndRefactorDirectory, isUnifiedTokensDocument, TokenReferenceResolver, AtomTokenSystem, INITIAL_PALETTE_VARIABLES, INITIAL_SEMANTIC_STATUS_TOKENS, resolveStudioComponentId, DEFAULT_COMPONENT_TYPES, exportStudioToTokensJson, exportStudioToCSS, exportStudioCustomComponentStyles, atomTokens, UNIFIED_TOKENS_DOCUMENT, STUDIO_CUSTOM_STYLES_START, STUDIO_CUSTOM_STYLES_END } from './chunk-PWNOKZML.js';
 import fs4 from 'fs';
 import path4 from 'path';
 import { fileURLToPath } from 'url';
 import http from 'http';
 
 // src/tokenCompiler.ts
+function resolveLegacyValue(rawVal, resolver) {
+  if (typeof rawVal !== "string") return String(rawVal ?? "");
+  return resolver.resolveCssReference(rawVal);
+}
 function compileTokensToCss(tokenJson) {
+  if (isUnifiedTokensDocument(tokenJson)) {
+    return compileUnifiedTokensToCss(tokenJson);
+  }
+  const resolver = new TokenReferenceResolver(tokenJson);
   const cssVars = [];
   function traverse(obj) {
     if (!obj || typeof obj !== "object") return;
-    if (obj.variable && obj.$value !== void 0) {
-      cssVars.push(`  ${obj.variable}: ${obj.$value};`);
-      return;
+    if (obj.variable && typeof obj.$value === "string") {
+      cssVars.push(`  ${obj.variable}: ${resolveLegacyValue(obj.$value, resolver)};`);
     }
     for (const key of Object.keys(obj)) {
-      if (key.startsWith("$")) continue;
+      if (key.startsWith("$") || key === "variable" || key === "name") continue;
+      if (key === "components" || key === "presets") continue;
       traverse(obj[key]);
     }
   }
@@ -23,6 +31,88 @@ function compileTokensToCss(tokenJson) {
   return `:root {
 ${cssVars.join("\n")}
 }
+`;
+}
+function compileUnifiedTokensToCss(doc) {
+  const resolver = new TokenReferenceResolver(doc);
+  const cdnUrls = /* @__PURE__ */ new Set();
+  const paletteVars = [];
+  const semanticVars = [];
+  const componentBlocks = [];
+  function collectPalette(obj, skipScale = false) {
+    if (!obj || typeof obj !== "object") return;
+    if (typeof obj.cdnUrl === "string" && obj.cdnUrl.trim()) {
+      cdnUrls.add(obj.cdnUrl.trim());
+    }
+    if (typeof obj.variable === "string" && typeof obj.$value === "string") {
+      if (obj.variable === "--atom-font-sans" && obj.$value.includes("Spoqa Han Sans Neo") && !obj.cdnUrl) {
+        cdnUrls.add("https://spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css");
+      }
+      paletteVars.push(`  ${obj.variable}: ${obj.$value};`);
+      return;
+    }
+    for (const [key, child] of Object.entries(obj)) {
+      if (key.startsWith("$") || skipScale && key === "scale") continue;
+      if (child && typeof child === "object") {
+        collectPalette(child, key === "typography");
+      }
+    }
+  }
+  collectPalette(doc.palette);
+  function collectSemantic(obj) {
+    if (!obj || typeof obj !== "object") return;
+    if (typeof obj.variable === "string" && typeof obj.$value === "string") {
+      const cssVal = resolver.resolveCssReference(obj.$value);
+      semanticVars.push(`  ${obj.variable}: ${cssVal};`);
+    }
+    for (const [key, child] of Object.entries(obj)) {
+      if (key.startsWith("$") || key === "variable" || key === "name") continue;
+      if (child && typeof child === "object") {
+        collectSemantic(child);
+      }
+    }
+  }
+  collectSemantic(doc.theme?.semantic);
+  for (const [compId, comp] of Object.entries(doc.components || {})) {
+    for (const [varId, vNode] of Object.entries(comp.variables || {})) {
+      const lines = [];
+      for (const [propKey, binding] of Object.entries(vNode.tokens || {})) {
+        const cssVal = resolver.resolveCssReference(binding.$value);
+        if (cssVal) {
+          lines.push(`  --atom-${compId}-${varId}-${propKey}: ${cssVal};`);
+        }
+      }
+      if (lines.length > 0) {
+        componentBlocks.push(
+          `[data-component="${compId}"][data-variable="${varId}"],
+.atom-${compId}--${varId} {
+${lines.join("\n")}
+}`
+        );
+      }
+    }
+  }
+  const imports = Array.from(cdnUrls).map((u) => `@import url("${u}");`).join("\n");
+  const parts = [];
+  if (imports) parts.push(imports);
+  parts.push(
+    `:root {
+  /* Palette Primitives */
+${paletteVars.join("\n")}
+
+  /* Theme Semantics */
+${semanticVars.join("\n")}
+  --accent-primary: var(--atom-color-primary);
+  --accent-primary-hover: var(--atom-color-primary-hover);
+  --font-sans: var(--atom-font-sans);
+  --font-mono: var(--atom-font-mono);
+}`
+  );
+  if (componentBlocks.length > 0) {
+    parts.push(`/* Component Scoped Variables */
+${componentBlocks.join("\n\n")}`);
+  }
+  return `${parts.join("\n\n")}
 `;
 }
 var VALID_CATEGORIES = /* @__PURE__ */ new Set(["Form", "Layout", "Feedback", "Navigation", "Data"]);
@@ -270,7 +360,8 @@ function ensureUiBarrelExport(uiDir, pascalName) {
 }
 
 // lib/services/studioRegistryServer.ts
-var REGISTRY_REL_PATH = path4.join("tokens", "studio.registry.json");
+var TOKENS_SSOT_REL_PATH = path4.join("tokens", "tokens.json");
+var LEGACY_REGISTRY_REL_PATH = path4.join("tokens", "studio.registry.json");
 var UNIVERSAL_MARKER = "/* === Universal Component Classes === */";
 function readProjectVersion(cwd) {
   try {
@@ -341,26 +432,53 @@ function specToStudioDefinition(spec, sourceFile) {
   };
 }
 function buildBaselineRegistry(cwd) {
+  const fromUnified = atomTokens.toRegistry();
   return {
-    $schema: "https://system.atomground.com/schemas/studio-registry.schema.json",
-    version: readProjectVersion(cwd),
-    updatedAt: (/* @__PURE__ */ new Date()).toISOString(),
-    activeThemeId: "ocean-blue",
-    statusTokens: INITIAL_SEMANTIC_STATUS_TOKENS,
-    paletteVariables: INITIAL_PALETTE_VARIABLES,
-    components: INITIAL_STUDIO_COMPONENTS.map((comp) => ({
+    ...fromUnified,
+    version: readProjectVersion(cwd) || fromUnified.version,
+    components: fromUnified.components.map((comp) => ({
       ...comp,
       types: comp.types || DEFAULT_COMPONENT_TYPES[comp.id]
     }))
   };
 }
+function readExistingBaseDocument(cwd) {
+  const ssotPath = path4.join(cwd, TOKENS_SSOT_REL_PATH);
+  if (fs4.existsSync(ssotPath)) {
+    try {
+      const raw = fs4.readFileSync(ssotPath, "utf-8");
+      if (raw && raw.trim()) {
+        const parsed = JSON.parse(raw);
+        if (isUnifiedTokensDocument(parsed)) {
+          return parsed;
+        }
+      }
+    } catch {
+    }
+  }
+  return UNIFIED_TOKENS_DOCUMENT;
+}
 function loadProjectRegistry(cwd) {
-  const registryPath = path4.join(cwd, REGISTRY_REL_PATH);
+  const ssotPath = path4.join(cwd, TOKENS_SSOT_REL_PATH);
+  const legacyPath = path4.join(cwd, LEGACY_REGISTRY_REL_PATH);
   let existsOnDisk = false;
   let registry = buildBaselineRegistry(cwd);
-  if (fs4.existsSync(registryPath)) {
+  if (fs4.existsSync(ssotPath)) {
     try {
-      const raw = fs4.readFileSync(registryPath, "utf-8");
+      const raw = fs4.readFileSync(ssotPath, "utf-8");
+      if (raw && raw.trim()) {
+        const parsed = JSON.parse(raw);
+        if (isUnifiedTokensDocument(parsed)) {
+          existsOnDisk = true;
+          registry = AtomTokenSystem.fromDocument(parsed).toRegistry();
+        }
+      }
+    } catch {
+    }
+  }
+  if (!existsOnDisk && fs4.existsSync(legacyPath)) {
+    try {
+      const raw = fs4.readFileSync(legacyPath, "utf-8");
       if (raw && raw.trim()) {
         const parsed = JSON.parse(raw);
         existsOnDisk = true;
@@ -481,31 +599,29 @@ function saveProjectRegistry(cwd, registry, options) {
     activeThemeId: registry.activeThemeId || "ocean-blue",
     statusTokens: registry.statusTokens && registry.statusTokens.length > 0 ? registry.statusTokens : INITIAL_SEMANTIC_STATUS_TOKENS,
     paletteVariables: registry.paletteVariables && registry.paletteVariables.length > 0 ? registry.paletteVariables : INITIAL_PALETTE_VARIABLES,
-    components: registry.components || []
+    components: registry.components || [],
+    ...registry.themes && registry.themes.length > 0 ? { themes: registry.themes } : {}
   };
+  const baseDocument = readExistingBaseDocument(cwd);
   const filesWritten = [];
   const tokensDir = path4.join(cwd, "tokens");
   if (!fs4.existsSync(tokensDir)) {
     fs4.mkdirSync(tokensDir, { recursive: true });
   }
-  const registryPath = path4.join(cwd, REGISTRY_REL_PATH);
-  fs4.writeFileSync(registryPath, `${JSON.stringify(normalizedRegistry, null, 2)}
-`, "utf-8");
-  filesWritten.push("tokens/studio.registry.json");
-  const tokensJsonRaw = options?.tokensJson || exportStudioToTokensJson(
+  const formattedTokensJson = options?.tokensJson && options.tokensJson.trim() ? options.tokensJson : exportStudioToTokensJson(
     normalizedRegistry.paletteVariables,
     normalizedRegistry.components,
-    normalizedRegistry.statusTokens
+    normalizedRegistry.statusTokens,
+    {
+      activeThemeId: normalizedRegistry.activeThemeId,
+      themes: normalizedRegistry.themes,
+      baseDocument,
+      version: normalizedRegistry.version
+    }
   );
-  const formattedTokensJson = typeof tokensJsonRaw === "string" ? tokensJsonRaw : JSON.stringify(tokensJsonRaw, null, 2);
-  const tokenJsonPath = path4.join(tokensDir, "token.json");
-  fs4.writeFileSync(tokenJsonPath, formattedTokensJson, "utf-8");
-  filesWritten.push("tokens/token.json");
-  const tokensJsonAltPath = path4.join(tokensDir, "tokens.json");
-  if (fs4.existsSync(tokensJsonAltPath)) {
-    fs4.writeFileSync(tokensJsonAltPath, formattedTokensJson, "utf-8");
-    filesWritten.push("tokens/tokens.json");
-  }
+  const tokensJsonPath = path4.join(cwd, TOKENS_SSOT_REL_PATH);
+  fs4.writeFileSync(tokensJsonPath, formattedTokensJson, "utf-8");
+  filesWritten.push("tokens/tokens.json");
   const cssDir = path4.join(cwd, "css");
   if (!fs4.existsSync(cssDir)) {
     fs4.mkdirSync(cssDir, { recursive: true });
@@ -514,7 +630,8 @@ function saveProjectRegistry(cwd, registry, options) {
   const generatedBase = options?.cssString && typeof options.cssString === "string" ? options.cssString : exportStudioToCSS(
     normalizedRegistry.paletteVariables,
     normalizedRegistry.components,
-    normalizedRegistry.statusTokens
+    normalizedRegistry.statusTokens,
+    baseDocument.palette
   );
   const customStylesBlock = exportStudioCustomComponentStyles(normalizedRegistry.components);
   const baseWithoutCustom = stripDelimitedCustomStyles(generatedBase).trimEnd();
@@ -600,9 +717,9 @@ function sendJson(res, statusCode, data) {
 function startLocalTokenStudio(options = {}) {
   const port = options.port || 4e3;
   const cwd = options.cwd || process.cwd();
-  const tokenJsonPath = path4.join(cwd, "tokens", "token.json");
+  const tokenJsonPath = path4.join(cwd, "tokens", "tokens.json");
   const cssPath = path4.join(cwd, "css", "atom-ui.css");
-  const registryPath = path4.join(cwd, "tokens", "studio.registry.json");
+  const registryPath = path4.join(cwd, "tokens", "tokens.json");
   const server = http.createServer(async (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
@@ -686,7 +803,7 @@ function startLocalTokenStudio(options = {}) {
         try {
           data = JSON.parse(fs4.readFileSync(tokenJsonPath, "utf-8"));
         } catch {
-          data = { error: "Failed to parse tokens/token.json" };
+          data = { error: "Failed to parse tokens/tokens.json" };
         }
       }
       sendJson(res, 200, data);
@@ -862,7 +979,7 @@ function getStudioHtml() {
           <span class="badge">SSOT \xB7 Spoqa Han Sans Neo</span>
           <h1>AtomSystem Local Component &amp; Token Studio</h1>
         </div>
-        <p class="desc">\uD504\uB85C\uC81D\uD2B8 \uC804\uCCB4 \uCEF4\uD3EC\uB10C\uD2B8 \uB808\uC9C0\uC2A4\uD2B8\uB9AC(tokens/studio.registry.json), AI \uCEF4\uD3EC\uB10C\uD2B8 \uC81C\uCD9C\xB7\uC790\uB3D9 \uC0DD\uC131, CSS \uCEF4\uD30C\uC77C\uC744 \uD1B5\uD569 \uAD00\uB9AC\uD569\uB2C8\uB2E4.</p>
+        <p class="desc">\uD504\uB85C\uC81D\uD2B8 \uC804\uCCB4 \uCEF4\uD3EC\uB10C\uD2B8 \uB808\uC9C0\uC2A4\uD2B8\uB9AC(tokens/tokens.json), AI \uCEF4\uD3EC\uB10C\uD2B8 \uC81C\uCD9C\xB7\uC790\uB3D9 \uC0DD\uC131, CSS \uCEF4\uD30C\uC77C\uC744 \uD1B5\uD569 \uAD00\uB9AC\uD569\uB2C8\uB2E4.</p>
       </div>
       <div class="actions">
         <button class="btn" onclick="syncRegistry()">\u{1F504} components/ui \uC790\uB3D9 \uC2A4\uCE94 \uB3D9\uAE30\uD654</button>
@@ -895,7 +1012,7 @@ function getStudioHtml() {
       <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px;">
         <div>
           <h2 style="font-size:15px; font-weight:800;">AI \uCEF4\uD3EC\uB10C\uD2B8 \uBA85\uC138 \uC81C\uCD9C (Type \xB7 Variable \xB7 Status \uC790\uB3D9 \uC2A4\uCE90\uD3F4\uB529)</h2>
-          <p class="desc">\uC81C\uCD9C\uD558\uBA74 components/ui/&lt;Name&gt;.tsx, index.ts, studio.registry.json, token.json, css/atom-ui.css\uAC00 \uC989\uC2DC \uC0DD\uC131\xB7\uBC18\uC601\uB429\uB2C8\uB2E4.</p>
+          <p class="desc">\uC81C\uCD9C\uD558\uBA74 components/ui/&lt;Name&gt;.tsx, index.ts, tokens.json, css/atom-ui.css\uAC00 \uC989\uC2DC \uC0DD\uC131\xB7\uBC18\uC601\uB429\uB2C8\uB2E4.</p>
         </div>
         <div style="display:flex; gap:8px;">
           <button class="btn" onclick="copyAiPrompt()">\u{1F4CB} AI \uD504\uB86C\uD504\uD2B8 \uBCF5\uC0AC</button>
@@ -915,7 +1032,7 @@ function getStudioHtml() {
 
     <!-- TAB 3: Quick Global Tokens -->
     <section id="tab-tokens" class="panel hidden">
-      <h2 style="font-size:15px; font-weight:800; margin-bottom:12px;">\uAE00\uB85C\uBC8C \uC2DC\uB9E8\uD2F1 \uD1A0\uD070 \uBE60\uB978 \uD3B8\uC9D1 (tokens/token.json)</h2>
+      <h2 style="font-size:15px; font-weight:800; margin-bottom:12px;">\uAE00\uB85C\uBC8C \uC2DC\uB9E8\uD2F1 \uD1A0\uD070 \uBE60\uB978 \uD3B8\uC9D1 (tokens/tokens.json)</h2>
       <div class="studio-grid" style="grid-template-columns: 1fr 1fr;">
         <div>
           <div class="field">
@@ -932,8 +1049,8 @@ function getStudioHtml() {
           <div class="spec-card">
             <div class="spec-title">SSOT \uD30C\uC77C \uACBD\uB85C</div>
             <div class="meta-mono" style="margin-top:6px;">
-              \u2022 tokens/studio.registry.json<br>
-              \u2022 tokens/token.json<br>
+              \u2022 tokens/tokens.json<br>
+              \u2022 tokens/tokens.json<br>
               \u2022 css/atom-ui.css<br>
               \u2022 components/ui/*.tsx
             </div>
@@ -1091,7 +1208,7 @@ function getStudioHtml() {
       cur.color.brand['color-primary'] = { $value: document.getElementById('quick-primary').value, variable: '--atom-color-primary' };
       const res = await fetch('/api/tokens', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(cur) });
       const d = await res.json();
-      if (d.success) showToast('\u2713 token.json & atom-ui.css \uC7AC\uCEF4\uD30C\uC77C \uC644\uB8CC');
+      if (d.success) showToast('\u2713 tokens.json & atom-ui.css \uC7AC\uCEF4\uD30C\uC77C \uC644\uB8CC');
     }
 
     resetSampleJson();
@@ -1149,25 +1266,17 @@ function handleInit() {
       copyFileSafe(s.src, s.dest, s.label);
     }
   });
-  const srcToken = path4.join(PKG_ROOT, "tokens", "token.json");
+  const srcToken = path4.join(PKG_ROOT, "tokens", "tokens.json");
   if (fs4.existsSync(srcToken)) {
-    copyFileSafe(srcToken, path4.join(cwd, "tokens", "token.json"), "W3C DTCG Token JSON (tokens/token.json)");
+    copyFileSafe(srcToken, path4.join(cwd, "tokens", "tokens.json"), "Unified Token SSOT (tokens/tokens.json)");
+  } else {
+    const { registry } = loadProjectRegistry(cwd);
+    saveProjectRegistry(cwd, registry);
+    console.log("  \u2713 Unified Token SSOT -> tokens/tokens.json");
   }
   const srcCss = path4.join(PKG_ROOT, "css", "atom-ui.css");
   if (fs4.existsSync(srcCss)) {
     copyFileSafe(srcCss, path4.join(cwd, "css", "atom-ui.css"), "Zero-Runtime Semantic CSS (css/atom-ui.css)");
-  }
-  const srcRegistry = path4.join(PKG_ROOT, "tokens", "studio.registry.json");
-  if (fs4.existsSync(srcRegistry)) {
-    copyFileSafe(
-      srcRegistry,
-      path4.join(cwd, "tokens", "studio.registry.json"),
-      "Studio SSOT Registry (tokens/studio.registry.json)"
-    );
-  } else {
-    const { registry } = loadProjectRegistry(cwd);
-    saveProjectRegistry(cwd, registry);
-    console.log("  \u2713 Studio SSOT Registry -> tokens/studio.registry.json");
   }
   console.log("\n\u2728 AtomSystem initialization completed successfully!");
   console.log("\n\u{1F3A8} Local Token Studio Available:");
@@ -1309,19 +1418,27 @@ Install any item:
 }
 function handleBuildTokens() {
   const cwd = process.cwd();
-  const tokenJsonPath = path4.join(cwd, "tokens", "token.json");
+  const tokenJsonPath = path4.join(cwd, "tokens", "tokens.json");
   const cssPath = path4.join(cwd, "css", "atom-ui.css");
   if (!fs4.existsSync(tokenJsonPath)) {
     console.error(`
-\u274C tokens/token.json not found at ${tokenJsonPath}. Run 'npx atomsystem init' first.
+\u274C tokens/tokens.json not found at ${tokenJsonPath}. Run 'npx atomsystem init' first.
 `);
     return;
   }
   try {
     const tokens = JSON.parse(fs4.readFileSync(tokenJsonPath, "utf-8"));
-    const css = compileTokensToCss(tokens);
+    let css = compileTokensToCss(tokens);
     const cssDir = path4.dirname(cssPath);
     if (!fs4.existsSync(cssDir)) fs4.mkdirSync(cssDir, { recursive: true });
+    const marker = "/* === Universal Component Classes === */";
+    if (fs4.existsSync(cssPath)) {
+      const existing = fs4.readFileSync(cssPath, "utf-8");
+      const idx = existing.indexOf(marker);
+      if (idx !== -1) css = `${css.trimEnd()}
+
+${existing.slice(idx)}`;
+    }
     fs4.writeFileSync(cssPath, css, "utf-8");
     console.log(`
 \u2728 Successfully compiled tokens to ${path4.relative(cwd, cssPath)}!
@@ -1474,7 +1591,7 @@ Commands:
   submit <file>   Register & scaffold an AI component spec JSON into the project SSOT
   sync            Auto-discover components/ui/*.tsx & *.atom.json and recompile SSOT CSS/JSON
   schema          Print standardized AI Component Submission JSON template (--prompt for AI prompt)
-  build:tokens    Compile tokens/token.json into zero-runtime css/atom-ui.css
+  build:tokens    Compile tokens/tokens.json into zero-runtime css/atom-ui.css
   refactor        Scan & replace hardcoded HEX/px/Tailwind colors with tokens (--fix)
   skill install   Install AI Agent Skill and guidelines (.cursorrules, CLAUDE.md)
   add <name>      Add a component or block directly to your project

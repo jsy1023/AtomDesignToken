@@ -76,28 +76,19 @@ function handleInit() {
     }
   });
 
-  // 4. Install Token JSON & Zero-Runtime CSS
-  const srcToken = path.join(PKG_ROOT, 'tokens', 'token.json');
+  // 4. Install unified token SSOT (palette · theme · components) & Zero-Runtime CSS
+  const srcToken = path.join(PKG_ROOT, 'tokens', 'tokens.json');
   if (fs.existsSync(srcToken)) {
-    copyFileSafe(srcToken, path.join(cwd, 'tokens', 'token.json'), 'W3C DTCG Token JSON (tokens/token.json)');
+    copyFileSafe(srcToken, path.join(cwd, 'tokens', 'tokens.json'), 'Unified Token SSOT (tokens/tokens.json)');
+  } else {
+    const { registry } = loadProjectRegistry(cwd);
+    saveProjectRegistry(cwd, registry);
+    console.log('  ✓ Unified Token SSOT -> tokens/tokens.json');
   }
 
   const srcCss = path.join(PKG_ROOT, 'css', 'atom-ui.css');
   if (fs.existsSync(srcCss)) {
     copyFileSafe(srcCss, path.join(cwd, 'css', 'atom-ui.css'), 'Zero-Runtime Semantic CSS (css/atom-ui.css)');
-  }
-
-  const srcRegistry = path.join(PKG_ROOT, 'tokens', 'studio.registry.json');
-  if (fs.existsSync(srcRegistry)) {
-    copyFileSafe(
-      srcRegistry,
-      path.join(cwd, 'tokens', 'studio.registry.json'),
-      'Studio SSOT Registry (tokens/studio.registry.json)'
-    );
-  } else {
-    const { registry } = loadProjectRegistry(cwd);
-    saveProjectRegistry(cwd, registry);
-    console.log('  ✓ Studio SSOT Registry -> tokens/studio.registry.json');
   }
 
   console.log('\n✨ AtomSystem initialization completed successfully!');
@@ -244,19 +235,25 @@ Install any item:
 
 function handleBuildTokens() {
   const cwd = process.cwd();
-  const tokenJsonPath = path.join(cwd, 'tokens', 'token.json');
+  const tokenJsonPath = path.join(cwd, 'tokens', 'tokens.json');
   const cssPath = path.join(cwd, 'css', 'atom-ui.css');
 
   if (!fs.existsSync(tokenJsonPath)) {
-    console.error(`\n❌ tokens/token.json not found at ${tokenJsonPath}. Run 'npx atomsystem init' first.\n`);
+    console.error(`\n❌ tokens/tokens.json not found at ${tokenJsonPath}. Run 'npx atomsystem init' first.\n`);
     return;
   }
 
   try {
     const tokens = JSON.parse(fs.readFileSync(tokenJsonPath, 'utf-8'));
-    const css = compileTokensToCss(tokens);
+    let css = compileTokensToCss(tokens);
     const cssDir = path.dirname(cssPath);
     if (!fs.existsSync(cssDir)) fs.mkdirSync(cssDir, { recursive: true });
+    const marker = '/* === Universal Component Classes === */';
+    if (fs.existsSync(cssPath)) {
+      const existing = fs.readFileSync(cssPath, 'utf-8');
+      const idx = existing.indexOf(marker);
+      if (idx !== -1) css = `${css.trimEnd()}\n\n${existing.slice(idx)}`;
+    }
     fs.writeFileSync(cssPath, css, 'utf-8');
     console.log(`\n✨ Successfully compiled tokens to ${path.relative(cwd, cssPath)}!\n`);
   } catch (err: any) {
@@ -415,7 +412,7 @@ Commands:
   submit <file>   Register & scaffold an AI component spec JSON into the project SSOT
   sync            Auto-discover components/ui/*.tsx & *.atom.json and recompile SSOT CSS/JSON
   schema          Print standardized AI Component Submission JSON template (--prompt for AI prompt)
-  build:tokens    Compile tokens/token.json into zero-runtime css/atom-ui.css
+  build:tokens    Compile tokens/tokens.json into zero-runtime css/atom-ui.css
   refactor        Scan & replace hardcoded HEX/px/Tailwind colors with tokens (--fix)
   skill install   Install AI Agent Skill and guidelines (.cursorrules, CLAUDE.md)
   add <name>      Add a component or block directly to your project

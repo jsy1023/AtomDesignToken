@@ -1,406 +1,177 @@
-export { AI_COMPONENT_SUBMISSION_TEMPLATE, COMPONENT_STATUS_PRESETS, DEFAULT_COMPONENT_TYPES, INITIAL_PALETTE_VARIABLES, INITIAL_SEMANTIC_STATUS_TOKENS, INITIAL_STUDIO_COMPONENTS, SEMANTIC_VARIABLE_DICTIONARY, STUDIO_CUSTOM_STYLES_END, STUDIO_CUSTOM_STYLES_START, TOKEN_REPLACEMENTS, buildAiComponentSubmissionPrompt, exportStudioCustomComponentStyles, exportStudioToCSS, exportStudioToTokensJson, getComponentStatusProperties, getComponentTypes, resolveStudioComponentId, resolveTypeSpec, resolveVariableRole, scanAndRefactorDirectory } from './chunk-R6RZT3NA.js';
+import { atomTokens } from './chunk-PWNOKZML.js';
+export { AI_COMPONENT_SUBMISSION_TEMPLATE, AtomTokenSystem, COMPONENT_STATUS_PRESETS, ComponentTokenLayer, DEFAULT_COMPONENT_TYPES, INITIAL_PALETTE_VARIABLES, INITIAL_SEMANTIC_STATUS_TOKENS, INITIAL_STUDIO_COMPONENTS, PaletteTokenLayer, SEMANTIC_VARIABLE_DICTIONARY, STUDIO_CUSTOM_STYLES_END, STUDIO_CUSTOM_STYLES_START, TOKEN_REPLACEMENTS, ThemeTokenLayer, TokenReferenceResolver, UNIFIED_TOKENS_DOCUMENT, atomTokens, buildAiComponentSubmissionPrompt, componentTokens, exportStudioCustomComponentStyles, exportStudioToCSS, exportStudioToTokensJson, getComponentStatusProperties, getComponentTypes, isUnifiedTokensDocument, paletteTokens, resolveStudioComponentId, resolveTypeSpec, resolveVariableRole, scanAndRefactorDirectory, themeTokens, tokenResolver } from './chunk-PWNOKZML.js';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import React34, { useState } from 'react';
 import { X, Bell, AlertCircle, AlertTriangle, CheckCircle2, Info, Sparkles, RefreshCw, Download, TrendingUp, TrendingDown, Search, Filter, CreditCard, Activity, Users, DollarSign } from 'lucide-react';
 
 // lib/data/tokens.ts
-var BRAND_PRESETS = [
-  {
-    id: "ocean-blue",
-    name: "\uC624\uC158 \uBE14\uB8E8 \uC2A4\uD0C0\uC77C (Ocean Blue)",
-    brandColor: "#3182f6",
-    radius: "16px",
-    description: "Vivid Blue, 16px \uBCFC\uB4DC \uB77C\uC6B4\uB529, \uC2DC\uC6D0\uD55C \uC5EC\uBC31\uACFC \uADF9\uB3C4\uC758 \uBBF8\uB2C8\uBA40\uB9AC\uC998"
-  },
-  {
-    id: "warm-orange",
-    name: "\uC6DC \uC624\uB80C\uC9C0 \uC2A4\uD0C0\uC77C (Warm Orange)",
-    brandColor: "#ff6f0f",
-    radius: "12px",
-    description: "Warm Orange, 12px \uC18C\uD504\uD2B8 \uB77C\uC6B4\uB529, \uCE5C\uADFC\uD558\uACE0 \uB530\uB73B\uD55C \uCEE4\uBBA4\uB2C8\uD2F0 \uAC10\uC131"
-  },
-  {
-    id: "hyper-violet",
-    name: "\uBAA8\uB358 \uBC14\uC774\uC62C\uB81B (Violet Tech)",
-    brandColor: "#7c3aed",
-    radius: "8px",
-    description: "\uC138\uB828\uB41C \uBCF4\uB77C\uC0C9 \uD14C\uD06C \uAC10\uC131, 8px \uC0E4\uD504 \uB77C\uC6B4\uB529, \uAC1C\uBC1C\uC790/B2B \uCD5C\uC801\uD654"
-  },
-  {
-    id: "forest-emerald",
-    name: "\uC5D0\uCF54 \uC5D0\uBA54\uB784\uB4DC (Emerald)",
-    brandColor: "#10b981",
-    radius: "14px",
-    description: "\uC790\uC5F0\uC2A4\uB7FD\uACE0 \uD3B8\uC548\uD55C \uB525 \uADF8\uB9B0, \uD540\uD14C\uD06C \uC790\uC0B0 \uBC0F \uC6F0\uB2C8\uC2A4 \uC11C\uBE44\uC2A4\uC6A9"
+var BRAND_THEME_IDS = ["ocean-blue", "warm-orange", "violet-tech", "emerald-eco"];
+var BRAND_PRESETS = (() => {
+  const allThemes = atomTokens.theme.toStudioThemes();
+  const picked = BRAND_THEME_IDS.map((id) => allThemes.find((t) => t.id === id)).filter(
+    (t) => Boolean(t)
+  );
+  const source = picked.length > 0 ? picked : allThemes.slice(0, 4);
+  return source.map((t) => ({
+    id: t.id,
+    name: t.name,
+    brandColor: t.brandColor,
+    radius: t.borderRadius,
+    description: t.description
+  }));
+})();
+function toSemanticColorEntry(leaf, category, fallbackName, fallbackVar) {
+  if (!leaf) return null;
+  return {
+    name: leaf.name || fallbackName,
+    variable: leaf.variable || fallbackVar,
+    value: atomTokens.resolve(leaf.$value),
+    description: leaf.$description || "",
+    category
+  };
+}
+function appendStatusTriplet(list, node, category, labels) {
+  if (!node) return;
+  const base = toSemanticColorEntry(node, category, labels.base, node.variable);
+  const hover = toSemanticColorEntry(node.hover, category, labels.hover, `${node.variable}-hover`);
+  const subtle = toSemanticColorEntry(node.subtle, category, labels.subtle, `${node.variable}-subtle`);
+  if (base) list.push(base);
+  if (hover) list.push(hover);
+  if (subtle) list.push(subtle);
+}
+var BASE_COLOR_TOKENS = (() => {
+  const sem = atomTokens.theme.raw.semantic;
+  const list = [];
+  appendStatusTriplet(list, sem.primary, "brand", {
+    base: "Primary Accent",
+    hover: "Primary Hover",
+    subtle: "Primary Subtle / Light"
+  });
+  const appendGroup = (group, category, prefix) => {
+    if (!group) return;
+    for (const [k, leaf] of Object.entries(group)) {
+      const entry = toSemanticColorEntry(leaf, category, `${prefix} ${k}`, `--atom-${category}-${k}`);
+      if (entry) list.push(entry);
+    }
+  };
+  appendGroup(sem.surface, "surface", "Background");
+  appendGroup(sem.text, "text", "Text");
+  appendGroup(sem.border, "border", "Border");
+  appendStatusTriplet(list, sem.success, "status", {
+    base: "Status Success",
+    hover: "Status Success Hover",
+    subtle: "Status Success Subtle"
+  });
+  appendStatusTriplet(list, sem.danger, "status", {
+    base: "Status Danger / Destructive",
+    hover: "Status Danger Hover",
+    subtle: "Status Danger Subtle"
+  });
+  appendStatusTriplet(list, sem.warning, "status", {
+    base: "Status Warning",
+    hover: "Status Warning Hover",
+    subtle: "Status Warning Subtle"
+  });
+  if (sem.success) {
+    list.push({
+      name: "Legacy Status Success",
+      variable: "--atom-status-success",
+      value: `var(${sem.success.variable})`,
+      description: "\uAE30\uC874 \uD638\uD658\uC6A9 \uC0C1\uD0DC \uD1A0\uD070 (Success)",
+      category: "status"
+    });
   }
-];
-var BASE_COLOR_TOKENS = [
-  // Brand
-  {
-    name: "Primary Accent",
-    variable: "--atom-color-primary",
-    value: "#3182f6",
-    description: "\uC8FC\uC694 \uC561\uC158 \uBC84\uD2BC, \uD65C\uC131 \uD0ED, \uBE0C\uB79C\uB4DC \uAC15\uC870 \uC601\uC5ED\uC758 \uD575\uC2EC \uC0C9\uC0C1",
-    category: "brand"
-  },
-  {
-    name: "Primary Hover",
-    variable: "--atom-color-primary-hover",
-    value: "#1b64da",
-    description: "Primary \uCEF4\uD3EC\uB10C\uD2B8\uC5D0 \uB9C8\uC6B0\uC2A4\uB97C \uC62C\uB838\uC744 \uB54C \uC801\uC6A9\uB418\uB294 \uB525 \uD1A4",
-    category: "brand"
-  },
-  {
-    name: "Primary Subtle / Light",
-    variable: "--atom-color-primary-subtle",
-    value: "#e8f3ff",
-    description: "\uBC30\uC9C0 \uBC30\uACBD, \uD65C\uC131 \uB9AC\uC2A4\uD2B8 \uC544\uC774\uD15C, \uC120\uD0DD \uD558\uC774\uB77C\uC774\uD2B8 \uBC30\uACBD",
-    category: "brand"
-  },
-  // Surface & Background
-  {
-    name: "Background Primary",
-    variable: "--atom-bg-primary",
-    value: "#ffffff",
-    description: "\uC6F9 \uC804\uCCB4 \uD398\uC774\uC9C0\uC758 \uAE30\uBCF8 \uCE94\uBC84\uC2A4 \uBC30\uACBD (\uB2E4\uD06C\uBAA8\uB4DC: #090a0f)",
-    category: "surface"
-  },
-  {
-    name: "Background Surface / Card",
-    variable: "--atom-bg-surface",
-    value: "#f8f9fa",
-    description: "\uCE74\uB4DC, \uBAA8\uB2EC \uB2E4\uC774\uC5BC\uB85C\uADF8, \uD328\uB110, \uB4DC\uB86D\uB2E4\uC6B4 \uBA54\uB274\uC758 \uBC14\uD0D5\uC0C9",
-    category: "surface"
-  },
-  {
-    name: "Background Muted",
-    variable: "--atom-bg-muted",
-    value: "#f1f3f5",
-    description: "\uBE44\uD65C\uC131\uD654\uB41C \uD3FC \uD544\uB4DC, \uD0DC\uADF8 \uCE69, \uBCF4\uC870 \uC601\uC5ED \uBC30\uACBD",
-    category: "surface"
-  },
-  // Text
-  {
-    name: "Text Primary",
-    variable: "--atom-text-primary",
-    value: "#191f28",
-    description: "\uAC00\uC7A5 \uB192\uC740 \uBA85\uB3C4 \uB300\uBE44\uB97C \uAC16\uB294 \uD575\uC2EC \uBCF8\uBB38 \uBC0F \uD5E4\uB4DC\uB77C\uC778 \uD14D\uC2A4\uD2B8",
-    category: "text"
-  },
-  {
-    name: "Text Secondary",
-    variable: "--atom-text-secondary",
-    value: "#8b95a1",
-    description: "\uC124\uBA85\uBB38, \uBD80\uAC00 \uB77C\uBCA8, \uD50C\uB808\uC774\uC2A4\uD640\uB354, \uC11C\uBE0C \uD14D\uC2A4\uD2B8",
-    category: "text"
-  },
-  {
-    name: "Text Muted",
-    variable: "--atom-text-muted",
-    value: "#b0b8c1",
-    description: "\uD0C0\uC784\uC2A4\uD0EC\uD504, \uBE44\uD65C\uC131\uD654\uB41C \uB77C\uBCA8, \uC7A5\uC2DD\uC131 \uD78C\uD2B8 \uD14D\uC2A4\uD2B8",
-    category: "text"
-  },
-  // Border
-  {
-    name: "Border Subtle",
-    variable: "--atom-border-subtle",
-    value: "#f2f4f6",
-    description: "\uCE74\uB4DC \uAD6C\uBD84\uC120, \uB9AC\uC2A4\uD2B8 \uACBD\uACC4\uC120 \uB4F1 \uBD80\uB4DC\uB7EC\uC6B4 \uBD84\uB9AC\uC120",
-    category: "border"
-  },
-  {
-    name: "Border Strong",
-    variable: "--atom-border-strong",
-    value: "#e5e8eb",
-    description: "\uC778\uD48B \uD544\uB4DC \uC678\uACFD\uC120, \uBA85\uD655\uD55C \uC544\uC6C3\uB77C\uC778 \uBC84\uD2BC, \uBAA8\uB2EC \uACBD\uACC4\uC120",
-    category: "border"
-  },
-  // Status
-  {
-    name: "Status Success",
-    variable: "--atom-color-success",
-    value: "#10b981",
-    description: "\uC131\uACF5 \uC644\uB8CC \uC54C\uB9BC, \uC628\uB77C\uC778 \uC0C1\uD0DC, \uC1A1\uAE08 \uC644\uB8CC \uC0C1\uD0DC",
-    category: "status"
-  },
-  {
-    name: "Status Success Hover",
-    variable: "--atom-color-success-hover",
-    value: "#059669",
-    description: "\uC131\uACF5 \uBC84\uD2BC \uBC0F \uC561\uC158 \uD638\uBC84 \uC0C9\uC0C1",
-    category: "status"
-  },
-  {
-    name: "Status Success Subtle",
-    variable: "--atom-color-success-subtle",
-    value: "#ecfdf5",
-    description: "\uC131\uACF5 \uBC30\uC9C0 \uBC30\uACBD \uBC0F \uC18C\uD504\uD2B8 \uC54C\uB9BC \uBC30\uACBD",
-    category: "status"
-  },
-  {
-    name: "Status Danger / Destructive",
-    variable: "--atom-color-danger",
-    value: "#ef4444",
-    description: "\uD3FC \uC720\uD6A8\uC131 \uC5D0\uB7EC, \uC704\uD5D8/\uC0AD\uC81C \uC561\uC158 \uBC84\uD2BC, \uCE58\uBA85\uC801 \uACBD\uACE0",
-    category: "status"
-  },
-  {
-    name: "Status Danger Hover",
-    variable: "--atom-color-danger-hover",
-    value: "#e11d48",
-    description: "\uC704\uD5D8/\uC0AD\uC81C \uBC84\uD2BC \uD638\uBC84 \uC0C9\uC0C1",
-    category: "status"
-  },
-  {
-    name: "Status Danger Subtle",
-    variable: "--atom-color-danger-subtle",
-    value: "#fff1f2",
-    description: "\uC5D0\uB7EC \uC54C\uB9BC \uBC30\uACBD \uBC0F \uC704\uD5D8 \uBC30\uC9C0 \uBC30\uACBD",
-    category: "status"
-  },
-  {
-    name: "Status Warning",
-    variable: "--atom-color-warning",
-    value: "#f59e0b",
-    description: "\uC8FC\uC758 \uC54C\uB9BC, \uB300\uAE30 \uC911\uC778 \uC0C1\uD0DC, \uACB0\uC81C \uBCF4\uB958",
-    category: "status"
-  },
-  {
-    name: "Status Warning Hover",
-    variable: "--atom-color-warning-hover",
-    value: "#d97706",
-    description: "\uC8FC\uC758 \uBC84\uD2BC \uD638\uBC84 \uC0C9\uC0C1",
-    category: "status"
-  },
-  {
-    name: "Status Warning Subtle",
-    variable: "--atom-color-warning-subtle",
-    value: "#fffbeb",
-    description: "\uC8FC\uC758 \uBC30\uC9C0 \uBC30\uACBD \uBC0F \uB300\uAE30 \uC54C\uB9BC \uBC30\uACBD",
-    category: "status"
-  },
-  {
-    name: "Legacy Status Success",
-    variable: "--atom-status-success",
-    value: "var(--atom-color-success, #10b981)",
-    description: "\uAE30\uC874 \uD638\uD658\uC6A9 \uC0C1\uD0DC \uD1A0\uD070 (Success)",
-    category: "status"
-  },
-  {
-    name: "Legacy Status Danger",
-    variable: "--atom-status-danger",
-    value: "var(--atom-color-danger, #ef4444)",
-    description: "\uAE30\uC874 \uD638\uD658\uC6A9 \uC0C1\uD0DC \uD1A0\uD070 (Danger)",
-    category: "status"
-  },
-  {
-    name: "Legacy Status Warning",
-    variable: "--atom-status-warning",
-    value: "var(--atom-color-warning, #f59e0b)",
-    description: "\uAE30\uC874 \uD638\uD658\uC6A9 \uC0C1\uD0DC \uD1A0\uD070 (Warning)",
-    category: "status"
+  if (sem.danger) {
+    list.push({
+      name: "Legacy Status Danger",
+      variable: "--atom-status-danger",
+      value: `var(${sem.danger.variable})`,
+      description: "\uAE30\uC874 \uD638\uD658\uC6A9 \uC0C1\uD0DC \uD1A0\uD070 (Danger)",
+      category: "status"
+    });
   }
-];
-var TYPOGRAPHY_TOKENS = [
-  {
-    name: "Display / Hero Title",
-    variable: "--atom-font-display",
-    fontSize: "36px (2.25rem)",
-    lineHeight: "1.25",
-    weight: "800 (ExtraBold)",
-    sample: "\uB514\uC790\uC774\uB108\uC758 \uD53C\uADF8\uB9C8 \uD574\uBC29, \uB9D0\uB85C \uB514\uC790\uC778\uD558\uB294 \uC2DC\uB300"
-  },
-  {
-    name: "Title 1 (Page Title)",
-    variable: "--atom-font-title-1",
-    fontSize: "28px (1.75rem)",
-    lineHeight: "1.3",
-    weight: "700 (Bold)",
-    sample: "\uC6D0\uD074\uB9AD\uC73C\uB85C \uB05D\uB0B4\uB294 \uB514\uC790\uC778 \uD1A0\uD070 \uC2DC\uC2A4\uD15C"
-  },
-  {
-    name: "Title 2 (Section Title)",
-    variable: "--atom-font-title-2",
-    fontSize: "20px (1.25rem)",
-    lineHeight: "1.35",
-    weight: "700 (Bold)",
-    sample: "\uD504\uB808\uC784\uC6CC\uD06C \uBB34\uAD00\uD55C \uD45C\uC900 CSS \uBCC0\uC218 \uCCB4\uACC4"
-  },
-  {
-    name: "Title 3 (Card Title)",
-    variable: "--atom-font-title-3",
-    fontSize: "16px (1.0rem)",
-    lineHeight: "1.4",
-    weight: "600 (SemiBold)",
-    sample: "\uACC4\uC88C \uC1A1\uAE08 \uBC0F \uC2E4\uC2DC\uAC04 \uC778\uC99D \uD328\uD134"
-  },
-  {
-    name: "Body 1 (Regular Body)",
-    variable: "--atom-font-body-1",
-    fontSize: "14px (0.875rem)",
-    lineHeight: "1.5",
-    weight: "400 (Regular)",
-    sample: "React, Vue, \uBC14\uB2D0\uB77C HTML \uC5B4\uB514\uC11C\uB098 \uBCF5\uC0AC \uD55C \uBC88\uC73C\uB85C \uC989\uC2DC \uB80C\uB354\uB9C1\uB429\uB2C8\uB2E4."
-  },
-  {
-    name: "Body 2 / Caption",
-    variable: "--atom-font-body-2",
-    fontSize: "12px (0.75rem)",
-    lineHeight: "1.5",
-    weight: "500 (Medium)",
-    sample: "W3C DTCG \uD638\uD658 tokens.json \uAE30\uBC18 \uC2A4\uD0C0\uC77C \uB515\uC154\uB108\uB9AC \uCEF4\uD30C\uC77C"
-  },
-  {
-    name: "Mono Code",
-    variable: "--atom-font-mono",
-    fontSize: "11px (0.6875rem)",
-    lineHeight: "1.6",
-    weight: "500 (Medium)",
-    sample: "npx atomsystem init --preset ocean-blue"
+  if (sem.warning) {
+    list.push({
+      name: "Legacy Status Warning",
+      variable: "--atom-status-warning",
+      value: `var(${sem.warning.variable})`,
+      description: "\uAE30\uC874 \uD638\uD658\uC6A9 \uC0C1\uD0DC \uD1A0\uD070 (Warning)",
+      category: "status"
+    });
   }
-];
-var RADIUS_TOKENS = [
-  {
-    name: "None (\uC9C1\uAC01)",
-    variable: "--atom-radius-none",
-    value: "0px",
-    description: "\uB2E8\uB2E8\uD55C \uD14C\uD06C\uB2C8\uCEEC \uB300\uC2DC\uBCF4\uB4DC \uBC0F \uD50C\uB7AB \uB514\uC790\uC778"
-  },
-  {
-    name: "Small (\uC0E4\uD504)",
-    variable: "--atom-radius-sm",
-    value: "6px",
-    description: "\uD0DC\uADF8 \uBC30\uC9C0, \uBBF8\uB2C8 \uC778\uD48B, \uC815\uBC00 \uB370\uC774\uD130 \uD14C\uC774\uBE14 \uCEE8\uD2B8\uB864"
-  },
-  {
-    name: "Medium (\uC18C\uD504\uD2B8)",
-    variable: "--atom-radius-md",
-    value: "10px",
-    description: "\uC77C\uBC18\uC801\uC778 \uBC84\uD2BC, \uC778\uD48B \uD544\uB4DC, \uD234\uD301"
-  },
-  {
-    name: "Large (\uBCFC\uB4DC \uC2A4\uD0C0\uC77C \uAE30\uBCF8)",
-    variable: "--atom-radius-lg",
-    value: "16px",
-    description: "\uCE74\uB4DC, \uB300\uD654\uC0C1\uC790 \uBAA8\uB2EC, \uC8FC\uC694 \uBAA8\uBC14\uC77C \uC2DC\uD2B8"
-  },
-  {
-    name: "Extra Large (\uC288\uD37C \uB77C\uC6B4\uB4DC)",
-    variable: "--atom-radius-xl",
-    value: "24px",
-    description: "\uBC14\uD140\uC2DC\uD2B8 \uCD5C\uC0C1\uB2E8 \uBAA8\uC11C\uB9AC, \uD788\uC5B4\uB85C \uBC30\uB108 \uCE74\uB4DC"
-  },
-  {
-    name: "Pill / Full (\uCEA1\uC290)",
-    variable: "--atom-radius-full",
-    value: "9999px",
-    description: "\uD544\uD130 \uCE69, \uD50C\uB85C\uD305 \uC561\uC158 \uBC84\uD2BC(FAB), \uC6D0\uD615 \uC544\uBC14\uD0C0"
+  return list;
+})();
+function formatFontSizeLabel(rawOrRef, presetLabel) {
+  const resolved = atomTokens.resolve(rawOrRef);
+  if (presetLabel && presetLabel.startsWith(resolved)) {
+    return presetLabel;
   }
-];
-var SPACING_TOKENS = [
-  { name: "Space 1 (Extra Small)", variable: "--atom-space-1", value: "4px", px: 4 },
-  { name: "Space 2 (Small)", variable: "--atom-space-2", value: "8px", px: 8 },
-  { name: "Space 3 (Compact)", variable: "--atom-space-3", value: "12px", px: 12 },
-  { name: "Space 4 (Base)", variable: "--atom-space-4", value: "16px", px: 16 },
-  { name: "Space 5 (Medium)", variable: "--atom-space-5", value: "20px", px: 20 },
-  { name: "Space 6 (Large)", variable: "--atom-space-6", value: "24px", px: 24 },
-  { name: "Space 8 (Section)", variable: "--atom-space-8", value: "32px", px: 32 },
-  { name: "Space 12 (Hero)", variable: "--atom-space-12", value: "48px", px: 48 },
-  { name: "Space 16 (Page Gap)", variable: "--atom-space-16", value: "64px", px: 64 }
-];
-var SHADOW_TOKENS = [
-  {
-    name: "Elevation 1 (Subtle)",
-    variable: "--atom-shadow-sm",
-    value: "0 1px 2px 0 rgb(0 0 0 / 0.05)",
-    description: "\uAE30\uBCF8 \uCE74\uB4DC, \uC778\uD48B \uD3EC\uCEE4\uC2A4 \uC0C1\uD0DC, \uBBF8\uC138\uD55C \uAD6C\uBD84"
-  },
-  {
-    name: "Elevation 2 (Medium)",
-    variable: "--atom-shadow-md",
-    value: "0 4px 6px -1px rgb(0 0 0 / 0.1)",
-    description: "\uD638\uBC84\uB41C \uCE74\uB4DC, \uB4DC\uB86D\uB2E4\uC6B4 \uBA54\uB274, \uD31D\uC624\uBC84 \uD234\uD301"
-  },
-  {
-    name: "Elevation 3 (Floating)",
-    variable: "--atom-shadow-lg",
-    value: "0 10px 15px -3px rgb(0 0 0 / 0.1)",
-    description: "\uD50C\uB85C\uD305 \uB0B4\uBE44\uAC8C\uC774\uC158 \uBC14, \uD1A0\uC2A4\uD2B8 \uC54C\uB9BC \uBA54\uC2DC\uC9C0"
-  },
-  {
-    name: "Elevation 4 (Modal / Overlay)",
-    variable: "--atom-shadow-xl",
-    value: "0 20px 25px -5px rgb(0 0 0 / 0.15)",
-    description: "\uD654\uBA74 \uCD5C\uC0C1\uB2E8 \uB808\uC774\uC5B4\uC758 \uBAA8\uB2EC \uB2E4\uC774\uC5BC\uB85C\uADF8, \uBC14\uD140\uC2DC\uD2B8"
+  const pxMatch = resolved.match(/^(\d+(?:\.\d+)?)px$/);
+  if (pxMatch) {
+    const px = Number(pxMatch[1]);
+    const rem = Number((px / 16).toFixed(4));
+    return `${resolved} (${rem}rem)`;
   }
-];
-var LAYOUT_TOKENS = [
-  {
-    name: "Container Small (Narrow / Form)",
-    variable: "--atom-container-sm",
-    value: "640px",
-    description: "\uC778\uC99D \uD3FC, \uACB0\uC81C \uBAA8\uB2EC, \uB2E8\uC77C \uCEEC\uB7FC \uCF58\uD150\uCE20",
-    type: "container"
-  },
-  {
-    name: "Container Medium (Article / Content)",
-    variable: "--atom-container-md",
-    value: "768px",
-    description: "\uBE14\uB85C\uADF8 \uC544\uD2F0\uD074, \uD504\uB85C\uD544 \uBDF0\uC5B4, \uC124\uC815 \uD3FC",
-    type: "container"
-  },
-  {
-    name: "Container Large (Standard Catalog)",
-    variable: "--atom-container-lg",
-    value: "1024px",
-    description: "\uD45C\uC900 \uB7A9\uD0D1 \uBDF0, \uCE74\uD0C8\uB85C\uADF8 \uCE74\uB4DC \uADF8\uB9AC\uB4DC",
-    type: "container"
-  },
-  {
-    name: "Container Extra Large (Default Dashboard)",
-    variable: "--atom-container-xl",
-    value: "1280px",
-    description: "\uAE30\uBCF8 \uB370\uC2A4\uD06C\uD1B1 \uC640\uC774\uB4DC \uB808\uC774\uC544\uC6C3 \uBC0F \uB300\uC2DC\uBCF4\uB4DC \uD5C8\uBE0C",
-    type: "container"
-  },
-  {
-    name: "Container 2X Large (Ultra Wide Grid)",
-    variable: "--atom-container-2xl",
-    value: "1536px",
-    description: "\uCD08\uAD11\uD3ED \uACE0\uBC00\uB3C4 \uB370\uC774\uD130 \uADF8\uB9AC\uB4DC, \uD540\uD14C\uD06C \uCC28\uD2B8 \uC6CC\uD06C\uC2A4\uD398\uC774\uC2A4",
-    type: "container"
-  },
-  {
-    name: "Container Full (Fluid Fluid 100%)",
-    variable: "--atom-container-full",
-    value: "100%",
-    description: "\uC804\uCCB4 \uD654\uBA74 \uD50C\uB8E8\uC774\uB4DC \uC720\uC5F0 \uBDF0\uC5B4",
-    type: "container"
-  },
-  {
-    name: "Layout Gutter (Mobile / Base)",
-    variable: "--atom-layout-gutter",
-    value: "16px",
-    description: "\uD654\uBA74 \uC88C\uC6B0 \uAE30\uBCF8 \uC548\uC804 \uC5EC\uBC31 (Safe Padding)",
-    type: "gutter"
-  },
-  {
-    name: "Layout Gutter Large (Desktop)",
-    variable: "--atom-layout-gutter-lg",
-    value: "24px",
-    description: "\uB370\uC2A4\uD06C\uD1B1 \uD654\uBA74 \uC88C\uC6B0 \uC548\uC804 \uC5EC\uBC31",
-    type: "gutter"
-  },
-  {
-    name: "Layout Section Gap",
-    variable: "--atom-layout-gap",
-    value: "32px",
-    description: "\uC139\uC158\uACFC \uC139\uC158 \uAC04\uC758 \uAE30\uBCF8 \uB808\uC774\uC544\uC6C3 \uAC04\uACA9",
-    type: "gap"
+  return presetLabel || resolved;
+}
+var TYPOGRAPHY_TOKENS = Object.entries(
+  atomTokens.palette.raw.typography?.scale || {}
+).map(([key, node]) => ({
+  name: node.name || key,
+  variable: node.variable || `--atom-font-${key}`,
+  fontSize: formatFontSizeLabel(node.$value.fontSize, node.fontSizeLabel),
+  lineHeight: node.$value.lineHeight,
+  weight: node.weightLabel || atomTokens.resolve(node.$value.fontWeight),
+  sample: node.sample
+}));
+var RADIUS_TOKENS = Object.entries(atomTokens.palette.raw.radius || {}).map(
+  ([key, leaf]) => ({
+    name: leaf.name || key,
+    variable: leaf.variable || `--atom-radius-${key}`,
+    value: leaf.$value,
+    description: leaf.$description || ""
+  })
+);
+var SPACING_TOKENS = Object.entries(atomTokens.palette.raw.spacing || {}).map(
+  ([key, leaf]) => {
+    const pxMatch = leaf.$value.match(/^(\d+(?:\.\d+)?)px$/);
+    return {
+      name: leaf.name || `Space ${key}`,
+      variable: leaf.variable || `--atom-space-${key}`,
+      value: leaf.$value,
+      px: leaf.px ?? (pxMatch ? Number(pxMatch[1]) : 0)
+    };
   }
-];
+);
+var SHADOW_TOKENS = Object.entries(atomTokens.palette.raw.shadow || {}).map(
+  ([key, leaf]) => ({
+    name: leaf.name || key,
+    variable: leaf.variable || `--atom-shadow-${key}`,
+    value: leaf.$value,
+    description: leaf.$description || ""
+  })
+);
+var LAYOUT_TOKENS = (() => {
+  const layout = atomTokens.palette.raw.layout;
+  const list = [];
+  const pushGroup = (group, type) => {
+    if (!group) return;
+    for (const [key, leaf] of Object.entries(group)) {
+      list.push({
+        name: leaf.name || key,
+        variable: leaf.variable || `--atom-layout-${key}`,
+        value: leaf.$value,
+        description: leaf.$description || "",
+        type
+      });
+    }
+  };
+  pushGroup(layout?.container, "container");
+  pushGroup(layout?.gutter, "gutter");
+  pushGroup(layout?.gap, "gap");
+  return list;
+})();
 
 // lib/data/components.ts
 var GALLERY_COMPONENTS = [
@@ -10669,10 +10440,11 @@ function EnterpriseDashboardUseCase() {
 
 // src/index.ts
 var ATOM_UI_CSS_PATH = "atomsystem/css/atom-ui.css";
-var ATOM_STUDIO_REGISTRY_PATH = "atomsystem/studio.registry.json";
+var ATOM_TOKENS_PATH = "atomsystem/tokens.json";
+var ATOM_STUDIO_REGISTRY_PATH = ATOM_TOKENS_PATH;
 var ATOM_VERSION = "0.14.2";
 var ATOM_LIB_NAME = "atomsystem";
 
-export { ATOM_LIB_NAME, ATOM_STUDIO_REGISTRY_PATH, ATOM_UI_CSS_PATH, ATOM_VERSION, AWESOME_CATEGORIES, AWESOME_DESIGN_MD_THEMES, BASE_COLOR_TOKENS, BRAND_PRESETS, COLOR_PRESETS, DEFAULT_BRAND_CONFIG, DEFAULT_THEME_CONFIG, EnterpriseDashboardUseCase, FONT_FAMILY_PRESETS, GALLERY_COMPONENTS, LAYOUT_TOKENS, PATTERNS_COLLECTION, RADIUS_TOKENS, SHADOW_TOKENS, SPACING_TOKENS, TYPOGRAPHY_TOKENS, applyThemeToDOM, cn, exportToCSS, exportToTailwind, exportToTokensJson, generateThemeCSS, injectWebfontLink, isDarkColor };
+export { ATOM_LIB_NAME, ATOM_STUDIO_REGISTRY_PATH, ATOM_TOKENS_PATH, ATOM_UI_CSS_PATH, ATOM_VERSION, AWESOME_CATEGORIES, AWESOME_DESIGN_MD_THEMES, BASE_COLOR_TOKENS, BRAND_PRESETS, COLOR_PRESETS, DEFAULT_BRAND_CONFIG, DEFAULT_THEME_CONFIG, EnterpriseDashboardUseCase, FONT_FAMILY_PRESETS, GALLERY_COMPONENTS, LAYOUT_TOKENS, PATTERNS_COLLECTION, RADIUS_TOKENS, SHADOW_TOKENS, SPACING_TOKENS, TYPOGRAPHY_TOKENS, applyThemeToDOM, cn, exportToCSS, exportToTailwind, exportToTokensJson, generateThemeCSS, injectWebfontLink, isDarkColor };
 //# sourceMappingURL=index.js.map
 //# sourceMappingURL=index.js.map

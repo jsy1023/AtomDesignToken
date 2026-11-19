@@ -9,7 +9,8 @@
   },
   "include": [
     "src/**/*.ts",
-    "lib/**/*.ts"
+    "lib/**/*.ts",
+    "tokens/tokens.json"
   ],
   "exclude": [
     "node_modules",

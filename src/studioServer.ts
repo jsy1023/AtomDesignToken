@@ -33,9 +33,9 @@ export function startLocalTokenStudio(options: { port?: number; cwd?: string } =
   const port = options.port || 4000;
   const cwd = options.cwd || process.cwd();
 
-  const tokenJsonPath = path.join(cwd, 'tokens', 'token.json');
+  const tokenJsonPath = path.join(cwd, 'tokens', 'tokens.json');
   const cssPath = path.join(cwd, 'css', 'atom-ui.css');
-  const registryPath = path.join(cwd, 'tokens', 'studio.registry.json');
+  const registryPath = path.join(cwd, 'tokens', 'tokens.json');
 
   const server = http.createServer(async (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -65,7 +65,7 @@ export function startLocalTokenStudio(options: { port?: number; cwd?: string } =
       return;
     }
 
-    // 2. Save Full Studio Registry (tokens/studio.registry.json + tokens/token.json + css/atom-ui.css)
+    // 2. Save Full Studio Registry (tokens/tokens.json + tokens/tokens.json + css/atom-ui.css)
     if (url.pathname === '/api/studio/save' && req.method === 'POST') {
       try {
         const raw = await readRequestBody(req);
@@ -143,7 +143,7 @@ export function startLocalTokenStudio(options: { port?: number; cwd?: string } =
         try {
           data = JSON.parse(fs.readFileSync(tokenJsonPath, 'utf-8'));
         } catch {
-          data = { error: 'Failed to parse tokens/token.json' };
+          data = { error: 'Failed to parse tokens/tokens.json' };
         }
       }
       sendJson(res, 200, data);
@@ -326,7 +326,7 @@ function getStudioHtml(): string {
           <span class="badge">SSOT · Spoqa Han Sans Neo</span>
           <h1>AtomSystem Local Component &amp; Token Studio</h1>
         </div>
-        <p class="desc">프로젝트 전체 컴포넌트 레지스트리(tokens/studio.registry.json), AI 컴포넌트 제출·자동 생성, CSS 컴파일을 통합 관리합니다.</p>
+        <p class="desc">프로젝트 전체 컴포넌트 레지스트리(tokens/tokens.json), AI 컴포넌트 제출·자동 생성, CSS 컴파일을 통합 관리합니다.</p>
       </div>
       <div class="actions">
         <button class="btn" onclick="syncRegistry()">🔄 components/ui 자동 스캔 동기화</button>
@@ -359,7 +359,7 @@ function getStudioHtml(): string {
       <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px;">
         <div>
           <h2 style="font-size:15px; font-weight:800;">AI 컴포넌트 명세 제출 (Type · Variable · Status 자동 스캐폴딩)</h2>
-          <p class="desc">제출하면 components/ui/&lt;Name&gt;.tsx, index.ts, studio.registry.json, token.json, css/atom-ui.css가 즉시 생성·반영됩니다.</p>
+          <p class="desc">제출하면 components/ui/&lt;Name&gt;.tsx, index.ts, tokens.json, css/atom-ui.css가 즉시 생성·반영됩니다.</p>
         </div>
         <div style="display:flex; gap:8px;">
           <button class="btn" onclick="copyAiPrompt()">📋 AI 프롬프트 복사</button>
@@ -379,7 +379,7 @@ function getStudioHtml(): string {
 
     <!-- TAB 3: Quick Global Tokens -->
     <section id="tab-tokens" class="panel hidden">
-      <h2 style="font-size:15px; font-weight:800; margin-bottom:12px;">글로벌 시맨틱 토큰 빠른 편집 (tokens/token.json)</h2>
+      <h2 style="font-size:15px; font-weight:800; margin-bottom:12px;">글로벌 시맨틱 토큰 빠른 편집 (tokens/tokens.json)</h2>
       <div class="studio-grid" style="grid-template-columns: 1fr 1fr;">
         <div>
           <div class="field">
@@ -396,8 +396,8 @@ function getStudioHtml(): string {
           <div class="spec-card">
             <div class="spec-title">SSOT 파일 경로</div>
             <div class="meta-mono" style="margin-top:6px;">
-              • tokens/studio.registry.json<br>
-              • tokens/token.json<br>
+              • tokens/tokens.json<br>
+              • tokens/tokens.json<br>
               • css/atom-ui.css<br>
               • components/ui/*.tsx
             </div>
@@ -555,7 +555,7 @@ function getStudioHtml(): string {
       cur.color.brand['color-primary'] = { $value: document.getElementById('quick-primary').value, variable: '--atom-color-primary' };
       const res = await fetch('/api/tokens', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(cur) });
       const d = await res.json();
-      if (d.success) showToast('✓ token.json & atom-ui.css 재컴파일 완료');
+      if (d.success) showToast('✓ tokens.json & atom-ui.css 재컴파일 완료');
     }
 
     resetSampleJson();

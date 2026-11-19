@@ -22,9 +22,10 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
-    "./token.json": "./tokens/token.json",
+    "./tokens.json": "./tokens/tokens.json",
+    "./token.json": "./tokens/tokens.json",
     "./tokens": "./tokens/tokens.json",
-    "./studio.registry.json": "./tokens/studio.registry.json",
+    "./studio.registry.json": "./tokens/tokens.json",
     "./design.md": "./presets/default.design.md",
     "./uxPattern.md": "./presets/uxPattern.md",
     "./skill": "./skills/atomsystem.skill.md",

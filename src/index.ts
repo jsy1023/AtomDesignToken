@@ -10,6 +10,7 @@ export * from '../lib/data/patterns';
 export * from '../lib/data/awesomeThemes';
 export * from '../lib/data/themeEditorDefaults';
 export * from '../lib/data/studioData';
+export * from '../lib/tokens';
 
 // 2. Theme / Studio Engines & Utilities
 export * from '../lib/services/themeEngine';
@@ -22,7 +23,8 @@ export * from '../components/usecases/EnterpriseDashboardUseCase';
 
 // 4. Re-export basic CSS & Registry paths
 export const ATOM_UI_CSS_PATH = 'atomsystem/css/atom-ui.css';
-export const ATOM_STUDIO_REGISTRY_PATH = 'atomsystem/studio.registry.json';
+export const ATOM_TOKENS_PATH = 'atomsystem/tokens.json';
+export const ATOM_STUDIO_REGISTRY_PATH = ATOM_TOKENS_PATH;
 
 /**
  * CLI Banner & Metadata
