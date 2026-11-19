@@ -19,6 +19,7 @@ import { useI18n } from '@/lib/i18n';
 import {
   DEPENDENCY_ITEMS,
   COMPATIBILITY_MATRIX,
+  AGENT_SKILLS,
 } from '@/lib/data/dependencies';
 import {
   CheckCircle2,
@@ -26,6 +27,9 @@ import {
   Code2,
   Workflow,
   Cpu,
+  Bot,
+  Terminal,
+  Sparkles,
 } from 'lucide-react';
 
 export default function DependenciesPage() {
@@ -246,6 +250,81 @@ export default function DependenciesPage() {
               ))}
             </TableBody>
           </Table>
+        </section>
+
+        {/* 4. Agent Skills Reference (/agent/skill) */}
+        <section className="space-y-4">
+          <div className="border-b border-(--border-subtle) pb-2 flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+            <div>
+              <h2 className="docs-h2 flex items-center gap-2">
+                <Bot className="w-4 h-4 text-(--accent-primary)" />
+                AtomSystem 연동 Agent Skills (.agents/skills)
+              </h2>
+              <p className="text-xs text-(--text-secondary)">
+                AtomSystem과 AI 어시스턴트(Antigravity, Cursor, Windsurf, Copilot)가 참조하는 공식 에이전트 스킬 목록입니다.
+              </p>
+            </div>
+            <Badge variant="neutral" className="font-mono text-[11px] self-start sm:self-auto">
+              {AGENT_SKILLS.length} Active Skills
+            </Badge>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {AGENT_SKILLS.map((skill) => (
+              <Card
+                key={skill.id}
+                className="p-4 bg-(--bg-secondary)/40 border border-(--border-subtle) hover:border-(--border-strong) transition-colors flex flex-col justify-between gap-3"
+              >
+                <div className="space-y-2">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="space-y-0.5">
+                      <div className="font-bold text-sm text-(--text-primary) flex items-center gap-1.5">
+                        <Sparkles className="w-3.5 h-3.5 text-(--accent-primary) shrink-0" />
+                        <span>{skill.name}</span>
+                      </div>
+                      <div className="text-[11px] font-mono text-(--accent-primary)">
+                        {skill.path}
+                      </div>
+                    </div>
+                    <Badge
+                      variant={
+                        skill.category === 'core'
+                          ? 'primary'
+                          : skill.category === 'quality'
+                          ? 'success'
+                          : 'neutral'
+                      }
+                      className="text-[10px] uppercase font-mono shrink-0"
+                    >
+                      {skill.category}
+                    </Badge>
+                  </div>
+
+                  <p className="text-xs text-(--text-secondary) leading-relaxed">
+                    {skill.description}
+                  </p>
+                </div>
+
+                <div className="pt-2 border-t border-(--border-subtle)/60 flex flex-col gap-2">
+                  <div className="text-[11px] font-medium text-(--text-primary) flex items-center gap-1">
+                    <Terminal className="w-3 h-3 text-(--text-muted)" />
+                    <span>역할: {skill.role}</span>
+                  </div>
+                  <div className="flex flex-wrap gap-1 items-center">
+                    <span className="text-[10px] text-(--text-muted) mr-1 font-mono">Triggers:</span>
+                    {skill.triggers.map((trigger) => (
+                      <span
+                        key={trigger}
+                        className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-(--bg-primary) text-(--text-secondary) border border-(--border-subtle)"
+                      >
+                        {trigger}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
         </section>
       </main>
 
