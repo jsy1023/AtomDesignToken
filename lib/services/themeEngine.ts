@@ -3,12 +3,41 @@ import { ThemeConfig } from '@/lib/data/themeEditorDefaults';
 const STYLE_ELEMENT_ID = 'atom-theme-live-engine-style';
 
 const FONT_IMPORT_MAP: Record<string, string> = {
+  'Spoqa Han Sans Neo': '@import url("https://spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css");',
+  Pretendard: '@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");',
   Inter: '@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");',
   'Noto Sans KR': '@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap");',
   'JetBrains Mono': '@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap");',
   Outfit: '@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap");',
   'Plus Jakarta Sans': '@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");',
 };
+
+/**
+ * Dynamically injects or updates a stylesheet <link> tag in document.head for a custom webfont CDN URL.
+ */
+export function injectWebfontLink(cdnUrl?: string, linkId: string = 'atom-custom-webfont-cdn'): void {
+  if (typeof document === 'undefined') return;
+  const trimmed = cdnUrl?.trim() || '';
+  let linkEl = document.getElementById(linkId) as HTMLLinkElement | null;
+
+  if (!trimmed || !(trimmed.startsWith('http://') || trimmed.startsWith('https://') || trimmed.startsWith('//'))) {
+    if (linkEl) {
+      linkEl.remove();
+    }
+    return;
+  }
+
+  if (!linkEl) {
+    linkEl = document.createElement('link');
+    linkEl.id = linkId;
+    linkEl.rel = 'stylesheet';
+    linkEl.type = 'text/css';
+    document.head.appendChild(linkEl);
+  }
+  if (linkEl.href !== trimmed) {
+    linkEl.href = trimmed;
+  }
+}
 
 /**
  * ThemeConfig를 받아 전역에 적용될 동적 CSS 문자열을 생성합니다.
@@ -31,6 +60,7 @@ ${fontImportCSS}/* [AtomDesignToken] Live Injected Theme Variables */
 :root, .dark, [data-theme="dark"], [data-theme="light"] {
   /* Font Family */
   --font-sans: ${typography.fontFamily};
+  --atom-font-sans: ${typography.fontFamily};
 
   /* Semantic Colors */
   --accent-primary: ${color.primary};

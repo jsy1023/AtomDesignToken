@@ -63,8 +63,9 @@ export interface PaletteVariable {
   name: string; // e.g. 'Blue 500'
   category: PaletteCategory;
   value: string; // e.g. '#3182f6' or '8px'
+  cdnUrl?: string; // Optional Webfont CDN CSS URL for font-family tokens
   description?: string;
-  family?: string; // e.g. 'blue', 'gray', 'emerald', 'rose', 'amber', 'purple', 'neutral'
+  family?: string; // e.g. 'blue', 'gray', 'emerald', 'rose', 'amber', 'purple', 'neutral', 'font-family'
 }
 
 export interface ComponentPropertySpec {
@@ -869,6 +870,24 @@ export const INITIAL_PALETTE_VARIABLES: PaletteVariable[] = [
   // ==========================================
   // 4. TYPOGRAPHY PALETTES
   // ==========================================
+  {
+    id: '--atom-font-sans',
+    name: 'Font Family Sans (기본 본문 폰트)',
+    category: 'typography',
+    family: 'font-family',
+    value: "'Spoqa Han Sans Neo', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif",
+    cdnUrl: 'https://spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css',
+    description: '전역 기본 산세리프 폰트 (Spoqa Han Sans Neo CDN 기본 적용)',
+  },
+  {
+    id: '--atom-font-mono',
+    name: 'Font Family Mono (코드/모노 폰트)',
+    category: 'typography',
+    family: 'font-family',
+    value: "'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace",
+    cdnUrl: 'https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap',
+    description: '코드 블록, 토큰 식별자, 수치 데이터용 모노스페이스 폰트',
+  },
   { id: '--atom-typography-xs', name: 'Font XS (12px / 16px)', category: 'typography', value: '12px', description: '캡션, 힌트, 배지 라벨' },
   { id: '--atom-typography-sm', name: 'Font SM (14px / 20px)', category: 'typography', value: '14px', description: '서브 레이블, 폼 헬퍼 텍스트' },
   { id: '--atom-typography-base', name: 'Font Base (16px / 24px)', category: 'typography', value: '16px', description: '기본 본문 텍스트 규격' },

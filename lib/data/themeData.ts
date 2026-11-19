@@ -410,10 +410,14 @@ export function resolveThemeColors(
  */
 export function studioThemeToThemeConfig(st: StudioTheme, palettes?: { id: string; value: string }[]): ThemeConfig {
   const resolvedColors = palettes ? resolveThemeColors(st, palettes) : st.colors;
+  const fontSansToken = palettes?.find((p) => p.id === '--atom-font-sans')?.value;
   return {
     color: { ...resolvedColors },
     borderRadius: st.borderRadius,
-    typography: { ...DEFAULT_THEME_CONFIG.typography },
+    typography: {
+      ...DEFAULT_THEME_CONFIG.typography,
+      fontFamily: fontSansToken || st.fontFamily || DEFAULT_THEME_CONFIG.typography.fontFamily,
+    },
     buttonSpacing: {
       paddingY: '8px',
       paddingX: '16px',

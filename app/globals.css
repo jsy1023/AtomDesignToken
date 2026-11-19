@@ -1,10 +1,13 @@
-@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+@import url("https://spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css");
 @import "tailwindcss";
 
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *, .dark, .dark *));
 
 :root {
-  --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+  --atom-font-sans: 'Spoqa Han Sans Neo', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+  --atom-font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-sans: var(--atom-font-sans);
+  --font-mono: var(--atom-font-mono);
   
   /* Minimal Semantic Variables (Clean Swiss Mono, WCAG AA compliant) */
   --bg-primary: #ffffff;

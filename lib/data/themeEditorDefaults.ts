@@ -89,7 +89,7 @@ export const DEFAULT_THEME_CONFIG: ThemeConfig = {
     statusWarning: '#f59e0b',
   },
   typography: {
-    fontFamily: '"Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif',
+    fontFamily: "'Spoqa Han Sans Neo', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif",
     h1: {
       fontSize: 36,
       lineHeight: 1.25,
@@ -282,25 +282,69 @@ export const COLOR_PRESETS: ColorPreset[] = [
   },
 ];
 
-export const FONT_FAMILY_PRESETS = [
+export interface FontFamilyPreset {
+  id: string;
+  name: string;
+  value: string;
+  cdnUrl?: string;
+  category: 'sans' | 'mono';
+  description?: string;
+}
+
+export const FONT_FAMILY_PRESETS: FontFamilyPreset[] = [
   {
-    name: 'Pretendard (기본 권장)',
+    id: 'spoqa',
+    name: 'Spoqa Han Sans Neo (기본 권장 · CDN)',
+    value: "'Spoqa Han Sans Neo', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif",
+    cdnUrl: 'https://spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css',
+    category: 'sans',
+    description: '한글·영문·숫자 가독성이 탁월한 스포카 한 산스 네오 웹폰트 (CDN 기본 탑재)',
+  },
+  {
+    id: 'pretendard',
+    name: 'Pretendard (CDN)',
     value: '"Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif',
+    cdnUrl: 'https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css',
+    category: 'sans',
+    description: '현대적인 UI/프로덕트 디자인에 최적화된 다이나믹 서브셋 웹폰트',
   },
   {
-    name: 'Inter (글로벌 테크)',
+    id: 'noto-sans-kr',
+    name: 'Noto Sans KR (Google CDN)',
+    value: '"Noto Sans KR", -apple-system, BlinkMacSystemFont, sans-serif',
+    cdnUrl: 'https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap',
+    category: 'sans',
+    description: '구글/어도비 표준 고딕 폰트',
+  },
+  {
+    id: 'inter',
+    name: 'Inter (글로벌 테크 · Google CDN)',
     value: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    cdnUrl: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap',
+    category: 'sans',
+    description: '글로벌 SaaS 및 영문 대시보드 표준 산세리프',
   },
   {
+    id: 'plus-jakarta',
+    name: 'Plus Jakarta Sans (모던 기하학 · Google CDN)',
+    value: '"Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif',
+    cdnUrl: 'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap',
+    category: 'sans',
+    description: '기하학적 조형미를 갖춘 모던 UI 폰트',
+  },
+  {
+    id: 'system',
     name: 'System UI (시스템 네이티브)',
     value: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
+    category: 'sans',
+    description: '별도 CDN 로드 없이 OS 기본 폰트를 사용하는 제로 레이턴시 스택',
   },
   {
-    name: 'Noto Sans KR (구글 표준 한국어)',
-    value: '"Noto Sans KR", sans-serif',
-  },
-  {
-    name: 'Monospace (코딩 / 모노)',
-    value: '"JetBrains Mono", "Fira Code", monospace',
+    id: 'jetbrains-mono',
+    name: 'JetBrains Mono (코드 / 모노 · Google CDN)',
+    value: '"JetBrains Mono", "Fira Code", ui-monospace, monospace',
+    cdnUrl: 'https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap',
+    category: 'mono',
+    description: '토큰 ID, 코드 스니펫, 수치 표시용 등폭 폰트',
   },
 ];

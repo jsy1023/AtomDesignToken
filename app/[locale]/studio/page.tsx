@@ -11,6 +11,7 @@ import { StudioLivePreview } from '@/components/studio/StudioLivePreview';
 import { StudioThemeManager } from '@/components/studio/StudioThemeManager';
 import { StudioBrandSettings } from '@/components/studio/StudioBrandSettings';
 import { PaletteScaleGeneratorModal } from '@/components/studio/PaletteScaleGeneratorModal';
+import { StudioFontFamilyPanel } from '@/components/studio/StudioFontFamilyPanel';
 import { formatLocaleText } from '@/lib/utils/localeFormat';
 import {
   Button,
@@ -110,14 +111,14 @@ import {
   Building2,
 } from 'lucide-react';
 import { StudioTheme, INITIAL_STUDIO_THEMES, studioThemeToThemeConfig } from '@/lib/data/themeData';
-import { applyThemeToDOM } from '@/lib/services/themeEngine';
+import { applyThemeToDOM, injectWebfontLink } from '@/lib/services/themeEngine';
 
 export type StudioTab = 'components' | 'themes' | 'palette' | 'preview' | 'brand';
 
 function LocalStudioContent() {
   const locale = useLocale();
   const t = useTranslations('studioPage');
-  const { theme, resetTheme, applyFullTheme } = useThemeEditor();
+  const { theme, resetTheme, applyFullTheme, updateFontFamily } = useThemeEditor();
   const brandColor = theme?.color?.primary || 'var(--accent-primary)';
 
   const searchParams = useSearchParams();
@@ -187,6 +188,28 @@ function LocalStudioContent() {
       applyThemeToDOM(cfg);
     }
   }, []);
+
+  // Synchronize font-family tokens (--atom-font-sans / --atom-font-mono) with live DOM & Webfont CDN
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    const sansToken = paletteVariables.find((p) => p.id === '--atom-font-sans');
+    const monoToken = paletteVariables.find((p) => p.id === '--atom-font-mono');
+
+    if (sansToken) {
+      injectWebfontLink(sansToken.cdnUrl, 'atom-studio-font-sans-cdn');
+      document.documentElement.style.setProperty('--atom-font-sans', sansToken.value);
+      document.documentElement.style.setProperty('--font-sans', sansToken.value);
+      if (sansToken.value && theme?.typography?.fontFamily !== sansToken.value) {
+        updateFontFamily(sansToken.value);
+      }
+    }
+
+    if (monoToken) {
+      injectWebfontLink(monoToken.cdnUrl, 'atom-studio-font-mono-cdn');
+      document.documentElement.style.setProperty('--atom-font-mono', monoToken.value);
+      document.documentElement.style.setProperty('--font-mono', monoToken.value);
+    }
+  }, [paletteVariables, theme?.typography?.fontFamily, updateFontFamily]);
 
 
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -640,6 +663,37 @@ function LocalStudioContent() {
     setPaletteVariables((prev) => prev.filter((p) => p.id !== palId));
   };
 
+  // Upsert / Update Font Family Token (--atom-font-sans / --atom-font-mono)
+  const handleUpdateFontToken = (tokenId: string, value: string, cdnUrl?: string) => {
+    setPaletteVariables((prev) => {
+      const exists = prev.some((p) => p.id === tokenId);
+      if (exists) {
+        return prev.map((p) =>
+          p.id === tokenId
+            ? {
+                ...p,
+                value,
+                cdnUrl: cdnUrl !== undefined ? cdnUrl : p.cdnUrl,
+              }
+            : p
+        );
+      }
+      const isMono = tokenId.includes('mono');
+      return [
+        {
+          id: tokenId,
+          name: isMono ? 'Font Family Mono (코드/모노 폰트)' : 'Font Family Sans (기본 본문 폰트)',
+          category: 'typography',
+          family: 'font-family',
+          value,
+          cdnUrl,
+          description: isMono ? '모노스페이스 코드 폰트' : '전역 기본 산세리프 폰트',
+        },
+        ...prev,
+      ];
+    });
+  };
+
   // Copy Palette variable string
   const handleCopyPalette = (id: string, val: string) => {
     navigator.clipboard.writeText(`var(${id})`);
@@ -688,7 +742,8 @@ function LocalStudioContent() {
 
   const displayedPalettes = paletteVariables.filter((p) => {
     const matchesCat = paletteCategoryFilter === 'all' || p.category === paletteCategoryFilter;
-    const matchesFamily = colorFamilyFilter === 'all' || p.family === colorFamilyFilter;
+    const matchesFamily =
+      paletteCategoryFilter !== 'color' || colorFamilyFilter === 'all' || p.family === colorFamilyFilter;
     const matchesSearch =
       p.name.toLowerCase().includes(paletteSearchQuery.toLowerCase()) ||
       p.id.toLowerCase().includes(paletteSearchQuery.toLowerCase()) ||
@@ -2139,51 +2194,73 @@ function LocalStudioContent() {
 
                 {/* 3-D. TYPOGRAPHY VIEW */}
                 {(paletteCategoryFilter === 'typography' || (paletteCategoryFilter === 'all' && false)) && (
-                  <div className="p-5 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) flex flex-col gap-4">
-                    <div className="flex items-center justify-between border-b border-(--border-subtle) pb-3">
-                      <div>
-                        <h3 className="text-sm font-bold text-(--text-primary) flex items-center gap-2">
-                          <Type className="w-4 h-4 text-(--accent-primary)" />
-                          <span>{locale === 'ko' ? '타이포그래피 팔레트' : 'Typography Scale'}</span>
-                        </h3>
-                        <p className="text-xs text-(--text-secondary) mt-0.5">
-                          {locale === 'ko' ? '폰트 크기, 행간, 두께의 조화로운 위계를 정의하는 토큰' : 'Tokens defining typographic hierarchy across size, leading, and weight'}
-                        </p>
+                  <div className="flex flex-col gap-5">
+                    <StudioFontFamilyPanel
+                      paletteVariables={paletteVariables}
+                      onUpdateFontToken={handleUpdateFontToken}
+                      locale={locale}
+                    />
+
+                    <div className="p-5 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) flex flex-col gap-4">
+                      <div className="flex items-center justify-between border-b border-(--border-subtle) pb-3">
+                        <div>
+                          <h3 className="text-sm font-bold text-(--text-primary) flex items-center gap-2">
+                            <Type className="w-4 h-4 text-(--accent-primary)" />
+                            <span>{locale === 'ko' ? '타이포그래피 크기 · 굵기 스케일' : 'Typography Scale & Weight'}</span>
+                          </h3>
+                          <p className="text-xs text-(--text-secondary) mt-0.5">
+                            {locale === 'ko' ? '폰트 크기, 행간, 두께의 조화로운 위계를 정의하는 토큰' : 'Tokens defining typographic hierarchy across size, leading, and weight'}
+                          </p>
+                        </div>
+                        <span className="text-xs font-mono text-(--text-muted)">
+                          {displayedPalettes.filter((p) => p.category === 'typography' && p.family !== 'font-family').length} {locale === 'ko' ? '토큰' : 'tokens'}
+                        </span>
                       </div>
-                      <span className="text-xs font-mono text-(--text-muted)">
-                        {displayedPalettes.filter((p) => p.category === 'typography').length} {locale === 'ko' ? '토큰' : 'tokens'}
-                      </span>
-                    </div>
 
-                    <div className="divide-y divide-(--border-subtle)">
-                      {displayedPalettes
-                        .filter((p) => p.category === 'typography')
-                        .map((pal) => (
-                          <div
-                            key={pal.id}
-                            className="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-(--bg-secondary)/30 px-2 rounded transition"
-                          >
-                            <div className="min-w-[200px]">
-                              <div className="font-bold text-sm text-(--text-primary)">{formatLocaleText(pal.name, locale)}</div>
-                              <div className="font-mono text-xs text-(--text-muted)">{pal.id}</div>
-                            </div>
-
-                            {/* Live Type Preview */}
+                      <div className="divide-y divide-(--border-subtle)">
+                        {displayedPalettes
+                          .filter((p) => p.category === 'typography' && p.family !== 'font-family')
+                          .map((pal) => (
                             <div
-                              style={{
-                                fontSize: pal.id.includes('size') ? pal.value : undefined,
-                                fontWeight: pal.id.includes('weight') ? pal.value : undefined,
-                              }}
-                              className="text-(--text-primary) truncate flex-1"
+                              key={pal.id}
+                              className="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-(--bg-secondary)/30 px-2 rounded transition"
                             >
-                              피그마 없는 시대, 코드로 직접 디자인을 구축하는 AtomDesignToken
-                            </div>
+                              <div className="min-w-[200px]">
+                                <div className="font-bold text-sm text-(--text-primary)">{formatLocaleText(pal.name, locale)}</div>
+                                <div className="font-mono text-xs text-(--text-muted)">{pal.id}</div>
+                              </div>
 
-                            <span className="font-mono text-xs font-bold text-(--accent-primary) px-2 py-1 rounded bg-(--bg-secondary) shrink-0">
-                              {pal.value}
-                            </span>
-                          </div>
-                        ))}
+                              {/* Live Type Preview */}
+                              <div
+                                style={{
+                                  fontSize: pal.id.startsWith('--atom-typography-') ? pal.value : undefined,
+                                  fontWeight: pal.id.includes('weight') ? pal.value : undefined,
+                                  fontFamily: pal.family === 'font-family' ? pal.value : 'var(--atom-font-sans)',
+                                }}
+                                className="text-(--text-primary) truncate flex-1"
+                              >
+                                피그마 없는 시대, 코드로 직접 디자인을 구축하는 AtomDesignToken
+                              </div>
+
+                              <div className="flex items-center gap-1.5 shrink-0">
+                                <span className="font-mono text-xs font-bold text-(--accent-primary) px-2 py-1 rounded bg-(--bg-secondary)">
+                                  {pal.value}
+                                </span>
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  isIconOnly
+                                  onClick={() => handleOpenEditPalette(pal)}
+                                  className="text-(--text-muted) hover:text-(--accent-primary) h-7 w-7 p-0"
+                                  title={locale === 'ko' ? '토큰 값 수정' : 'Edit Token Value'}
+                                  aria-label={locale === 'ko' ? `${pal.name} 수정` : `Edit ${pal.name}`}
+                                >
+                                  <Edit2 className="w-3.5 h-3.5" />
+                                </Button>
+                              </div>
+                            </div>
+                          ))}
+                      </div>
                     </div>
                   </div>
                 )}
