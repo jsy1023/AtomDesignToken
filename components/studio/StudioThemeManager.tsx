@@ -13,6 +13,7 @@ import {
 } from '@/components/ui';
 import { StudioTheme, ThemeCategory, ThemePaletteBindings } from '@/lib/data/themeData';
 import { PaletteVariable, INITIAL_PALETTE_VARIABLES } from '@/lib/data/studioData';
+import { useStudio } from '@/components/studio/context/StudioContext';
 import {
   Palette,
   Sparkles,
@@ -34,24 +35,25 @@ import {
 } from 'lucide-react';
 
 export interface StudioThemeManagerProps {
-  themes: StudioTheme[];
-  activeThemeId: string;
+  themes?: StudioTheme[];
+  activeThemeId?: string;
   paletteVariables?: PaletteVariable[];
-  onSelectTheme: (themeId: string) => void;
-  onCreateTheme: (newTheme: StudioTheme) => void;
-  onUpdateTheme: (updatedTheme: StudioTheme) => void;
-  onDeleteTheme: (themeId: string) => void;
+  onSelectTheme?: (themeId: string) => void;
+  onCreateTheme?: (newTheme: StudioTheme) => void;
+  onUpdateTheme?: (updatedTheme: StudioTheme) => void;
+  onDeleteTheme?: (themeId: string) => void;
 }
 
-export function StudioThemeManager({
-  themes,
-  activeThemeId,
-  paletteVariables,
-  onSelectTheme,
-  onCreateTheme,
-  onUpdateTheme,
-  onDeleteTheme,
-}: StudioThemeManagerProps) {
+export function StudioThemeManager(props: StudioThemeManagerProps = {}) {
+  const studio = useStudio();
+  const themes = props.themes ?? studio.themes;
+  const activeThemeId = props.activeThemeId ?? studio.selectedThemeId;
+  const paletteVariables = props.paletteVariables ?? studio.paletteVariables;
+  const onSelectTheme = props.onSelectTheme ?? studio.handleSelectTheme;
+  const onCreateTheme = props.onCreateTheme ?? studio.handleCreateTheme;
+  const onUpdateTheme = props.onUpdateTheme ?? studio.handleUpdateTheme;
+  const onDeleteTheme = props.onDeleteTheme ?? studio.handleDeleteTheme;
+
   const locale = useLocale();
   const [selectedCategory, setSelectedCategory] = useState<ThemeCategory>('all');
   const [searchQuery, setSearchQuery] = useState('');

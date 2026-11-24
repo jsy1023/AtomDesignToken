@@ -84,6 +84,22 @@ ${fontImportCSS}/* [AtomDesignToken] Live Injected Theme Variables */
   --border-subtle: ${color.borderSubtle};
   --border-strong: ${color.borderStrong};
 
+  /* Atom System Specific Variables & Universal Aliases */
+  --atom-text-primary: ${color.textPrimary};
+  --atom-text-secondary: ${color.textSecondary};
+  --atom-text-muted: ${color.textMuted};
+  --atom-bg-primary: ${color.bgPrimary};
+  --atom-bg-secondary: ${color.bgSecondary};
+  --atom-border-subtle: ${color.borderSubtle};
+  --atom-border-strong: ${color.borderStrong};
+  --atom-navbar-default-background: ${color.bgPrimary};
+  --atom-navbar-default-borderColor: ${color.borderSubtle};
+  --atom-navbar-default-textColor: ${color.textSecondary};
+  --atom-navbar-default-activeText: ${safePrimary};
+  --atom-nav-default-textColor: ${color.textSecondary};
+  --atom-nav-default-activeBackground: ${color.bgSecondary};
+  --atom-nav-default-activeText: ${color.textPrimary};
+
   /* Atom System Specific Variables */
   --atom-color-primary: ${safePrimary};
   --atom-color-primary-hover: ${safePrimaryHover};

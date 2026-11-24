@@ -57,37 +57,37 @@ export function StudioSidebar() {
 
   return (
     <aside className="w-full md:w-64 lg:w-72 shrink-0 border-r border-(--border-subtle) bg-(--bg-secondary)/30 flex flex-col h-full min-h-0 overflow-y-auto studio-scrollbar">
-      {/* 1. Compact 5-Column Segmented Studio Mode Menu */}
-      <div className="shrink-0 sticky top-0 z-10 grid grid-cols-5 gap-1 p-2 border-b border-(--border-subtle)/60 bg-(--bg-primary)/95 backdrop-blur-xs">
+      {/* 1. Compact Segmented Studio Mode Menu */}
+      <div className="shrink-0 flex flex-col gap-1 p-2 border-b border-(--border-subtle)/60 bg-(--bg-primary)">
         {[
           {
             id: 'components' as StudioTab,
             icon: Component,
-            shortLabel: locale === 'ko' ? '컴포넌트' : 'UI',
+            label: locale === 'ko' ? '컴포넌트' : 'Components',
             title: t('tabComponents'),
           },
           {
             id: 'themes' as StudioTab,
             icon: Sparkles,
-            shortLabel: locale === 'ko' ? '테마' : 'Theme',
+            label: locale === 'ko' ? '테마' : 'Themes',
             title: t('tabThemes'),
           },
           {
             id: 'palette' as StudioTab,
             icon: Palette,
-            shortLabel: locale === 'ko' ? '팔레트' : 'Tokens',
+            label: locale === 'ko' ? '팔레트' : 'Palette Tokens',
             title: t('tabPalette'),
           },
           {
             id: 'preview' as StudioTab,
             icon: FileCode,
-            shortLabel: locale === 'ko' ? '코드' : 'Code',
+            label: locale === 'ko' ? '코드' : 'Code Export',
             title: t('tabJson'),
           },
           {
             id: 'brand' as StudioTab,
             icon: Building2,
-            shortLabel: locale === 'ko' ? '브랜드' : 'Brand',
+            label: locale === 'ko' ? '브랜드' : 'Brand Settings',
             title: t('tabBrand'),
           },
         ].map((item) => {
@@ -101,14 +101,14 @@ export function StudioSidebar() {
               onClick={() => handleSelectTab(item.id)}
               title={item.title}
               aria-label={item.title}
-              className={`flex-col items-center justify-center py-1.5 px-1 h-auto gap-0.5 text-[10px] font-semibold leading-tight rounded-(--radius-sm) ${
+              className={`w-full flex items-center justify-start py-2 px-3 h-auto gap-2.5 text-xs font-semibold rounded-(--radius-sm) ${
                 isActive
                   ? 'bg-(--text-primary) text-(--bg-primary) shadow-2xs'
                   : 'text-(--text-secondary) hover:text-(--text-primary)'
               }`}
             >
-              <Icon className="w-3.5 h-3.5 shrink-0" />
-              <span className="truncate w-full text-center">{item.shortLabel}</span>
+              <Icon className="w-4 h-4 shrink-0" />
+              <span className="truncate">{item.label}</span>
             </Button>
           );
         })}
@@ -117,33 +117,7 @@ export function StudioSidebar() {
       {/* 2. UI Components List (Expanded Scrollable Area) */}
       {activeTab === 'components' && (
         <div className="flex-1 flex flex-col min-h-0">
-          <div className="shrink-0 sticky top-[49px] z-10 p-2.5 pb-2 space-y-2 border-b border-(--border-subtle)/30 bg-(--bg-primary)/95 backdrop-blur-xs">
-            <div className="flex items-center justify-between gap-1 px-0.5">
-              <span className="text-xs font-mono font-bold text-(--text-secondary) uppercase tracking-wider flex items-center gap-1.5">
-                <Layers className="w-3.5 h-3.5 text-(--accent-primary)" />
-                {locale === 'ko' ? 'UI 컴포넌트' : 'UI Components'}
-              </span>
-              <div className="flex items-center gap-1">
-                <span className="text-[11px] font-mono px-1.5 py-0.5 rounded bg-(--bg-secondary) text-(--text-muted) border border-(--border-subtle)">
-                  {filteredComponents.length}
-                </span>
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  onClick={() => setIsSubmitComponentOpen(true)}
-                  title={
-                    locale === 'ko'
-                      ? 'AI 양식으로 새 컴포넌트 등록 & 프로젝트 자동 반영'
-                      : 'Submit AI Component Spec'
-                  }
-                  className="h-6 px-1.5 py-0 text-[10px] font-bold flex items-center gap-1 bg-(--accent-primary)/10 text-(--accent-primary) border-(--accent-primary)/30 hover:bg-(--accent-primary)/20"
-                >
-                  <Plus className="w-3 h-3" />
-                  <span>{locale === 'ko' ? 'AI 제출' : 'Submit'}</span>
-                </Button>
-              </div>
-            </div>
-
+          <div className="shrink-0 p-2.5 pb-2 border-b border-(--border-subtle)/30 bg-(--bg-primary)">
             <Input
               type="text"
               value={searchQuery}
@@ -152,24 +126,6 @@ export function StudioSidebar() {
               leftIcon={<Search className="w-3.5 h-3.5" />}
               className="w-full text-xs pr-3 py-1"
             />
-
-            <div className="flex flex-wrap gap-1">
-              {COMPONENT_CATEGORIES.map((cat) => (
-                <Button
-                  key={cat}
-                  variant={categoryFilter === cat ? 'primary' : 'secondary'}
-                  size="sm"
-                  onClick={() => setCategoryFilter(cat)}
-                  className={`text-[10px] font-mono px-1.5 py-0.5 h-5 rounded cursor-pointer transition ${
-                    categoryFilter === cat
-                      ? 'bg-(--accent-primary) text-(--bg-primary) font-semibold'
-                      : 'bg-(--bg-secondary) text-(--text-secondary) hover:text-(--text-primary) border border-(--border-subtle)'
-                  }`}
-                >
-                  {categoryLabel(cat)}
-                </Button>
-              ))}
-            </div>
           </div>
 
           <div className="flex-1 px-2.5 py-2 space-y-0.5">

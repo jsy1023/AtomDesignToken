@@ -155,11 +155,18 @@ interface StudioContextValue {
 
 const StudioContext = createContext<StudioContextValue | null>(null);
 
+function extractComponentFromPath(pathname: string | null): string {
+  if (!pathname) return '';
+  const match = pathname.match(/\/studio\/components\/([^/?#]+)/);
+  return match ? resolveStudioComponentId(decodeURIComponent(match[1])) : '';
+}
+
 function resolveTabFromRoute(pathname: string | null, urlTab: string | null): StudioTab {
   if (pathname?.endsWith('/studio/themes')) return 'themes';
   if (pathname?.endsWith('/studio/palette')) return 'palette';
   if (pathname?.endsWith('/studio/code')) return 'preview';
   if (pathname?.endsWith('/studio/brand')) return 'brand';
+  if (pathname?.includes('/studio/components')) return 'components';
   if (
     urlTab === 'themes' ||
     urlTab === 'palette' ||
@@ -173,7 +180,7 @@ function resolveTabFromRoute(pathname: string | null, urlTab: string | null): St
 }
 
 const TAB_TO_ROUTE: Record<StudioTab, string> = {
-  components: '/studio',
+  components: '/studio/components',
   themes: '/studio/themes',
   palette: '/studio/palette',
   preview: '/studio/code',
@@ -193,7 +200,8 @@ export function StudioProvider({ children }: { children: React.ReactNode }) {
   const urlComponent = searchParams.get('component');
   const urlVariable = searchParams.get('variable');
   const urlTheme = searchParams.get('theme');
-  const resolvedUrlComp = urlComponent ? resolveStudioComponentId(urlComponent) : '';
+  const pathComponent = extractComponentFromPath(pathname);
+  const resolvedUrlComp = pathComponent || (urlComponent ? resolveStudioComponentId(urlComponent) : '');
 
   const activeTab = useMemo(() => resolveTabFromRoute(pathname, urlTab), [pathname, urlTab]);
 
@@ -280,9 +288,20 @@ export function StudioProvider({ children }: { children: React.ReactNode }) {
       setSelectedVariableId((prev) => (prev !== urlVariable ? urlVariable : prev));
     }
     if (urlTheme && themes.some((th) => th.id === urlTheme)) {
-      setSelectedThemeId((prev) => (prev !== urlTheme ? urlTheme : prev));
+      setSelectedThemeId((prev) => {
+        if (prev !== urlTheme) {
+          const targetTheme = themes.find((th) => th.id === urlTheme);
+          if (targetTheme) {
+            const cfg = studioThemeToThemeConfig(targetTheme, paletteVariables);
+            applyThemeToDOM(cfg);
+            applyFullTheme(cfg);
+          }
+          return urlTheme;
+        }
+        return prev;
+      });
     }
-  }, [resolvedUrlComp, urlVariable, urlTheme, components, themes]);
+  }, [resolvedUrlComp, urlVariable, urlTheme, components, themes, paletteVariables, applyFullTheme]);
 
   // Initial mount: apply active theme + hydrate live SSOT project registry
   useEffect(() => {
@@ -290,6 +309,7 @@ export function StudioProvider({ children }: { children: React.ReactNode }) {
     if (initial) {
       const cfg = studioThemeToThemeConfig(initial, paletteVariables);
       applyThemeToDOM(cfg);
+      applyFullTheme(cfg);
     }
 
     let cancelled = false;
@@ -351,15 +371,18 @@ export function StudioProvider({ children }: { children: React.ReactNode }) {
   const updateUrl = useCallback(
     (newTab?: StudioTab, newComponent?: string, newVariable?: string, newTheme?: string) => {
       const targetTab = newTab !== undefined ? newTab : activeTab;
-      const targetRoute = TAB_TO_ROUTE[targetTab] || '/studio';
-      const params = new URLSearchParams();
       const compId = newComponent !== undefined ? newComponent : selectedComponentId;
       const varId = newVariable !== undefined ? newVariable : selectedVariableId;
       const themeId = newTheme !== undefined ? newTheme : selectedThemeId;
 
-      if (targetTab === 'components') {
-        if (compId) params.set('component', compId);
-        if (varId) params.set('variable', varId);
+      const targetRoute =
+        targetTab === 'components'
+          ? `/studio/components/${encodeURIComponent(compId || 'button')}`
+          : TAB_TO_ROUTE[targetTab] || '/studio';
+
+      const params = new URLSearchParams();
+      if (targetTab === 'components' && varId) {
+        params.set('variable', varId);
       }
       if (themeId && themeId !== 'ocean-blue') {
         params.set('theme', themeId);
@@ -367,7 +390,7 @@ export function StudioProvider({ children }: { children: React.ReactNode }) {
 
       const qs = params.toString();
       const targetUrl = qs ? `${targetRoute}?${qs}` : targetRoute;
-      if (targetTab !== activeTab) {
+      if (targetTab !== activeTab || newComponent !== undefined) {
         router.push(targetUrl, { scroll: false });
       } else {
         router.replace(targetUrl, { scroll: false });
