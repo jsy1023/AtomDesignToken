@@ -1,0 +1,1572 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <title>AtomSystem Studio for Figma</title>
+  <style>
+    :root {
+      --bg-primary: #ffffff;
+      --bg-secondary: #f8fafc;
+      --bg-tertiary: #f1f5f9;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #94a3b8;
+      --border-subtle: #e2e8f0;
+      --border-strong: #cbd5e1;
+      --accent: #3182f6;
+      --accent-hover: #1b64da;
+      --accent-subtle: #eff6ff;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-size: 12px;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Top Header & Tabs */
+    .header {
+      padding: 10px 12px 0;
+      border-bottom: 1px solid var(--border-subtle);
+      background: var(--bg-primary);
+      flex-shrink: 0;
+    }
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 700;
+      font-size: 13px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 1px 6px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 600;
+      background: var(--accent-subtle);
+      color: var(--accent);
+    }
+    .badge.connected {
+      background: #ecfdf5;
+      color: #059669;
+    }
+    .tabs {
+      display: flex;
+      gap: 4px;
+    }
+    .tab-btn {
+      flex: 1;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      padding: 7px 6px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .tab-btn:hover { color: var(--text-primary); }
+    .tab-btn.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    /* Main Workspace Content */
+    .workspace {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px;
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .workspace.active { display: flex; }
+
+    /* Sub-filter pills */
+    .sub-pills {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+    .pill {
+      padding: 4px 8px;
+      border-radius: 6px;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-secondary);
+      color: var(--text-secondary);
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .pill.active {
+      background: var(--text-primary);
+      color: var(--bg-primary);
+      border-color: var(--text-primary);
+    }
+
+    /* Buttons & Inputs */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 7px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      border: 1px solid transparent;
+      background: var(--accent);
+      color: #ffffff;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn:hover:not(:disabled) { background: var(--accent-hover); }
+    .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+    .btn.secondary {
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      border-color: var(--border-strong);
+    }
+    .btn.secondary:hover:not(:disabled) { background: var(--bg-secondary); }
+    .btn.sm { padding: 3px 6px; font-size: 10px; border-radius: 4px; }
+    .btn.full { width: 100%; }
+
+    .input {
+      width: 100%;
+      padding: 6px 8px;
+      border: 1px solid var(--border-strong);
+      border-radius: 6px;
+      font-size: 11px;
+      outline: none;
+    }
+    .input:focus { border-color: var(--accent); }
+
+    /* Cards & Token Rows */
+    .section-card {
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      background: var(--bg-secondary);
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .section-title {
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .token-list {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      max-height: 290px;
+      overflow-y: auto;
+      padding-right: 2px;
+    }
+    .token-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      padding: 6px 8px;
+      border-radius: 6px;
+      background: var(--bg-primary);
+      border: 1px solid var(--border-subtle);
+    }
+    .token-row:hover { border-color: var(--accent); }
+    .token-meta {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      min-width: 0;
+      flex: 1;
+    }
+    .swatch {
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      border: 1px solid rgba(0,0,0,0.12);
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+    .metric-chip {
+      padding: 2px 5px;
+      border-radius: 4px;
+      background: var(--bg-tertiary);
+      font-family: monospace;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-primary);
+      flex-shrink: 0;
+    }
+    .token-id {
+      font-family: monospace;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .token-val-input {
+      width: 68px;
+      padding: 2px 5px;
+      font-family: monospace;
+      font-size: 10px;
+      border: 1px solid var(--border-subtle);
+      border-radius: 4px;
+      text-align: right;
+    }
+    .apply-group {
+      display: flex;
+      gap: 2px;
+      flex-shrink: 0;
+    }
+    .apply-chip {
+      padding: 2px 5px;
+      font-size: 9px;
+      font-weight: 600;
+      border-radius: 3px;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-secondary);
+      color: var(--text-secondary);
+      cursor: pointer;
+    }
+    .apply-chip:hover {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    /* Live Component Stage (Exact Studio Mirror) */
+    .stage-box {
+      background: #ffffff;
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 18px 14px;
+      min-height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .binding-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 4px 6px;
+      background: var(--bg-primary);
+      border: 1px solid var(--border-subtle);
+      border-radius: 5px;
+      font-size: 11px;
+    }
+    .binding-select {
+      padding: 3px 6px;
+      font-size: 10px;
+      font-family: monospace;
+      border: 1px solid var(--border-strong);
+      border-radius: 4px;
+      max-width: 195px;
+    }
+
+    /* Footer Status Log */
+    .footer-log {
+      flex-shrink: 0;
+      background: #0f172a;
+      color: #10b981;
+      font-family: monospace;
+      font-size: 10px;
+      padding: 6px 10px;
+      height: 54px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      border-top: 1px solid #1e293b;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header & Navigation Tabs -->
+  <div class="header">
+    <div class="header-top">
+      <div class="brand">
+        <span>🏛️ AtomSystem Studio</span>
+        <span class="badge" id="connBadge">Local Disconnected</span>
+      </div>
+      <div style="display:flex; gap:4px;">
+        <button class="btn secondary sm" id="btnQuickPull" title="Local Studio에서 최신 데이터 가져오기">⬇ Pull</button>
+        <button class="btn sm" id="btnQuickPush" title="플러그인 수정 사항을 Local Studio에 저장" disabled>⬆ Push</button>
+      </div>
+    </div>
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="tokens">🎨 Tokens</button>
+      <button class="tab-btn" data-tab="components">🧩 Components</button>
+      <button class="tab-btn" data-tab="themes">🎭 Themes</button>
+      <button class="tab-btn" data-tab="sync">🔄 Sync & Inspect</button>
+    </div>
+  </div>
+
+  <!-- TAB 1: TOKENS (Tokens Studio style direct editor & layer applier) -->
+  <div class="workspace active" id="tab-tokens">
+    <div style="display:flex; justify-content:space-between; align-items:center; gap:6px;">
+      <div class="sub-pills" id="tokenCatPills">
+        <button class="pill active" data-cat="semantic">Semantic</button>
+        <button class="pill" data-cat="color">Colors</button>
+        <button class="pill" data-cat="spacing">Spacing</button>
+        <button class="pill" data-cat="radius">Radius</button>
+        <button class="pill" data-cat="typography">Typo</button>
+      </div>
+      <button class="btn sm" id="btnSyncVarsTab1" disabled>Variables 동기화</button>
+    </div>
+
+    <input class="input" id="tokenSearchInput" placeholder="토큰 검색 (예: primary, blue-500, space-4)..." />
+
+    <div class="section-card" style="padding:8px;">
+      <div class="section-title">
+        <span id="tokenListTitle">시맨틱 상태 토큰</span>
+        <span style="font-size:10px; color:var(--text-muted);">피그마 레이어 선택 후 [Fill/Border/Pad/Rad] 클릭 시 즉시 적용</span>
+      </div>
+      <div class="token-list" id="tokenListContainer"></div>
+    </div>
+
+    <!-- Add New Token Quick Form -->
+    <div class="section-card">
+      <div class="section-title">
+        <span>+ 새 토큰 직접 추가</span>
+      </div>
+      <div style="display:grid; grid-template-columns: 1.2fr 1fr 0.8fr auto; gap:4px;">
+        <input class="input" id="newTokenId" placeholder="--atom-palette-brand-500" />
+        <input class="input" id="newTokenName" placeholder="Brand 500" />
+        <input class="input" id="newTokenVal" placeholder="#3182f6 또는 12px" />
+        <button class="btn sm" id="btnAddNewToken">추가</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 2: COMPONENTS (Exact Studio Live DOM Renderer + DOM-to-Figma Serializer) -->
+  <div class="workspace" id="tab-components">
+    <div class="section-card" style="padding:8px; gap:6px;">
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:6px;">
+        <input class="input" id="compSearchInput" placeholder="컴포넌트 검색 (예: button, input, modal)..." style="flex:1;" />
+        <span class="badge" id="compCountBadge">0</span>
+      </div>
+      <div class="sub-pills" id="compCatPills">
+        <button class="pill active" data-cat="all">전체</button>
+        <button class="pill" data-cat="Form">Form</button>
+        <button class="pill" data-cat="Layout">Layout</button>
+        <button class="pill" data-cat="Navigation">Nav</button>
+        <button class="pill" data-cat="Data">Data</button>
+        <button class="pill" data-cat="Feedback">Feedback</button>
+      </div>
+      <div id="compChipList" style="display:flex; flex-wrap:wrap; gap:4px; max-height:92px; overflow-y:auto; padding-top:2px;"></div>
+    </div>
+
+    <div class="section-card" style="padding:8px; gap:6px;">
+      <div>
+        <div style="font-size:10px; font-weight:700; color:var(--text-secondary); margin-bottom:3px;">Type (외형 양식)</div>
+        <div class="sub-pills" id="typePills"></div>
+      </div>
+      <div>
+        <div style="font-size:10px; font-weight:700; color:var(--text-secondary); margin-bottom:3px;">Variable (시맨틱 역할)</div>
+        <div class="sub-pills" id="varPills"></div>
+      </div>
+      <div>
+        <div style="font-size:10px; font-weight:700; color:var(--text-secondary); margin-bottom:3px;">Status (인터랙션 상태)</div>
+        <div class="sub-pills" id="statusPills">
+          <button class="pill active" data-status="default">default</button>
+          <button class="pill" data-status="hover">hover</button>
+          <button class="pill" data-status="active">active</button>
+          <button class="pill" data-status="focus">focus</button>
+          <button class="pill" data-status="disabled">disabled</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Real Browser DOM Live Stage (Identical to Local Studio) -->
+    <div class="section-card">
+      <div class="section-title">
+        <span>실시간 Studio DOM 프리뷰 (이 화면 그대로 피그마로 캡처됩니다)</span>
+        <span class="badge" id="previewDimBadge">AutoLayout</span>
+      </div>
+      <div class="stage-box" id="liveDomStage">
+        <div id="captureRoot"></div>
+      </div>
+      <div style="display:flex; gap:6px;">
+        <button class="btn full" id="btnCaptureCurrent">✨ 현재 프리뷰 그대로 피그마에 생성</button>
+        <button class="btn secondary full" id="btnCaptureFullMatrix">📦 이 컴포넌트의 전체 Variant 세트 생성</button>
+      </div>
+    </div>
+
+    <!-- Component Token Bindings Inspector (Edit in Figma Plugin!) -->
+    <div class="section-card">
+      <div class="section-title">
+        <span>컴포넌트 토큰 바인딩 편집 (Variable 연동)</span>
+        <span style="font-size:10px; color:var(--text-muted);">변경 시 프리뷰 & 피그마 즉시 반영</span>
+      </div>
+      <div id="compBindingsList" style="display:flex; flex-direction:column; gap:4px; max-height:145px; overflow-y:auto;"></div>
+    </div>
+  </div>
+
+  <!-- TAB 3: THEMES (Multi-theme manager & Figma Variable Modes) -->
+  <div class="workspace" id="tab-themes">
+    <div class="section-card">
+      <div class="section-title">
+        <span>로컬 스튜디오 테마 목록</span>
+        <button class="btn sm" id="btnSyncThemesToModes">모든 테마를 Figma Variable Modes로 등록</button>
+      </div>
+      <div id="themeListContainer" style="display:flex; flex-direction:column; gap:6px; max-height:380px; overflow-y:auto;"></div>
+    </div>
+  </div>
+
+  <!-- TAB 4: SYNC & INSPECT -->
+  <div class="workspace" id="tab-sync">
+    <div class="section-card">
+      <div class="section-title"><span>1. Local Studio 양방향 동기화 (http://localhost:3000)</span></div>
+      <p style="margin:0; font-size:11px; color:var(--text-secondary);">
+        로컬 스튜디오(<code>/api/studio/registry</code>)에서 제작한 토큰·컴포넌트·테마를 불러오거나, 플러그인에서 수정한 내역을 프로젝트 파일(<code>tokens.json</code> & <code>atom-ui.css</code>)에 즉시 저장합니다.
+      </p>
+      <div style="display:flex; gap:6px;">
+        <button class="btn full" id="btnPullStudio">⬇ Local Studio에서 불러오기 (Pull)</button>
+        <button class="btn secondary full" id="btnPushStudio" disabled>⬆ Local Studio로 저장하기 (Push)</button>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-title"><span>2. 전체 34개 컴포넌트 일괄 생성</span></div>
+      <div style="display:flex; gap:8px; font-size:11px;">
+        <a id="btnSelectAllComps" style="color:var(--accent); cursor:pointer; text-decoration:underline;">전체 선택</a>
+        <a id="btnDeselectAllComps" style="color:var(--accent); cursor:pointer; text-decoration:underline;">선택 해제</a>
+        <span id="batchCompCount" style="margin-left:auto; font-weight:700;">0개 선택</span>
+      </div>
+      <div id="batchCompGrid" style="display:grid; grid-template-columns:repeat(3, 1fr); gap:4px; max-height:150px; overflow-y:auto; background:#fff; padding:6px; border:1px solid var(--border-subtle); border-radius:6px;"></div>
+      <button class="btn full" id="btnBatchGenerateAll">🚀 선택한 컴포넌트 전체 DOM 캡처 & 피그마 생성</button>
+    </div>
+
+    <div class="section-card" style="background:#eff6ff; border-color:#bfdbfe;">
+      <div class="section-title" style="color:#1e40af;">
+        <span>3. 피그마 노드 검사기 (JSON 클립보드 복사)</span>
+      </div>
+      <button class="btn secondary full" id="btnInspectNode" style="border-color:#3b82f6; color:#1d4ed8;">🔍 선택한 피그마 컴포넌트 JSON 복사</button>
+    </div>
+  </div>
+
+  <!-- Hidden Offscreen Matrix Stage for Batch DOM-to-Figma Serialization -->
+  <div id="offscreenMatrixStage" style="position:fixed; left:-9999px; top:0; width:1200px; background:#fff; padding:20px; pointer-events:none;"></div>
+
+  <!-- Footer Console -->
+  <div class="footer-log" id="statusLog">> AtomSystem Studio for Figma 준비 완료. Local Studio에 연결 중...</div>
+
+  <script>
+    // ============================================================================
+    // 1. STATE & REGISTRY MANAGEMENT (Identical schema to Local Studio)
+    // ============================================================================
+    let studioRegistry = null;
+    let rawTokensJson = null;
+    let activeTokenCategory = 'semantic';
+    let activeThemeId = 'ocean-blue';
+
+    const logBox = document.getElementById('statusLog');
+    const connBadge = document.getElementById('connBadge');
+
+    function log(msg) {
+      logBox.textContent += '\n> ' + msg;
+      logBox.scrollTop = logBox.scrollHeight;
+    }
+
+    // Tab Switching
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.onclick = () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.workspace').forEach(w => w.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+        if (btn.dataset.tab === 'components') renderLiveComponentStage();
+      };
+    });
+
+    // Resolve Token ID (--atom-color-primary or --atom-palette-blue-500) to actual CSS value
+    function getPaletteValue(tokenId) {
+      if (!tokenId || !studioRegistry) return '';
+      if (tokenId.startsWith('#') || tokenId.endsWith('px') || tokenId.endsWith('%')) return tokenId;
+
+      // 1) Check Semantic Status Tokens
+      const sem = (studioRegistry.statusTokens || []).find(s =>
+        s.id === tokenId ||
+        (tokenId === '--atom-color-destructive' && s.key === 'danger') ||
+        `${s.id}-hover` === tokenId ||
+        `${s.id}-subtle` === tokenId ||
+        (tokenId === '--atom-color-destructive-hover' && s.key === 'danger') ||
+        (tokenId === '--atom-color-destructive-subtle' && s.key === 'danger')
+      );
+      if (sem) {
+        let targetPalId = sem.paletteId;
+        if (tokenId.endsWith('-hover')) targetPalId = sem.hoverPaletteId;
+        if (tokenId.endsWith('-subtle')) targetPalId = sem.subtlePaletteId;
+        const pal = (studioRegistry.paletteVariables || []).find(p => p.id === targetPalId);
+        if (pal) return pal.value;
+      }
+
+      // 2) Check Palette Variables directly
+      const pal = (studioRegistry.paletteVariables || []).find(p => p.id === tokenId);
+      if (pal) return pal.value;
+
+      // 3) Common fallbacks
+      if (tokenId === '--atom-palette-white') return '#ffffff';
+      if (tokenId === '--atom-palette-black') return '#000000';
+      return '#3182f6';
+    }
+
+    // ============================================================================
+    // 2. PULL & PUSH WITH LOCAL STUDIO (http://localhost:3000)
+    // ============================================================================
+    async function pullFromLocalStudio() {
+      log('Local Studio (http://localhost:3000/api/studio/registry) 동기화 중...');
+      try {
+        const [regRes, tokRes] = await Promise.all([
+          fetch('http://localhost:3000/api/studio/registry'),
+          fetch('http://localhost:3000/api/tokens')
+        ]);
+        if (!regRes.ok) throw new Error('Studio Registry 응답 오류: ' + regRes.status);
+        const regData = await regRes.json();
+        const tokData = tokRes.ok ? await tokRes.json() : {};
+
+        studioRegistry = regData.registry;
+        rawTokensJson = tokData.tokens || tokData;
+
+        connBadge.textContent = `Connected (${studioRegistry.components.length} Comps)`;
+        connBadge.classList.add('connected');
+        document.getElementById('btnQuickPush').disabled = false;
+        document.getElementById('btnPushStudio').disabled = false;
+        document.getElementById('btnSyncVarsTab1').disabled = false;
+
+        initAllViews();
+        log(`✅ Local Studio 로드 완료: 토큰 ${studioRegistry.paletteVariables.length}개, 컴포넌트 ${studioRegistry.components.length}개, 테마 ${(studioRegistry.themes || []).length}개`);
+      } catch (err) {
+        log('❌ Local Studio 연결 실패: ' + err.message + ' (npm run dev가 켜져 있는지 확인하세요)');
+      }
+    }
+
+    async function pushToLocalStudio() {
+      if (!studioRegistry) return;
+      log('플러그인 변경 사항을 Local Studio 프로젝트 파일에 저장(Push) 중...');
+      try {
+        const res = await fetch('http://localhost:3000/api/studio/save', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ registry: studioRegistry })
+        });
+        if (!res.ok) throw new Error('Save 실패 (' + res.status + ')');
+        const result = await res.json();
+        log(`✅ Local Studio 저장 완료! (${(result.filesWritten || ['tokens.json', 'atom-ui.css']).join(', ')})`);
+      } catch (err) {
+        log('❌ Local Studio 저장 실패: ' + err.message);
+      }
+    }
+
+    document.getElementById('btnQuickPull').onclick = pullFromLocalStudio;
+    document.getElementById('btnPullStudio').onclick = pullFromLocalStudio;
+    document.getElementById('btnQuickPush').onclick = pushToLocalStudio;
+    document.getElementById('btnPushStudio').onclick = pushToLocalStudio;
+
+    // ============================================================================
+    // 3. TAB 1: TOKENS MANAGER (Tokens Studio Style)
+    // ============================================================================
+    document.querySelectorAll('#tokenCatPills .pill').forEach(pill => {
+      pill.onclick = () => {
+        document.querySelectorAll('#tokenCatPills .pill').forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        activeTokenCategory = pill.dataset.cat;
+        renderTokensTab();
+      };
+    });
+
+    document.getElementById('tokenSearchInput').oninput = () => renderTokensTab();
+
+    function renderTokensTab() {
+      if (!studioRegistry) return;
+      const container = document.getElementById('tokenListContainer');
+      const query = (document.getElementById('tokenSearchInput').value || '').toLowerCase();
+      container.innerHTML = '';
+
+      if (activeTokenCategory === 'semantic') {
+        document.getElementById('tokenListTitle').textContent = '시맨틱 상태 토큰 (Semantic)';
+        const colorPalOpts = (studioRegistry.paletteVariables || []).filter(p => p.category === 'color');
+        (studioRegistry.statusTokens || []).forEach(st => {
+          const val = getPaletteValue(st.id);
+          if (query && !st.id.toLowerCase().includes(query) && !st.name.toLowerCase().includes(query)) return;
+
+          const row = document.createElement('div');
+          row.className = 'token-row';
+          row.innerHTML = `
+            <div class="token-meta">
+              <div class="swatch" style="background:${val};" title="${st.paletteId} (${val})"></div>
+              <div style="min-width:0;">
+                <div class="token-id">${st.id}</div>
+                <div style="font-size:10px; color:var(--text-muted);">${st.name}</div>
+              </div>
+            </div>
+            <select class="binding-select semantic-pal-select" style="max-width:130px;"></select>
+            <div class="apply-group">
+              <button class="apply-chip" data-action="fill" title="선택한 레이어 Fill에 적용">Fill</button>
+              <button class="apply-chip" data-action="stroke" title="선택한 레이어 Stroke에 적용">Border</button>
+            </div>
+          `;
+          const palSel = row.querySelector('.semantic-pal-select');
+          colorPalOpts.forEach(p => {
+            const opt = document.createElement('option');
+            opt.value = p.id;
+            opt.textContent = p.id.replace('--atom-palette-', '');
+            if (p.id === st.paletteId) opt.selected = true;
+            palSel.appendChild(opt);
+          });
+          palSel.onchange = (e) => {
+            st.paletteId = e.target.value;
+            const newVal = getPaletteValue(st.id);
+            const activeTh = (studioRegistry.themes || []).find(t => t.id === activeThemeId);
+            renderTokensTab();
+            renderLiveComponentStage();
+            parent.postMessage({
+              pluginMessage: {
+                type: 'UPDATE_SEMANTIC_TOKEN',
+                payload: {
+                  key: st.key,
+                  tokenId: st.id,
+                  paletteId: st.paletteId,
+                  paletteValue: newVal,
+                  themeName: activeTh?.name
+                }
+              }
+            }, '*');
+            log(`🎨 시맨틱 매핑 변경: ${st.id} ➔ ${st.paletteId} (피그마 즉시 반영)`);
+          };
+          row.querySelectorAll('.apply-chip').forEach(btn => {
+            btn.onclick = () => applyTokenToSelection(st.id, val, 'color', btn.dataset.action);
+          });
+          container.appendChild(row);
+        });
+        return;
+      }
+
+      const catMap = {
+        color: '팔레트 컬러 (Color Palette)',
+        spacing: '간격 및 규격 (Spacing & Size)',
+        radius: '모서리 곡률 (Border Radius)',
+        typography: '타이포그래피 (Typography)'
+      };
+      document.getElementById('tokenListTitle').textContent = catMap[activeTokenCategory] || '토큰 목록';
+
+      const list = (studioRegistry.paletteVariables || []).filter(p => {
+        if (activeTokenCategory === 'spacing') return p.category === 'spacing' || p.category === 'size';
+        return p.category === activeTokenCategory;
+      });
+
+      list.forEach(item => {
+        if (query && !item.id.toLowerCase().includes(query) && !(item.name || '').toLowerCase().includes(query)) return;
+        const row = document.createElement('div');
+        row.className = 'token-row';
+        const isColor = item.category === 'color' && item.value.startsWith('#');
+
+        row.innerHTML = `
+          <div class="token-meta">
+            ${isColor
+              ? `<input type="color" class="swatch" value="${item.value.slice(0, 7)}" style="padding:0; background:none;" />`
+              : `<span class="metric-chip">${item.value}</span>`
+            }
+            <div style="min-width:0;">
+              <div class="token-id">${item.id.replace('--atom-', '')}</div>
+              <div style="font-size:10px; color:var(--text-muted);">${item.name || ''}</div>
+            </div>
+          </div>
+          <input class="token-val-input" value="${item.value}" />
+          <div class="apply-group">
+            ${isColor
+              ? `<button class="apply-chip" data-action="fill">Fill</button><button class="apply-chip" data-action="stroke">Border</button>`
+              : item.category === 'radius'
+              ? `<button class="apply-chip" data-action="radius">Radius</button>`
+              : `<button class="apply-chip" data-action="padding">Pad</button><button class="apply-chip" data-action="gap">Gap</button>`
+            }
+          </div>
+        `;
+
+        const pushTokenUpdateToFigma = (newValue) => {
+          parent.postMessage({
+            pluginMessage: {
+              type: 'UPDATE_TOKEN_VALUE',
+              payload: { tokenId: item.id, value: newValue, category: item.category, name: item.name }
+            }
+          }, '*');
+        };
+
+        const valInput = row.querySelector('.token-val-input');
+        valInput.onchange = (e) => {
+          item.value = e.target.value.trim();
+          renderTokensTab();
+          renderLiveComponentStage();
+          pushTokenUpdateToFigma(item.value);
+          log(`✏️ 토큰 수정됨: ${item.id} = ${item.value} ➔ 피그마 Variables 즉시 반영`);
+        };
+
+        if (isColor) {
+          const colorPicker = row.querySelector('input[type="color"]');
+          let debounceTimer = null;
+          colorPicker.oninput = (e) => {
+            item.value = e.target.value;
+            valInput.value = e.target.value;
+            renderLiveComponentStage();
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => pushTokenUpdateToFigma(item.value), 80);
+          };
+          colorPicker.onchange = (e) => {
+            clearTimeout(debounceTimer);
+            item.value = e.target.value;
+            valInput.value = e.target.value;
+            pushTokenUpdateToFigma(item.value);
+            log(`✏️ 컬러 수정됨: ${item.id} = ${item.value} ➔ 피그마 Variables 즉시 반영`);
+          };
+        }
+
+        row.querySelectorAll('.apply-chip').forEach(btn => {
+          btn.onclick = () => applyTokenToSelection(item.id, item.value, item.category, btn.dataset.action);
+        });
+
+        container.appendChild(row);
+      });
+    }
+
+    function applyTokenToSelection(tokenId, value, category, targetProp) {
+      log(`🎯 선택 노드에 토큰 적용: ${tokenId} (${value}) ➔ ${targetProp}`);
+      parent.postMessage({
+        pluginMessage: {
+          type: 'APPLY_TOKEN_TO_SELECTION',
+          payload: { tokenId, value, category, targetProp }
+        }
+      }, '*');
+    }
+
+    document.getElementById('btnAddNewToken').onclick = () => {
+      if (!studioRegistry) return;
+      let id = document.getElementById('newTokenId').value.trim();
+      const name = document.getElementById('newTokenName').value.trim() || id;
+      const value = document.getElementById('newTokenVal').value.trim();
+      if (!id || !value) return;
+      if (!id.startsWith('--')) id = '--atom-' + id;
+
+      const cat = value.startsWith('#') ? 'color' : (activeTokenCategory === 'semantic' ? 'color' : activeTokenCategory);
+      studioRegistry.paletteVariables.unshift({
+        id,
+        name,
+        category: cat,
+        value,
+        description: 'Added in Figma AtomSystem Studio',
+        family: 'custom'
+      });
+      document.getElementById('newTokenId').value = '';
+      document.getElementById('newTokenName').value = '';
+      document.getElementById('newTokenVal').value = '';
+      renderTokensTab();
+      log(`➕ 새 토큰 추가됨: ${id} (${value})`);
+    };
+
+    document.getElementById('btnSyncVarsTab1').onclick = () => {
+      if (!studioRegistry) return;
+      log('Figma Variables (Primitives + Semantic Alias + Theme Modes) 동기화 중...');
+      parent.postMessage({
+        pluginMessage: {
+          type: 'SYNC_ALL_TOKENS',
+          payload: { tokens: rawTokensJson, registry: studioRegistry }
+        }
+      }, '*');
+    };
+
+    // ============================================================================
+    // 4. TAB 2: STUDIO EXACT DOM RENDERER & DOM-TO-FIGMA SERIALIZER
+    // ============================================================================
+    let selectedCompId = '';
+    let selectedTypeId = '';
+    let selectedVarId = '';
+    let selectedStatusId = 'default';
+    let activeCompCategory = 'all';
+
+    document.querySelectorAll('#compCatPills .pill').forEach(pill => {
+      pill.onclick = () => {
+        document.querySelectorAll('#compCatPills .pill').forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        activeCompCategory = pill.dataset.cat;
+        renderCompChipList();
+      };
+    });
+
+    document.getElementById('compSearchInput').oninput = () => renderCompChipList();
+
+    document.querySelectorAll('#statusPills .pill').forEach(pill => {
+      pill.onclick = () => {
+        document.querySelectorAll('#statusPills .pill').forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        selectedStatusId = pill.dataset.status;
+        renderLiveComponentStage();
+      };
+    });
+
+    function renderCompChipList() {
+      if (!studioRegistry) return;
+      const chipList = document.getElementById('compChipList');
+      const query = (document.getElementById('compSearchInput').value || '').toLowerCase();
+      const filtered = studioRegistry.components.filter(c => {
+        if (activeCompCategory !== 'all' && c.category !== activeCompCategory) return false;
+        if (query && !c.id.toLowerCase().includes(query) && !(c.name || '').toLowerCase().includes(query)) return false;
+        return true;
+      });
+      document.getElementById('compCountBadge').textContent = `${filtered.length}`;
+      chipList.innerHTML = '';
+
+      if (filtered.length === 0) {
+        chipList.innerHTML = '<span style="font-size:10px; color:var(--text-muted); padding:4px;">일치하는 컴포넌트가 없습니다.</span>';
+        return;
+      }
+
+      filtered.forEach(c => {
+        const btn = document.createElement('button');
+        btn.className = `pill${c.id === selectedCompId ? ' active' : ''}`;
+        btn.style.fontSize = '10px';
+        btn.style.padding = '3px 7px';
+        btn.textContent = c.name.replace(/\s*\([^)]*\)/g, '');
+        btn.title = `${c.name} (${c.id})`;
+        btn.onclick = () => {
+          selectedCompId = c.id;
+          renderCompChipList();
+          onComponentSelectionChange();
+        };
+        chipList.appendChild(btn);
+      });
+    }
+
+    function initComponentsTab() {
+      if (!studioRegistry) return;
+      if (!selectedCompId && studioRegistry.components.length > 0) {
+        selectedCompId = studioRegistry.components[0].id;
+      }
+      renderCompChipList();
+      onComponentSelectionChange();
+    }
+
+    function onComponentSelectionChange() {
+      if (!studioRegistry) return;
+      const comp = studioRegistry.components.find(c => c.id === selectedCompId) || studioRegistry.components[0];
+      if (!comp) return;
+      selectedCompId = comp.id;
+
+      const types = (comp.types && comp.types.length > 0) ? comp.types : [{ id: 'solid', name: 'Solid (기본)' }];
+      if (!types.some(t => t.id === selectedTypeId)) selectedTypeId = types[0].id;
+
+      const typePills = document.getElementById('typePills');
+      typePills.innerHTML = '';
+      types.forEach(t => {
+        const btn = document.createElement('button');
+        btn.className = `pill${t.id === selectedTypeId ? ' active' : ''}`;
+        btn.style.fontSize = '10px';
+        btn.style.padding = '3px 7px';
+        btn.textContent = t.name.replace(/\s*\([^)]*\)/g, '');
+        btn.onclick = () => {
+          selectedTypeId = t.id;
+          typePills.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+          btn.classList.add('active');
+          renderLiveComponentStage();
+        };
+        typePills.appendChild(btn);
+      });
+
+      const vars = (comp.variables && comp.variables.length > 0) ? comp.variables : [{ id: 'primary', name: 'Primary' }];
+      if (!vars.some(v => v.id === selectedVarId)) selectedVarId = vars[0].id;
+
+      const varPills = document.getElementById('varPills');
+      varPills.innerHTML = '';
+      vars.forEach(v => {
+        const btn = document.createElement('button');
+        btn.className = `pill${v.id === selectedVarId ? ' active' : ''}`;
+        btn.style.fontSize = '10px';
+        btn.style.padding = '3px 7px';
+        btn.textContent = v.name.replace(/\s*\([^)]*\)/g, '');
+        btn.onclick = () => {
+          selectedVarId = v.id;
+          varPills.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+          btn.classList.add('active');
+          renderComponentBindingsInspector(comp);
+          renderLiveComponentStage();
+        };
+        varPills.appendChild(btn);
+      });
+
+      renderComponentBindingsInspector(comp);
+      renderLiveComponentStage();
+    }
+
+    function renderComponentBindingsInspector(comp) {
+      const listEl = document.getElementById('compBindingsList');
+      listEl.innerHTML = '';
+      if (!comp) return;
+      const variable = (comp.variables || []).find(v => v.id === selectedVarId) || comp.variables[0];
+      if (!variable) return;
+      if (!variable.tokenBindings) variable.tokenBindings = {};
+
+      const allTokenOpts = [
+        ...(studioRegistry.statusTokens || []).flatMap(s => [
+          { id: s.id, label: `${s.id} (${getPaletteValue(s.id)})` },
+          { id: `${s.id}-hover`, label: `${s.id}-hover (${getPaletteValue(s.id + '-hover')})` },
+          { id: `${s.id}-subtle`, label: `${s.id}-subtle (${getPaletteValue(s.id + '-subtle')})` }
+        ]),
+        ...(studioRegistry.paletteVariables || []).map(p => ({ id: p.id, label: `${p.id.replace('--atom-', '')} (${p.value})` }))
+      ];
+
+      const propKeys = Object.keys(variable.tokenBindings);
+      propKeys.forEach(propKey => {
+        const currentTokId = variable.tokenBindings[propKey];
+        const row = document.createElement('div');
+        row.className = 'binding-row';
+
+        const sel = document.createElement('select');
+        sel.className = 'binding-select';
+        allTokenOpts.forEach(o => {
+          const opt = document.createElement('option');
+          opt.value = o.id;
+          opt.textContent = o.label;
+          if (o.id === currentTokId) opt.selected = true;
+          sel.appendChild(opt);
+        });
+        sel.onchange = (e) => {
+          const newTokId = e.target.value;
+          variable.tokenBindings[propKey] = newTokId;
+          renderLiveComponentStage();
+          parent.postMessage({
+            pluginMessage: {
+              type: 'UPDATE_COMPONENT_BINDING',
+              payload: {
+                componentId: comp.id,
+                variableId: variable.id,
+                propKey,
+                tokenId: newTokId,
+                value: getPaletteValue(newTokId)
+              }
+            }
+          }, '*');
+          log(`🔗 바인딩 변경: ${comp.id}.${variable.id}.${propKey} = ${newTokId} ➔ 피그마 즉시 반영`);
+        };
+
+        const labelSpan = document.createElement('span');
+        labelSpan.style.fontWeight = '600';
+        labelSpan.textContent = propKey;
+
+        row.appendChild(labelSpan);
+        row.appendChild(sel);
+        listEl.appendChild(row);
+      });
+    }
+
+    // Builds the EXACT DOM tree for a component (Type x Variable x Status) with data-token-* attributes
+    function buildExactStudioDomElement(comp, typeSpec, variable, status) {
+      const compId = comp.id;
+      const typeId = (typeSpec?.id || 'solid').toLowerCase();
+      const b = variable?.tokenBindings || {};
+      const isHover = status === 'hover';
+      const isActive = status === 'active';
+      const isFocus = status === 'focus';
+      const isDisabled = status === 'disabled';
+
+      const bgTok = isHover && b.hoverBackground ? b.hoverBackground : (b.background || '--atom-color-primary');
+      const txtTok = b.textColor || '--atom-palette-white';
+      const brdTok = isFocus && b.focusBorderColor ? b.focusBorderColor : (b.borderColor || bgTok);
+      const radTok = b.borderRadius || '--atom-radius-md';
+      const pxTok = b.paddingX || b.padding || '--atom-space-4';
+      const pyTok = b.paddingY || b.padding || '--atom-space-2';
+      const subtleTok = bgTok.startsWith('--atom-color-') ? `${bgTok}-subtle` : '--atom-color-primary-subtle';
+
+      let bgVal = getPaletteValue(bgTok);
+      let txtVal = getPaletteValue(txtTok);
+      let brdVal = getPaletteValue(brdTok);
+      let radVal = getPaletteValue(radTok) || '8px';
+      let pxVal = getPaletteValue(pxTok) || '16px';
+      let pyVal = getPaletteValue(pyTok) || '8px';
+
+      const root = document.createElement('div');
+      root.setAttribute('data-figma-name', `Type=${typeSpec.id}, Variable=${variable.id}, Status=${status}`);
+      root.style.boxSizing = 'border-box';
+      root.style.fontFamily = 'Inter, sans-serif';
+      if (isDisabled) root.style.opacity = '0.45';
+
+      // 1. BUTTON & BADGE (Exact match with ButtonStudioPreview.tsx & BadgeStudioPreview.tsx)
+      if (compId === 'button' || compId === 'badge') {
+        const isBadge = compId === 'badge';
+        root.style.display = 'inline-flex';
+        root.style.flexDirection = 'row';
+        root.style.alignItems = 'center';
+        root.style.justifyContent = 'center';
+        root.style.gap = isBadge ? '6px' : '8px';
+        root.setAttribute('data-token-gap', isBadge ? '--atom-space-1-5' : '--atom-space-2');
+
+        let finalBgTok = bgTok;
+        let finalTxtTok = txtTok;
+        let finalBrdTok = brdTok;
+        let hasBorder = false;
+
+        if (typeId.includes('pill') || typeId.includes('floating') || isBadge) {
+          radVal = '9999px';
+          root.setAttribute('data-token-radius', '--atom-radius-full');
+        } else {
+          root.setAttribute('data-token-radius', radTok);
+        }
+
+        if (typeId.includes('outline')) {
+          bgVal = isHover ? getPaletteValue(subtleTok) : 'transparent';
+          finalBgTok = isHover ? subtleTok : '';
+          txtVal = getPaletteValue(bgTok);
+          finalTxtTok = bgTok;
+          brdVal = getPaletteValue(bgTok);
+          finalBrdTok = bgTok;
+          hasBorder = true;
+        } else if (typeId.includes('ghost') || typeId.includes('link')) {
+          bgVal = (isHover && !typeId.includes('link')) ? getPaletteValue(subtleTok) : 'transparent';
+          finalBgTok = (isHover && !typeId.includes('link')) ? subtleTok : '';
+          txtVal = getPaletteValue(bgTok);
+          finalTxtTok = bgTok;
+          hasBorder = false;
+        } else if (typeId.includes('soft') || typeId.includes('subtle')) {
+          bgVal = getPaletteValue(subtleTok);
+          finalBgTok = subtleTok;
+          txtVal = getPaletteValue(bgTok);
+          finalTxtTok = bgTok;
+          hasBorder = false;
+        } else {
+          hasBorder = brdVal !== bgVal && !!b.borderColor;
+        }
+
+        root.style.backgroundColor = bgVal;
+        root.style.color = txtVal;
+        root.style.borderRadius = radVal;
+        root.style.paddingLeft = isBadge ? (getPaletteValue(b.paddingX || '--atom-space-2') || '8px') : pxVal;
+        root.style.paddingRight = root.style.paddingLeft;
+        root.style.paddingTop = isBadge ? (getPaletteValue(b.paddingY || '--atom-space-1') || '4px') : pyVal;
+        root.style.paddingBottom = root.style.paddingTop;
+
+        if (finalBgTok) root.setAttribute('data-token-bg', finalBgTok);
+        if (hasBorder) {
+          root.style.border = `1.5px solid ${brdVal}`;
+          root.setAttribute('data-token-border', finalBrdTok);
+        }
+        root.setAttribute('data-token-px', isBadge ? (b.paddingX || '--atom-space-2') : pxTok);
+        root.setAttribute('data-token-py', isBadge ? (b.paddingY || '--atom-space-1') : pyTok);
+
+        if (typeId.includes('elevated') || typeId.includes('floating')) {
+          root.style.boxShadow = '0 4px 12px rgba(0,0,0,0.14)';
+        }
+
+        // Sparkle SVG Icon for FAB / Badge / Icon slot
+        if (typeId.includes('floating')) {
+          root.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="${txtVal}" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>`;
+        }
+
+        const span = document.createElement('span');
+        span.textContent = (variable.name || comp.name).replace(/\s*\([^)]*\)/g, '');
+        span.style.fontSize = isBadge ? '11px' : '14px';
+        span.style.fontWeight = '600';
+        span.style.color = txtVal;
+        span.setAttribute('data-token-text', finalTxtTok);
+        root.appendChild(span);
+        return root;
+      }
+
+      // 2. SWITCH
+      if (compId === 'switch') {
+        const trackTok = b.activeBackground || '--atom-color-primary';
+        const thumbTok = b.thumbColor || '--atom-palette-white';
+        root.style.display = 'inline-flex';
+        root.style.alignItems = 'center';
+        root.style.gap = '10px';
+        root.setAttribute('data-token-gap', '--atom-space-2-5');
+
+        const track = document.createElement('div');
+        track.setAttribute('data-figma-name', 'SwitchTrack');
+        track.style.display = 'flex';
+        track.style.alignItems = 'center';
+        track.style.justifyContent = 'flex-end';
+        track.style.width = '44px';
+        track.style.height = '24px';
+        track.style.padding = '3px';
+        track.style.borderRadius = '9999px';
+        track.style.backgroundColor = getPaletteValue(trackTok);
+        track.setAttribute('data-token-bg', trackTok);
+        track.setAttribute('data-token-radius', '--atom-radius-full');
+
+        const thumb = document.createElement('div');
+        thumb.setAttribute('data-figma-name', 'Thumb');
+        thumb.style.width = '18px';
+        thumb.style.height = '18px';
+        thumb.style.borderRadius = '9999px';
+        thumb.style.backgroundColor = getPaletteValue(thumbTok);
+        thumb.setAttribute('data-token-bg', thumbTok);
+        thumb.setAttribute('data-token-radius', '--atom-radius-full');
+        track.appendChild(thumb);
+        root.appendChild(track);
+
+        const lbl = document.createElement('span');
+        lbl.textContent = (variable.name || 'Switch').replace(/\s*\([^)]*\)/g, '');
+        lbl.style.fontSize = '12px';
+        lbl.style.fontWeight = '600';
+        lbl.style.color = '#0f172a';
+        lbl.setAttribute('data-token-text', '--atom-palette-gray-900');
+        root.appendChild(lbl);
+        return root;
+      }
+
+      // 3. INPUT / TEXTAREA / SELECT / TOKEN-SELECT
+      if (['input', 'textarea', 'select', 'token-select'].includes(compId)) {
+        const inBgTok = typeId.includes('filled') ? '--atom-palette-gray-100' : (b.background || '--atom-palette-white');
+        const inBrdTok = isFocus && b.focusBorderColor ? b.focusBorderColor : (b.borderColor || '--atom-palette-gray-300');
+        const inTxtTok = b.textColor || '--atom-palette-gray-900';
+
+        root.style.display = 'flex';
+        root.style.flexDirection = 'row';
+        root.style.alignItems = 'center';
+        root.style.justifyContent = 'space-between';
+        root.style.width = '240px';
+        root.style.minHeight = compId === 'textarea' ? '72px' : '38px';
+        root.style.backgroundColor = getPaletteValue(inBgTok);
+        root.style.border = typeId.includes('subtle') ? 'none' : `1px solid ${getPaletteValue(inBrdTok)}`;
+        root.style.borderRadius = getPaletteValue(b.borderRadius || '--atom-radius-md') || '8px';
+        root.style.paddingLeft = getPaletteValue(b.paddingX || b.padding || '--atom-space-3') || '12px';
+        root.style.paddingRight = root.style.paddingLeft;
+        root.style.paddingTop = getPaletteValue(b.paddingY || b.padding || '--atom-space-2') || '8px';
+        root.style.paddingBottom = root.style.paddingTop;
+
+        root.setAttribute('data-token-bg', inBgTok);
+        if (!typeId.includes('subtle')) root.setAttribute('data-token-border', inBrdTok);
+        root.setAttribute('data-token-radius', b.borderRadius || '--atom-radius-md');
+        root.setAttribute('data-token-px', b.paddingX || b.padding || '--atom-space-3');
+        root.setAttribute('data-token-py', b.paddingY || b.padding || '--atom-space-2');
+
+        const textSpan = document.createElement('span');
+        textSpan.textContent = compId === 'token-select' ? '--atom-color-primary' : `Sample ${comp.name.replace(/\s*\([^)]*\)/g, '')}`;
+        textSpan.style.fontSize = '12px';
+        textSpan.style.color = getPaletteValue(inTxtTok);
+        textSpan.setAttribute('data-token-text', inTxtTok);
+        root.appendChild(textSpan);
+
+        if (compId === 'select' || compId === 'token-select') {
+          const arrow = document.createElement('span');
+          arrow.textContent = '▾';
+          arrow.style.fontSize = '12px';
+          arrow.style.color = '#64748b';
+          arrow.setAttribute('data-token-text', '--atom-palette-gray-500');
+          root.appendChild(arrow);
+        }
+        return root;
+      }
+
+      // 4. CARD / MODAL / ALERT / TOAST / OFFCANVAS / SHEET / CONTAINER
+      const cardBgTok = b.background || '--atom-palette-white';
+      const cardBrdTok = b.borderColor || '--atom-palette-gray-200';
+      const cardTxtTok = b.textColor || '--atom-palette-gray-900';
+      const cardPadTok = b.padding || b.paddingX || '--atom-space-4';
+      const cardRadTok = b.borderRadius || '--atom-radius-lg';
+
+      root.style.display = 'flex';
+      root.style.flexDirection = 'column';
+      root.style.gap = '8px';
+      root.style.width = '280px';
+      root.style.backgroundColor = getPaletteValue(cardBgTok);
+      root.style.border = `1px solid ${getPaletteValue(cardBrdTok)}`;
+      root.style.borderRadius = getPaletteValue(cardRadTok) || '12px';
+      const cPad = getPaletteValue(cardPadTok) || '16px';
+      root.style.padding = cPad;
+
+      root.setAttribute('data-token-bg', cardBgTok);
+      root.setAttribute('data-token-border', cardBrdTok);
+      root.setAttribute('data-token-radius', cardRadTok);
+      root.setAttribute('data-token-px', cardPadTok);
+      root.setAttribute('data-token-py', cardPadTok);
+      root.setAttribute('data-token-gap', '--atom-space-2');
+
+      const header = document.createElement('div');
+      header.setAttribute('data-figma-name', 'Header');
+      header.style.display = 'flex';
+      header.style.flexDirection = 'row';
+      header.style.alignItems = 'center';
+      header.style.justifyContent = 'space-between';
+      header.style.width = '100%';
+
+      const title = document.createElement('span');
+      title.textContent = (variable.name || comp.name).replace(/\s*\([^)]*\)/g, '');
+      title.style.fontSize = '13px';
+      title.style.fontWeight = '700';
+      title.style.color = getPaletteValue(cardTxtTok);
+      title.setAttribute('data-token-text', cardTxtTok);
+      header.appendChild(title);
+
+      const chip = document.createElement('div');
+      chip.setAttribute('data-figma-name', 'TypeTag');
+      chip.style.display = 'inline-flex';
+      chip.style.padding = '2px 6px';
+      chip.style.borderRadius = '4px';
+      chip.style.backgroundColor = getPaletteValue('--atom-color-primary-subtle');
+      chip.setAttribute('data-token-bg', '--atom-color-primary-subtle');
+      chip.setAttribute('data-token-radius', '--atom-radius-sm');
+
+      const chipTxt = document.createElement('span');
+      chipTxt.textContent = typeSpec.id;
+      chipTxt.style.fontSize = '10px';
+      chipTxt.style.fontWeight = '600';
+      chipTxt.style.color = getPaletteValue('--atom-color-primary');
+      chipTxt.setAttribute('data-token-text', '--atom-color-primary');
+      chip.appendChild(chipTxt);
+      header.appendChild(chip);
+      root.appendChild(header);
+
+      const desc = document.createElement('span');
+      desc.textContent = `${comp.name} · ${typeSpec.name} (${status})`;
+      desc.style.fontSize = '11px';
+      desc.style.color = getPaletteValue('--atom-palette-gray-500');
+      desc.setAttribute('data-token-text', '--atom-palette-gray-500');
+      root.appendChild(desc);
+
+      return root;
+    }
+
+    function renderLiveComponentStage() {
+      if (!studioRegistry) return;
+      const comp = studioRegistry.components.find(c => c.id === selectedCompId) || studioRegistry.components[0];
+      if (!comp) return;
+      const types = (comp.types && comp.types.length > 0) ? comp.types : [{ id: 'solid', name: 'Solid' }];
+      const typeSpec = types.find(t => t.id === selectedTypeId) || types[0];
+      const variable = (comp.variables || []).find(v => v.id === selectedVarId) || comp.variables[0];
+      const status = selectedStatusId || 'default';
+
+      const captureRoot = document.getElementById('captureRoot');
+      captureRoot.innerHTML = '';
+      const domEl = buildExactStudioDomElement(comp, typeSpec, variable, status);
+      captureRoot.appendChild(domEl);
+
+      const rect = domEl.getBoundingClientRect();
+      document.getElementById('previewDimBadge').textContent = `${Math.round(rect.width)} × ${Math.round(rect.height)}px`;
+    }
+
+    // ============================================================================
+    // 5. DOM-TO-FIGMA SCENE GRAPH SERIALIZER (Captures Real Browser Computed CSS)
+    // ============================================================================
+    function serializeDomToFigmaNode(el) {
+      const cs = window.getComputedStyle(el);
+      const rect = el.getBoundingClientRect();
+      const tag = el.tagName.toLowerCase();
+
+      // 1) Inline SVG Vector
+      if (tag === 'svg') {
+        return {
+          kind: 'SVG',
+          name: el.getAttribute('data-figma-name') || 'Icon',
+          svgMarkup: el.outerHTML,
+          width: Math.max(12, Math.round(rect.width)),
+          height: Math.max(12, Math.round(rect.height)),
+        };
+      }
+
+      // 2) Leaf Text Node
+      const childElements = Array.from(el.children);
+      if (childElements.length === 0 && (el.textContent || '').trim().length > 0 && tag === 'span') {
+        return {
+          kind: 'TEXT',
+          name: el.getAttribute('data-figma-name') || 'Label',
+          characters: el.textContent.trim(),
+          fontSize: parseFloat(cs.fontSize) || 13,
+          fontWeight: parseInt(cs.fontWeight, 10) || 500,
+          color: cs.color,
+          tokenText: el.getAttribute('data-token-text') || undefined,
+        };
+      }
+
+      // 3) Frame / AutoLayout Container
+      const isRow = cs.flexDirection !== 'column';
+      const childrenNodes = childElements.map(c => serializeDomToFigmaNode(c)).filter(Boolean);
+
+      return {
+        kind: 'FRAME',
+        name: el.getAttribute('data-figma-name') || 'Frame',
+        width: Math.max(10, Math.round(rect.width)),
+        height: Math.max(10, Math.round(rect.height)),
+        layoutMode: isRow ? 'HORIZONTAL' : 'VERTICAL',
+        justifyContent: cs.justifyContent,
+        alignItems: cs.alignItems,
+        gap: parseFloat(cs.gap) || 0,
+        paddingTop: parseFloat(cs.paddingTop) || 0,
+        paddingRight: parseFloat(cs.paddingRight) || 0,
+        paddingBottom: parseFloat(cs.paddingBottom) || 0,
+        paddingLeft: parseFloat(cs.paddingLeft) || 0,
+        backgroundColor: cs.backgroundColor,
+        borderColor: cs.borderTopColor,
+        borderWidth: parseFloat(cs.borderTopWidth) || 0,
+        borderRadius: parseFloat(cs.borderTopLeftRadius) || 0,
+        opacity: parseFloat(cs.opacity) || 1,
+        hasShadow: cs.boxShadow && cs.boxShadow !== 'none',
+        tokens: {
+          bg: el.getAttribute('data-token-bg') || undefined,
+          text: el.getAttribute('data-token-text') || undefined,
+          border: el.getAttribute('data-token-border') || undefined,
+          radius: el.getAttribute('data-token-radius') || undefined,
+          px: el.getAttribute('data-token-px') || undefined,
+          py: el.getAttribute('data-token-py') || undefined,
+          gap: el.getAttribute('data-token-gap') || undefined,
+        },
+        children: childrenNodes,
+      };
+    }
+
+    // Capture Single Active Preview
+    document.getElementById('btnCaptureCurrent').onclick = () => {
+      if (!studioRegistry) return;
+      const domEl = document.getElementById('captureRoot').firstElementChild;
+      if (!domEl) return;
+      const comp = studioRegistry.components.find(c => c.id === selectedCompId);
+      const sceneNode = serializeDomToFigmaNode(domEl);
+      log(`📸 현재 DOM 캡처 완료 (${sceneNode.width}×${sceneNode.height}px) ➔ Figma 전송...`);
+      parent.postMessage({
+        pluginMessage: {
+          type: 'RENDER_CAPTURED_COMPONENTS',
+          payload: {
+            registry: studioRegistry,
+            tokens: rawTokensJson,
+            sets: [{
+              componentId: comp.id,
+              componentName: comp.name,
+              description: comp.description,
+              variants: [sceneNode]
+            }]
+          }
+        }
+      }, '*');
+    };
+
+    // Capture Full Variant Matrix for a Component by rendering real DOM in offscreen stage
+    function captureComponentMatrixSceneSet(comp) {
+      const offscreen = document.getElementById('offscreenMatrixStage');
+      offscreen.innerHTML = '';
+
+      const types = (comp.types && comp.types.length > 0) ? comp.types : [{ id: 'solid', name: 'Solid' }];
+      const vars = (comp.variables && comp.variables.length > 0) ? comp.variables : [{ id: 'primary', name: 'Primary' }];
+      const statuses = ['default', 'hover', 'disabled'];
+      const variants = [];
+
+      types.forEach(t => {
+        vars.forEach(v => {
+          statuses.forEach(st => {
+            const el = buildExactStudioDomElement(comp, t, v, st);
+            offscreen.appendChild(el);
+            const serialized = serializeDomToFigmaNode(el);
+            serialized.gridRowKey = t.id;
+            variants.push(serialized);
+          });
+        });
+      });
+
+      offscreen.innerHTML = '';
+      return {
+        componentId: comp.id,
+        componentName: comp.name,
+        description: comp.description,
+        variants
+      };
+    }
+
+    document.getElementById('btnCaptureFullMatrix').onclick = () => {
+      if (!studioRegistry) return;
+      const comp = studioRegistry.components.find(c => c.id === selectedCompId);
+      if (!comp) return;
+      const setSpec = captureComponentMatrixSceneSet(comp);
+      log(`📦 ${comp.name}: ${setSpec.variants.length}개 Variant 실제 DOM 캡처 완료 ➔ Figma 생성 중...`);
+      parent.postMessage({
+        pluginMessage: {
+          type: 'RENDER_CAPTURED_COMPONENTS',
+          payload: {
+            registry: studioRegistry,
+            tokens: rawTokensJson,
+            sets: [setSpec]
+          }
+        }
+      }, '*');
+    };
+
+    // ============================================================================
+    // 6. TAB 3: THEMES MANAGER
+    // ============================================================================
+    function renderThemesTab() {
+      if (!studioRegistry) return;
+      const container = document.getElementById('themeListContainer');
+      container.innerHTML = '';
+      const themes = studioRegistry.themes || [];
+
+      themes.forEach(th => {
+        const isCurrent = th.id === activeThemeId;
+        const card = document.createElement('div');
+        card.className = 'token-row';
+        card.style.borderColor = isCurrent ? 'var(--accent)' : 'var(--border-subtle)';
+        card.innerHTML = `
+          <div class="token-meta">
+            <span class="badge">${th.mode || 'light'}</span>
+            <div>
+              <div style="font-weight:700; font-size:12px;">${th.name}</div>
+              <div style="font-size:10px; color:var(--text-muted);">${th.description || th.id}</div>
+            </div>
+          </div>
+          <button class="btn ${isCurrent ? '' : 'secondary'} sm">${isCurrent ? '✓ 활성 테마' : '테마 적용'}</button>
+        `;
+        card.querySelector('button').onclick = () => {
+          activeThemeId = th.id;
+          // Apply theme semantic overrides to statusTokens
+          if (th.semanticOverrides) {
+            (studioRegistry.statusTokens || []).forEach(st => {
+              if (th.semanticOverrides[st.key]) st.paletteId = th.semanticOverrides[st.key];
+            });
+          }
+          renderThemesTab();
+          renderTokensTab();
+          renderLiveComponentStage();
+          log(`🎭 활성 테마 전환됨: ${th.name} (${th.mode})`);
+        };
+        container.appendChild(card);
+      });
+    }
+
+    document.getElementById('btnSyncThemesToModes').onclick = () => {
+      if (!studioRegistry) return;
+      log('모든 스튜디오 테마를 Figma Variable Modes로 등록 중...');
+      parent.postMessage({
+        pluginMessage: {
+          type: 'SYNC_ALL_TOKENS',
+          payload: { tokens: rawTokensJson, registry: studioRegistry }
+        }
+      }, '*');
+    };
+
+    // ============================================================================
+    // 7. TAB 4: BATCH SYNC & INSPECTOR
+    // ============================================================================
+    function initBatchSyncTab() {
+      if (!studioRegistry) return;
+      const grid = document.getElementById('batchCompGrid');
+      grid.innerHTML = '';
+      studioRegistry.components.forEach(c => {
+        const lbl = document.createElement('label');
+        lbl.style.display = 'flex';
+        lbl.style.alignItems = 'center';
+        lbl.style.gap = '4px';
+        lbl.style.fontSize = '10px';
+        lbl.innerHTML = `<input type="checkbox" name="batchCompCb" value="${c.id}" checked /> <span>${c.id}</span>`;
+        lbl.querySelector('input').onchange = updateBatchCount;
+        grid.appendChild(lbl);
+      });
+      updateBatchCount();
+    }
+
+    function updateBatchCount() {
+      const checked = document.querySelectorAll('input[name="batchCompCb"]:checked');
+      document.getElementById('batchCompCount').textContent = `${checked.length}개 선택`;
+    }
+
+    document.getElementById('btnSelectAllComps').onclick = () => {
+      document.querySelectorAll('input[name="batchCompCb"]').forEach(cb => cb.checked = true);
+      updateBatchCount();
+    };
+    document.getElementById('btnDeselectAllComps').onclick = () => {
+      document.querySelectorAll('input[name="batchCompCb"]').forEach(cb => cb.checked = false);
+      updateBatchCount();
+    };
+
+    document.getElementById('btnBatchGenerateAll').onclick = () => {
+      if (!studioRegistry) return;
+      const selectedIds = Array.from(document.querySelectorAll('input[name="batchCompCb"]:checked')).map(c => c.value);
+      if (selectedIds.length === 0) return;
+
+      const sets = [];
+      selectedIds.forEach(id => {
+        const comp = studioRegistry.components.find(c => c.id === id);
+        if (comp) sets.push(captureComponentMatrixSceneSet(comp));
+      });
+
+      log(`🚀 ${sets.length}개 컴포넌트 실제 DOM 일괄 캡처 완료 ➔ Figma 생성 중...`);
+      parent.postMessage({
+        pluginMessage: {
+          type: 'RENDER_CAPTURED_COMPONENTS',
+          payload: {
+            registry: studioRegistry,
+            tokens: rawTokensJson,
+            sets
+          }
+        }
+      }, '*');
+    };
+
+    document.getElementById('btnInspectNode').onclick = () => {
+      parent.postMessage({ pluginMessage: { type: 'INSPECT_SELECTION' } }, '*');
+    };
+
+    function initAllViews() {
+      renderTokensTab();
+      initComponentsTab();
+      renderThemesTab();
+      initBatchSyncTab();
+    }
+
+    // Message Receiver from Figma Sandbox
+    window.onmessage = (event) => {
+      const msg = event.data.pluginMessage;
+      if (!msg) return;
+      if (msg.type === 'SYNC_TOKENS_SUCCESS') {
+        log(`✅ Variables 동기화 완료: 총 ${msg.payload.count}개 변수 (${msg.payload.modesCount || 1}개 테마 모드)`);
+      } else if (msg.type === 'UPDATE_TOKEN_SUCCESS') {
+        log(`✅ 피그마 Variable 업데이트됨: ${msg.payload.varName}`);
+      } else if (msg.type === 'UPDATE_COMPONENT_BINDING_SUCCESS') {
+        const p = msg.payload;
+        if (p.updatedCount > 0) {
+          log(`✅ 피그마 컴포넌트 바인딩 반영됨: ${p.componentId}.${p.propKey} ➔ ${p.tokenId} (${p.updatedCount}개 변형)`);
+        } else {
+          log(`ℹ️ 캔버스에 생성된 [AtomSystem / ${p.componentId}] 변형이 없어 프리뷰만 갱신되었습니다.`);
+        }
+      } else if (msg.type === 'GENERATE_COMPONENTS_SUCCESS') {
+        log(`🎉 피그마 캔버스 생성 완료: ${msg.payload.setsCount}개 컴포넌트 세트 (${msg.payload.variantCount}개 Variant)`);
+      } else if (msg.type === 'APPLY_TOKEN_SUCCESS') {
+        log(`🎯 ${msg.payload.appliedCount}개 레이어에 [${msg.payload.tokenId}] 토큰 바인딩 적용 완료`);
+      } else if (msg.type === 'INSPECT_SELECTION_RESULT') {
+        if (!msg.payload) return;
+        const jsonStr = JSON.stringify(msg.payload, null, 2);
+        navigator.clipboard.writeText(jsonStr).then(() => {
+          log('📋 선택 노드 JSON이 클립보드에 복사되었습니다!');
+        }).catch(() => console.log(jsonStr));
+      } else if (msg.type === 'ERROR') {
+        log(`❌ 오류: ${msg.error}`);
+      }
+    };
+
+    // Auto-pull on startup
+    pullFromLocalStudio();
+  </script>
+</body>
+</html>
