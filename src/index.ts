@@ -29,5 +29,5 @@ export const ATOM_STUDIO_REGISTRY_PATH = ATOM_TOKENS_PATH;
 /**
  * CLI Banner & Metadata
  */
-export const ATOM_VERSION = '0.14.4';
+export const ATOM_VERSION = '0.15.0';
 export const ATOM_LIB_NAME = 'atomsystem';

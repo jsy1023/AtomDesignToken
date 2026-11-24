@@ -1,5 +1,5 @@
-import { atomTokens } from './chunk-BE37KQDS.js';
-export { AI_COMPONENT_SUBMISSION_TEMPLATE, AtomTokenSystem, COMPONENT_STATUS_PRESETS, ComponentTokenLayer, DEFAULT_COMPONENT_TYPES, INITIAL_PALETTE_VARIABLES, INITIAL_SEMANTIC_STATUS_TOKENS, INITIAL_STUDIO_COMPONENTS, PaletteTokenLayer, SEMANTIC_VARIABLE_DICTIONARY, STUDIO_CUSTOM_STYLES_END, STUDIO_CUSTOM_STYLES_START, TOKEN_REPLACEMENTS, ThemeTokenLayer, TokenReferenceResolver, UNIFIED_TOKENS_DOCUMENT, atomTokens, buildAiComponentSubmissionPrompt, componentTokens, exportStudioCustomComponentStyles, exportStudioToCSS, exportStudioToTokensJson, getComponentStatusProperties, getComponentTypes, isUnifiedTokensDocument, paletteTokens, resolveStudioComponentId, resolveTypeSpec, resolveVariableRole, scanAndRefactorDirectory, themeTokens, tokenResolver } from './chunk-BE37KQDS.js';
+import { atomTokens } from './chunk-X5SXNKFG.js';
+export { AI_COMPONENT_SUBMISSION_TEMPLATE, AtomTokenSystem, COMPONENT_STATUS_PRESETS, ComponentTokenLayer, DEFAULT_COMPONENT_TYPES, INITIAL_PALETTE_VARIABLES, INITIAL_SEMANTIC_STATUS_TOKENS, INITIAL_STUDIO_COMPONENTS, PaletteTokenLayer, SEMANTIC_VARIABLE_DICTIONARY, STUDIO_CUSTOM_STYLES_END, STUDIO_CUSTOM_STYLES_START, TOKEN_REPLACEMENTS, ThemeTokenLayer, TokenReferenceResolver, UNIFIED_TOKENS_DOCUMENT, atomTokens, buildAiComponentSubmissionPrompt, componentTokens, exportStudioCustomComponentStyles, exportStudioToCSS, exportStudioToTokensJson, getComponentStatusProperties, getComponentTypes, isUnifiedTokensDocument, paletteTokens, resolveStudioComponentId, resolveTypeSpec, resolveVariableRole, scanAndRefactorDirectory, themeTokens, tokenResolver } from './chunk-X5SXNKFG.js';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import React34, { useState } from 'react';
@@ -9113,6 +9113,22 @@ ${fontImportCSS}/* [AtomDesignToken] Live Injected Theme Variables */
   --border-subtle: ${color.borderSubtle};
   --border-strong: ${color.borderStrong};
 
+  /* Atom System Specific Variables & Universal Aliases */
+  --atom-text-primary: ${color.textPrimary};
+  --atom-text-secondary: ${color.textSecondary};
+  --atom-text-muted: ${color.textMuted};
+  --atom-bg-primary: ${color.bgPrimary};
+  --atom-bg-secondary: ${color.bgSecondary};
+  --atom-border-subtle: ${color.borderSubtle};
+  --atom-border-strong: ${color.borderStrong};
+  --atom-navbar-default-background: ${color.bgPrimary};
+  --atom-navbar-default-borderColor: ${color.borderSubtle};
+  --atom-navbar-default-textColor: ${color.textSecondary};
+  --atom-navbar-default-activeText: ${safePrimary};
+  --atom-nav-default-textColor: ${color.textSecondary};
+  --atom-nav-default-activeBackground: ${color.bgSecondary};
+  --atom-nav-default-activeText: ${color.textPrimary};
+
   /* Atom System Specific Variables */
   --atom-color-primary: ${safePrimary};
   --atom-color-primary-hover: ${safePrimaryHover};
@@ -10442,7 +10458,7 @@ function EnterpriseDashboardUseCase() {
 var ATOM_UI_CSS_PATH = "atomsystem/css/atom-ui.css";
 var ATOM_TOKENS_PATH = "atomsystem/tokens.json";
 var ATOM_STUDIO_REGISTRY_PATH = ATOM_TOKENS_PATH;
-var ATOM_VERSION = "0.14.4";
+var ATOM_VERSION = "0.15.0";
 var ATOM_LIB_NAME = "atomsystem";
 
 export { ATOM_LIB_NAME, ATOM_STUDIO_REGISTRY_PATH, ATOM_TOKENS_PATH, ATOM_UI_CSS_PATH, ATOM_VERSION, AWESOME_CATEGORIES, AWESOME_DESIGN_MD_THEMES, BASE_COLOR_TOKENS, BRAND_PRESETS, COLOR_PRESETS, DEFAULT_BRAND_CONFIG, DEFAULT_THEME_CONFIG, EnterpriseDashboardUseCase, FONT_FAMILY_PRESETS, GALLERY_COMPONENTS, LAYOUT_TOKENS, PATTERNS_COLLECTION, RADIUS_TOKENS, SHADOW_TOKENS, SPACING_TOKENS, TYPOGRAPHY_TOKENS, applyThemeToDOM, cn, exportToCSS, exportToTailwind, exportToTokensJson, generateThemeCSS, injectWebfontLink, isDarkColor };

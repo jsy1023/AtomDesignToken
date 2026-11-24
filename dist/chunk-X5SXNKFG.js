@@ -3408,7 +3408,7 @@ var tokens_default = {
   registrySchema: "https://system.atomground.com/schemas/studio-registry.schema.json",
   name: "AtomDesignToken System",
   version: "0.14.2",
-  updatedAt: "2026-11-19T07:35:10.678Z",
+  updatedAt: "2026-11-24T03:13:12.852Z",
   palette: {
     color: {
       blue: {
@@ -4400,7 +4400,7 @@ var tokens_default = {
     }
   },
   theme: {
-    activeThemeId: "ocean-blue",
+    activeThemeId: "midnight-black",
     semantic: {
       primary: {
         $value: "{palette.color.blue.500}",
@@ -5150,41 +5150,11 @@ var tokens_default = {
           whenToUseEn: "Use for subtle emphasis softer than solid but more distinct than outline."
         },
         {
-          id: "pill",
-          name: "Pill (\uB77C\uC6B4\uB4DC \uCEA1\uC290\uD615)",
-          description: "\uACE1\uB960 9999px(full)\uB85C \uC591 \uB05D\uC774 \uC644\uC804\uD788 \uB465\uAE00\uAC8C \uAC10\uC2F8\uC9C4 \uB77C\uC6B4\uB4DC\uD615 \uC678\uD615",
-          whenToUse: "\uB79C\uB529 \uD398\uC774\uC9C0\uC758 \uD788\uC5B4\uB85C CTA, \uBAA8\uBC14\uC77C \uC571\uC758 \uD035 \uC561\uC158 \uB4F1 \uCE5C\uADFC\uD558\uACE0 \uCE90\uC8FC\uC5BC\uD55C \uB8E9\uC564\uD544\uC5D0 \uC0AC\uC6A9\uD569\uB2C8\uB2E4.",
-          whenToUseEn: "Use for consumer apps or hero CTA sections seeking a friendly aesthetic."
-        },
-        {
-          id: "elevated",
-          name: "Elevated (\uADF8\uB9BC\uC790 \uC785\uCCB4\uD615)",
-          description: "\uBC14\uB2E5\uBA74\uC5D0\uC11C \uB5A0 \uC788\uB294 \uB4EF\uD55C \uC785\uCCB4\uC801 \uC100\uB3C4\uC6B0\uB97C \uAC00\uC9C4 \uD50C\uB85C\uD305 \uC678\uD615",
-          whenToUse: "\uC9C0\uB3C4 \uC704 \uBC84\uD2BC, \uD50C\uB85C\uD305 \uC561\uC158 \uBC84\uD2BC(FAB)\uCC98\uB7FC \uB2E4\uB978 \uBCF5\uC7A1\uD55C \uCF58\uD150\uCE20 \uC704\uC5D0 \uB744\uC6CC\uC57C \uD560 \uB54C \uC0AC\uC6A9\uD569\uB2C8\uB2E4.",
-          whenToUseEn: "Use for Floating Action Buttons (FAB) resting above complex underlying content.",
-          antiPattern: "\uD3C9\uBA74\uC801\uC778 \uBBF8\uB2C8\uBA40 \uB808\uC774\uC544\uC6C3\uC5D0 \uB0A8\uBC1C\uD558\uBA74 \uC2DC\uAC01\uC801 \uC704\uACC4\uAC00 \uC5B4\uC9C0\uB7EC\uC6CC\uC9D1\uB2C8\uB2E4."
-        },
-        {
-          id: "glassmorphic",
-          name: "Glassmorphic (\uAE00\uB798\uC2A4\uBAA8\uD53C\uC998 \uBC18\uD22C\uBA85\uD615)",
-          description: "\uBC18\uD22C\uBA85 \uC720\uB9AC \uC9C8\uAC10(backdrop-blur)\uACFC \uBBF8\uC138\uD55C \uBE5B \uBC18\uC0AC \uBCF4\uB354\uB97C \uAC00\uC9C4 \uBBF8\uB798\uC9C0\uD5A5\uC801 \uC678\uD615",
-          whenToUse: "\uBC30\uACBD\uC5D0 \uC774\uBBF8\uC9C0, \uBE44\uB514\uC624, \uC77C\uB7EC\uC2A4\uD2B8\uAC00 \uAE54\uB824 \uC788\uB294 \uD788\uC5B4\uB85C \uC139\uC158\uC774\uB098 \uB2E4\uD06C\uBAA8\uB4DC \uB300\uC2DC\uBCF4\uB4DC\uC5D0 \uC0AC\uC6A9\uD569\uB2C8\uB2E4.",
-          whenToUseEn: "Use over rich backgrounds, video heroes, or dark mode surfaces.",
-          antiPattern: "\uB2E8\uC0C9 \uB2E8\uC870\uB85C\uC6B4 \uD770\uC0C9 \uBC30\uACBD \uC704\uC5D0 \uC0AC\uC6A9\uD558\uBA74 \uBE14\uB7EC \uD6A8\uACFC\uAC00 \uB4DC\uB7EC\uB098\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
-        },
-        {
           id: "link",
           name: "Link (\uD14D\uC2A4\uD2B8 \uC5B8\uB354\uB77C\uC778\uD615)",
           description: "\uBC15\uC2A4 \uD328\uB529 \uC5C6\uC774 \uBCF8\uBB38 \uC778\uB77C\uC778 \uB9C1\uD06C\uCC98\uB7FC \uBC11\uC904 \uC778\uD130\uB799\uC158\uC73C\uB85C \uB3D9\uC791\uD558\uB294 \uBBF8\uB2C8\uBA40 \uC678\uD615",
           whenToUse: "\uC57D\uAD00 \uC804\uBB38 \uBCF4\uAE30, \uB354 \uC54C\uC544\uBCF4\uAE30, \uC774\uC804 \uB2E8\uACC4 \uAC74\uB108\uB6F0\uAE30 \uB4F1 \uD14D\uC2A4\uD2B8 \uC911\uC2EC \uBCF4\uC870 \uB3D9\uC791\uC5D0 \uC0AC\uC6A9\uD569\uB2C8\uB2E4.",
           whenToUseEn: 'Use for inline text actions like "Learn more" or "Skip step".'
-        },
-        {
-          id: "neumorphic",
-          name: "Neumorphic (\uC18C\uD504\uD2B8 \uC5E0\uBCF4\uC2F1 \uC785\uCCB4\uD615)",
-          description: "\uBC14\uB2E5 \uC11C\uD53C\uC2A4\uC5D0\uC11C \uBD80\uB4DC\uB7FD\uAC8C \uC19F\uC544\uC624\uB978 \uB4EF\uD55C \uC774\uC911 \uC74C\uC591 \uC100\uB3C4\uC6B0\uB97C \uAC00\uC9C4 \uC2A4\uD050\uC5B4\uBAA8\uD53D \uC678\uD615",
-          whenToUse: "\uC2A4\uB9C8\uD2B8 \uD648 IoT \uC81C\uC5B4\uAE30, \uBBF8\uB514\uC5B4 \uD50C\uB808\uC774\uC5B4 \uD1A0\uAE00 \uBC84\uD2BC, \uC2E4\uD5D8\uC801 \uB300\uC2DC\uBCF4\uB4DC\uC5D0 \uC0AC\uC6A9\uD569\uB2C8\uB2E4.",
-          whenToUseEn: "Use for tactile physical control metaphors like smart home IoT controls."
         },
         {
           id: "floating-action",
@@ -5247,8 +5217,8 @@ var tokens_default = {
               targetVariable: "--atom-color-primary"
             },
             borderRadius: {
-              $value: "{palette.radius.md}",
-              targetVariable: "--atom-radius-md"
+              $value: "{palette.radius.sm}",
+              targetVariable: "--atom-radius-sm"
             },
             paddingX: {
               $value: "{palette.spacing.4}",
@@ -6659,12 +6629,6 @@ var tokens_default = {
           name: "Standard (\uD45C\uC900 \uB514\uC790\uC778\uD615)",
           description: "\uAE30\uBCF8 \uC2DC\uC2A4\uD15C \uD1A0\uD070\uC5D0 \uAE30\uBC18\uD55C \uD45C\uC900 \uB514\uC790\uC778 \uC591\uC2DD",
           whenToUse: "\uC77C\uBC18\uC801\uC778 UI \uAD6C\uC131 \uBC0F \uAE30\uBCF8 \uB808\uC774\uC544\uC6C3 \uBC30\uCE58\uC5D0 \uC0AC\uC6A9\uD569\uB2C8\uB2E4."
-        },
-        {
-          id: "outlined-type",
-          name: "Outlined (\uC678\uACFD\uC120\uD615)",
-          description: "\uD14C\uB450\uB9AC\uB97C \uC911\uC2EC\uC73C\uB85C \uAC00\uBCCD\uAC8C \uACBD\uACC4\uB97C \uD45C\uD604\uD558\uB294 \uBCF4\uC870 \uB514\uC790\uC778 \uC591\uC2DD",
-          whenToUse: "\uC8FC\uBCC0 \uCF58\uD150\uCE20\uC640\uC758 \uC2DC\uAC01\uC801 \uAC04\uC12D\uC744 \uC904\uC774\uACE0 \uC2F6\uC744 \uB54C \uC0AC\uC6A9\uD569\uB2C8\uB2E4."
         }
       ],
       variables: {
@@ -6813,12 +6777,6 @@ var tokens_default = {
           name: "Standard (\uD45C\uC900 \uB514\uC790\uC778\uD615)",
           description: "\uAE30\uBCF8 \uC2DC\uC2A4\uD15C \uD1A0\uD070\uC5D0 \uAE30\uBC18\uD55C \uD45C\uC900 \uB514\uC790\uC778 \uC591\uC2DD",
           whenToUse: "\uC77C\uBC18\uC801\uC778 UI \uAD6C\uC131 \uBC0F \uAE30\uBCF8 \uB808\uC774\uC544\uC6C3 \uBC30\uCE58\uC5D0 \uC0AC\uC6A9\uD569\uB2C8\uB2E4."
-        },
-        {
-          id: "outlined-type",
-          name: "Outlined (\uC678\uACFD\uC120\uD615)",
-          description: "\uD14C\uB450\uB9AC\uB97C \uC911\uC2EC\uC73C\uB85C \uAC00\uBCCD\uAC8C \uACBD\uACC4\uB97C \uD45C\uD604\uD558\uB294 \uBCF4\uC870 \uB514\uC790\uC778 \uC591\uC2DD",
-          whenToUse: "\uC8FC\uBCC0 \uCF58\uD150\uCE20\uC640\uC758 \uC2DC\uAC01\uC801 \uAC04\uC12D\uC744 \uC904\uC774\uACE0 \uC2F6\uC744 \uB54C \uC0AC\uC6A9\uD569\uB2C8\uB2E4."
         }
       ],
       variables: {
@@ -10970,18 +10928,6 @@ var tokens_default = {
           name: "Directory (\uD30C\uC77C \uD0D0\uC0C9 \uD2B8\uB9AC)",
           description: "\uD3F4\uB354\uC640 \uD30C\uC77C\uC744 \uC810\uC120 \uAC00\uC774\uB4DC \uBC0F \uC811\uAE30/\uD3BC\uCE58\uAE30 \uD654\uC0B4\uD45C\uB85C \uD45C\uD604\uD558\uB294 \uAE30\uBCF8 \uD2B8\uB9AC",
           whenToUse: "\uD504\uB85C\uC81D\uD2B8 \uD30C\uC77C \uD0D0\uC0C9\uAE30, MIB/OID \uD2B8\uB9AC, \uB2E4\uB2E8\uACC4 \uCE74\uD14C\uACE0\uB9AC \uD0D0\uC0C9\uC5D0 \uC0AC\uC6A9\uD569\uB2C8\uB2E4."
-        },
-        {
-          id: "compact",
-          name: "Compact (\uACE0\uBC00\uB3C4 \uC555\uCD95 \uD2B8\uB9AC)",
-          description: "\uD589 \uB192\uC774\uC640 \uB4E4\uC5EC\uC4F0\uAE30\uB97C \uC904\uC5EC \uB9CE\uC740 \uB178\uB4DC\uB97C \uD55C\uB208\uC5D0 \uC870\uB9DD\uD558\uB294 \uC555\uCD95 \uD2B8\uB9AC",
-          whenToUse: "\uB300\uADDC\uBAA8 \uB370\uC774\uD130 \uC2A4\uD0A4\uB9C8, \uCF54\uB4DC \uC544\uC6C3\uB77C\uC778, \uC870\uC9C1\uB3C4 \uD328\uB110\uC5D0 \uC0AC\uC6A9\uD569\uB2C8\uB2E4."
-        },
-        {
-          id: "bordered",
-          name: "Bordered (\uCE74\uB4DC \uD328\uB110\uD615 \uD2B8\uB9AC)",
-          description: "\uC678\uACFD\uC120 \uBCF4\uB354\uC640 \uC11C\uD53C\uC2A4 \uBC30\uACBD\uC774 \uACB0\uD569\uB41C \uB3C5\uB9BD \uD328\uB110\uD615 \uD2B8\uB9AC \uBDF0",
-          whenToUse: "\uC124\uC815 \uB9C8\uBC95\uC0AC, \uAD8C\uD55C \uC120\uD0DD \uD2B8\uB9AC, \uC88C\uCE21 \uC0AC\uC774\uB4DC \uC778\uC2A4\uD399\uD130\uC5D0 \uC0AC\uC6A9\uD569\uB2C8\uB2E4."
         }
       ],
       variables: {
@@ -12520,5 +12466,5 @@ function scanAndRefactorDirectory(rootDir, options = {}) {
 }
 
 export { AI_COMPONENT_SUBMISSION_TEMPLATE, AtomTokenSystem, COMPONENT_STATUS_PRESETS, ComponentTokenLayer, DEFAULT_COMPONENT_TYPES, INITIAL_PALETTE_VARIABLES, INITIAL_SEMANTIC_STATUS_TOKENS, INITIAL_STUDIO_COMPONENTS, PaletteTokenLayer, SEMANTIC_VARIABLE_DICTIONARY, STUDIO_CUSTOM_STYLES_END, STUDIO_CUSTOM_STYLES_START, TOKEN_REPLACEMENTS, ThemeTokenLayer, TokenReferenceResolver, UNIFIED_TOKENS_DOCUMENT, atomTokens, buildAiComponentSubmissionPrompt, componentTokens, exportStudioCustomComponentStyles, exportStudioToCSS, exportStudioToTokensJson, getComponentStatusProperties, getComponentTypes, isUnifiedTokensDocument, paletteTokens, resolveStudioComponentId, resolveTypeSpec, resolveVariableRole, scanAndRefactorDirectory, themeTokens, tokenResolver };
-//# sourceMappingURL=chunk-BE37KQDS.js.map
-//# sourceMappingURL=chunk-BE37KQDS.js.map
+//# sourceMappingURL=chunk-X5SXNKFG.js.map
+//# sourceMappingURL=chunk-X5SXNKFG.js.map
