@@ -488,6 +488,7 @@
     let rawTokensJson = null;
     let activeTokenCategory = 'semantic';
     let activeThemeId = 'ocean-blue';
+    let studioBaseUrl = 'http://localhost:3000';
 
     const logBox = document.getElementById('statusLog');
     const connBadge = document.getElementById('connBadge');
@@ -541,18 +542,36 @@
     }
 
     // ============================================================================
-    // 2. PULL & PUSH WITH LOCAL STUDIO (http://localhost:3000)
+    // 2. PULL & PUSH WITH LOCAL STUDIO (localhost:3000 / localhost:4000)
     // ============================================================================
+    async function fetchFromLocalStudio(path, options) {
+      const candidates = studioBaseUrl === 'http://localhost:4000'
+        ? ['http://localhost:4000', 'http://localhost:3000']
+        : ['http://localhost:3000', 'http://localhost:4000'];
+
+      let lastErr = null;
+      for (const base of candidates) {
+        try {
+          const res = await fetch(`${base}${path}`, options);
+          if (res.ok) {
+            studioBaseUrl = base;
+            return res;
+          }
+          lastErr = new Error(`응답 오류 (${res.status})`);
+        } catch (e) {
+          lastErr = e;
+        }
+      }
+      throw lastErr || new Error('Local Studio에 연결할 수 없습니다.');
+    }
+
     async function pullFromLocalStudio() {
-      log('Local Studio (http://localhost:3000/api/studio/registry) 동기화 중...');
+      log('Local Studio (localhost:3000 / 4000) 동기화 중...');
       try {
-        const [regRes, tokRes] = await Promise.all([
-          fetch('http://localhost:3000/api/studio/registry'),
-          fetch('http://localhost:3000/api/tokens')
-        ]);
-        if (!regRes.ok) throw new Error('Studio Registry 응답 오류: ' + regRes.status);
+        const regRes = await fetchFromLocalStudio('/api/studio/registry');
+        const tokRes = await fetch(`${studioBaseUrl}/api/tokens`).catch(() => null);
         const regData = await regRes.json();
-        const tokData = tokRes.ok ? await tokRes.json() : {};
+        const tokData = tokRes && tokRes.ok ? await tokRes.json() : {};
 
         studioRegistry = regData.registry;
         rawTokensJson = tokData.tokens || tokData;
@@ -564,17 +583,17 @@
         document.getElementById('btnSyncVarsTab1').disabled = false;
 
         initAllViews();
-        log(`✅ Local Studio 로드 완료: 토큰 ${studioRegistry.paletteVariables.length}개, 컴포넌트 ${studioRegistry.components.length}개, 테마 ${(studioRegistry.themes || []).length}개`);
+        log(`✅ Local Studio (${studioBaseUrl}) 로드 완료: 토큰 ${studioRegistry.paletteVariables.length}개, 컴포넌트 ${studioRegistry.components.length}개, 테마 ${(studioRegistry.themes || []).length}개`);
       } catch (err) {
-        log('❌ Local Studio 연결 실패: ' + err.message + ' (npm run dev가 켜져 있는지 확인하세요)');
+        log('❌ Local Studio 연결 실패: ' + err.message + ' (npx atomsystem studio 또는 npm run dev가 켜져 있는지 확인하세요)');
       }
     }
 
     async function pushToLocalStudio() {
       if (!studioRegistry) return;
-      log('플러그인 변경 사항을 Local Studio 프로젝트 파일에 저장(Push) 중...');
+      log(`플러그인 변경 사항을 Local Studio (${studioBaseUrl})에 저장(Push) 중...`);
       try {
-        const res = await fetch('http://localhost:3000/api/studio/save', {
+        const res = await fetch(`${studioBaseUrl}/api/studio/save`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ registry: studioRegistry })
