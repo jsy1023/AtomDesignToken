@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { buildAiComponentSubmissionPrompt, AI_COMPONENT_SUBMISSION_TEMPLATE, scanAndRefactorDirectory, isUnifiedTokensDocument, TokenReferenceResolver, AtomTokenSystem, INITIAL_PALETTE_VARIABLES, INITIAL_SEMANTIC_STATUS_TOKENS, resolveStudioComponentId, DEFAULT_COMPONENT_TYPES, exportStudioToTokensJson, exportStudioToCSS, exportStudioCustomComponentStyles, atomTokens, UNIFIED_TOKENS_DOCUMENT, STUDIO_CUSTOM_STYLES_START, STUDIO_CUSTOM_STYLES_END } from './chunk-X5SXNKFG.js';
+import { buildAiComponentSubmissionPrompt, AI_COMPONENT_SUBMISSION_TEMPLATE, scanAndRefactorDirectory, isUnifiedTokensDocument, TokenReferenceResolver, AtomTokenSystem, INITIAL_PALETTE_VARIABLES, INITIAL_SEMANTIC_STATUS_TOKENS, resolveStudioComponentId, DEFAULT_COMPONENT_TYPES, exportStudioToTokensJson, exportStudioToCSS, exportStudioCustomComponentStyles, atomTokens, UNIFIED_TOKENS_DOCUMENT, STUDIO_CUSTOM_STYLES_START, STUDIO_CUSTOM_STYLES_END } from './chunk-WPBEULK5.js';
 import fs4 from 'fs';
 import path4 from 'path';
 import { fileURLToPath } from 'url';
@@ -1612,7 +1612,7 @@ function showVersion() {
     const pkg = JSON.parse(fs4.readFileSync(pkgPath, "utf-8"));
     console.log(`atomsystem v${pkg.version}`);
   } else {
-    console.log("atomsystem v0.15.0");
+    console.log("atomsystem v0.15.1");
   }
 }
 switch (command) {

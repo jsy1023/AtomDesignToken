@@ -19,7 +19,7 @@ var tokens_default = {
   registrySchema: "https://system.atomground.com/schemas/studio-registry.schema.json",
   name: "AtomDesignToken System",
   version: "0.14.2",
-  updatedAt: "2026-11-24T03:13:12.852Z",
+  updatedAt: "2026-11-24T05:23:08.779Z",
   palette: {
     color: {
       blue: {
@@ -12418,7 +12418,7 @@ function showVersion() {
     const pkg = JSON.parse(fs5__default.default.readFileSync(pkgPath, "utf-8"));
     console.log(`atomsystem v${pkg.version}`);
   } else {
-    console.log("atomsystem v0.15.0");
+    console.log("atomsystem v0.15.1");
   }
 }
 switch (command) {
