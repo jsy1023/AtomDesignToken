@@ -207,12 +207,26 @@ export default function Home() {
                 </span>
                 <Badge variant="primary">SSOT Architecture</Badge>
               </div>
-              <h2 className="text-lg sm:text-xl font-bold text-(--text-primary) tracking-tight">
-                {locale === 'ja'
-                  ? 'ローカルStudioでデザインを調整、即座にコードへ反映'
-                  : locale === 'en'
-                  ? 'Design & Edit in Local Studio, Reflected Instantly in Code'
-                  : '로컬 스튜디오에서 디자인을 만들고 수정하면 바로 코드에 반영됩니다'}
+              <h2 className="text-lg sm:text-xl font-bold text-(--text-primary) tracking-tight leading-snug">
+                {locale === 'ja' ? (
+                  <>
+                    ローカルStudioでデザインを調整、
+                    <br />
+                    即座にコードへ反映
+                  </>
+                ) : locale === 'en' ? (
+                  <>
+                    Design &amp; Edit in Local Studio,
+                    <br />
+                    Reflected Instantly in Code
+                  </>
+                ) : (
+                  <>
+                    로컬 스튜디오에서 디자인을 만들고 수정하면
+                    <br />
+                    바로 코드에 반영됩니다
+                  </>
+                )}
               </h2>
               <p className="text-xs sm:text-sm text-(--text-secondary) leading-relaxed">
                 {locale === 'ja'
@@ -223,14 +237,27 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="flex items-center gap-2 shrink-0">
+            <div className="flex flex-col gap-2 shrink-0 sm:min-w-[210px]">
               <Link
                 href="/studio"
-                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-(--radius-sm) bg-(--accent-primary) text-white text-xs font-semibold hover:opacity-90 transition shadow-xs"
+                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-(--radius-sm) bg-(--accent-primary) text-white text-xs font-semibold hover:opacity-90 transition shadow-xs"
               >
-                <Sliders className="w-4 h-4" />
+                <Sliders className="w-4 h-4 shrink-0" />
                 <span>{locale === 'ja' ? 'Studioを開く (/studio)' : locale === 'en' ? 'Open Studio (/studio)' : '로컬 스튜디오 열기 (/studio)'}</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+                <ArrowRight className="w-3.5 h-3.5 shrink-0" />
+              </Link>
+              <Link
+                href="/guide#figma-plugin"
+                className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-(--radius-sm) bg-(--bg-primary) border border-(--border-strong) text-(--text-primary) text-xs font-semibold hover:bg-(--bg-secondary) transition shadow-2xs"
+              >
+                <Layers className="w-3.5 h-3.5 text-(--accent-primary) shrink-0" />
+                <span>
+                  {locale === 'ja'
+                    ? 'Figma連携ガイド'
+                    : locale === 'en'
+                    ? 'Figma Plugin Guide'
+                    : 'Figma 플러그인 가이드'}
+                </span>
               </Link>
             </div>
           </div>
