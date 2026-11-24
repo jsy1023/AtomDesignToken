@@ -17,10 +17,27 @@ export async function GET() {
       return NextResponse.json({ tokens: {} });
     }
     const tokens = JSON.parse(rawData);
-    return NextResponse.json({ tokens });
+    return NextResponse.json({ tokens }, {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type',
+      }
+    });
   } catch (error: any) {
     return NextResponse.json({ error: 'Failed to read tokens.json: ' + error.message }, { status: 500 });
   }
+}
+
+export async function OPTIONS() {
+  return new NextResponse(null, {
+    status: 204,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+    },
+  });
 }
 
 export async function POST(req: NextRequest) {

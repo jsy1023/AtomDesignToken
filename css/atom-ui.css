@@ -185,7 +185,7 @@ body {
   --atom-button-primary-hoverBackground: var(--atom-color-primary-hover);
   --atom-button-primary-textColor: var(--atom-palette-white);
   --atom-button-primary-borderColor: var(--atom-color-primary);
-  --atom-button-primary-borderRadius: var(--atom-radius-md);
+  --atom-button-primary-borderRadius: var(--atom-radius-sm);
   --atom-button-primary-paddingX: var(--atom-space-4);
   --atom-button-primary-paddingY: var(--atom-space-2);
 }
@@ -1409,11 +1409,11 @@ body {
 
 .atom-btn-ghost {
   background-color: transparent;
-  color: var(--atom-text-primary);
+  color: var(--atom-text-primary, var(--text-primary));
   border-color: transparent;
 }
 .atom-btn-ghost:hover:not(:disabled) {
-  background-color: var(--atom-bg-secondary);
+  background-color: var(--atom-bg-secondary, var(--bg-secondary));
 }
 
 .atom-btn-destructive, .atom-btn-danger {

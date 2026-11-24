@@ -47,12 +47,21 @@ export async function POST(req: NextRequest) {
         tokensJson: formattedTokens,
         cssString: typeof cssString === 'string' ? cssString : undefined,
       });
-      return NextResponse.json({
-        success: true,
-        filesWritten: result.filesWritten,
-        registry: result.registry,
-        message: 'Unified tokens/tokens.json and css/atom-ui.css saved to project files.',
-      });
+      return NextResponse.json(
+        {
+          success: true,
+          filesWritten: result.filesWritten,
+          registry: result.registry,
+          message: 'Unified tokens/tokens.json and css/atom-ui.css saved to project files.',
+        },
+        {
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'POST, OPTIONS',
+            'Access-Control-Allow-Headers': 'Content-Type',
+          },
+        }
+      );
     }
 
     // Legacy backward-compatible path (tokensJson + cssString only)
@@ -86,16 +95,41 @@ export async function POST(req: NextRequest) {
       fs.writeFileSync(cssPath, fullCss, 'utf-8');
     }
 
-    return NextResponse.json({
-      success: true,
-      message: 'Studio changes successfully saved to project files (tokens.json & atom-ui.css)',
-    });
+    return NextResponse.json(
+      {
+        success: true,
+        message: 'Studio changes successfully saved to project files (tokens.json & atom-ui.css)',
+      },
+      {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'POST, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type',
+        },
+      }
+    );
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown error';
     console.error('Error saving studio project files:', error);
     return NextResponse.json(
       { error: 'Failed to save studio files: ' + message },
-      { status: 500 }
+      {
+        status: 500,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+        },
+      }
     );
   }
+}
+
+export async function OPTIONS() {
+  return new NextResponse(null, {
+    status: 204,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+    },
+  });
 }

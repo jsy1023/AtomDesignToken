@@ -7,12 +7,21 @@ export async function GET() {
   try {
     const cwd = process.cwd();
     const { registry, discoveredFiles, existsOnDisk } = loadProjectRegistry(cwd);
-    return NextResponse.json({
-      registry,
-      discoveredFiles,
-      existsOnDisk,
-      syncedAt: new Date().toISOString(),
-    });
+    return NextResponse.json(
+      {
+        registry,
+        discoveredFiles,
+        existsOnDisk,
+        syncedAt: new Date().toISOString(),
+      },
+      {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type',
+        },
+      }
+    );
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown error';
     return NextResponse.json(
@@ -20,4 +29,15 @@ export async function GET() {
       { status: 500 }
     );
   }
+}
+
+export async function OPTIONS() {
+  return new NextResponse(null, {
+    status: 204,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+    },
+  });
 }
