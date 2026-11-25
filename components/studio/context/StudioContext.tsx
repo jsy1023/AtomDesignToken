@@ -50,7 +50,7 @@ interface StudioContextValue {
   saveSuccess: boolean;
   statusMessage: string | null;
   setStatusMessage: React.Dispatch<React.SetStateAction<string | null>>;
-  handleSaveToProject: () => Promise<void>;
+  handleSaveToProject: (brandOverride?: { name: string; slogan?: string; logoUrl?: string | null; logoHeight?: number }) => Promise<void>;
   handleResetAll: () => void;
 
   // Themes
@@ -696,19 +696,21 @@ export function StudioProvider({ children }: { children: React.ReactNode }) {
     setTimeout(() => setCopiedCli(false), 2000);
   };
 
-  const handleSaveToProject = async () => {
+  const handleSaveToProject = async (brandOverride?: { name: string; slogan?: string; logoUrl?: string | null; logoHeight?: number }) => {
     setIsSaving(true);
     setStatusMessage(null);
     try {
       const tokensJson = exportStudioToTokensJson(paletteVariables, components, statusTokens, {
         activeThemeId: selectedThemeId,
         themes,
+        ...(brandOverride ? { brand: brandOverride } : {}),
       });
       const cssString = exportStudioToCSS(paletteVariables, components, statusTokens);
       const registryPayload: StudioRegistry = {
         version: '0.14.2',
         updatedAt: new Date().toISOString(),
         activeThemeId: selectedThemeId,
+        ...(brandOverride ? { brand: brandOverride } : {}),
         statusTokens,
         paletteVariables,
         components,

@@ -1,16 +1,19 @@
 #!/usr/bin/env node
 'use strict';
 
-var fs7 = require('fs');
-var path7 = require('path');
+var fs8 = require('fs');
+var path8 = require('path');
 var url = require('url');
+var inquirer = require('inquirer');
 var http = require('http');
+var child_process = require('child_process');
 
 var _documentCurrentScript = typeof document !== 'undefined' ? document.currentScript : null;
 function _interopDefault (e) { return e && e.__esModule ? e : { default: e }; }
 
-var fs7__default = /*#__PURE__*/_interopDefault(fs7);
-var path7__default = /*#__PURE__*/_interopDefault(path7);
+var fs8__default = /*#__PURE__*/_interopDefault(fs8);
+var path8__default = /*#__PURE__*/_interopDefault(path8);
+var inquirer__default = /*#__PURE__*/_interopDefault(inquirer);
 var http__default = /*#__PURE__*/_interopDefault(http);
 
 // tokens/tokens.json
@@ -19,7 +22,7 @@ var tokens_default = {
   registrySchema: "https://system.atomground.com/schemas/studio-registry.schema.json",
   name: "AtomDesignToken System",
   version: "0.14.2",
-  updatedAt: "2026-11-24T09:21:21.911Z",
+  updatedAt: "2026-11-25T01:53:13.834Z",
   palette: {
     color: {
       blue: {
@@ -1011,7 +1014,7 @@ var tokens_default = {
     }
   },
   theme: {
-    activeThemeId: "midnight-black",
+    activeThemeId: "dark-cyber",
     semantic: {
       primary: {
         $value: "{palette.color.blue.500}",
@@ -8741,13 +8744,13 @@ var SEMANTIC_VARIABLE_DICTIONARY = {
     role: "primary",
     label: "\uD504\uB77C\uC774\uBA38\uB9AC (Primary)",
     meaning: "\uBE0C\uB79C\uB4DC \uB300\uD45C \uCEEC\uB7EC\uB97C \uC801\uC6A9\uD558\uC5EC \uC0AC\uC6A9\uC790\uC5D0\uAC8C \uB2E8 \uD558\uB098\uC758 \uACB0\uC815\uC801 \uBAA9\uD45C(\uACB0\uC81C, \uC81C\uCD9C, \uD575\uC2EC \uC561\uC158)\uB97C \uC9D1\uC911\uC2DC\uD0A4\uB294 \uBE44\uC8FC\uC5BC \uC758\uBBF8",
-    badgeColorClass: "bg-blue-500/10 text-blue-600 border-blue-500/20 dark:text-blue-400"
+    badgeColorClass: "bg-(--accent-primary)/10 text-(--accent-primary) border-(--accent-primary)/20 dark:text-blue-400"
   },
   secondary: {
     role: "secondary",
     label: "\uC138\uCEE8\uB354\uB9AC (Secondary)",
     meaning: "\uCDE8\uC18C, \uB2EB\uAE30, \uC774\uC804 \uB2E8\uACC4 \uB4F1 \uC0AC\uC6A9\uC790 \uC778\uD130\uB799\uC158\uC744 \uC9C0\uC6D0\uD558\uB418 \uC2DC\uAC01\uC801 \uBD80\uB2F4\uC744 \uC904\uC774\uB294 \uC911\uB9BD \uD1A4 \uC758\uBBF8",
-    badgeColorClass: "bg-gray-500/10 text-gray-600 border-gray-500/20 dark:text-gray-400"
+    badgeColorClass: "bg-(--bg-secondary)/10 text-(--text-secondary) border-gray-500/20 dark:text-(--text-muted)"
   },
   danger: {
     role: "danger",
@@ -9044,8 +9047,8 @@ var INITIAL_PALETTE_VARIABLES = [
   { id: "--atom-palette-blue-200", name: "Blue 200", category: "color", value: "#bfdbfe", description: "\uC18C\uD504\uD2B8 \uBE14\uB8E8 \uBCF4\uB354 \uBC0F \uD638\uBC84 \uBC30\uACBD", family: "blue" },
   { id: "--atom-palette-blue-300", name: "Blue 300", category: "color", value: "#93c5fd", description: "\uD65C\uC131 \uD14C\uB450\uB9AC \uBC0F \uD3EC\uCEE4\uC2A4 \uB9C1", family: "blue" },
   { id: "--atom-palette-blue-400", name: "Blue 400", category: "color", value: "#60a5fa", description: "\uBC1D\uC740 \uBE14\uB8E8 \uC778\uB514\uCF00\uC774\uD130", family: "blue" },
-  { id: "--atom-palette-blue-500", name: "Blue 500 (Brand Primary)", category: "color", value: "#3182f6", description: "\uD575\uC2EC \uBE0C\uB79C\uB4DC \uD504\uB77C\uC774\uBA38\uB9AC \uC561\uC158 \uCEEC\uB7EC", family: "blue" },
-  { id: "--atom-palette-blue-600", name: "Blue 600 (Primary Hover)", category: "color", value: "#1b64da", description: "\uBC84\uD2BC \uD638\uBC84 \uBC0F \uAC15\uC870 \uB525 \uCEEC\uB7EC", family: "blue" },
+  { id: "--atom-palette-blue-500", name: "Blue 500 (Brand Primary)", category: "color", value: "var(--accent-primary)", description: "\uD575\uC2EC \uBE0C\uB79C\uB4DC \uD504\uB77C\uC774\uBA38\uB9AC \uC561\uC158 \uCEEC\uB7EC", family: "blue" },
+  { id: "--atom-palette-blue-600", name: "Blue 600 (Primary Hover)", category: "color", value: "var(--accent-primary-hover)", description: "\uBC84\uD2BC \uD638\uBC84 \uBC0F \uAC15\uC870 \uB525 \uCEEC\uB7EC", family: "blue" },
   { id: "--atom-palette-blue-700", name: "Blue 700", category: "color", value: "#1d4ed8", description: "\uC9C4\uD55C \uBE14\uB8E8 \uD074\uB9AD \uC561\uD2F0\uBE0C \uC0C1\uD0DC", family: "blue" },
   { id: "--atom-palette-blue-800", name: "Blue 800", category: "color", value: "#1e40af", description: "\uB124\uC774\uBE44 \uD1A4 \uD14D\uC2A4\uD2B8 \uBC0F \uD5E4\uB354 \uBC30\uACBD", family: "blue" },
   { id: "--atom-palette-blue-900", name: "Blue 900", category: "color", value: "#1e3a8a", description: "\uADF9\uC9C4\uD55C \uB2E4\uD06C \uB124\uC774\uBE44", family: "blue" },
@@ -9437,13 +9440,13 @@ var PaletteTokenLayer = class {
     return this.raw.layout?.[group]?.[key];
   }
   byVariable(cssVar) {
-    const path8 = this.resolver.getPathByVariable(cssVar);
-    if (!path8 || !path8.startsWith("palette.")) return void 0;
-    return this.resolver.getNode(path8);
+    const path9 = this.resolver.getPathByVariable(cssVar);
+    if (!path9 || !path9.startsWith("palette.")) return void 0;
+    return this.resolver.getNode(path9);
   }
   getPathForVariable(cssVar) {
-    const path8 = this.resolver.getPathByVariable(cssVar);
-    return path8 && path8.startsWith("palette.") ? path8 : void 0;
+    const path9 = this.resolver.getPathByVariable(cssVar);
+    return path9 && path9.startsWith("palette.") ? path9 : void 0;
   }
   /**
    * Reconstructs the flat `PaletteVariable[]` array expected by Studio UI & repositories.
@@ -9712,7 +9715,7 @@ var ThemeTokenLayer = class {
       description: preset.description,
       mode: preset.mode,
       category: preset.category,
-      brandColor: brandColor || resolvedColors.primary || "#3182f6",
+      brandColor: brandColor || resolvedColors.primary || "var(--accent-primary)",
       borderRadius: borderRadius || "8px",
       ...fontFamily ? { fontFamily } : {},
       ...preset.isCustom ? { isCustom: true } : {},
@@ -10061,12 +10064,14 @@ var AtomTokenSystem = class _AtomTokenSystem {
       registry.components || [],
       fullResolver
     );
+    const brand = registry.brand || options?.baseDocument?.brand;
     const unifiedDoc = {
       $schema: "https://design-tokens.github.io/community-group/format/",
       registrySchema: registry.$schema || options?.baseDocument?.registrySchema || "https://system.atomground.com/schemas/studio-registry.schema.json",
       name: options?.baseDocument?.name || "AtomDesignToken System",
       version: registry.version || options?.baseDocument?.version || "0.14.2",
       updatedAt: registry.updatedAt || (/* @__PURE__ */ new Date()).toISOString(),
+      ...brand ? { brand } : {},
       palette: paletteTree,
       theme: themeTree,
       components: componentsTree
@@ -10141,12 +10146,109 @@ ${cssVars.join("\n")}
 }
 `;
 }
+function buildPresetCssVars(preset, resolver) {
+  const vars = [];
+  const t = preset.tokens || {};
+  const resolve = (val) => val ? resolver.resolveCssReference(val) : "";
+  const primary = resolve(t.primary?.$value || preset.brandColor);
+  const primaryHover = resolve(t.primaryHover?.$value);
+  const primaryLight = resolve(t.primaryLight?.$value);
+  const bgPrimary = resolve(t.bgPrimary?.$value);
+  const bgSecondary = resolve(t.bgSecondary?.$value);
+  const secondary = resolve(t.secondary?.$value) || bgSecondary;
+  const secondaryHover = resolve(t.secondaryHover?.$value) || resolve(t.borderStrong?.$value);
+  const secondaryLight = resolve(t.secondaryLight?.$value) || bgSecondary;
+  const textPrimary = resolve(t.textPrimary?.$value);
+  const textSecondary = resolve(t.textSecondary?.$value);
+  const textMuted = resolve(t.textMuted?.$value);
+  const borderSubtle = resolve(t.borderSubtle?.$value);
+  const borderStrong = resolve(t.borderStrong?.$value);
+  const statusSuccess = resolve(t.statusSuccess?.$value);
+  const statusDanger = resolve(t.statusDanger?.$value);
+  const statusWarning = resolve(t.statusWarning?.$value);
+  const radius = resolve(preset.borderRadius);
+  if (primary) {
+    vars.push(`  --atom-color-primary: ${primary};`);
+    vars.push(`  --atom-primary: ${primary};`);
+    vars.push(`  --accent-primary: ${primary};`);
+  }
+  if (primaryHover) {
+    vars.push(`  --atom-color-primary-hover: ${primaryHover};`);
+    vars.push(`  --accent-primary-hover: ${primaryHover};`);
+  }
+  if (primaryLight) vars.push(`  --atom-color-primary-subtle: ${primaryLight};`);
+  if (secondary) vars.push(`  --atom-color-secondary: ${secondary};`);
+  if (secondaryHover) vars.push(`  --atom-color-secondary-hover: ${secondaryHover};`);
+  if (secondaryLight) vars.push(`  --atom-color-secondary-subtle: ${secondaryLight};`);
+  if (bgPrimary) {
+    vars.push(`  --atom-bg-primary: ${bgPrimary};`);
+    vars.push(`  --bg-primary: ${bgPrimary};`);
+  }
+  if (bgSecondary) {
+    vars.push(`  --atom-bg-secondary: ${bgSecondary};`);
+    vars.push(`  --atom-bg-surface: ${bgSecondary};`);
+    vars.push(`  --atom-bg-muted: ${bgSecondary};`);
+    vars.push(`  --bg-secondary: ${bgSecondary};`);
+  }
+  if (textPrimary) {
+    vars.push(`  --atom-text-primary: ${textPrimary};`);
+    vars.push(`  --text-primary: ${textPrimary};`);
+  }
+  if (textSecondary) {
+    vars.push(`  --atom-text-secondary: ${textSecondary};`);
+    vars.push(`  --text-secondary: ${textSecondary};`);
+  }
+  if (textMuted) {
+    vars.push(`  --atom-text-muted: ${textMuted};`);
+    vars.push(`  --text-muted: ${textMuted};`);
+  }
+  if (borderSubtle) {
+    vars.push(`  --atom-border-subtle: ${borderSubtle};`);
+    vars.push(`  --border-subtle: ${borderSubtle};`);
+  }
+  if (borderStrong) {
+    vars.push(`  --atom-border-strong: ${borderStrong};`);
+    vars.push(`  --border-strong: ${borderStrong};`);
+  }
+  if (statusSuccess) vars.push(`  --atom-color-success: ${statusSuccess};`);
+  if (statusDanger) vars.push(`  --atom-color-destructive: ${statusDanger};`);
+  if (statusWarning) vars.push(`  --atom-color-warning: ${statusWarning};`);
+  if (radius) vars.push(`  --radius: ${radius};`);
+  if (preset.mode) vars.push(`  color-scheme: ${preset.mode};`);
+  return vars;
+}
+function mapComponentPropToSemanticVar(compId, propKey, cssVal) {
+  if (!cssVal) return cssVal;
+  if (propKey === "background" || propKey === "activeBackground") {
+    if (cssVal === "var(--atom-palette-white)") {
+      return compId === "card" ? "var(--atom-bg-surface)" : "var(--atom-bg-primary)";
+    }
+    if (cssVal === "var(--atom-palette-gray-50)" || cssVal === "var(--atom-palette-gray-100)") {
+      return "var(--atom-bg-secondary)";
+    }
+  }
+  if (propKey === "borderColor") {
+    if (cssVal === "var(--atom-palette-gray-100)" || cssVal === "var(--atom-palette-gray-200)") {
+      return "var(--atom-border-subtle)";
+    }
+    if (cssVal === "var(--atom-palette-gray-300)") {
+      return "var(--atom-border-strong)";
+    }
+  }
+  if (propKey === "textColor" || propKey === "activeText" || propKey === "inactiveText") {
+    if (cssVal === "var(--atom-palette-gray-900)") return "var(--atom-text-primary)";
+    if (cssVal === "var(--atom-palette-gray-700)") return "var(--atom-text-secondary)";
+    if (cssVal === "var(--atom-palette-gray-500)") return "var(--atom-text-muted)";
+  }
+  return cssVal;
+}
 function compileUnifiedTokensToCss(doc) {
   const resolver = new TokenReferenceResolver(doc);
   const cdnUrls = /* @__PURE__ */ new Set();
   const paletteVars = [];
   const semanticVars = [];
   const componentBlocks = [];
+  const themePresetBlocks = [];
   function collectPalette(obj, skipScale = false) {
     if (!obj || typeof obj !== "object") return;
     if (typeof obj.cdnUrl === "string" && obj.cdnUrl.trim()) {
@@ -10181,11 +10283,24 @@ function compileUnifiedTokensToCss(doc) {
     }
   }
   collectSemantic(doc.theme?.semantic);
+  const presets = doc.theme?.presets || {};
+  const activePresetId = doc.theme?.activeThemeId;
+  const activePreset = activePresetId ? presets[activePresetId] : void 0;
+  const activePresetVars = activePreset ? buildPresetCssVars(activePreset, resolver) : [];
+  for (const [presetId, preset] of Object.entries(presets)) {
+    const presetVars = buildPresetCssVars(preset, resolver);
+    if (presetVars.length > 0) {
+      themePresetBlocks.push(`[data-atom-theme="${presetId}"] {
+${presetVars.join("\n")}
+}`);
+    }
+  }
   for (const [compId, comp] of Object.entries(doc.components || {})) {
     for (const [varId, vNode] of Object.entries(comp.variables || {})) {
       const lines = [];
       for (const [propKey, binding] of Object.entries(vNode.tokens || {})) {
-        const cssVal = resolver.resolveCssReference(binding.$value);
+        const rawCssVal = resolver.resolveCssReference(binding.$value);
+        const cssVal = mapComponentPropToSemanticVar(compId, propKey, rawCssVal);
         if (cssVal) {
           lines.push(`  --atom-${compId}-${varId}-${propKey}: ${cssVal};`);
         }
@@ -10203,6 +10318,10 @@ ${lines.join("\n")}
   const imports = Array.from(cdnUrls).map((u) => `@import url("${u}");`).join("\n");
   const parts = [];
   if (imports) parts.push(imports);
+  const activeThemeComment = activePresetId ? `
+
+  /* Active Theme Preset (${activePresetId}) */
+${activePresetVars.join("\n")}` : "";
   parts.push(
     `:root {
   /* Palette Primitives */
@@ -10213,9 +10332,13 @@ ${semanticVars.join("\n")}
   --accent-primary: var(--atom-color-primary);
   --accent-primary-hover: var(--atom-color-primary-hover);
   --font-sans: var(--atom-font-sans);
-  --font-mono: var(--atom-font-mono);
+  --font-mono: var(--atom-font-mono);${activeThemeComment}
 }`
   );
+  if (themePresetBlocks.length > 0) {
+    parts.push(`/* Theme Presets (data-atom-theme) */
+${themePresetBlocks.join("\n\n")}`);
+  }
   if (componentBlocks.length > 0) {
     parts.push(`/* Component Scoped Variables */
 ${componentBlocks.join("\n\n")}`);
@@ -10247,6 +10370,7 @@ function exportStudioToTokensJson(palette, components, statusTokens = INITIAL_SE
       version: options?.version || baseDocument.version || "0.14.2",
       updatedAt: (/* @__PURE__ */ new Date()).toISOString(),
       activeThemeId: options?.activeThemeId || baseDocument.theme?.activeThemeId || "ocean-blue",
+      ...options?.brand ? { brand: options.brand } : {},
       statusTokens,
       paletteVariables: palette,
       components,
@@ -10908,34 +11032,34 @@ ${pascalName}.displayName = '${pascalName}';
 `;
 }
 function ensureUiBarrelExport(uiDir, pascalName) {
-  const indexPath = path7__default.default.join(uiDir, "index.ts");
+  const indexPath = path8__default.default.join(uiDir, "index.ts");
   const exportLine = `export * from './${pascalName}';`;
-  if (!fs7__default.default.existsSync(indexPath)) {
-    fs7__default.default.mkdirSync(uiDir, { recursive: true });
-    fs7__default.default.writeFileSync(indexPath, `${exportLine}
+  if (!fs8__default.default.existsSync(indexPath)) {
+    fs8__default.default.mkdirSync(uiDir, { recursive: true });
+    fs8__default.default.writeFileSync(indexPath, `${exportLine}
 `, "utf-8");
     return true;
   }
-  const content = fs7__default.default.readFileSync(indexPath, "utf-8");
+  const content = fs8__default.default.readFileSync(indexPath, "utf-8");
   const pattern = new RegExp(`export\\s+\\*\\s+from\\s+['"]\\./${pascalName}['"]`);
   if (pattern.test(content)) {
     return false;
   }
   const eol = content.includes("\r\n") ? "\r\n" : "\n";
   const trimmed = content.replace(/\s+$/, "");
-  fs7__default.default.writeFileSync(indexPath, `${trimmed}${eol}${exportLine}${eol}`, "utf-8");
+  fs8__default.default.writeFileSync(indexPath, `${trimmed}${eol}${exportLine}${eol}`, "utf-8");
   return true;
 }
 
 // lib/services/studioRegistryServer.ts
-var TOKENS_SSOT_REL_PATH = path7__default.default.join("tokens", "tokens.json");
-var LEGACY_REGISTRY_REL_PATH = path7__default.default.join("tokens", "studio.registry.json");
+var TOKENS_SSOT_REL_PATH = path8__default.default.join("tokens", "tokens.json");
+var LEGACY_REGISTRY_REL_PATH = path8__default.default.join("tokens", "studio.registry.json");
 var UNIVERSAL_MARKER = "/* === Universal Component Classes === */";
 function readProjectVersion(cwd) {
   try {
-    const pkgPath = path7__default.default.join(cwd, "package.json");
-    if (fs7__default.default.existsSync(pkgPath)) {
-      const pkg = JSON.parse(fs7__default.default.readFileSync(pkgPath, "utf-8"));
+    const pkgPath = path8__default.default.join(cwd, "package.json");
+    if (fs8__default.default.existsSync(pkgPath)) {
+      const pkg = JSON.parse(fs8__default.default.readFileSync(pkgPath, "utf-8"));
       if (pkg?.version) return String(pkg.version);
     }
   } catch {
@@ -11011,10 +11135,10 @@ function buildBaselineRegistry(cwd) {
   };
 }
 function readExistingBaseDocument(cwd) {
-  const ssotPath = path7__default.default.join(cwd, TOKENS_SSOT_REL_PATH);
-  if (fs7__default.default.existsSync(ssotPath)) {
+  const ssotPath = path8__default.default.join(cwd, TOKENS_SSOT_REL_PATH);
+  if (fs8__default.default.existsSync(ssotPath)) {
     try {
-      const raw = fs7__default.default.readFileSync(ssotPath, "utf-8");
+      const raw = fs8__default.default.readFileSync(ssotPath, "utf-8");
       if (raw && raw.trim()) {
         const parsed = JSON.parse(raw);
         if (isUnifiedTokensDocument(parsed)) {
@@ -11027,13 +11151,13 @@ function readExistingBaseDocument(cwd) {
   return UNIFIED_TOKENS_DOCUMENT;
 }
 function loadProjectRegistry(cwd) {
-  const ssotPath = path7__default.default.join(cwd, TOKENS_SSOT_REL_PATH);
-  const legacyPath = path7__default.default.join(cwd, LEGACY_REGISTRY_REL_PATH);
+  const ssotPath = path8__default.default.join(cwd, TOKENS_SSOT_REL_PATH);
+  const legacyPath = path8__default.default.join(cwd, LEGACY_REGISTRY_REL_PATH);
   let existsOnDisk = false;
   let registry = buildBaselineRegistry(cwd);
-  if (fs7__default.default.existsSync(ssotPath)) {
+  if (fs8__default.default.existsSync(ssotPath)) {
     try {
-      const raw = fs7__default.default.readFileSync(ssotPath, "utf-8");
+      const raw = fs8__default.default.readFileSync(ssotPath, "utf-8");
       if (raw && raw.trim()) {
         const parsed = JSON.parse(raw);
         if (isUnifiedTokensDocument(parsed)) {
@@ -11044,9 +11168,9 @@ function loadProjectRegistry(cwd) {
     } catch {
     }
   }
-  if (!existsOnDisk && fs7__default.default.existsSync(legacyPath)) {
+  if (!existsOnDisk && fs8__default.default.existsSync(legacyPath)) {
     try {
-      const raw = fs7__default.default.readFileSync(legacyPath, "utf-8");
+      const raw = fs8__default.default.readFileSync(legacyPath, "utf-8");
       if (raw && raw.trim()) {
         const parsed = JSON.parse(raw);
         existsOnDisk = true;
@@ -11063,15 +11187,15 @@ function loadProjectRegistry(cwd) {
     } catch {
     }
   }
-  const uiDir = path7__default.default.join(cwd, "components", "ui");
+  const uiDir = path8__default.default.join(cwd, "components", "ui");
   const discoveredFiles = [];
-  if (fs7__default.default.existsSync(uiDir)) {
-    const entries = fs7__default.default.readdirSync(uiDir, { withFileTypes: true });
+  if (fs8__default.default.existsSync(uiDir)) {
+    const entries = fs8__default.default.readdirSync(uiDir, { withFileTypes: true });
     for (const entry of entries) {
       if (!entry.isFile() || !entry.name.endsWith(".atom.json")) continue;
-      const specPath = path7__default.default.join(uiDir, entry.name);
+      const specPath = path8__default.default.join(uiDir, entry.name);
       try {
-        const rawSpec = JSON.parse(fs7__default.default.readFileSync(specPath, "utf-8"));
+        const rawSpec = JSON.parse(fs8__default.default.readFileSync(specPath, "utf-8"));
         const validation = validateSubmissionSpec(rawSpec);
         if (validation.valid) {
           const pascal = toPascalCase(validation.spec.id);
@@ -11160,21 +11284,23 @@ function stripDelimitedCustomStyles(cssText) {
 ${after}` : before;
 }
 function saveProjectRegistry(cwd, registry, options) {
+  const baseDocument = readExistingBaseDocument(cwd);
+  const resolvedBrand = registry.brand || baseDocument.brand;
   const normalizedRegistry = {
     $schema: registry.$schema || "https://system.atomground.com/schemas/studio-registry.schema.json",
     version: registry.version || readProjectVersion(cwd),
     updatedAt: (/* @__PURE__ */ new Date()).toISOString(),
     activeThemeId: registry.activeThemeId || "ocean-blue",
+    ...resolvedBrand ? { brand: resolvedBrand } : {},
     statusTokens: registry.statusTokens && registry.statusTokens.length > 0 ? registry.statusTokens : INITIAL_SEMANTIC_STATUS_TOKENS,
     paletteVariables: registry.paletteVariables && registry.paletteVariables.length > 0 ? registry.paletteVariables : INITIAL_PALETTE_VARIABLES,
     components: registry.components || [],
     ...registry.themes && registry.themes.length > 0 ? { themes: registry.themes } : {}
   };
-  const baseDocument = readExistingBaseDocument(cwd);
   const filesWritten = [];
-  const tokensDir = path7__default.default.join(cwd, "tokens");
-  if (!fs7__default.default.existsSync(tokensDir)) {
-    fs7__default.default.mkdirSync(tokensDir, { recursive: true });
+  const tokensDir = path8__default.default.join(cwd, "tokens");
+  if (!fs8__default.default.existsSync(tokensDir)) {
+    fs8__default.default.mkdirSync(tokensDir, { recursive: true });
   }
   const formattedTokensJson = options?.tokensJson && options.tokensJson.trim() ? options.tokensJson : exportStudioToTokensJson(
     normalizedRegistry.paletteVariables,
@@ -11183,29 +11309,35 @@ function saveProjectRegistry(cwd, registry, options) {
     {
       activeThemeId: normalizedRegistry.activeThemeId,
       themes: normalizedRegistry.themes,
+      brand: normalizedRegistry.brand,
       baseDocument,
       version: normalizedRegistry.version
     }
   );
-  const tokensJsonPath = path7__default.default.join(cwd, TOKENS_SSOT_REL_PATH);
-  fs7__default.default.writeFileSync(tokensJsonPath, formattedTokensJson, "utf-8");
+  const tokensJsonPath = path8__default.default.join(cwd, TOKENS_SSOT_REL_PATH);
+  fs8__default.default.writeFileSync(tokensJsonPath, formattedTokensJson, "utf-8");
   filesWritten.push("tokens/tokens.json");
-  const cssDir = path7__default.default.join(cwd, "css");
-  if (!fs7__default.default.existsSync(cssDir)) {
-    fs7__default.default.mkdirSync(cssDir, { recursive: true });
+  const cssDir = path8__default.default.join(cwd, "css");
+  if (!fs8__default.default.existsSync(cssDir)) {
+    fs8__default.default.mkdirSync(cssDir, { recursive: true });
   }
-  const cssPath = path7__default.default.join(cssDir, "atom-ui.css");
-  const generatedBase = options?.cssString && typeof options.cssString === "string" ? options.cssString : exportStudioToCSS(
-    normalizedRegistry.paletteVariables,
-    normalizedRegistry.components,
-    normalizedRegistry.statusTokens,
-    baseDocument.palette
-  );
+  const cssPath = path8__default.default.join(cssDir, "atom-ui.css");
+  let generatedBase;
+  try {
+    generatedBase = compileTokensToCss(JSON.parse(formattedTokensJson));
+  } catch {
+    generatedBase = options?.cssString && typeof options.cssString === "string" ? options.cssString : exportStudioToCSS(
+      normalizedRegistry.paletteVariables,
+      normalizedRegistry.components,
+      normalizedRegistry.statusTokens,
+      baseDocument.palette
+    );
+  }
   const customStylesBlock = exportStudioCustomComponentStyles(normalizedRegistry.components);
   const baseWithoutCustom = stripDelimitedCustomStyles(generatedBase).trimEnd();
   let fullCss = baseWithoutCustom;
-  if (fs7__default.default.existsSync(cssPath) && !baseWithoutCustom.includes(UNIVERSAL_MARKER)) {
-    const existingCss = fs7__default.default.readFileSync(cssPath, "utf-8");
+  if (fs8__default.default.existsSync(cssPath) && !baseWithoutCustom.includes(UNIVERSAL_MARKER)) {
+    const existingCss = fs8__default.default.readFileSync(cssPath, "utf-8");
     const splitIdx = existingCss.indexOf(UNIVERSAL_MARKER);
     if (splitIdx !== -1) {
       const preservedUniversal = stripDelimitedCustomStyles(existingCss.slice(splitIdx)).trimEnd();
@@ -11223,7 +11355,7 @@ ${customStylesBlock}
     fullCss = `${fullCss.trimEnd()}
 `;
   }
-  fs7__default.default.writeFileSync(cssPath, fullCss, "utf-8");
+  fs8__default.default.writeFileSync(cssPath, fullCss, "utf-8");
   filesWritten.push("css/atom-ui.css");
   return { filesWritten, registry: normalizedRegistry };
 }
@@ -11234,17 +11366,17 @@ function submitComponentSpec(cwd, rawSpec) {
   }
   const spec = validation.spec;
   const pascalName = toPascalCase(spec.id);
-  const uiDir = path7__default.default.join(cwd, "components", "ui");
-  if (!fs7__default.default.existsSync(uiDir)) {
-    fs7__default.default.mkdirSync(uiDir, { recursive: true });
+  const uiDir = path8__default.default.join(cwd, "components", "ui");
+  if (!fs8__default.default.existsSync(uiDir)) {
+    fs8__default.default.mkdirSync(uiDir, { recursive: true });
   }
   const filesWritten = [];
   const componentRelPath = `components/ui/${pascalName}.tsx`;
-  const componentAbsPath = path7__default.default.join(uiDir, `${pascalName}.tsx`);
-  if (!fs7__default.default.existsSync(componentAbsPath) || spec.componentCode || spec.overwriteCode) {
+  const componentAbsPath = path8__default.default.join(uiDir, `${pascalName}.tsx`);
+  if (!fs8__default.default.existsSync(componentAbsPath) || spec.componentCode || spec.overwriteCode) {
     const tsxCode = spec.componentCode ? `${spec.componentCode.trimEnd()}
 ` : generateComponentTsx(spec);
-    fs7__default.default.writeFileSync(componentAbsPath, tsxCode, "utf-8");
+    fs8__default.default.writeFileSync(componentAbsPath, tsxCode, "utf-8");
     filesWritten.push(componentRelPath);
   }
   if (ensureUiBarrelExport(uiDir, pascalName)) {
@@ -11312,22 +11444,22 @@ var NEUTRAL_HEX = /* @__PURE__ */ new Set([
 ]);
 function collectSourceFiles(rootDir) {
   const results = [];
-  const candidateRoots = ["src", "app", "components", "pages", "styles"].map((d) => path7__default.default.join(rootDir, d)).filter((d) => fs7__default.default.existsSync(d) && fs7__default.default.statSync(d).isDirectory());
+  const candidateRoots = ["src", "app", "components", "pages", "styles"].map((d) => path8__default.default.join(rootDir, d)).filter((d) => fs8__default.default.existsSync(d) && fs8__default.default.statSync(d).isDirectory());
   const scanTargets = candidateRoots.length > 0 ? candidateRoots : [rootDir];
   function walk(dir) {
     let entries;
     try {
-      entries = fs7__default.default.readdirSync(dir, { withFileTypes: true });
+      entries = fs8__default.default.readdirSync(dir, { withFileTypes: true });
     } catch {
       return;
     }
     for (const entry of entries) {
       if (IGNORE_DIRS.has(entry.name)) continue;
-      const fullPath = path7__default.default.join(dir, entry.name);
+      const fullPath = path8__default.default.join(dir, entry.name);
       if (entry.isDirectory()) {
         walk(fullPath);
-      } else if (entry.isFile() && SOURCE_EXTENSIONS.has(path7__default.default.extname(entry.name).toLowerCase())) {
-        const rel = path7__default.default.relative(rootDir, fullPath).split(path7__default.default.sep).join("/");
+      } else if (entry.isFile() && SOURCE_EXTENSIONS.has(path8__default.default.extname(entry.name).toLowerCase())) {
+        const rel = path8__default.default.relative(rootDir, fullPath).split(path8__default.default.sep).join("/");
         if (rel === "css/atom-ui.css" || rel === "tokens/tokens.json") continue;
         results.push(fullPath);
       }
@@ -11459,10 +11591,10 @@ function analyzeProject(cwd) {
   const candidates = [];
   const seenCandidateIds = /* @__PURE__ */ new Set();
   for (const absFile of files) {
-    const relFile = path7__default.default.relative(cwd, absFile).split(path7__default.default.sep).join("/");
+    const relFile = path8__default.default.relative(cwd, absFile).split(path8__default.default.sep).join("/");
     let content = "";
     try {
-      content = fs7__default.default.readFileSync(absFile, "utf-8");
+      content = fs8__default.default.readFileSync(absFile, "utf-8");
     } catch {
       continue;
     }
@@ -11490,7 +11622,7 @@ function analyzeProject(cwd) {
       radiusMap.set(r, (radiusMap.get(r) || 0) + 1);
     }
     if ((relFile.startsWith("components/") || relFile.includes("/components/")) && !relFile.includes("components/ui/") && (relFile.endsWith(".tsx") || relFile.endsWith(".jsx"))) {
-      const base = path7__default.default.basename(relFile, path7__default.default.extname(relFile));
+      const base = path8__default.default.basename(relFile, path8__default.default.extname(relFile));
       const kebab = toKebabCase(base);
       if (kebab && /^[a-z][a-z0-9-]{0,62}$/.test(kebab) && !seenCandidateIds.has(kebab)) {
         seenCandidateIds.add(kebab);
@@ -11677,20 +11809,20 @@ function sendJson(res, statusCode, data) {
 function getStudioDistDir() {
   try {
     if (typeof __dirname !== "undefined") {
-      return path7__default.default.resolve(__dirname, "studio");
+      return path8__default.default.resolve(__dirname, "studio");
     }
     const currentFile = url.fileURLToPath((typeof document === 'undefined' ? require('u' + 'rl').pathToFileURL(__filename).href : (_documentCurrentScript && _documentCurrentScript.tagName.toUpperCase() === 'SCRIPT' && _documentCurrentScript.src || new URL('cli.cjs', document.baseURI).href)));
-    return path7__default.default.resolve(path7__default.default.dirname(currentFile), "studio");
+    return path8__default.default.resolve(path8__default.default.dirname(currentFile), "studio");
   } catch {
-    return path7__default.default.resolve(process.cwd(), "dist", "studio");
+    return path8__default.default.resolve(process.cwd(), "dist", "studio");
   }
 }
 function startLocalTokenStudio(options = {}) {
   const port = options.port || 4e3;
   const cwd = options.cwd || process.cwd();
-  const tokenJsonPath = path7__default.default.join(cwd, "tokens", "tokens.json");
-  const cssPath = path7__default.default.join(cwd, "css", "atom-ui.css");
-  const registryPath = path7__default.default.join(cwd, "tokens", "tokens.json");
+  const tokenJsonPath = path8__default.default.join(cwd, "tokens", "tokens.json");
+  const cssPath = path8__default.default.join(cwd, "css", "atom-ui.css");
+  const registryPath = path8__default.default.join(cwd, "tokens", "tokens.json");
   const server = http__default.default.createServer(async (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
@@ -11796,9 +11928,9 @@ function startLocalTokenStudio(options = {}) {
     }
     if (url.pathname === "/api/tokens" && req.method === "GET") {
       let data = {};
-      if (fs7__default.default.existsSync(tokenJsonPath)) {
+      if (fs8__default.default.existsSync(tokenJsonPath)) {
         try {
-          data = JSON.parse(fs7__default.default.readFileSync(tokenJsonPath, "utf-8"));
+          data = JSON.parse(fs8__default.default.readFileSync(tokenJsonPath, "utf-8"));
         } catch {
           data = { error: "Failed to parse tokens/tokens.json" };
         }
@@ -11810,15 +11942,15 @@ function startLocalTokenStudio(options = {}) {
       try {
         const raw = await readRequestBody(req);
         const newTokens = JSON.parse(raw);
-        const tokensDir = path7__default.default.dirname(tokenJsonPath);
-        if (!fs7__default.default.existsSync(tokensDir)) fs7__default.default.mkdirSync(tokensDir, { recursive: true });
-        fs7__default.default.writeFileSync(tokenJsonPath, JSON.stringify(newTokens, null, 2), "utf-8");
+        const tokensDir = path8__default.default.dirname(tokenJsonPath);
+        if (!fs8__default.default.existsSync(tokensDir)) fs8__default.default.mkdirSync(tokensDir, { recursive: true });
+        fs8__default.default.writeFileSync(tokenJsonPath, JSON.stringify(newTokens, null, 2), "utf-8");
         const compiledCss = compileTokensToCss(newTokens);
-        const cssDir = path7__default.default.dirname(cssPath);
-        if (!fs7__default.default.existsSync(cssDir)) fs7__default.default.mkdirSync(cssDir, { recursive: true });
+        const cssDir = path8__default.default.dirname(cssPath);
+        if (!fs8__default.default.existsSync(cssDir)) fs8__default.default.mkdirSync(cssDir, { recursive: true });
         let fullCss = compiledCss;
-        if (fs7__default.default.existsSync(cssPath)) {
-          const existingCss = fs7__default.default.readFileSync(cssPath, "utf-8");
+        if (fs8__default.default.existsSync(cssPath)) {
+          const existingCss = fs8__default.default.readFileSync(cssPath, "utf-8");
           const splitIndex = existingCss.indexOf("/* === Universal Component Classes === */");
           if (splitIndex !== -1) {
             fullCss = `${compiledCss.trimEnd()}
@@ -11826,7 +11958,7 @@ function startLocalTokenStudio(options = {}) {
 ${existingCss.slice(splitIndex)}`;
           }
         }
-        fs7__default.default.writeFileSync(cssPath, fullCss, "utf-8");
+        fs8__default.default.writeFileSync(cssPath, fullCss, "utf-8");
         sendJson(res, 200, {
           success: true,
           message: "Tokens and CSS compiled successfully (universal classes preserved)!"
@@ -11839,19 +11971,19 @@ ${existingCss.slice(splitIndex)}`;
     }
     const studioDistDir = getStudioDistDir();
     if (url.pathname === "/studio.js" || url.pathname === "/studio.css") {
-      const assetPath = path7__default.default.join(studioDistDir, url.pathname.slice(1));
-      if (fs7__default.default.existsSync(assetPath)) {
+      const assetPath = path8__default.default.join(studioDistDir, url.pathname.slice(1));
+      if (fs8__default.default.existsSync(assetPath)) {
         const contentType = url.pathname.endsWith(".js") ? "application/javascript; charset=utf-8" : "text/css; charset=utf-8";
         res.writeHead(200, { "Content-Type": contentType, "Cache-Control": "no-cache" });
-        res.end(fs7__default.default.readFileSync(assetPath));
+        res.end(fs8__default.default.readFileSync(assetPath));
         return;
       }
     }
     if (req.method === "GET" && (url.pathname === "/" || url.pathname === "/index.html" || url.pathname === "/studio" || url.pathname.startsWith("/studio/"))) {
-      const indexPath = path7__default.default.join(studioDistDir, "index.html");
+      const indexPath = path8__default.default.join(studioDistDir, "index.html");
       res.writeHead(200, { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-cache" });
-      if (fs7__default.default.existsSync(indexPath)) {
-        res.end(fs7__default.default.readFileSync(indexPath, "utf-8"));
+      if (fs8__default.default.existsSync(indexPath)) {
+        res.end(fs8__default.default.readFileSync(indexPath, "utf-8"));
       } else {
         res.end(getStudioHtml());
       }
@@ -11865,9 +11997,9 @@ ${existingCss.slice(splitIndex)}`;
 \u{1F3A8} AtomSystem Local SSOT Studio running at:`);
     console.log(`   \u{1F449} http://localhost:${port}
 `);
-    console.log(`   Registry SSOT : ${path7__default.default.relative(cwd, registryPath)}`);
-    console.log(`   Tokens file   : ${path7__default.default.relative(cwd, tokenJsonPath)}`);
-    console.log(`   Compiled CSS  : ${path7__default.default.relative(cwd, cssPath)}`);
+    console.log(`   Registry SSOT : ${path8__default.default.relative(cwd, registryPath)}`);
+    console.log(`   Tokens file   : ${path8__default.default.relative(cwd, tokenJsonPath)}`);
+    console.log(`   Compiled CSS  : ${path8__default.default.relative(cwd, cssPath)}`);
     console.log(`
 Press Ctrl+C to stop the studio server.
 `);
@@ -12229,6 +12361,351 @@ function getStudioHtml() {
 </body>
 </html>`;
 }
+function openUrlInBrowser(url) {
+  const platform = process.platform;
+  const cmd = platform === "win32" ? `start "" "${url}"` : platform === "darwin" ? `open "${url}"` : `xdg-open "${url}"`;
+  child_process.exec(cmd, () => {
+  });
+}
+function resolveColorValue(doc, rawValue) {
+  if (!rawValue || typeof rawValue !== "string") return "";
+  if (!rawValue.startsWith("{") || !rawValue.endsWith("}")) return rawValue;
+  const parts = rawValue.slice(1, -1).split(".");
+  let cur = doc;
+  for (const part of parts) {
+    if (cur && typeof cur === "object" && part in cur) {
+      cur = cur[part];
+    } else {
+      return rawValue;
+    }
+  }
+  return typeof cur?.$value === "string" ? cur.$value : rawValue;
+}
+function readThemesFromTokens(tokenJsonPath) {
+  const doc = JSON.parse(fs8__default.default.readFileSync(tokenJsonPath, "utf-8"));
+  const presets = doc?.theme?.presets || {};
+  const activeThemeId = doc?.theme?.activeThemeId || Object.keys(presets)[0] || "ocean-blue";
+  const themes = Object.entries(presets).map(([id, preset]) => {
+    const t = preset?.tokens || {};
+    return {
+      id,
+      name: preset?.name || id,
+      description: preset?.description || "",
+      mode: preset?.mode === "dark" ? "dark" : "light",
+      brandColor: resolveColorValue(doc, t.primary?.$value || preset?.brandColor) || "#3182f6",
+      bgPrimary: resolveColorValue(doc, t.bgPrimary?.$value) || (preset?.mode === "dark" ? "#0f172a" : "#ffffff"),
+      textPrimary: resolveColorValue(doc, t.textPrimary?.$value) || (preset?.mode === "dark" ? "#f8fafc" : "#111111")
+    };
+  });
+  return { activeThemeId, themes };
+}
+function applyThemeById(cwd, themeId) {
+  const tokenJsonPath = path8__default.default.join(cwd, "tokens", "tokens.json");
+  const cssPath = path8__default.default.join(cwd, "css", "atom-ui.css");
+  const doc = JSON.parse(fs8__default.default.readFileSync(tokenJsonPath, "utf-8"));
+  const presets = doc?.theme?.presets || {};
+  const selectedPreset = presets[themeId];
+  if (!selectedPreset) {
+    throw new Error(`Theme "${themeId}" not found.`);
+  }
+  doc.theme = doc.theme || {};
+  doc.theme.activeThemeId = themeId;
+  doc.updatedAt = (/* @__PURE__ */ new Date()).toISOString();
+  fs8__default.default.writeFileSync(tokenJsonPath, `${JSON.stringify(doc, null, 2)}
+`, "utf-8");
+  let css = compileTokensToCss(doc);
+  const cssDir = path8__default.default.dirname(cssPath);
+  if (!fs8__default.default.existsSync(cssDir)) fs8__default.default.mkdirSync(cssDir, { recursive: true });
+  const marker = "/* === Universal Component Classes === */";
+  if (fs8__default.default.existsSync(cssPath)) {
+    const existing = fs8__default.default.readFileSync(cssPath, "utf-8");
+    const idx = existing.indexOf(marker);
+    if (idx !== -1) css = `${css.trimEnd()}
+
+${existing.slice(idx)}`;
+  }
+  fs8__default.default.writeFileSync(cssPath, css, "utf-8");
+  return { name: selectedPreset.name || themeId, mode: selectedPreset.mode || "light" };
+}
+function getFloatingInjectScript(port) {
+  return `(function(){
+  if (window.__atomFloatingThemeLoaded) return;
+  window.__atomFloatingThemeLoaded = true;
+  var BASE = 'http://localhost:${port}';
+  var wrap = document.createElement('div');
+  wrap.style.cssText = 'position:fixed;bottom:20px;right:20px;z-index:2147483647;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;';
+  var panel = document.createElement('div');
+  panel.style.cssText = 'display:none;width:280px;max-height:360px;overflow-y:auto;margin-bottom:8px;padding:10px;border-radius:12px;background:var(--bg-primary,#141821);color:var(--text-primary,#f3f4f6);border:1px solid var(--border-strong,#262c3a);box-shadow:0 16px 40px rgba(0,0,0,.35);';
+  var btn = document.createElement('button');
+  btn.type = 'button';
+  btn.textContent = '\u{1F3A8} Theme';
+  btn.style.cssText = 'padding:8px 14px;border-radius:999px;border:1px solid var(--border-strong,#262c3a);background:var(--accent-primary,#3182f6);color:#fff;font-size:12px;font-weight:600;cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,.25);';
+  btn.onclick = function(){ panel.style.display = panel.style.display === 'none' ? 'block' : 'none'; };
+  wrap.appendChild(panel);
+  wrap.appendChild(btn);
+  document.body.appendChild(wrap);
+  function applyCss(th){
+    var r = document.documentElement;
+    r.setAttribute('data-atom-theme', th.id);
+    r.style.colorScheme = th.mode;
+    if (th.brandColor) { r.style.setProperty('--accent-primary', th.brandColor); r.style.setProperty('--atom-color-primary', th.brandColor); }
+    if (th.bgPrimary) { r.style.setProperty('--bg-primary', th.bgPrimary); r.style.setProperty('--atom-bg-primary', th.bgPrimary); }
+    if (th.textPrimary) { r.style.setProperty('--text-primary', th.textPrimary); r.style.setProperty('--atom-text-primary', th.textPrimary); }
+  }
+  fetch(BASE + '/api/themes').then(function(r){ return r.json(); }).then(function(data){
+    var activeId = data.activeThemeId;
+    var themes = data.themes || [];
+    var cur = themes.find(function(t){ return t.id === activeId; });
+    if (cur) btn.textContent = '\u{1F3A8} ' + cur.name;
+    panel.innerHTML = '';
+    themes.forEach(function(th){
+      var item = document.createElement('button');
+      item.type = 'button';
+      item.style.cssText = 'width:100%;display:flex;align-items:center;justify-content:space-between;padding:7px 9px;margin:2px 0;border-radius:8px;border:1px solid transparent;background:' + (th.id===activeId?'rgba(59,130,246,.15)':'transparent') + ';color:inherit;font-size:12px;cursor:pointer;text-align:left;';
+      item.innerHTML = '<span>' + th.name + '</span><span style="opacity:.7;font-size:11px">' + (th.id===activeId?'\u2713':th.mode) + '</span>';
+      item.onclick = function(){
+        applyCss(th);
+        btn.textContent = '\u{1F3A8} ' + th.name;
+        fetch(BASE + '/api/theme', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ themeId: th.id }) });
+      };
+      panel.appendChild(item);
+    });
+  });
+})();`;
+}
+function getFloatingWidgetHtml() {
+  return `<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AtomSystem Floating Theme Menu</title>
+  <style>
+    :root { color-scheme: light dark; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #0b0d12;
+      color: #f3f4f6;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .floating-panel {
+      width: 100%;
+      max-width: 420px;
+      background: #141821;
+      border: 1px solid #262c3a;
+      border-radius: 16px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+      overflow: hidden;
+    }
+    .panel-header {
+      padding: 16px 18px;
+      border-bottom: 1px solid #262c3a;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .panel-title { font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+    .panel-sub { font-size: 11px; color: #9ca3af; margin-top: 2px; }
+    .badge {
+      font-size: 11px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(49, 130, 246, 0.16);
+      color: #60a5fa;
+      border: 1px solid rgba(49, 130, 246, 0.35);
+    }
+    .theme-list {
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 460px;
+      overflow-y: auto;
+    }
+    .theme-item {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 11px 12px;
+      border-radius: 10px;
+      border: 1px solid #262c3a;
+      background: #1a202c;
+      color: inherit;
+      cursor: pointer;
+      text-align: left;
+      transition: border-color 0.15s, background 0.15s, transform 0.1s;
+    }
+    .theme-item:hover { border-color: #4b5563; background: #202736; }
+    .theme-item.active { border-color: #3b82f6; background: rgba(59, 130, 246, 0.14); }
+    .theme-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
+    .swatch {
+      width: 24px;
+      height: 24px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.2);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .swatch-dot { width: 10px; height: 10px; border-radius: 999px; }
+    .theme-name { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .theme-desc { font-size: 11px; color: #9ca3af; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 240px; }
+    .theme-meta { font-size: 11px; color: #9ca3af; font-family: ui-monospace, monospace; flex-shrink: 0; }
+    .panel-footer {
+      padding: 10px 16px;
+      border-top: 1px solid #262c3a;
+      font-size: 11px;
+      color: #9ca3af;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .status-ok { color: #34d399; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <div class="floating-panel">
+    <div class="panel-header">
+      <div>
+        <div class="panel-title">\u{1F3A8} AtomSystem Theme Picker</div>
+        <div class="panel-sub">\uC120\uD0DD \uC989\uC2DC tokens/tokens.json &amp; css/atom-ui.css \uC804\uCCB4 \uBC18\uC601</div>
+      </div>
+      <span class="badge" id="active-badge">loading...</span>
+    </div>
+    <div class="theme-list" id="theme-list"></div>
+    <div class="panel-footer">
+      <span id="status-text">\uD504\uB85C\uC81D\uD2B8\uC640 \uBB34\uAD00\uD558\uAC8C \uB3C5\uB9BD \uC2E4\uD589 \uC911</span>
+      <span>Ctrl+C \uB85C \uC885\uB8CC</span>
+    </div>
+  </div>
+  <script>
+    async function loadThemes() {
+      const res = await fetch('/api/themes');
+      const data = await res.json();
+      render(data.themes, data.activeThemeId);
+    }
+    function render(themes, activeId) {
+      document.getElementById('active-badge').textContent = activeId;
+      const list = document.getElementById('theme-list');
+      list.innerHTML = '';
+      for (const th of themes) {
+        const btn = document.createElement('button');
+        btn.className = 'theme-item' + (th.id === activeId ? ' active' : '');
+        btn.innerHTML =
+          '<div class="theme-left">' +
+            '<div class="swatch" style="background:' + th.bgPrimary + '">' +
+              '<div class="swatch-dot" style="background:' + th.brandColor + '"></div>' +
+            '</div>' +
+            '<div>' +
+              '<div class="theme-name">' + th.name + '</div>' +
+              '<div class="theme-desc">' + (th.description || th.id) + '</div>' +
+            '</div>' +
+          '</div>' +
+          '<span class="theme-meta">' + (th.id === activeId ? '\u2713 Active' : th.mode) + '</span>';
+        btn.onclick = async () => {
+          const status = document.getElementById('status-text');
+          status.textContent = '\uC801\uC6A9 \uC911...';
+          status.className = '';
+          const r = await fetch('/api/theme', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ themeId: th.id }),
+          });
+          const out = await r.json();
+          if (out.success) {
+            status.textContent = '\u2713 ' + th.name + ' \uC801\uC6A9 \uC644\uB8CC (css/atom-ui.css \uC7AC\uCEF4\uD30C\uC77C\uB428)';
+            status.className = 'status-ok';
+            render(themes, th.id);
+          } else {
+            status.textContent = '\uC624\uB958: ' + (out.error || 'failed');
+          }
+        };
+        list.appendChild(btn);
+      }
+    }
+    loadThemes();
+  </script>
+</body>
+</html>`;
+}
+function startFloatingThemeServer(options = {}) {
+  const port = options.port ?? 4010;
+  const cwd = options.cwd ?? process.cwd();
+  const tokenJsonPath = path8__default.default.join(cwd, "tokens", "tokens.json");
+  const server = http__default.default.createServer((req, res) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+    if (req.method === "OPTIONS") {
+      res.writeHead(204);
+      res.end();
+      return;
+    }
+    const url = new URL(req.url || "/", `http://localhost:${port}`);
+    if (req.method === "GET" && url.pathname === "/floating.js") {
+      res.writeHead(200, { "Content-Type": "application/javascript; charset=utf-8", "Cache-Control": "no-cache" });
+      res.end(getFloatingInjectScript(port));
+      return;
+    }
+    if (req.method === "GET" && url.pathname === "/api/themes") {
+      try {
+        const data = readThemesFromTokens(tokenJsonPath);
+        res.writeHead(200, { "Content-Type": "application/json; charset=utf-8" });
+        res.end(JSON.stringify(data));
+      } catch (err) {
+        res.writeHead(500, { "Content-Type": "application/json; charset=utf-8" });
+        res.end(JSON.stringify({ error: err.message }));
+      }
+      return;
+    }
+    if (req.method === "POST" && url.pathname === "/api/theme") {
+      let body = "";
+      req.on("data", (chunk) => {
+        body += chunk;
+      });
+      req.on("end", () => {
+        try {
+          const parsed = JSON.parse(body || "{}");
+          const result = applyThemeById(cwd, parsed.themeId);
+          res.writeHead(200, { "Content-Type": "application/json; charset=utf-8" });
+          res.end(JSON.stringify({ success: true, ...result }));
+        } catch (err) {
+          res.writeHead(400, { "Content-Type": "application/json; charset=utf-8" });
+          res.end(JSON.stringify({ success: false, error: err.message }));
+        }
+      });
+      return;
+    }
+    res.writeHead(200, { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-cache" });
+    res.end(getFloatingWidgetHtml());
+  });
+  server.listen(port, () => {
+    const url = `http://localhost:${port}`;
+    console.log(`
+\u{1F3A8} AtomSystem Floating Theme Menu running at:`);
+    console.log(`   \u{1F449} ${url}
+`);
+    console.log(`   Tokens file : ${path8__default.default.relative(cwd, tokenJsonPath)}`);
+    console.log(`   Target CSS  : css/atom-ui.css`);
+    console.log(`
+Press Ctrl+C to stop the floating theme menu.
+`);
+    if (options.openBrowser !== false) {
+      openUrlInBrowser(url);
+    }
+  });
+  return server;
+}
 var TOKEN_REPLACEMENTS = [
   // A. Arbitrary Hex Colors in styles/classes
   {
@@ -12264,6 +12741,52 @@ var TOKEN_REPLACEMENTS = [
   {
     pattern: /#f9f9fb\b/gi,
     replacement: "var(--bg-secondary)",
+    type: "color"
+  },
+  // A2. Direct Palette CSS Variable References -> Semantic Role Tokens
+  {
+    pattern: /var\(--atom-palette-white\)/g,
+    replacement: "var(--bg-primary)",
+    type: "color"
+  },
+  {
+    pattern: /var\(--atom-palette-gray-(?:50|100)\)/g,
+    replacement: "var(--bg-secondary)",
+    type: "color"
+  },
+  {
+    pattern: /var\(--atom-palette-gray-200\)/g,
+    replacement: "var(--border-subtle)",
+    type: "color"
+  },
+  {
+    pattern: /var\(--atom-palette-gray-300\)/g,
+    replacement: "var(--border-strong)",
+    type: "color"
+  },
+  {
+    pattern: /var\(--atom-palette-gray-900\)/g,
+    replacement: "var(--text-primary)",
+    type: "color"
+  },
+  {
+    pattern: /var\(--atom-palette-gray-[67]00\)/g,
+    replacement: "var(--text-secondary)",
+    type: "color"
+  },
+  {
+    pattern: /var\(--atom-palette-gray-[45]00\)/g,
+    replacement: "var(--text-muted)",
+    type: "color"
+  },
+  {
+    pattern: /var\(--atom-palette-blue-500\)/g,
+    replacement: "var(--accent-primary)",
+    type: "color"
+  },
+  {
+    pattern: /var\(--atom-palette-blue-600\)/g,
+    replacement: "var(--accent-primary-hover)",
     type: "color"
   },
   // B. Tailwind Standard Colors to Semantic Tokens
@@ -12407,7 +12930,13 @@ var IGNORE_FILES = /* @__PURE__ */ new Set([
   "tokens.json",
   "tokens.ts",
   "awesomeThemes.ts",
-  "refactorEngine.ts"
+  "refactorEngine.ts",
+  "studioData.ts",
+  "paletteData.ts",
+  "themeData.ts",
+  "ThemeTokens.ts",
+  "StudioThemeManager.tsx",
+  "PaletteScaleGeneratorModal.tsx"
 ]);
 function scanAndRefactorDirectory(rootDir, options = {}) {
   const report = {
@@ -12417,21 +12946,21 @@ function scanAndRefactorDirectory(rootDir, options = {}) {
     matches: []
   };
   function walk(currentPath) {
-    const stats = fs7__default.default.statSync(currentPath);
+    const stats = fs8__default.default.statSync(currentPath);
     if (stats.isDirectory()) {
-      const dirName = path7__default.default.basename(currentPath);
+      const dirName = path8__default.default.basename(currentPath);
       if (IGNORE_DIRS2.has(dirName)) return;
-      const entries = fs7__default.default.readdirSync(currentPath);
+      const entries = fs8__default.default.readdirSync(currentPath);
       for (const entry of entries) {
-        walk(path7__default.default.join(currentPath, entry));
+        walk(path8__default.default.join(currentPath, entry));
       }
     } else if (stats.isFile()) {
-      const fileName = path7__default.default.basename(currentPath);
+      const fileName = path8__default.default.basename(currentPath);
       if (IGNORE_FILES.has(fileName)) return;
-      const ext = path7__default.default.extname(currentPath);
+      const ext = path8__default.default.extname(currentPath);
       if (!SCAN_EXTENSIONS.has(ext)) return;
       report.scannedFiles++;
-      const content = fs7__default.default.readFileSync(currentPath, "utf-8");
+      const content = fs8__default.default.readFileSync(currentPath, "utf-8");
       let modifiedContent = content;
       let hasFileChanges = false;
       const lines = content.split("\n");
@@ -12444,7 +12973,7 @@ function scanAndRefactorDirectory(rootDir, options = {}) {
               matchResult.forEach((matchedStr) => {
                 const replacementStr = typeof rule.replacement === "function" ? rule.replacement(matchedStr) : rule.replacement;
                 report.matches.push({
-                  file: path7__default.default.relative(process.cwd(), currentPath),
+                  file: path8__default.default.relative(process.cwd(), currentPath),
                   line: lineIndex + 1,
                   original: matchedStr,
                   replacement: replacementStr,
@@ -12462,7 +12991,7 @@ function scanAndRefactorDirectory(rootDir, options = {}) {
         }
       });
       if (options.fix && hasFileChanges && modifiedContent !== content) {
-        fs7__default.default.writeFileSync(currentPath, modifiedContent, "utf-8");
+        fs8__default.default.writeFileSync(currentPath, modifiedContent, "utf-8");
         report.fixedFiles++;
       }
     }
@@ -12483,29 +13012,29 @@ var GLOBAL_CSS_CANDIDATES = [
   "app/layout.css"
 ];
 function toPosixRelativeImport(fromFile, targetFile) {
-  const rel = path7__default.default.relative(path7__default.default.dirname(fromFile), targetFile).split(path7__default.default.sep).join("/");
+  const rel = path8__default.default.relative(path8__default.default.dirname(fromFile), targetFile).split(path8__default.default.sep).join("/");
   return rel.startsWith(".") ? rel : `./${rel}`;
 }
 function ensureLocalCssLinked(cwd) {
-  const localAtomCss = path7__default.default.join(cwd, "css", "atom-ui.css");
+  const localAtomCss = path8__default.default.join(cwd, "css", "atom-ui.css");
   const updatedFiles = [];
   const alreadyLinkedFiles = [];
   const foundCssFiles = [];
-  if (!fs7__default.default.existsSync(localAtomCss)) {
+  if (!fs8__default.default.existsSync(localAtomCss)) {
     return { updatedFiles, alreadyLinkedFiles, foundCssFiles };
   }
   for (const relCandidate of GLOBAL_CSS_CANDIDATES) {
-    const absCssFile = path7__default.default.join(cwd, relCandidate);
-    if (!fs7__default.default.existsSync(absCssFile)) continue;
+    const absCssFile = path8__default.default.join(cwd, relCandidate);
+    if (!fs8__default.default.existsSync(absCssFile)) continue;
     foundCssFiles.push(relCandidate);
-    const content = fs7__default.default.readFileSync(absCssFile, "utf-8");
+    const content = fs8__default.default.readFileSync(absCssFile, "utf-8");
     const relImportPath = toPosixRelativeImport(absCssFile, localAtomCss);
     const importStatement = `@import "${relImportPath}";`;
     const pkgImportRegex = /(@import\s+['"])atomsystem\/css\/atom-ui\.css(['"]\s*;?)/g;
     if (pkgImportRegex.test(content)) {
       const nextContent2 = content.replace(pkgImportRegex, `$1${relImportPath}$2`);
       if (nextContent2 !== content) {
-        fs7__default.default.writeFileSync(absCssFile, nextContent2, "utf-8");
+        fs8__default.default.writeFileSync(absCssFile, nextContent2, "utf-8");
         updatedFiles.push(relCandidate);
         continue;
       }
@@ -12534,7 +13063,7 @@ ${content.slice(insertPos)}`;
 ${content}`;
       }
     }
-    fs7__default.default.writeFileSync(absCssFile, nextContent, "utf-8");
+    fs8__default.default.writeFileSync(absCssFile, nextContent, "utf-8");
     updatedFiles.push(relCandidate);
   }
   return { updatedFiles, alreadyLinkedFiles, foundCssFiles };
@@ -12544,10 +13073,10 @@ ${content}`;
 function getPkgRoot() {
   try {
     if (typeof __dirname !== "undefined") {
-      return path7__default.default.resolve(__dirname, "..");
+      return path8__default.default.resolve(__dirname, "..");
     }
     const currentFile = url.fileURLToPath((typeof document === 'undefined' ? require('u' + 'rl').pathToFileURL(__filename).href : (_documentCurrentScript && _documentCurrentScript.tagName.toUpperCase() === 'SCRIPT' && _documentCurrentScript.src || new URL('cli.cjs', document.baseURI).href)));
-    return path7__default.default.resolve(path7__default.default.dirname(currentFile), "..");
+    return path8__default.default.resolve(path8__default.default.dirname(currentFile), "..");
   } catch {
     return process.cwd();
   }
@@ -12557,48 +13086,48 @@ var args = process.argv.slice(2);
 var command = args[0] || "help";
 var targetName = args[1];
 function copyFileSafe(src, dest, label) {
-  const targetDir = path7__default.default.dirname(dest);
-  if (!fs7__default.default.existsSync(targetDir)) {
-    fs7__default.default.mkdirSync(targetDir, { recursive: true });
+  const targetDir = path8__default.default.dirname(dest);
+  if (!fs8__default.default.existsSync(targetDir)) {
+    fs8__default.default.mkdirSync(targetDir, { recursive: true });
   }
-  fs7__default.default.copyFileSync(src, dest);
-  console.log(`  \u2713 ${label} -> ${path7__default.default.relative(process.cwd(), dest)}`);
+  fs8__default.default.copyFileSync(src, dest);
+  console.log(`  \u2713 ${label} -> ${path8__default.default.relative(process.cwd(), dest)}`);
 }
 function handleInit() {
   const cwd = process.cwd();
   console.log("\n\u{1F680} Initializing AtomSystem Universal Design System...\n");
-  const srcAgentGuide = path7__default.default.join(PKG_ROOT, "presets", "agents.guide.md");
-  if (fs7__default.default.existsSync(srcAgentGuide)) {
-    copyFileSafe(srcAgentGuide, path7__default.default.join(cwd, "AGENTS.md"), "Universal AI Guide (AGENTS.md)");
-    copyFileSafe(srcAgentGuide, path7__default.default.join(cwd, "CLAUDE.md"), "Claude Code Guidelines (CLAUDE.md)");
-    copyFileSafe(srcAgentGuide, path7__default.default.join(cwd, ".cursorrules"), "Cursor Rules (.cursorrules)");
+  const srcAgentGuide = path8__default.default.join(PKG_ROOT, "presets", "agents.guide.md");
+  if (fs8__default.default.existsSync(srcAgentGuide)) {
+    copyFileSafe(srcAgentGuide, path8__default.default.join(cwd, "AGENTS.md"), "Universal AI Guide (AGENTS.md)");
+    copyFileSafe(srcAgentGuide, path8__default.default.join(cwd, "CLAUDE.md"), "Claude Code Guidelines (CLAUDE.md)");
+    copyFileSafe(srcAgentGuide, path8__default.default.join(cwd, ".cursorrules"), "Cursor Rules (.cursorrules)");
   }
-  const srcSkill = path7__default.default.join(PKG_ROOT, "skills", "atomsystem.skill.md");
-  if (fs7__default.default.existsSync(srcSkill)) {
-    copyFileSafe(srcSkill, path7__default.default.join(cwd, ".agents", "skills", "atomsystem", "SKILL.md"), "Agent Skill (.agents/skills/atomsystem/SKILL.md)");
+  const srcSkill = path8__default.default.join(PKG_ROOT, "skills", "atomsystem.skill.md");
+  if (fs8__default.default.existsSync(srcSkill)) {
+    copyFileSafe(srcSkill, path8__default.default.join(cwd, ".agents", "skills", "atomsystem", "SKILL.md"), "Agent Skill (.agents/skills/atomsystem/SKILL.md)");
   }
   const specs = [
-    { src: path7__default.default.join(PKG_ROOT, "presets", "default.design.md"), dest: path7__default.default.join(cwd, "atom.design.md"), label: "Design Tokens (atom.design.md)" },
-    { src: path7__default.default.join(PKG_ROOT, "presets", "components.md"), dest: path7__default.default.join(cwd, "atom.components.md"), label: "Components Spec (atom.components.md)" },
-    { src: path7__default.default.join(PKG_ROOT, "presets", "blocks.md"), dest: path7__default.default.join(cwd, "atom.blocks.md"), label: "Design Blocks Spec (atom.blocks.md)" },
-    { src: path7__default.default.join(PKG_ROOT, "presets", "uxPattern.md"), dest: path7__default.default.join(cwd, "atom.uxPattern.md"), label: "UX Patterns (atom.uxPattern.md)" }
+    { src: path8__default.default.join(PKG_ROOT, "presets", "default.design.md"), dest: path8__default.default.join(cwd, "atom.design.md"), label: "Design Tokens (atom.design.md)" },
+    { src: path8__default.default.join(PKG_ROOT, "presets", "components.md"), dest: path8__default.default.join(cwd, "atom.components.md"), label: "Components Spec (atom.components.md)" },
+    { src: path8__default.default.join(PKG_ROOT, "presets", "blocks.md"), dest: path8__default.default.join(cwd, "atom.blocks.md"), label: "Design Blocks Spec (atom.blocks.md)" },
+    { src: path8__default.default.join(PKG_ROOT, "presets", "uxPattern.md"), dest: path8__default.default.join(cwd, "atom.uxPattern.md"), label: "UX Patterns (atom.uxPattern.md)" }
   ];
   specs.forEach((s) => {
-    if (fs7__default.default.existsSync(s.src)) {
+    if (fs8__default.default.existsSync(s.src)) {
       copyFileSafe(s.src, s.dest, s.label);
     }
   });
-  const srcToken = path7__default.default.join(PKG_ROOT, "tokens", "tokens.json");
-  if (fs7__default.default.existsSync(srcToken)) {
-    copyFileSafe(srcToken, path7__default.default.join(cwd, "tokens", "tokens.json"), "Unified Token SSOT (tokens/tokens.json)");
+  const srcToken = path8__default.default.join(PKG_ROOT, "tokens", "tokens.json");
+  if (fs8__default.default.existsSync(srcToken)) {
+    copyFileSafe(srcToken, path8__default.default.join(cwd, "tokens", "tokens.json"), "Unified Token SSOT (tokens/tokens.json)");
   } else {
     const { registry } = loadProjectRegistry(cwd);
     saveProjectRegistry(cwd, registry);
     console.log("  \u2713 Unified Token SSOT -> tokens/tokens.json");
   }
-  const srcCss = path7__default.default.join(PKG_ROOT, "css", "atom-ui.css");
-  if (fs7__default.default.existsSync(srcCss)) {
-    copyFileSafe(srcCss, path7__default.default.join(cwd, "css", "atom-ui.css"), "Zero-Runtime Semantic CSS (css/atom-ui.css)");
+  const srcCss = path8__default.default.join(PKG_ROOT, "css", "atom-ui.css");
+  if (fs8__default.default.existsSync(srcCss)) {
+    copyFileSafe(srcCss, path8__default.default.join(cwd, "css", "atom-ui.css"), "Zero-Runtime Semantic CSS (css/atom-ui.css)");
   }
   const linkResult = ensureLocalCssLinked(cwd);
   if (linkResult.updatedFiles.length > 0) {
@@ -12678,9 +13207,9 @@ function handleAdd(name) {
   const normalized = name.toLowerCase().trim();
   if (COMPONENT_MAP[normalized]) {
     const fileName = COMPONENT_MAP[normalized];
-    const src = path7__default.default.join(PKG_ROOT, "components", "ui", fileName);
-    const dest = path7__default.default.join(cwd, "components", "ui", fileName);
-    if (fs7__default.default.existsSync(src)) {
+    const src = path8__default.default.join(PKG_ROOT, "components", "ui", fileName);
+    const dest = path8__default.default.join(cwd, "components", "ui", fileName);
+    if (fs8__default.default.existsSync(src)) {
       copyFileSafe(src, dest, `Component (${fileName})`);
       console.log(`
 \u2705 Added ${normalized} component to components/ui/${fileName}
@@ -12700,16 +13229,16 @@ function handleAdd(name) {
     deps.forEach((dep) => {
       const depFile = COMPONENT_MAP[dep];
       if (depFile) {
-        const srcDep = path7__default.default.join(PKG_ROOT, "components", "ui", depFile);
-        const destDep = path7__default.default.join(cwd, "components", "ui", depFile);
-        if (fs7__default.default.existsSync(srcDep)) {
+        const srcDep = path8__default.default.join(PKG_ROOT, "components", "ui", depFile);
+        const destDep = path8__default.default.join(cwd, "components", "ui", depFile);
+        if (fs8__default.default.existsSync(srcDep)) {
           copyFileSafe(srcDep, destDep, `Dependent Component (${depFile})`);
         }
       }
     });
-    const srcBlock = path7__default.default.join(PKG_ROOT, "components", "blocks", file);
-    const destBlock = path7__default.default.join(cwd, "components", "blocks", file);
-    if (fs7__default.default.existsSync(srcBlock)) {
+    const srcBlock = path8__default.default.join(PKG_ROOT, "components", "blocks", file);
+    const destBlock = path8__default.default.join(cwd, "components", "blocks", file);
+    if (fs8__default.default.existsSync(srcBlock)) {
       copyFileSafe(srcBlock, destBlock, `Block (${file})`);
       console.log(`
 \u2705 Block "${normalized}" successfully added to components/blocks/${file}
@@ -12752,30 +13281,30 @@ Install any item:
 }
 function handleBuildTokens() {
   const cwd = process.cwd();
-  const tokenJsonPath = path7__default.default.join(cwd, "tokens", "tokens.json");
-  const cssPath = path7__default.default.join(cwd, "css", "atom-ui.css");
-  if (!fs7__default.default.existsSync(tokenJsonPath)) {
+  const tokenJsonPath = path8__default.default.join(cwd, "tokens", "tokens.json");
+  const cssPath = path8__default.default.join(cwd, "css", "atom-ui.css");
+  if (!fs8__default.default.existsSync(tokenJsonPath)) {
     console.error(`
 \u274C tokens/tokens.json not found at ${tokenJsonPath}. Run 'npx atomsystem init' first.
 `);
     return;
   }
   try {
-    const tokens = JSON.parse(fs7__default.default.readFileSync(tokenJsonPath, "utf-8"));
+    const tokens = JSON.parse(fs8__default.default.readFileSync(tokenJsonPath, "utf-8"));
     let css = compileTokensToCss(tokens);
-    const cssDir = path7__default.default.dirname(cssPath);
-    if (!fs7__default.default.existsSync(cssDir)) fs7__default.default.mkdirSync(cssDir, { recursive: true });
+    const cssDir = path8__default.default.dirname(cssPath);
+    if (!fs8__default.default.existsSync(cssDir)) fs8__default.default.mkdirSync(cssDir, { recursive: true });
     const marker = "/* === Universal Component Classes === */";
-    if (fs7__default.default.existsSync(cssPath)) {
-      const existing = fs7__default.default.readFileSync(cssPath, "utf-8");
+    if (fs8__default.default.existsSync(cssPath)) {
+      const existing = fs8__default.default.readFileSync(cssPath, "utf-8");
       const idx = existing.indexOf(marker);
       if (idx !== -1) css = `${css.trimEnd()}
 
 ${existing.slice(idx)}`;
     }
-    fs7__default.default.writeFileSync(cssPath, css, "utf-8");
+    fs8__default.default.writeFileSync(cssPath, css, "utf-8");
     console.log(`
-\u2728 Successfully compiled tokens to ${path7__default.default.relative(cwd, cssPath)}!
+\u2728 Successfully compiled tokens to ${path8__default.default.relative(cwd, cssPath)}!
 `);
   } catch (err) {
     console.error(`
@@ -12788,18 +13317,107 @@ function handleStudio() {
   const port = portArg ? parseInt(portArg.split("=")[1], 10) : 4e3;
   startLocalTokenStudio({ port, cwd: process.cwd() });
 }
+async function handleTheme(targetArg) {
+  const cwd = process.cwd();
+  const tokenJsonPath = path8__default.default.join(cwd, "tokens", "tokens.json");
+  const cssPath = path8__default.default.join(cwd, "css", "atom-ui.css");
+  if (!fs8__default.default.existsSync(tokenJsonPath)) {
+    console.error(`
+\u274C tokens/tokens.json not found at ${tokenJsonPath}. Run 'npx atomsystem init' first.
+`);
+    return;
+  }
+  let doc;
+  try {
+    doc = JSON.parse(fs8__default.default.readFileSync(tokenJsonPath, "utf-8"));
+  } catch (err) {
+    console.error(`
+\u274C Failed to parse tokens/tokens.json: ${err.message}
+`);
+    return;
+  }
+  const presets = doc?.theme?.presets || {};
+  const presetEntries = Object.entries(presets);
+  if (presetEntries.length === 0) {
+    console.error("\n\u274C No theme presets found in tokens/tokens.json (theme.presets).\n");
+    return;
+  }
+  const activeThemeId = doc?.theme?.activeThemeId || presetEntries[0][0];
+  if (args.includes("--list")) {
+    console.log("\n\u{1F3A8} Available AtomSystem Themes:\n");
+    for (const [id, preset] of presetEntries) {
+      const marker = id === activeThemeId ? "\u2605 [Active]" : "  ";
+      console.log(`  ${marker} ${id.padEnd(20)} (${preset.mode || "light"}) - ${preset.name || id}`);
+    }
+    console.log("");
+    return;
+  }
+  const setFlag = args.find((a) => a.startsWith("--set="));
+  const directId = setFlag ? setFlag.slice("--set=".length).trim() : targetArg && !targetArg.startsWith("-") ? targetArg.trim() : "";
+  if (directId) {
+    try {
+      const applied = applyThemeById(cwd, directId);
+      console.log(`
+\u{1F3A8} Theme applied: ${applied.name} (${directId}, ${applied.mode})`);
+      console.log(`   \u2713 Updated ${path8__default.default.relative(cwd, tokenJsonPath)}`);
+      console.log(`   \u2713 Recompiled ${path8__default.default.relative(cwd, cssPath)}
+`);
+    } catch (err) {
+      console.error(`
+\u274C ${err.message}
+`);
+    }
+    return;
+  }
+  if (!args.includes("--cli")) {
+    const portArg = args.find((a) => a.startsWith("--port="));
+    const port = portArg ? parseInt(portArg.split("=")[1], 10) : 4010;
+    startFloatingThemeServer({ port, cwd, openBrowser: !args.includes("--no-open") });
+    return;
+  }
+  const choices = presetEntries.map(([id, preset]) => {
+    const isCurrent = id === activeThemeId;
+    const modeTag = preset.mode === "dark" ? "\u{1F319} dark" : "\u2600\uFE0F light";
+    const activeTag = isCurrent ? " [Active]" : "";
+    return {
+      name: `${preset.name || id} (${id}) \xB7 ${modeTag}${activeTag}`,
+      value: id
+    };
+  });
+  const answer = await inquirer__default.default.prompt([
+    {
+      type: "list",
+      name: "themeId",
+      message: "\uD504\uB85C\uC81D\uD2B8 \uC804\uCCB4\uC5D0 \uC801\uC6A9\uD560 \uD14C\uB9C8\uB97C \uC120\uD0DD\uD558\uC138\uC694 (Select a theme):",
+      default: activeThemeId,
+      choices
+    }
+  ]);
+  try {
+    const applied = applyThemeById(cwd, answer.themeId);
+    console.log(`
+\u{1F3A8} Theme applied: ${applied.name} (${answer.themeId}, ${applied.mode})`);
+    console.log(`   \u2713 Updated ${path8__default.default.relative(cwd, tokenJsonPath)}`);
+    console.log(`   \u2713 Recompiled ${path8__default.default.relative(cwd, cssPath)}
+`);
+  } catch (err) {
+    console.error(`
+\u274C ${err.message}
+`);
+  }
+}
 function handleSkillInstall() {
   const cwd = process.cwd();
   console.log("\n\u{1F916} Installing AtomSystem Agent Skill & Universal Guidelines...\n");
-  const srcAgentGuide = path7__default.default.join(PKG_ROOT, "presets", "agents.guide.md");
-  if (fs7__default.default.existsSync(srcAgentGuide)) {
-    copyFileSafe(srcAgentGuide, path7__default.default.join(cwd, "AGENTS.md"), "Universal AI Guide (AGENTS.md)");
-    copyFileSafe(srcAgentGuide, path7__default.default.join(cwd, "CLAUDE.md"), "Claude Code Guidelines (CLAUDE.md)");
-    copyFileSafe(srcAgentGuide, path7__default.default.join(cwd, ".cursorrules"), "Cursor Rules (.cursorrules)");
+  const srcAgentGuide = path8__default.default.join(PKG_ROOT, "presets", "agents.guide.md");
+  if (fs8__default.default.existsSync(srcAgentGuide)) {
+    copyFileSafe(srcAgentGuide, path8__default.default.join(cwd, "AGENTS.md"), "Universal AI Guide (AGENTS.md)");
+    copyFileSafe(srcAgentGuide, path8__default.default.join(cwd, "CLAUDE.md"), "Claude Code Guidelines (CLAUDE.md)");
+    copyFileSafe(srcAgentGuide, path8__default.default.join(cwd, ".cursorrules"), "Cursor Rules (.cursorrules)");
   }
-  const srcSkill = path7__default.default.join(PKG_ROOT, "skills", "atomsystem.skill.md");
-  if (fs7__default.default.existsSync(srcSkill)) {
-    copyFileSafe(srcSkill, path7__default.default.join(cwd, ".agents", "skills", "atomsystem", "SKILL.md"), "Agent Skill (.agents/skills/atomsystem/SKILL.md)");
+  const srcSkill = path8__default.default.join(PKG_ROOT, "skills", "atomsystem.skill.md");
+  if (fs8__default.default.existsSync(srcSkill)) {
+    copyFileSafe(srcSkill, path8__default.default.join(cwd, ".agents", "skills", "atomsystem", "SKILL.md"), "Agent Skill (.agents/skills/atomsystem/SKILL.md)");
   }
   console.log("\n\u2728 Agent Skill installed successfully!");
   console.log("\u{1F4CC} Supported AI Assistants:");
@@ -12821,8 +13439,8 @@ function handleRefactor() {
   let grandMatches = 0;
   let grandFixed = 0;
   scanDirs.forEach((dirName) => {
-    const fullDir = path7__default.default.resolve(cwd, dirName);
-    if (!fs7__default.default.existsSync(fullDir)) return;
+    const fullDir = path8__default.default.resolve(cwd, dirName);
+    if (!fs8__default.default.existsSync(fullDir)) return;
     const report = scanAndRefactorDirectory(fullDir, { fix: shouldFix });
     grandScanned += report.scannedFiles;
     grandMatches += report.totalMatches;
@@ -12863,8 +13481,8 @@ function handleSubmit(filePathArg) {
     return;
   }
   const cwd = process.cwd();
-  const absPath = path7__default.default.resolve(cwd, filePathArg);
-  if (!fs7__default.default.existsSync(absPath)) {
+  const absPath = path8__default.default.resolve(cwd, filePathArg);
+  if (!fs8__default.default.existsSync(absPath)) {
     console.error(`
 \u274C Spec file not found: ${absPath}
 `);
@@ -12872,7 +13490,7 @@ function handleSubmit(filePathArg) {
     return;
   }
   try {
-    const raw = JSON.parse(fs7__default.default.readFileSync(absPath, "utf-8"));
+    const raw = JSON.parse(fs8__default.default.readFileSync(absPath, "utf-8"));
     const spec = raw?.spec && typeof raw.spec === "object" ? raw.spec : raw;
     const result = submitComponentSpec(cwd, spec);
     if (!result.success) {
@@ -12942,12 +13560,12 @@ Options for studio:
 `);
 }
 function showVersion() {
-  const pkgPath = path7__default.default.join(PKG_ROOT, "package.json");
-  if (fs7__default.default.existsSync(pkgPath)) {
-    const pkg = JSON.parse(fs7__default.default.readFileSync(pkgPath, "utf-8"));
+  const pkgPath = path8__default.default.join(PKG_ROOT, "package.json");
+  if (fs8__default.default.existsSync(pkgPath)) {
+    const pkg = JSON.parse(fs8__default.default.readFileSync(pkgPath, "utf-8"));
     console.log(`atomsystem v${pkg.version}`);
   } else {
-    console.log("atomsystem v0.15.0");
+    console.log("atomsystem v0.15.1");
   }
 }
 function handleAnalyze() {
@@ -13009,21 +13627,21 @@ function handlePostinstall() {
   try {
     const targetCwd = process.env.INIT_CWD;
     if (!targetCwd) return;
-    if (path7__default.default.resolve(targetCwd) === path7__default.default.resolve(PKG_ROOT)) return;
-    if (!fs7__default.default.existsSync(path7__default.default.join(targetCwd, "package.json"))) return;
-    const targetTokenPath = path7__default.default.join(targetCwd, "tokens", "tokens.json");
-    const targetCssPath = path7__default.default.join(targetCwd, "css", "atom-ui.css");
-    const srcToken = path7__default.default.join(PKG_ROOT, "tokens", "tokens.json");
-    const srcCss = path7__default.default.join(PKG_ROOT, "css", "atom-ui.css");
+    if (path8__default.default.resolve(targetCwd) === path8__default.default.resolve(PKG_ROOT)) return;
+    if (!fs8__default.default.existsSync(path8__default.default.join(targetCwd, "package.json"))) return;
+    const targetTokenPath = path8__default.default.join(targetCwd, "tokens", "tokens.json");
+    const targetCssPath = path8__default.default.join(targetCwd, "css", "atom-ui.css");
+    const srcToken = path8__default.default.join(PKG_ROOT, "tokens", "tokens.json");
+    const srcCss = path8__default.default.join(PKG_ROOT, "css", "atom-ui.css");
     let copiedAny = false;
-    if (!fs7__default.default.existsSync(targetTokenPath) && fs7__default.default.existsSync(srcToken)) {
-      fs7__default.default.mkdirSync(path7__default.default.dirname(targetTokenPath), { recursive: true });
-      fs7__default.default.copyFileSync(srcToken, targetTokenPath);
+    if (!fs8__default.default.existsSync(targetTokenPath) && fs8__default.default.existsSync(srcToken)) {
+      fs8__default.default.mkdirSync(path8__default.default.dirname(targetTokenPath), { recursive: true });
+      fs8__default.default.copyFileSync(srcToken, targetTokenPath);
       copiedAny = true;
     }
-    if (!fs7__default.default.existsSync(targetCssPath) && fs7__default.default.existsSync(srcCss)) {
-      fs7__default.default.mkdirSync(path7__default.default.dirname(targetCssPath), { recursive: true });
-      fs7__default.default.copyFileSync(srcCss, targetCssPath);
+    if (!fs8__default.default.existsSync(targetCssPath) && fs8__default.default.existsSync(srcCss)) {
+      fs8__default.default.mkdirSync(path8__default.default.dirname(targetCssPath), { recursive: true });
+      fs8__default.default.copyFileSync(srcCss, targetCssPath);
       copiedAny = true;
     }
     const linkResult = ensureLocalCssLinked(targetCwd);
@@ -13059,6 +13677,9 @@ switch (command) {
   case "studio":
   case "editor":
     handleStudio();
+    break;
+  case "theme":
+    void handleTheme(targetName);
     break;
   case "submit":
   case "register":

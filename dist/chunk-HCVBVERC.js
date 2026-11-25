@@ -374,13 +374,13 @@ var SEMANTIC_VARIABLE_DICTIONARY = {
     role: "primary",
     label: "\uD504\uB77C\uC774\uBA38\uB9AC (Primary)",
     meaning: "\uBE0C\uB79C\uB4DC \uB300\uD45C \uCEEC\uB7EC\uB97C \uC801\uC6A9\uD558\uC5EC \uC0AC\uC6A9\uC790\uC5D0\uAC8C \uB2E8 \uD558\uB098\uC758 \uACB0\uC815\uC801 \uBAA9\uD45C(\uACB0\uC81C, \uC81C\uCD9C, \uD575\uC2EC \uC561\uC158)\uB97C \uC9D1\uC911\uC2DC\uD0A4\uB294 \uBE44\uC8FC\uC5BC \uC758\uBBF8",
-    badgeColorClass: "bg-blue-500/10 text-blue-600 border-blue-500/20 dark:text-blue-400"
+    badgeColorClass: "bg-(--accent-primary)/10 text-(--accent-primary) border-(--accent-primary)/20 dark:text-blue-400"
   },
   secondary: {
     role: "secondary",
     label: "\uC138\uCEE8\uB354\uB9AC (Secondary)",
     meaning: "\uCDE8\uC18C, \uB2EB\uAE30, \uC774\uC804 \uB2E8\uACC4 \uB4F1 \uC0AC\uC6A9\uC790 \uC778\uD130\uB799\uC158\uC744 \uC9C0\uC6D0\uD558\uB418 \uC2DC\uAC01\uC801 \uBD80\uB2F4\uC744 \uC904\uC774\uB294 \uC911\uB9BD \uD1A4 \uC758\uBBF8",
-    badgeColorClass: "bg-gray-500/10 text-gray-600 border-gray-500/20 dark:text-gray-400"
+    badgeColorClass: "bg-(--bg-secondary)/10 text-(--text-secondary) border-gray-500/20 dark:text-(--text-muted)"
   },
   danger: {
     role: "danger",
@@ -768,8 +768,8 @@ var INITIAL_PALETTE_VARIABLES = [
   { id: "--atom-palette-blue-200", name: "Blue 200", category: "color", value: "#bfdbfe", description: "\uC18C\uD504\uD2B8 \uBE14\uB8E8 \uBCF4\uB354 \uBC0F \uD638\uBC84 \uBC30\uACBD", family: "blue" },
   { id: "--atom-palette-blue-300", name: "Blue 300", category: "color", value: "#93c5fd", description: "\uD65C\uC131 \uD14C\uB450\uB9AC \uBC0F \uD3EC\uCEE4\uC2A4 \uB9C1", family: "blue" },
   { id: "--atom-palette-blue-400", name: "Blue 400", category: "color", value: "#60a5fa", description: "\uBC1D\uC740 \uBE14\uB8E8 \uC778\uB514\uCF00\uC774\uD130", family: "blue" },
-  { id: "--atom-palette-blue-500", name: "Blue 500 (Brand Primary)", category: "color", value: "#3182f6", description: "\uD575\uC2EC \uBE0C\uB79C\uB4DC \uD504\uB77C\uC774\uBA38\uB9AC \uC561\uC158 \uCEEC\uB7EC", family: "blue" },
-  { id: "--atom-palette-blue-600", name: "Blue 600 (Primary Hover)", category: "color", value: "#1b64da", description: "\uBC84\uD2BC \uD638\uBC84 \uBC0F \uAC15\uC870 \uB525 \uCEEC\uB7EC", family: "blue" },
+  { id: "--atom-palette-blue-500", name: "Blue 500 (Brand Primary)", category: "color", value: "var(--accent-primary)", description: "\uD575\uC2EC \uBE0C\uB79C\uB4DC \uD504\uB77C\uC774\uBA38\uB9AC \uC561\uC158 \uCEEC\uB7EC", family: "blue" },
+  { id: "--atom-palette-blue-600", name: "Blue 600 (Primary Hover)", category: "color", value: "var(--accent-primary-hover)", description: "\uBC84\uD2BC \uD638\uBC84 \uBC0F \uAC15\uC870 \uB525 \uCEEC\uB7EC", family: "blue" },
   { id: "--atom-palette-blue-700", name: "Blue 700", category: "color", value: "#1d4ed8", description: "\uC9C4\uD55C \uBE14\uB8E8 \uD074\uB9AD \uC561\uD2F0\uBE0C \uC0C1\uD0DC", family: "blue" },
   { id: "--atom-palette-blue-800", name: "Blue 800", category: "color", value: "#1e40af", description: "\uB124\uC774\uBE44 \uD1A4 \uD14D\uC2A4\uD2B8 \uBC0F \uD5E4\uB354 \uBC30\uACBD", family: "blue" },
   { id: "--atom-palette-blue-900", name: "Blue 900", category: "color", value: "#1e3a8a", description: "\uADF9\uC9C4\uD55C \uB2E4\uD06C \uB124\uC774\uBE44", family: "blue" },
@@ -3011,7 +3011,7 @@ var ThemeTokenLayer = class {
       description: preset.description,
       mode: preset.mode,
       category: preset.category,
-      brandColor: brandColor || resolvedColors.primary || "#3182f6",
+      brandColor: brandColor || resolvedColors.primary || "var(--accent-primary)",
       borderRadius: borderRadius || "8px",
       ...fontFamily ? { fontFamily } : {},
       ...preset.isCustom ? { isCustom: true } : {},
@@ -3360,12 +3360,14 @@ var AtomTokenSystem = class _AtomTokenSystem {
       registry.components || [],
       fullResolver
     );
+    const brand = registry.brand || options?.baseDocument?.brand;
     const unifiedDoc = {
       $schema: "https://design-tokens.github.io/community-group/format/",
       registrySchema: registry.$schema || options?.baseDocument?.registrySchema || "https://system.atomground.com/schemas/studio-registry.schema.json",
       name: options?.baseDocument?.name || "AtomDesignToken System",
       version: registry.version || options?.baseDocument?.version || "0.14.2",
       updatedAt: registry.updatedAt || (/* @__PURE__ */ new Date()).toISOString(),
+      ...brand ? { brand } : {},
       palette: paletteTree,
       theme: themeTree,
       components: componentsTree
@@ -3408,7 +3410,7 @@ var tokens_default = {
   registrySchema: "https://system.atomground.com/schemas/studio-registry.schema.json",
   name: "AtomDesignToken System",
   version: "0.14.2",
-  updatedAt: "2026-11-24T09:21:21.911Z",
+  updatedAt: "2026-11-25T01:53:13.834Z",
   palette: {
     color: {
       blue: {
@@ -4400,7 +4402,7 @@ var tokens_default = {
     }
   },
   theme: {
-    activeThemeId: "midnight-black",
+    activeThemeId: "dark-cyber",
     semantic: {
       primary: {
         $value: "{palette.color.blue.500}",
@@ -11776,8 +11778,8 @@ var DEFAULT_BRAND_CONFIG = {
 };
 var DEFAULT_THEME_CONFIG = {
   color: {
-    primary: "#3182f6",
-    primaryHover: "#1b64da",
+    primary: "var(--accent-primary)",
+    primaryHover: "var(--accent-primary-hover)",
     primaryLight: "#e8f3ff",
     bgPrimary: "#ffffff",
     bgSecondary: "#f8f9fa",
@@ -11861,8 +11863,8 @@ var COLOR_PRESETS = [
     description: "\uCCAD\uB7C9\uD55C \uBE44\uBE44\uB4DC \uBE14\uB8E8\uC640 \uBAA8\uB358 \uB77C\uC6B4\uB529",
     borderRadius: "16px",
     colors: {
-      primary: "#3182f6",
-      primaryHover: "#1b64da",
+      primary: "var(--accent-primary)",
+      primaryHover: "var(--accent-primary-hover)",
       primaryLight: "#e8f3ff",
       bgPrimary: "#ffffff",
       bgSecondary: "#f8f9fa",
@@ -12060,6 +12062,7 @@ function exportStudioToTokensJson(palette, components, statusTokens = INITIAL_SE
       version: options?.version || baseDocument.version || "0.14.2",
       updatedAt: (/* @__PURE__ */ new Date()).toISOString(),
       activeThemeId: options?.activeThemeId || baseDocument.theme?.activeThemeId || "ocean-blue",
+      ...options?.brand ? { brand: options.brand } : {},
       statusTokens,
       paletteVariables: palette,
       components,
@@ -12533,6 +12536,52 @@ var TOKEN_REPLACEMENTS = [
     replacement: "var(--bg-secondary)",
     type: "color"
   },
+  // A2. Direct Palette CSS Variable References -> Semantic Role Tokens
+  {
+    pattern: /var\(--atom-palette-white\)/g,
+    replacement: "var(--bg-primary)",
+    type: "color"
+  },
+  {
+    pattern: /var\(--atom-palette-gray-(?:50|100)\)/g,
+    replacement: "var(--bg-secondary)",
+    type: "color"
+  },
+  {
+    pattern: /var\(--atom-palette-gray-200\)/g,
+    replacement: "var(--border-subtle)",
+    type: "color"
+  },
+  {
+    pattern: /var\(--atom-palette-gray-300\)/g,
+    replacement: "var(--border-strong)",
+    type: "color"
+  },
+  {
+    pattern: /var\(--atom-palette-gray-900\)/g,
+    replacement: "var(--text-primary)",
+    type: "color"
+  },
+  {
+    pattern: /var\(--atom-palette-gray-[67]00\)/g,
+    replacement: "var(--text-secondary)",
+    type: "color"
+  },
+  {
+    pattern: /var\(--atom-palette-gray-[45]00\)/g,
+    replacement: "var(--text-muted)",
+    type: "color"
+  },
+  {
+    pattern: /var\(--atom-palette-blue-500\)/g,
+    replacement: "var(--accent-primary)",
+    type: "color"
+  },
+  {
+    pattern: /var\(--atom-palette-blue-600\)/g,
+    replacement: "var(--accent-primary-hover)",
+    type: "color"
+  },
   // B. Tailwind Standard Colors to Semantic Tokens
   // Text Colors
   {
@@ -12674,7 +12723,13 @@ var IGNORE_FILES = /* @__PURE__ */ new Set([
   "tokens.json",
   "tokens.ts",
   "awesomeThemes.ts",
-  "refactorEngine.ts"
+  "refactorEngine.ts",
+  "studioData.ts",
+  "paletteData.ts",
+  "themeData.ts",
+  "ThemeTokens.ts",
+  "StudioThemeManager.tsx",
+  "PaletteScaleGeneratorModal.tsx"
 ]);
 function scanAndRefactorDirectory(rootDir, options = {}) {
   const report = {
@@ -12738,6 +12793,9 @@ function scanAndRefactorDirectory(rootDir, options = {}) {
   return report;
 }
 
-export { AI_COMPONENT_SUBMISSION_TEMPLATE, AtomTokenSystem, COLOR_PRESETS, COMPONENT_STATUS_PRESETS, ComponentTokenLayer, DEFAULT_BRAND_CONFIG, DEFAULT_COMPONENT_TYPES, DEFAULT_THEME_CONFIG, FONT_FAMILY_PRESETS, INITIAL_PALETTE_VARIABLES, INITIAL_SEMANTIC_STATUS_TOKENS, INITIAL_STUDIO_COMPONENTS, PaletteTokenLayer, SEMANTIC_VARIABLE_DICTIONARY, STUDIO_CUSTOM_STYLES_END, STUDIO_CUSTOM_STYLES_START, TOKEN_REPLACEMENTS, ThemeTokenLayer, TokenReferenceResolver, UNIFIED_TOKENS_DOCUMENT, atomTokens, buildAiComponentSubmissionPrompt, componentTokens, exportStudioCustomComponentStyles, exportStudioToCSS, exportStudioToTokensJson, getComponentStatusProperties, getComponentTypes, isUnifiedTokensDocument, paletteTokens, resolveStudioComponentId, resolveTypeSpec, resolveVariableRole, scanAndRefactorDirectory, themeTokens, tokenResolver };
-//# sourceMappingURL=chunk-EDXSCJGM.js.map
-//# sourceMappingURL=chunk-EDXSCJGM.js.map
+// lib/data/themeData.ts
+var INITIAL_STUDIO_THEMES = atomTokens.theme.toStudioThemes();
+
+export { AI_COMPONENT_SUBMISSION_TEMPLATE, AtomTokenSystem, COLOR_PRESETS, COMPONENT_STATUS_PRESETS, ComponentTokenLayer, DEFAULT_BRAND_CONFIG, DEFAULT_COMPONENT_TYPES, DEFAULT_THEME_CONFIG, FONT_FAMILY_PRESETS, INITIAL_PALETTE_VARIABLES, INITIAL_SEMANTIC_STATUS_TOKENS, INITIAL_STUDIO_COMPONENTS, INITIAL_STUDIO_THEMES, PaletteTokenLayer, SEMANTIC_VARIABLE_DICTIONARY, STUDIO_CUSTOM_STYLES_END, STUDIO_CUSTOM_STYLES_START, TOKEN_REPLACEMENTS, ThemeTokenLayer, TokenReferenceResolver, UNIFIED_TOKENS_DOCUMENT, atomTokens, buildAiComponentSubmissionPrompt, componentTokens, exportStudioCustomComponentStyles, exportStudioToCSS, exportStudioToTokensJson, getComponentStatusProperties, getComponentTypes, isUnifiedTokensDocument, paletteTokens, resolveStudioComponentId, resolveTypeSpec, resolveVariableRole, scanAndRefactorDirectory, themeTokens, tokenResolver };
+//# sourceMappingURL=chunk-HCVBVERC.js.map
+//# sourceMappingURL=chunk-HCVBVERC.js.map

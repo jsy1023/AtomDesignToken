@@ -36,6 +36,7 @@ export function exportStudioToTokensJson(
   options?: {
     activeThemeId?: string;
     themes?: StudioTheme[];
+    brand?: { name: string; slogan?: string; logoUrl?: string | null; logoHeight?: number };
     baseDocument?: UnifiedTokensDocument;
     version?: string;
   }
@@ -47,6 +48,7 @@ export function exportStudioToTokensJson(
       updatedAt: new Date().toISOString(),
       activeThemeId:
         options?.activeThemeId || baseDocument.theme?.activeThemeId || 'ocean-blue',
+      ...(options?.brand ? { brand: options.brand } : {}),
       statusTokens,
       paletteVariables: palette,
       components,

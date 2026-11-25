@@ -2,7 +2,9 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import inquirer from 'inquirer';
 import { startLocalTokenStudio } from './studioServer';
+import { applyThemeById, startFloatingThemeServer } from './themeFloatingServer';
 import { compileTokensToCss } from './tokenCompiler';
 import { scanAndRefactorDirectory } from './refactorEngine';
 import { ensureLocalCssLinked } from './cssLinker';
@@ -281,6 +283,95 @@ function handleStudio() {
   const portArg = args.find((a) => a.startsWith('--port='));
   const port = portArg ? parseInt(portArg.split('=')[1], 10) : 4000;
   startLocalTokenStudio({ port, cwd: process.cwd() });
+}
+
+async function handleTheme(targetArg?: string) {
+  const cwd = process.cwd();
+  const tokenJsonPath = path.join(cwd, 'tokens', 'tokens.json');
+  const cssPath = path.join(cwd, 'css', 'atom-ui.css');
+
+  if (!fs.existsSync(tokenJsonPath)) {
+    console.error(`\n❌ tokens/tokens.json not found at ${tokenJsonPath}. Run 'npx atomsystem init' first.\n`);
+    return;
+  }
+
+  let doc: Record<string, any>;
+  try {
+    doc = JSON.parse(fs.readFileSync(tokenJsonPath, 'utf-8'));
+  } catch (err: any) {
+    console.error(`\n❌ Failed to parse tokens/tokens.json: ${err.message}\n`);
+    return;
+  }
+
+  const presets: Record<string, any> = doc?.theme?.presets || {};
+  const presetEntries = Object.entries(presets);
+  if (presetEntries.length === 0) {
+    console.error('\n❌ No theme presets found in tokens/tokens.json (theme.presets).\n');
+    return;
+  }
+
+  const activeThemeId: string = doc?.theme?.activeThemeId || presetEntries[0][0];
+
+  if (args.includes('--list')) {
+    console.log('\n🎨 Available AtomSystem Themes:\n');
+    for (const [id, preset] of presetEntries) {
+      const marker = id === activeThemeId ? '★ [Active]' : '  ';
+      console.log(`  ${marker} ${id.padEnd(20)} (${preset.mode || 'light'}) - ${preset.name || id}`);
+    }
+    console.log('');
+    return;
+  }
+
+  const setFlag = args.find((a) => a.startsWith('--set='));
+  const directId = setFlag ? setFlag.slice('--set='.length).trim() : (targetArg && !targetArg.startsWith('-') ? targetArg.trim() : '');
+
+  if (directId) {
+    try {
+      const applied = applyThemeById(cwd, directId);
+      console.log(`\n🎨 Theme applied: ${applied.name} (${directId}, ${applied.mode})`);
+      console.log(`   ✓ Updated ${path.relative(cwd, tokenJsonPath)}`);
+      console.log(`   ✓ Recompiled ${path.relative(cwd, cssPath)}\n`);
+    } catch (err: any) {
+      console.error(`\n❌ ${err.message}\n`);
+    }
+    return;
+  }
+
+  if (!args.includes('--cli')) {
+    const portArg = args.find((a) => a.startsWith('--port='));
+    const port = portArg ? parseInt(portArg.split('=')[1], 10) : 4010;
+    startFloatingThemeServer({ port, cwd, openBrowser: !args.includes('--no-open') });
+    return;
+  }
+
+  const choices = presetEntries.map(([id, preset]) => {
+    const isCurrent = id === activeThemeId;
+    const modeTag = preset.mode === 'dark' ? '🌙 dark' : '☀️ light';
+    const activeTag = isCurrent ? ' [Active]' : '';
+    return {
+      name: `${preset.name || id} (${id}) · ${modeTag}${activeTag}`,
+      value: id,
+    };
+  });
+
+  const answer = await inquirer.prompt<{ themeId: string }>([
+    {
+      type: 'list',
+      name: 'themeId',
+      message: '프로젝트 전체에 적용할 테마를 선택하세요 (Select a theme):',
+      default: activeThemeId,
+      choices,
+    },
+  ]);
+
+  try {
+    const applied = applyThemeById(cwd, answer.themeId);
+    console.log(`\n🎨 Theme applied: ${applied.name} (${answer.themeId}, ${applied.mode})`);
+    console.log(`   ✓ Updated ${path.relative(cwd, tokenJsonPath)}`);
+    console.log(`   ✓ Recompiled ${path.relative(cwd, cssPath)}\n`);
+  } catch (err: any) {
+    console.error(`\n❌ ${err.message}\n`);
+  }
 }
 
 function handleSkillInstall() {
@@ -580,6 +671,9 @@ switch (command) {
   case 'studio':
   case 'editor':
     handleStudio();
+    break;
+  case 'theme':
+    void handleTheme(targetName);
     break;
   case 'submit':
   case 'register':

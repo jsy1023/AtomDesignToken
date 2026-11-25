@@ -162,6 +162,13 @@ export interface ComponentTokenNode {
   variables: Record<string, ComponentVariableTokenNode>;
 }
 
+export interface BrandTokenConfig {
+  name: string;
+  slogan?: string;
+  logoUrl?: string | null;
+  logoHeight?: number;
+}
+
 /**
  * Single Source of Truth (SSOT) unified token document stored at `tokens/tokens.json`.
  */
@@ -171,6 +178,7 @@ export interface UnifiedTokensDocument {
   name: string;
   version: string;
   updatedAt: string;
+  brand?: BrandTokenConfig;
   palette: PaletteTokenTree;
   theme: ThemeTokenTree;
   components: Record<string, ComponentTokenNode>;

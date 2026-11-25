@@ -3,6 +3,7 @@
 import React, { useState, useRef } from 'react';
 import { useLocale } from 'next-intl';
 import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';
+import { useStudio } from '@/components/studio/context/StudioContext';
 import {
   Button,
   Input,
@@ -26,6 +27,7 @@ import {
 export function StudioBrandSettings() {
   const locale = useLocale();
   const { brandConfig, updateBrandConfig, resetBrandConfig, theme } = useThemeEditor();
+  const { handleSaveToProject } = useStudio();
 
   const [name, setName] = useState(brandConfig?.name || 'AtomDesignToken');
   const [slogan, setSlogan] = useState(brandConfig?.slogan || 'Universal Design Token & Agentic UI System');
@@ -70,29 +72,38 @@ export function StudioBrandSettings() {
     }
   };
 
-  // Save changes to project & localStorage
-  const handleSave = () => {
-    updateBrandConfig({
+  // Save changes directly to project SSOT (tokens/tokens.json)
+  const handleSave = async () => {
+    const nextBrand = {
       name: name.trim() || 'AtomDesignToken',
       slogan: slogan.trim(),
       logoUrl: logoUrl,
       logoHeight: Number(logoHeight) || 22,
-    });
+    };
+    updateBrandConfig(nextBrand);
+    await handleSaveToProject(nextBrand);
 
     setSaveSuccess(true);
     setTimeout(() => setSaveSuccess(false), 3000);
   };
 
-  // Reset to default
-  const handleReset = () => {
+  // Reset to default & save to project SSOT
+  const handleReset = async () => {
+    const defaultBrand = {
+      name: 'AtomDesignToken',
+      slogan: 'Universal Design Token & Agentic UI System',
+      logoUrl: null,
+      logoHeight: 22,
+    };
     resetBrandConfig();
-    setName('AtomDesignToken');
-    setSlogan('Universal Design Token & Agentic UI System');
+    setName(defaultBrand.name);
+    setSlogan(defaultBrand.slogan);
     setLogoUrl(null);
     setLogoHeight(22);
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
+    await handleSaveToProject(defaultBrand);
     setSaveSuccess(true);
     setTimeout(() => setSaveSuccess(false), 3000);
   };

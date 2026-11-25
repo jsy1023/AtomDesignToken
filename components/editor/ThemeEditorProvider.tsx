@@ -12,6 +12,7 @@ import {
   DEFAULT_BRAND_CONFIG,
 } from '@/lib/data/themeEditorDefaults';
 import { applyThemeToDOM, isDarkColor } from '@/lib/services/themeEngine';
+import { atomTokens } from '@/lib/tokens';
 import { AWESOME_DESIGN_MD_THEMES } from '@/lib/data/awesomeThemes';
 
 export type EditorTab = 'colors' | 'typography' | 'tokens' | 'icons' | 'preview' | 'export';
@@ -52,8 +53,12 @@ const BRAND_STORAGE_KEY = 'atom_design_system_brand_v1';
 export function ThemeEditorProvider({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpenState] = useState(false);
   const [activeTab, setActiveTab] = useState<EditorTab>('colors');
+  const ssotBrand: BrandConfig = {
+    ...DEFAULT_BRAND_CONFIG,
+    ...(atomTokens.toDocument().brand || {}),
+  };
   const [theme, setTheme] = useState<ThemeConfig>(DEFAULT_THEME_CONFIG);
-  const [brandConfig, setBrandConfig] = useState<BrandConfig>(DEFAULT_BRAND_CONFIG);
+  const [brandConfig, setBrandConfig] = useState<BrandConfig>(ssotBrand);
   const [mounted, setMounted] = useState(false);
   const [isLocalOnly, setIsLocalOnly] = useState(false);
 
@@ -131,17 +136,12 @@ export function ThemeEditorProvider({ children }: { children: React.ReactNode })
     } catch {
       // ignore parse error
     }
-    applyThemeToDOM(DEFAULT_THEME_CONFIG);
   }, []);
 
-  // 로컬 스토리지에서 초기 브랜드 설정 로드
+  // SSOT(tokens/tokens.json)의 brand 값을 우선 사용 (구형 localStorage 덮어쓰기 방지)
   useEffect(() => {
     try {
-      const savedBrand = localStorage.getItem(BRAND_STORAGE_KEY);
-      if (savedBrand && savedBrand.trim()) {
-        const parsed = JSON.parse(savedBrand);
-        setBrandConfig((prev) => ({ ...prev, ...parsed }));
-      }
+      localStorage.removeItem(BRAND_STORAGE_KEY);
     } catch {
       // ignore
     }

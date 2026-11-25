@@ -1,5 +1,5 @@
-import { atomTokens } from './chunk-EDXSCJGM.js';
-export { AI_COMPONENT_SUBMISSION_TEMPLATE, AtomTokenSystem, COLOR_PRESETS, COMPONENT_STATUS_PRESETS, ComponentTokenLayer, DEFAULT_BRAND_CONFIG, DEFAULT_COMPONENT_TYPES, DEFAULT_THEME_CONFIG, FONT_FAMILY_PRESETS, INITIAL_PALETTE_VARIABLES, INITIAL_SEMANTIC_STATUS_TOKENS, INITIAL_STUDIO_COMPONENTS, PaletteTokenLayer, SEMANTIC_VARIABLE_DICTIONARY, STUDIO_CUSTOM_STYLES_END, STUDIO_CUSTOM_STYLES_START, TOKEN_REPLACEMENTS, ThemeTokenLayer, TokenReferenceResolver, UNIFIED_TOKENS_DOCUMENT, atomTokens, buildAiComponentSubmissionPrompt, componentTokens, exportStudioCustomComponentStyles, exportStudioToCSS, exportStudioToTokensJson, getComponentStatusProperties, getComponentTypes, isUnifiedTokensDocument, paletteTokens, resolveStudioComponentId, resolveTypeSpec, resolveVariableRole, scanAndRefactorDirectory, themeTokens, tokenResolver } from './chunk-EDXSCJGM.js';
+import { atomTokens } from './chunk-HCVBVERC.js';
+export { AI_COMPONENT_SUBMISSION_TEMPLATE, AtomTokenSystem, COLOR_PRESETS, COMPONENT_STATUS_PRESETS, ComponentTokenLayer, DEFAULT_BRAND_CONFIG, DEFAULT_COMPONENT_TYPES, DEFAULT_THEME_CONFIG, FONT_FAMILY_PRESETS, INITIAL_PALETTE_VARIABLES, INITIAL_SEMANTIC_STATUS_TOKENS, INITIAL_STUDIO_COMPONENTS, PaletteTokenLayer, SEMANTIC_VARIABLE_DICTIONARY, STUDIO_CUSTOM_STYLES_END, STUDIO_CUSTOM_STYLES_START, TOKEN_REPLACEMENTS, ThemeTokenLayer, TokenReferenceResolver, UNIFIED_TOKENS_DOCUMENT, atomTokens, buildAiComponentSubmissionPrompt, componentTokens, exportStudioCustomComponentStyles, exportStudioToCSS, exportStudioToTokensJson, getComponentStatusProperties, getComponentTypes, isUnifiedTokensDocument, paletteTokens, resolveStudioComponentId, resolveTypeSpec, resolveVariableRole, scanAndRefactorDirectory, themeTokens, tokenResolver } from './chunk-HCVBVERC.js';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import React34, { useState } from 'react';
@@ -2118,7 +2118,7 @@ export function ExampleNav() {
       },
       {
         do: '\uC0C1\uC2B9\uC774\uB098 \uC704\uD5D8 \uAC19\uC740 \uBE44\uC988\uB2C8\uC2A4 \uC758\uBBF8\uAC00 \uB2F4\uAE34 \uCC28\uD2B8\uB294 variant="success" \uB610\uB294 variant="danger"\uB97C \uD65C\uC6A9\uD558\uC2ED\uC2DC\uC624.',
-        dont: "\uD558\uB4DC\uCF54\uB529\uB41C HEX \uCEEC\uB7EC(#3182f6, #10b981)\uB97C \uCC28\uD2B8\uC5D0 \uC778\uB77C\uC778\uC73C\uB85C \uC9C1\uC811 \uC791\uC131\uD558\uC9C0 \uB9C8\uC2ED\uC2DC\uC624."
+        dont: "\uD558\uB4DC\uCF54\uB529\uB41C HEX \uCEEC\uB7EC(var(--accent-primary), #10b981)\uB97C \uCC28\uD2B8\uC5D0 \uC778\uB77C\uC778\uC73C\uB85C \uC9C1\uC811 \uC791\uC131\uD558\uC9C0 \uB9C8\uC2ED\uC2DC\uC624."
       }
     ],
     relatedPatternIds: ["dashboard-analytics", "metric-stat-card"],
@@ -2328,7 +2328,7 @@ export function ExampleToast() {
     relatedPatternIds: ["settings-preference"],
     htmlSnippet: `<div class="atom-token-select">
   <button type="button" class="atom-token-select__trigger">
-    <span class="atom-token-select__swatch" style="background: var(--atom-palette-blue-500)"></span>
+    <span class="atom-token-select__swatch" style="background: var(--accent-primary)"></span>
     <span>--atom-palette-blue-500</span>
   </button>
 </div>`,
@@ -8810,8 +8810,8 @@ function injectWebfontLink(cdnUrl, linkId = "atom-custom-webfont-cdn") {
 }
 function generateThemeCSS(theme) {
   const { color, typography, borderRadius } = theme;
-  const safePrimary = color.primary && !color.primary.includes("var(--accent-primary)") && !color.primary.includes("var(--atom-color-primary)") ? color.primary : "#3182f6";
-  const safePrimaryHover = color.primaryHover && !color.primaryHover.includes("var(--accent-hover)") && !color.primaryHover.includes("var(--accent-primary-hover)") ? color.primaryHover : "#1b64da";
+  const safePrimary = color.primary && !color.primary.includes("var(--accent-primary)") && !color.primary.includes("var(--atom-color-primary)") ? color.primary : "var(--accent-primary)";
+  const safePrimaryHover = color.primaryHover && !color.primaryHover.includes("var(--accent-hover)") && !color.primaryHover.includes("var(--accent-primary-hover)") ? color.primaryHover : "var(--accent-primary-hover)";
   const isDark = isDarkColor(color.bgPrimary);
   let fontImportCSS = "";
   for (const [fontKey, importRule] of Object.entries(FONT_IMPORT_MAP)) {
@@ -9369,7 +9369,7 @@ NativeSelect.displayName = "NativeSelect";
 var Textarea = React34.forwardRef(
   ({ maxLength, label, value, className = "", ...props }, ref) => {
     const currentLength = typeof value === "string" ? value.length : 0;
-    return /* @__PURE__ */ React34.createElement("div", { className: "atom-textarea-group" }, label && /* @__PURE__ */ React34.createElement("label", { className: "text-xs font-semibold text-neutral-600 dark:text-neutral-400" }, label), /* @__PURE__ */ React34.createElement("textarea", { ref, value, maxLength, className: `atom-textarea ${className}`, ...props }), maxLength && /* @__PURE__ */ React34.createElement("div", { className: "atom-textarea-counter" }, currentLength, " / ", maxLength, "\uC790"));
+    return /* @__PURE__ */ React34.createElement("div", { className: "atom-textarea-group" }, label && /* @__PURE__ */ React34.createElement("label", { className: "text-xs font-semibold text-(--text-secondary) dark:text-(--text-muted)" }, label), /* @__PURE__ */ React34.createElement("textarea", { ref, value, maxLength, className: `atom-textarea ${className}`, ...props }), maxLength && /* @__PURE__ */ React34.createElement("div", { className: "atom-textarea-counter" }, currentLength, " / ", maxLength, "\uC790"));
   }
 );
 Textarea.displayName = "Textarea";
@@ -9540,7 +9540,7 @@ var NavbarLink = React34.forwardRef(
       "a",
       {
         ref,
-        className: `px-3 py-1.5 rounded-(--radius-sm) transition-colors text-sm font-medium ${active ? "text-(--atom-color-primary,#3182f6) font-semibold bg-(--atom-color-primary-subtle,rgba(49,130,246,0.1))" : "text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary)"} ${className}`,
+        className: `px-3 py-1.5 rounded-(--radius-sm) transition-colors text-sm font-medium ${active ? "text-(--atom-color-primary,var(--accent-primary)) font-semibold bg-(--atom-color-primary-subtle,rgba(49,130,246,0.1))" : "text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary)"} ${className}`,
         ...props
       },
       children
@@ -9722,7 +9722,7 @@ var SidebarMenuButton = React34.forwardRef(
         type: "button",
         "aria-current": active ? "page" : void 0,
         title: collapsed && typeof children === "string" ? children : void 0,
-        className: `w-full flex items-center gap-3 px-3 py-2 rounded-(--radius-sm) text-xs sm:text-sm font-medium transition cursor-pointer ${collapsed ? "justify-center px-2" : "justify-between"} ${active ? "bg-(--atom-color-primary,#3182f6) text-white font-semibold shadow-xs" : "text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-primary)"} ${className}`,
+        className: `w-full flex items-center gap-3 px-3 py-2 rounded-(--radius-sm) text-xs sm:text-sm font-medium transition cursor-pointer ${collapsed ? "justify-center px-2" : "justify-between"} ${active ? "bg-(--atom-color-primary,var(--accent-primary)) text-white font-semibold shadow-xs" : "text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-primary)"} ${className}`,
         ...props
       },
       /* @__PURE__ */ React34.createElement("div", { className: "flex items-center gap-2.5 min-w-0" }, icon && /* @__PURE__ */ React34.createElement("span", { className: "shrink-0 w-4 h-4 flex items-center justify-center" }, icon), !collapsed && /* @__PURE__ */ React34.createElement("span", { className: "truncate" }, children)),
@@ -9972,9 +9972,9 @@ var NavDropdownItem = React34.forwardRef(
 NavDropdownItem.displayName = "NavDropdownItem";
 var TONE_TOKEN_MAP = {
   info: {
-    color: "var(--accent-primary, var(--atom-color-primary, #3182f6))",
+    color: "var(--accent-primary, var(--atom-color-primary, var(--accent-primary)))",
     bgVar: "var(--atom-color-primary-subtle, rgba(49, 130, 246, 0.08))",
-    borderVar: "var(--accent-primary, var(--atom-color-primary, #3182f6))"
+    borderVar: "var(--accent-primary, var(--atom-color-primary, var(--accent-primary)))"
   },
   success: {
     color: "var(--atom-color-success, #10b981)",
@@ -10185,7 +10185,7 @@ function EnterpriseDashboardUseCase() {
 var ATOM_UI_CSS_PATH = "atomsystem/css/atom-ui.css";
 var ATOM_TOKENS_PATH = "atomsystem/tokens.json";
 var ATOM_STUDIO_REGISTRY_PATH = ATOM_TOKENS_PATH;
-var ATOM_VERSION = "0.15.0";
+var ATOM_VERSION = "0.15.1";
 var ATOM_LIB_NAME = "atomsystem";
 
 export { ATOM_LIB_NAME, ATOM_STUDIO_REGISTRY_PATH, ATOM_TOKENS_PATH, ATOM_UI_CSS_PATH, ATOM_VERSION, AWESOME_CATEGORIES, AWESOME_DESIGN_MD_THEMES, BASE_COLOR_TOKENS, BRAND_PRESETS, EnterpriseDashboardUseCase, GALLERY_COMPONENTS, LAYOUT_TOKENS, PATTERNS_COLLECTION, RADIUS_TOKENS, SHADOW_TOKENS, SPACING_TOKENS, TYPOGRAPHY_TOKENS, applyThemeToDOM, cn, exportToCSS, exportToTailwind, exportToTokensJson, generateThemeCSS, injectWebfontLink, isDarkColor };

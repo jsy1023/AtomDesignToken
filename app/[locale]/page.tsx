@@ -198,7 +198,7 @@ export default function Home() {
             <div className="space-y-2 max-w-2xl">
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-(--accent-primary) animate-pulse" />
-                <span className="text-[11px] font-mono font-semibold tracking-wider uppercase text-(--accent-primary)">
+                <span className="text-[11px] font-semibold tracking-wider uppercase text-(--accent-primary)">
                   {locale === 'ja'
                     ? 'ローカルStudio ➔ コード即時同期パイプライン'
                     : locale === 'en'
@@ -264,7 +264,7 @@ export default function Home() {
 
           {/* 5-Step Lego Assembly Pipeline Visualizer */}
           <div className="space-y-3">
-            <div className="flex items-center justify-between text-xs font-mono text-(--text-muted)">
+            <div className="flex items-center justify-between text-xs text-(--text-muted)">
               <span className="font-semibold text-(--text-primary) flex items-center gap-1.5">
                 <Layers className="w-3.5 h-3.5 text-(--accent-primary)" />
                 <span>

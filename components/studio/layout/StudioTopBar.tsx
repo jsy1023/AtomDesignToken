@@ -1,10 +1,9 @@
 'use client';
 
 import React from 'react';
-import { Button, NativeSelect } from '@/components/ui';
-import { Check, FolderSearch, Moon, Palette, RotateCcw, Save, Sliders, Sun } from 'lucide-react';
+import { Button, NativeSelect, ThemeSwitcher } from '@/components/ui';
+import { Check, FolderSearch, Moon, RotateCcw, Save, Sliders, Sun } from 'lucide-react';
 import { StudioTab, useStudio } from '@/components/studio/context/StudioContext';
-import { formatLocaleText } from '@/lib/utils/localeFormat';
 
 export function StudioTopBar() {
   const {
@@ -66,23 +65,15 @@ export function StudioTopBar() {
 
       {/* Right: Quick Tools & Project Save */}
       <div className="flex items-center gap-2 shrink-0">
-        <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-(--radius-sm) bg-(--bg-secondary) border border-(--border-subtle) text-xs">
-          <Palette className="w-3.5 h-3.5 text-(--accent-primary) shrink-0" />
-          <span className="text-(--text-secondary) text-[11px] font-semibold hidden sm:inline whitespace-nowrap">
-            {locale === 'ko' ? '테마:' : 'Theme:'}
-          </span>
-          <NativeSelect
-            value={selectedThemeId}
-            onChange={(e) => handleSelectTheme(e.target.value)}
-            className="text-xs font-semibold bg-transparent border-0 h-auto p-0 cursor-pointer min-w-0"
-          >
-            {themes.map((th) => (
-              <option key={th.id} value={th.id}>
-                {formatLocaleText(th.name, locale)}
-              </option>
-            ))}
-          </NativeSelect>
-        </div>
+        <ThemeSwitcher
+          variant="compact"
+          size="sm"
+          themes={themes}
+          value={selectedThemeId}
+          persistKey={false}
+          label={locale === 'ko' ? '테마:' : 'Theme:'}
+          onThemeChange={(th) => handleSelectTheme(th.id)}
+        />
 
         <Button
           variant="secondary"
@@ -130,7 +121,7 @@ export function StudioTopBar() {
         <Button
           variant="primary"
           size="sm"
-          onClick={handleSaveToProject}
+          onClick={() => void handleSaveToProject()}
           disabled={isSaving}
           className="flex items-center gap-1.5 text-xs py-1 px-3 h-7 font-bold bg-(--accent-primary) text-(--bg-primary)"
         >

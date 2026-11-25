@@ -1,9 +1,11 @@
 #!/usr/bin/env node
-import { atomTokens, buildAiComponentSubmissionPrompt, AI_COMPONENT_SUBMISSION_TEMPLATE, scanAndRefactorDirectory, isUnifiedTokensDocument, TokenReferenceResolver, AtomTokenSystem, INITIAL_PALETTE_VARIABLES, INITIAL_SEMANTIC_STATUS_TOKENS, resolveStudioComponentId, DEFAULT_COMPONENT_TYPES, exportStudioToTokensJson, exportStudioToCSS, exportStudioCustomComponentStyles, UNIFIED_TOKENS_DOCUMENT, STUDIO_CUSTOM_STYLES_START, STUDIO_CUSTOM_STYLES_END } from './chunk-EDXSCJGM.js';
-import fs6 from 'fs';
-import path6 from 'path';
+import { buildAiComponentSubmissionPrompt, AI_COMPONENT_SUBMISSION_TEMPLATE, scanAndRefactorDirectory, isUnifiedTokensDocument, TokenReferenceResolver, AtomTokenSystem, INITIAL_PALETTE_VARIABLES, INITIAL_SEMANTIC_STATUS_TOKENS, resolveStudioComponentId, DEFAULT_COMPONENT_TYPES, exportStudioToTokensJson, exportStudioToCSS, exportStudioCustomComponentStyles, INITIAL_STUDIO_THEMES, atomTokens, UNIFIED_TOKENS_DOCUMENT, STUDIO_CUSTOM_STYLES_START, STUDIO_CUSTOM_STYLES_END } from './chunk-HCVBVERC.js';
+import fs7 from 'fs';
+import path7 from 'path';
 import { fileURLToPath } from 'url';
+import inquirer from 'inquirer';
 import http from 'http';
+import { exec } from 'child_process';
 
 // src/tokenCompiler.ts
 function resolveLegacyValue(rawVal, resolver) {
@@ -33,12 +35,109 @@ ${cssVars.join("\n")}
 }
 `;
 }
+function buildPresetCssVars(preset, resolver) {
+  const vars = [];
+  const t = preset.tokens || {};
+  const resolve = (val) => val ? resolver.resolveCssReference(val) : "";
+  const primary = resolve(t.primary?.$value || preset.brandColor);
+  const primaryHover = resolve(t.primaryHover?.$value);
+  const primaryLight = resolve(t.primaryLight?.$value);
+  const bgPrimary = resolve(t.bgPrimary?.$value);
+  const bgSecondary = resolve(t.bgSecondary?.$value);
+  const secondary = resolve(t.secondary?.$value) || bgSecondary;
+  const secondaryHover = resolve(t.secondaryHover?.$value) || resolve(t.borderStrong?.$value);
+  const secondaryLight = resolve(t.secondaryLight?.$value) || bgSecondary;
+  const textPrimary = resolve(t.textPrimary?.$value);
+  const textSecondary = resolve(t.textSecondary?.$value);
+  const textMuted = resolve(t.textMuted?.$value);
+  const borderSubtle = resolve(t.borderSubtle?.$value);
+  const borderStrong = resolve(t.borderStrong?.$value);
+  const statusSuccess = resolve(t.statusSuccess?.$value);
+  const statusDanger = resolve(t.statusDanger?.$value);
+  const statusWarning = resolve(t.statusWarning?.$value);
+  const radius = resolve(preset.borderRadius);
+  if (primary) {
+    vars.push(`  --atom-color-primary: ${primary};`);
+    vars.push(`  --atom-primary: ${primary};`);
+    vars.push(`  --accent-primary: ${primary};`);
+  }
+  if (primaryHover) {
+    vars.push(`  --atom-color-primary-hover: ${primaryHover};`);
+    vars.push(`  --accent-primary-hover: ${primaryHover};`);
+  }
+  if (primaryLight) vars.push(`  --atom-color-primary-subtle: ${primaryLight};`);
+  if (secondary) vars.push(`  --atom-color-secondary: ${secondary};`);
+  if (secondaryHover) vars.push(`  --atom-color-secondary-hover: ${secondaryHover};`);
+  if (secondaryLight) vars.push(`  --atom-color-secondary-subtle: ${secondaryLight};`);
+  if (bgPrimary) {
+    vars.push(`  --atom-bg-primary: ${bgPrimary};`);
+    vars.push(`  --bg-primary: ${bgPrimary};`);
+  }
+  if (bgSecondary) {
+    vars.push(`  --atom-bg-secondary: ${bgSecondary};`);
+    vars.push(`  --atom-bg-surface: ${bgSecondary};`);
+    vars.push(`  --atom-bg-muted: ${bgSecondary};`);
+    vars.push(`  --bg-secondary: ${bgSecondary};`);
+  }
+  if (textPrimary) {
+    vars.push(`  --atom-text-primary: ${textPrimary};`);
+    vars.push(`  --text-primary: ${textPrimary};`);
+  }
+  if (textSecondary) {
+    vars.push(`  --atom-text-secondary: ${textSecondary};`);
+    vars.push(`  --text-secondary: ${textSecondary};`);
+  }
+  if (textMuted) {
+    vars.push(`  --atom-text-muted: ${textMuted};`);
+    vars.push(`  --text-muted: ${textMuted};`);
+  }
+  if (borderSubtle) {
+    vars.push(`  --atom-border-subtle: ${borderSubtle};`);
+    vars.push(`  --border-subtle: ${borderSubtle};`);
+  }
+  if (borderStrong) {
+    vars.push(`  --atom-border-strong: ${borderStrong};`);
+    vars.push(`  --border-strong: ${borderStrong};`);
+  }
+  if (statusSuccess) vars.push(`  --atom-color-success: ${statusSuccess};`);
+  if (statusDanger) vars.push(`  --atom-color-destructive: ${statusDanger};`);
+  if (statusWarning) vars.push(`  --atom-color-warning: ${statusWarning};`);
+  if (radius) vars.push(`  --radius: ${radius};`);
+  if (preset.mode) vars.push(`  color-scheme: ${preset.mode};`);
+  return vars;
+}
+function mapComponentPropToSemanticVar(compId, propKey, cssVal) {
+  if (!cssVal) return cssVal;
+  if (propKey === "background" || propKey === "activeBackground") {
+    if (cssVal === "var(--atom-palette-white)") {
+      return compId === "card" ? "var(--atom-bg-surface)" : "var(--atom-bg-primary)";
+    }
+    if (cssVal === "var(--atom-palette-gray-50)" || cssVal === "var(--atom-palette-gray-100)") {
+      return "var(--atom-bg-secondary)";
+    }
+  }
+  if (propKey === "borderColor") {
+    if (cssVal === "var(--atom-palette-gray-100)" || cssVal === "var(--atom-palette-gray-200)") {
+      return "var(--atom-border-subtle)";
+    }
+    if (cssVal === "var(--atom-palette-gray-300)") {
+      return "var(--atom-border-strong)";
+    }
+  }
+  if (propKey === "textColor" || propKey === "activeText" || propKey === "inactiveText") {
+    if (cssVal === "var(--atom-palette-gray-900)") return "var(--atom-text-primary)";
+    if (cssVal === "var(--atom-palette-gray-700)") return "var(--atom-text-secondary)";
+    if (cssVal === "var(--atom-palette-gray-500)") return "var(--atom-text-muted)";
+  }
+  return cssVal;
+}
 function compileUnifiedTokensToCss(doc) {
   const resolver = new TokenReferenceResolver(doc);
   const cdnUrls = /* @__PURE__ */ new Set();
   const paletteVars = [];
   const semanticVars = [];
   const componentBlocks = [];
+  const themePresetBlocks = [];
   function collectPalette(obj, skipScale = false) {
     if (!obj || typeof obj !== "object") return;
     if (typeof obj.cdnUrl === "string" && obj.cdnUrl.trim()) {
@@ -73,11 +172,24 @@ function compileUnifiedTokensToCss(doc) {
     }
   }
   collectSemantic(doc.theme?.semantic);
+  const presets = doc.theme?.presets || {};
+  const activePresetId = doc.theme?.activeThemeId;
+  const activePreset = activePresetId ? presets[activePresetId] : void 0;
+  const activePresetVars = activePreset ? buildPresetCssVars(activePreset, resolver) : [];
+  for (const [presetId, preset] of Object.entries(presets)) {
+    const presetVars = buildPresetCssVars(preset, resolver);
+    if (presetVars.length > 0) {
+      themePresetBlocks.push(`[data-atom-theme="${presetId}"] {
+${presetVars.join("\n")}
+}`);
+    }
+  }
   for (const [compId, comp] of Object.entries(doc.components || {})) {
     for (const [varId, vNode] of Object.entries(comp.variables || {})) {
       const lines = [];
       for (const [propKey, binding] of Object.entries(vNode.tokens || {})) {
-        const cssVal = resolver.resolveCssReference(binding.$value);
+        const rawCssVal = resolver.resolveCssReference(binding.$value);
+        const cssVal = mapComponentPropToSemanticVar(compId, propKey, rawCssVal);
         if (cssVal) {
           lines.push(`  --atom-${compId}-${varId}-${propKey}: ${cssVal};`);
         }
@@ -95,6 +207,10 @@ ${lines.join("\n")}
   const imports = Array.from(cdnUrls).map((u) => `@import url("${u}");`).join("\n");
   const parts = [];
   if (imports) parts.push(imports);
+  const activeThemeComment = activePresetId ? `
+
+  /* Active Theme Preset (${activePresetId}) */
+${activePresetVars.join("\n")}` : "";
   parts.push(
     `:root {
   /* Palette Primitives */
@@ -105,9 +221,13 @@ ${semanticVars.join("\n")}
   --accent-primary: var(--atom-color-primary);
   --accent-primary-hover: var(--atom-color-primary-hover);
   --font-sans: var(--atom-font-sans);
-  --font-mono: var(--atom-font-mono);
+  --font-mono: var(--atom-font-mono);${activeThemeComment}
 }`
   );
+  if (themePresetBlocks.length > 0) {
+    parts.push(`/* Theme Presets (data-atom-theme) */
+${themePresetBlocks.join("\n\n")}`);
+  }
   if (componentBlocks.length > 0) {
     parts.push(`/* Component Scoped Variables */
 ${componentBlocks.join("\n\n")}`);
@@ -115,9 +235,6 @@ ${componentBlocks.join("\n\n")}`);
   return `${parts.join("\n\n")}
 `;
 }
-
-// lib/data/themeData.ts
-var INITIAL_STUDIO_THEMES = atomTokens.theme.toStudioThemes();
 var VALID_CATEGORIES = /* @__PURE__ */ new Set(["Form", "Layout", "Feedback", "Navigation", "Data"]);
 var KEBAB_ID_RE = /^[a-z][a-z0-9-]{0,62}$/;
 function toPascalCase(kebabId) {
@@ -343,34 +460,34 @@ ${pascalName}.displayName = '${pascalName}';
 `;
 }
 function ensureUiBarrelExport(uiDir, pascalName) {
-  const indexPath = path6.join(uiDir, "index.ts");
+  const indexPath = path7.join(uiDir, "index.ts");
   const exportLine = `export * from './${pascalName}';`;
-  if (!fs6.existsSync(indexPath)) {
-    fs6.mkdirSync(uiDir, { recursive: true });
-    fs6.writeFileSync(indexPath, `${exportLine}
+  if (!fs7.existsSync(indexPath)) {
+    fs7.mkdirSync(uiDir, { recursive: true });
+    fs7.writeFileSync(indexPath, `${exportLine}
 `, "utf-8");
     return true;
   }
-  const content = fs6.readFileSync(indexPath, "utf-8");
+  const content = fs7.readFileSync(indexPath, "utf-8");
   const pattern = new RegExp(`export\\s+\\*\\s+from\\s+['"]\\./${pascalName}['"]`);
   if (pattern.test(content)) {
     return false;
   }
   const eol = content.includes("\r\n") ? "\r\n" : "\n";
   const trimmed = content.replace(/\s+$/, "");
-  fs6.writeFileSync(indexPath, `${trimmed}${eol}${exportLine}${eol}`, "utf-8");
+  fs7.writeFileSync(indexPath, `${trimmed}${eol}${exportLine}${eol}`, "utf-8");
   return true;
 }
 
 // lib/services/studioRegistryServer.ts
-var TOKENS_SSOT_REL_PATH = path6.join("tokens", "tokens.json");
-var LEGACY_REGISTRY_REL_PATH = path6.join("tokens", "studio.registry.json");
+var TOKENS_SSOT_REL_PATH = path7.join("tokens", "tokens.json");
+var LEGACY_REGISTRY_REL_PATH = path7.join("tokens", "studio.registry.json");
 var UNIVERSAL_MARKER = "/* === Universal Component Classes === */";
 function readProjectVersion(cwd) {
   try {
-    const pkgPath = path6.join(cwd, "package.json");
-    if (fs6.existsSync(pkgPath)) {
-      const pkg = JSON.parse(fs6.readFileSync(pkgPath, "utf-8"));
+    const pkgPath = path7.join(cwd, "package.json");
+    if (fs7.existsSync(pkgPath)) {
+      const pkg = JSON.parse(fs7.readFileSync(pkgPath, "utf-8"));
       if (pkg?.version) return String(pkg.version);
     }
   } catch {
@@ -446,10 +563,10 @@ function buildBaselineRegistry(cwd) {
   };
 }
 function readExistingBaseDocument(cwd) {
-  const ssotPath = path6.join(cwd, TOKENS_SSOT_REL_PATH);
-  if (fs6.existsSync(ssotPath)) {
+  const ssotPath = path7.join(cwd, TOKENS_SSOT_REL_PATH);
+  if (fs7.existsSync(ssotPath)) {
     try {
-      const raw = fs6.readFileSync(ssotPath, "utf-8");
+      const raw = fs7.readFileSync(ssotPath, "utf-8");
       if (raw && raw.trim()) {
         const parsed = JSON.parse(raw);
         if (isUnifiedTokensDocument(parsed)) {
@@ -462,13 +579,13 @@ function readExistingBaseDocument(cwd) {
   return UNIFIED_TOKENS_DOCUMENT;
 }
 function loadProjectRegistry(cwd) {
-  const ssotPath = path6.join(cwd, TOKENS_SSOT_REL_PATH);
-  const legacyPath = path6.join(cwd, LEGACY_REGISTRY_REL_PATH);
+  const ssotPath = path7.join(cwd, TOKENS_SSOT_REL_PATH);
+  const legacyPath = path7.join(cwd, LEGACY_REGISTRY_REL_PATH);
   let existsOnDisk = false;
   let registry = buildBaselineRegistry(cwd);
-  if (fs6.existsSync(ssotPath)) {
+  if (fs7.existsSync(ssotPath)) {
     try {
-      const raw = fs6.readFileSync(ssotPath, "utf-8");
+      const raw = fs7.readFileSync(ssotPath, "utf-8");
       if (raw && raw.trim()) {
         const parsed = JSON.parse(raw);
         if (isUnifiedTokensDocument(parsed)) {
@@ -479,9 +596,9 @@ function loadProjectRegistry(cwd) {
     } catch {
     }
   }
-  if (!existsOnDisk && fs6.existsSync(legacyPath)) {
+  if (!existsOnDisk && fs7.existsSync(legacyPath)) {
     try {
-      const raw = fs6.readFileSync(legacyPath, "utf-8");
+      const raw = fs7.readFileSync(legacyPath, "utf-8");
       if (raw && raw.trim()) {
         const parsed = JSON.parse(raw);
         existsOnDisk = true;
@@ -498,15 +615,15 @@ function loadProjectRegistry(cwd) {
     } catch {
     }
   }
-  const uiDir = path6.join(cwd, "components", "ui");
+  const uiDir = path7.join(cwd, "components", "ui");
   const discoveredFiles = [];
-  if (fs6.existsSync(uiDir)) {
-    const entries = fs6.readdirSync(uiDir, { withFileTypes: true });
+  if (fs7.existsSync(uiDir)) {
+    const entries = fs7.readdirSync(uiDir, { withFileTypes: true });
     for (const entry of entries) {
       if (!entry.isFile() || !entry.name.endsWith(".atom.json")) continue;
-      const specPath = path6.join(uiDir, entry.name);
+      const specPath = path7.join(uiDir, entry.name);
       try {
-        const rawSpec = JSON.parse(fs6.readFileSync(specPath, "utf-8"));
+        const rawSpec = JSON.parse(fs7.readFileSync(specPath, "utf-8"));
         const validation = validateSubmissionSpec(rawSpec);
         if (validation.valid) {
           const pascal = toPascalCase(validation.spec.id);
@@ -595,21 +712,23 @@ function stripDelimitedCustomStyles(cssText) {
 ${after}` : before;
 }
 function saveProjectRegistry(cwd, registry, options) {
+  const baseDocument = readExistingBaseDocument(cwd);
+  const resolvedBrand = registry.brand || baseDocument.brand;
   const normalizedRegistry = {
     $schema: registry.$schema || "https://system.atomground.com/schemas/studio-registry.schema.json",
     version: registry.version || readProjectVersion(cwd),
     updatedAt: (/* @__PURE__ */ new Date()).toISOString(),
     activeThemeId: registry.activeThemeId || "ocean-blue",
+    ...resolvedBrand ? { brand: resolvedBrand } : {},
     statusTokens: registry.statusTokens && registry.statusTokens.length > 0 ? registry.statusTokens : INITIAL_SEMANTIC_STATUS_TOKENS,
     paletteVariables: registry.paletteVariables && registry.paletteVariables.length > 0 ? registry.paletteVariables : INITIAL_PALETTE_VARIABLES,
     components: registry.components || [],
     ...registry.themes && registry.themes.length > 0 ? { themes: registry.themes } : {}
   };
-  const baseDocument = readExistingBaseDocument(cwd);
   const filesWritten = [];
-  const tokensDir = path6.join(cwd, "tokens");
-  if (!fs6.existsSync(tokensDir)) {
-    fs6.mkdirSync(tokensDir, { recursive: true });
+  const tokensDir = path7.join(cwd, "tokens");
+  if (!fs7.existsSync(tokensDir)) {
+    fs7.mkdirSync(tokensDir, { recursive: true });
   }
   const formattedTokensJson = options?.tokensJson && options.tokensJson.trim() ? options.tokensJson : exportStudioToTokensJson(
     normalizedRegistry.paletteVariables,
@@ -618,29 +737,35 @@ function saveProjectRegistry(cwd, registry, options) {
     {
       activeThemeId: normalizedRegistry.activeThemeId,
       themes: normalizedRegistry.themes,
+      brand: normalizedRegistry.brand,
       baseDocument,
       version: normalizedRegistry.version
     }
   );
-  const tokensJsonPath = path6.join(cwd, TOKENS_SSOT_REL_PATH);
-  fs6.writeFileSync(tokensJsonPath, formattedTokensJson, "utf-8");
+  const tokensJsonPath = path7.join(cwd, TOKENS_SSOT_REL_PATH);
+  fs7.writeFileSync(tokensJsonPath, formattedTokensJson, "utf-8");
   filesWritten.push("tokens/tokens.json");
-  const cssDir = path6.join(cwd, "css");
-  if (!fs6.existsSync(cssDir)) {
-    fs6.mkdirSync(cssDir, { recursive: true });
+  const cssDir = path7.join(cwd, "css");
+  if (!fs7.existsSync(cssDir)) {
+    fs7.mkdirSync(cssDir, { recursive: true });
   }
-  const cssPath = path6.join(cssDir, "atom-ui.css");
-  const generatedBase = options?.cssString && typeof options.cssString === "string" ? options.cssString : exportStudioToCSS(
-    normalizedRegistry.paletteVariables,
-    normalizedRegistry.components,
-    normalizedRegistry.statusTokens,
-    baseDocument.palette
-  );
+  const cssPath = path7.join(cssDir, "atom-ui.css");
+  let generatedBase;
+  try {
+    generatedBase = compileTokensToCss(JSON.parse(formattedTokensJson));
+  } catch {
+    generatedBase = options?.cssString && typeof options.cssString === "string" ? options.cssString : exportStudioToCSS(
+      normalizedRegistry.paletteVariables,
+      normalizedRegistry.components,
+      normalizedRegistry.statusTokens,
+      baseDocument.palette
+    );
+  }
   const customStylesBlock = exportStudioCustomComponentStyles(normalizedRegistry.components);
   const baseWithoutCustom = stripDelimitedCustomStyles(generatedBase).trimEnd();
   let fullCss = baseWithoutCustom;
-  if (fs6.existsSync(cssPath) && !baseWithoutCustom.includes(UNIVERSAL_MARKER)) {
-    const existingCss = fs6.readFileSync(cssPath, "utf-8");
+  if (fs7.existsSync(cssPath) && !baseWithoutCustom.includes(UNIVERSAL_MARKER)) {
+    const existingCss = fs7.readFileSync(cssPath, "utf-8");
     const splitIdx = existingCss.indexOf(UNIVERSAL_MARKER);
     if (splitIdx !== -1) {
       const preservedUniversal = stripDelimitedCustomStyles(existingCss.slice(splitIdx)).trimEnd();
@@ -658,7 +783,7 @@ ${customStylesBlock}
     fullCss = `${fullCss.trimEnd()}
 `;
   }
-  fs6.writeFileSync(cssPath, fullCss, "utf-8");
+  fs7.writeFileSync(cssPath, fullCss, "utf-8");
   filesWritten.push("css/atom-ui.css");
   return { filesWritten, registry: normalizedRegistry };
 }
@@ -669,17 +794,17 @@ function submitComponentSpec(cwd, rawSpec) {
   }
   const spec = validation.spec;
   const pascalName = toPascalCase(spec.id);
-  const uiDir = path6.join(cwd, "components", "ui");
-  if (!fs6.existsSync(uiDir)) {
-    fs6.mkdirSync(uiDir, { recursive: true });
+  const uiDir = path7.join(cwd, "components", "ui");
+  if (!fs7.existsSync(uiDir)) {
+    fs7.mkdirSync(uiDir, { recursive: true });
   }
   const filesWritten = [];
   const componentRelPath = `components/ui/${pascalName}.tsx`;
-  const componentAbsPath = path6.join(uiDir, `${pascalName}.tsx`);
-  if (!fs6.existsSync(componentAbsPath) || spec.componentCode || spec.overwriteCode) {
+  const componentAbsPath = path7.join(uiDir, `${pascalName}.tsx`);
+  if (!fs7.existsSync(componentAbsPath) || spec.componentCode || spec.overwriteCode) {
     const tsxCode = spec.componentCode ? `${spec.componentCode.trimEnd()}
 ` : generateComponentTsx(spec);
-    fs6.writeFileSync(componentAbsPath, tsxCode, "utf-8");
+    fs7.writeFileSync(componentAbsPath, tsxCode, "utf-8");
     filesWritten.push(componentRelPath);
   }
   if (ensureUiBarrelExport(uiDir, pascalName)) {
@@ -747,22 +872,22 @@ var NEUTRAL_HEX = /* @__PURE__ */ new Set([
 ]);
 function collectSourceFiles(rootDir) {
   const results = [];
-  const candidateRoots = ["src", "app", "components", "pages", "styles"].map((d) => path6.join(rootDir, d)).filter((d) => fs6.existsSync(d) && fs6.statSync(d).isDirectory());
+  const candidateRoots = ["src", "app", "components", "pages", "styles"].map((d) => path7.join(rootDir, d)).filter((d) => fs7.existsSync(d) && fs7.statSync(d).isDirectory());
   const scanTargets = candidateRoots.length > 0 ? candidateRoots : [rootDir];
   function walk(dir) {
     let entries;
     try {
-      entries = fs6.readdirSync(dir, { withFileTypes: true });
+      entries = fs7.readdirSync(dir, { withFileTypes: true });
     } catch {
       return;
     }
     for (const entry of entries) {
       if (IGNORE_DIRS.has(entry.name)) continue;
-      const fullPath = path6.join(dir, entry.name);
+      const fullPath = path7.join(dir, entry.name);
       if (entry.isDirectory()) {
         walk(fullPath);
-      } else if (entry.isFile() && SOURCE_EXTENSIONS.has(path6.extname(entry.name).toLowerCase())) {
-        const rel = path6.relative(rootDir, fullPath).split(path6.sep).join("/");
+      } else if (entry.isFile() && SOURCE_EXTENSIONS.has(path7.extname(entry.name).toLowerCase())) {
+        const rel = path7.relative(rootDir, fullPath).split(path7.sep).join("/");
         if (rel === "css/atom-ui.css" || rel === "tokens/tokens.json") continue;
         results.push(fullPath);
       }
@@ -894,10 +1019,10 @@ function analyzeProject(cwd) {
   const candidates = [];
   const seenCandidateIds = /* @__PURE__ */ new Set();
   for (const absFile of files) {
-    const relFile = path6.relative(cwd, absFile).split(path6.sep).join("/");
+    const relFile = path7.relative(cwd, absFile).split(path7.sep).join("/");
     let content = "";
     try {
-      content = fs6.readFileSync(absFile, "utf-8");
+      content = fs7.readFileSync(absFile, "utf-8");
     } catch {
       continue;
     }
@@ -925,7 +1050,7 @@ function analyzeProject(cwd) {
       radiusMap.set(r, (radiusMap.get(r) || 0) + 1);
     }
     if ((relFile.startsWith("components/") || relFile.includes("/components/")) && !relFile.includes("components/ui/") && (relFile.endsWith(".tsx") || relFile.endsWith(".jsx"))) {
-      const base = path6.basename(relFile, path6.extname(relFile));
+      const base = path7.basename(relFile, path7.extname(relFile));
       const kebab = toKebabCase(base);
       if (kebab && /^[a-z][a-z0-9-]{0,62}$/.test(kebab) && !seenCandidateIds.has(kebab)) {
         seenCandidateIds.add(kebab);
@@ -1112,20 +1237,20 @@ function sendJson(res, statusCode, data) {
 function getStudioDistDir() {
   try {
     if (typeof __dirname !== "undefined") {
-      return path6.resolve(__dirname, "studio");
+      return path7.resolve(__dirname, "studio");
     }
     const currentFile = fileURLToPath(import.meta.url);
-    return path6.resolve(path6.dirname(currentFile), "studio");
+    return path7.resolve(path7.dirname(currentFile), "studio");
   } catch {
-    return path6.resolve(process.cwd(), "dist", "studio");
+    return path7.resolve(process.cwd(), "dist", "studio");
   }
 }
 function startLocalTokenStudio(options = {}) {
   const port = options.port || 4e3;
   const cwd = options.cwd || process.cwd();
-  const tokenJsonPath = path6.join(cwd, "tokens", "tokens.json");
-  const cssPath = path6.join(cwd, "css", "atom-ui.css");
-  const registryPath = path6.join(cwd, "tokens", "tokens.json");
+  const tokenJsonPath = path7.join(cwd, "tokens", "tokens.json");
+  const cssPath = path7.join(cwd, "css", "atom-ui.css");
+  const registryPath = path7.join(cwd, "tokens", "tokens.json");
   const server = http.createServer(async (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
@@ -1231,9 +1356,9 @@ function startLocalTokenStudio(options = {}) {
     }
     if (url.pathname === "/api/tokens" && req.method === "GET") {
       let data = {};
-      if (fs6.existsSync(tokenJsonPath)) {
+      if (fs7.existsSync(tokenJsonPath)) {
         try {
-          data = JSON.parse(fs6.readFileSync(tokenJsonPath, "utf-8"));
+          data = JSON.parse(fs7.readFileSync(tokenJsonPath, "utf-8"));
         } catch {
           data = { error: "Failed to parse tokens/tokens.json" };
         }
@@ -1245,15 +1370,15 @@ function startLocalTokenStudio(options = {}) {
       try {
         const raw = await readRequestBody(req);
         const newTokens = JSON.parse(raw);
-        const tokensDir = path6.dirname(tokenJsonPath);
-        if (!fs6.existsSync(tokensDir)) fs6.mkdirSync(tokensDir, { recursive: true });
-        fs6.writeFileSync(tokenJsonPath, JSON.stringify(newTokens, null, 2), "utf-8");
+        const tokensDir = path7.dirname(tokenJsonPath);
+        if (!fs7.existsSync(tokensDir)) fs7.mkdirSync(tokensDir, { recursive: true });
+        fs7.writeFileSync(tokenJsonPath, JSON.stringify(newTokens, null, 2), "utf-8");
         const compiledCss = compileTokensToCss(newTokens);
-        const cssDir = path6.dirname(cssPath);
-        if (!fs6.existsSync(cssDir)) fs6.mkdirSync(cssDir, { recursive: true });
+        const cssDir = path7.dirname(cssPath);
+        if (!fs7.existsSync(cssDir)) fs7.mkdirSync(cssDir, { recursive: true });
         let fullCss = compiledCss;
-        if (fs6.existsSync(cssPath)) {
-          const existingCss = fs6.readFileSync(cssPath, "utf-8");
+        if (fs7.existsSync(cssPath)) {
+          const existingCss = fs7.readFileSync(cssPath, "utf-8");
           const splitIndex = existingCss.indexOf("/* === Universal Component Classes === */");
           if (splitIndex !== -1) {
             fullCss = `${compiledCss.trimEnd()}
@@ -1261,7 +1386,7 @@ function startLocalTokenStudio(options = {}) {
 ${existingCss.slice(splitIndex)}`;
           }
         }
-        fs6.writeFileSync(cssPath, fullCss, "utf-8");
+        fs7.writeFileSync(cssPath, fullCss, "utf-8");
         sendJson(res, 200, {
           success: true,
           message: "Tokens and CSS compiled successfully (universal classes preserved)!"
@@ -1274,19 +1399,19 @@ ${existingCss.slice(splitIndex)}`;
     }
     const studioDistDir = getStudioDistDir();
     if (url.pathname === "/studio.js" || url.pathname === "/studio.css") {
-      const assetPath = path6.join(studioDistDir, url.pathname.slice(1));
-      if (fs6.existsSync(assetPath)) {
+      const assetPath = path7.join(studioDistDir, url.pathname.slice(1));
+      if (fs7.existsSync(assetPath)) {
         const contentType = url.pathname.endsWith(".js") ? "application/javascript; charset=utf-8" : "text/css; charset=utf-8";
         res.writeHead(200, { "Content-Type": contentType, "Cache-Control": "no-cache" });
-        res.end(fs6.readFileSync(assetPath));
+        res.end(fs7.readFileSync(assetPath));
         return;
       }
     }
     if (req.method === "GET" && (url.pathname === "/" || url.pathname === "/index.html" || url.pathname === "/studio" || url.pathname.startsWith("/studio/"))) {
-      const indexPath = path6.join(studioDistDir, "index.html");
+      const indexPath = path7.join(studioDistDir, "index.html");
       res.writeHead(200, { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-cache" });
-      if (fs6.existsSync(indexPath)) {
-        res.end(fs6.readFileSync(indexPath, "utf-8"));
+      if (fs7.existsSync(indexPath)) {
+        res.end(fs7.readFileSync(indexPath, "utf-8"));
       } else {
         res.end(getStudioHtml());
       }
@@ -1300,9 +1425,9 @@ ${existingCss.slice(splitIndex)}`;
 \u{1F3A8} AtomSystem Local SSOT Studio running at:`);
     console.log(`   \u{1F449} http://localhost:${port}
 `);
-    console.log(`   Registry SSOT : ${path6.relative(cwd, registryPath)}`);
-    console.log(`   Tokens file   : ${path6.relative(cwd, tokenJsonPath)}`);
-    console.log(`   Compiled CSS  : ${path6.relative(cwd, cssPath)}`);
+    console.log(`   Registry SSOT : ${path7.relative(cwd, registryPath)}`);
+    console.log(`   Tokens file   : ${path7.relative(cwd, tokenJsonPath)}`);
+    console.log(`   Compiled CSS  : ${path7.relative(cwd, cssPath)}`);
     console.log(`
 Press Ctrl+C to stop the studio server.
 `);
@@ -1664,6 +1789,351 @@ function getStudioHtml() {
 </body>
 </html>`;
 }
+function openUrlInBrowser(url) {
+  const platform = process.platform;
+  const cmd = platform === "win32" ? `start "" "${url}"` : platform === "darwin" ? `open "${url}"` : `xdg-open "${url}"`;
+  exec(cmd, () => {
+  });
+}
+function resolveColorValue(doc, rawValue) {
+  if (!rawValue || typeof rawValue !== "string") return "";
+  if (!rawValue.startsWith("{") || !rawValue.endsWith("}")) return rawValue;
+  const parts = rawValue.slice(1, -1).split(".");
+  let cur = doc;
+  for (const part of parts) {
+    if (cur && typeof cur === "object" && part in cur) {
+      cur = cur[part];
+    } else {
+      return rawValue;
+    }
+  }
+  return typeof cur?.$value === "string" ? cur.$value : rawValue;
+}
+function readThemesFromTokens(tokenJsonPath) {
+  const doc = JSON.parse(fs7.readFileSync(tokenJsonPath, "utf-8"));
+  const presets = doc?.theme?.presets || {};
+  const activeThemeId = doc?.theme?.activeThemeId || Object.keys(presets)[0] || "ocean-blue";
+  const themes = Object.entries(presets).map(([id, preset]) => {
+    const t = preset?.tokens || {};
+    return {
+      id,
+      name: preset?.name || id,
+      description: preset?.description || "",
+      mode: preset?.mode === "dark" ? "dark" : "light",
+      brandColor: resolveColorValue(doc, t.primary?.$value || preset?.brandColor) || "#3182f6",
+      bgPrimary: resolveColorValue(doc, t.bgPrimary?.$value) || (preset?.mode === "dark" ? "#0f172a" : "#ffffff"),
+      textPrimary: resolveColorValue(doc, t.textPrimary?.$value) || (preset?.mode === "dark" ? "#f8fafc" : "#111111")
+    };
+  });
+  return { activeThemeId, themes };
+}
+function applyThemeById(cwd, themeId) {
+  const tokenJsonPath = path7.join(cwd, "tokens", "tokens.json");
+  const cssPath = path7.join(cwd, "css", "atom-ui.css");
+  const doc = JSON.parse(fs7.readFileSync(tokenJsonPath, "utf-8"));
+  const presets = doc?.theme?.presets || {};
+  const selectedPreset = presets[themeId];
+  if (!selectedPreset) {
+    throw new Error(`Theme "${themeId}" not found.`);
+  }
+  doc.theme = doc.theme || {};
+  doc.theme.activeThemeId = themeId;
+  doc.updatedAt = (/* @__PURE__ */ new Date()).toISOString();
+  fs7.writeFileSync(tokenJsonPath, `${JSON.stringify(doc, null, 2)}
+`, "utf-8");
+  let css = compileTokensToCss(doc);
+  const cssDir = path7.dirname(cssPath);
+  if (!fs7.existsSync(cssDir)) fs7.mkdirSync(cssDir, { recursive: true });
+  const marker = "/* === Universal Component Classes === */";
+  if (fs7.existsSync(cssPath)) {
+    const existing = fs7.readFileSync(cssPath, "utf-8");
+    const idx = existing.indexOf(marker);
+    if (idx !== -1) css = `${css.trimEnd()}
+
+${existing.slice(idx)}`;
+  }
+  fs7.writeFileSync(cssPath, css, "utf-8");
+  return { name: selectedPreset.name || themeId, mode: selectedPreset.mode || "light" };
+}
+function getFloatingInjectScript(port) {
+  return `(function(){
+  if (window.__atomFloatingThemeLoaded) return;
+  window.__atomFloatingThemeLoaded = true;
+  var BASE = 'http://localhost:${port}';
+  var wrap = document.createElement('div');
+  wrap.style.cssText = 'position:fixed;bottom:20px;right:20px;z-index:2147483647;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;';
+  var panel = document.createElement('div');
+  panel.style.cssText = 'display:none;width:280px;max-height:360px;overflow-y:auto;margin-bottom:8px;padding:10px;border-radius:12px;background:var(--bg-primary,#141821);color:var(--text-primary,#f3f4f6);border:1px solid var(--border-strong,#262c3a);box-shadow:0 16px 40px rgba(0,0,0,.35);';
+  var btn = document.createElement('button');
+  btn.type = 'button';
+  btn.textContent = '\u{1F3A8} Theme';
+  btn.style.cssText = 'padding:8px 14px;border-radius:999px;border:1px solid var(--border-strong,#262c3a);background:var(--accent-primary,#3182f6);color:#fff;font-size:12px;font-weight:600;cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,.25);';
+  btn.onclick = function(){ panel.style.display = panel.style.display === 'none' ? 'block' : 'none'; };
+  wrap.appendChild(panel);
+  wrap.appendChild(btn);
+  document.body.appendChild(wrap);
+  function applyCss(th){
+    var r = document.documentElement;
+    r.setAttribute('data-atom-theme', th.id);
+    r.style.colorScheme = th.mode;
+    if (th.brandColor) { r.style.setProperty('--accent-primary', th.brandColor); r.style.setProperty('--atom-color-primary', th.brandColor); }
+    if (th.bgPrimary) { r.style.setProperty('--bg-primary', th.bgPrimary); r.style.setProperty('--atom-bg-primary', th.bgPrimary); }
+    if (th.textPrimary) { r.style.setProperty('--text-primary', th.textPrimary); r.style.setProperty('--atom-text-primary', th.textPrimary); }
+  }
+  fetch(BASE + '/api/themes').then(function(r){ return r.json(); }).then(function(data){
+    var activeId = data.activeThemeId;
+    var themes = data.themes || [];
+    var cur = themes.find(function(t){ return t.id === activeId; });
+    if (cur) btn.textContent = '\u{1F3A8} ' + cur.name;
+    panel.innerHTML = '';
+    themes.forEach(function(th){
+      var item = document.createElement('button');
+      item.type = 'button';
+      item.style.cssText = 'width:100%;display:flex;align-items:center;justify-content:space-between;padding:7px 9px;margin:2px 0;border-radius:8px;border:1px solid transparent;background:' + (th.id===activeId?'rgba(59,130,246,.15)':'transparent') + ';color:inherit;font-size:12px;cursor:pointer;text-align:left;';
+      item.innerHTML = '<span>' + th.name + '</span><span style="opacity:.7;font-size:11px">' + (th.id===activeId?'\u2713':th.mode) + '</span>';
+      item.onclick = function(){
+        applyCss(th);
+        btn.textContent = '\u{1F3A8} ' + th.name;
+        fetch(BASE + '/api/theme', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ themeId: th.id }) });
+      };
+      panel.appendChild(item);
+    });
+  });
+})();`;
+}
+function getFloatingWidgetHtml() {
+  return `<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AtomSystem Floating Theme Menu</title>
+  <style>
+    :root { color-scheme: light dark; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #0b0d12;
+      color: #f3f4f6;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .floating-panel {
+      width: 100%;
+      max-width: 420px;
+      background: #141821;
+      border: 1px solid #262c3a;
+      border-radius: 16px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+      overflow: hidden;
+    }
+    .panel-header {
+      padding: 16px 18px;
+      border-bottom: 1px solid #262c3a;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .panel-title { font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+    .panel-sub { font-size: 11px; color: #9ca3af; margin-top: 2px; }
+    .badge {
+      font-size: 11px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(49, 130, 246, 0.16);
+      color: #60a5fa;
+      border: 1px solid rgba(49, 130, 246, 0.35);
+    }
+    .theme-list {
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 460px;
+      overflow-y: auto;
+    }
+    .theme-item {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 11px 12px;
+      border-radius: 10px;
+      border: 1px solid #262c3a;
+      background: #1a202c;
+      color: inherit;
+      cursor: pointer;
+      text-align: left;
+      transition: border-color 0.15s, background 0.15s, transform 0.1s;
+    }
+    .theme-item:hover { border-color: #4b5563; background: #202736; }
+    .theme-item.active { border-color: #3b82f6; background: rgba(59, 130, 246, 0.14); }
+    .theme-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
+    .swatch {
+      width: 24px;
+      height: 24px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.2);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .swatch-dot { width: 10px; height: 10px; border-radius: 999px; }
+    .theme-name { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .theme-desc { font-size: 11px; color: #9ca3af; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 240px; }
+    .theme-meta { font-size: 11px; color: #9ca3af; font-family: ui-monospace, monospace; flex-shrink: 0; }
+    .panel-footer {
+      padding: 10px 16px;
+      border-top: 1px solid #262c3a;
+      font-size: 11px;
+      color: #9ca3af;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .status-ok { color: #34d399; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <div class="floating-panel">
+    <div class="panel-header">
+      <div>
+        <div class="panel-title">\u{1F3A8} AtomSystem Theme Picker</div>
+        <div class="panel-sub">\uC120\uD0DD \uC989\uC2DC tokens/tokens.json &amp; css/atom-ui.css \uC804\uCCB4 \uBC18\uC601</div>
+      </div>
+      <span class="badge" id="active-badge">loading...</span>
+    </div>
+    <div class="theme-list" id="theme-list"></div>
+    <div class="panel-footer">
+      <span id="status-text">\uD504\uB85C\uC81D\uD2B8\uC640 \uBB34\uAD00\uD558\uAC8C \uB3C5\uB9BD \uC2E4\uD589 \uC911</span>
+      <span>Ctrl+C \uB85C \uC885\uB8CC</span>
+    </div>
+  </div>
+  <script>
+    async function loadThemes() {
+      const res = await fetch('/api/themes');
+      const data = await res.json();
+      render(data.themes, data.activeThemeId);
+    }
+    function render(themes, activeId) {
+      document.getElementById('active-badge').textContent = activeId;
+      const list = document.getElementById('theme-list');
+      list.innerHTML = '';
+      for (const th of themes) {
+        const btn = document.createElement('button');
+        btn.className = 'theme-item' + (th.id === activeId ? ' active' : '');
+        btn.innerHTML =
+          '<div class="theme-left">' +
+            '<div class="swatch" style="background:' + th.bgPrimary + '">' +
+              '<div class="swatch-dot" style="background:' + th.brandColor + '"></div>' +
+            '</div>' +
+            '<div>' +
+              '<div class="theme-name">' + th.name + '</div>' +
+              '<div class="theme-desc">' + (th.description || th.id) + '</div>' +
+            '</div>' +
+          '</div>' +
+          '<span class="theme-meta">' + (th.id === activeId ? '\u2713 Active' : th.mode) + '</span>';
+        btn.onclick = async () => {
+          const status = document.getElementById('status-text');
+          status.textContent = '\uC801\uC6A9 \uC911...';
+          status.className = '';
+          const r = await fetch('/api/theme', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ themeId: th.id }),
+          });
+          const out = await r.json();
+          if (out.success) {
+            status.textContent = '\u2713 ' + th.name + ' \uC801\uC6A9 \uC644\uB8CC (css/atom-ui.css \uC7AC\uCEF4\uD30C\uC77C\uB428)';
+            status.className = 'status-ok';
+            render(themes, th.id);
+          } else {
+            status.textContent = '\uC624\uB958: ' + (out.error || 'failed');
+          }
+        };
+        list.appendChild(btn);
+      }
+    }
+    loadThemes();
+  </script>
+</body>
+</html>`;
+}
+function startFloatingThemeServer(options = {}) {
+  const port = options.port ?? 4010;
+  const cwd = options.cwd ?? process.cwd();
+  const tokenJsonPath = path7.join(cwd, "tokens", "tokens.json");
+  const server = http.createServer((req, res) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+    if (req.method === "OPTIONS") {
+      res.writeHead(204);
+      res.end();
+      return;
+    }
+    const url = new URL(req.url || "/", `http://localhost:${port}`);
+    if (req.method === "GET" && url.pathname === "/floating.js") {
+      res.writeHead(200, { "Content-Type": "application/javascript; charset=utf-8", "Cache-Control": "no-cache" });
+      res.end(getFloatingInjectScript(port));
+      return;
+    }
+    if (req.method === "GET" && url.pathname === "/api/themes") {
+      try {
+        const data = readThemesFromTokens(tokenJsonPath);
+        res.writeHead(200, { "Content-Type": "application/json; charset=utf-8" });
+        res.end(JSON.stringify(data));
+      } catch (err) {
+        res.writeHead(500, { "Content-Type": "application/json; charset=utf-8" });
+        res.end(JSON.stringify({ error: err.message }));
+      }
+      return;
+    }
+    if (req.method === "POST" && url.pathname === "/api/theme") {
+      let body = "";
+      req.on("data", (chunk) => {
+        body += chunk;
+      });
+      req.on("end", () => {
+        try {
+          const parsed = JSON.parse(body || "{}");
+          const result = applyThemeById(cwd, parsed.themeId);
+          res.writeHead(200, { "Content-Type": "application/json; charset=utf-8" });
+          res.end(JSON.stringify({ success: true, ...result }));
+        } catch (err) {
+          res.writeHead(400, { "Content-Type": "application/json; charset=utf-8" });
+          res.end(JSON.stringify({ success: false, error: err.message }));
+        }
+      });
+      return;
+    }
+    res.writeHead(200, { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-cache" });
+    res.end(getFloatingWidgetHtml());
+  });
+  server.listen(port, () => {
+    const url = `http://localhost:${port}`;
+    console.log(`
+\u{1F3A8} AtomSystem Floating Theme Menu running at:`);
+    console.log(`   \u{1F449} ${url}
+`);
+    console.log(`   Tokens file : ${path7.relative(cwd, tokenJsonPath)}`);
+    console.log(`   Target CSS  : css/atom-ui.css`);
+    console.log(`
+Press Ctrl+C to stop the floating theme menu.
+`);
+    if (options.openBrowser !== false) {
+      openUrlInBrowser(url);
+    }
+  });
+  return server;
+}
 var GLOBAL_CSS_CANDIDATES = [
   "app/globals.css",
   "src/app/globals.css",
@@ -1677,29 +2147,29 @@ var GLOBAL_CSS_CANDIDATES = [
   "app/layout.css"
 ];
 function toPosixRelativeImport(fromFile, targetFile) {
-  const rel = path6.relative(path6.dirname(fromFile), targetFile).split(path6.sep).join("/");
+  const rel = path7.relative(path7.dirname(fromFile), targetFile).split(path7.sep).join("/");
   return rel.startsWith(".") ? rel : `./${rel}`;
 }
 function ensureLocalCssLinked(cwd) {
-  const localAtomCss = path6.join(cwd, "css", "atom-ui.css");
+  const localAtomCss = path7.join(cwd, "css", "atom-ui.css");
   const updatedFiles = [];
   const alreadyLinkedFiles = [];
   const foundCssFiles = [];
-  if (!fs6.existsSync(localAtomCss)) {
+  if (!fs7.existsSync(localAtomCss)) {
     return { updatedFiles, alreadyLinkedFiles, foundCssFiles };
   }
   for (const relCandidate of GLOBAL_CSS_CANDIDATES) {
-    const absCssFile = path6.join(cwd, relCandidate);
-    if (!fs6.existsSync(absCssFile)) continue;
+    const absCssFile = path7.join(cwd, relCandidate);
+    if (!fs7.existsSync(absCssFile)) continue;
     foundCssFiles.push(relCandidate);
-    const content = fs6.readFileSync(absCssFile, "utf-8");
+    const content = fs7.readFileSync(absCssFile, "utf-8");
     const relImportPath = toPosixRelativeImport(absCssFile, localAtomCss);
     const importStatement = `@import "${relImportPath}";`;
     const pkgImportRegex = /(@import\s+['"])atomsystem\/css\/atom-ui\.css(['"]\s*;?)/g;
     if (pkgImportRegex.test(content)) {
       const nextContent2 = content.replace(pkgImportRegex, `$1${relImportPath}$2`);
       if (nextContent2 !== content) {
-        fs6.writeFileSync(absCssFile, nextContent2, "utf-8");
+        fs7.writeFileSync(absCssFile, nextContent2, "utf-8");
         updatedFiles.push(relCandidate);
         continue;
       }
@@ -1728,7 +2198,7 @@ ${content.slice(insertPos)}`;
 ${content}`;
       }
     }
-    fs6.writeFileSync(absCssFile, nextContent, "utf-8");
+    fs7.writeFileSync(absCssFile, nextContent, "utf-8");
     updatedFiles.push(relCandidate);
   }
   return { updatedFiles, alreadyLinkedFiles, foundCssFiles };
@@ -1738,10 +2208,10 @@ ${content}`;
 function getPkgRoot() {
   try {
     if (typeof __dirname !== "undefined") {
-      return path6.resolve(__dirname, "..");
+      return path7.resolve(__dirname, "..");
     }
     const currentFile = fileURLToPath(import.meta.url);
-    return path6.resolve(path6.dirname(currentFile), "..");
+    return path7.resolve(path7.dirname(currentFile), "..");
   } catch {
     return process.cwd();
   }
@@ -1751,48 +2221,48 @@ var args = process.argv.slice(2);
 var command = args[0] || "help";
 var targetName = args[1];
 function copyFileSafe(src, dest, label) {
-  const targetDir = path6.dirname(dest);
-  if (!fs6.existsSync(targetDir)) {
-    fs6.mkdirSync(targetDir, { recursive: true });
+  const targetDir = path7.dirname(dest);
+  if (!fs7.existsSync(targetDir)) {
+    fs7.mkdirSync(targetDir, { recursive: true });
   }
-  fs6.copyFileSync(src, dest);
-  console.log(`  \u2713 ${label} -> ${path6.relative(process.cwd(), dest)}`);
+  fs7.copyFileSync(src, dest);
+  console.log(`  \u2713 ${label} -> ${path7.relative(process.cwd(), dest)}`);
 }
 function handleInit() {
   const cwd = process.cwd();
   console.log("\n\u{1F680} Initializing AtomSystem Universal Design System...\n");
-  const srcAgentGuide = path6.join(PKG_ROOT, "presets", "agents.guide.md");
-  if (fs6.existsSync(srcAgentGuide)) {
-    copyFileSafe(srcAgentGuide, path6.join(cwd, "AGENTS.md"), "Universal AI Guide (AGENTS.md)");
-    copyFileSafe(srcAgentGuide, path6.join(cwd, "CLAUDE.md"), "Claude Code Guidelines (CLAUDE.md)");
-    copyFileSafe(srcAgentGuide, path6.join(cwd, ".cursorrules"), "Cursor Rules (.cursorrules)");
+  const srcAgentGuide = path7.join(PKG_ROOT, "presets", "agents.guide.md");
+  if (fs7.existsSync(srcAgentGuide)) {
+    copyFileSafe(srcAgentGuide, path7.join(cwd, "AGENTS.md"), "Universal AI Guide (AGENTS.md)");
+    copyFileSafe(srcAgentGuide, path7.join(cwd, "CLAUDE.md"), "Claude Code Guidelines (CLAUDE.md)");
+    copyFileSafe(srcAgentGuide, path7.join(cwd, ".cursorrules"), "Cursor Rules (.cursorrules)");
   }
-  const srcSkill = path6.join(PKG_ROOT, "skills", "atomsystem.skill.md");
-  if (fs6.existsSync(srcSkill)) {
-    copyFileSafe(srcSkill, path6.join(cwd, ".agents", "skills", "atomsystem", "SKILL.md"), "Agent Skill (.agents/skills/atomsystem/SKILL.md)");
+  const srcSkill = path7.join(PKG_ROOT, "skills", "atomsystem.skill.md");
+  if (fs7.existsSync(srcSkill)) {
+    copyFileSafe(srcSkill, path7.join(cwd, ".agents", "skills", "atomsystem", "SKILL.md"), "Agent Skill (.agents/skills/atomsystem/SKILL.md)");
   }
   const specs = [
-    { src: path6.join(PKG_ROOT, "presets", "default.design.md"), dest: path6.join(cwd, "atom.design.md"), label: "Design Tokens (atom.design.md)" },
-    { src: path6.join(PKG_ROOT, "presets", "components.md"), dest: path6.join(cwd, "atom.components.md"), label: "Components Spec (atom.components.md)" },
-    { src: path6.join(PKG_ROOT, "presets", "blocks.md"), dest: path6.join(cwd, "atom.blocks.md"), label: "Design Blocks Spec (atom.blocks.md)" },
-    { src: path6.join(PKG_ROOT, "presets", "uxPattern.md"), dest: path6.join(cwd, "atom.uxPattern.md"), label: "UX Patterns (atom.uxPattern.md)" }
+    { src: path7.join(PKG_ROOT, "presets", "default.design.md"), dest: path7.join(cwd, "atom.design.md"), label: "Design Tokens (atom.design.md)" },
+    { src: path7.join(PKG_ROOT, "presets", "components.md"), dest: path7.join(cwd, "atom.components.md"), label: "Components Spec (atom.components.md)" },
+    { src: path7.join(PKG_ROOT, "presets", "blocks.md"), dest: path7.join(cwd, "atom.blocks.md"), label: "Design Blocks Spec (atom.blocks.md)" },
+    { src: path7.join(PKG_ROOT, "presets", "uxPattern.md"), dest: path7.join(cwd, "atom.uxPattern.md"), label: "UX Patterns (atom.uxPattern.md)" }
   ];
   specs.forEach((s) => {
-    if (fs6.existsSync(s.src)) {
+    if (fs7.existsSync(s.src)) {
       copyFileSafe(s.src, s.dest, s.label);
     }
   });
-  const srcToken = path6.join(PKG_ROOT, "tokens", "tokens.json");
-  if (fs6.existsSync(srcToken)) {
-    copyFileSafe(srcToken, path6.join(cwd, "tokens", "tokens.json"), "Unified Token SSOT (tokens/tokens.json)");
+  const srcToken = path7.join(PKG_ROOT, "tokens", "tokens.json");
+  if (fs7.existsSync(srcToken)) {
+    copyFileSafe(srcToken, path7.join(cwd, "tokens", "tokens.json"), "Unified Token SSOT (tokens/tokens.json)");
   } else {
     const { registry } = loadProjectRegistry(cwd);
     saveProjectRegistry(cwd, registry);
     console.log("  \u2713 Unified Token SSOT -> tokens/tokens.json");
   }
-  const srcCss = path6.join(PKG_ROOT, "css", "atom-ui.css");
-  if (fs6.existsSync(srcCss)) {
-    copyFileSafe(srcCss, path6.join(cwd, "css", "atom-ui.css"), "Zero-Runtime Semantic CSS (css/atom-ui.css)");
+  const srcCss = path7.join(PKG_ROOT, "css", "atom-ui.css");
+  if (fs7.existsSync(srcCss)) {
+    copyFileSafe(srcCss, path7.join(cwd, "css", "atom-ui.css"), "Zero-Runtime Semantic CSS (css/atom-ui.css)");
   }
   const linkResult = ensureLocalCssLinked(cwd);
   if (linkResult.updatedFiles.length > 0) {
@@ -1872,9 +2342,9 @@ function handleAdd(name) {
   const normalized = name.toLowerCase().trim();
   if (COMPONENT_MAP[normalized]) {
     const fileName = COMPONENT_MAP[normalized];
-    const src = path6.join(PKG_ROOT, "components", "ui", fileName);
-    const dest = path6.join(cwd, "components", "ui", fileName);
-    if (fs6.existsSync(src)) {
+    const src = path7.join(PKG_ROOT, "components", "ui", fileName);
+    const dest = path7.join(cwd, "components", "ui", fileName);
+    if (fs7.existsSync(src)) {
       copyFileSafe(src, dest, `Component (${fileName})`);
       console.log(`
 \u2705 Added ${normalized} component to components/ui/${fileName}
@@ -1894,16 +2364,16 @@ function handleAdd(name) {
     deps.forEach((dep) => {
       const depFile = COMPONENT_MAP[dep];
       if (depFile) {
-        const srcDep = path6.join(PKG_ROOT, "components", "ui", depFile);
-        const destDep = path6.join(cwd, "components", "ui", depFile);
-        if (fs6.existsSync(srcDep)) {
+        const srcDep = path7.join(PKG_ROOT, "components", "ui", depFile);
+        const destDep = path7.join(cwd, "components", "ui", depFile);
+        if (fs7.existsSync(srcDep)) {
           copyFileSafe(srcDep, destDep, `Dependent Component (${depFile})`);
         }
       }
     });
-    const srcBlock = path6.join(PKG_ROOT, "components", "blocks", file);
-    const destBlock = path6.join(cwd, "components", "blocks", file);
-    if (fs6.existsSync(srcBlock)) {
+    const srcBlock = path7.join(PKG_ROOT, "components", "blocks", file);
+    const destBlock = path7.join(cwd, "components", "blocks", file);
+    if (fs7.existsSync(srcBlock)) {
       copyFileSafe(srcBlock, destBlock, `Block (${file})`);
       console.log(`
 \u2705 Block "${normalized}" successfully added to components/blocks/${file}
@@ -1946,30 +2416,30 @@ Install any item:
 }
 function handleBuildTokens() {
   const cwd = process.cwd();
-  const tokenJsonPath = path6.join(cwd, "tokens", "tokens.json");
-  const cssPath = path6.join(cwd, "css", "atom-ui.css");
-  if (!fs6.existsSync(tokenJsonPath)) {
+  const tokenJsonPath = path7.join(cwd, "tokens", "tokens.json");
+  const cssPath = path7.join(cwd, "css", "atom-ui.css");
+  if (!fs7.existsSync(tokenJsonPath)) {
     console.error(`
 \u274C tokens/tokens.json not found at ${tokenJsonPath}. Run 'npx atomsystem init' first.
 `);
     return;
   }
   try {
-    const tokens = JSON.parse(fs6.readFileSync(tokenJsonPath, "utf-8"));
+    const tokens = JSON.parse(fs7.readFileSync(tokenJsonPath, "utf-8"));
     let css = compileTokensToCss(tokens);
-    const cssDir = path6.dirname(cssPath);
-    if (!fs6.existsSync(cssDir)) fs6.mkdirSync(cssDir, { recursive: true });
+    const cssDir = path7.dirname(cssPath);
+    if (!fs7.existsSync(cssDir)) fs7.mkdirSync(cssDir, { recursive: true });
     const marker = "/* === Universal Component Classes === */";
-    if (fs6.existsSync(cssPath)) {
-      const existing = fs6.readFileSync(cssPath, "utf-8");
+    if (fs7.existsSync(cssPath)) {
+      const existing = fs7.readFileSync(cssPath, "utf-8");
       const idx = existing.indexOf(marker);
       if (idx !== -1) css = `${css.trimEnd()}
 
 ${existing.slice(idx)}`;
     }
-    fs6.writeFileSync(cssPath, css, "utf-8");
+    fs7.writeFileSync(cssPath, css, "utf-8");
     console.log(`
-\u2728 Successfully compiled tokens to ${path6.relative(cwd, cssPath)}!
+\u2728 Successfully compiled tokens to ${path7.relative(cwd, cssPath)}!
 `);
   } catch (err) {
     console.error(`
@@ -1982,18 +2452,107 @@ function handleStudio() {
   const port = portArg ? parseInt(portArg.split("=")[1], 10) : 4e3;
   startLocalTokenStudio({ port, cwd: process.cwd() });
 }
+async function handleTheme(targetArg) {
+  const cwd = process.cwd();
+  const tokenJsonPath = path7.join(cwd, "tokens", "tokens.json");
+  const cssPath = path7.join(cwd, "css", "atom-ui.css");
+  if (!fs7.existsSync(tokenJsonPath)) {
+    console.error(`
+\u274C tokens/tokens.json not found at ${tokenJsonPath}. Run 'npx atomsystem init' first.
+`);
+    return;
+  }
+  let doc;
+  try {
+    doc = JSON.parse(fs7.readFileSync(tokenJsonPath, "utf-8"));
+  } catch (err) {
+    console.error(`
+\u274C Failed to parse tokens/tokens.json: ${err.message}
+`);
+    return;
+  }
+  const presets = doc?.theme?.presets || {};
+  const presetEntries = Object.entries(presets);
+  if (presetEntries.length === 0) {
+    console.error("\n\u274C No theme presets found in tokens/tokens.json (theme.presets).\n");
+    return;
+  }
+  const activeThemeId = doc?.theme?.activeThemeId || presetEntries[0][0];
+  if (args.includes("--list")) {
+    console.log("\n\u{1F3A8} Available AtomSystem Themes:\n");
+    for (const [id, preset] of presetEntries) {
+      const marker = id === activeThemeId ? "\u2605 [Active]" : "  ";
+      console.log(`  ${marker} ${id.padEnd(20)} (${preset.mode || "light"}) - ${preset.name || id}`);
+    }
+    console.log("");
+    return;
+  }
+  const setFlag = args.find((a) => a.startsWith("--set="));
+  const directId = setFlag ? setFlag.slice("--set=".length).trim() : targetArg && !targetArg.startsWith("-") ? targetArg.trim() : "";
+  if (directId) {
+    try {
+      const applied = applyThemeById(cwd, directId);
+      console.log(`
+\u{1F3A8} Theme applied: ${applied.name} (${directId}, ${applied.mode})`);
+      console.log(`   \u2713 Updated ${path7.relative(cwd, tokenJsonPath)}`);
+      console.log(`   \u2713 Recompiled ${path7.relative(cwd, cssPath)}
+`);
+    } catch (err) {
+      console.error(`
+\u274C ${err.message}
+`);
+    }
+    return;
+  }
+  if (!args.includes("--cli")) {
+    const portArg = args.find((a) => a.startsWith("--port="));
+    const port = portArg ? parseInt(portArg.split("=")[1], 10) : 4010;
+    startFloatingThemeServer({ port, cwd, openBrowser: !args.includes("--no-open") });
+    return;
+  }
+  const choices = presetEntries.map(([id, preset]) => {
+    const isCurrent = id === activeThemeId;
+    const modeTag = preset.mode === "dark" ? "\u{1F319} dark" : "\u2600\uFE0F light";
+    const activeTag = isCurrent ? " [Active]" : "";
+    return {
+      name: `${preset.name || id} (${id}) \xB7 ${modeTag}${activeTag}`,
+      value: id
+    };
+  });
+  const answer = await inquirer.prompt([
+    {
+      type: "list",
+      name: "themeId",
+      message: "\uD504\uB85C\uC81D\uD2B8 \uC804\uCCB4\uC5D0 \uC801\uC6A9\uD560 \uD14C\uB9C8\uB97C \uC120\uD0DD\uD558\uC138\uC694 (Select a theme):",
+      default: activeThemeId,
+      choices
+    }
+  ]);
+  try {
+    const applied = applyThemeById(cwd, answer.themeId);
+    console.log(`
+\u{1F3A8} Theme applied: ${applied.name} (${answer.themeId}, ${applied.mode})`);
+    console.log(`   \u2713 Updated ${path7.relative(cwd, tokenJsonPath)}`);
+    console.log(`   \u2713 Recompiled ${path7.relative(cwd, cssPath)}
+`);
+  } catch (err) {
+    console.error(`
+\u274C ${err.message}
+`);
+  }
+}
 function handleSkillInstall() {
   const cwd = process.cwd();
   console.log("\n\u{1F916} Installing AtomSystem Agent Skill & Universal Guidelines...\n");
-  const srcAgentGuide = path6.join(PKG_ROOT, "presets", "agents.guide.md");
-  if (fs6.existsSync(srcAgentGuide)) {
-    copyFileSafe(srcAgentGuide, path6.join(cwd, "AGENTS.md"), "Universal AI Guide (AGENTS.md)");
-    copyFileSafe(srcAgentGuide, path6.join(cwd, "CLAUDE.md"), "Claude Code Guidelines (CLAUDE.md)");
-    copyFileSafe(srcAgentGuide, path6.join(cwd, ".cursorrules"), "Cursor Rules (.cursorrules)");
+  const srcAgentGuide = path7.join(PKG_ROOT, "presets", "agents.guide.md");
+  if (fs7.existsSync(srcAgentGuide)) {
+    copyFileSafe(srcAgentGuide, path7.join(cwd, "AGENTS.md"), "Universal AI Guide (AGENTS.md)");
+    copyFileSafe(srcAgentGuide, path7.join(cwd, "CLAUDE.md"), "Claude Code Guidelines (CLAUDE.md)");
+    copyFileSafe(srcAgentGuide, path7.join(cwd, ".cursorrules"), "Cursor Rules (.cursorrules)");
   }
-  const srcSkill = path6.join(PKG_ROOT, "skills", "atomsystem.skill.md");
-  if (fs6.existsSync(srcSkill)) {
-    copyFileSafe(srcSkill, path6.join(cwd, ".agents", "skills", "atomsystem", "SKILL.md"), "Agent Skill (.agents/skills/atomsystem/SKILL.md)");
+  const srcSkill = path7.join(PKG_ROOT, "skills", "atomsystem.skill.md");
+  if (fs7.existsSync(srcSkill)) {
+    copyFileSafe(srcSkill, path7.join(cwd, ".agents", "skills", "atomsystem", "SKILL.md"), "Agent Skill (.agents/skills/atomsystem/SKILL.md)");
   }
   console.log("\n\u2728 Agent Skill installed successfully!");
   console.log("\u{1F4CC} Supported AI Assistants:");
@@ -2015,8 +2574,8 @@ function handleRefactor() {
   let grandMatches = 0;
   let grandFixed = 0;
   scanDirs.forEach((dirName) => {
-    const fullDir = path6.resolve(cwd, dirName);
-    if (!fs6.existsSync(fullDir)) return;
+    const fullDir = path7.resolve(cwd, dirName);
+    if (!fs7.existsSync(fullDir)) return;
     const report = scanAndRefactorDirectory(fullDir, { fix: shouldFix });
     grandScanned += report.scannedFiles;
     grandMatches += report.totalMatches;
@@ -2057,8 +2616,8 @@ function handleSubmit(filePathArg) {
     return;
   }
   const cwd = process.cwd();
-  const absPath = path6.resolve(cwd, filePathArg);
-  if (!fs6.existsSync(absPath)) {
+  const absPath = path7.resolve(cwd, filePathArg);
+  if (!fs7.existsSync(absPath)) {
     console.error(`
 \u274C Spec file not found: ${absPath}
 `);
@@ -2066,7 +2625,7 @@ function handleSubmit(filePathArg) {
     return;
   }
   try {
-    const raw = JSON.parse(fs6.readFileSync(absPath, "utf-8"));
+    const raw = JSON.parse(fs7.readFileSync(absPath, "utf-8"));
     const spec = raw?.spec && typeof raw.spec === "object" ? raw.spec : raw;
     const result = submitComponentSpec(cwd, spec);
     if (!result.success) {
@@ -2136,12 +2695,12 @@ Options for studio:
 `);
 }
 function showVersion() {
-  const pkgPath = path6.join(PKG_ROOT, "package.json");
-  if (fs6.existsSync(pkgPath)) {
-    const pkg = JSON.parse(fs6.readFileSync(pkgPath, "utf-8"));
+  const pkgPath = path7.join(PKG_ROOT, "package.json");
+  if (fs7.existsSync(pkgPath)) {
+    const pkg = JSON.parse(fs7.readFileSync(pkgPath, "utf-8"));
     console.log(`atomsystem v${pkg.version}`);
   } else {
-    console.log("atomsystem v0.15.0");
+    console.log("atomsystem v0.15.1");
   }
 }
 function handleAnalyze() {
@@ -2203,21 +2762,21 @@ function handlePostinstall() {
   try {
     const targetCwd = process.env.INIT_CWD;
     if (!targetCwd) return;
-    if (path6.resolve(targetCwd) === path6.resolve(PKG_ROOT)) return;
-    if (!fs6.existsSync(path6.join(targetCwd, "package.json"))) return;
-    const targetTokenPath = path6.join(targetCwd, "tokens", "tokens.json");
-    const targetCssPath = path6.join(targetCwd, "css", "atom-ui.css");
-    const srcToken = path6.join(PKG_ROOT, "tokens", "tokens.json");
-    const srcCss = path6.join(PKG_ROOT, "css", "atom-ui.css");
+    if (path7.resolve(targetCwd) === path7.resolve(PKG_ROOT)) return;
+    if (!fs7.existsSync(path7.join(targetCwd, "package.json"))) return;
+    const targetTokenPath = path7.join(targetCwd, "tokens", "tokens.json");
+    const targetCssPath = path7.join(targetCwd, "css", "atom-ui.css");
+    const srcToken = path7.join(PKG_ROOT, "tokens", "tokens.json");
+    const srcCss = path7.join(PKG_ROOT, "css", "atom-ui.css");
     let copiedAny = false;
-    if (!fs6.existsSync(targetTokenPath) && fs6.existsSync(srcToken)) {
-      fs6.mkdirSync(path6.dirname(targetTokenPath), { recursive: true });
-      fs6.copyFileSync(srcToken, targetTokenPath);
+    if (!fs7.existsSync(targetTokenPath) && fs7.existsSync(srcToken)) {
+      fs7.mkdirSync(path7.dirname(targetTokenPath), { recursive: true });
+      fs7.copyFileSync(srcToken, targetTokenPath);
       copiedAny = true;
     }
-    if (!fs6.existsSync(targetCssPath) && fs6.existsSync(srcCss)) {
-      fs6.mkdirSync(path6.dirname(targetCssPath), { recursive: true });
-      fs6.copyFileSync(srcCss, targetCssPath);
+    if (!fs7.existsSync(targetCssPath) && fs7.existsSync(srcCss)) {
+      fs7.mkdirSync(path7.dirname(targetCssPath), { recursive: true });
+      fs7.copyFileSync(srcCss, targetCssPath);
       copiedAny = true;
     }
     const linkResult = ensureLocalCssLinked(targetCwd);
@@ -2253,6 +2812,9 @@ switch (command) {
   case "studio":
   case "editor":
     handleStudio();
+    break;
+  case "theme":
+    void handleTheme(targetName);
     break;
   case "submit":
   case "register":

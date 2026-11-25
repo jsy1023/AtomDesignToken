@@ -87,6 +87,8 @@ export class AtomTokenSystem {
       fullResolver
     );
 
+    const brand = registry.brand || options?.baseDocument?.brand;
+
     const unifiedDoc: UnifiedTokensDocument = {
       $schema: 'https://design-tokens.github.io/community-group/format/',
       registrySchema:
@@ -96,6 +98,7 @@ export class AtomTokenSystem {
       name: options?.baseDocument?.name || 'AtomDesignToken System',
       version: registry.version || options?.baseDocument?.version || '0.14.2',
       updatedAt: registry.updatedAt || new Date().toISOString(),
+      ...(brand ? { brand } : {}),
       palette: paletteTree,
       theme: themeTree,
       components: componentsTree,

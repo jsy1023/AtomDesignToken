@@ -2679,6 +2679,12 @@ export interface StudioRegistry {
   version: string;
   updatedAt: string;
   activeThemeId?: string;
+  brand?: {
+    name: string;
+    slogan?: string;
+    logoUrl?: string | null;
+    logoHeight?: number;
+  };
   statusTokens: SemanticStatusToken[];
   paletteVariables: PaletteVariable[];
   components: StudioComponentDefinition[];

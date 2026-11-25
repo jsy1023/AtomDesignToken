@@ -4,8 +4,8 @@ import { getMessages, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 import { ThemeEditorRoot } from '@/components/editor/ThemeEditorRoot';
-import '../../css/atom-ui.css';
 import '../globals.css';
+import '../../css/atom-ui.css';
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));

@@ -32,3 +32,4 @@ export * from './Offcanvas';
 export * from './Toast';
 export * from './TokenSelect';
 export * from './Alert';
+export * from './ThemeSwitcher';

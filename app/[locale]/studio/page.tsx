@@ -33,7 +33,7 @@ export async function generateMetadata({
 
 export default function LocalStudioGuidePage() {
   return (
-    <div className="min-h-screen bg-(--bg-primary) text-(--text-primary)">
+    <div className="min-h-screen overflow-x-hidden bg-(--bg-primary) text-(--text-primary)">
       <Header />
       <main>
         <StudioGuideView />

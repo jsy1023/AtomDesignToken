@@ -20,6 +20,7 @@ import {
   STUDIO_CUSTOM_STYLES_END,
   STUDIO_CUSTOM_STYLES_START,
 } from './studioEngine';
+import { compileTokensToCss } from '../../src/tokenCompiler';
 import {
   ensureUiBarrelExport,
   generateComponentTsx,
@@ -326,12 +327,15 @@ export function saveProjectRegistry(
   registry: StudioRegistry,
   options?: { tokensJson?: string; cssString?: string }
 ): { filesWritten: string[]; registry: StudioRegistry } {
+  const baseDocument = readExistingBaseDocument(cwd);
+  const resolvedBrand = registry.brand || baseDocument.brand;
   const normalizedRegistry: StudioRegistry = {
     $schema:
       registry.$schema || 'https://system.atomground.com/schemas/studio-registry.schema.json',
     version: registry.version || readProjectVersion(cwd),
     updatedAt: new Date().toISOString(),
     activeThemeId: registry.activeThemeId || 'ocean-blue',
+    ...(resolvedBrand ? { brand: resolvedBrand } : {}),
     statusTokens:
       registry.statusTokens && registry.statusTokens.length > 0
         ? registry.statusTokens
@@ -344,7 +348,6 @@ export function saveProjectRegistry(
     ...(registry.themes && registry.themes.length > 0 ? { themes: registry.themes } : {}),
   };
 
-  const baseDocument = readExistingBaseDocument(cwd);
   const filesWritten: string[] = [];
   const tokensDir = path.join(cwd, 'tokens');
   if (!fs.existsSync(tokensDir)) {
@@ -362,6 +365,7 @@ export function saveProjectRegistry(
           {
             activeThemeId: normalizedRegistry.activeThemeId,
             themes: normalizedRegistry.themes,
+            brand: normalizedRegistry.brand,
             baseDocument,
             version: normalizedRegistry.version,
           }
@@ -378,15 +382,20 @@ export function saveProjectRegistry(
   }
   const cssPath = path.join(cssDir, 'atom-ui.css');
 
-  const generatedBase =
-    options?.cssString && typeof options.cssString === 'string'
-      ? options.cssString
-      : exportStudioToCSS(
-          normalizedRegistry.paletteVariables,
-          normalizedRegistry.components,
-          normalizedRegistry.statusTokens,
-          baseDocument.palette
-        );
+  let generatedBase: string;
+  try {
+    generatedBase = compileTokensToCss(JSON.parse(formattedTokensJson));
+  } catch {
+    generatedBase =
+      options?.cssString && typeof options.cssString === 'string'
+        ? options.cssString
+        : exportStudioToCSS(
+            normalizedRegistry.paletteVariables,
+            normalizedRegistry.components,
+            normalizedRegistry.statusTokens,
+            baseDocument.palette
+          );
+  }
 
   const customStylesBlock = exportStudioCustomComponentStyles(normalizedRegistry.components);
   const baseWithoutCustom = stripDelimitedCustomStyles(generatedBase).trimEnd();
