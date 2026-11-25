@@ -47,13 +47,13 @@ export function generateThemeCSS(theme: ThemeConfig): string {
   const safePrimary =
     color.primary && !color.primary.includes('var(--accent-primary)') && !color.primary.includes('var(--atom-color-primary)')
       ? color.primary
-      : '#3182f6';
+      : 'var(--accent-primary)';
   const safePrimaryHover =
     color.primaryHover &&
     !color.primaryHover.includes('var(--accent-hover)') &&
     !color.primaryHover.includes('var(--accent-primary-hover)')
       ? color.primaryHover
-      : '#1b64da';
+      : 'var(--accent-primary-hover)';
   const isDark = isDarkColor(color.bgPrimary);
 
   // Detect font import if Google font selected

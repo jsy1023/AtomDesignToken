@@ -1,16 +1,16 @@
 #!/usr/bin/env node
 'use strict';
 
-var fs5 = require('fs');
-var path5 = require('path');
+var fs7 = require('fs');
+var path7 = require('path');
 var url = require('url');
 var http = require('http');
 
 var _documentCurrentScript = typeof document !== 'undefined' ? document.currentScript : null;
 function _interopDefault (e) { return e && e.__esModule ? e : { default: e }; }
 
-var fs5__default = /*#__PURE__*/_interopDefault(fs5);
-var path5__default = /*#__PURE__*/_interopDefault(path5);
+var fs7__default = /*#__PURE__*/_interopDefault(fs7);
+var path7__default = /*#__PURE__*/_interopDefault(path7);
 var http__default = /*#__PURE__*/_interopDefault(http);
 
 // tokens/tokens.json
@@ -19,7 +19,7 @@ var tokens_default = {
   registrySchema: "https://system.atomground.com/schemas/studio-registry.schema.json",
   name: "AtomDesignToken System",
   version: "0.14.2",
-  updatedAt: "2026-11-24T05:23:08.779Z",
+  updatedAt: "2026-11-24T09:21:21.911Z",
   palette: {
     color: {
       blue: {
@@ -9437,13 +9437,13 @@ var PaletteTokenLayer = class {
     return this.raw.layout?.[group]?.[key];
   }
   byVariable(cssVar) {
-    const path6 = this.resolver.getPathByVariable(cssVar);
-    if (!path6 || !path6.startsWith("palette.")) return void 0;
-    return this.resolver.getNode(path6);
+    const path8 = this.resolver.getPathByVariable(cssVar);
+    if (!path8 || !path8.startsWith("palette.")) return void 0;
+    return this.resolver.getNode(path8);
   }
   getPathForVariable(cssVar) {
-    const path6 = this.resolver.getPathByVariable(cssVar);
-    return path6 && path6.startsWith("palette.") ? path6 : void 0;
+    const path8 = this.resolver.getPathByVariable(cssVar);
+    return path8 && path8.startsWith("palette.") ? path8 : void 0;
   }
   /**
    * Reconstructs the flat `PaletteVariable[]` array expected by Studio UI & repositories.
@@ -10224,6 +10224,9 @@ ${componentBlocks.join("\n\n")}`);
 `;
 }
 
+// lib/data/themeData.ts
+var INITIAL_STUDIO_THEMES = atomTokens.theme.toStudioThemes();
+
 // lib/services/studioEngine.ts
 var STUDIO_CUSTOM_STYLES_START = "/* === Studio Registered Component Styles Start === */";
 var STUDIO_CUSTOM_STYLES_END = "/* === Studio Registered Component Styles End === */";
@@ -10905,34 +10908,34 @@ ${pascalName}.displayName = '${pascalName}';
 `;
 }
 function ensureUiBarrelExport(uiDir, pascalName) {
-  const indexPath = path5__default.default.join(uiDir, "index.ts");
+  const indexPath = path7__default.default.join(uiDir, "index.ts");
   const exportLine = `export * from './${pascalName}';`;
-  if (!fs5__default.default.existsSync(indexPath)) {
-    fs5__default.default.mkdirSync(uiDir, { recursive: true });
-    fs5__default.default.writeFileSync(indexPath, `${exportLine}
+  if (!fs7__default.default.existsSync(indexPath)) {
+    fs7__default.default.mkdirSync(uiDir, { recursive: true });
+    fs7__default.default.writeFileSync(indexPath, `${exportLine}
 `, "utf-8");
     return true;
   }
-  const content = fs5__default.default.readFileSync(indexPath, "utf-8");
+  const content = fs7__default.default.readFileSync(indexPath, "utf-8");
   const pattern = new RegExp(`export\\s+\\*\\s+from\\s+['"]\\./${pascalName}['"]`);
   if (pattern.test(content)) {
     return false;
   }
   const eol = content.includes("\r\n") ? "\r\n" : "\n";
   const trimmed = content.replace(/\s+$/, "");
-  fs5__default.default.writeFileSync(indexPath, `${trimmed}${eol}${exportLine}${eol}`, "utf-8");
+  fs7__default.default.writeFileSync(indexPath, `${trimmed}${eol}${exportLine}${eol}`, "utf-8");
   return true;
 }
 
 // lib/services/studioRegistryServer.ts
-var TOKENS_SSOT_REL_PATH = path5__default.default.join("tokens", "tokens.json");
-var LEGACY_REGISTRY_REL_PATH = path5__default.default.join("tokens", "studio.registry.json");
+var TOKENS_SSOT_REL_PATH = path7__default.default.join("tokens", "tokens.json");
+var LEGACY_REGISTRY_REL_PATH = path7__default.default.join("tokens", "studio.registry.json");
 var UNIVERSAL_MARKER = "/* === Universal Component Classes === */";
 function readProjectVersion(cwd) {
   try {
-    const pkgPath = path5__default.default.join(cwd, "package.json");
-    if (fs5__default.default.existsSync(pkgPath)) {
-      const pkg = JSON.parse(fs5__default.default.readFileSync(pkgPath, "utf-8"));
+    const pkgPath = path7__default.default.join(cwd, "package.json");
+    if (fs7__default.default.existsSync(pkgPath)) {
+      const pkg = JSON.parse(fs7__default.default.readFileSync(pkgPath, "utf-8"));
       if (pkg?.version) return String(pkg.version);
     }
   } catch {
@@ -11008,10 +11011,10 @@ function buildBaselineRegistry(cwd) {
   };
 }
 function readExistingBaseDocument(cwd) {
-  const ssotPath = path5__default.default.join(cwd, TOKENS_SSOT_REL_PATH);
-  if (fs5__default.default.existsSync(ssotPath)) {
+  const ssotPath = path7__default.default.join(cwd, TOKENS_SSOT_REL_PATH);
+  if (fs7__default.default.existsSync(ssotPath)) {
     try {
-      const raw = fs5__default.default.readFileSync(ssotPath, "utf-8");
+      const raw = fs7__default.default.readFileSync(ssotPath, "utf-8");
       if (raw && raw.trim()) {
         const parsed = JSON.parse(raw);
         if (isUnifiedTokensDocument(parsed)) {
@@ -11024,13 +11027,13 @@ function readExistingBaseDocument(cwd) {
   return UNIFIED_TOKENS_DOCUMENT;
 }
 function loadProjectRegistry(cwd) {
-  const ssotPath = path5__default.default.join(cwd, TOKENS_SSOT_REL_PATH);
-  const legacyPath = path5__default.default.join(cwd, LEGACY_REGISTRY_REL_PATH);
+  const ssotPath = path7__default.default.join(cwd, TOKENS_SSOT_REL_PATH);
+  const legacyPath = path7__default.default.join(cwd, LEGACY_REGISTRY_REL_PATH);
   let existsOnDisk = false;
   let registry = buildBaselineRegistry(cwd);
-  if (fs5__default.default.existsSync(ssotPath)) {
+  if (fs7__default.default.existsSync(ssotPath)) {
     try {
-      const raw = fs5__default.default.readFileSync(ssotPath, "utf-8");
+      const raw = fs7__default.default.readFileSync(ssotPath, "utf-8");
       if (raw && raw.trim()) {
         const parsed = JSON.parse(raw);
         if (isUnifiedTokensDocument(parsed)) {
@@ -11041,9 +11044,9 @@ function loadProjectRegistry(cwd) {
     } catch {
     }
   }
-  if (!existsOnDisk && fs5__default.default.existsSync(legacyPath)) {
+  if (!existsOnDisk && fs7__default.default.existsSync(legacyPath)) {
     try {
-      const raw = fs5__default.default.readFileSync(legacyPath, "utf-8");
+      const raw = fs7__default.default.readFileSync(legacyPath, "utf-8");
       if (raw && raw.trim()) {
         const parsed = JSON.parse(raw);
         existsOnDisk = true;
@@ -11060,15 +11063,15 @@ function loadProjectRegistry(cwd) {
     } catch {
     }
   }
-  const uiDir = path5__default.default.join(cwd, "components", "ui");
+  const uiDir = path7__default.default.join(cwd, "components", "ui");
   const discoveredFiles = [];
-  if (fs5__default.default.existsSync(uiDir)) {
-    const entries = fs5__default.default.readdirSync(uiDir, { withFileTypes: true });
+  if (fs7__default.default.existsSync(uiDir)) {
+    const entries = fs7__default.default.readdirSync(uiDir, { withFileTypes: true });
     for (const entry of entries) {
       if (!entry.isFile() || !entry.name.endsWith(".atom.json")) continue;
-      const specPath = path5__default.default.join(uiDir, entry.name);
+      const specPath = path7__default.default.join(uiDir, entry.name);
       try {
-        const rawSpec = JSON.parse(fs5__default.default.readFileSync(specPath, "utf-8"));
+        const rawSpec = JSON.parse(fs7__default.default.readFileSync(specPath, "utf-8"));
         const validation = validateSubmissionSpec(rawSpec);
         if (validation.valid) {
           const pascal = toPascalCase(validation.spec.id);
@@ -11169,9 +11172,9 @@ function saveProjectRegistry(cwd, registry, options) {
   };
   const baseDocument = readExistingBaseDocument(cwd);
   const filesWritten = [];
-  const tokensDir = path5__default.default.join(cwd, "tokens");
-  if (!fs5__default.default.existsSync(tokensDir)) {
-    fs5__default.default.mkdirSync(tokensDir, { recursive: true });
+  const tokensDir = path7__default.default.join(cwd, "tokens");
+  if (!fs7__default.default.existsSync(tokensDir)) {
+    fs7__default.default.mkdirSync(tokensDir, { recursive: true });
   }
   const formattedTokensJson = options?.tokensJson && options.tokensJson.trim() ? options.tokensJson : exportStudioToTokensJson(
     normalizedRegistry.paletteVariables,
@@ -11184,14 +11187,14 @@ function saveProjectRegistry(cwd, registry, options) {
       version: normalizedRegistry.version
     }
   );
-  const tokensJsonPath = path5__default.default.join(cwd, TOKENS_SSOT_REL_PATH);
-  fs5__default.default.writeFileSync(tokensJsonPath, formattedTokensJson, "utf-8");
+  const tokensJsonPath = path7__default.default.join(cwd, TOKENS_SSOT_REL_PATH);
+  fs7__default.default.writeFileSync(tokensJsonPath, formattedTokensJson, "utf-8");
   filesWritten.push("tokens/tokens.json");
-  const cssDir = path5__default.default.join(cwd, "css");
-  if (!fs5__default.default.existsSync(cssDir)) {
-    fs5__default.default.mkdirSync(cssDir, { recursive: true });
+  const cssDir = path7__default.default.join(cwd, "css");
+  if (!fs7__default.default.existsSync(cssDir)) {
+    fs7__default.default.mkdirSync(cssDir, { recursive: true });
   }
-  const cssPath = path5__default.default.join(cssDir, "atom-ui.css");
+  const cssPath = path7__default.default.join(cssDir, "atom-ui.css");
   const generatedBase = options?.cssString && typeof options.cssString === "string" ? options.cssString : exportStudioToCSS(
     normalizedRegistry.paletteVariables,
     normalizedRegistry.components,
@@ -11201,8 +11204,8 @@ function saveProjectRegistry(cwd, registry, options) {
   const customStylesBlock = exportStudioCustomComponentStyles(normalizedRegistry.components);
   const baseWithoutCustom = stripDelimitedCustomStyles(generatedBase).trimEnd();
   let fullCss = baseWithoutCustom;
-  if (fs5__default.default.existsSync(cssPath) && !baseWithoutCustom.includes(UNIVERSAL_MARKER)) {
-    const existingCss = fs5__default.default.readFileSync(cssPath, "utf-8");
+  if (fs7__default.default.existsSync(cssPath) && !baseWithoutCustom.includes(UNIVERSAL_MARKER)) {
+    const existingCss = fs7__default.default.readFileSync(cssPath, "utf-8");
     const splitIdx = existingCss.indexOf(UNIVERSAL_MARKER);
     if (splitIdx !== -1) {
       const preservedUniversal = stripDelimitedCustomStyles(existingCss.slice(splitIdx)).trimEnd();
@@ -11220,7 +11223,7 @@ ${customStylesBlock}
     fullCss = `${fullCss.trimEnd()}
 `;
   }
-  fs5__default.default.writeFileSync(cssPath, fullCss, "utf-8");
+  fs7__default.default.writeFileSync(cssPath, fullCss, "utf-8");
   filesWritten.push("css/atom-ui.css");
   return { filesWritten, registry: normalizedRegistry };
 }
@@ -11231,17 +11234,17 @@ function submitComponentSpec(cwd, rawSpec) {
   }
   const spec = validation.spec;
   const pascalName = toPascalCase(spec.id);
-  const uiDir = path5__default.default.join(cwd, "components", "ui");
-  if (!fs5__default.default.existsSync(uiDir)) {
-    fs5__default.default.mkdirSync(uiDir, { recursive: true });
+  const uiDir = path7__default.default.join(cwd, "components", "ui");
+  if (!fs7__default.default.existsSync(uiDir)) {
+    fs7__default.default.mkdirSync(uiDir, { recursive: true });
   }
   const filesWritten = [];
   const componentRelPath = `components/ui/${pascalName}.tsx`;
-  const componentAbsPath = path5__default.default.join(uiDir, `${pascalName}.tsx`);
-  if (!fs5__default.default.existsSync(componentAbsPath) || spec.componentCode || spec.overwriteCode) {
+  const componentAbsPath = path7__default.default.join(uiDir, `${pascalName}.tsx`);
+  if (!fs7__default.default.existsSync(componentAbsPath) || spec.componentCode || spec.overwriteCode) {
     const tsxCode = spec.componentCode ? `${spec.componentCode.trimEnd()}
 ` : generateComponentTsx(spec);
-    fs5__default.default.writeFileSync(componentAbsPath, tsxCode, "utf-8");
+    fs7__default.default.writeFileSync(componentAbsPath, tsxCode, "utf-8");
     filesWritten.push(componentRelPath);
   }
   if (ensureUiBarrelExport(uiDir, pascalName)) {
@@ -11264,6 +11267,398 @@ function submitComponentSpec(cwd, rawSpec) {
   };
 }
 
+// src/projectAnalyzer.ts
+var IGNORE_DIRS = /* @__PURE__ */ new Set([
+  "node_modules",
+  ".next",
+  "dist",
+  ".git",
+  "build",
+  "out",
+  ".turbo",
+  "coverage",
+  "playwright-report",
+  "test-results"
+]);
+var SOURCE_EXTENSIONS = /* @__PURE__ */ new Set([".tsx", ".jsx", ".ts", ".js", ".css", ".scss"]);
+var TAILWIND_COLOR_HEX = {
+  "blue-500": "#3b82f6",
+  "blue-600": "#2563eb",
+  "indigo-500": "#6366f1",
+  "indigo-600": "#4f46e5",
+  "emerald-500": "#10b981",
+  "emerald-600": "#059669",
+  "red-500": "#ef4444",
+  "red-600": "#dc2626",
+  "amber-500": "#f59e0b",
+  "violet-600": "#7c3aed",
+  "rose-500": "#f43f5e",
+  "teal-600": "#0d9488",
+  "sky-500": "#0ea5e9",
+  "orange-500": "#f97316"
+};
+var NEUTRAL_HEX = /* @__PURE__ */ new Set([
+  "#ffffff",
+  "#fff",
+  "#000000",
+  "#000",
+  "#f9f9fb",
+  "#f8fafc",
+  "#f1f5f9",
+  "#e2e8f0",
+  "#111111",
+  "#0a0a0a",
+  "#666666"
+]);
+function collectSourceFiles(rootDir) {
+  const results = [];
+  const candidateRoots = ["src", "app", "components", "pages", "styles"].map((d) => path7__default.default.join(rootDir, d)).filter((d) => fs7__default.default.existsSync(d) && fs7__default.default.statSync(d).isDirectory());
+  const scanTargets = candidateRoots.length > 0 ? candidateRoots : [rootDir];
+  function walk(dir) {
+    let entries;
+    try {
+      entries = fs7__default.default.readdirSync(dir, { withFileTypes: true });
+    } catch {
+      return;
+    }
+    for (const entry of entries) {
+      if (IGNORE_DIRS.has(entry.name)) continue;
+      const fullPath = path7__default.default.join(dir, entry.name);
+      if (entry.isDirectory()) {
+        walk(fullPath);
+      } else if (entry.isFile() && SOURCE_EXTENSIONS.has(path7__default.default.extname(entry.name).toLowerCase())) {
+        const rel = path7__default.default.relative(rootDir, fullPath).split(path7__default.default.sep).join("/");
+        if (rel === "css/atom-ui.css" || rel === "tokens/tokens.json") continue;
+        results.push(fullPath);
+      }
+    }
+  }
+  for (const target of scanTargets) {
+    walk(target);
+  }
+  return results;
+}
+function inferCategory(id) {
+  if (/button|input|select|textarea|checkbox|radio|switch|slider|form/.test(id)) return "Form";
+  if (/alert|toast|modal|dialog|badge|progress|skeleton|spinner/.test(id)) return "Feedback";
+  if (/nav|tab|breadcrumb|menu|sidebar|header|pagination/.test(id)) return "Navigation";
+  if (/table|chart|list|tree|calendar|metric|stat|data/.test(id)) return "Data";
+  return "Layout";
+}
+function normalizeHex(hex) {
+  const lower = hex.toLowerCase();
+  if (lower.length === 4) {
+    return `#${lower[1]}${lower[1]}${lower[2]}${lower[2]}${lower[3]}${lower[3]}`;
+  }
+  return lower;
+}
+function buildStandardSpec(id, displayName, category, description, detectedVariants, detectedStatuses) {
+  const types = (detectedVariants.length > 0 ? detectedVariants : ["solid", "outline"]).map((v) => ({
+    id: toKebabCase(v) || "solid",
+    name: `${v.charAt(0).toUpperCase() + v.slice(1)} Type`,
+    description: `\uAE30\uC874 \uCF54\uB4DC\uC5D0\uC11C \uAC10\uC9C0\uB41C ${v} \uC678\uD615 \uC2A4\uD0C0\uC77C`,
+    whenToUse: `${displayName}\uC758 ${v} \uBCC0\uD615\uC5D0 \uC0AC\uC6A9\uD569\uB2C8\uB2E4.`
+  }));
+  const statuses = [
+    "default",
+    "hover",
+    "active",
+    "focus",
+    "disabled"
+  ];
+  if (detectedStatuses.includes("loading") && !statuses.includes("loading")) {
+    statuses.push("loading");
+  }
+  return {
+    id,
+    name: displayName,
+    category,
+    description,
+    types,
+    supportedStatuses: statuses,
+    variables: [
+      {
+        id: "primary",
+        name: "Primary (\uBE0C\uB79C\uB4DC \uAC15\uC870)",
+        description: "\uCD94\uCD9C\uB41C \uD504\uB85C\uC81D\uD2B8 \uBE0C\uB79C\uB4DC \uD1A0\uD070 \uBC14\uC778\uB529",
+        tokenBindings: {
+          background: "--atom-color-primary",
+          textColor: "--atom-palette-white",
+          borderColor: "--atom-color-primary",
+          borderRadius: "--atom-radius-md",
+          paddingX: "--atom-space-4",
+          paddingY: "--atom-space-2"
+        }
+      },
+      {
+        id: "secondary",
+        name: "Secondary (\uBCF4\uC870/\uC911\uB9BD)",
+        description: "\uBCF4\uC870 \uC11C\uD53C\uC2A4 \uBC0F \uD14C\uB450\uB9AC \uC2DC\uB9E8\uD2F1 \uBC14\uC778\uB529",
+        tokenBindings: {
+          background: "--atom-bg-secondary",
+          textColor: "--atom-text-primary",
+          borderColor: "--atom-border-subtle",
+          borderRadius: "--atom-radius-md",
+          paddingX: "--atom-space-4",
+          paddingY: "--atom-space-2"
+        }
+      }
+    ]
+  };
+}
+function analyzeProject(cwd) {
+  const files = collectSourceFiles(cwd);
+  const colorMap = /* @__PURE__ */ new Map();
+  const radiusMap = /* @__PURE__ */ new Map();
+  const rawPatternDefs = [
+    {
+      id: "button",
+      name: "Button (\uAE30\uC874 \uBC84\uD2BC \uD328\uD134)",
+      category: "Form",
+      regex: /<button\b([^>]*)>/gi,
+      description: "\uAE30\uC874 \uD504\uB85C\uC81D\uD2B8\uC758 \uC6D0\uC2DC <button> \uD0DC\uADF8\uC5D0\uC11C \uCD94\uCD9C\uB41C \uBC84\uD2BC \uCEF4\uD3EC\uB10C\uD2B8 \uD6C4\uBCF4"
+    },
+    {
+      id: "input",
+      name: "Input (\uAE30\uC874 \uC785\uB825 \uD544\uB4DC \uD328\uD134)",
+      category: "Form",
+      regex: /<input\b(?![^>]*type=['"](?:checkbox|radio|hidden)['"])([^>]*)>/gi,
+      description: "\uAE30\uC874 \uD504\uB85C\uC81D\uD2B8\uC758 \uC6D0\uC2DC <input> \uD0DC\uADF8\uC5D0\uC11C \uCD94\uCD9C\uB41C \uC785\uB825 \uCEF4\uD3EC\uB10C\uD2B8 \uD6C4\uBCF4"
+    },
+    {
+      id: "select",
+      name: "Select (\uAE30\uC874 \uC120\uD0DD \uBC15\uC2A4 \uD328\uD134)",
+      category: "Form",
+      regex: /<select\b([^>]*)>/gi,
+      description: "\uAE30\uC874 \uD504\uB85C\uC81D\uD2B8\uC758 \uC6D0\uC2DC <select> \uD0DC\uADF8\uC5D0\uC11C \uCD94\uCD9C\uB41C \uC140\uB809\uD2B8 \uCEF4\uD3EC\uB10C\uD2B8 \uD6C4\uBCF4"
+    },
+    {
+      id: "textarea",
+      name: "Textarea (\uAE30\uC874 \uBA40\uD2F0\uB77C\uC778 \uC785\uB825 \uD328\uD134)",
+      category: "Form",
+      regex: /<textarea\b([^>]*)>/gi,
+      description: "\uAE30\uC874 \uD504\uB85C\uC81D\uD2B8\uC758 \uC6D0\uC2DC <textarea> \uD0DC\uADF8\uC5D0\uC11C \uCD94\uCD9C\uB41C \uD14D\uC2A4\uD2B8\uC601\uC5ED \uCEF4\uD3EC\uB10C\uD2B8 \uD6C4\uBCF4"
+    },
+    {
+      id: "table",
+      name: "Table (\uAE30\uC874 \uD14C\uC774\uBE14 \uD328\uD134)",
+      category: "Data",
+      regex: /<table\b([^>]*)>/gi,
+      description: "\uAE30\uC874 \uD504\uB85C\uC81D\uD2B8\uC758 \uC6D0\uC2DC <table> \uD0DC\uADF8\uC5D0\uC11C \uCD94\uCD9C\uB41C \uB370\uC774\uD130 \uD14C\uC774\uBE14 \uCEF4\uD3EC\uB10C\uD2B8 \uD6C4\uBCF4"
+    }
+  ];
+  const patternStats = /* @__PURE__ */ new Map();
+  for (const def of rawPatternDefs) {
+    patternStats.set(def.id, {
+      count: 0,
+      files: /* @__PURE__ */ new Set(),
+      variants: /* @__PURE__ */ new Set(),
+      statuses: /* @__PURE__ */ new Set()
+    });
+  }
+  const candidates = [];
+  const seenCandidateIds = /* @__PURE__ */ new Set();
+  for (const absFile of files) {
+    const relFile = path7__default.default.relative(cwd, absFile).split(path7__default.default.sep).join("/");
+    let content = "";
+    try {
+      content = fs7__default.default.readFileSync(absFile, "utf-8");
+    } catch {
+      continue;
+    }
+    const hexMatches = content.match(/#[0-9a-fA-F]{3,8}\b/g) || [];
+    for (const rawHex of hexMatches) {
+      if (rawHex.length !== 4 && rawHex.length !== 7) continue;
+      const norm = normalizeHex(rawHex);
+      const entry = colorMap.get(norm) || { count: 0, sources: /* @__PURE__ */ new Set() };
+      entry.count += 1;
+      entry.sources.add(relFile);
+      colorMap.set(norm, entry);
+    }
+    const twColorMatches = content.match(/\b(?:bg|text|border)-([a-z]+-\d{3})\b/g) || [];
+    for (const cls of twColorMatches) {
+      const key = cls.replace(/^(?:bg|text|border)-/, "");
+      const hex = TAILWIND_COLOR_HEX[key];
+      if (!hex) continue;
+      const entry = colorMap.get(hex) || { count: 0, sources: /* @__PURE__ */ new Set() };
+      entry.count += 1;
+      entry.sources.add(relFile);
+      colorMap.set(hex, entry);
+    }
+    const radiusMatches = content.match(/\brounded(?:-(?:none|sm|md|lg|xl|2xl|full|\[[^\]]+\]))?\b/g) || [];
+    for (const r of radiusMatches) {
+      radiusMap.set(r, (radiusMap.get(r) || 0) + 1);
+    }
+    if ((relFile.startsWith("components/") || relFile.includes("/components/")) && !relFile.includes("components/ui/") && (relFile.endsWith(".tsx") || relFile.endsWith(".jsx"))) {
+      const base = path7__default.default.basename(relFile, path7__default.default.extname(relFile));
+      const kebab = toKebabCase(base);
+      if (kebab && /^[a-z][a-z0-9-]{0,62}$/.test(kebab) && !seenCandidateIds.has(kebab)) {
+        seenCandidateIds.add(kebab);
+        const category = inferCategory(kebab);
+        const variants = /* @__PURE__ */ new Set();
+        const variantMatch = content.match(/variant\??:\s*([^;\n]+)/);
+        if (variantMatch) {
+          const literals = variantMatch[1].match(/['"]([a-zA-Z0-9-]+)['"]/g) || [];
+          literals.forEach((l) => variants.add(l.replace(/['"]/g, "")));
+        }
+        const statuses = /* @__PURE__ */ new Set();
+        if (content.includes("hover:")) statuses.add("hover");
+        if (content.includes("disabled")) statuses.add("disabled");
+        if (content.includes("loading")) statuses.add("loading");
+        const variantList = Array.from(variants);
+        const statusList = Array.from(statuses);
+        candidates.push({
+          id: kebab,
+          name: `${base} (\uAE30\uC874 \uCEF4\uD3EC\uB10C\uD2B8)`,
+          category,
+          sourceKind: "existing-component",
+          occurrences: 1,
+          files: [relFile],
+          detectedVariants: variantList,
+          detectedStatuses: statusList,
+          spec: buildStandardSpec(
+            kebab,
+            `${base} (${kebab})`,
+            category,
+            `${relFile}\uC5D0\uC11C \uBD84\uC11D\uB41C \uAE30\uC874 \uD504\uB85C\uC81D\uD2B8 \uCEF4\uD3EC\uB10C\uD2B8`,
+            variantList,
+            statusList
+          )
+        });
+      }
+    }
+    for (const def of rawPatternDefs) {
+      def.regex.lastIndex = 0;
+      let match;
+      const stats = patternStats.get(def.id);
+      while ((match = def.regex.exec(content)) !== null) {
+        stats.count += 1;
+        stats.files.add(relFile);
+        const attrs = match[1] || "";
+        if (/\bbg-/.test(attrs) && !/\bbg-transparent\b/.test(attrs)) stats.variants.add("solid");
+        if (/\bborder\b/.test(attrs)) stats.variants.add("outline");
+        if (/\bbg-transparent\b/.test(attrs)) stats.variants.add("ghost");
+        if (/\bhover:/.test(attrs)) stats.statuses.add("hover");
+        if (/\bdisabled\b/.test(attrs)) stats.statuses.add("disabled");
+      }
+    }
+  }
+  for (const def of rawPatternDefs) {
+    const stats = patternStats.get(def.id);
+    if (stats.count > 0 && !seenCandidateIds.has(def.id)) {
+      seenCandidateIds.add(def.id);
+      const variantList = Array.from(stats.variants);
+      const statusList = Array.from(stats.statuses);
+      candidates.push({
+        id: def.id,
+        name: def.name,
+        category: def.category,
+        sourceKind: "raw-html-pattern",
+        occurrences: stats.count,
+        files: Array.from(stats.files).slice(0, 10),
+        detectedVariants: variantList,
+        detectedStatuses: statusList,
+        spec: buildStandardSpec(
+          def.id,
+          def.name,
+          def.category,
+          def.description,
+          variantList,
+          statusList
+        )
+      });
+    }
+  }
+  const extractedColors = Array.from(colorMap.entries()).map(([value, info]) => ({
+    value,
+    count: info.count,
+    sources: Array.from(info.sources).slice(0, 5)
+  })).sort((a, b) => b.count - a.count).slice(0, 20);
+  const brandCandidate = extractedColors.find((c) => !NEUTRAL_HEX.has(c.value));
+  const suggestedBrandColor = brandCandidate ? brandCandidate.value : "#3182f6";
+  const extractedRadii = Array.from(radiusMap.entries()).map(([value, count]) => ({ value, count })).sort((a, b) => b.count - a.count).slice(0, 8);
+  return {
+    projectRoot: cwd,
+    scannedFiles: files.length,
+    suggestedBrandColor,
+    extractedColors,
+    extractedRadii,
+    candidates,
+    analyzedAt: (/* @__PURE__ */ new Date()).toISOString()
+  };
+}
+function importAnalyzedProject(cwd, options) {
+  const importedComponents = [];
+  const errors = [];
+  const filesWritten = /* @__PURE__ */ new Set();
+  for (const spec of options.specs || []) {
+    const res = submitComponentSpec(cwd, spec);
+    if (res.success && res.component) {
+      importedComponents.push(res.component.id);
+      (res.filesWritten || []).forEach((f) => filesWritten.add(f));
+    } else {
+      errors.push(...res.errors || [`Failed to import ${spec?.id || "component"}`]);
+    }
+  }
+  const loaded = loadProjectRegistry(cwd);
+  let registry = loaded.registry;
+  if (options.brandColor && /^#[0-9a-fA-F]{3,8}$/.test(options.brandColor.trim())) {
+    const brandHex = normalizeHex(options.brandColor.trim());
+    const themeId = "imported-project-theme";
+    const existingThemes = registry.themes ? [...registry.themes] : [];
+    const paletteVars = [...registry.paletteVariables];
+    const primaryIdx = paletteVars.findIndex((p) => p.id === "--atom-palette-blue-500");
+    if (primaryIdx >= 0) {
+      paletteVars[primaryIdx] = { ...paletteVars[primaryIdx], value: brandHex };
+    }
+    const statusTokens = registry.statusTokens.map(
+      (st) => st.id === "--atom-color-primary" ? { ...st, defaultValue: brandHex } : st
+    );
+    const baseTheme = INITIAL_STUDIO_THEMES[0];
+    const newTheme = {
+      ...baseTheme,
+      id: themeId,
+      name: options.themeName?.trim() || "Imported Project Theme",
+      category: "custom",
+      mode: "light",
+      description: "\uAE30\uC874 \uD504\uB85C\uC81D\uD2B8 \uCF54\uB4DC \uBD84\uC11D\uC744 \uD1B5\uD574 \uC790\uB3D9 \uCD94\uCD9C\uB41C \uBE0C\uB79C\uB4DC \uD14C\uB9C8",
+      brandColor: brandHex,
+      paletteBindings: {
+        ...baseTheme.paletteBindings,
+        primary: "--atom-palette-blue-500"
+      },
+      colors: {
+        ...baseTheme.colors,
+        primary: brandHex,
+        primaryHover: brandHex
+      }
+    };
+    const idx = existingThemes.findIndex((t) => t.id === themeId);
+    if (idx >= 0) {
+      existingThemes[idx] = newTheme;
+    } else {
+      existingThemes.unshift(newTheme);
+    }
+    registry = {
+      ...registry,
+      activeThemeId: themeId,
+      paletteVariables: paletteVars,
+      statusTokens,
+      themes: existingThemes
+    };
+    const saved = saveProjectRegistry(cwd, registry);
+    saved.filesWritten.forEach((f) => filesWritten.add(f));
+    registry = saved.registry;
+  }
+  return {
+    success: errors.length === 0,
+    importedComponents,
+    errors,
+    filesWritten: Array.from(filesWritten),
+    registry
+  };
+}
+
 // src/studioServer.ts
 function readRequestBody(req) {
   return new Promise((resolve, reject) => {
@@ -11279,12 +11674,23 @@ function sendJson(res, statusCode, data) {
   res.writeHead(statusCode, { "Content-Type": "application/json; charset=utf-8" });
   res.end(JSON.stringify(data));
 }
+function getStudioDistDir() {
+  try {
+    if (typeof __dirname !== "undefined") {
+      return path7__default.default.resolve(__dirname, "studio");
+    }
+    const currentFile = url.fileURLToPath((typeof document === 'undefined' ? require('u' + 'rl').pathToFileURL(__filename).href : (_documentCurrentScript && _documentCurrentScript.tagName.toUpperCase() === 'SCRIPT' && _documentCurrentScript.src || new URL('cli.cjs', document.baseURI).href)));
+    return path7__default.default.resolve(path7__default.default.dirname(currentFile), "studio");
+  } catch {
+    return path7__default.default.resolve(process.cwd(), "dist", "studio");
+  }
+}
 function startLocalTokenStudio(options = {}) {
   const port = options.port || 4e3;
   const cwd = options.cwd || process.cwd();
-  const tokenJsonPath = path5__default.default.join(cwd, "tokens", "tokens.json");
-  const cssPath = path5__default.default.join(cwd, "css", "atom-ui.css");
-  const registryPath = path5__default.default.join(cwd, "tokens", "tokens.json");
+  const tokenJsonPath = path7__default.default.join(cwd, "tokens", "tokens.json");
+  const cssPath = path7__default.default.join(cwd, "css", "atom-ui.css");
+  const registryPath = path7__default.default.join(cwd, "tokens", "tokens.json");
   const server = http__default.default.createServer(async (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
@@ -11362,11 +11768,37 @@ function startLocalTokenStudio(options = {}) {
       }
       return;
     }
+    if (url.pathname === "/api/studio/analyze" && req.method === "POST") {
+      try {
+        const report = analyzeProject(cwd);
+        sendJson(res, 200, { success: true, report });
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : "Analyze failed";
+        sendJson(res, 500, { success: false, error: msg });
+      }
+      return;
+    }
+    if (url.pathname === "/api/studio/import" && req.method === "POST") {
+      try {
+        const raw = await readRequestBody(req);
+        const body = JSON.parse(raw || "{}");
+        const result = importAnalyzedProject(cwd, {
+          themeName: body.themeName,
+          brandColor: body.brandColor,
+          specs: Array.isArray(body.specs) ? body.specs : []
+        });
+        sendJson(res, result.success ? 200 : 400, result);
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : "Import failed";
+        sendJson(res, 400, { success: false, errors: [msg] });
+      }
+      return;
+    }
     if (url.pathname === "/api/tokens" && req.method === "GET") {
       let data = {};
-      if (fs5__default.default.existsSync(tokenJsonPath)) {
+      if (fs7__default.default.existsSync(tokenJsonPath)) {
         try {
-          data = JSON.parse(fs5__default.default.readFileSync(tokenJsonPath, "utf-8"));
+          data = JSON.parse(fs7__default.default.readFileSync(tokenJsonPath, "utf-8"));
         } catch {
           data = { error: "Failed to parse tokens/tokens.json" };
         }
@@ -11378,15 +11810,15 @@ function startLocalTokenStudio(options = {}) {
       try {
         const raw = await readRequestBody(req);
         const newTokens = JSON.parse(raw);
-        const tokensDir = path5__default.default.dirname(tokenJsonPath);
-        if (!fs5__default.default.existsSync(tokensDir)) fs5__default.default.mkdirSync(tokensDir, { recursive: true });
-        fs5__default.default.writeFileSync(tokenJsonPath, JSON.stringify(newTokens, null, 2), "utf-8");
+        const tokensDir = path7__default.default.dirname(tokenJsonPath);
+        if (!fs7__default.default.existsSync(tokensDir)) fs7__default.default.mkdirSync(tokensDir, { recursive: true });
+        fs7__default.default.writeFileSync(tokenJsonPath, JSON.stringify(newTokens, null, 2), "utf-8");
         const compiledCss = compileTokensToCss(newTokens);
-        const cssDir = path5__default.default.dirname(cssPath);
-        if (!fs5__default.default.existsSync(cssDir)) fs5__default.default.mkdirSync(cssDir, { recursive: true });
+        const cssDir = path7__default.default.dirname(cssPath);
+        if (!fs7__default.default.existsSync(cssDir)) fs7__default.default.mkdirSync(cssDir, { recursive: true });
         let fullCss = compiledCss;
-        if (fs5__default.default.existsSync(cssPath)) {
-          const existingCss = fs5__default.default.readFileSync(cssPath, "utf-8");
+        if (fs7__default.default.existsSync(cssPath)) {
+          const existingCss = fs7__default.default.readFileSync(cssPath, "utf-8");
           const splitIndex = existingCss.indexOf("/* === Universal Component Classes === */");
           if (splitIndex !== -1) {
             fullCss = `${compiledCss.trimEnd()}
@@ -11394,7 +11826,7 @@ function startLocalTokenStudio(options = {}) {
 ${existingCss.slice(splitIndex)}`;
           }
         }
-        fs5__default.default.writeFileSync(cssPath, fullCss, "utf-8");
+        fs7__default.default.writeFileSync(cssPath, fullCss, "utf-8");
         sendJson(res, 200, {
           success: true,
           message: "Tokens and CSS compiled successfully (universal classes preserved)!"
@@ -11405,9 +11837,24 @@ ${existingCss.slice(splitIndex)}`;
       }
       return;
     }
-    if (url.pathname === "/" || url.pathname === "/index.html") {
-      res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
-      res.end(getStudioHtml());
+    const studioDistDir = getStudioDistDir();
+    if (url.pathname === "/studio.js" || url.pathname === "/studio.css") {
+      const assetPath = path7__default.default.join(studioDistDir, url.pathname.slice(1));
+      if (fs7__default.default.existsSync(assetPath)) {
+        const contentType = url.pathname.endsWith(".js") ? "application/javascript; charset=utf-8" : "text/css; charset=utf-8";
+        res.writeHead(200, { "Content-Type": contentType, "Cache-Control": "no-cache" });
+        res.end(fs7__default.default.readFileSync(assetPath));
+        return;
+      }
+    }
+    if (req.method === "GET" && (url.pathname === "/" || url.pathname === "/index.html" || url.pathname === "/studio" || url.pathname.startsWith("/studio/"))) {
+      const indexPath = path7__default.default.join(studioDistDir, "index.html");
+      res.writeHead(200, { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-cache" });
+      if (fs7__default.default.existsSync(indexPath)) {
+        res.end(fs7__default.default.readFileSync(indexPath, "utf-8"));
+      } else {
+        res.end(getStudioHtml());
+      }
       return;
     }
     res.writeHead(404, { "Content-Type": "text/plain; charset=utf-8" });
@@ -11418,9 +11865,9 @@ ${existingCss.slice(splitIndex)}`;
 \u{1F3A8} AtomSystem Local SSOT Studio running at:`);
     console.log(`   \u{1F449} http://localhost:${port}
 `);
-    console.log(`   Registry SSOT : ${path5__default.default.relative(cwd, registryPath)}`);
-    console.log(`   Tokens file   : ${path5__default.default.relative(cwd, tokenJsonPath)}`);
-    console.log(`   Compiled CSS  : ${path5__default.default.relative(cwd, cssPath)}`);
+    console.log(`   Registry SSOT : ${path7__default.default.relative(cwd, registryPath)}`);
+    console.log(`   Tokens file   : ${path7__default.default.relative(cwd, tokenJsonPath)}`);
+    console.log(`   Compiled CSS  : ${path7__default.default.relative(cwd, cssPath)}`);
     console.log(`
 Press Ctrl+C to stop the studio server.
 `);
@@ -11952,7 +12399,7 @@ var TOKEN_REPLACEMENTS = [
   }
 ];
 var SCAN_EXTENSIONS = /* @__PURE__ */ new Set([".tsx", ".jsx", ".ts", ".js", ".css", ".html"]);
-var IGNORE_DIRS = /* @__PURE__ */ new Set(["node_modules", ".next", ".git", "dist", "build", "coverage", ".gemini"]);
+var IGNORE_DIRS2 = /* @__PURE__ */ new Set(["node_modules", ".next", ".git", "dist", "build", "coverage", ".gemini"]);
 var IGNORE_FILES = /* @__PURE__ */ new Set([
   "globals.css",
   "atom-ui.css",
@@ -11970,21 +12417,21 @@ function scanAndRefactorDirectory(rootDir, options = {}) {
     matches: []
   };
   function walk(currentPath) {
-    const stats = fs5__default.default.statSync(currentPath);
+    const stats = fs7__default.default.statSync(currentPath);
     if (stats.isDirectory()) {
-      const dirName = path5__default.default.basename(currentPath);
-      if (IGNORE_DIRS.has(dirName)) return;
-      const entries = fs5__default.default.readdirSync(currentPath);
+      const dirName = path7__default.default.basename(currentPath);
+      if (IGNORE_DIRS2.has(dirName)) return;
+      const entries = fs7__default.default.readdirSync(currentPath);
       for (const entry of entries) {
-        walk(path5__default.default.join(currentPath, entry));
+        walk(path7__default.default.join(currentPath, entry));
       }
     } else if (stats.isFile()) {
-      const fileName = path5__default.default.basename(currentPath);
+      const fileName = path7__default.default.basename(currentPath);
       if (IGNORE_FILES.has(fileName)) return;
-      const ext = path5__default.default.extname(currentPath);
+      const ext = path7__default.default.extname(currentPath);
       if (!SCAN_EXTENSIONS.has(ext)) return;
       report.scannedFiles++;
-      const content = fs5__default.default.readFileSync(currentPath, "utf-8");
+      const content = fs7__default.default.readFileSync(currentPath, "utf-8");
       let modifiedContent = content;
       let hasFileChanges = false;
       const lines = content.split("\n");
@@ -11997,7 +12444,7 @@ function scanAndRefactorDirectory(rootDir, options = {}) {
               matchResult.forEach((matchedStr) => {
                 const replacementStr = typeof rule.replacement === "function" ? rule.replacement(matchedStr) : rule.replacement;
                 report.matches.push({
-                  file: path5__default.default.relative(process.cwd(), currentPath),
+                  file: path7__default.default.relative(process.cwd(), currentPath),
                   line: lineIndex + 1,
                   original: matchedStr,
                   replacement: replacementStr,
@@ -12015,7 +12462,7 @@ function scanAndRefactorDirectory(rootDir, options = {}) {
         }
       });
       if (options.fix && hasFileChanges && modifiedContent !== content) {
-        fs5__default.default.writeFileSync(currentPath, modifiedContent, "utf-8");
+        fs7__default.default.writeFileSync(currentPath, modifiedContent, "utf-8");
         report.fixedFiles++;
       }
     }
@@ -12023,15 +12470,84 @@ function scanAndRefactorDirectory(rootDir, options = {}) {
   walk(rootDir);
   return report;
 }
+var GLOBAL_CSS_CANDIDATES = [
+  "app/globals.css",
+  "src/app/globals.css",
+  "app/global.css",
+  "src/app/global.css",
+  "src/index.css",
+  "src/styles/globals.css",
+  "styles/globals.css",
+  "src/globals.css",
+  "src/App.css",
+  "app/layout.css"
+];
+function toPosixRelativeImport(fromFile, targetFile) {
+  const rel = path7__default.default.relative(path7__default.default.dirname(fromFile), targetFile).split(path7__default.default.sep).join("/");
+  return rel.startsWith(".") ? rel : `./${rel}`;
+}
+function ensureLocalCssLinked(cwd) {
+  const localAtomCss = path7__default.default.join(cwd, "css", "atom-ui.css");
+  const updatedFiles = [];
+  const alreadyLinkedFiles = [];
+  const foundCssFiles = [];
+  if (!fs7__default.default.existsSync(localAtomCss)) {
+    return { updatedFiles, alreadyLinkedFiles, foundCssFiles };
+  }
+  for (const relCandidate of GLOBAL_CSS_CANDIDATES) {
+    const absCssFile = path7__default.default.join(cwd, relCandidate);
+    if (!fs7__default.default.existsSync(absCssFile)) continue;
+    foundCssFiles.push(relCandidate);
+    const content = fs7__default.default.readFileSync(absCssFile, "utf-8");
+    const relImportPath = toPosixRelativeImport(absCssFile, localAtomCss);
+    const importStatement = `@import "${relImportPath}";`;
+    const pkgImportRegex = /(@import\s+['"])atomsystem\/css\/atom-ui\.css(['"]\s*;?)/g;
+    if (pkgImportRegex.test(content)) {
+      const nextContent2 = content.replace(pkgImportRegex, `$1${relImportPath}$2`);
+      if (nextContent2 !== content) {
+        fs7__default.default.writeFileSync(absCssFile, nextContent2, "utf-8");
+        updatedFiles.push(relCandidate);
+        continue;
+      }
+    }
+    if (content.includes("atom-ui.css")) {
+      alreadyLinkedFiles.push(relCandidate);
+      continue;
+    }
+    const tailwindImportMatch = content.match(/^@import\s+['"]tailwindcss['"]\s*;?[^\n]*\n?/m);
+    let nextContent;
+    if (tailwindImportMatch && tailwindImportMatch.index !== void 0) {
+      const insertPos = tailwindImportMatch.index + tailwindImportMatch[0].length;
+      const prefix = content.slice(0, insertPos);
+      const suffix = content.slice(insertPos);
+      const needsLeadingNewline = !prefix.endsWith("\n");
+      nextContent = `${prefix}${needsLeadingNewline ? "\n" : ""}${importStatement}
+${suffix}`;
+    } else {
+      const charsetMatch = content.match(/^@charset\s+[^;]+;\s*\n?/i);
+      if (charsetMatch && charsetMatch.index !== void 0) {
+        const insertPos = charsetMatch.index + charsetMatch[0].length;
+        nextContent = `${content.slice(0, insertPos)}${importStatement}
+${content.slice(insertPos)}`;
+      } else {
+        nextContent = `${importStatement}
+${content}`;
+      }
+    }
+    fs7__default.default.writeFileSync(absCssFile, nextContent, "utf-8");
+    updatedFiles.push(relCandidate);
+  }
+  return { updatedFiles, alreadyLinkedFiles, foundCssFiles };
+}
 
 // src/cli.ts
 function getPkgRoot() {
   try {
     if (typeof __dirname !== "undefined") {
-      return path5__default.default.resolve(__dirname, "..");
+      return path7__default.default.resolve(__dirname, "..");
     }
     const currentFile = url.fileURLToPath((typeof document === 'undefined' ? require('u' + 'rl').pathToFileURL(__filename).href : (_documentCurrentScript && _documentCurrentScript.tagName.toUpperCase() === 'SCRIPT' && _documentCurrentScript.src || new URL('cli.cjs', document.baseURI).href)));
-    return path5__default.default.resolve(path5__default.default.dirname(currentFile), "..");
+    return path7__default.default.resolve(path7__default.default.dirname(currentFile), "..");
   } catch {
     return process.cwd();
   }
@@ -12041,48 +12557,60 @@ var args = process.argv.slice(2);
 var command = args[0] || "help";
 var targetName = args[1];
 function copyFileSafe(src, dest, label) {
-  const targetDir = path5__default.default.dirname(dest);
-  if (!fs5__default.default.existsSync(targetDir)) {
-    fs5__default.default.mkdirSync(targetDir, { recursive: true });
+  const targetDir = path7__default.default.dirname(dest);
+  if (!fs7__default.default.existsSync(targetDir)) {
+    fs7__default.default.mkdirSync(targetDir, { recursive: true });
   }
-  fs5__default.default.copyFileSync(src, dest);
-  console.log(`  \u2713 ${label} -> ${path5__default.default.relative(process.cwd(), dest)}`);
+  fs7__default.default.copyFileSync(src, dest);
+  console.log(`  \u2713 ${label} -> ${path7__default.default.relative(process.cwd(), dest)}`);
 }
 function handleInit() {
   const cwd = process.cwd();
   console.log("\n\u{1F680} Initializing AtomSystem Universal Design System...\n");
-  const srcAgentGuide = path5__default.default.join(PKG_ROOT, "presets", "agents.guide.md");
-  if (fs5__default.default.existsSync(srcAgentGuide)) {
-    copyFileSafe(srcAgentGuide, path5__default.default.join(cwd, "AGENTS.md"), "Universal AI Guide (AGENTS.md)");
-    copyFileSafe(srcAgentGuide, path5__default.default.join(cwd, "CLAUDE.md"), "Claude Code Guidelines (CLAUDE.md)");
-    copyFileSafe(srcAgentGuide, path5__default.default.join(cwd, ".cursorrules"), "Cursor Rules (.cursorrules)");
+  const srcAgentGuide = path7__default.default.join(PKG_ROOT, "presets", "agents.guide.md");
+  if (fs7__default.default.existsSync(srcAgentGuide)) {
+    copyFileSafe(srcAgentGuide, path7__default.default.join(cwd, "AGENTS.md"), "Universal AI Guide (AGENTS.md)");
+    copyFileSafe(srcAgentGuide, path7__default.default.join(cwd, "CLAUDE.md"), "Claude Code Guidelines (CLAUDE.md)");
+    copyFileSafe(srcAgentGuide, path7__default.default.join(cwd, ".cursorrules"), "Cursor Rules (.cursorrules)");
   }
-  const srcSkill = path5__default.default.join(PKG_ROOT, "skills", "atomsystem.skill.md");
-  if (fs5__default.default.existsSync(srcSkill)) {
-    copyFileSafe(srcSkill, path5__default.default.join(cwd, ".agents", "skills", "atomsystem", "SKILL.md"), "Agent Skill (.agents/skills/atomsystem/SKILL.md)");
+  const srcSkill = path7__default.default.join(PKG_ROOT, "skills", "atomsystem.skill.md");
+  if (fs7__default.default.existsSync(srcSkill)) {
+    copyFileSafe(srcSkill, path7__default.default.join(cwd, ".agents", "skills", "atomsystem", "SKILL.md"), "Agent Skill (.agents/skills/atomsystem/SKILL.md)");
   }
   const specs = [
-    { src: path5__default.default.join(PKG_ROOT, "presets", "default.design.md"), dest: path5__default.default.join(cwd, "atom.design.md"), label: "Design Tokens (atom.design.md)" },
-    { src: path5__default.default.join(PKG_ROOT, "presets", "components.md"), dest: path5__default.default.join(cwd, "atom.components.md"), label: "Components Spec (atom.components.md)" },
-    { src: path5__default.default.join(PKG_ROOT, "presets", "blocks.md"), dest: path5__default.default.join(cwd, "atom.blocks.md"), label: "Design Blocks Spec (atom.blocks.md)" },
-    { src: path5__default.default.join(PKG_ROOT, "presets", "uxPattern.md"), dest: path5__default.default.join(cwd, "atom.uxPattern.md"), label: "UX Patterns (atom.uxPattern.md)" }
+    { src: path7__default.default.join(PKG_ROOT, "presets", "default.design.md"), dest: path7__default.default.join(cwd, "atom.design.md"), label: "Design Tokens (atom.design.md)" },
+    { src: path7__default.default.join(PKG_ROOT, "presets", "components.md"), dest: path7__default.default.join(cwd, "atom.components.md"), label: "Components Spec (atom.components.md)" },
+    { src: path7__default.default.join(PKG_ROOT, "presets", "blocks.md"), dest: path7__default.default.join(cwd, "atom.blocks.md"), label: "Design Blocks Spec (atom.blocks.md)" },
+    { src: path7__default.default.join(PKG_ROOT, "presets", "uxPattern.md"), dest: path7__default.default.join(cwd, "atom.uxPattern.md"), label: "UX Patterns (atom.uxPattern.md)" }
   ];
   specs.forEach((s) => {
-    if (fs5__default.default.existsSync(s.src)) {
+    if (fs7__default.default.existsSync(s.src)) {
       copyFileSafe(s.src, s.dest, s.label);
     }
   });
-  const srcToken = path5__default.default.join(PKG_ROOT, "tokens", "tokens.json");
-  if (fs5__default.default.existsSync(srcToken)) {
-    copyFileSafe(srcToken, path5__default.default.join(cwd, "tokens", "tokens.json"), "Unified Token SSOT (tokens/tokens.json)");
+  const srcToken = path7__default.default.join(PKG_ROOT, "tokens", "tokens.json");
+  if (fs7__default.default.existsSync(srcToken)) {
+    copyFileSafe(srcToken, path7__default.default.join(cwd, "tokens", "tokens.json"), "Unified Token SSOT (tokens/tokens.json)");
   } else {
     const { registry } = loadProjectRegistry(cwd);
     saveProjectRegistry(cwd, registry);
     console.log("  \u2713 Unified Token SSOT -> tokens/tokens.json");
   }
-  const srcCss = path5__default.default.join(PKG_ROOT, "css", "atom-ui.css");
-  if (fs5__default.default.existsSync(srcCss)) {
-    copyFileSafe(srcCss, path5__default.default.join(cwd, "css", "atom-ui.css"), "Zero-Runtime Semantic CSS (css/atom-ui.css)");
+  const srcCss = path7__default.default.join(PKG_ROOT, "css", "atom-ui.css");
+  if (fs7__default.default.existsSync(srcCss)) {
+    copyFileSafe(srcCss, path7__default.default.join(cwd, "css", "atom-ui.css"), "Zero-Runtime Semantic CSS (css/atom-ui.css)");
+  }
+  const linkResult = ensureLocalCssLinked(cwd);
+  if (linkResult.updatedFiles.length > 0) {
+    linkResult.updatedFiles.forEach((f) => {
+      console.log(`  \u2713 Linked local css/atom-ui.css in ${f}`);
+    });
+  } else if (linkResult.alreadyLinkedFiles.length > 0) {
+    linkResult.alreadyLinkedFiles.forEach((f) => {
+      console.log(`  \u2713 Local css/atom-ui.css already linked in ${f}`);
+    });
+  } else {
+    console.log('  \u2139 No global CSS entry found (e.g. app/globals.css). Add @import "./css/atom-ui.css"; to your global CSS.');
   }
   console.log("\n\u2728 AtomSystem initialization completed successfully!");
   console.log("\n\u{1F3A8} Local Token Studio Available:");
@@ -12150,9 +12678,9 @@ function handleAdd(name) {
   const normalized = name.toLowerCase().trim();
   if (COMPONENT_MAP[normalized]) {
     const fileName = COMPONENT_MAP[normalized];
-    const src = path5__default.default.join(PKG_ROOT, "components", "ui", fileName);
-    const dest = path5__default.default.join(cwd, "components", "ui", fileName);
-    if (fs5__default.default.existsSync(src)) {
+    const src = path7__default.default.join(PKG_ROOT, "components", "ui", fileName);
+    const dest = path7__default.default.join(cwd, "components", "ui", fileName);
+    if (fs7__default.default.existsSync(src)) {
       copyFileSafe(src, dest, `Component (${fileName})`);
       console.log(`
 \u2705 Added ${normalized} component to components/ui/${fileName}
@@ -12172,16 +12700,16 @@ function handleAdd(name) {
     deps.forEach((dep) => {
       const depFile = COMPONENT_MAP[dep];
       if (depFile) {
-        const srcDep = path5__default.default.join(PKG_ROOT, "components", "ui", depFile);
-        const destDep = path5__default.default.join(cwd, "components", "ui", depFile);
-        if (fs5__default.default.existsSync(srcDep)) {
+        const srcDep = path7__default.default.join(PKG_ROOT, "components", "ui", depFile);
+        const destDep = path7__default.default.join(cwd, "components", "ui", depFile);
+        if (fs7__default.default.existsSync(srcDep)) {
           copyFileSafe(srcDep, destDep, `Dependent Component (${depFile})`);
         }
       }
     });
-    const srcBlock = path5__default.default.join(PKG_ROOT, "components", "blocks", file);
-    const destBlock = path5__default.default.join(cwd, "components", "blocks", file);
-    if (fs5__default.default.existsSync(srcBlock)) {
+    const srcBlock = path7__default.default.join(PKG_ROOT, "components", "blocks", file);
+    const destBlock = path7__default.default.join(cwd, "components", "blocks", file);
+    if (fs7__default.default.existsSync(srcBlock)) {
       copyFileSafe(srcBlock, destBlock, `Block (${file})`);
       console.log(`
 \u2705 Block "${normalized}" successfully added to components/blocks/${file}
@@ -12224,30 +12752,30 @@ Install any item:
 }
 function handleBuildTokens() {
   const cwd = process.cwd();
-  const tokenJsonPath = path5__default.default.join(cwd, "tokens", "tokens.json");
-  const cssPath = path5__default.default.join(cwd, "css", "atom-ui.css");
-  if (!fs5__default.default.existsSync(tokenJsonPath)) {
+  const tokenJsonPath = path7__default.default.join(cwd, "tokens", "tokens.json");
+  const cssPath = path7__default.default.join(cwd, "css", "atom-ui.css");
+  if (!fs7__default.default.existsSync(tokenJsonPath)) {
     console.error(`
 \u274C tokens/tokens.json not found at ${tokenJsonPath}. Run 'npx atomsystem init' first.
 `);
     return;
   }
   try {
-    const tokens = JSON.parse(fs5__default.default.readFileSync(tokenJsonPath, "utf-8"));
+    const tokens = JSON.parse(fs7__default.default.readFileSync(tokenJsonPath, "utf-8"));
     let css = compileTokensToCss(tokens);
-    const cssDir = path5__default.default.dirname(cssPath);
-    if (!fs5__default.default.existsSync(cssDir)) fs5__default.default.mkdirSync(cssDir, { recursive: true });
+    const cssDir = path7__default.default.dirname(cssPath);
+    if (!fs7__default.default.existsSync(cssDir)) fs7__default.default.mkdirSync(cssDir, { recursive: true });
     const marker = "/* === Universal Component Classes === */";
-    if (fs5__default.default.existsSync(cssPath)) {
-      const existing = fs5__default.default.readFileSync(cssPath, "utf-8");
+    if (fs7__default.default.existsSync(cssPath)) {
+      const existing = fs7__default.default.readFileSync(cssPath, "utf-8");
       const idx = existing.indexOf(marker);
       if (idx !== -1) css = `${css.trimEnd()}
 
 ${existing.slice(idx)}`;
     }
-    fs5__default.default.writeFileSync(cssPath, css, "utf-8");
+    fs7__default.default.writeFileSync(cssPath, css, "utf-8");
     console.log(`
-\u2728 Successfully compiled tokens to ${path5__default.default.relative(cwd, cssPath)}!
+\u2728 Successfully compiled tokens to ${path7__default.default.relative(cwd, cssPath)}!
 `);
   } catch (err) {
     console.error(`
@@ -12263,15 +12791,15 @@ function handleStudio() {
 function handleSkillInstall() {
   const cwd = process.cwd();
   console.log("\n\u{1F916} Installing AtomSystem Agent Skill & Universal Guidelines...\n");
-  const srcAgentGuide = path5__default.default.join(PKG_ROOT, "presets", "agents.guide.md");
-  if (fs5__default.default.existsSync(srcAgentGuide)) {
-    copyFileSafe(srcAgentGuide, path5__default.default.join(cwd, "AGENTS.md"), "Universal AI Guide (AGENTS.md)");
-    copyFileSafe(srcAgentGuide, path5__default.default.join(cwd, "CLAUDE.md"), "Claude Code Guidelines (CLAUDE.md)");
-    copyFileSafe(srcAgentGuide, path5__default.default.join(cwd, ".cursorrules"), "Cursor Rules (.cursorrules)");
+  const srcAgentGuide = path7__default.default.join(PKG_ROOT, "presets", "agents.guide.md");
+  if (fs7__default.default.existsSync(srcAgentGuide)) {
+    copyFileSafe(srcAgentGuide, path7__default.default.join(cwd, "AGENTS.md"), "Universal AI Guide (AGENTS.md)");
+    copyFileSafe(srcAgentGuide, path7__default.default.join(cwd, "CLAUDE.md"), "Claude Code Guidelines (CLAUDE.md)");
+    copyFileSafe(srcAgentGuide, path7__default.default.join(cwd, ".cursorrules"), "Cursor Rules (.cursorrules)");
   }
-  const srcSkill = path5__default.default.join(PKG_ROOT, "skills", "atomsystem.skill.md");
-  if (fs5__default.default.existsSync(srcSkill)) {
-    copyFileSafe(srcSkill, path5__default.default.join(cwd, ".agents", "skills", "atomsystem", "SKILL.md"), "Agent Skill (.agents/skills/atomsystem/SKILL.md)");
+  const srcSkill = path7__default.default.join(PKG_ROOT, "skills", "atomsystem.skill.md");
+  if (fs7__default.default.existsSync(srcSkill)) {
+    copyFileSafe(srcSkill, path7__default.default.join(cwd, ".agents", "skills", "atomsystem", "SKILL.md"), "Agent Skill (.agents/skills/atomsystem/SKILL.md)");
   }
   console.log("\n\u2728 Agent Skill installed successfully!");
   console.log("\u{1F4CC} Supported AI Assistants:");
@@ -12293,8 +12821,8 @@ function handleRefactor() {
   let grandMatches = 0;
   let grandFixed = 0;
   scanDirs.forEach((dirName) => {
-    const fullDir = path5__default.default.resolve(cwd, dirName);
-    if (!fs5__default.default.existsSync(fullDir)) return;
+    const fullDir = path7__default.default.resolve(cwd, dirName);
+    if (!fs7__default.default.existsSync(fullDir)) return;
     const report = scanAndRefactorDirectory(fullDir, { fix: shouldFix });
     grandScanned += report.scannedFiles;
     grandMatches += report.totalMatches;
@@ -12335,8 +12863,8 @@ function handleSubmit(filePathArg) {
     return;
   }
   const cwd = process.cwd();
-  const absPath = path5__default.default.resolve(cwd, filePathArg);
-  if (!fs5__default.default.existsSync(absPath)) {
+  const absPath = path7__default.default.resolve(cwd, filePathArg);
+  if (!fs7__default.default.existsSync(absPath)) {
     console.error(`
 \u274C Spec file not found: ${absPath}
 `);
@@ -12344,7 +12872,7 @@ function handleSubmit(filePathArg) {
     return;
   }
   try {
-    const raw = JSON.parse(fs5__default.default.readFileSync(absPath, "utf-8"));
+    const raw = JSON.parse(fs7__default.default.readFileSync(absPath, "utf-8"));
     const spec = raw?.spec && typeof raw.spec === "object" ? raw.spec : raw;
     const result = submitComponentSpec(cwd, spec);
     if (!result.success) {
@@ -12399,6 +12927,7 @@ Commands:
   schema          Print standardized AI Component Submission JSON template (--prompt for AI prompt)
   build:tokens    Compile tokens/tokens.json into zero-runtime css/atom-ui.css
   refactor        Scan & replace hardcoded HEX/px/Tailwind colors with tokens (--fix)
+  analyze         Analyze existing project code for tokens & component candidates (--import, --json, --prompt)
   skill install   Install AI Agent Skill and guidelines (.cursorrules, CLAUDE.md)
   add <name>      Add a component or block directly to your project
   list            List all available components and blocks
@@ -12413,20 +12942,116 @@ Options for studio:
 `);
 }
 function showVersion() {
-  const pkgPath = path5__default.default.join(PKG_ROOT, "package.json");
-  if (fs5__default.default.existsSync(pkgPath)) {
-    const pkg = JSON.parse(fs5__default.default.readFileSync(pkgPath, "utf-8"));
+  const pkgPath = path7__default.default.join(PKG_ROOT, "package.json");
+  if (fs7__default.default.existsSync(pkgPath)) {
+    const pkg = JSON.parse(fs7__default.default.readFileSync(pkgPath, "utf-8"));
     console.log(`atomsystem v${pkg.version}`);
   } else {
-    console.log("atomsystem v0.15.1");
+    console.log("atomsystem v0.15.0");
+  }
+}
+function handleAnalyze() {
+  const cwd = process.cwd();
+  const asJson = args.includes("--json");
+  const shouldImport = args.includes("--import") || args.includes("--write");
+  const asPrompt = args.includes("--prompt");
+  const report = analyzeProject(cwd);
+  if (asJson) {
+    console.log(JSON.stringify(report, null, 2));
+    return;
+  }
+  if (asPrompt) {
+    console.log(
+      `\uB2E4\uC74C\uC740 \uAE30\uC874 \uD504\uB85C\uC81D\uD2B8(${report.scannedFiles}\uAC1C \uD30C\uC77C) \uBD84\uC11D \uACB0\uACFC\uC785\uB2C8\uB2E4. [Type \xB7 Variable \xB7 Status] \uADDC\uACA9\uC5D0 \uB9DE\uCDB0 components/ui \uBC0F tokens/tokens.json\uC5D0 \uBC18\uC601\uD560 \uC2A4\uD399\uC744 \uC815\uC81C\uD574 \uC8FC\uC138\uC694.
+`
+    );
+    console.log(`\uCD94\uCC9C \uBE0C\uB79C\uB4DC \uCEEC\uB7EC: ${report.suggestedBrandColor}`);
+    console.log(
+      "\uAC10\uC9C0\uB41C \uCEF4\uD3EC\uB10C\uD2B8 \uD6C4\uBCF4:\n" + JSON.stringify(
+        report.candidates.map((c) => c.spec),
+        null,
+        2
+      )
+    );
+    return;
+  }
+  console.log("\n\u{1F50D} AtomSystem Project Analyzer\n");
+  console.log(`  Scanned Files       : ${report.scannedFiles}`);
+  console.log(`  Suggested Brand Hex : ${report.suggestedBrandColor}`);
+  console.log(
+    `  Top Extracted Colors: ${report.extractedColors.slice(0, 6).map((c) => `${c.value}(${c.count})`).join(", ") || "None"}`
+  );
+  console.log(`  Component Candidates: ${report.candidates.length}
+`);
+  report.candidates.forEach((c) => {
+    console.log(
+      `  \u2022 [${c.sourceKind}] ${c.id} (${c.category}) - ${c.occurrences}\uD68C \uAC10\uC9C0 | variants: ${c.detectedVariants.join(", ") || "default"}`
+    );
+  });
+  if (shouldImport) {
+    const res = importAnalyzedProject(cwd, {
+      themeName: "Imported Project Theme",
+      brandColor: report.suggestedBrandColor,
+      specs: report.candidates.map((c) => c.spec)
+    });
+    console.log("\n\u2705 Studio SSOT \uBC18\uC601 \uC644\uB8CC:");
+    res.filesWritten.forEach((f) => console.log(`  \u2713 ${f}`));
+    if (res.errors.length > 0) {
+      console.error("  \u26A0 \uC77C\uBD80 \uC624\uB958:", res.errors.join(" | "));
+    }
+  } else {
+    console.log("\n\u{1F4A1} \uD301:");
+    console.log("  - \uBC14\uB85C \uC2A4\uD29C\uB514\uC624/SSOT\uC5D0 \uBC18\uC601\uD558\uB824\uBA74: npx atomsystem analyze --import");
+    console.log("  - \uC2A4\uD29C\uB514\uC624 \uC6F9 UI\uC5D0\uC11C \uC120\uD0DD \uBC18\uC601\uD558\uB824\uBA74: npx atomsystem studio \uC2E4\uD589 \uD6C4 [\uD504\uB85C\uC81D\uD2B8 \uBD88\uB7EC\uC624\uAE30]\n");
+  }
+}
+function handlePostinstall() {
+  try {
+    const targetCwd = process.env.INIT_CWD;
+    if (!targetCwd) return;
+    if (path7__default.default.resolve(targetCwd) === path7__default.default.resolve(PKG_ROOT)) return;
+    if (!fs7__default.default.existsSync(path7__default.default.join(targetCwd, "package.json"))) return;
+    const targetTokenPath = path7__default.default.join(targetCwd, "tokens", "tokens.json");
+    const targetCssPath = path7__default.default.join(targetCwd, "css", "atom-ui.css");
+    const srcToken = path7__default.default.join(PKG_ROOT, "tokens", "tokens.json");
+    const srcCss = path7__default.default.join(PKG_ROOT, "css", "atom-ui.css");
+    let copiedAny = false;
+    if (!fs7__default.default.existsSync(targetTokenPath) && fs7__default.default.existsSync(srcToken)) {
+      fs7__default.default.mkdirSync(path7__default.default.dirname(targetTokenPath), { recursive: true });
+      fs7__default.default.copyFileSync(srcToken, targetTokenPath);
+      copiedAny = true;
+    }
+    if (!fs7__default.default.existsSync(targetCssPath) && fs7__default.default.existsSync(srcCss)) {
+      fs7__default.default.mkdirSync(path7__default.default.dirname(targetCssPath), { recursive: true });
+      fs7__default.default.copyFileSync(srcCss, targetCssPath);
+      copiedAny = true;
+    }
+    const linkResult = ensureLocalCssLinked(targetCwd);
+    if (copiedAny || linkResult.updatedFiles.length > 0) {
+      console.log("\n\u{1F3A8} AtomSystem postinstall:");
+      if (copiedAny) {
+        console.log("  \u2713 Provisioned local tokens/tokens.json & css/atom-ui.css");
+      }
+      linkResult.updatedFiles.forEach((f) => {
+        console.log(`  \u2713 Auto-linked local css/atom-ui.css in ${f}`);
+      });
+      console.log('  \u{1F449} Run "npx atomsystem studio" to customize tokens & components.\n');
+    }
+  } catch {
   }
 }
 switch (command) {
+  case "postinstall":
+    handlePostinstall();
+    break;
   case "init":
     handleInit();
     break;
   case "refactor":
     handleRefactor();
+    break;
+  case "analyze":
+    handleAnalyze();
     break;
   case "skill":
     handleSkillInstall();

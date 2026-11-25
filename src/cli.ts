@@ -5,6 +5,8 @@ import { fileURLToPath } from 'url';
 import { startLocalTokenStudio } from './studioServer';
 import { compileTokensToCss } from './tokenCompiler';
 import { scanAndRefactorDirectory } from './refactorEngine';
+import { ensureLocalCssLinked } from './cssLinker';
+import { analyzeProject, importAnalyzedProject } from './projectAnalyzer';
 import {
   AI_COMPONENT_SUBMISSION_TEMPLATE,
   buildAiComponentSubmissionPrompt,
@@ -89,6 +91,20 @@ function handleInit() {
   const srcCss = path.join(PKG_ROOT, 'css', 'atom-ui.css');
   if (fs.existsSync(srcCss)) {
     copyFileSafe(srcCss, path.join(cwd, 'css', 'atom-ui.css'), 'Zero-Runtime Semantic CSS (css/atom-ui.css)');
+  }
+
+  // 5. Auto-link local css/atom-ui.css into the project's global CSS
+  const linkResult = ensureLocalCssLinked(cwd);
+  if (linkResult.updatedFiles.length > 0) {
+    linkResult.updatedFiles.forEach((f) => {
+      console.log(`  ✓ Linked local css/atom-ui.css in ${f}`);
+    });
+  } else if (linkResult.alreadyLinkedFiles.length > 0) {
+    linkResult.alreadyLinkedFiles.forEach((f) => {
+      console.log(`  ✓ Local css/atom-ui.css already linked in ${f}`);
+    });
+  } else {
+    console.log('  ℹ No global CSS entry found (e.g. app/globals.css). Add @import "./css/atom-ui.css"; to your global CSS.');
   }
 
   console.log('\n✨ AtomSystem initialization completed successfully!');
@@ -414,6 +430,7 @@ Commands:
   schema          Print standardized AI Component Submission JSON template (--prompt for AI prompt)
   build:tokens    Compile tokens/tokens.json into zero-runtime css/atom-ui.css
   refactor        Scan & replace hardcoded HEX/px/Tailwind colors with tokens (--fix)
+  analyze         Analyze existing project code for tokens & component candidates (--import, --json, --prompt)
   skill install   Install AI Agent Skill and guidelines (.cursorrules, CLAUDE.md)
   add <name>      Add a component or block directly to your project
   list            List all available components and blocks
@@ -438,12 +455,124 @@ function showVersion() {
   }
 }
 
+function handleAnalyze() {
+  const cwd = process.cwd();
+  const asJson = args.includes('--json');
+  const shouldImport = args.includes('--import') || args.includes('--write');
+  const asPrompt = args.includes('--prompt');
+
+  const report = analyzeProject(cwd);
+
+  if (asJson) {
+    console.log(JSON.stringify(report, null, 2));
+    return;
+  }
+
+  if (asPrompt) {
+    console.log(
+      `다음은 기존 프로젝트(${report.scannedFiles}개 파일) 분석 결과입니다. [Type · Variable · Status] 규격에 맞춰 components/ui 및 tokens/tokens.json에 반영할 스펙을 정제해 주세요.\n`
+    );
+    console.log(`추천 브랜드 컬러: ${report.suggestedBrandColor}`);
+    console.log(
+      '감지된 컴포넌트 후보:\n' +
+        JSON.stringify(
+          report.candidates.map((c) => c.spec),
+          null,
+          2
+        )
+    );
+    return;
+  }
+
+  console.log('\n🔍 AtomSystem Project Analyzer\n');
+  console.log(`  Scanned Files       : ${report.scannedFiles}`);
+  console.log(`  Suggested Brand Hex : ${report.suggestedBrandColor}`);
+  console.log(
+    `  Top Extracted Colors: ${report.extractedColors
+      .slice(0, 6)
+      .map((c) => `${c.value}(${c.count})`)
+      .join(', ') || 'None'}`
+  );
+  console.log(`  Component Candidates: ${report.candidates.length}\n`);
+
+  report.candidates.forEach((c) => {
+    console.log(
+      `  • [${c.sourceKind}] ${c.id} (${c.category}) - ${c.occurrences}회 감지 | variants: ${
+        c.detectedVariants.join(', ') || 'default'
+      }`
+    );
+  });
+
+  if (shouldImport) {
+    const res = importAnalyzedProject(cwd, {
+      themeName: 'Imported Project Theme',
+      brandColor: report.suggestedBrandColor,
+      specs: report.candidates.map((c) => c.spec),
+    });
+    console.log('\n✅ Studio SSOT 반영 완료:');
+    res.filesWritten.forEach((f) => console.log(`  ✓ ${f}`));
+    if (res.errors.length > 0) {
+      console.error('  ⚠ 일부 오류:', res.errors.join(' | '));
+    }
+  } else {
+    console.log('\n💡 팁:');
+    console.log('  - 바로 스튜디오/SSOT에 반영하려면: npx atomsystem analyze --import');
+    console.log('  - 스튜디오 웹 UI에서 선택 반영하려면: npx atomsystem studio 실행 후 [프로젝트 불러오기]\n');
+  }
+}
+
+function handlePostinstall() {
+  try {
+    const targetCwd = process.env.INIT_CWD;
+    if (!targetCwd) return;
+    if (path.resolve(targetCwd) === path.resolve(PKG_ROOT)) return;
+    if (!fs.existsSync(path.join(targetCwd, 'package.json'))) return;
+
+    const targetTokenPath = path.join(targetCwd, 'tokens', 'tokens.json');
+    const targetCssPath = path.join(targetCwd, 'css', 'atom-ui.css');
+    const srcToken = path.join(PKG_ROOT, 'tokens', 'tokens.json');
+    const srcCss = path.join(PKG_ROOT, 'css', 'atom-ui.css');
+
+    let copiedAny = false;
+    if (!fs.existsSync(targetTokenPath) && fs.existsSync(srcToken)) {
+      fs.mkdirSync(path.dirname(targetTokenPath), { recursive: true });
+      fs.copyFileSync(srcToken, targetTokenPath);
+      copiedAny = true;
+    }
+    if (!fs.existsSync(targetCssPath) && fs.existsSync(srcCss)) {
+      fs.mkdirSync(path.dirname(targetCssPath), { recursive: true });
+      fs.copyFileSync(srcCss, targetCssPath);
+      copiedAny = true;
+    }
+
+    const linkResult = ensureLocalCssLinked(targetCwd);
+    if (copiedAny || linkResult.updatedFiles.length > 0) {
+      console.log('\n🎨 AtomSystem postinstall:');
+      if (copiedAny) {
+        console.log('  ✓ Provisioned local tokens/tokens.json & css/atom-ui.css');
+      }
+      linkResult.updatedFiles.forEach((f) => {
+        console.log(`  ✓ Auto-linked local css/atom-ui.css in ${f}`);
+      });
+      console.log('  👉 Run "npx atomsystem studio" to customize tokens & components.\n');
+    }
+  } catch {
+    // Never fail npm install on postinstall
+  }
+}
+
 switch (command) {
+  case 'postinstall':
+    handlePostinstall();
+    break;
   case 'init':
     handleInit();
     break;
   case 'refactor':
     handleRefactor();
+    break;
+  case 'analyze':
+    handleAnalyze();
     break;
   case 'skill':
     handleSkillInstall();

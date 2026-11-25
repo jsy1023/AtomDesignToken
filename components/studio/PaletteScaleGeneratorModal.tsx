@@ -151,7 +151,7 @@ export const PaletteScaleGeneratorModal: React.FC<PaletteScaleGeneratorModalProp
                   setBaseHex(e.target.value);
                   setAnchorStepOverride(null);
                 }}
-                placeholder="#3182f6"
+                placeholder="var(--accent-primary)"
                 className="font-mono text-xs"
               />
             </div>

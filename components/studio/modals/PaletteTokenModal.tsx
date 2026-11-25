@@ -12,7 +12,7 @@ export function AddPaletteModal() {
   const [newPaletteId, setNewPaletteId] = useState('');
   const [newPaletteCategory, setNewPaletteCategory] = useState<PaletteVariable['category']>('color');
   const [newPaletteFamily, setNewPaletteFamily] = useState('blue');
-  const [newPaletteValue, setNewPaletteValue] = useState('#3182f6');
+  const [newPaletteValue, setNewPaletteValue] = useState('var(--accent-primary)');
   const [newPaletteDesc, setNewPaletteDesc] = useState('');
 
   const handleSubmit = () => {
@@ -27,7 +27,7 @@ export function AddPaletteModal() {
     });
     setNewPaletteName('');
     setNewPaletteId('');
-    setNewPaletteValue('#3182f6');
+    setNewPaletteValue('var(--accent-primary)');
     setNewPaletteDesc('');
   };
 
@@ -194,7 +194,7 @@ export function EditPaletteModal() {
                   type="text"
                   value={editValue}
                   onChange={(e) => setEditValue(e.target.value)}
-                  placeholder="예: #3182f6, 16px, 8px"
+                  placeholder="예: var(--accent-primary), 16px, 8px"
                   className="font-mono flex-1"
                 />
               </div>

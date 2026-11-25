@@ -1,7 +1,9 @@
 import http from 'http';
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import { compileTokensToCss } from './tokenCompiler';
+import { analyzeProject, importAnalyzedProject } from './projectAnalyzer';
 import {
   AI_COMPONENT_SUBMISSION_TEMPLATE,
   buildAiComponentSubmissionPrompt,
@@ -27,6 +29,18 @@ function readRequestBody(req: http.IncomingMessage): Promise<string> {
 function sendJson(res: http.ServerResponse, statusCode: number, data: unknown) {
   res.writeHead(statusCode, { 'Content-Type': 'application/json; charset=utf-8' });
   res.end(JSON.stringify(data));
+}
+
+function getStudioDistDir(): string {
+  try {
+    if (typeof __dirname !== 'undefined') {
+      return path.resolve(__dirname, 'studio');
+    }
+    const currentFile = fileURLToPath(import.meta.url);
+    return path.resolve(path.dirname(currentFile), 'studio');
+  } catch {
+    return path.resolve(process.cwd(), 'dist', 'studio');
+  }
 }
 
 export function startLocalTokenStudio(options: { port?: number; cwd?: string } = {}) {
@@ -136,6 +150,39 @@ export function startLocalTokenStudio(options: { port?: number; cwd?: string } =
       return;
     }
 
+    // 4.5. Analyze existing project code & import selected tokens/components into SSOT
+    if (url.pathname === '/api/studio/analyze' && req.method === 'POST') {
+      try {
+        const report = analyzeProject(cwd);
+        sendJson(res, 200, { success: true, report });
+      } catch (err: unknown) {
+        const msg = err instanceof Error ? err.message : 'Analyze failed';
+        sendJson(res, 500, { success: false, error: msg });
+      }
+      return;
+    }
+
+    if (url.pathname === '/api/studio/import' && req.method === 'POST') {
+      try {
+        const raw = await readRequestBody(req);
+        const body = JSON.parse(raw || '{}') as {
+          themeName?: string;
+          brandColor?: string;
+          specs?: unknown[];
+        };
+        const result = importAnalyzedProject(cwd, {
+          themeName: body.themeName,
+          brandColor: body.brandColor,
+          specs: Array.isArray(body.specs) ? (body.specs as any) : [],
+        });
+        sendJson(res, result.success ? 200 : 400, result);
+      } catch (err: unknown) {
+        const msg = err instanceof Error ? err.message : 'Import failed';
+        sendJson(res, 400, { success: false, errors: [msg] });
+      }
+      return;
+    }
+
     // 5. Backward-Compatible Tokens API (GET / POST)
     if (url.pathname === '/api/tokens' && req.method === 'GET') {
       let data: Record<string, unknown> = {};
@@ -184,10 +231,34 @@ export function startLocalTokenStudio(options: { port?: number; cwd?: string } =
       return;
     }
 
-    // 6. Serve Enhanced Local SSOT Studio Web UI
-    if (url.pathname === '/' || url.pathname === '/index.html') {
-      res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
-      res.end(getStudioHtml());
+    // 6. Serve Standalone Studio SPA (dist/studio) or fallback HTML
+    const studioDistDir = getStudioDistDir();
+    if (url.pathname === '/studio.js' || url.pathname === '/studio.css') {
+      const assetPath = path.join(studioDistDir, url.pathname.slice(1));
+      if (fs.existsSync(assetPath)) {
+        const contentType = url.pathname.endsWith('.js')
+          ? 'application/javascript; charset=utf-8'
+          : 'text/css; charset=utf-8';
+        res.writeHead(200, { 'Content-Type': contentType, 'Cache-Control': 'no-cache' });
+        res.end(fs.readFileSync(assetPath));
+        return;
+      }
+    }
+
+    if (
+      req.method === 'GET' &&
+      (url.pathname === '/' ||
+        url.pathname === '/index.html' ||
+        url.pathname === '/studio' ||
+        url.pathname.startsWith('/studio/'))
+    ) {
+      const indexPath = path.join(studioDistDir, 'index.html');
+      res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-cache' });
+      if (fs.existsSync(indexPath)) {
+        res.end(fs.readFileSync(indexPath, 'utf-8'));
+      } else {
+        res.end(getStudioHtml());
+      }
       return;
     }
 

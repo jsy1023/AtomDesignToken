@@ -148,7 +148,7 @@ export class ThemeTokenLayer {
       description: preset.description,
       mode: preset.mode,
       category: preset.category,
-      brandColor: brandColor || resolvedColors.primary || '#3182f6',
+      brandColor: brandColor || resolvedColors.primary || 'var(--accent-primary)',
       borderRadius: borderRadius || '8px',
       ...(fontFamily ? { fontFamily } : {}),
       ...(preset.isCustom ? { isCustom: true } : {}),

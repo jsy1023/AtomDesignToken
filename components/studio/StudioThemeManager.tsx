@@ -101,8 +101,8 @@ export function StudioThemeManager(props: StudioThemeManagerProps = {}) {
   const [formStatusWarningPalId, setFormStatusWarningPalId] = useState('--atom-palette-amber-500');
 
   // Resolved CSS Color Values from Palette Bindings
-  const formPrimary = findPaletteById(formPrimaryPalId)?.value || '#3182f6';
-  const formPrimaryHover = findPaletteById(formPrimaryHoverPalId)?.value || '#1b64da';
+  const formPrimary = findPaletteById(formPrimaryPalId)?.value || 'var(--accent-primary)';
+  const formPrimaryHover = findPaletteById(formPrimaryHoverPalId)?.value || 'var(--accent-primary-hover)';
   const formPrimaryLight = findPaletteById(formPrimaryLightPalId)?.value || '#eff6ff';
 
   const formSecondary = findPaletteById(formSecondaryPalId)?.value || (formMode === 'dark' ? '#334155' : '#e2e8f0');

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Button, NativeSelect } from '@/components/ui';
-import { Check, Moon, Palette, RotateCcw, Save, Sliders, Sun } from 'lucide-react';
+import { Check, FolderSearch, Moon, Palette, RotateCcw, Save, Sliders, Sun } from 'lucide-react';
 import { StudioTab, useStudio } from '@/components/studio/context/StudioContext';
 import { formatLocaleText } from '@/lib/utils/localeFormat';
 
@@ -18,6 +18,7 @@ export function StudioTopBar() {
     handleToggleThemeMode,
     handleResetAll,
     handleSaveToProject,
+    setIsImportProjectOpen,
     isSaving,
     saveSuccess,
   } = useStudio();
@@ -101,6 +102,19 @@ export function StudioTopBar() {
               <span className="hidden md:inline">{locale === 'ko' ? '다크' : 'Dark'}</span>
             </>
           )}
+        </Button>
+
+        <Button
+          variant="secondary"
+          size="sm"
+          onClick={() => setIsImportProjectOpen(true)}
+          className="flex items-center gap-1 text-xs py-1 px-2.5 h-7"
+          title={locale === 'ko' ? '기존 프로젝트 코드 분석 및 불러오기' : 'Analyze & Import Project'}
+        >
+          <FolderSearch className="w-3.5 h-3.5 text-(--accent-primary)" />
+          <span className="hidden lg:inline">
+            {locale === 'ko' ? '프로젝트 불러오기' : 'Import'}
+          </span>
         </Button>
 
         <Button

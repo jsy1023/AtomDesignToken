@@ -253,7 +253,7 @@ export function generateColorPalette50to900(
   const rgb = hexToRgb(cleanHex);
 
   // Fallback if invalid hex
-  const validHex = rgb ? cleanHex : '#3182f6';
+  const validHex = rgb ? cleanHex : 'var(--accent-primary)';
   const validRgb = rgb || { r: 49, g: 130, b: 246 };
 
   const { h, s, l: baseL } = rgbToHsl(validRgb.r, validRgb.g, validRgb.b);

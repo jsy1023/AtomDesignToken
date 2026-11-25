@@ -191,7 +191,7 @@ export function StudioBrandSettings() {
           <span className="text-[11px] font-mono text-(--text-secondary) font-semibold block">
             {locale === 'ko' ? '라이트 모드' : 'Light Mode'}
           </span>
-          <div className="p-3.5 rounded-(--radius-sm) bg-white border border-gray-200 shadow-xs flex items-center justify-between">
+          <div className="p-3.5 rounded-(--radius-sm) bg-white border border-(--border-subtle) shadow-xs flex items-center justify-between">
             <div className="flex items-center gap-2.5">
               {logoUrl ? (
                 <img
@@ -206,15 +206,15 @@ export function StudioBrandSettings() {
                   style={{ backgroundColor: activeColor }}
                 />
               )}
-              <span className="font-bold text-sm tracking-tight text-gray-900">
+              <span className="font-bold text-sm tracking-tight text-(--text-primary)">
                 {name || 'AtomDesignToken'}
               </span>
             </div>
 
-            <div className="flex items-center gap-3 text-xs text-gray-500 font-medium">
-              <span className="hover:text-gray-900 cursor-pointer">파운데이션</span>
-              <span className="hover:text-gray-900 cursor-pointer">컴포넌트</span>
-              <span className="hover:text-gray-900 cursor-pointer">가이드</span>
+            <div className="flex items-center gap-3 text-xs text-(--text-secondary) font-medium">
+              <span className="hover:text-(--text-primary) cursor-pointer">파운데이션</span>
+              <span className="hover:text-(--text-primary) cursor-pointer">컴포넌트</span>
+              <span className="hover:text-(--text-primary) cursor-pointer">가이드</span>
             </div>
           </div>
         </div>
@@ -244,7 +244,7 @@ export function StudioBrandSettings() {
               </span>
             </div>
 
-            <div className="flex items-center gap-3 text-xs text-neutral-400 font-medium">
+            <div className="flex items-center gap-3 text-xs text-(--text-muted) font-medium">
               <span className="hover:text-neutral-100 cursor-pointer">파운데이션</span>
               <span className="hover:text-neutral-100 cursor-pointer">컴포넌트</span>
               <span className="hover:text-neutral-100 cursor-pointer">가이드</span>

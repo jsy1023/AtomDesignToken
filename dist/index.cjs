@@ -19,7 +19,7 @@ var tokens_default = {
   registrySchema: "https://system.atomground.com/schemas/studio-registry.schema.json",
   name: "AtomDesignToken System",
   version: "0.14.2",
-  updatedAt: "2026-11-24T05:23:08.779Z",
+  updatedAt: "2026-11-24T09:21:21.911Z",
   palette: {
     color: {
       blue: {
@@ -22930,7 +22930,7 @@ function EnterpriseDashboardUseCase() {
 var ATOM_UI_CSS_PATH = "atomsystem/css/atom-ui.css";
 var ATOM_TOKENS_PATH = "atomsystem/tokens.json";
 var ATOM_STUDIO_REGISTRY_PATH = ATOM_TOKENS_PATH;
-var ATOM_VERSION = "0.15.1";
+var ATOM_VERSION = "0.15.0";
 var ATOM_LIB_NAME = "atomsystem";
 
 exports.AI_COMPONENT_SUBMISSION_TEMPLATE = AI_COMPONENT_SUBMISSION_TEMPLATE;

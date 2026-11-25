@@ -3,6 +3,7 @@
 import React from 'react';
 import { PaletteScaleGeneratorModal } from '@/components/studio/PaletteScaleGeneratorModal';
 import { StudioComponentSubmitModal } from '@/components/studio/StudioComponentSubmitModal';
+import { StudioImportModal } from './StudioImportModal';
 import { useStudio } from '@/components/studio/context/StudioContext';
 import { AddTypeModal } from './AddTypeModal';
 import { AddVariableModal } from './AddVariableModal';
@@ -17,6 +18,9 @@ export function StudioModalsHost() {
     isSubmitComponentOpen,
     setIsSubmitComponentOpen,
     handleSubmittedComponent,
+    isImportProjectOpen,
+    setIsImportProjectOpen,
+    handleImportedProject,
   } = useStudio();
 
   return (
@@ -36,6 +40,12 @@ export function StudioModalsHost() {
         onClose={() => setIsSubmitComponentOpen(false)}
         locale={locale}
         onSubmitted={handleSubmittedComponent}
+      />
+      <StudioImportModal
+        isOpen={isImportProjectOpen}
+        onClose={() => setIsImportProjectOpen(false)}
+        locale={locale}
+        onImported={handleImportedProject}
       />
     </>
   );

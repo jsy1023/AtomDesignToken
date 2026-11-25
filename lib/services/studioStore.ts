@@ -19,7 +19,7 @@ export interface PaletteColorFamilyItem {
 }
 
 const COLOR_FAMILY_PRESET_ANCHORS: Record<string, string> = {
-  blue: '#3182f6',
+  blue: 'var(--accent-primary)',
   gray: '#64748b',
   emerald: '#10b981',
   rose: '#f43f5e',
@@ -188,7 +188,7 @@ export class PaletteRepository {
         color:
           COLOR_FAMILY_PRESET_ANCHORS[fam] ||
           palettes.find((p) => p.family === fam && p.id.includes('500'))?.value ||
-          '#3182f6',
+          'var(--accent-primary)',
       })),
     ];
   }

@@ -124,6 +124,11 @@ interface StudioContextValue {
     registry: StudioRegistry;
     filesWritten: string[];
   }) => void;
+  handleImportedProject: (result: {
+    registry: StudioRegistry;
+    importedComponents: string[];
+    filesWritten: string[];
+  }) => void;
 
   // Palette filter & view state
   paletteCategoryFilter: PaletteCategoryFilter;
@@ -149,6 +154,8 @@ interface StudioContextValue {
   setIsPaletteGeneratorOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isSubmitComponentOpen: boolean;
   setIsSubmitComponentOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isImportProjectOpen: boolean;
+  setIsImportProjectOpen: React.Dispatch<React.SetStateAction<boolean>>;
   editingPalette: PaletteVariable | null;
   setEditingPalette: React.Dispatch<React.SetStateAction<PaletteVariable | null>>;
 }
@@ -247,6 +254,7 @@ export function StudioProvider({ children }: { children: React.ReactNode }) {
   const [isAddPaletteOpen, setIsAddPaletteOpen] = useState(false);
   const [isPaletteGeneratorOpen, setIsPaletteGeneratorOpen] = useState(false);
   const [isSubmitComponentOpen, setIsSubmitComponentOpen] = useState(false);
+  const [isImportProjectOpen, setIsImportProjectOpen] = useState(false);
   const [editingPalette, setEditingPalette] = useState<PaletteVariable | null>(null);
 
   // Interactive Stage Controls
@@ -637,6 +645,39 @@ export function StudioProvider({ children }: { children: React.ReactNode }) {
     setTimeout(() => setStatusMessage(null), 5000);
   };
 
+  const handleImportedProject = ({
+    registry,
+    importedComponents,
+    filesWritten,
+  }: {
+    registry: StudioRegistry;
+    importedComponents: string[];
+    filesWritten: string[];
+  }) => {
+    if (Array.isArray(registry.statusTokens) && registry.statusTokens.length > 0) {
+      setStatusTokens(registry.statusTokens);
+    }
+    if (Array.isArray(registry.paletteVariables) && registry.paletteVariables.length > 0) {
+      setPaletteVariables(registry.paletteVariables);
+    }
+    if (Array.isArray(registry.components) && registry.components.length > 0) {
+      setComponents(registry.components);
+    }
+    if (Array.isArray(registry.themes) && registry.themes.length > 0) {
+      setThemes(registry.themes);
+    }
+    if (registry.activeThemeId) {
+      setSelectedThemeId(registry.activeThemeId);
+    }
+    emitStudioRegistryUpdated(registry);
+    setStatusMessage(
+      locale === 'ko'
+        ? `✅ 프로젝트 분석 반영 완료: ${importedComponents.length}개 컴포넌트 (${filesWritten.length}개 파일 갱신)`
+        : `✅ Imported ${importedComponents.length} components (${filesWritten.length} files updated)`
+    );
+    setTimeout(() => setStatusMessage(null), 5000);
+  };
+
   const handleCopyCode = (code: string, varId: string) => {
     navigator.clipboard.writeText(code);
     setCopiedVarCode(varId);
@@ -796,6 +837,7 @@ export function StudioProvider({ children }: { children: React.ReactNode }) {
     handleAddPaletteScale,
     handleUpdateFontToken,
     handleSubmittedComponent,
+    handleImportedProject,
     paletteCategoryFilter,
     setPaletteCategoryFilter,
     colorFamilyFilter,
@@ -817,6 +859,8 @@ export function StudioProvider({ children }: { children: React.ReactNode }) {
     setIsPaletteGeneratorOpen,
     isSubmitComponentOpen,
     setIsSubmitComponentOpen,
+    isImportProjectOpen,
+    setIsImportProjectOpen,
     editingPalette,
     setEditingPalette,
   };

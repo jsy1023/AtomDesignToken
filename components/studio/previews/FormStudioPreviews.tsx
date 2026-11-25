@@ -188,8 +188,8 @@ export function TokenSelectStudioPreview({
 }: StudioPreviewItemProps) {
   const [previewTokenVal, setPreviewTokenVal] = React.useState('--atom-palette-blue-500');
   const sampleTokens: TokenOption[] = [
-    { id: '--atom-palette-blue-500', name: 'Blue 500 (Primary)', value: '#3182f6', category: 'color', family: 'blue' },
-    { id: '--atom-palette-blue-600', name: 'Blue 600 (Hover)', value: '#1b64da', category: 'color', family: 'blue' },
+    { id: '--atom-palette-blue-500', name: 'Blue 500 (Primary)', value: 'var(--accent-primary)', category: 'color', family: 'blue' },
+    { id: '--atom-palette-blue-600', name: 'Blue 600 (Hover)', value: 'var(--accent-primary-hover)', category: 'color', family: 'blue' },
     { id: '--atom-palette-emerald-500', name: 'Emerald 500 (Success)', value: '#10b981', category: 'color', family: 'emerald' },
     { id: '--atom-palette-rose-500', name: 'Rose 500 (Destructive)', value: '#ef4444', category: 'color', family: 'rose' },
     { id: '--atom-radius-md', name: 'Radius Medium', value: '8px', category: 'radius', family: 'radius' },
