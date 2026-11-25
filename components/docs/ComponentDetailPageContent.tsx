@@ -1003,7 +1003,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
                 className={navbarVariable === 'floating' ? 'max-w-4xl mx-auto rounded-full shadow-md' : 'rounded-(--radius-sm)'}
               >
                 <NavbarBrand href="#brand">
-                  <div className="w-7 h-7 rounded-lg bg-(--atom-color-primary,#3182f6) text-white flex items-center justify-center font-bold text-xs shadow-xs">
+                  <div className="w-7 h-7 rounded-lg bg-(--atom-color-primary,var(--accent-primary)) text-white flex items-center justify-center font-bold text-xs shadow-xs">
                     AT
                   </div>
                   <span className="font-bold text-sm">AtomSystem</span>
@@ -1093,7 +1093,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
               >
                 <SidebarHeader>
                   <div className="flex items-center gap-2 min-w-0">
-                    <div className="w-7 h-7 rounded-lg bg-(--atom-color-primary,#3182f6) text-white flex items-center justify-center font-bold text-xs shrink-0">
+                    <div className="w-7 h-7 rounded-lg bg-(--atom-color-primary,var(--accent-primary)) text-white flex items-center justify-center font-bold text-xs shrink-0">
                       AT
                     </div>
                     {!isSidebarCollapsed && (

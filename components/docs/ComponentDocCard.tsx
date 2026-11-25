@@ -72,7 +72,7 @@ export function ComponentDocCard({ component, renderPreview }: ComponentDocCardP
             </Badge>
             <Link
               href={`/components/${component.id}`}
-              className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-bold text-white bg-(--atom-color-primary,#3182f6) hover:opacity-90 active:scale-95 rounded-lg transition shadow-xs"
+              className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-bold text-white bg-(--atom-color-primary,var(--accent-primary)) hover:opacity-90 active:scale-95 rounded-lg transition shadow-xs"
             >
               <span>상세 가이드 & 케이스</span>
               <ArrowRight className="w-3.5 h-3.5" />

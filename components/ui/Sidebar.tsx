@@ -216,7 +216,7 @@ export const SidebarMenuButton = React.forwardRef<HTMLButtonElement, SidebarMenu
           collapsed ? 'justify-center px-2' : 'justify-between'
         } ${
           active
-            ? 'bg-(--atom-color-primary,#3182f6) text-white font-semibold shadow-xs'
+            ? 'bg-(--atom-color-primary,var(--accent-primary)) text-white font-semibold shadow-xs'
             : 'text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-primary)'
         } ${className}`}
         {...props}

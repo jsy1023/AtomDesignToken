@@ -102,7 +102,7 @@ export const NavbarLink = React.forwardRef<HTMLAnchorElement, NavbarLinkProps>(
         ref={ref}
         className={`px-3 py-1.5 rounded-(--radius-sm) transition-colors text-sm font-medium ${
           active
-            ? 'text-(--atom-color-primary,#3182f6) font-semibold bg-(--atom-color-primary-subtle,rgba(49,130,246,0.1))'
+            ? 'text-(--atom-color-primary,var(--accent-primary)) font-semibold bg-(--atom-color-primary-subtle,rgba(49,130,246,0.1))'
             : 'text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary)'
         } ${className}`}
         {...props}

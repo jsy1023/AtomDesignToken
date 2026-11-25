@@ -1946,7 +1946,7 @@ export function ExampleNav() {
       },
       {
         do: '상승이나 위험 같은 비즈니스 의미가 담긴 차트는 variant="success" 또는 variant="danger"를 활용하십시오.',
-        dont: '하드코딩된 HEX 컬러(#3182f6, #10b981)를 차트에 인라인으로 직접 작성하지 마십시오.'
+        dont: '하드코딩된 HEX 컬러(var(--accent-primary), #10b981)를 차트에 인라인으로 직접 작성하지 마십시오.'
       }
     ],
     relatedPatternIds: ['dashboard-analytics', 'metric-stat-card'],

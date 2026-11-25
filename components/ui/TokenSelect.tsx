@@ -8,7 +8,7 @@ import { Badge } from './Badge';
 export interface TokenOption {
   id: string; // e.g. '--atom-palette-blue-500'
   name: string; // e.g. 'Blue 500 (Brand Primary)'
-  value: string; // e.g. '#3182f6' or '8px'
+  value: string; // e.g. 'var(--accent-primary)' or '8px'
   category?: 'color' | 'size' | 'spacing' | 'radius' | 'typography' | 'status' | string;
   family?: string; // e.g. 'blue', 'gray', 'emerald', 'neutral', 'status'
   description?: string;

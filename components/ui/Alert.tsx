@@ -22,9 +22,9 @@ export interface AlertProps extends Omit<React.HTMLAttributes<HTMLDivElement>, '
 
 const TONE_TOKEN_MAP: Record<string, { color: string; bgVar: string; borderVar: string }> = {
   info: {
-    color: 'var(--accent-primary, var(--atom-color-primary, #3182f6))',
+    color: 'var(--accent-primary, var(--atom-color-primary, var(--accent-primary)))',
     bgVar: 'var(--atom-color-primary-subtle, rgba(49, 130, 246, 0.08))',
-    borderVar: 'var(--accent-primary, var(--atom-color-primary, #3182f6))',
+    borderVar: 'var(--accent-primary, var(--atom-color-primary, var(--accent-primary)))',
   },
   success: {
     color: 'var(--atom-color-success, #10b981)',

@@ -35,7 +35,7 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
           />
           <div className="flex flex-col">
             <span className="font-semibold">{opt.label}</span>
-            {opt.description && <span className="text-xs text-neutral-500">{opt.description}</span>}
+            {opt.description && <span className="text-xs text-(--text-secondary)">{opt.description}</span>}
           </div>
         </label>
       ))}

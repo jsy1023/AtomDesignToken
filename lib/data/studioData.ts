@@ -64,7 +64,7 @@ export interface PaletteVariable {
   id: string; // e.g. '--atom-palette-blue-500'
   name: string; // e.g. 'Blue 500'
   category: PaletteCategory;
-  value: string; // e.g. '#3182f6' or '8px'
+  value: string; // e.g. 'var(--accent-primary)' or '8px'
   cdnUrl?: string; // Optional Webfont CDN CSS URL for font-family tokens
   description?: string;
   family?: string; // e.g. 'blue', 'gray', 'emerald', 'rose', 'amber', 'purple', 'neutral', 'font-family'
@@ -454,13 +454,13 @@ export const SEMANTIC_VARIABLE_DICTIONARY: Record<SemanticVariableRole, Semantic
     role: 'primary',
     label: '프라이머리 (Primary)',
     meaning: '브랜드 대표 컬러를 적용하여 사용자에게 단 하나의 결정적 목표(결제, 제출, 핵심 액션)를 집중시키는 비주얼 의미',
-    badgeColorClass: 'bg-blue-500/10 text-blue-600 border-blue-500/20 dark:text-blue-400',
+    badgeColorClass: 'bg-(--accent-primary)/10 text-(--accent-primary) border-(--accent-primary)/20 dark:text-blue-400',
   },
   secondary: {
     role: 'secondary',
     label: '세컨더리 (Secondary)',
     meaning: '취소, 닫기, 이전 단계 등 사용자 인터랙션을 지원하되 시각적 부담을 줄이는 중립 톤 의미',
-    badgeColorClass: 'bg-gray-500/10 text-gray-600 border-gray-500/20 dark:text-gray-400',
+    badgeColorClass: 'bg-(--bg-secondary)/10 text-(--text-secondary) border-gray-500/20 dark:text-(--text-muted)',
   },
   danger: {
     role: 'danger',
@@ -938,8 +938,8 @@ export const INITIAL_PALETTE_VARIABLES: PaletteVariable[] = [
   { id: '--atom-palette-blue-200', name: 'Blue 200', category: 'color', value: '#bfdbfe', description: '소프트 블루 보더 및 호버 배경', family: 'blue' },
   { id: '--atom-palette-blue-300', name: 'Blue 300', category: 'color', value: '#93c5fd', description: '활성 테두리 및 포커스 링', family: 'blue' },
   { id: '--atom-palette-blue-400', name: 'Blue 400', category: 'color', value: '#60a5fa', description: '밝은 블루 인디케이터', family: 'blue' },
-  { id: '--atom-palette-blue-500', name: 'Blue 500 (Brand Primary)', category: 'color', value: '#3182f6', description: '핵심 브랜드 프라이머리 액션 컬러', family: 'blue' },
-  { id: '--atom-palette-blue-600', name: 'Blue 600 (Primary Hover)', category: 'color', value: '#1b64da', description: '버튼 호버 및 강조 딥 컬러', family: 'blue' },
+  { id: '--atom-palette-blue-500', name: 'Blue 500 (Brand Primary)', category: 'color', value: 'var(--accent-primary)', description: '핵심 브랜드 프라이머리 액션 컬러', family: 'blue' },
+  { id: '--atom-palette-blue-600', name: 'Blue 600 (Primary Hover)', category: 'color', value: 'var(--accent-primary-hover)', description: '버튼 호버 및 강조 딥 컬러', family: 'blue' },
   { id: '--atom-palette-blue-700', name: 'Blue 700', category: 'color', value: '#1d4ed8', description: '진한 블루 클릭 액티브 상태', family: 'blue' },
   { id: '--atom-palette-blue-800', name: 'Blue 800', category: 'color', value: '#1e40af', description: '네이비 톤 텍스트 및 헤더 배경', family: 'blue' },
   { id: '--atom-palette-blue-900', name: 'Blue 900', category: 'color', value: '#1e3a8a', description: '극진한 다크 네이비', family: 'blue' },
