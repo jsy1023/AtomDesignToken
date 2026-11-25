@@ -60,6 +60,7 @@
     "engineering": "Engineering",
     "dependencies": "Dependencies",
     "guide": "Guide",
+    "studio": "Local Studio",
     "subDescriptions": {
       "/principles": "6 core architectural standards including SSOT, zero runtime, and 3-tier layering",
       "/tokens": "W3C DTCG standard specs for colors, typography, radius, spacing, and shadows",
@@ -71,7 +72,7 @@
       "/patterns": "Battle-tested interaction patterns: dashboards, checkout flows, form validation",
       "/dependencies": "0KB runtime architecture and cross-framework compatibility matrix",
       "/guide": "Zero-dependency integration guides for React, Next.js, Vue, and Vanilla HTML",
-      "/studio": "GUI editor for real-time editing of local tokens/token.json and css [Local Only]"
+      "/studio": "Guide to running npx atomsystem studio and using the local GUI"
     }
   },
   "sidebar": {

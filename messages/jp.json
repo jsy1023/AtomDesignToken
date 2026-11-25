@@ -60,6 +60,7 @@
     "engineering": "エンジニアリング",
     "dependencies": "依存関係",
     "guide": "ガイド",
+    "studio": "ローカルスタジオ",
     "subDescriptions": {
       "/principles": "SSOT、ゼロランタイム、3層アーキテクチャなど6大設計仕様",
       "/tokens": "カラー、タイポ、角丸、余白、シャドウのW3C DTCG標準仕様",
@@ -71,7 +72,7 @@
       "/patterns": "ダッシュボード、フォーム検証、決済など実務検証済みUXパターン",
       "/dependencies": "0KBランタイム設計とフレームワーク互換性マトリックス",
       "/guide": "React、Vue、Vanilla HTMLで依存関係なく使える導入ガイド",
-      "/studio": "ローカルプロジェクトのtokens/token.jsonとCSSをリアルタイム編集するGUIツール [Local Only]"
+      "/studio": "npx atomsystem studio の実行方法とトークン/コンポーネントGUIの使い方ガイド"
     }
   },
   "sidebar": {

@@ -88,8 +88,8 @@ export const NAVIGATION_DEPTH: NavGroup[] = [
       {
         title: '로컬 스튜디오',
         href: '/studio',
-        description: '로컬 프로젝트의 tokens/token.json과 css를 실시간 편집하는 GUI 도구',
-        badge: 'Local Only',
+        description: 'npx atomsystem studio 실행 방법 및 토큰/컴포넌트 GUI 사용 가이드',
+        badge: 'Guide',
       },
     ],
   },

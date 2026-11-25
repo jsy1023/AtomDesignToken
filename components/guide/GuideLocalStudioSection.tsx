@@ -24,7 +24,7 @@ npx atomsystem submit rating-chip.atom.json
 
 # 3. 로컬 웹 SSOT 스튜디오(GUI) 실행 (독립 서버 모드)
 npx atomsystem studio
-# 브라우저에서 http://localhost:4000 접속 (또는 http://localhost:3000/studio)
+# 브라우저에서 http://localhost:4000 접속
 
 # 4. components/ui/*.tsx 자동 스캔 동기화 & CSS 재컴파일
 npx atomsystem sync`;
@@ -53,7 +53,7 @@ npx atomsystem sync`;
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-(--radius-sm) bg-(--accent-primary) text-(--bg-primary) font-semibold text-xs shadow-xs hover:opacity-90 transition"
             >
               <ExternalLink className="w-3.5 h-3.5" />
-              <span>/studio 바로 열기</span>
+              <span>로컬 스튜디오 가이드</span>
             </Link>
 
             <div className="flex items-center gap-2 px-3 py-1.5 rounded-(--radius-sm) bg-(--bg-primary) border border-(--border-subtle) font-mono text-xs">

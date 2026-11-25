@@ -108,6 +108,8 @@ export function Header({ brandColor, rightExtra }: HeaderProps) {
         return t('nav.dependencies', fallback);
       case '/guide':
         return t('nav.guide', fallback);
+      case '/studio':
+        return t('nav.studio', fallback);
       default:
         return fallback;
     }
