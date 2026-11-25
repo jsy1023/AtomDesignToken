@@ -28,7 +28,7 @@
  (CSS 변수: 색상/간격)     (Button, Card, Badge)   (RealtimeChart, Chat)     (Dashboard, SaaS Checkout)
 ```
 
-1. **Tokens (`atom.design.md`, `tokens/token.json`)**:
+1. **Tokens (`atom.design.md`, `tokens/tokens.json`)**:
    - 색상, 타이포그래피, 간격, 곡률을 시맨틱 CSS 변수(`var(--text-primary)`, `var(--bg-primary)`)로 정의.
 2. **Components (`atom.components.md`, `components/ui/`)**:
    - 접근성(A11y)과 키보드 내비게이션이 완비된 고순도 원자 컴포넌트 (`Button`, `Card`, `Badge`, `Input`, `Tabs` 등).
@@ -51,7 +51,7 @@ npx atomsystem init
 생성되는 자산:
 - `AGENTS.md` / `CLAUDE.md` / `.cursorrules`: 모든 AI 어시스턴트가 준수하는 공통 토큰 조립 지침
 - `.agents/skills/atomsystem/SKILL.md`: AI Agent 자동 분석 및 토큰 구축 스킬
-- `tokens/token.json` & `atom.design.md`: W3C DTCG 규격 디자인 토큰
+- `tokens/tokens.json` & `atom.design.md`: W3C DTCG 규격 디자인 토큰
 - `css/atom-ui.css`: 0KB 제로 런타임 시맨틱 순수 CSS
 
 ---
@@ -90,7 +90,7 @@ npx atomsystem studio
 - **접속**: `http://localhost:4000`
 - **시각적 편집**: 브랜드 컬러, 서피스 배경, 모서리 곡률(Radius) 변경
 - **컴포넌트 Variable 지원**: 하나의 컴포넌트(Button 등)에 대해 여러 가지 변형(Primary, Destructive, Pill)을 생성 및 이름 지정
-- **원클릭 반영**: `tokens/token.json`과 `css/atom-ui.css`에 즉시 영구 반영
+- **원클릭 반영**: `tokens/tokens.json`과 `css/atom-ui.css`에 즉시 영구 반영
 
 ---
 
@@ -156,7 +156,7 @@ export function DashboardWidget() {
 | `npx atomsystem refactor` | 소스코드 내 하드코딩 탐색 및 리포트 (`--fix`로 자동 치환) |
 | `npx atomsystem skill install` | Cursor, Claude Code, Antigravity용 Agent Skill 설치 |
 | `npx atomsystem studio` | 로컬 웹 토큰 스튜디오(GUI) 실행 (`http://localhost:4000`) |
-| `npx atomsystem build:tokens` | `tokens/token.json`을 `css/atom-ui.css`로 컴파일 |
+| `npx atomsystem build:tokens` | `tokens/tokens.json`을 `css/atom-ui.css`로 컴파일 |
 | `npx atomsystem add <name>` | 검증된 컴포넌트 또는 기능형 블록 소스 추가 |
 | `npx atomsystem list` | 사용 가능한 컴포넌트 및 블록 전체 목록 출력 |
 

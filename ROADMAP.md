@@ -27,7 +27,7 @@ AtomSystem은 단순한 UI 컴포넌트 라이브러리가 아닙니다.
  (CSS 변수: 색상/간격)     (Button, Card, Badge)   (RealtimeChart, Chat)     (Dashboard, SaaS Checkout)
 ```
 
-1. **Tokens**: W3C DTCG 표준 규격(`tokens/token.json`, `css/atom-ui.css`).
+1. **Tokens**: W3C DTCG 표준 규격(`tokens/tokens.json`, `css/atom-ui.css`).
 2. **Components**: 고접근성 순수 원자/분자 컴포넌트 (`components/ui/`).
 3. **Blocks**: 검증된 기능형 독립 블록 (`components/blocks/`).
 4. **UseCases**: 실무 비즈니스 현장에 즉시 투입 가능한 완성형 경험 (`atom.uxPattern.md`).
@@ -36,13 +36,13 @@ AtomSystem은 단순한 UI 컴포넌트 라이브러리가 아닙니다.
 
 ## 🚀 3. 단계별 추진 마일스톤 (Milestones)
 
-### Phase 1: Zero-Hardcoding & Refactor 엔진 (현재 진행 중)
+### Phase 1: Zero-Hardcoding & Refactor 엔진 (완료)
 - [x] W3C DTCG 토큰 체계 및 시맨틱 CSS 변수 규격 수립
-- [x] 로컬 스튜디오 GUI (토큰-팔레트 바인딩, 컴포넌트 Variable 에디터)
-- [ ] **AI `refactor` 프로토콜 공식 명문화 (`GEMINI.md`, `AGENTS.md`)**
+- [x] 로컬 스튜디오 GUI (`npx atomsystem studio`, 토큰-팔레트 바인딩, 컴포넌트 Variable 에디터)
+- [x] **AI `refactor` 프로토콜 공식 명문화 (`GEMINI.md`, `AGENTS.md`)**
   - 인라인 스타일, 임의 HEX, Tailwind 인라인 클래스 자동 스캔 및 토큰 치환 규칙 탑재
-- [ ] **CLI 리팩토링 커맨드 (`npx atomsystem refactor`) 개발**
-  - 소스코드 내 하드코딩 탐지 리포트 및 자동 치환(fix) 옵션 제공
+- [x] **CLI 리팩토링 커맨드 (`npx atomsystem refactor`, `npx atomsystem analyze`) 개발**
+  - 소스코드 내 하드코딩 탐지 리포트 및 자동 치환(`--fix`) 옵션, 기존 프로젝트 분석/임포트 제공
 
 ### Phase 2: 실전 비즈니스 UseCase 블록 확장
 - [ ] **엔터프라이즈 SaaS 대시보드 UseCase** (KPI 지표, 반응형 데이터 그리드)
@@ -66,9 +66,9 @@ AtomSystem은 단순한 UI 컴포넌트 라이브러리가 아닙니다.
 - [ ] **글로벌 다국어 지원 (KO / EN / JA) 완비**
 
 ### Phase 5: Figma ↔ Token 양방향 연동 플러그인 (Design & Code Bi-directional Sync)
-- [ ] **스튜디오 `token.json` ➔ Figma Variables 자동 로더 플러그인 개발**
+- [x] **스튜디오 `tokens/tokens.json` ➔ Figma Variables 자동 로더 플러그인 개발**
   - 스튜디오에서 정의/조정한 50~900 색상 스케일, 사이즈, 모서리 곡률, 타이포그래피 토큰을 Figma Variables Collection으로 원클릭 동기화
-- [ ] **Figma Variables ➔ `token.json` 내보내기 및 실시간 감시**
+- [ ] **Figma Variables ➔ `tokens/tokens.json` 내보내기 및 실시간 감시**
   - 디자이너가 피그마에서 작업한 토큰 변경사항을 W3C DTCG 표준 JSON 및 `atom-ui.css`로 자동 변환하여 개발 환경에 반영
 - [ ] **디자인 <-> 개발 간 하드코딩 0% 무결성 검증 파이프라인 완성**
 

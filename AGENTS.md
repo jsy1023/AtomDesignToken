@@ -12,7 +12,7 @@
  (CSS 변수: 색상/간격)     (Button, Card, Badge)   (RealtimeChart, Chat)     (Dashboard, Checkout)
 ```
 
-1. **Tokens (`atom.design.md`, `tokens/token.json`)**:
+1. **Tokens (`atom.design.md`, `tokens/tokens.json`)**:
    - 모든 색상, 간격, 보더, 폰트 크기는 반드시 CSS 변수(`var(--text-primary)`, `var(--bg-primary)`, `var(--border-subtle)` 등)를 사용합니다.
    - **하드코딩 절대 금지**: `text-blue-500`, `bg-[#123456]`, `p-[13px]`, `border-gray-200` 등 임의의 인라인 값 사용을 엄격히 금지합니다.
 2. **Components (`atom.components.md`, `components/ui/`)**:
@@ -91,7 +91,7 @@ AI 어시스턴트는 화면을 구축할 때 **임의의 원시 HTML 인터랙�
 2. **제출 및 자동 생성**:
    - CLI 제출: `npx atomsystem submit <component>.atom.json`
    - 또는 스튜디오 API 제출: `POST /api/studio/components` (혹은 `/studio` 좌측 상단 `+ AI 제출` 모달 사용)
-   - 자동으로 `components/ui/<PascalName>.tsx`, `components/ui/index.ts`, `tokens/studio.registry.json`, `tokens/token.json`, `css/atom-ui.css`가 일괄 갱신되어 `/studio`와 `/components/<id>` 문서에 즉시 동기화됩니다.
+   - 자동으로 `components/ui/<PascalName>.tsx`, `components/ui/index.ts`, `tokens/studio.registry.json`, `tokens/tokens.json`, `css/atom-ui.css`가 일괄 갱신되어 `/studio`와 `/components/<id>` 문서에 즉시 동기화됩니다.
 3. **기존/수동 컴포넌트 동기화**: `npx atomsystem sync` (또는 `npx atomsystem studio` 실행)로 `components/ui/` 디렉토리를 스캔하여 레지스트리와 CSS를 최신화합니다.
 
 ---

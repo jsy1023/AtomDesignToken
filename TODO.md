@@ -7,6 +7,12 @@
 
 ## 📅 작업 히스토리 (Changelog)
 
+- [x] **CLI 핵심 기능 고도화 (`refactor`, `analyze`, `studio`, `theme`)**:
+  - `npx atomsystem refactor` / `--fix`: 하드코딩 HEX, Tailwind 컬러/간격 및 직접 `var(--atom-palette-*)` 참조 자동 치환 엔진 구현
+  - `npx atomsystem analyze`: 기존 프로젝트 코드/CSS 자동 분석 및 레지스트리 임포트 기능 구현
+  - `npx atomsystem studio`: 독립 로컬 SSOT 스튜디오 SPA 서버(`dist/studio/`) 및 API 구축 (`/studio` 웹 라우트는 실행·사용 가이드 페이지로 전환)
+  - `npx atomsystem theme`: 독립 플로팅 테마 선택 메뉴 및 `<ThemeSwitcher variant="floating" />` 컴포넌트 구현
+
 - [x] **컴포넌트 갤러리 단일 페이지 과밀 해소 및 개별 전용 페이지 분리 (`/components` ↔ `/components/[id]`)**:
   - **문제 해결**: 모든 컴포넌트의 방대한 코드/명세가 한 페이지에 길게 쌓여 렌더링되던 구조를 전면 해체하고, 갤러리 허브와 개별 상세 페이지로 명확히 역할 분리.
   - **컴포넌트 갤러리 허브 (`/components`, `app/components/page.tsx`)**:
