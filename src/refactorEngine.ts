@@ -59,6 +59,53 @@ export const TOKEN_REPLACEMENTS: Array<{
     type: 'color',
   },
 
+  // A2. Direct Palette CSS Variable References -> Semantic Role Tokens
+  {
+    pattern: /var\(--atom-palette-white\)/g,
+    replacement: 'var(--bg-primary)',
+    type: 'color',
+  },
+  {
+    pattern: /var\(--atom-palette-gray-(?:50|100)\)/g,
+    replacement: 'var(--bg-secondary)',
+    type: 'color',
+  },
+  {
+    pattern: /var\(--atom-palette-gray-200\)/g,
+    replacement: 'var(--border-subtle)',
+    type: 'color',
+  },
+  {
+    pattern: /var\(--atom-palette-gray-300\)/g,
+    replacement: 'var(--border-strong)',
+    type: 'color',
+  },
+  {
+    pattern: /var\(--atom-palette-gray-900\)/g,
+    replacement: 'var(--text-primary)',
+    type: 'color',
+  },
+  {
+    pattern: /var\(--atom-palette-gray-[67]00\)/g,
+    replacement: 'var(--text-secondary)',
+    type: 'color',
+  },
+  {
+    pattern: /var\(--atom-palette-gray-[45]00\)/g,
+    replacement: 'var(--text-muted)',
+    type: 'color',
+  },
+  {
+    pattern: /var\(--atom-palette-blue-500\)/g,
+    replacement: 'var(--accent-primary)',
+    type: 'color',
+  },
+  {
+    pattern: /var\(--atom-palette-blue-600\)/g,
+    replacement: 'var(--accent-primary-hover)',
+    type: 'color',
+  },
+
   // B. Tailwind Standard Colors to Semantic Tokens
   // Text Colors
   {
@@ -207,6 +254,12 @@ const IGNORE_FILES = new Set([
   'tokens.ts',
   'awesomeThemes.ts',
   'refactorEngine.ts',
+  'studioData.ts',
+  'paletteData.ts',
+  'themeData.ts',
+  'ThemeTokens.ts',
+  'StudioThemeManager.tsx',
+  'PaletteScaleGeneratorModal.tsx',
 ]);
 
 export function scanAndRefactorDirectory(

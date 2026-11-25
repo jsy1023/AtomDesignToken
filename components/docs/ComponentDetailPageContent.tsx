@@ -738,7 +738,7 @@ export function ComponentDetailPageContent({ component }: ComponentDetailPageCon
               value={demoTokenSelectVal}
               onChange={(val) => setDemoTokenSelectVal(val)}
               options={[
-                { id: '--atom-palette-blue-500', name: 'Blue 500 (Brand Primary)', value: 'var(--atom-palette-blue-500)', category: 'color', family: 'blue' },
+                { id: '--atom-palette-blue-500', name: 'Blue 500 (Brand Primary)', value: 'var(--accent-primary)', category: 'color', family: 'blue' },
                 { id: '--atom-color-success', name: 'Success Semantic Token', value: 'var(--atom-color-success)', category: 'color', family: 'status' },
                 { id: '--atom-color-warning', name: 'Warning Semantic Token', value: 'var(--atom-color-warning)', category: 'color', family: 'status' },
                 { id: '--atom-color-destructive', name: 'Destructive Token', value: 'var(--atom-color-destructive)', category: 'color', family: 'status' },

@@ -2156,7 +2156,7 @@ export function ExampleToast() {
     relatedPatternIds: ['settings-preference'],
     htmlSnippet: `<div class="atom-token-select">
   <button type="button" class="atom-token-select__trigger">
-    <span class="atom-token-select__swatch" style="background: var(--atom-palette-blue-500)"></span>
+    <span class="atom-token-select__swatch" style="background: var(--accent-primary)"></span>
     <span>--atom-palette-blue-500</span>
   </button>
 </div>`,

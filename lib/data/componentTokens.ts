@@ -1587,7 +1587,7 @@ export const COMPONENT_TOKEN_MAPPINGS: Record<string, ComponentTokenMapping[]> =
   "navbar": [
     {
       "role": "네비바 배경 (Navbar Background)",
-      "variable": "var(--atom-palette-white)",
+      "variable": "var(--bg-primary)",
       "dtcgPath": "color.surface.primary",
       "defaultValue": "#ffffff",
       "description": "상단 글로벌 네비게이션 컨테이너의 기본 서피스 배경색",
@@ -1599,7 +1599,7 @@ export const COMPONENT_TOKEN_MAPPINGS: Record<string, ComponentTokenMapping[]> =
     },
     {
       "role": "하단 구분선 (Navbar Border)",
-      "variable": "var(--atom-palette-gray-200)",
+      "variable": "var(--border-subtle)",
       "dtcgPath": "color.border.subtle",
       "defaultValue": "#e2e8f0",
       "description": "본문과 상단 헤더를 분리하는 옅은 경계선",
@@ -1623,7 +1623,7 @@ export const COMPONENT_TOKEN_MAPPINGS: Record<string, ComponentTokenMapping[]> =
     },
     {
       "role": "네비 텍스트 (Nav Text)",
-      "variable": "var(--atom-palette-gray-700)",
+      "variable": "var(--text-secondary)",
       "dtcgPath": "color.text.secondary",
       "defaultValue": "#334155",
       "description": "일반 메뉴 항목의 텍스트 색상",
@@ -1637,7 +1637,7 @@ export const COMPONENT_TOKEN_MAPPINGS: Record<string, ComponentTokenMapping[]> =
   "sidebar": [
     {
       "role": "사이드바 배경 (Sidebar Background)",
-      "variable": "var(--atom-palette-gray-50)",
+      "variable": "var(--bg-secondary)",
       "dtcgPath": "color.surface.secondary",
       "defaultValue": "#f8fafc",
       "description": "좌측 계층 메뉴 영역의 서피스 배경색",
@@ -1649,7 +1649,7 @@ export const COMPONENT_TOKEN_MAPPINGS: Record<string, ComponentTokenMapping[]> =
     },
     {
       "role": "우측 구분선 (Sidebar Border)",
-      "variable": "var(--atom-palette-gray-200)",
+      "variable": "var(--border-subtle)",
       "dtcgPath": "color.border.subtle",
       "defaultValue": "#e2e8f0",
       "description": "본문 영역과 사이드바를 구분하는 수직 경계선",
@@ -1673,7 +1673,7 @@ export const COMPONENT_TOKEN_MAPPINGS: Record<string, ComponentTokenMapping[]> =
     },
     {
       "role": "활성 메뉴 텍스트 (Active Item Text)",
-      "variable": "var(--atom-palette-white)",
+      "variable": "var(--bg-primary)",
       "dtcgPath": "color.text.inverse",
       "defaultValue": "#ffffff",
       "description": "활성 메뉴 버튼의 반전 텍스트 색상",
