@@ -19,7 +19,7 @@ var tokens_default = {
   registrySchema: "https://system.atomground.com/schemas/studio-registry.schema.json",
   name: "AtomDesignToken System",
   version: "0.14.2",
-  updatedAt: "2026-11-25T01:53:13.834Z",
+  updatedAt: "2026-11-25T02:56:56.866Z",
   palette: {
     color: {
       blue: {
@@ -8360,6 +8360,119 @@ var tokens_default = {
             padding: {
               $value: "{palette.spacing.5}",
               targetVariable: "--atom-space-5"
+            }
+          }
+        }
+      }
+    },
+    "theme-switcher": {
+      name: "ThemeSwitcher (theme-switcher)",
+      category: "Form",
+      $description: "components/ui/ThemeSwitcher.tsx\uC5D0\uC11C \uC790\uB3D9 \uAC10\uC9C0\uB41C \uCEF4\uD3EC\uB10C\uD2B8",
+      sourceFile: "components/ui/ThemeSwitcher.tsx",
+      autoDiscovered: true,
+      supportedStatuses: [
+        "default",
+        "hover",
+        "active",
+        "focus",
+        "disabled"
+      ],
+      properties: [
+        {
+          key: "background",
+          label: "\uBC30\uACBD \uC0C9\uC0C1 (Background)",
+          category: "color",
+          defaultPaletteId: "--atom-palette-white"
+        },
+        {
+          key: "textColor",
+          label: "\uD14D\uC2A4\uD2B8 \uC0C9\uC0C1 (Text Color)",
+          category: "color",
+          defaultPaletteId: "--atom-palette-gray-900"
+        },
+        {
+          key: "borderColor",
+          label: "\uD14C\uB450\uB9AC \uC0C9\uC0C1 (Border Color)",
+          category: "color",
+          defaultPaletteId: "--atom-palette-gray-200"
+        },
+        {
+          key: "borderRadius",
+          label: "\uBAA8\uC11C\uB9AC \uACE1\uB960 (Border Radius)",
+          category: "radius",
+          defaultPaletteId: "--atom-radius-md"
+        },
+        {
+          key: "padding",
+          label: "\uB0B4\uBD80 \uD328\uB529 (Padding)",
+          category: "spacing",
+          defaultPaletteId: "--atom-space-4"
+        }
+      ],
+      types: [
+        {
+          id: "standard",
+          name: "Standard (\uD45C\uC900\uD615)",
+          description: "\uC2DC\uC2A4\uD15C \uD1A0\uD070\uC5D0 \uBC14\uC778\uB529\uB41C \uAE30\uBCF8 \uC678\uD615",
+          whenToUse: "\uC77C\uBC18\uC801\uC778 UI \uBC30\uCE58 \uBC0F \uAE30\uBCF8 \uC778\uD130\uB799\uC158\uC5D0 \uC0AC\uC6A9\uD569\uB2C8\uB2E4."
+        }
+      ],
+      variables: {
+        default: {
+          name: "\uAE30\uBCF8 (Default)",
+          $description: "ThemeSwitcher \uAE30\uBCF8 \uC2DC\uB9E8\uD2F1 \uC2A4\uD0C0\uC77C",
+          variableRole: "primary",
+          type: {
+            id: "theme-switcher-default",
+            name: "\uAE30\uBCF8 (Default)",
+            whenToUse: "\uD574\uB2F9 \uCEF4\uD3EC\uB10C\uD2B8\uC758 default \uC2A4\uD0C0\uC77C\uC774 \uD544\uC694\uD55C \uD654\uBA74 \uB9E5\uB77D\uC5D0 \uC0AC\uC6A9\uD569\uB2C8\uB2E4."
+          },
+          variable: {
+            role: "primary",
+            label: "\uD504\uB77C\uC774\uBA38\uB9AC (Primary)",
+            meaning: "\uBE0C\uB79C\uB4DC \uB300\uD45C \uCEEC\uB7EC\uB97C \uC801\uC6A9\uD558\uC5EC \uC0AC\uC6A9\uC790\uC5D0\uAC8C \uB2E8 \uD558\uB098\uC758 \uACB0\uC815\uC801 \uBAA9\uD45C(\uACB0\uC81C, \uC81C\uCD9C, \uD575\uC2EC \uC561\uC158)\uB97C \uC9D1\uC911\uC2DC\uD0A4\uB294 \uBE44\uC8FC\uC5BC \uC758\uBBF8"
+          },
+          statuses: {
+            default: {
+              behavior: "\uD45C\uC900 background \uBC0F border \uD1A0\uD070 \uC801\uC6A9"
+            },
+            hover: {
+              behavior: "hoverBackground \uD1A0\uD070 \uC801\uC6A9, cursor: pointer"
+            },
+            active: {
+              behavior: "scale-[0.97] \uC555\uCD95 \uC560\uB2C8\uBA54\uC774\uC158 \uBC0F \uC9C4\uD55C \uC0C9\uC0C1 \uD53C\uB4DC\uBC31"
+            },
+            focus: {
+              behavior: "outline 2px solid primary, outline-offset 2px"
+            },
+            disabled: {
+              behavior: "opacity 40%, cursor: not-allowed"
+            },
+            loading: {
+              behavior: "\uC2A4\uD53C\uB108 \uC778\uB514\uCF00\uC774\uD130 \uD68C\uC804, pointer-events: none"
+            }
+          },
+          tokens: {
+            background: {
+              $value: "{palette.color.neutral.white}",
+              targetVariable: "--atom-palette-white"
+            },
+            textColor: {
+              $value: "{palette.color.gray.900}",
+              targetVariable: "--atom-palette-gray-900"
+            },
+            borderColor: {
+              $value: "{palette.color.gray.200}",
+              targetVariable: "--atom-palette-gray-200"
+            },
+            borderRadius: {
+              $value: "{palette.radius.md}",
+              targetVariable: "--atom-radius-md"
+            },
+            padding: {
+              $value: "{palette.spacing.4}",
+              targetVariable: "--atom-space-4"
             }
           }
         }
@@ -22988,7 +23101,7 @@ function EnterpriseDashboardUseCase() {
 var ATOM_UI_CSS_PATH = "atomsystem/css/atom-ui.css";
 var ATOM_TOKENS_PATH = "atomsystem/tokens.json";
 var ATOM_STUDIO_REGISTRY_PATH = ATOM_TOKENS_PATH;
-var ATOM_VERSION = "0.15.1";
+var ATOM_VERSION = "0.15.2";
 var ATOM_LIB_NAME = "atomsystem";
 
 exports.AI_COMPONENT_SUBMISSION_TEMPLATE = AI_COMPONENT_SUBMISSION_TEMPLATE;

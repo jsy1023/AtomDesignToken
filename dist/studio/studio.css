@@ -1613,6 +1613,9 @@
   .overflow-x-auto {
     overflow-x: auto;
   }
+  .overflow-x-hidden {
+    overflow-x: hidden;
+  }
   .overflow-y-auto {
     overflow-y: auto;
   }
@@ -2586,9 +2589,6 @@
   .to-cyan-600 {
     --tw-gradient-to: var(--color-cyan-600);
     --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
-  }
-  .bg-clip-text {
-    background-clip: text;
   }
   .mask-repeat {
     mask-repeat: repeat;
@@ -6647,6 +6647,14 @@ body {
   --atom-sheet-side-detail-borderRadius: var(--atom-radius-lg);
   --atom-sheet-side-detail-padding: var(--atom-space-5);
 }
+[data-component="theme-switcher"][data-variable="default"],
+.atom-theme-switcher--default {
+  --atom-theme-switcher-default-background: var(--atom-bg-primary);
+  --atom-theme-switcher-default-textColor: var(--atom-text-primary);
+  --atom-theme-switcher-default-borderColor: var(--atom-border-subtle);
+  --atom-theme-switcher-default-borderRadius: var(--atom-radius-md);
+  --atom-theme-switcher-default-padding: var(--atom-space-4);
+}
 .atom-container {
   width: 100%;
   margin-left: auto;
@@ -8338,6 +8346,17 @@ body {
   border-width: 1px;
   border-radius: var(--atom-sheet-side-detail-borderRadius, var(--atom-radius-lg));
   padding: var(--atom-sheet-side-detail-padding, var(--atom-space-5));
+}
+.atom-theme-switcher.atom-theme-switcher--default,
+.atom-theme-switcher[data-variable="default"],
+[data-component="theme-switcher"][data-variable="default"] {
+  background-color: var(--atom-theme-switcher-default-background, var(--atom-palette-white));
+  color: var(--atom-theme-switcher-default-textColor, var(--atom-palette-gray-900));
+  border-color: var(--atom-theme-switcher-default-borderColor, var(--atom-palette-gray-200));
+  border-style: solid;
+  border-width: 1px;
+  border-radius: var(--atom-theme-switcher-default-borderRadius, var(--atom-radius-md));
+  padding: var(--atom-theme-switcher-default-padding, var(--atom-space-4));
 }
 @property --tw-translate-x {
   syntax: "*";

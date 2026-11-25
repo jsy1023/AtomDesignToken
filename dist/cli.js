@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { buildAiComponentSubmissionPrompt, AI_COMPONENT_SUBMISSION_TEMPLATE, scanAndRefactorDirectory, isUnifiedTokensDocument, TokenReferenceResolver, AtomTokenSystem, INITIAL_PALETTE_VARIABLES, INITIAL_SEMANTIC_STATUS_TOKENS, resolveStudioComponentId, DEFAULT_COMPONENT_TYPES, exportStudioToTokensJson, exportStudioToCSS, exportStudioCustomComponentStyles, INITIAL_STUDIO_THEMES, atomTokens, UNIFIED_TOKENS_DOCUMENT, STUDIO_CUSTOM_STYLES_START, STUDIO_CUSTOM_STYLES_END } from './chunk-HCVBVERC.js';
+import { buildAiComponentSubmissionPrompt, AI_COMPONENT_SUBMISSION_TEMPLATE, scanAndRefactorDirectory, isUnifiedTokensDocument, TokenReferenceResolver, AtomTokenSystem, INITIAL_PALETTE_VARIABLES, INITIAL_SEMANTIC_STATUS_TOKENS, resolveStudioComponentId, DEFAULT_COMPONENT_TYPES, exportStudioToTokensJson, exportStudioToCSS, exportStudioCustomComponentStyles, INITIAL_STUDIO_THEMES, atomTokens, UNIFIED_TOKENS_DOCUMENT, STUDIO_CUSTOM_STYLES_START, STUDIO_CUSTOM_STYLES_END } from './chunk-PYS7J7T4.js';
 import fs7 from 'fs';
 import path7 from 'path';
 import { fileURLToPath } from 'url';
@@ -2700,7 +2700,7 @@ function showVersion() {
     const pkg = JSON.parse(fs7.readFileSync(pkgPath, "utf-8"));
     console.log(`atomsystem v${pkg.version}`);
   } else {
-    console.log("atomsystem v0.15.1");
+    console.log("atomsystem v0.15.2");
   }
 }
 function handleAnalyze() {

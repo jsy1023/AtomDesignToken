@@ -1,5 +1,5 @@
-import { atomTokens } from './chunk-HCVBVERC.js';
-export { AI_COMPONENT_SUBMISSION_TEMPLATE, AtomTokenSystem, COLOR_PRESETS, COMPONENT_STATUS_PRESETS, ComponentTokenLayer, DEFAULT_BRAND_CONFIG, DEFAULT_COMPONENT_TYPES, DEFAULT_THEME_CONFIG, FONT_FAMILY_PRESETS, INITIAL_PALETTE_VARIABLES, INITIAL_SEMANTIC_STATUS_TOKENS, INITIAL_STUDIO_COMPONENTS, PaletteTokenLayer, SEMANTIC_VARIABLE_DICTIONARY, STUDIO_CUSTOM_STYLES_END, STUDIO_CUSTOM_STYLES_START, TOKEN_REPLACEMENTS, ThemeTokenLayer, TokenReferenceResolver, UNIFIED_TOKENS_DOCUMENT, atomTokens, buildAiComponentSubmissionPrompt, componentTokens, exportStudioCustomComponentStyles, exportStudioToCSS, exportStudioToTokensJson, getComponentStatusProperties, getComponentTypes, isUnifiedTokensDocument, paletteTokens, resolveStudioComponentId, resolveTypeSpec, resolveVariableRole, scanAndRefactorDirectory, themeTokens, tokenResolver } from './chunk-HCVBVERC.js';
+import { atomTokens } from './chunk-PYS7J7T4.js';
+export { AI_COMPONENT_SUBMISSION_TEMPLATE, AtomTokenSystem, COLOR_PRESETS, COMPONENT_STATUS_PRESETS, ComponentTokenLayer, DEFAULT_BRAND_CONFIG, DEFAULT_COMPONENT_TYPES, DEFAULT_THEME_CONFIG, FONT_FAMILY_PRESETS, INITIAL_PALETTE_VARIABLES, INITIAL_SEMANTIC_STATUS_TOKENS, INITIAL_STUDIO_COMPONENTS, PaletteTokenLayer, SEMANTIC_VARIABLE_DICTIONARY, STUDIO_CUSTOM_STYLES_END, STUDIO_CUSTOM_STYLES_START, TOKEN_REPLACEMENTS, ThemeTokenLayer, TokenReferenceResolver, UNIFIED_TOKENS_DOCUMENT, atomTokens, buildAiComponentSubmissionPrompt, componentTokens, exportStudioCustomComponentStyles, exportStudioToCSS, exportStudioToTokensJson, getComponentStatusProperties, getComponentTypes, isUnifiedTokensDocument, paletteTokens, resolveStudioComponentId, resolveTypeSpec, resolveVariableRole, scanAndRefactorDirectory, themeTokens, tokenResolver } from './chunk-PYS7J7T4.js';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import React34, { useState } from 'react';
@@ -10185,7 +10185,7 @@ function EnterpriseDashboardUseCase() {
 var ATOM_UI_CSS_PATH = "atomsystem/css/atom-ui.css";
 var ATOM_TOKENS_PATH = "atomsystem/tokens.json";
 var ATOM_STUDIO_REGISTRY_PATH = ATOM_TOKENS_PATH;
-var ATOM_VERSION = "0.15.1";
+var ATOM_VERSION = "0.15.2";
 var ATOM_LIB_NAME = "atomsystem";
 
 export { ATOM_LIB_NAME, ATOM_STUDIO_REGISTRY_PATH, ATOM_TOKENS_PATH, ATOM_UI_CSS_PATH, ATOM_VERSION, AWESOME_CATEGORIES, AWESOME_DESIGN_MD_THEMES, BASE_COLOR_TOKENS, BRAND_PRESETS, EnterpriseDashboardUseCase, GALLERY_COMPONENTS, LAYOUT_TOKENS, PATTERNS_COLLECTION, RADIUS_TOKENS, SHADOW_TOKENS, SPACING_TOKENS, TYPOGRAPHY_TOKENS, applyThemeToDOM, cn, exportToCSS, exportToTailwind, exportToTokensJson, generateThemeCSS, injectWebfontLink, isDarkColor };
