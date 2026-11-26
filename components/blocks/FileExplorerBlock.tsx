@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Card, Button, Badge } from '@/components/ui';
+import { Card, Button, Badge } from '../ui';
 import {
   Folder,
   FolderOpen,

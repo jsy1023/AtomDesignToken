@@ -2,10 +2,10 @@
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Palette, Sun, Moon, Check, X, RotateCcw, Type, Maximize2, Sparkles } from 'lucide-react';
-import { atomTokens } from '@/lib/tokens';
-import { INITIAL_STUDIO_THEMES, StudioTheme } from '@/lib/data/themeData';
-import { INITIAL_PALETTE_VARIABLES } from '@/lib/data/studioData';
-import { injectWebfontLink } from '@/lib/services/themeEngine';
+import { atomTokens } from '../../lib/tokens';
+import { INITIAL_STUDIO_THEMES, StudioTheme } from '../../lib/data/themeData';
+import { INITIAL_PALETTE_VARIABLES } from '../../lib/data/studioData';
+import { injectWebfontLink } from '../../lib/services/themeEngine';
 import { NativeSelect } from './Select';
 import { Button } from './Button';
 import { Badge } from './Badge';

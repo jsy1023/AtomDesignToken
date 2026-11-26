@@ -3,7 +3,14 @@
 import React from 'react';
 import { Info, CheckCircle2, AlertTriangle, AlertCircle, Bell, X } from 'lucide-react';
 import { Button } from './Button';
-import type { ComponentInteractiveStatus } from '@/lib/data/studioData';
+
+type ComponentInteractiveStatus =
+  | 'default'
+  | 'hover'
+  | 'active'
+  | 'focus'
+  | 'disabled'
+  | 'loading';
 
 export type AlertType = 'soft' | 'outlined' | 'solid' | 'accent-border';
 export type AlertVariant = 'info' | 'success' | 'warning' | 'destructive' | 'neutral';

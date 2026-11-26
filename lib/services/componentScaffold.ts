@@ -184,7 +184,14 @@ export function generateComponentTsx(spec: AtomComponentSubmissionSpec): string 
   return `'use client';
 
 import React from 'react';
-import type { ComponentInteractiveStatus } from '@/lib/data/studioData';
+
+type ComponentInteractiveStatus =
+  | 'default'
+  | 'hover'
+  | 'active'
+  | 'focus'
+  | 'disabled'
+  | 'loading';
 
 export type ${pascalName}Type = ${typeUnion} | (string & {});
 export type ${pascalName}Variable = ${varUnion} | (string & {});

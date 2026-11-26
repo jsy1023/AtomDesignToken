@@ -3,7 +3,14 @@
 import React, { useEffect, useState } from 'react';
 import { Info, CheckCircle2, AlertTriangle, AlertCircle, X } from 'lucide-react';
 import { Button } from './Button';
-import type { ComponentInteractiveStatus } from '@/lib/data/studioData';
+
+type ComponentInteractiveStatus =
+  | 'default'
+  | 'hover'
+  | 'active'
+  | 'focus'
+  | 'disabled'
+  | 'loading';
 
 export type ToastVariant = 'info' | 'success' | 'warning' | 'danger' | 'action';
 

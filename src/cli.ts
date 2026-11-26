@@ -18,6 +18,7 @@ import {
   saveProjectRegistry,
   submitComponentSpec,
 } from '../lib/services/studioRegistryServer';
+import { ensureUiBarrelExport } from '../lib/services/componentScaffold';
 
 function getPkgRoot(): string {
   try {
@@ -152,10 +153,17 @@ const COMPONENT_MAP: Record<string, string> = {
   table: 'Table.tsx',
   tabs: 'Tabs.tsx',
   textarea: 'Textarea.tsx',
+  'theme-switcher': 'ThemeSwitcher.tsx',
   toast: 'Toast.tsx',
   'token-select': 'TokenSelect.tsx',
   tooltip: 'Tooltip.tsx',
   tree: 'Tree.tsx',
+};
+
+const COMPONENT_DEPS: Record<string, string[]> = {
+  alert: ['button'],
+  toast: ['button'],
+  'theme-switcher': ['select', 'button', 'badge', 'card', 'tabs'],
 };
 
 const BLOCK_MAP: Record<string, { file: string; deps: string[] }> = {
@@ -163,10 +171,47 @@ const BLOCK_MAP: Record<string, { file: string; deps: string[] }> = {
   'interactive-chat': { file: 'InteractiveChatBlock.tsx', deps: ['card', 'input', 'button', 'badge'] },
   'pricing-table': { file: 'PricingPlanBlock.tsx', deps: ['card', 'button', 'badge'] },
   'card-list': { file: 'CardListBlock.tsx', deps: ['card', 'input', 'button', 'badge'] },
-  'interactive-slider': { file: 'SliderShowcaseBlock.tsx', deps: ['card', 'button', 'badge'] },
+  'interactive-slider': { file: 'SliderShowcaseBlock.tsx', deps: ['card', 'button', 'slider'] },
   'metric-stats': { file: 'MetricStatsBlock.tsx', deps: ['card', 'badge'] },
   'file-explorer': { file: 'FileExplorerBlock.tsx', deps: ['card', 'button', 'badge'] },
 };
+
+function installUiComponent(cwd: string, compKey: string, visited = new Set<string>()): boolean {
+  if (visited.has(compKey)) return true;
+  visited.add(compKey);
+
+  const fileName = COMPONENT_MAP[compKey];
+  if (!fileName) return false;
+
+  // Install sibling UI dependencies first
+  for (const dep of COMPONENT_DEPS[compKey] || []) {
+    installUiComponent(cwd, dep, visited);
+  }
+
+  const src = path.join(PKG_ROOT, 'components', 'ui', fileName);
+  const uiDir = path.join(cwd, 'components', 'ui');
+  const dest = path.join(uiDir, fileName);
+  if (!fs.existsSync(src)) {
+    console.error(`\n❌ Source component file not found: ${src}\n`);
+    return false;
+  }
+
+  if (!fs.existsSync(uiDir)) {
+    fs.mkdirSync(uiDir, { recursive: true });
+  }
+
+  // Rewrite internal repo-relative lib imports (e.g. ThemeSwitcher) to public 'atomsystem' package import when copying externally
+  let code = fs.readFileSync(src, 'utf-8');
+  if (path.resolve(cwd) !== path.resolve(PKG_ROOT)) {
+    code = code.replace(/from\s+['"]\.\.\/\.\.\/lib\/[^'"]+['"]/g, "from 'atomsystem'");
+  }
+  fs.writeFileSync(dest, code, 'utf-8');
+  console.log(`  ✓ Component (${fileName}) -> ${path.relative(cwd, dest)}`);
+
+  const pascalName = fileName.replace(/\.tsx$/i, '');
+  ensureUiBarrelExport(uiDir, pascalName);
+  return true;
+}
 
 function handleAdd(name?: string) {
   if (!name) {
@@ -181,13 +226,8 @@ function handleAdd(name?: string) {
   // 1. Check if it's a component
   if (COMPONENT_MAP[normalized]) {
     const fileName = COMPONENT_MAP[normalized];
-    const src = path.join(PKG_ROOT, 'components', 'ui', fileName);
-    const dest = path.join(cwd, 'components', 'ui', fileName);
-    if (fs.existsSync(src)) {
-      copyFileSafe(src, dest, `Component (${fileName})`);
-      console.log(`\n✅ Added ${normalized} component to components/ui/${fileName}\n`);
-    } else {
-      console.error(`\n❌ Source component file not found: ${src}\n`);
+    if (installUiComponent(cwd, normalized)) {
+      console.log(`\n✅ Added ${normalized} component to components/ui/${fileName} (and updated components/ui/index.ts)\n`);
     }
     return;
   }
@@ -199,14 +239,7 @@ function handleAdd(name?: string) {
 
     // Copy dependencies first (Component-First rule)
     deps.forEach((dep) => {
-      const depFile = COMPONENT_MAP[dep];
-      if (depFile) {
-        const srcDep = path.join(PKG_ROOT, 'components', 'ui', depFile);
-        const destDep = path.join(cwd, 'components', 'ui', depFile);
-        if (fs.existsSync(srcDep)) {
-          copyFileSafe(srcDep, destDep, `Dependent Component (${depFile})`);
-        }
-      }
+      installUiComponent(cwd, dep);
     });
 
     // Copy block file
@@ -226,18 +259,17 @@ function handleAdd(name?: string) {
 }
 
 function handleList() {
-  console.log(`
-Available Components:
-  - button      (Button, ButtonVariants)
-  - card        (Card container)
-  - badge       (Status badge)
-  - input       (Input with status)
-  - table       (Table, Header, Row, Cell)
-  - tabs        (TabsList, TabsTrigger)
-  - switch      (A11y Switch toggle)
-  - modal       (Dialog with Esc key support)
+  const compKeys = Object.keys(COMPONENT_MAP).sort();
+  const compLines: string[] = [];
+  for (let i = 0; i < compKeys.length; i += 4) {
+    compLines.push('  ' + compKeys.slice(i, i + 4).map((k) => k.padEnd(18)).join(''));
+  }
 
-Available Design Blocks:
+  console.log(`
+Available UI Components (${compKeys.length}):
+${compLines.join('\n')}
+
+Available Design Blocks (${Object.keys(BLOCK_MAP).length}):
   - realtime-chart      (Live streaming candlestick/line chart)
   - interactive-chat    (AI chatbot feed with suggestions)
   - pricing-table       (Monthly/annual tier pricing table)
@@ -403,6 +435,7 @@ function handleSkillInstall() {
 function handleRefactor() {
   const cwd = process.cwd();
   const shouldFix = args.includes('--fix');
+  const shouldCheck = args.includes('--check');
   const targetDirs = args.filter((a) => !a.startsWith('--') && a !== 'refactor');
   const scanDirs = targetDirs.length > 0 ? targetDirs : ['app', 'components', 'css', 'lib'];
 
@@ -447,6 +480,9 @@ function handleRefactor() {
   } else {
     console.log(`\n💡 To automatically replace these hardcoded patterns with tokens, run:`);
     console.log(`   npx atomsystem refactor --fix\n`);
+    if (shouldCheck && grandMatches > 0) {
+      process.exitCode = 1;
+    }
   }
 }
 
@@ -514,8 +550,9 @@ Usage:
   npx atomsystem <command> [options]
 
 Commands:
-  init            Initialize AI guidelines, tokens, studio.registry.json, specs, and CSS
+  init            Initialize AI guidelines, tokens/tokens.json SSOT, specs, and CSS
   studio          Launch Local SSOT Web Studio GUI (Component Registry + AI Submit + Tokens)
+  theme [id]      Switch active theme preset (--list, --set=<id>, --cli, or floating picker)
   submit <file>   Register & scaffold an AI component spec JSON into the project SSOT
   sync            Auto-discover components/ui/*.tsx & *.atom.json and recompile SSOT CSS/JSON
   schema          Print standardized AI Component Submission JSON template (--prompt for AI prompt)

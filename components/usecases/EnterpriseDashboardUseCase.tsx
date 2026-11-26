@@ -14,7 +14,7 @@ import {
   TableRow,
   TableHead,
   TableCell,
-} from '@/components/ui';
+} from '../ui';
 import {
   TrendingUp,
   TrendingDown,

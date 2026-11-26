@@ -1,5 +1,12 @@
 import React from 'react';
-import type { ComponentInteractiveStatus } from '@/lib/data/studioData';
+
+type ComponentInteractiveStatus =
+  | 'default'
+  | 'hover'
+  | 'active'
+  | 'focus'
+  | 'disabled'
+  | 'loading';
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;

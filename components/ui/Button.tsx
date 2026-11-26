@@ -1,7 +1,12 @@
 import React from 'react';
-import type { ComponentInteractiveStatus } from '@/lib/data/studioData';
 
-export type { ComponentInteractiveStatus };
+type ComponentInteractiveStatus =
+  | 'default'
+  | 'hover'
+  | 'active'
+  | 'focus'
+  | 'disabled'
+  | 'loading';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive' | 'danger' | 'success' | 'warning' | 'info' | (string & {});
