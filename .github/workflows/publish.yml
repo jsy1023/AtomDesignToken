@@ -31,7 +31,14 @@ jobs:
         run: npm install -g npm@latest
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install --no-audit --no-fund
+
+      - name: Run Quality Gates (Component Lint, Zero-Hardcoding, TypeCheck, Unit Tests)
+        run: |
+          npm run lint:components
+          npm run refactor:check
+          npx tsc --noEmit
+          npm test
 
       - name: Calculate Semantic Version & Bump
         id: semver
