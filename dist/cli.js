@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-import { buildAiComponentSubmissionPrompt, AI_COMPONENT_SUBMISSION_TEMPLATE, scanAndRefactorDirectory, isUnifiedTokensDocument, TokenReferenceResolver, AtomTokenSystem, INITIAL_PALETTE_VARIABLES, INITIAL_SEMANTIC_STATUS_TOKENS, resolveStudioComponentId, DEFAULT_COMPONENT_TYPES, exportStudioToTokensJson, exportStudioToCSS, exportStudioCustomComponentStyles, INITIAL_STUDIO_THEMES, atomTokens, UNIFIED_TOKENS_DOCUMENT, STUDIO_CUSTOM_STYLES_START, STUDIO_CUSTOM_STYLES_END } from './chunk-PYS7J7T4.js';
+import { scanAndRefactorDirectory, exportStudioToTokensJson, exportStudioToCSS, exportStudioCustomComponentStyles, STUDIO_CUSTOM_STYLES_START, STUDIO_CUSTOM_STYLES_END } from './chunk-PFWNGLEB.js';
+import { buildAiComponentSubmissionPrompt, AI_COMPONENT_SUBMISSION_TEMPLATE, isUnifiedTokensDocument, TokenReferenceResolver, AtomTokenSystem, INITIAL_PALETTE_VARIABLES, INITIAL_SEMANTIC_STATUS_TOKENS, resolveStudioComponentId, DEFAULT_COMPONENT_TYPES, INITIAL_STUDIO_THEMES, atomTokens, UNIFIED_TOKENS_DOCUMENT } from './chunk-TZQJ7SHU.js';
 import fs7 from 'fs';
 import path7 from 'path';
 import { fileURLToPath } from 'url';
@@ -354,7 +355,14 @@ function generateComponentTsx(spec) {
   return `'use client';
 
 import React from 'react';
-import type { ComponentInteractiveStatus } from '@/lib/data/studioData';
+
+type ComponentInteractiveStatus =
+  | 'default'
+  | 'hover'
+  | 'active'
+  | 'focus'
+  | 'disabled'
+  | 'loading';
 
 export type ${pascalName}Type = ${typeUnion} | (string & {});
 export type ${pascalName}Variable = ${varUnion} | (string & {});
@@ -1220,10 +1228,41 @@ function importAnalyzedProject(cwd, options) {
 }
 
 // src/studioServer.ts
+var MAX_BODY_BYTES = 10 * 1024 * 1024;
+var LOCAL_ORIGIN_RE = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i;
+function isAllowedOrigin(origin, allowFigmaNull = false) {
+  if (!origin) return true;
+  if (LOCAL_ORIGIN_RE.test(origin)) return true;
+  if (allowFigmaNull && origin === "null") return true;
+  return false;
+}
+function applyCorsHeaders(req, res, allowFigmaNull = false) {
+  const origin = req.headers.origin;
+  const secFetchSite = req.headers["sec-fetch-site"];
+  if (origin) {
+    if (!isAllowedOrigin(origin, allowFigmaNull)) {
+      return false;
+    }
+    res.setHeader("Access-Control-Allow-Origin", origin);
+    res.setHeader("Vary", "Origin");
+  } else if (secFetchSite === "cross-site") {
+    return false;
+  }
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, X-Atom-Client");
+  return true;
+}
 function readRequestBody(req) {
   return new Promise((resolve, reject) => {
     let body = "";
+    let bytes = 0;
     req.on("data", (chunk) => {
+      bytes += typeof chunk === "string" ? Buffer.byteLength(chunk) : chunk.length;
+      if (bytes > MAX_BODY_BYTES) {
+        req.destroy();
+        reject(new Error("Payload too large"));
+        return;
+      }
       body += chunk;
     });
     req.on("end", () => resolve(body));
@@ -1246,21 +1285,28 @@ function getStudioDistDir() {
   }
 }
 function startLocalTokenStudio(options = {}) {
-  const port = options.port || 4e3;
+  const port = options.port ?? 4e3;
+  const host = options.host || "127.0.0.1";
   const cwd = options.cwd || process.cwd();
   const tokenJsonPath = path7.join(cwd, "tokens", "tokens.json");
   const cssPath = path7.join(cwd, "css", "atom-ui.css");
   const registryPath = path7.join(cwd, "tokens", "tokens.json");
   const server = http.createServer(async (req, res) => {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+    const url = new URL(req.url || "/", `http://localhost:${port}`);
+    const isCodeWriteEndpoint = url.pathname === "/api/studio/components" || url.pathname === "/api/studio/import";
+    const allowFigmaNull = !isCodeWriteEndpoint;
+    if (!applyCorsHeaders(req, res, allowFigmaNull)) {
+      sendJson(res, 403, {
+        success: false,
+        error: "Forbidden: Cross-origin access to Local Studio is restricted to localhost."
+      });
+      return;
+    }
     if (req.method === "OPTIONS") {
-      res.writeHead(200);
+      res.writeHead(204);
       res.end();
       return;
     }
-    const url = new URL(req.url || "/", `http://localhost:${port}`);
     if (url.pathname === "/api/studio/registry" && req.method === "GET") {
       try {
         const result = loadProjectRegistry(cwd);
@@ -1420,10 +1466,10 @@ ${existingCss.slice(splitIndex)}`;
     res.writeHead(404, { "Content-Type": "text/plain; charset=utf-8" });
     res.end("Not Found");
   });
-  server.listen(port, () => {
+  server.listen(port, host, () => {
     console.log(`
 \u{1F3A8} AtomSystem Local SSOT Studio running at:`);
-    console.log(`   \u{1F449} http://localhost:${port}
+    console.log(`   \u{1F449} http://localhost:${port} (bound to ${host})
 `);
     console.log(`   Registry SSOT : ${path7.relative(cwd, registryPath)}`);
     console.log(`   Tokens file   : ${path7.relative(cwd, tokenJsonPath)}`);
@@ -1666,17 +1712,34 @@ function getStudioHtml() {
       renderComponentDetail();
     }
 
+    function esc(v) {
+      return String(v == null ? '' : v)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
     function renderComponentList() {
       if (!registryState) return;
       const q = (document.getElementById('comp-search').value || '').toLowerCase();
       const listEl = document.getElementById('comp-list');
+      listEl.innerHTML = '';
       const items = registryState.components.filter((c) => c.name.toLowerCase().includes(q) || c.id.toLowerCase().includes(q));
-      listEl.innerHTML = items.map((c) =>
-        '<button class="comp-item ' + (c.id === selectedCompId ? 'active' : '') + '" onclick="selectComponent(\\'' + c.id + '\\')">' +
-          '<span>' + c.name + '</span>' +
-          '<span class="meta-mono">' + (c.types ? c.types.length + 'T / ' : '') + c.variables.length + 'V</span>' +
-        '</button>'
-      ).join('');
+      items.forEach((c) => {
+        const btn = document.createElement('button');
+        btn.className = 'comp-item ' + (c.id === selectedCompId ? 'active' : '');
+        btn.onclick = () => selectComponent(c.id);
+        const nameSpan = document.createElement('span');
+        nameSpan.textContent = c.name;
+        const metaSpan = document.createElement('span');
+        metaSpan.className = 'meta-mono';
+        metaSpan.textContent = (c.types ? c.types.length + 'T / ' : '') + c.variables.length + 'V';
+        btn.appendChild(nameSpan);
+        btn.appendChild(metaSpan);
+        listEl.appendChild(btn);
+      });
     }
 
     function selectComponent(id) {
@@ -1691,20 +1754,20 @@ function getStudioHtml() {
       const container = document.getElementById('comp-detail');
       if (!comp) return;
       const typesHtml = (comp.types || []).map((t) =>
-        '<div class="spec-card"><div class="spec-title">' + t.name + '</div><div class="meta-mono">type="' + t.id + '"</div><p class="spec-sub" style="margin-top:6px;">' + (t.whenToUse || t.description || '') + '</p></div>'
+        '<div class="spec-card"><div class="spec-title">' + esc(t.name) + '</div><div class="meta-mono">type="' + esc(t.id) + '"</div><p class="spec-sub" style="margin-top:6px;">' + esc(t.whenToUse || t.description || '') + '</p></div>'
       ).join('') || '<div class="meta-mono">\uAE30\uBCF8 Standard Type \uC0AC\uC6A9</div>';
 
       const varsHtml = (comp.variables || []).map((v) =>
-        '<div class="spec-card"><div class="spec-title">' + v.name + '</div><div class="meta-mono">variable="' + v.id + '"</div><div class="meta-mono" style="margin-top:6px;">' +
-          Object.entries(v.tokenBindings || {}).slice(0, 4).map(([k, val]) => k + ': ' + val).join('<br>') +
+        '<div class="spec-card"><div class="spec-title">' + esc(v.name) + '</div><div class="meta-mono">variable="' + esc(v.id) + '"</div><div class="meta-mono" style="margin-top:6px;">' +
+          Object.entries(v.tokenBindings || {}).slice(0, 4).map(([k, val]) => esc(k) + ': ' + esc(val)).join('<br>') +
         '</div></div>'
       ).join('');
 
       container.innerHTML =
         '<div style="display:flex; justify-content:space-between; align-items:start; gap:12px; border-bottom:1px solid var(--border); padding-bottom:12px;">' +
-          '<div><h2 style="font-size:18px; font-weight:800;">' + comp.name + '</h2><p class="desc">' + comp.description + '</p>' +
-          (comp.sourceFile ? '<div class="meta-mono" style="margin-top:4px;">\u{1F4C4} ' + comp.sourceFile + '</div>' : '') + '</div>' +
-          '<span class="badge">' + comp.category + '</span>' +
+          '<div><h2 style="font-size:18px; font-weight:800;">' + esc(comp.name) + '</h2><p class="desc">' + esc(comp.description) + '</p>' +
+          (comp.sourceFile ? '<div class="meta-mono" style="margin-top:4px;">\u{1F4C4} ' + esc(comp.sourceFile) + '</div>' : '') + '</div>' +
+          '<span class="badge">' + esc(comp.category) + '</span>' +
         '</div>' +
         '<h3 style="font-size:13px; margin-top:16px;">1. Types (' + ((comp.types || []).length) + ')</h3>' +
         '<div class="cards">' + typesHtml + '</div>' +
@@ -1789,6 +1852,8 @@ function getStudioHtml() {
 </body>
 </html>`;
 }
+var LOCAL_ORIGIN_RE2 = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i;
+var MAX_BODY_BYTES2 = 1024 * 1024;
 function openUrlInBrowser(url) {
   const platform = process.platform;
   const cmd = platform === "win32" ? `start "" "${url}"` : platform === "darwin" ? `open "${url}"` : `xdg-open "${url}"`;
@@ -1890,7 +1955,13 @@ function getFloatingInjectScript(port) {
       var item = document.createElement('button');
       item.type = 'button';
       item.style.cssText = 'width:100%;display:flex;align-items:center;justify-content:space-between;padding:7px 9px;margin:2px 0;border-radius:8px;border:1px solid transparent;background:' + (th.id===activeId?'rgba(59,130,246,.15)':'transparent') + ';color:inherit;font-size:12px;cursor:pointer;text-align:left;';
-      item.innerHTML = '<span>' + th.name + '</span><span style="opacity:.7;font-size:11px">' + (th.id===activeId?'\u2713':th.mode) + '</span>';
+      var nameSpan = document.createElement('span');
+      nameSpan.textContent = th.name;
+      var modeSpan = document.createElement('span');
+      modeSpan.style.cssText = 'opacity:.7;font-size:11px';
+      modeSpan.textContent = th.id===activeId ? '\u2713' : th.mode;
+      item.appendChild(nameSpan);
+      item.appendChild(modeSpan);
       item.onclick = function(){
         applyCss(th);
         btn.textContent = '\u{1F3A8} ' + th.name;
@@ -2029,17 +2100,31 @@ function getFloatingWidgetHtml() {
       for (const th of themes) {
         const btn = document.createElement('button');
         btn.className = 'theme-item' + (th.id === activeId ? ' active' : '');
-        btn.innerHTML =
-          '<div class="theme-left">' +
-            '<div class="swatch" style="background:' + th.bgPrimary + '">' +
-              '<div class="swatch-dot" style="background:' + th.brandColor + '"></div>' +
-            '</div>' +
-            '<div>' +
-              '<div class="theme-name">' + th.name + '</div>' +
-              '<div class="theme-desc">' + (th.description || th.id) + '</div>' +
-            '</div>' +
-          '</div>' +
-          '<span class="theme-meta">' + (th.id === activeId ? '\u2713 Active' : th.mode) + '</span>';
+        const left = document.createElement('div');
+        left.className = 'theme-left';
+        const swatch = document.createElement('div');
+        swatch.className = 'swatch';
+        swatch.style.backgroundColor = th.bgPrimary || '';
+        const dot = document.createElement('div');
+        dot.className = 'swatch-dot';
+        dot.style.backgroundColor = th.brandColor || '';
+        swatch.appendChild(dot);
+        const textWrap = document.createElement('div');
+        const nameEl = document.createElement('div');
+        nameEl.className = 'theme-name';
+        nameEl.textContent = th.name;
+        const descEl = document.createElement('div');
+        descEl.className = 'theme-desc';
+        descEl.textContent = th.description || th.id;
+        textWrap.appendChild(nameEl);
+        textWrap.appendChild(descEl);
+        left.appendChild(swatch);
+        left.appendChild(textWrap);
+        const meta = document.createElement('span');
+        meta.className = 'theme-meta';
+        meta.textContent = th.id === activeId ? '\u2713 Active' : th.mode;
+        btn.appendChild(left);
+        btn.appendChild(meta);
         btn.onclick = async () => {
           const status = document.getElementById('status-text');
           status.textContent = '\uC801\uC6A9 \uC911...';
@@ -2068,10 +2153,25 @@ function getFloatingWidgetHtml() {
 }
 function startFloatingThemeServer(options = {}) {
   const port = options.port ?? 4010;
+  const host = options.host ?? "127.0.0.1";
   const cwd = options.cwd ?? process.cwd();
   const tokenJsonPath = path7.join(cwd, "tokens", "tokens.json");
   const server = http.createServer((req, res) => {
-    res.setHeader("Access-Control-Allow-Origin", "*");
+    const origin = req.headers.origin;
+    const secFetchSite = req.headers["sec-fetch-site"];
+    if (origin) {
+      if (!LOCAL_ORIGIN_RE2.test(origin)) {
+        res.writeHead(403, { "Content-Type": "application/json; charset=utf-8" });
+        res.end(JSON.stringify({ success: false, error: "Forbidden: Localhost origins only." }));
+        return;
+      }
+      res.setHeader("Access-Control-Allow-Origin", origin);
+      res.setHeader("Vary", "Origin");
+    } else if (secFetchSite === "cross-site") {
+      res.writeHead(403, { "Content-Type": "application/json; charset=utf-8" });
+      res.end(JSON.stringify({ success: false, error: "Forbidden: Cross-site access denied." }));
+      return;
+    }
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
     res.setHeader("Access-Control-Allow-Headers", "Content-Type");
     if (req.method === "OPTIONS") {
@@ -2098,7 +2198,13 @@ function startFloatingThemeServer(options = {}) {
     }
     if (req.method === "POST" && url.pathname === "/api/theme") {
       let body = "";
+      let bytes = 0;
       req.on("data", (chunk) => {
+        bytes += typeof chunk === "string" ? Buffer.byteLength(chunk) : chunk.length;
+        if (bytes > MAX_BODY_BYTES2) {
+          req.destroy();
+          return;
+        }
         body += chunk;
       });
       req.on("end", () => {
@@ -2117,11 +2223,11 @@ function startFloatingThemeServer(options = {}) {
     res.writeHead(200, { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-cache" });
     res.end(getFloatingWidgetHtml());
   });
-  server.listen(port, () => {
+  server.listen(port, host, () => {
     const url = `http://localhost:${port}`;
     console.log(`
 \u{1F3A8} AtomSystem Floating Theme Menu running at:`);
-    console.log(`   \u{1F449} ${url}
+    console.log(`   \u{1F449} ${url} (bound to ${host})
 `);
     console.log(`   Tokens file : ${path7.relative(cwd, tokenJsonPath)}`);
     console.log(`   Target CSS  : css/atom-ui.css`);
@@ -2318,20 +2424,56 @@ var COMPONENT_MAP = {
   table: "Table.tsx",
   tabs: "Tabs.tsx",
   textarea: "Textarea.tsx",
+  "theme-switcher": "ThemeSwitcher.tsx",
   toast: "Toast.tsx",
   "token-select": "TokenSelect.tsx",
   tooltip: "Tooltip.tsx",
   tree: "Tree.tsx"
+};
+var COMPONENT_DEPS = {
+  alert: ["button"],
+  toast: ["button"],
+  "theme-switcher": ["select", "button", "badge", "card", "tabs"]
 };
 var BLOCK_MAP = {
   "realtime-chart": { file: "RealtimeChartBlock.tsx", deps: ["card", "button", "badge"] },
   "interactive-chat": { file: "InteractiveChatBlock.tsx", deps: ["card", "input", "button", "badge"] },
   "pricing-table": { file: "PricingPlanBlock.tsx", deps: ["card", "button", "badge"] },
   "card-list": { file: "CardListBlock.tsx", deps: ["card", "input", "button", "badge"] },
-  "interactive-slider": { file: "SliderShowcaseBlock.tsx", deps: ["card", "button", "badge"] },
+  "interactive-slider": { file: "SliderShowcaseBlock.tsx", deps: ["card", "button", "slider"] },
   "metric-stats": { file: "MetricStatsBlock.tsx", deps: ["card", "badge"] },
   "file-explorer": { file: "FileExplorerBlock.tsx", deps: ["card", "button", "badge"] }
 };
+function installUiComponent(cwd, compKey, visited = /* @__PURE__ */ new Set()) {
+  if (visited.has(compKey)) return true;
+  visited.add(compKey);
+  const fileName = COMPONENT_MAP[compKey];
+  if (!fileName) return false;
+  for (const dep of COMPONENT_DEPS[compKey] || []) {
+    installUiComponent(cwd, dep, visited);
+  }
+  const src = path7.join(PKG_ROOT, "components", "ui", fileName);
+  const uiDir = path7.join(cwd, "components", "ui");
+  const dest = path7.join(uiDir, fileName);
+  if (!fs7.existsSync(src)) {
+    console.error(`
+\u274C Source component file not found: ${src}
+`);
+    return false;
+  }
+  if (!fs7.existsSync(uiDir)) {
+    fs7.mkdirSync(uiDir, { recursive: true });
+  }
+  let code = fs7.readFileSync(src, "utf-8");
+  if (path7.resolve(cwd) !== path7.resolve(PKG_ROOT)) {
+    code = code.replace(/from\s+['"]\.\.\/\.\.\/lib\/[^'"]+['"]/g, "from 'atomsystem'");
+  }
+  fs7.writeFileSync(dest, code, "utf-8");
+  console.log(`  \u2713 Component (${fileName}) -> ${path7.relative(cwd, dest)}`);
+  const pascalName = fileName.replace(/\.tsx$/i, "");
+  ensureUiBarrelExport(uiDir, pascalName);
+  return true;
+}
 function handleAdd(name) {
   if (!name) {
     console.error("\n\u274C Please specify an item to add. Example: npx atomsystem add button\n");
@@ -2342,16 +2484,9 @@ function handleAdd(name) {
   const normalized = name.toLowerCase().trim();
   if (COMPONENT_MAP[normalized]) {
     const fileName = COMPONENT_MAP[normalized];
-    const src = path7.join(PKG_ROOT, "components", "ui", fileName);
-    const dest = path7.join(cwd, "components", "ui", fileName);
-    if (fs7.existsSync(src)) {
-      copyFileSafe(src, dest, `Component (${fileName})`);
+    if (installUiComponent(cwd, normalized)) {
       console.log(`
-\u2705 Added ${normalized} component to components/ui/${fileName}
-`);
-    } else {
-      console.error(`
-\u274C Source component file not found: ${src}
+\u2705 Added ${normalized} component to components/ui/${fileName} (and updated components/ui/index.ts)
 `);
     }
     return;
@@ -2362,14 +2497,7 @@ function handleAdd(name) {
 \u{1F4E6} Adding block "${normalized}" and its dependent components...
 `);
     deps.forEach((dep) => {
-      const depFile = COMPONENT_MAP[dep];
-      if (depFile) {
-        const srcDep = path7.join(PKG_ROOT, "components", "ui", depFile);
-        const destDep = path7.join(cwd, "components", "ui", depFile);
-        if (fs7.existsSync(srcDep)) {
-          copyFileSafe(srcDep, destDep, `Dependent Component (${depFile})`);
-        }
-      }
+      installUiComponent(cwd, dep);
     });
     const srcBlock = path7.join(PKG_ROOT, "components", "blocks", file);
     const destBlock = path7.join(cwd, "components", "blocks", file);
@@ -2390,18 +2518,16 @@ function handleAdd(name) {
   handleList();
 }
 function handleList() {
+  const compKeys = Object.keys(COMPONENT_MAP).sort();
+  const compLines = [];
+  for (let i = 0; i < compKeys.length; i += 4) {
+    compLines.push("  " + compKeys.slice(i, i + 4).map((k) => k.padEnd(18)).join(""));
+  }
   console.log(`
-Available Components:
-  - button      (Button, ButtonVariants)
-  - card        (Card container)
-  - badge       (Status badge)
-  - input       (Input with status)
-  - table       (Table, Header, Row, Cell)
-  - tabs        (TabsList, TabsTrigger)
-  - switch      (A11y Switch toggle)
-  - modal       (Dialog with Esc key support)
+Available UI Components (${compKeys.length}):
+${compLines.join("\n")}
 
-Available Design Blocks:
+Available Design Blocks (${Object.keys(BLOCK_MAP).length}):
   - realtime-chart      (Live streaming candlestick/line chart)
   - interactive-chat    (AI chatbot feed with suggestions)
   - pricing-table       (Monthly/annual tier pricing table)
@@ -2564,6 +2690,7 @@ function handleSkillInstall() {
 function handleRefactor() {
   const cwd = process.cwd();
   const shouldFix = args.includes("--fix");
+  const shouldCheck = args.includes("--check");
   const targetDirs = args.filter((a) => !a.startsWith("--") && a !== "refactor");
   const scanDirs = targetDirs.length > 0 ? targetDirs : ["app", "components", "css", "lib"];
   console.log("\n\u{1F50D} AtomSystem Zero-Hardcoding Refactor Engine");
@@ -2606,6 +2733,9 @@ function handleRefactor() {
 \u{1F4A1} To automatically replace these hardcoded patterns with tokens, run:`);
     console.log(`   npx atomsystem refactor --fix
 `);
+    if (shouldCheck && grandMatches > 0) {
+      process.exitCode = 1;
+    }
   }
 }
 function handleSubmit(filePathArg) {
@@ -2673,8 +2803,9 @@ Usage:
   npx atomsystem <command> [options]
 
 Commands:
-  init            Initialize AI guidelines, tokens, studio.registry.json, specs, and CSS
+  init            Initialize AI guidelines, tokens/tokens.json SSOT, specs, and CSS
   studio          Launch Local SSOT Web Studio GUI (Component Registry + AI Submit + Tokens)
+  theme [id]      Switch active theme preset (--list, --set=<id>, --cli, or floating picker)
   submit <file>   Register & scaffold an AI component spec JSON into the project SSOT
   sync            Auto-discover components/ui/*.tsx & *.atom.json and recompile SSOT CSS/JSON
   schema          Print standardized AI Component Submission JSON template (--prompt for AI prompt)

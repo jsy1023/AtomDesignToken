@@ -1,128 +1,7 @@
+import { S as StudioTheme, a as ThemeCategory, b as ThemePaletteBindings, T as ThemeConfig } from './themeData-BCFGJB3g.cjs';
+export { B as BrandConfig, e as ButtonSpacingConfig, h as COLOR_PRESETS, C as ColorConfig, f as ColorPreset, D as DEFAULT_BRAND_CONFIG, g as DEFAULT_THEME_CONFIG, i as FONT_FAMILY_PRESETS, F as FontFamilyPreset, I as INITIAL_STUDIO_THEMES, d as TypographyConfig, c as TypographyLevelConfig, r as resolveThemeColors, s as studioThemeToThemeConfig } from './themeData-BCFGJB3g.cjs';
+import React, { ElementType } from 'react';
 import { ClassValue } from 'clsx';
-import React from 'react';
-
-interface TypographyLevelConfig {
-    fontSize: number;
-    lineHeight: number;
-    fontWeight: number;
-    letterSpacing: string;
-}
-interface TypographyConfig {
-    fontFamily: string;
-    h1: TypographyLevelConfig;
-    h2: TypographyLevelConfig;
-    h3: TypographyLevelConfig;
-    h4: TypographyLevelConfig;
-    h5: TypographyLevelConfig;
-    h6: TypographyLevelConfig;
-    body: TypographyLevelConfig;
-    sm: TypographyLevelConfig;
-    xs: TypographyLevelConfig;
-}
-interface ColorConfig {
-    primary: string;
-    primaryHover: string;
-    primaryLight: string;
-    secondary?: string;
-    secondaryHover?: string;
-    secondaryLight?: string;
-    bgPrimary: string;
-    bgSecondary: string;
-    textPrimary: string;
-    textSecondary: string;
-    textMuted: string;
-    borderSubtle: string;
-    borderStrong: string;
-    statusSuccess: string;
-    statusDanger: string;
-    statusWarning: string;
-}
-interface BrandConfig {
-    name: string;
-    logoUrl?: string | null;
-    slogan?: string;
-    logoHeight?: number;
-}
-declare const DEFAULT_BRAND_CONFIG: BrandConfig;
-interface ButtonSpacingConfig {
-    paddingY: string;
-    paddingX: string;
-}
-interface ThemeConfig {
-    color: ColorConfig;
-    typography: TypographyConfig;
-    borderRadius: string;
-    buttonSpacing?: ButtonSpacingConfig;
-    selectedIcon?: string;
-}
-interface ColorPreset {
-    id: string;
-    name: string;
-    description: string;
-    colors: ColorConfig;
-    borderRadius: string;
-}
-declare const DEFAULT_THEME_CONFIG: ThemeConfig;
-declare const COLOR_PRESETS: ColorPreset[];
-interface FontFamilyPreset {
-    id: string;
-    name: string;
-    value: string;
-    cdnUrl?: string;
-    category: 'sans' | 'mono';
-    description?: string;
-}
-declare const FONT_FAMILY_PRESETS: FontFamilyPreset[];
-
-type ThemeCategory = 'all' | 'fintech' | 'lifestyle' | 'developer' | 'dark' | 'minimal' | 'custom';
-interface ThemePaletteBindings {
-    primary: string;
-    primaryHover: string;
-    primaryLight: string;
-    secondary?: string;
-    secondaryHover?: string;
-    secondaryLight?: string;
-    bgPrimary: string;
-    bgSecondary: string;
-    textPrimary: string;
-    textSecondary: string;
-    textMuted: string;
-    borderSubtle: string;
-    borderStrong: string;
-    statusSuccess: string;
-    statusDanger: string;
-    statusWarning: string;
-}
-interface StudioTheme {
-    id: string;
-    name: string;
-    description: string;
-    mode: 'light' | 'dark';
-    category: 'fintech' | 'lifestyle' | 'developer' | 'dark' | 'minimal' | 'custom';
-    brandColor: string;
-    paletteBindings?: Partial<ThemePaletteBindings>;
-    colors: {
-        primary: string;
-        primaryHover: string;
-        primaryLight: string;
-        secondary?: string;
-        secondaryHover?: string;
-        secondaryLight?: string;
-        bgPrimary: string;
-        bgSecondary: string;
-        textPrimary: string;
-        textSecondary: string;
-        textMuted: string;
-        borderSubtle: string;
-        borderStrong: string;
-        statusSuccess: string;
-        statusDanger: string;
-        statusWarning: string;
-    };
-    borderRadius: string;
-    fontFamily?: string;
-    isCustom?: boolean;
-}
 
 type PaletteCategory = 'color' | 'size' | 'spacing' | 'radius' | 'typography' | 'status';
 interface SemanticStatusToken {
@@ -195,9 +74,9 @@ declare const SEMANTIC_VARIABLE_DICTIONARY: Record<SemanticVariableRole, Semanti
  * 3. Status: "hover, disabled 같은 상태 정보 구조"
  * UI 컴포넌트의 인터랙션 라이프사이클에 따른 상태 정보
  */
-type ComponentInteractiveStatus = 'default' | 'hover' | 'active' | 'focus' | 'disabled' | 'loading';
+type ComponentInteractiveStatus$5 = 'default' | 'hover' | 'active' | 'focus' | 'disabled' | 'loading';
 interface ComponentStatusSpec {
-    status: ComponentInteractiveStatus;
+    status: ComponentInteractiveStatus$5;
     label: string;
     description: string;
     descriptionEn?: string;
@@ -215,14 +94,14 @@ declare function resolveTypeSpec(componentId: string, variableId: string, custom
  * - Focus: 키보드 포커스 링 토큰 (focusBorderColor, focusBackground)
  * - Disabled: 비활성 시 차단 토큰 (disabledBackground, disabledTextColor, disabledBorderColor)
  */
-declare function getComponentStatusProperties(componentId: string, status: ComponentInteractiveStatus | 'all', baseProperties?: ComponentPropertySpec[]): ComponentPropertySpec[];
+declare function getComponentStatusProperties(componentId: string, status: ComponentInteractiveStatus$5 | 'all', baseProperties?: ComponentPropertySpec[]): ComponentPropertySpec[];
 interface ComponentVariable {
     id: string;
     name: string;
     description?: string;
     type?: ComponentTypeSpec;
     variableRole?: SemanticVariableRole;
-    supportedStatuses?: ComponentInteractiveStatus[];
+    supportedStatuses?: ComponentInteractiveStatus$5[];
     tokenBindings: Record<string, string>;
 }
 interface StudioComponentDefinition {
@@ -236,7 +115,7 @@ interface StudioComponentDefinition {
         whenToUse: string;
         variantsSummary: string;
     };
-    supportedStatuses?: ComponentInteractiveStatus[];
+    supportedStatuses?: ComponentInteractiveStatus$5[];
     properties: ComponentPropertySpec[];
     variables: ComponentVariable[];
     sourceFile?: string;
@@ -279,7 +158,7 @@ interface AtomComponentSubmissionSpec {
     types: ComponentTypeSpec[];
     properties?: ComponentPropertySpec[];
     variables: ComponentVariable[];
-    supportedStatuses?: ComponentInteractiveStatus[];
+    supportedStatuses?: ComponentInteractiveStatus$5[];
     componentCode?: string;
     overwriteCode?: boolean;
     customCss?: string;
@@ -414,7 +293,7 @@ interface ComponentVariableTokenNode {
     statuses?: Record<string, {
         behavior: string;
     }>;
-    supportedStatuses?: ComponentInteractiveStatus[];
+    supportedStatuses?: ComponentInteractiveStatus$5[];
     tokens: Record<string, ComponentBindingNode>;
 }
 /**
@@ -430,7 +309,7 @@ interface ComponentTokenNode {
     customCss?: string;
     typeGuide?: StudioComponentDefinition['typeGuide'];
     docs?: StudioComponentDefinition['docs'];
-    supportedStatuses?: ComponentInteractiveStatus[];
+    supportedStatuses?: ComponentInteractiveStatus$5[];
     properties: ComponentPropertySpec[];
     types?: ComponentTypeSpec[];
     variables: Record<string, ComponentVariableTokenNode>;
@@ -732,18 +611,584 @@ interface PatternItem {
 }
 declare const PATTERNS_COLLECTION: PatternItem[];
 
-interface AwesomeDesignMdTheme {
+type ComponentInteractiveStatus$4 = 'default' | 'hover' | 'active' | 'focus' | 'disabled' | 'loading';
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+    variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive' | 'danger' | 'success' | 'warning' | 'info' | (string & {});
+    variable?: 'primary' | 'secondary' | 'destructive' | 'danger' | 'warning' | 'success' | 'info' | 'ghost' | 'outline' | (string & {});
+    status?: ComponentInteractiveStatus$4;
+    componentType?: string;
+    size?: 'sm' | 'md' | 'lg';
+    loading?: boolean;
+    isIconOnly?: boolean;
+    paddingX?: string;
+    paddingY?: string;
+}
+declare const Button: React.ForwardRefExoticComponent<ButtonProps & React.RefAttributes<HTMLButtonElement>>;
+
+type ComponentInteractiveStatus$3 = 'default' | 'hover' | 'active' | 'focus' | 'disabled' | 'loading';
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+    label?: string;
+    error?: string;
+    helperText?: string;
+    variable?: string;
+    status?: ComponentInteractiveStatus$3;
+    componentType?: string;
+    leftIcon?: React.ReactNode;
+    rightIcon?: React.ReactNode;
+}
+declare const Input: React.ForwardRefExoticComponent<InputProps & React.RefAttributes<HTMLInputElement>>;
+
+interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
+    interactive?: boolean;
+    variable?: string;
+}
+declare const Card: React.ForwardRefExoticComponent<CardProps & React.RefAttributes<HTMLDivElement>>;
+
+type ComponentInteractiveStatus$2 = 'default' | 'hover' | 'active' | 'focus' | 'disabled' | 'loading';
+interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
+    variant?: 'primary' | 'success' | 'warning' | 'destructive' | 'neutral' | (string & {});
+    variable?: 'primary' | 'success' | 'warning' | 'destructive' | 'neutral' | (string & {});
+    status?: ComponentInteractiveStatus$2;
+    componentType?: string;
+}
+declare const Badge: React.ForwardRefExoticComponent<BadgeProps & React.RefAttributes<HTMLSpanElement>>;
+
+interface ModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+    title?: string;
+    children: React.ReactNode;
+}
+declare const Modal: React.FC<ModalProps>;
+
+interface CalendarProps {
+    selected?: Date;
+    onSelect?: (date: Date) => void;
+    className?: string;
+}
+declare const Calendar: React.FC<CalendarProps>;
+
+interface SelectOption {
+    value: string;
+    label: string;
+}
+interface SelectProps {
+    options: SelectOption[];
+    value?: string;
+    onChange?: (value: string) => void;
+    placeholder?: string;
+    className?: string;
+}
+declare const Select: React.FC<SelectProps>;
+interface NativeSelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
+}
+declare const NativeSelect: React.ForwardRefExoticComponent<NativeSelectProps & React.RefAttributes<HTMLSelectElement>>;
+
+interface AccordionItem {
+    id: string;
+    title: string;
+    content: React.ReactNode;
+}
+interface AccordionProps {
+    items: AccordionItem[];
+    type?: 'single' | 'multiple';
+    className?: string;
+}
+declare const Accordion: React.FC<AccordionProps>;
+
+interface TooltipProps {
+    content: React.ReactNode;
+    children: React.ReactNode;
+    position?: 'top' | 'bottom';
+    className?: string;
+}
+declare const Tooltip: React.FC<TooltipProps>;
+
+interface PaginationProps {
+    currentPage: number;
+    totalPages: number;
+    onPageChange?: (page: number) => void;
+    className?: string;
+}
+declare const Pagination: React.FC<PaginationProps>;
+
+interface RadioOption {
+    value: string;
+    label: string;
+    description?: string;
+}
+interface RadioGroupProps {
+    name?: string;
+    value?: string;
+    options: RadioOption[];
+    onChange?: (val: string) => void;
+    className?: string;
+}
+declare const RadioGroup: React.FC<RadioGroupProps>;
+
+interface SliderProps {
+    value: number;
+    min?: number;
+    max?: number;
+    step?: number;
+    onChange?: (val: number) => void;
+    className?: string;
+}
+declare const Slider: React.FC<SliderProps>;
+
+interface AvatarProps {
+    src?: string;
+    alt?: string;
+    fallback?: string;
+    size?: 'sm' | 'md' | 'lg';
+    status?: 'online' | 'offline' | 'busy';
+    className?: string;
+}
+declare const Avatar: React.FC<AvatarProps>;
+
+interface ProgressProps {
+    value: number;
+    max?: number;
+    variant?: 'primary' | 'success';
+    className?: string;
+}
+declare const Progress: React.FC<ProgressProps>;
+
+interface SkeletonProps {
+    width?: string | number;
+    height?: string | number;
+    circle?: boolean;
+    className?: string;
+}
+declare const Skeleton: React.FC<SkeletonProps>;
+
+interface BreadcrumbItem {
+    label: string;
+    href?: string;
+}
+interface BreadcrumbProps {
+    items: BreadcrumbItem[];
+    separator?: string;
+    className?: string;
+}
+declare const Breadcrumb: React.FC<BreadcrumbProps>;
+
+interface SeparatorProps {
+    orientation?: 'horizontal' | 'vertical';
+    label?: string;
+    className?: string;
+}
+declare const Separator: React.FC<SeparatorProps>;
+
+interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+    maxLength?: number;
+    label?: string;
+}
+declare const Textarea: React.ForwardRefExoticComponent<TextareaProps & React.RefAttributes<HTMLTextAreaElement>>;
+
+interface TreeNode {
+    id: string;
+    label: string;
+    icon?: React.ReactNode;
+    children?: TreeNode[];
+    disabled?: boolean;
+}
+interface TreeProps {
+    data: TreeNode[];
+    selectedId?: string;
+    onSelect?: (node: TreeNode) => void;
+    defaultExpandedIds?: string[];
+    className?: string;
+}
+declare const Tree: React.FC<TreeProps>;
+
+interface TableProps extends React.TableHTMLAttributes<HTMLTableElement> {
+}
+declare const Table: React.ForwardRefExoticComponent<TableProps & React.RefAttributes<HTMLTableElement>>;
+declare const TableHeader: React.ForwardRefExoticComponent<React.HTMLAttributes<HTMLTableSectionElement> & React.RefAttributes<HTMLTableSectionElement>>;
+declare const TableBody: React.ForwardRefExoticComponent<React.HTMLAttributes<HTMLTableSectionElement> & React.RefAttributes<HTMLTableSectionElement>>;
+declare const TableRow: React.ForwardRefExoticComponent<React.HTMLAttributes<HTMLTableRowElement> & React.RefAttributes<HTMLTableRowElement>>;
+declare const TableHead: React.ForwardRefExoticComponent<React.ThHTMLAttributes<HTMLTableCellElement> & React.RefAttributes<HTMLTableCellElement>>;
+declare const TableCell: React.ForwardRefExoticComponent<React.TdHTMLAttributes<HTMLTableCellElement> & React.RefAttributes<HTMLTableCellElement>>;
+
+interface TabsListProps extends React.HTMLAttributes<HTMLDivElement> {
+}
+interface TabsTriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+    active?: boolean;
+}
+interface TabsContentProps extends React.HTMLAttributes<HTMLDivElement> {
+    active?: boolean;
+}
+declare const TabsList: React.ForwardRefExoticComponent<TabsListProps & React.RefAttributes<HTMLDivElement>>;
+declare const TabsTrigger: React.ForwardRefExoticComponent<TabsTriggerProps & React.RefAttributes<HTMLButtonElement>>;
+declare const TabsContent: React.ForwardRefExoticComponent<TabsContentProps & React.RefAttributes<HTMLDivElement>>;
+
+interface SwitchProps {
+    checked: boolean;
+    onCheckedChange?: (checked: boolean) => void;
+    disabled?: boolean;
+    className?: string;
+    id?: string;
+}
+declare const Switch: React.FC<SwitchProps>;
+
+interface ContainerProps extends React.HTMLAttributes<HTMLDivElement> {
+    size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full';
+    gutters?: boolean;
+    center?: boolean;
+    as?: ElementType;
+    children?: React.ReactNode;
+}
+declare const Container: React.FC<ContainerProps>;
+
+interface LayoutProps extends React.HTMLAttributes<HTMLDivElement> {
+    as?: ElementType;
+    children?: React.ReactNode;
+}
+interface LayoutHeaderProps extends React.HTMLAttributes<HTMLElement> {
+    sticky?: boolean;
+}
+interface LayoutSidebarProps extends React.HTMLAttributes<HTMLElement> {
+    width?: 'sm' | 'md' | 'lg';
+}
+interface LayoutContentProps extends React.HTMLAttributes<HTMLElement> {
+}
+interface LayoutFooterProps extends React.HTMLAttributes<HTMLElement> {
+}
+interface StackProps extends React.HTMLAttributes<HTMLDivElement> {
+    direction?: 'vertical' | 'horizontal';
+    gap?: '1' | '2' | '3' | '4' | '6' | '8' | '12';
+    align?: 'start' | 'center' | 'end' | 'stretch';
+    justify?: 'start' | 'center' | 'end' | 'between' | 'around';
+    wrap?: boolean;
+}
+interface GridProps extends React.HTMLAttributes<HTMLDivElement> {
+    cols?: 1 | 2 | 3 | 4 | 6 | 12;
+    gap?: '1' | '2' | '3' | '4' | '6' | '8';
+}
+interface SectionProps extends React.HTMLAttributes<HTMLElement> {
+    spacing?: 'sm' | 'md' | 'lg' | 'none';
+}
+declare const Stack: React.FC<StackProps>;
+declare const Grid: React.FC<GridProps>;
+declare const Section: React.FC<SectionProps>;
+declare const Layout: React.FC<LayoutProps> & {
+    Header: React.FC<LayoutHeaderProps>;
+    Sidebar: React.FC<LayoutSidebarProps>;
+    Content: React.FC<LayoutContentProps>;
+    Footer: React.FC<LayoutFooterProps>;
+    Stack: React.FC<StackProps>;
+    Grid: React.FC<GridProps>;
+    Section: React.FC<SectionProps>;
+};
+
+interface NavbarProps extends React.HTMLAttributes<HTMLElement> {
+    sticky?: boolean;
+    bordered?: boolean;
+    blur?: boolean;
+    variable?: string;
+    innerClassName?: string;
+    mobileMenu?: React.ReactNode;
+}
+declare const Navbar: React.ForwardRefExoticComponent<NavbarProps & React.RefAttributes<HTMLElement>>;
+interface NavbarBrandProps extends React.HTMLAttributes<HTMLDivElement> {
+    href?: string;
+}
+declare const NavbarBrand: React.ForwardRefExoticComponent<NavbarBrandProps & React.RefAttributes<HTMLDivElement>>;
+interface NavbarNavProps extends React.HTMLAttributes<HTMLDivElement> {
+}
+declare const NavbarNav: React.ForwardRefExoticComponent<NavbarNavProps & React.RefAttributes<HTMLDivElement>>;
+interface NavbarLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
+    active?: boolean;
+}
+declare const NavbarLink: React.ForwardRefExoticComponent<NavbarLinkProps & React.RefAttributes<HTMLAnchorElement>>;
+interface NavbarActionsProps extends React.HTMLAttributes<HTMLDivElement> {
+}
+declare const NavbarActions: React.ForwardRefExoticComponent<NavbarActionsProps & React.RefAttributes<HTMLDivElement>>;
+interface NavbarToggleProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+    isOpen?: boolean;
+    onToggle?: () => void;
+}
+declare const NavbarToggle: React.ForwardRefExoticComponent<NavbarToggleProps & React.RefAttributes<HTMLButtonElement>>;
+interface NavbarMobileMenuProps extends React.HTMLAttributes<HTMLDivElement> {
+    isOpen: boolean;
+}
+declare const NavbarMobileMenu: React.FC<NavbarMobileMenuProps>;
+
+type SidebarVariant = 'default' | 'pills' | 'bordered' | 'floating';
+type SidebarSize = 'sm' | 'md' | 'lg';
+interface SidebarProps extends React.HTMLAttributes<HTMLElement> {
+    collapsed?: boolean;
+    variable?: string;
+    variant?: SidebarVariant | string;
+    size?: SidebarSize;
+    width?: string;
+    collapsedWidth?: string;
+}
+declare const Sidebar: React.ForwardRefExoticComponent<SidebarProps & React.RefAttributes<HTMLElement>>;
+interface SidebarHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
+}
+declare const SidebarHeader: React.ForwardRefExoticComponent<SidebarHeaderProps & React.RefAttributes<HTMLDivElement>>;
+interface SidebarContentProps extends React.HTMLAttributes<HTMLDivElement> {
+}
+declare const SidebarContent: React.ForwardRefExoticComponent<SidebarContentProps & React.RefAttributes<HTMLDivElement>>;
+interface SidebarGroupProps extends React.HTMLAttributes<HTMLDivElement> {
+    label?: React.ReactNode;
+    collapsible?: boolean;
+    defaultOpen?: boolean;
+}
+declare const SidebarGroup: React.ForwardRefExoticComponent<SidebarGroupProps & React.RefAttributes<HTMLDivElement>>;
+interface SidebarGroupLabelProps extends React.HTMLAttributes<HTMLDivElement> {
+}
+declare const SidebarGroupLabel: React.ForwardRefExoticComponent<SidebarGroupLabelProps & React.RefAttributes<HTMLDivElement>>;
+interface SidebarMenuProps extends React.HTMLAttributes<HTMLUListElement> {
+}
+declare const SidebarMenu: React.ForwardRefExoticComponent<SidebarMenuProps & React.RefAttributes<HTMLUListElement>>;
+interface SidebarMenuItemProps extends React.LiHTMLAttributes<HTMLLIElement> {
+    active?: boolean;
+    icon?: React.ReactNode;
+    badge?: React.ReactNode;
+    label?: React.ReactNode;
+}
+declare const SidebarMenuItem: React.ForwardRefExoticComponent<SidebarMenuItemProps & React.RefAttributes<HTMLLIElement>>;
+interface SidebarMenuButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+    active?: boolean;
+    icon?: React.ReactNode;
+    badge?: React.ReactNode;
+    collapsed?: boolean;
+}
+declare const SidebarMenuButton: React.ForwardRefExoticComponent<SidebarMenuButtonProps & React.RefAttributes<HTMLButtonElement>>;
+interface SidebarFooterProps extends React.HTMLAttributes<HTMLDivElement> {
+}
+declare const SidebarFooter: React.ForwardRefExoticComponent<SidebarFooterProps & React.RefAttributes<HTMLDivElement>>;
+interface SidebarToggleProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+    collapsed?: boolean;
+    onToggle?: () => void;
+}
+declare const SidebarToggle: React.ForwardRefExoticComponent<SidebarToggleProps & React.RefAttributes<HTMLButtonElement>>;
+interface SidebarSubMenuProps extends React.HTMLAttributes<HTMLDivElement> {
+    label: React.ReactNode;
+    icon?: React.ReactNode;
+    badge?: React.ReactNode;
+    defaultOpen?: boolean;
+}
+declare const SidebarSubMenu: React.FC<SidebarSubMenuProps>;
+declare const SideMenu: React.ForwardRefExoticComponent<SidebarProps & React.RefAttributes<HTMLElement>>;
+declare const SideMenuGroup: React.ForwardRefExoticComponent<SidebarGroupProps & React.RefAttributes<HTMLDivElement>>;
+declare const SideMenuItem: React.ForwardRefExoticComponent<SidebarMenuItemProps & React.RefAttributes<HTMLLIElement>>;
+declare const SideSubMenu: React.FC<SidebarSubMenuProps>;
+
+interface CheckboxProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'> {
+    label?: React.ReactNode;
+    description?: React.ReactNode;
+    error?: string;
+}
+declare const Checkbox: React.ForwardRefExoticComponent<CheckboxProps & React.RefAttributes<HTMLInputElement>>;
+
+type NavVariant = 'default' | 'pills' | 'tabs' | 'segmented';
+type NavSize = 'sm' | 'md' | 'lg';
+type NavOrientation = 'horizontal' | 'vertical';
+interface NavProps extends React.HTMLAttributes<HTMLElement> {
+    variant?: NavVariant;
+    size?: NavSize;
+    orientation?: NavOrientation;
+    fluid?: boolean;
+}
+/**
+ * 🧭 Nav (Universal Navigation Component)
+ * AtomSystem 표준 탐색(네비게이션) 원자 컴포넌트입니다.
+ * - variant: default (기본 텍스트 링크), pills (알약형 필터/버튼), tabs (언더라인 탭), segmented (박스형 분할 컨트롤)
+ * - orientation: horizontal (가로), vertical (세로)
+ */
+declare const Nav: React.ForwardRefExoticComponent<NavProps & React.RefAttributes<HTMLElement>>;
+interface NavItemProps extends React.LiHTMLAttributes<HTMLLIElement> {
+    active?: boolean;
+}
+declare const NavItem: React.ForwardRefExoticComponent<NavItemProps & React.RefAttributes<HTMLLIElement>>;
+interface NavLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
+    active?: boolean;
+    disabled?: boolean;
+    icon?: React.ReactNode;
+    badge?: React.ReactNode;
+    variant?: NavVariant;
+    size?: NavSize;
+    asButton?: boolean;
+    onClick?: (e: React.MouseEvent<any>) => void;
+}
+declare const NavLink: React.ForwardRefExoticComponent<NavLinkProps & React.RefAttributes<HTMLAnchorElement & HTMLButtonElement>>;
+interface NavDropdownProps {
+    label: React.ReactNode;
+    active?: boolean;
+    children: React.ReactNode;
+    className?: string;
+    triggerClassName?: string;
+    align?: 'left' | 'right';
+    icon?: React.ReactNode;
+}
+declare const NavDropdown: React.FC<NavDropdownProps>;
+interface NavDropdownItemProps extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'title'> {
+    active?: boolean;
+    icon?: React.ReactNode;
+    title: React.ReactNode;
+    description?: React.ReactNode;
+    badge?: React.ReactNode;
+    asButton?: boolean;
+    as?: 'a' | 'button' | 'div';
+}
+declare const NavDropdownItem: React.ForwardRefExoticComponent<NavDropdownItemProps & React.RefAttributes<HTMLElement>>;
+
+interface ChartDataPoint {
+    label: string;
+    value: number;
+    secondaryValue?: number;
+}
+type ChartType = 'line' | 'bar' | 'area';
+type ChartVariant = 'primary' | 'secondary' | 'success' | 'danger' | 'warning';
+interface ChartProps extends React.HTMLAttributes<HTMLDivElement> {
+    data: ChartDataPoint[];
+    type?: ChartType;
+    variant?: ChartVariant;
+    height?: number;
+    showGrid?: boolean;
+    showPoints?: boolean;
+    showLabels?: boolean;
+    showTooltip?: boolean;
+    strokeColor?: string;
+    fillColor?: string;
+    gridColor?: string;
+    loading?: boolean;
+    disabled?: boolean;
+    componentType?: string;
+    value?: string;
+    className?: string;
+    style?: React.CSSProperties;
+}
+declare const Chart: React.FC<ChartProps>;
+
+type OffcanvasPlacement = 'left' | 'right' | 'top' | 'bottom';
+type OffcanvasSize = 'sm' | 'md' | 'lg' | 'full';
+interface OffcanvasProps {
+    isOpen: boolean;
+    onClose: () => void;
+    title?: React.ReactNode;
+    description?: string;
+    placement?: OffcanvasPlacement;
+    size?: OffcanvasSize;
+    showCloseButton?: boolean;
+    closeOnBackdrop?: boolean;
+    closeOnEscape?: boolean;
+    children: React.ReactNode;
+    footer?: React.ReactNode;
+    className?: string;
+    backdropClassName?: string;
+    inline?: boolean;
+    componentType?: string;
+    value?: string;
+    style?: React.CSSProperties;
+}
+declare const Offcanvas: React.FC<OffcanvasProps>;
+declare const OffcanvasHeader: React.FC<React.HTMLAttributes<HTMLDivElement>>;
+declare const OffcanvasBody: React.FC<React.HTMLAttributes<HTMLDivElement>>;
+declare const OffcanvasFooter: React.FC<React.HTMLAttributes<HTMLDivElement>>;
+
+type ComponentInteractiveStatus$1 = 'default' | 'hover' | 'active' | 'focus' | 'disabled' | 'loading';
+type ToastVariant = 'info' | 'success' | 'warning' | 'danger' | 'action';
+interface ToastAction {
+    label: string;
+    onClick: () => void;
+}
+interface ToastProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
+    variant?: ToastVariant;
+    title?: React.ReactNode;
+    description?: React.ReactNode;
+    icon?: React.ReactNode;
+    action?: ToastAction | React.ReactNode;
+    onClose?: () => void;
+    showCloseButton?: boolean;
+    duration?: number;
+    isOpen?: boolean;
+    inline?: boolean;
+    componentType?: string;
+    value?: string;
+    status?: ComponentInteractiveStatus$1;
+}
+declare const Toast: React.FC<ToastProps>;
+
+interface TokenOption {
     id: string;
     name: string;
-    category: string;
-    description: string;
-    designMdPath: string;
-    color: ThemeConfig['color'];
-    typography: ThemeConfig['typography'];
-    borderRadius: string;
+    value: string;
+    category?: 'color' | 'size' | 'spacing' | 'radius' | 'typography' | 'status' | string;
+    family?: string;
+    description?: string;
 }
-declare const AWESOME_DESIGN_MD_THEMES: AwesomeDesignMdTheme[];
-declare const AWESOME_CATEGORIES: readonly ["All", "AI & LLM", "Developer Tools", "Fintech & Web3", "Tech & Lifestyle", "Automotive & Luxury"];
+interface TokenSelectProps {
+    options: TokenOption[];
+    value?: string;
+    onChange?: (value: string, option?: TokenOption) => void;
+    placeholder?: string;
+    label?: string;
+    size?: 'sm' | 'md' | 'lg';
+    variant?: 'outlined' | 'filled' | 'subtle';
+    disabled?: boolean;
+    className?: string;
+    showColorSwatch?: boolean;
+    showVarId?: boolean;
+    showValueBadge?: boolean;
+    id?: string;
+    'aria-label'?: string;
+}
+declare const TokenSelect: React.FC<TokenSelectProps>;
+
+type ComponentInteractiveStatus = 'default' | 'hover' | 'active' | 'focus' | 'disabled' | 'loading';
+type AlertType = 'soft' | 'outlined' | 'solid' | 'accent-border';
+type AlertVariant = 'info' | 'success' | 'warning' | 'destructive' | 'neutral';
+interface AlertProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
+    componentType?: AlertType | (string & {});
+    variant?: AlertVariant | (string & {});
+    variable?: AlertVariant | (string & {});
+    status?: ComponentInteractiveStatus;
+    title?: React.ReactNode;
+    description?: React.ReactNode;
+    icon?: React.ReactNode;
+    action?: React.ReactNode;
+    onClose?: () => void;
+}
+declare const Alert: React.ForwardRefExoticComponent<AlertProps & React.RefAttributes<HTMLDivElement>>;
+
+interface ThemeSwitcherProps {
+    /** Visual presentation type: 'dropdown' | 'pills' | 'compact' | 'floating' */
+    variant?: 'dropdown' | 'pills' | 'compact' | 'floating';
+    /** Control size */
+    size?: 'sm' | 'md' | 'lg';
+    /** Custom theme list; defaults to themes from tokens/tokens.json */
+    themes?: StudioTheme[];
+    /** Controlled active theme ID */
+    value?: string;
+    /** Initial theme ID; defaults to activeThemeId in tokens/tokens.json */
+    defaultThemeId?: string;
+    /** localStorage key to persist selected theme, or false to disable */
+    persistKey?: string | false;
+    /** Optional label shown next to the switcher */
+    label?: string;
+    /** Whether to show light/dark mode badge in dropdown mode */
+    showModeBadge?: boolean;
+    /** Allow floating switcher to appear in production (defaults to false: local/dev only) */
+    allowInProduction?: boolean;
+    /** Additional className for wrapper */
+    className?: string;
+    /** Callback fired when theme changes */
+    onThemeChange?: (theme: StudioTheme) => void;
+}
+/**
+ * Applies a StudioTheme's semantic CSS variables and `data-atom-theme` attribute to `:root`.
+ */
+declare function applyStudioThemeToRoot(theme: StudioTheme): void;
+/**
+ * Embeddable ThemeSwitcher component that loads themes & tokens from AtomSystem Studio (`tokens/tokens.json`)
+ * and applies the selected theme and token overrides across the entire project in real time.
+ */
+declare const ThemeSwitcher: React.FC<ThemeSwitcherProps>;
 
 /**
  * Dynamically injects or updates a stylesheet <link> tag in document.head for a custom webfont CDN URL.
@@ -858,4 +1303,4 @@ declare const ATOM_STUDIO_REGISTRY_PATH = "atomsystem/tokens.json";
 declare const ATOM_VERSION = "0.15.2";
 declare const ATOM_LIB_NAME = "atomsystem";
 
-export { AI_COMPONENT_SUBMISSION_TEMPLATE, ATOM_LIB_NAME, ATOM_STUDIO_REGISTRY_PATH, ATOM_TOKENS_PATH, ATOM_UI_CSS_PATH, ATOM_VERSION, AWESOME_CATEGORIES, AWESOME_DESIGN_MD_THEMES, type AtomComponentSubmissionSpec, AtomTokenSystem, type AwesomeDesignMdTheme, BASE_COLOR_TOKENS, BRAND_PRESETS, type BrandConfig, type BrandPreset, type BrandTokenConfig, type ButtonSpacingConfig, COLOR_PRESETS, COMPONENT_STATUS_PRESETS, type ColorConfig, type ColorPreset, type ColorToken, type ComponentBindingNode, type ComponentCategory, type ComponentInteractiveStatus, type ComponentPropertySpec, type ComponentStatusSpec, ComponentTokenLayer, type ComponentTokenNode, type ComponentTypeSpec, type ComponentVariable, type ComponentVariableTokenNode, DEFAULT_BRAND_CONFIG, DEFAULT_COMPONENT_TYPES, DEFAULT_THEME_CONFIG, type DosAndDont, EnterpriseDashboardUseCase, FONT_FAMILY_PRESETS, type FontFamilyPreset, GALLERY_COMPONENTS, type GalleryComponent, INITIAL_PALETTE_VARIABLES, INITIAL_SEMANTIC_STATUS_TOKENS, INITIAL_STUDIO_COMPONENTS, type IndexedTokenEntry, type KpiMetric, LAYOUT_TOKENS, type LayoutToken, PATTERNS_COLLECTION, type PaletteCategory, PaletteTokenLayer, type PaletteTokenTree, type PaletteVariable, type PatternItem, type PatternPlatform, type PatternVariant, type PropItem, RADIUS_TOKENS, type RadiusToken, type RefactorMatch, type RefactorReport, type ResolvedBindingDetail, type ResolvedReferenceStep, SEMANTIC_VARIABLE_DICTIONARY, SHADOW_TOKENS, SPACING_TOKENS, STUDIO_CUSTOM_STYLES_END, STUDIO_CUSTOM_STYLES_START, type SemanticStatusGroupNode, type SemanticStatusToken, type SemanticVariableDefinition, type SemanticVariableRole, type ShadowToken, type SpacingToken, type StudioComponentDefinition, type StudioRegistry, type StudioTheme, TOKEN_REPLACEMENTS, TYPOGRAPHY_TOKENS, type ThemeBindingLeaf, type ThemeConfig, type ThemePresetNode, ThemeTokenLayer, type ThemeTokenTree, type TokenCategory, type TokenLeaf, TokenReferenceResolver, type TransactionItem, type TypographyConfig, type TypographyLevelConfig, type TypographyScaleNode, type TypographyToken, UNIFIED_TOKENS_DOCUMENT, type UnifiedTokensDocument, type UnresolvedAliasIssue, type W3CTokenType, applyThemeToDOM, atomTokens, buildAiComponentSubmissionPrompt, cn, componentTokens, exportStudioCustomComponentStyles, exportStudioToCSS, exportStudioToTokensJson, exportToCSS, exportToTailwind, exportToTokensJson, generateThemeCSS, getComponentStatusProperties, getComponentTypes, injectWebfontLink, isDarkColor, isUnifiedTokensDocument, paletteTokens, resolveStudioComponentId, resolveTypeSpec, resolveVariableRole, scanAndRefactorDirectory, themeTokens, tokenResolver };
+export { AI_COMPONENT_SUBMISSION_TEMPLATE, ATOM_LIB_NAME, ATOM_STUDIO_REGISTRY_PATH, ATOM_TOKENS_PATH, ATOM_UI_CSS_PATH, ATOM_VERSION, Accordion, type AccordionItem, type AccordionProps, Alert, type AlertProps, type AlertType, type AlertVariant, type AtomComponentSubmissionSpec, AtomTokenSystem, Avatar, type AvatarProps, BASE_COLOR_TOKENS, BRAND_PRESETS, Badge, type BadgeProps, type BrandPreset, type BrandTokenConfig, Breadcrumb, type BreadcrumbItem, type BreadcrumbProps, Button, type ButtonProps, COMPONENT_STATUS_PRESETS, Calendar, type CalendarProps, Card, type CardProps, Chart, type ChartDataPoint, type ChartProps, type ChartType, type ChartVariant, Checkbox, type CheckboxProps, type ColorToken, type ComponentBindingNode, type ComponentCategory, type ComponentInteractiveStatus$5 as ComponentInteractiveStatus, type ComponentPropertySpec, type ComponentStatusSpec, ComponentTokenLayer, type ComponentTokenNode, type ComponentTypeSpec, type ComponentVariable, type ComponentVariableTokenNode, Container, type ContainerProps, DEFAULT_COMPONENT_TYPES, type DosAndDont, EnterpriseDashboardUseCase, GALLERY_COMPONENTS, type GalleryComponent, Grid, type GridProps, INITIAL_PALETTE_VARIABLES, INITIAL_SEMANTIC_STATUS_TOKENS, INITIAL_STUDIO_COMPONENTS, type IndexedTokenEntry, Input, type InputProps, type KpiMetric, LAYOUT_TOKENS, Layout, type LayoutContentProps, type LayoutFooterProps, type LayoutHeaderProps, type LayoutProps, type LayoutSidebarProps, type LayoutToken, Modal, type ModalProps, NativeSelect, type NativeSelectProps, Nav, NavDropdown, NavDropdownItem, type NavDropdownItemProps, type NavDropdownProps, NavItem, type NavItemProps, NavLink, type NavLinkProps, type NavOrientation, type NavProps, type NavSize, type NavVariant, Navbar, NavbarActions, type NavbarActionsProps, NavbarBrand, type NavbarBrandProps, NavbarLink, type NavbarLinkProps, NavbarMobileMenu, type NavbarMobileMenuProps, NavbarNav, type NavbarNavProps, type NavbarProps, NavbarToggle, type NavbarToggleProps, Offcanvas, OffcanvasBody, OffcanvasFooter, OffcanvasHeader, type OffcanvasPlacement, type OffcanvasProps, type OffcanvasSize, PATTERNS_COLLECTION, Pagination, type PaginationProps, type PaletteCategory, PaletteTokenLayer, type PaletteTokenTree, type PaletteVariable, type PatternItem, type PatternPlatform, type PatternVariant, Progress, type ProgressProps, type PropItem, RADIUS_TOKENS, RadioGroup, type RadioGroupProps, type RadioOption, type RadiusToken, type RefactorMatch, type RefactorReport, type ResolvedBindingDetail, type ResolvedReferenceStep, SEMANTIC_VARIABLE_DICTIONARY, SHADOW_TOKENS, SPACING_TOKENS, STUDIO_CUSTOM_STYLES_END, STUDIO_CUSTOM_STYLES_START, Section, type SectionProps, Select, type SelectOption, type SelectProps, type SemanticStatusGroupNode, type SemanticStatusToken, type SemanticVariableDefinition, type SemanticVariableRole, Separator, type SeparatorProps, type ShadowToken, SideMenu, SideMenuGroup, SideMenuItem, SideSubMenu, Sidebar, SidebarContent, type SidebarContentProps, SidebarFooter, type SidebarFooterProps, SidebarGroup, SidebarGroupLabel, type SidebarGroupLabelProps, type SidebarGroupProps, SidebarHeader, type SidebarHeaderProps, SidebarMenu, SidebarMenuButton, type SidebarMenuButtonProps, SidebarMenuItem, type SidebarMenuItemProps, type SidebarMenuProps, type SidebarProps, type SidebarSize, SidebarSubMenu, type SidebarSubMenuProps, SidebarToggle, type SidebarToggleProps, type SidebarVariant, Skeleton, type SkeletonProps, Slider, type SliderProps, type SpacingToken, Stack, type StackProps, type StudioComponentDefinition, type StudioRegistry, StudioTheme, Switch, type SwitchProps, TOKEN_REPLACEMENTS, TYPOGRAPHY_TOKENS, Table, TableBody, TableCell, TableHead, TableHeader, type TableProps, TableRow, TabsContent, type TabsContentProps, TabsList, type TabsListProps, TabsTrigger, type TabsTriggerProps, Textarea, type TextareaProps, type ThemeBindingLeaf, ThemeCategory, ThemeConfig, ThemePaletteBindings, type ThemePresetNode, ThemeSwitcher, type ThemeSwitcherProps, ThemeTokenLayer, type ThemeTokenTree, Toast, type ToastAction, type ToastProps, type ToastVariant, type TokenCategory, type TokenLeaf, type TokenOption, TokenReferenceResolver, TokenSelect, type TokenSelectProps, Tooltip, type TooltipProps, type TransactionItem, Tree, type TreeNode, type TreeProps, type TypographyScaleNode, type TypographyToken, UNIFIED_TOKENS_DOCUMENT, type UnifiedTokensDocument, type UnresolvedAliasIssue, type W3CTokenType, applyStudioThemeToRoot, applyThemeToDOM, atomTokens, buildAiComponentSubmissionPrompt, cn, componentTokens, exportStudioCustomComponentStyles, exportStudioToCSS, exportStudioToTokensJson, exportToCSS, exportToTailwind, exportToTokensJson, generateThemeCSS, getComponentStatusProperties, getComponentTypes, injectWebfontLink, isDarkColor, isUnifiedTokensDocument, paletteTokens, resolveStudioComponentId, resolveTypeSpec, resolveVariableRole, scanAndRefactorDirectory, themeTokens, tokenResolver };

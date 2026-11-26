@@ -1,17 +1,17 @@
 'use strict';
 
+var React34 = require('react');
+var lucideReact = require('lucide-react');
 var clsx = require('clsx');
 var tailwindMerge = require('tailwind-merge');
 var fs = require('fs');
 var path = require('path');
-var React34 = require('react');
-var lucideReact = require('lucide-react');
 
 function _interopDefault (e) { return e && e.__esModule ? e : { default: e }; }
 
+var React34__default = /*#__PURE__*/_interopDefault(React34);
 var fs__default = /*#__PURE__*/_interopDefault(fs);
 var path__default = /*#__PURE__*/_interopDefault(path);
-var React34__default = /*#__PURE__*/_interopDefault(React34);
 
 // tokens/tokens.json
 var tokens_default = {
@@ -19,7 +19,7 @@ var tokens_default = {
   registrySchema: "https://system.atomground.com/schemas/studio-registry.schema.json",
   name: "AtomDesignToken System",
   version: "0.14.2",
-  updatedAt: "2026-11-25T02:56:56.866Z",
+  updatedAt: "2026-11-26T07:07:07.618Z",
   palette: {
     color: {
       blue: {
@@ -14733,5938 +14733,6 @@ var PATTERNS_COLLECTION = [
   }
 ];
 
-// lib/data/awesomeThemes.ts
-var AWESOME_DESIGN_MD_THEMES = [
-  {
-    "id": "1win",
-    "name": "1win Analysis",
-    "category": "Fintech & Web3",
-    "description": "An analysis of 1win's design language \u2014 a near-black crypto casino and sportsbook built on Inter at heavy weights, where a vivid green action color and an electric blue secondary carry every CTA across dense, full-bleed game-tile rails, pro",
-    "designMdPath": "/design-md/1win/DESIGN.md",
-    "color": {
-      "primary": "#00b24b",
-      "primaryHover": "#00b24b",
-      "primaryLight": "#00b24b26",
-      "bgPrimary": "#141415",
-      "bgSecondary": "#2e3035",
-      "textPrimary": "#f0f2f5",
-      "textSecondary": "#9aa1b1",
-      "textMuted": "#53575f",
-      "borderSubtle": "#2d2f33",
-      "borderStrong": "#3d414a",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "Inter",
-      "h1": {
-        "fontSize": 36,
-        "lineHeight": 1.2,
-        "fontWeight": 700,
-        "letterSpacing": "-0.02em"
-      },
-      "h2": {
-        "fontSize": 28,
-        "lineHeight": 1.25,
-        "fontWeight": 700,
-        "letterSpacing": "-0.015em"
-      },
-      "h3": {
-        "fontSize": 22,
-        "lineHeight": 1.3,
-        "fontWeight": 600,
-        "letterSpacing": "-0.01em"
-      },
-      "h4": {
-        "fontSize": 18,
-        "lineHeight": 1.35,
-        "fontWeight": 600,
-        "letterSpacing": "-0.005em"
-      },
-      "h5": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1.45,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "body": {
-        "fontSize": 14,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "0"
-      },
-      "sm": {
-        "fontSize": 12,
-        "lineHeight": 1.3,
-        "fontWeight": 600,
-        "letterSpacing": "0"
-      },
-      "xs": {
-        "fontSize": 12,
-        "lineHeight": 1.3,
-        "fontWeight": 600,
-        "letterSpacing": "0"
-      }
-    },
-    "borderRadius": "8px"
-  },
-  {
-    "id": "airbnb",
-    "name": "Airbnb",
-    "category": "Tech & Lifestyle",
-    "description": "A warm, generous consumer marketplace anchored on a clean white canvas and Airbnb Rausch (#ff385c), the single brand voltage that carries every primary CTA, search-button orb, and rating dot. Type runs Airbnb Cereal VF at modest weights \u2014 d",
-    "designMdPath": "/design-md/airbnb/DESIGN.md",
-    "color": {
-      "primary": "#ff385c",
-      "primaryHover": "#ff385c",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#ffffff",
-      "textPrimary": "#222222",
-      "textSecondary": "#6a6a6a",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#dddddd",
-      "borderStrong": "#c1c1c1",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "'Airbnb Cereal VF', Circular, -apple-system, system-ui, Roboto, 'Helvetica Neue', sans-serif",
-      "h1": {
-        "fontSize": 28,
-        "lineHeight": 1.43,
-        "fontWeight": 700,
-        "letterSpacing": "0"
-      },
-      "h2": {
-        "fontSize": 22,
-        "lineHeight": 1.18,
-        "fontWeight": 500,
-        "letterSpacing": "-0.44px"
-      },
-      "h3": {
-        "fontSize": 21,
-        "lineHeight": 1.43,
-        "fontWeight": 700,
-        "letterSpacing": "0"
-      },
-      "h4": {
-        "fontSize": 18,
-        "lineHeight": 1.35,
-        "fontWeight": 600,
-        "letterSpacing": "-0.005em"
-      },
-      "h5": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1.45,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "body": {
-        "fontSize": 15,
-        "lineHeight": 1.55,
-        "fontWeight": 400,
-        "letterSpacing": "-0.005em"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 1.43,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "xs": {
-        "fontSize": 14,
-        "lineHeight": 1.29,
-        "fontWeight": 500,
-        "letterSpacing": "0"
-      }
-    },
-    "borderRadius": "14px"
-  },
-  {
-    "id": "airtable",
-    "name": "Airtable",
-    "category": "Tech & Lifestyle",
-    "description": "A sober, editorial workflow-software interface anchored on white canvas and dark-ink type, where brand voltage comes from full-bleed signature cards in coral, dark green, peach, and dark navy that punctuate long-scroll explainer pages. Prim",
-    "designMdPath": "/design-md/airtable/DESIGN.md",
-    "color": {
-      "primary": "#181d26",
-      "primaryHover": "#181d26",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#f8f9fa",
-      "textPrimary": "#181d26",
-      "textSecondary": "#41454d",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#dddddd",
-      "borderStrong": "#9297a0",
-      "statusSuccess": "#006400",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "Haas Groot Disp, Haas, sans-serif",
-      "h1": {
-        "fontSize": 48,
-        "lineHeight": 1.1,
-        "fontWeight": 500,
-        "letterSpacing": "0"
-      },
-      "h2": {
-        "fontSize": 40,
-        "lineHeight": 1.2,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "h3": {
-        "fontSize": 32,
-        "lineHeight": 1.2,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "h4": {
-        "fontSize": 18,
-        "lineHeight": 1.35,
-        "fontWeight": 600,
-        "letterSpacing": "-0.005em"
-      },
-      "h5": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 500,
-        "letterSpacing": "0"
-      },
-      "body": {
-        "fontSize": 15,
-        "lineHeight": 1.55,
-        "fontWeight": 400,
-        "letterSpacing": "-0.005em"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 1.35,
-        "fontWeight": 500,
-        "letterSpacing": "0.16px"
-      },
-      "xs": {
-        "fontSize": 14,
-        "lineHeight": 1.35,
-        "fontWeight": 500,
-        "letterSpacing": "0.16px"
-      }
-    },
-    "borderRadius": "10px"
-  },
-  {
-    "id": "aljazeera",
-    "name": "Al Jazeera Analysis",
-    "category": "Tech & Lifestyle",
-    "description": "An analysis of Al Jazeera's design language \u2014 a hard-news editorial system built on flat white paper and dense Roboto headline stacks, signed by one saturated orange used as logo block and section-eyebrow bar, punctuated by a live-red that ",
-    "designMdPath": "/design-md/aljazeera/DESIGN.md",
-    "color": {
-      "primary": "#fa9000",
-      "primaryHover": "#fa9000",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#f8f9fa",
-      "textPrimary": "#000000",
-      "textSecondary": "#8b95a1",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#d8d8d8",
-      "borderStrong": "#e5e8eb",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "Roboto",
-      "h1": {
-        "fontSize": 36,
-        "lineHeight": 1.2,
-        "fontWeight": 700,
-        "letterSpacing": "-0.02em"
-      },
-      "h2": {
-        "fontSize": 28,
-        "lineHeight": 1.25,
-        "fontWeight": 700,
-        "letterSpacing": "-0.015em"
-      },
-      "h3": {
-        "fontSize": 22,
-        "lineHeight": 1.3,
-        "fontWeight": 600,
-        "letterSpacing": "-0.01em"
-      },
-      "h4": {
-        "fontSize": 18,
-        "lineHeight": 1.35,
-        "fontWeight": 600,
-        "letterSpacing": "-0.005em"
-      },
-      "h5": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": 16,
-        "lineHeight": 1,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "body": {
-        "fontSize": 16,
-        "lineHeight": 1.5,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 1.45,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "xs": {
-        "fontSize": 12,
-        "lineHeight": 1.4,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      }
-    },
-    "borderRadius": "10px"
-  },
-  {
-    "id": "apple",
-    "name": "Apple",
-    "category": "Tech & Lifestyle",
-    "description": "A photography-first interface that turns marketing into a museum gallery. Edge-to-edge product tiles alternate light and dark canvases, framed by SF Pro Display headlines with negative letter-spacing and a single Action Blue (#0066cc) inter",
-    "designMdPath": "/design-md/apple/DESIGN.md",
-    "color": {
-      "primary": "#0066cc",
-      "primaryHover": "#0071e3",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#f8f9fa",
-      "textPrimary": "#1d1d1f",
-      "textSecondary": "#cccccc",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#e0e0e0",
-      "borderStrong": "#e5e8eb",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "SF Pro Display, system-ui, -apple-system, sans-serif",
-      "h1": {
-        "fontSize": 56,
-        "lineHeight": 1.07,
-        "fontWeight": 600,
-        "letterSpacing": "-0.28px"
-      },
-      "h2": {
-        "fontSize": 40,
-        "lineHeight": 1.1,
-        "fontWeight": 600,
-        "letterSpacing": "0"
-      },
-      "h3": {
-        "fontSize": 34,
-        "lineHeight": 1.47,
-        "fontWeight": 600,
-        "letterSpacing": "-0.374px"
-      },
-      "h4": {
-        "fontSize": 28,
-        "lineHeight": 1.14,
-        "fontWeight": 400,
-        "letterSpacing": "0.196px"
-      },
-      "h5": {
-        "fontSize": 28,
-        "lineHeight": 1.14,
-        "fontWeight": 400,
-        "letterSpacing": "0.196px"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1.45,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "body": {
-        "fontSize": 17,
-        "lineHeight": 1.47,
-        "fontWeight": 400,
-        "letterSpacing": "-0.374px"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 1.43,
-        "fontWeight": 400,
-        "letterSpacing": "-0.224px"
-      },
-      "xs": {
-        "fontSize": 14,
-        "lineHeight": 1.43,
-        "fontWeight": 400,
-        "letterSpacing": "-0.224px"
-      }
-    },
-    "borderRadius": "11px"
-  },
-  {
-    "id": "binance",
-    "name": "Binance",
-    "category": "Fintech & Web3",
-    "description": "A confident financial-platform interface anchored on a deep near-black canvas, where Binance's iconic yellow (#FCD535) carries every primary CTA, brand accent, and value-claim moment. Type runs Binance's custom BinanceNova / BinancePlex sta",
-    "designMdPath": "/design-md/binance/DESIGN.md",
-    "color": {
-      "primary": "#fcd535",
-      "primaryHover": "#fcd535",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#f8f9fa",
-      "textPrimary": "#181a20",
-      "textSecondary": "#707a8a",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#f2f4f6",
-      "borderStrong": "#cdd1d6",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "BinanceNova, -apple-system, BlinkMacSystemFont, sans-serif",
-      "h1": {
-        "fontSize": 64,
-        "lineHeight": 1.1,
-        "fontWeight": 700,
-        "letterSpacing": "-1px"
-      },
-      "h2": {
-        "fontSize": 48,
-        "lineHeight": 1.1,
-        "fontWeight": 700,
-        "letterSpacing": "-0.5px"
-      },
-      "h3": {
-        "fontSize": 40,
-        "lineHeight": 1.15,
-        "fontWeight": 600,
-        "letterSpacing": "-0.3px"
-      },
-      "h4": {
-        "fontSize": 18,
-        "lineHeight": 1.35,
-        "fontWeight": 600,
-        "letterSpacing": "-0.005em"
-      },
-      "h5": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1,
-        "fontWeight": 600,
-        "letterSpacing": "0"
-      },
-      "body": {
-        "fontSize": 15,
-        "lineHeight": 1.55,
-        "fontWeight": 400,
-        "letterSpacing": "-0.005em"
-      },
-      "sm": {
-        "fontSize": 13,
-        "lineHeight": 1.5,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "xs": {
-        "fontSize": 12,
-        "lineHeight": 1.4,
-        "fontWeight": 500,
-        "letterSpacing": "0"
-      }
-    },
-    "borderRadius": "6px"
-  },
-  {
-    "id": "bmw",
-    "name": "BMW",
-    "category": "Automotive & Luxury",
-    "description": "BMW's corporate site \u2014 distinct from BMW M's motorsport-bombastic variant, this is a measured and settled corporate-automotive interface. On a light (cream-tinted white) canvas, BMW corporate blue (#1c69d4) carries every primary CTA; dark n",
-    "designMdPath": "/design-md/bmw/DESIGN.md",
-    "color": {
-      "primary": "#1c69d4",
-      "primaryHover": "#1c69d4",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#fafafa",
-      "textPrimary": "#262626",
-      "textSecondary": "#6b6b6b",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#e6e6e6",
-      "borderStrong": "#cccccc",
-      "statusSuccess": "#22c55e",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "'BMW Type Next Latin', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-      "h1": {
-        "fontSize": 64,
-        "lineHeight": 1.05,
-        "fontWeight": 700,
-        "letterSpacing": "0"
-      },
-      "h2": {
-        "fontSize": 48,
-        "lineHeight": 1.1,
-        "fontWeight": 700,
-        "letterSpacing": "0"
-      },
-      "h3": {
-        "fontSize": 32,
-        "lineHeight": 1.15,
-        "fontWeight": 700,
-        "letterSpacing": "0"
-      },
-      "h4": {
-        "fontSize": 18,
-        "lineHeight": 1.35,
-        "fontWeight": 600,
-        "letterSpacing": "-0.005em"
-      },
-      "h5": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1,
-        "fontWeight": 700,
-        "letterSpacing": "0.5px"
-      },
-      "body": {
-        "fontSize": 15,
-        "lineHeight": 1.55,
-        "fontWeight": 400,
-        "letterSpacing": "-0.005em"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 1.55,
-        "fontWeight": 300,
-        "letterSpacing": "0"
-      },
-      "xs": {
-        "fontSize": 12,
-        "lineHeight": 1.4,
-        "fontWeight": 400,
-        "letterSpacing": "0.5px"
-      }
-    },
-    "borderRadius": "8px"
-  },
-  {
-    "id": "bmw-m",
-    "name": "BMW-M",
-    "category": "Automotive & Luxury",
-    "description": "A motorsport-engineering interface anchored on a near-black canvas with white BMW Type Next Latin display headlines in confident UPPERCASE. The brand carries no decorative voltage \u2014 its energy comes from full-bleed automotive photography (c",
-    "designMdPath": "/design-md/bmw-m/DESIGN.md",
-    "color": {
-      "primary": "#ffffff",
-      "primaryHover": "#ffffff",
-      "primaryLight": "#ffffff26",
-      "bgPrimary": "#000000",
-      "bgSecondary": "#1a1a1a",
-      "textPrimary": "#ffffff",
-      "textSecondary": "#7e7e7e",
-      "textMuted": "#5c6470",
-      "borderSubtle": "#3c3c3c",
-      "borderStrong": "#262626",
-      "statusSuccess": "#0fa336",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f4b400"
-    },
-    "typography": {
-      "fontFamily": "BMWTypeNextLatin, sans-serif",
-      "h1": {
-        "fontSize": 80,
-        "lineHeight": 1,
-        "fontWeight": 700,
-        "letterSpacing": "0"
-      },
-      "h2": {
-        "fontSize": 56,
-        "lineHeight": 1.05,
-        "fontWeight": 700,
-        "letterSpacing": "0"
-      },
-      "h3": {
-        "fontSize": 40,
-        "lineHeight": 1.1,
-        "fontWeight": 700,
-        "letterSpacing": "0"
-      },
-      "h4": {
-        "fontSize": 18,
-        "lineHeight": 1.35,
-        "fontWeight": 600,
-        "letterSpacing": "-0.005em"
-      },
-      "h5": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1,
-        "fontWeight": 700,
-        "letterSpacing": "1.5px"
-      },
-      "body": {
-        "fontSize": 15,
-        "lineHeight": 1.55,
-        "fontWeight": 400,
-        "letterSpacing": "-0.005em"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 1.5,
-        "fontWeight": 300,
-        "letterSpacing": "0"
-      },
-      "xs": {
-        "fontSize": 12,
-        "lineHeight": 1.4,
-        "fontWeight": 400,
-        "letterSpacing": "0.5px"
-      }
-    },
-    "borderRadius": "6px"
-  },
-  {
-    "id": "bugatti",
-    "name": "Bugatti",
-    "category": "Automotive & Luxury",
-    "description": "An austere luxury-automotive interface that uses near-pure black canvas, white uppercase letterspaced display, and full-bleed automotive photography as the only voltage. The system runs three custom Bugatti typefaces \u2014 Bugatti Display, Buga",
-    "designMdPath": "/design-md/bugatti/DESIGN.md",
-    "color": {
-      "primary": "#ffffff",
-      "primaryHover": "#ffffff",
-      "primaryLight": "#ffffff26",
-      "bgPrimary": "#000000",
-      "bgSecondary": "#141414",
-      "textPrimary": "#ffffff",
-      "textSecondary": "#999999",
-      "textMuted": "#5c6470",
-      "borderSubtle": "#262626",
-      "borderStrong": "#3a3a3a",
-      "statusSuccess": "#5fa657",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#d4a017"
-    },
-    "typography": {
-      "fontFamily": "Bugatti Display, sans-serif",
-      "h1": {
-        "fontSize": 64,
-        "lineHeight": 1.1,
-        "fontWeight": 400,
-        "letterSpacing": "4px"
-      },
-      "h2": {
-        "fontSize": 48,
-        "lineHeight": 1.15,
-        "fontWeight": 400,
-        "letterSpacing": "3px"
-      },
-      "h3": {
-        "fontSize": 32,
-        "lineHeight": 1.2,
-        "fontWeight": 400,
-        "letterSpacing": "2px"
-      },
-      "h4": {
-        "fontSize": 18,
-        "lineHeight": 1.35,
-        "fontWeight": 600,
-        "letterSpacing": "-0.005em"
-      },
-      "h5": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1,
-        "fontWeight": 400,
-        "letterSpacing": "2.5px"
-      },
-      "body": {
-        "fontSize": 15,
-        "lineHeight": 1.55,
-        "fontWeight": 400,
-        "letterSpacing": "-0.005em"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 1.5,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "xs": {
-        "fontSize": 11,
-        "lineHeight": 1.4,
-        "fontWeight": 500,
-        "letterSpacing": "0.01em"
-      }
-    },
-    "borderRadius": "12px"
-  },
-  {
-    "id": "cal",
-    "name": "Cal.com",
-    "category": "Tech & Lifestyle",
-    "description": "A clean, calendar-software-first interface anchored on white canvas with black primary CTAs and custom Cal Sans display typography. The system reads as friendly modern SaaS \u2014 generous whitespace, soft-rounded cards (~12px), product UI fragm",
-    "designMdPath": "/design-md/cal/DESIGN.md",
-    "color": {
-      "primary": "#111111",
-      "primaryHover": "#111111",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#f5f5f5",
-      "textPrimary": "#111111",
-      "textSecondary": "#6b7280",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#e5e7eb",
-      "borderStrong": "#e5e8eb",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "Cal Sans, Inter, sans-serif",
-      "h1": {
-        "fontSize": 64,
-        "lineHeight": 1.05,
-        "fontWeight": 600,
-        "letterSpacing": "-2px"
-      },
-      "h2": {
-        "fontSize": 48,
-        "lineHeight": 1.1,
-        "fontWeight": 600,
-        "letterSpacing": "-1.5px"
-      },
-      "h3": {
-        "fontSize": 36,
-        "lineHeight": 1.15,
-        "fontWeight": 600,
-        "letterSpacing": "-1px"
-      },
-      "h4": {
-        "fontSize": 18,
-        "lineHeight": 1.35,
-        "fontWeight": 600,
-        "letterSpacing": "-0.005em"
-      },
-      "h5": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1,
-        "fontWeight": 600,
-        "letterSpacing": "0"
-      },
-      "body": {
-        "fontSize": 15,
-        "lineHeight": 1.55,
-        "fontWeight": 400,
-        "letterSpacing": "-0.005em"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 1.5,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "xs": {
-        "fontSize": 13,
-        "lineHeight": 1.4,
-        "fontWeight": 500,
-        "letterSpacing": "0"
-      }
-    },
-    "borderRadius": "8px"
-  },
-  {
-    "id": "claude",
-    "name": "Claude",
-    "category": "AI & LLM",
-    "description": "A warm-canvas editorial interface for Anthropic's Claude product. The system anchors on a tinted cream canvas with serif display headlines, warm coral CTAs, and dark navy product surfaces (code editor mockups, model showcase cards). Brand v",
-    "designMdPath": "/design-md/claude/DESIGN.md",
-    "color": {
-      "primary": "#cc785c",
-      "primaryHover": "#cc785c",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#faf9f5",
-      "bgSecondary": "#efe9de",
-      "textPrimary": "#141413",
-      "textSecondary": "#6c6a64",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#e6dfd8",
-      "borderStrong": "#e5e8eb",
-      "statusSuccess": "#5db872",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#d4a017"
-    },
-    "typography": {
-      "fontFamily": "Copernicus, Tiempos Headline, serif",
-      "h1": {
-        "fontSize": 64,
-        "lineHeight": 1.05,
-        "fontWeight": 400,
-        "letterSpacing": "-1.5px"
-      },
-      "h2": {
-        "fontSize": 48,
-        "lineHeight": 1.1,
-        "fontWeight": 400,
-        "letterSpacing": "-1px"
-      },
-      "h3": {
-        "fontSize": 36,
-        "lineHeight": 1.15,
-        "fontWeight": 400,
-        "letterSpacing": "-0.5px"
-      },
-      "h4": {
-        "fontSize": 18,
-        "lineHeight": 1.35,
-        "fontWeight": 600,
-        "letterSpacing": "-0.005em"
-      },
-      "h5": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1,
-        "fontWeight": 500,
-        "letterSpacing": "0"
-      },
-      "body": {
-        "fontSize": 15,
-        "lineHeight": 1.55,
-        "fontWeight": 400,
-        "letterSpacing": "-0.005em"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 1.55,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "xs": {
-        "fontSize": 13,
-        "lineHeight": 1.4,
-        "fontWeight": 500,
-        "letterSpacing": "0"
-      }
-    },
-    "borderRadius": "8px"
-  },
-  {
-    "id": "clay",
-    "name": "Clay",
-    "category": "Tech & Lifestyle",
-    "description": "A vibrant claymation-meets-data interface for Clay.com (GTM data-orchestration platform). Anchors on white canvas with dark-navy primary CTAs, custom rounded display type, and saturated single-color feature cards \u2014 hot pink, deep teal, lave",
-    "designMdPath": "/design-md/clay/DESIGN.md",
-    "color": {
-      "primary": "#0a0a0a",
-      "primaryHover": "#0a0a0a",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#fffaf0",
-      "bgSecondary": "#f5f0e0",
-      "textPrimary": "#0a0a0a",
-      "textSecondary": "#6a6a6a",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#e5e5e5",
-      "borderStrong": "#e5e8eb",
-      "statusSuccess": "#22c55e",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "Plain Black, Inter, sans-serif",
-      "h1": {
-        "fontSize": 72,
-        "lineHeight": 1,
-        "fontWeight": 500,
-        "letterSpacing": "-2.5px"
-      },
-      "h2": {
-        "fontSize": 56,
-        "lineHeight": 1.05,
-        "fontWeight": 500,
-        "letterSpacing": "-2px"
-      },
-      "h3": {
-        "fontSize": 40,
-        "lineHeight": 1.1,
-        "fontWeight": 500,
-        "letterSpacing": "-1px"
-      },
-      "h4": {
-        "fontSize": 18,
-        "lineHeight": 1.35,
-        "fontWeight": 600,
-        "letterSpacing": "-0.005em"
-      },
-      "h5": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1,
-        "fontWeight": 600,
-        "letterSpacing": "0"
-      },
-      "body": {
-        "fontSize": 15,
-        "lineHeight": 1.55,
-        "fontWeight": 400,
-        "letterSpacing": "-0.005em"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 1.55,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "xs": {
-        "fontSize": 13,
-        "lineHeight": 1.4,
-        "fontWeight": 500,
-        "letterSpacing": "0"
-      }
-    },
-    "borderRadius": "12px"
-  },
-  {
-    "id": "clickhouse",
-    "name": "ClickHouse",
-    "category": "Tech & Lifestyle",
-    "description": "A high-performance database interface anchored on near-pure black canvas with electric yellow as the brand voltage. White typography in confident sans, yellow CTAs, and yellow-text stat numbers carry the brand voice across every page. Code ",
-    "designMdPath": "/design-md/clickhouse/DESIGN.md",
-    "color": {
-      "primary": "#faff69",
-      "primaryHover": "#faff69",
-      "primaryLight": "#faff6926",
-      "bgPrimary": "#0a0a0a",
-      "bgSecondary": "#1a1a1a",
-      "textPrimary": "#ffffff",
-      "textSecondary": "#888888",
-      "textMuted": "#5c6470",
-      "borderSubtle": "#2a2a2a",
-      "borderStrong": "#3a3a3a",
-      "statusSuccess": "#22c55e",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "Inter, sans-serif",
-      "h1": {
-        "fontSize": 72,
-        "lineHeight": 1.05,
-        "fontWeight": 700,
-        "letterSpacing": "-2.5px"
-      },
-      "h2": {
-        "fontSize": 56,
-        "lineHeight": 1.1,
-        "fontWeight": 700,
-        "letterSpacing": "-2px"
-      },
-      "h3": {
-        "fontSize": 40,
-        "lineHeight": 1.15,
-        "fontWeight": 700,
-        "letterSpacing": "-1.5px"
-      },
-      "h4": {
-        "fontSize": 18,
-        "lineHeight": 1.35,
-        "fontWeight": 600,
-        "letterSpacing": "-0.005em"
-      },
-      "h5": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1,
-        "fontWeight": 600,
-        "letterSpacing": "0"
-      },
-      "body": {
-        "fontSize": 15,
-        "lineHeight": 1.55,
-        "fontWeight": 400,
-        "letterSpacing": "-0.005em"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 1.55,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "xs": {
-        "fontSize": 13,
-        "lineHeight": 1.4,
-        "fontWeight": 500,
-        "letterSpacing": "0"
-      }
-    },
-    "borderRadius": "8px"
-  },
-  {
-    "id": "cohere",
-    "name": "Cohere",
-    "category": "AI & LLM",
-    "description": "Cohere's 2026 web system is a controlled enterprise AI interface built from stark white editorial space, deep green-black product bands, soft mineral surfaces, rounded media cards, and a distinctive type split between monospaced-feeling dis",
-    "designMdPath": "/design-md/cohere/DESIGN.md",
-    "color": {
-      "primary": "#17171c",
-      "primaryHover": "#17171c",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#f8f9fa",
-      "textPrimary": "#212121",
-      "textSecondary": "#616161",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#d9d9dd",
-      "borderStrong": "#e5e8eb",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "CohereText",
-      "h1": {
-        "fontSize": 96,
-        "lineHeight": 1,
-        "fontWeight": 400,
-        "letterSpacing": "-1.92px"
-      },
-      "h2": {
-        "fontSize": 28,
-        "lineHeight": 1.25,
-        "fontWeight": 700,
-        "letterSpacing": "-0.015em"
-      },
-      "h3": {
-        "fontSize": 22,
-        "lineHeight": 1.3,
-        "fontWeight": 600,
-        "letterSpacing": "-0.01em"
-      },
-      "h4": {
-        "fontSize": 18,
-        "lineHeight": 1.35,
-        "fontWeight": 600,
-        "letterSpacing": "-0.005em"
-      },
-      "h5": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1.71,
-        "fontWeight": 500,
-        "letterSpacing": "0"
-      },
-      "body": {
-        "fontSize": 16,
-        "lineHeight": 1.5,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 1.4,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "xs": {
-        "fontSize": 14,
-        "lineHeight": 1.4,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      }
-    },
-    "borderRadius": "16px"
-  },
-  {
-    "id": "coinbase",
-    "name": "Coinbase",
-    "category": "Fintech & Web3",
-    "description": "An institutional-grade crypto exchange whose marketing surfaces read like a quietly-confident financial-services brand. The base canvas is pure white; Coinbase Blue (`#0052ff`) is the single brand voltage, used scarcely on primary CTAs, sig",
-    "designMdPath": "/design-md/coinbase/DESIGN.md",
-    "color": {
-      "primary": "#0052ff",
-      "primaryHover": "#0052ff",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#ffffff",
-      "textPrimary": "#0a0b0d",
-      "textSecondary": "#7c828a",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#dee1e6",
-      "borderStrong": "#e5e8eb",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "'Coinbase Display', sans-serif",
-      "h1": {
-        "fontSize": 64,
-        "lineHeight": 1,
-        "fontWeight": 400,
-        "letterSpacing": "-1.6px"
-      },
-      "h2": {
-        "fontSize": 52,
-        "lineHeight": 1,
-        "fontWeight": 400,
-        "letterSpacing": "-1.3px"
-      },
-      "h3": {
-        "fontSize": 44,
-        "lineHeight": 1.09,
-        "fontWeight": 400,
-        "letterSpacing": "-1px"
-      },
-      "h4": {
-        "fontSize": 18,
-        "lineHeight": 1.35,
-        "fontWeight": 600,
-        "letterSpacing": "-0.005em"
-      },
-      "h5": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": 16,
-        "lineHeight": 1.15,
-        "fontWeight": 600,
-        "letterSpacing": "0"
-      },
-      "body": {
-        "fontSize": 15,
-        "lineHeight": 1.55,
-        "fontWeight": 400,
-        "letterSpacing": "-0.005em"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 1.5,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "xs": {
-        "fontSize": 13,
-        "lineHeight": 1.5,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      }
-    },
-    "borderRadius": "12px"
-  },
-  {
-    "id": "composio",
-    "name": "Composio",
-    "category": "Tech & Lifestyle",
-    "description": "A developer-tools brand for AI-agent tool integration whose marketing surfaces lean into a dark, technical aesthetic with a single deep-electric-blue voltage (`#0007cd`). The page floor is near-black (`#0f0f0f`); cards float above on subtle",
-    "designMdPath": "/design-md/composio/DESIGN.md",
-    "color": {
-      "primary": "#0007cd",
-      "primaryHover": "#0007cd",
-      "primaryLight": "#0007cd26",
-      "bgPrimary": "#0f0f0f",
-      "bgSecondary": "#181818",
-      "textPrimary": "#ffffff",
-      "textSecondary": "#888888",
-      "textMuted": "#5c6470",
-      "borderSubtle": "#222222",
-      "borderStrong": "#333333",
-      "statusSuccess": "#33d17a",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "'abcDiatype', ui-sans-serif, system-ui, sans-serif",
-      "h1": {
-        "fontSize": 56,
-        "lineHeight": 1.05,
-        "fontWeight": 500,
-        "letterSpacing": "-1.68px"
-      },
-      "h2": {
-        "fontSize": 44,
-        "lineHeight": 1.1,
-        "fontWeight": 500,
-        "letterSpacing": "-1.32px"
-      },
-      "h3": {
-        "fontSize": 32,
-        "lineHeight": 1.15,
-        "fontWeight": 500,
-        "letterSpacing": "-0.96px"
-      },
-      "h4": {
-        "fontSize": 18,
-        "lineHeight": 1.35,
-        "fontWeight": 600,
-        "letterSpacing": "-0.005em"
-      },
-      "h5": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1,
-        "fontWeight": 500,
-        "letterSpacing": "0"
-      },
-      "body": {
-        "fontSize": 15,
-        "lineHeight": 1.55,
-        "fontWeight": 400,
-        "letterSpacing": "-0.005em"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 1.5,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "xs": {
-        "fontSize": 13,
-        "lineHeight": 1.4,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      }
-    },
-    "borderRadius": "8px"
-  },
-  {
-    "id": "cursor",
-    "name": "Cursor",
-    "category": "Developer Tools",
-    "description": "An AI-first code editor whose marketing site reads like a quietly-confident developer-tools brand with a warm-cream editorial canvas (`#f7f7f4`) instead of the typical dark IDE atmosphere. Near-black warm ink (`#26251e`) carries body and di",
-    "designMdPath": "/design-md/cursor/DESIGN.md",
-    "color": {
-      "primary": "#f54e00",
-      "primaryHover": "#f54e00",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#f7f7f4",
-      "bgSecondary": "#ffffff",
-      "textPrimary": "#26251e",
-      "textSecondary": "#807d72",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#e6e5e0",
-      "borderStrong": "#cfcdc4",
-      "statusSuccess": "#1f8a65",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "'CursorGothic', sans-serif",
-      "h1": {
-        "fontSize": 36,
-        "lineHeight": 1.2,
-        "fontWeight": 400,
-        "letterSpacing": "-0.72px"
-      },
-      "h2": {
-        "fontSize": 36,
-        "lineHeight": 1.2,
-        "fontWeight": 400,
-        "letterSpacing": "-0.72px"
-      },
-      "h3": {
-        "fontSize": 26,
-        "lineHeight": 1.25,
-        "fontWeight": 400,
-        "letterSpacing": "-0.325px"
-      },
-      "h4": {
-        "fontSize": 18,
-        "lineHeight": 1.35,
-        "fontWeight": 600,
-        "letterSpacing": "-0.005em"
-      },
-      "h5": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1,
-        "fontWeight": 500,
-        "letterSpacing": "0"
-      },
-      "body": {
-        "fontSize": 15,
-        "lineHeight": 1.55,
-        "fontWeight": 400,
-        "letterSpacing": "-0.005em"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 1.5,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "xs": {
-        "fontSize": 13,
-        "lineHeight": 1.4,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      }
-    },
-    "borderRadius": "8px"
-  },
-  {
-    "id": "dell-1996",
-    "name": "Dell 1996 Inspired",
-    "category": "Tech & Lifestyle",
-    "description": `An inspired interpretation of Dell.com's 1996 design language \u2014 a catalog-era enterprise web design built around a literal black page frame, vivid flat color-block \\"ribbon cards\\" tinted in sage, salmon, periwinkle, sky, peach and lime, ch`,
-    "designMdPath": "/design-md/dell-1996/DESIGN.md",
-    "color": {
-      "primary": "#e91d2a",
-      "primaryHover": "#e91d2a",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#ffffff",
-      "textPrimary": "#000000",
-      "textSecondary": "#8b95a1",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#f2f4f6",
-      "borderStrong": "#e5e8eb",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "Times New Roman",
-      "h1": {
-        "fontSize": 36,
-        "lineHeight": 1.2,
-        "fontWeight": 700,
-        "letterSpacing": "-0.02em"
-      },
-      "h2": {
-        "fontSize": 28,
-        "lineHeight": 1.25,
-        "fontWeight": 700,
-        "letterSpacing": "-0.015em"
-      },
-      "h3": {
-        "fontSize": 22,
-        "lineHeight": 1.3,
-        "fontWeight": 600,
-        "letterSpacing": "-0.01em"
-      },
-      "h4": {
-        "fontSize": 18,
-        "lineHeight": 1.35,
-        "fontWeight": 600,
-        "letterSpacing": "-0.005em"
-      },
-      "h5": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": 12,
-        "lineHeight": 1,
-        "fontWeight": 700,
-        "letterSpacing": "0"
-      },
-      "body": {
-        "fontSize": 14,
-        "lineHeight": 1.4,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "sm": {
-        "fontSize": 12,
-        "lineHeight": 1.4,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "xs": {
-        "fontSize": 11,
-        "lineHeight": 1.35,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      }
-    },
-    "borderRadius": "12px"
-  },
-  {
-    "id": "dji",
-    "name": "DJI Analysis",
-    "category": "Automotive & Luxury",
-    "description": "An analysis of DJI's design language \u2014 a product-photography showroom for drones and cameras, where full-bleed studio renders sit in square, gutter-separated tiles on a white canvas, every action is a rounded pill in a single engineering bl",
-    "designMdPath": "/design-md/dji/DESIGN.md",
-    "color": {
-      "primary": '#0070d5"          # DJI Blue \u2014 Store pill, Buy Now pills, active selector, announcement link',
-      "primaryHover": '#0070d5"          # DJI Blue \u2014 Store pill, Buy Now pills, active selector, announcement link',
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": '#ffffff"           # page canvas, cards, nav, purchase bar',
-      "bgSecondary": '#f7f9fa"      # feature-link band, store panels, In the Box tiles, store footer',
-      "textPrimary": '#262626"              # headings and body (black at 85%)',
-      "textSecondary": '#595959"    # secondary text, inactive tabs (black at 65%)',
-      "textMuted": '#8c8c8c"     # tile eyebrows (black at 45%)',
-      "borderSubtle": '#f0f0f0"         # tab track rule',
-      "borderStrong": "#e5e8eb",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "Open Sans",
-      "h1": {
-        "fontSize": 48,
-        "lineHeight": 1.08,
-        "fontWeight": 600,
-        "letterSpacing": "-1.44px"
-      },
-      "h2": {
-        "fontSize": 28,
-        "lineHeight": 1.25,
-        "fontWeight": 700,
-        "letterSpacing": "-0.015em"
-      },
-      "h3": {
-        "fontSize": 22,
-        "lineHeight": 1.3,
-        "fontWeight": 600,
-        "letterSpacing": "-0.01em"
-      },
-      "h4": {
-        "fontSize": 20,
-        "lineHeight": 1.2,
-        "fontWeight": 600,
-        "letterSpacing": "-0.6px"
-      },
-      "h5": {
-        "fontSize": 20,
-        "lineHeight": 1.2,
-        "fontWeight": 600,
-        "letterSpacing": "-0.6px"
-      },
-      "h6": {
-        "fontSize": 16,
-        "lineHeight": 1.25,
-        "fontWeight": 400,
-        "letterSpacing": "-0.32px"
-      },
-      "body": {
-        "fontSize": 16,
-        "lineHeight": 1.5,
-        "fontWeight": 400,
-        "letterSpacing": "-0.32px"
-      },
-      "sm": {
-        "fontSize": 12,
-        "lineHeight": 1.33,
-        "fontWeight": 400,
-        "letterSpacing": "-0.24px"
-      },
-      "xs": {
-        "fontSize": 12,
-        "lineHeight": 1.33,
-        "fontWeight": 400,
-        "letterSpacing": "-0.24px"
-      }
-    },
-    "borderRadius": "8px"
-  },
-  {
-    "id": "elevenlabs",
-    "name": "ElevenLabs",
-    "category": "AI & LLM",
-    "description": "A voice-AI brand whose marketing surfaces read like a quietly editorial print magazine. The base canvas is off-white (`#f5f5f5`) holding warm near-black ink (`#292524`); the brand voltage is photographic, not chromatic \u2014 soft pastel atmosph",
-    "designMdPath": "/design-md/elevenlabs/DESIGN.md",
-    "color": {
-      "primary": "#292524",
-      "primaryHover": "#292524",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#f5f5f5",
-      "bgSecondary": "#ffffff",
-      "textPrimary": "#0c0a09",
-      "textSecondary": "#777169",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#e7e5e4",
-      "borderStrong": "#d6d3d1",
-      "statusSuccess": "#16a34a",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "'Waldenburg', serif",
-      "h1": {
-        "fontSize": 48,
-        "lineHeight": 1.08,
-        "fontWeight": 300,
-        "letterSpacing": "-0.96px"
-      },
-      "h2": {
-        "fontSize": 36,
-        "lineHeight": 1.17,
-        "fontWeight": 300,
-        "letterSpacing": "-0.36px"
-      },
-      "h3": {
-        "fontSize": 32,
-        "lineHeight": 1.13,
-        "fontWeight": 300,
-        "letterSpacing": "-0.32px"
-      },
-      "h4": {
-        "fontSize": 18,
-        "lineHeight": 1.35,
-        "fontWeight": 600,
-        "letterSpacing": "-0.005em"
-      },
-      "h5": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": 15,
-        "lineHeight": 1,
-        "fontWeight": 500,
-        "letterSpacing": "0"
-      },
-      "body": {
-        "fontSize": 15,
-        "lineHeight": 1.55,
-        "fontWeight": 400,
-        "letterSpacing": "-0.005em"
-      },
-      "sm": {
-        "fontSize": 15,
-        "lineHeight": 1.47,
-        "fontWeight": 400,
-        "letterSpacing": "0.15px"
-      },
-      "xs": {
-        "fontSize": 14,
-        "lineHeight": 1.5,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      }
-    },
-    "borderRadius": "8px"
-  },
-  {
-    "id": "expo",
-    "name": "Expo",
-    "category": "Developer Tools",
-    "description": "A React Native developer-platform whose marketing site reads like a quietly-confident infrastructure brand. The base canvas is pure white with a soft sky-blue gradient atmospheric wash behind the hero; near-black ink (`#171717`) carries bod",
-    "designMdPath": "/design-md/expo/DESIGN.md",
-    "color": {
-      "primary": "#000000",
-      "primaryHover": "#000000",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#ffffff",
-      "textPrimary": "#171717",
-      "textSecondary": "#999999",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#f0f0f3",
-      "borderStrong": "#dcdee0",
-      "statusSuccess": "#16a34a",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "'Inter', sans-serif",
-      "h1": {
-        "fontSize": 48,
-        "lineHeight": 1.1,
-        "fontWeight": 600,
-        "letterSpacing": "-1.44px"
-      },
-      "h2": {
-        "fontSize": 36,
-        "lineHeight": 1.15,
-        "fontWeight": 600,
-        "letterSpacing": "-1.08px"
-      },
-      "h3": {
-        "fontSize": 28,
-        "lineHeight": 1.2,
-        "fontWeight": 600,
-        "letterSpacing": "-0.84px"
-      },
-      "h4": {
-        "fontSize": 18,
-        "lineHeight": 1.35,
-        "fontWeight": 600,
-        "letterSpacing": "-0.005em"
-      },
-      "h5": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1,
-        "fontWeight": 500,
-        "letterSpacing": "0"
-      },
-      "body": {
-        "fontSize": 15,
-        "lineHeight": 1.55,
-        "fontWeight": 400,
-        "letterSpacing": "-0.005em"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 1.5,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "xs": {
-        "fontSize": 13,
-        "lineHeight": 1.4,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      }
-    },
-    "borderRadius": "8px"
-  },
-  {
-    "id": "ferrari",
-    "name": "Ferrari",
-    "category": "Automotive & Luxury",
-    "description": "A luxury-automotive brand whose marketing surfaces read as cinematic editorial. The base canvas is **near-black** (`#181818`) holding pure white display type; white-canvas bands appear only inside specific editorial contexts (preowned listi",
-    "designMdPath": "/design-md/ferrari/DESIGN.md",
-    "color": {
-      "primary": "#da291c",
-      "primaryHover": "#9d2211",
-      "primaryLight": "#da291c26",
-      "bgPrimary": "#181818",
-      "bgSecondary": "#303030",
-      "textPrimary": "#ffffff",
-      "textSecondary": "#666666",
-      "textMuted": "#5c6470",
-      "borderSubtle": "#303030",
-      "borderStrong": "#3d414a",
-      "statusSuccess": "#03904a",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f13a2c"
-    },
-    "typography": {
-      "fontFamily": "'FerrariSans', sans-serif",
-      "h1": {
-        "fontSize": 56,
-        "lineHeight": 1.1,
-        "fontWeight": 500,
-        "letterSpacing": "-1.12px"
-      },
-      "h2": {
-        "fontSize": 36,
-        "lineHeight": 1.2,
-        "fontWeight": 500,
-        "letterSpacing": "-0.36px"
-      },
-      "h3": {
-        "fontSize": 26,
-        "lineHeight": 1.5,
-        "fontWeight": 500,
-        "letterSpacing": "0.195px"
-      },
-      "h4": {
-        "fontSize": 18,
-        "lineHeight": 1.35,
-        "fontWeight": 600,
-        "letterSpacing": "-0.005em"
-      },
-      "h5": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1,
-        "fontWeight": 700,
-        "letterSpacing": "1.4px"
-      },
-      "body": {
-        "fontSize": 15,
-        "lineHeight": 1.55,
-        "fontWeight": 400,
-        "letterSpacing": "-0.005em"
-      },
-      "sm": {
-        "fontSize": 13,
-        "lineHeight": 1.5,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "xs": {
-        "fontSize": 12,
-        "lineHeight": 1.4,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      }
-    },
-    "borderRadius": "6px"
-  },
-  {
-    "id": "figma",
-    "name": "Figma",
-    "category": "Developer Tools",
-    "description": "A confident black-and-white editorial frame interrupted by oversized, hand-cut pastel color blocks. The marketing canvas is rigorously monochrome \u2014 figmaSans variable type, pure white surfaces, pure black ink, pill-shaped CTAs \u2014 while each ",
-    "designMdPath": "/design-md/figma/DESIGN.md",
-    "color": {
-      "primary": "#000000",
-      "primaryHover": "#000000",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#f8f9fa",
-      "textPrimary": "#000000",
-      "textSecondary": "#8b95a1",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#e6e6e6",
-      "borderStrong": "#e5e8eb",
-      "statusSuccess": "#1ea64a",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "figmaSans",
-      "h1": {
-        "fontSize": 86,
-        "lineHeight": 1,
-        "fontWeight": 340,
-        "letterSpacing": "-1.72px"
-      },
-      "h2": {
-        "fontSize": 64,
-        "lineHeight": 1.1,
-        "fontWeight": 340,
-        "letterSpacing": "-0.96px"
-      },
-      "h3": {
-        "fontSize": 26,
-        "lineHeight": 1.35,
-        "fontWeight": 540,
-        "letterSpacing": "-0.26px"
-      },
-      "h4": {
-        "fontSize": 24,
-        "lineHeight": 1.45,
-        "fontWeight": 700,
-        "letterSpacing": "0"
-      },
-      "h5": {
-        "fontSize": 26,
-        "lineHeight": 1.35,
-        "fontWeight": 340,
-        "letterSpacing": "-0.26px"
-      },
-      "h6": {
-        "fontSize": 20,
-        "lineHeight": 1.4,
-        "fontWeight": 480,
-        "letterSpacing": "-0.10px"
-      },
-      "body": {
-        "fontSize": 18,
-        "lineHeight": 1.45,
-        "fontWeight": 320,
-        "letterSpacing": "-0.26px"
-      },
-      "sm": {
-        "fontSize": 16,
-        "lineHeight": 1.45,
-        "fontWeight": 330,
-        "letterSpacing": "-0.14px"
-      },
-      "xs": {
-        "fontSize": 12,
-        "lineHeight": 1,
-        "fontWeight": 400,
-        "letterSpacing": "0.60px"
-      }
-    },
-    "borderRadius": "8px"
-  },
-  {
-    "id": "framer",
-    "name": "Framer",
-    "category": "Developer Tools",
-    "description": "A confident dark-canvas builder marketing site that treats the page like a working artboard \u2014 pure black surfaces, white display type set in GT Walsheim Medium with aggressive negative tracking, and a single confident blue (#0099ff) reserve",
-    "designMdPath": "/design-md/framer/DESIGN.md",
-    "color": {
-      "primary": "#ffffff",
-      "primaryHover": "#ffffff",
-      "primaryLight": "#ffffff26",
-      "bgPrimary": "#090909",
-      "bgSecondary": "#141414",
-      "textPrimary": "#ffffff",
-      "textSecondary": "#999999",
-      "textMuted": "#5c6470",
-      "borderSubtle": "#262626",
-      "borderStrong": "#3d414a",
-      "statusSuccess": "#22c55e",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "GT Walsheim Medium",
-      "h1": {
-        "fontSize": 85,
-        "lineHeight": 0.95,
-        "fontWeight": 500,
-        "letterSpacing": "-4.25px"
-      },
-      "h2": {
-        "fontSize": 62,
-        "lineHeight": 1,
-        "fontWeight": 500,
-        "letterSpacing": "-3.1px"
-      },
-      "h3": {
-        "fontSize": 32,
-        "lineHeight": 1.13,
-        "fontWeight": 500,
-        "letterSpacing": "-1.0px"
-      },
-      "h4": {
-        "fontSize": 24,
-        "lineHeight": 1.3,
-        "fontWeight": 400,
-        "letterSpacing": "-0.01px"
-      },
-      "h5": {
-        "fontSize": 24,
-        "lineHeight": 1.3,
-        "fontWeight": 400,
-        "letterSpacing": "-0.01px"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1,
-        "fontWeight": 500,
-        "letterSpacing": "-0.14px"
-      },
-      "body": {
-        "fontSize": 15,
-        "lineHeight": 1.3,
-        "fontWeight": 400,
-        "letterSpacing": "-0.15px"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 1.4,
-        "fontWeight": 500,
-        "letterSpacing": "-0.14px"
-      },
-      "xs": {
-        "fontSize": 13,
-        "lineHeight": 1.2,
-        "fontWeight": 500,
-        "letterSpacing": "-0.13px"
-      }
-    },
-    "borderRadius": "10px"
-  },
-  {
-    "id": "hashicorp",
-    "name": "HashiCorp",
-    "category": "Tech & Lifestyle",
-    "description": "An enterprise-infrastructure marketing canvas built around a near-black ground (#000000) and a system of per-product accent colors \u2014 Terraform purple, Vault yellow, Consul pink, Waypoint cyan, Vagrant blue \u2014 that act as identity tokens rath",
-    "designMdPath": "/design-md/hashicorp/DESIGN.md",
-    "color": {
-      "primary": "#000000",
-      "primaryHover": "#000000",
-      "primaryLight": "#00000026",
-      "bgPrimary": "#000000",
-      "bgSecondary": "#15181e",
-      "textPrimary": "#ffffff",
-      "textSecondary": "#b2b6bd",
-      "textMuted": "#656a76",
-      "borderSubtle": "#3b3d45",
-      "borderStrong": "#3d414a",
-      "statusSuccess": "#00ca8e",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#ffcf25"
-    },
-    "typography": {
-      "fontFamily": "hashicorpSans",
-      "h1": {
-        "fontSize": 80,
-        "lineHeight": 1.17,
-        "fontWeight": 700,
-        "letterSpacing": "-2.5px"
-      },
-      "h2": {
-        "fontSize": 56,
-        "lineHeight": 1.18,
-        "fontWeight": 700,
-        "letterSpacing": "-1.6px"
-      },
-      "h3": {
-        "fontSize": 40,
-        "lineHeight": 1.19,
-        "fontWeight": 600,
-        "letterSpacing": "-1.0px"
-      },
-      "h4": {
-        "fontSize": 22,
-        "lineHeight": 1.18,
-        "fontWeight": 600,
-        "letterSpacing": "-0.4px"
-      },
-      "h5": {
-        "fontSize": 20,
-        "lineHeight": 1.35,
-        "fontWeight": 600,
-        "letterSpacing": "-0.2px"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1.29,
-        "fontWeight": 600,
-        "letterSpacing": "0"
-      },
-      "body": {
-        "fontSize": 16,
-        "lineHeight": 1.5,
-        "fontWeight": 500,
-        "letterSpacing": "0"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 1.71,
-        "fontWeight": 500,
-        "letterSpacing": "0"
-      },
-      "xs": {
-        "fontSize": 13,
-        "lineHeight": 1.38,
-        "fontWeight": 500,
-        "letterSpacing": "0.2px"
-      }
-    },
-    "borderRadius": "8px"
-  },
-  {
-    "id": "hp",
-    "name": "HP",
-    "category": "Tech & Lifestyle",
-    "description": "An inspired interpretation of HP's design language \u2014 a white-paper enterprise-consumer system anchored by HP Electric Blue (`#024ad8`) as the lone signal CTA, near-black ink (`#1a1a1a`) for headlines, geometric Forma-DJR sans throughout, an",
-    "designMdPath": "/design-md/hp/DESIGN.md",
-    "color": {
-      "primary": "#024ad8",
-      "primaryHover": "#0e3191",
-      "primaryLight": "#c9e0fc",
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#f8f9fa",
-      "textPrimary": "#1a1a1a",
-      "textSecondary": "#8b95a1",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#e8e8e8",
-      "borderStrong": "#c2c2c2",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "Forma DJR Micro",
-      "h1": {
-        "fontSize": 56,
-        "lineHeight": 1,
-        "fontWeight": 500,
-        "letterSpacing": "0"
-      },
-      "h2": {
-        "fontSize": 44,
-        "lineHeight": 1,
-        "fontWeight": 500,
-        "letterSpacing": "0"
-      },
-      "h3": {
-        "fontSize": 32,
-        "lineHeight": 1,
-        "fontWeight": 500,
-        "letterSpacing": "0"
-      },
-      "h4": {
-        "fontSize": 18,
-        "lineHeight": 1.35,
-        "fontWeight": 600,
-        "letterSpacing": "-0.005em"
-      },
-      "h5": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1.45,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "body": {
-        "fontSize": 18,
-        "lineHeight": 1.33,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "sm": {
-        "fontSize": 13,
-        "lineHeight": 1.5,
-        "fontWeight": 400,
-        "letterSpacing": "0em"
-      },
-      "xs": {
-        "fontSize": 11,
-        "lineHeight": 1.4,
-        "fontWeight": 500,
-        "letterSpacing": "0.01em"
-      }
-    },
-    "borderRadius": "4px"
-  },
-  {
-    "id": "ibm",
-    "name": "IBM",
-    "category": "Tech & Lifestyle",
-    "description": "An enterprise-marketing canvas faithful to Carbon Design System: white surfaces, charcoal type, IBM Blue (#0f62fe) as the single confident accent, and a deliberately flat-square aesthetic where corners stay at 0\u20134px. Type runs IBM Plex Sans",
-    "designMdPath": "/design-md/ibm/DESIGN.md",
-    "color": {
-      "primary": "#0f62fe",
-      "primaryHover": "#0f62fe",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#f4f4f4",
-      "textPrimary": "#161616",
-      "textSecondary": "#525252",
-      "textMuted": "#8c8c8c",
-      "borderSubtle": "#e0e0e0",
-      "borderStrong": "#161616",
-      "statusSuccess": "#24a148",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f1c21b"
-    },
-    "typography": {
-      "fontFamily": "IBM Plex Sans",
-      "h1": {
-        "fontSize": 76,
-        "lineHeight": 1.17,
-        "fontWeight": 300,
-        "letterSpacing": "-0.5px"
-      },
-      "h2": {
-        "fontSize": 60,
-        "lineHeight": 1.17,
-        "fontWeight": 300,
-        "letterSpacing": "-0.4px"
-      },
-      "h3": {
-        "fontSize": 42,
-        "lineHeight": 1.2,
-        "fontWeight": 300,
-        "letterSpacing": "0"
-      },
-      "h4": {
-        "fontSize": 24,
-        "lineHeight": 1.33,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "h5": {
-        "fontSize": 20,
-        "lineHeight": 1.4,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1.29,
-        "fontWeight": 400,
-        "letterSpacing": "0.16px"
-      },
-      "body": {
-        "fontSize": 16,
-        "lineHeight": 1.5,
-        "fontWeight": 400,
-        "letterSpacing": "0.16px"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 1.29,
-        "fontWeight": 400,
-        "letterSpacing": "0.16px"
-      },
-      "xs": {
-        "fontSize": 12,
-        "lineHeight": 1.33,
-        "fontWeight": 400,
-        "letterSpacing": "0.32px"
-      }
-    },
-    "borderRadius": "6px"
-  },
-  {
-    "id": "intercom",
-    "name": "Intercom",
-    "category": "Tech & Lifestyle",
-    "description": "An editorial customer-service marketing canvas built around a soft cream-white ground, charcoal type set in Saans (Intercom's proprietary geometric sans), and a single confident Fin Orange (#ff5600) reserved for the Fin AI brand. Cards live",
-    "designMdPath": "/design-md/intercom/DESIGN.md",
-    "color": {
-      "primary": "#111111",
-      "primaryHover": "#111111",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#f5f1ec",
-      "bgSecondary": "#ffffff",
-      "textPrimary": "#111111",
-      "textSecondary": "#626260",
-      "textMuted": "#7b7b78",
-      "borderSubtle": "#d3cec6",
-      "borderStrong": "#e5e8eb",
-      "statusSuccess": "#0bdf50",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "Saans",
-      "h1": {
-        "fontSize": 72,
-        "lineHeight": 1.05,
-        "fontWeight": 500,
-        "letterSpacing": "-2.0px"
-      },
-      "h2": {
-        "fontSize": 56,
-        "lineHeight": 1.1,
-        "fontWeight": 500,
-        "letterSpacing": "-1.4px"
-      },
-      "h3": {
-        "fontSize": 40,
-        "lineHeight": 1.15,
-        "fontWeight": 500,
-        "letterSpacing": "-0.8px"
-      },
-      "h4": {
-        "fontSize": 22,
-        "lineHeight": 1.25,
-        "fontWeight": 500,
-        "letterSpacing": "-0.3px"
-      },
-      "h5": {
-        "fontSize": 20,
-        "lineHeight": 1.4,
-        "fontWeight": 400,
-        "letterSpacing": "-0.2px"
-      },
-      "h6": {
-        "fontSize": 15,
-        "lineHeight": 1.2,
-        "fontWeight": 500,
-        "letterSpacing": "0"
-      },
-      "body": {
-        "fontSize": 16,
-        "lineHeight": 1.5,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 1.5,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "xs": {
-        "fontSize": 12,
-        "lineHeight": 1.4,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      }
-    },
-    "borderRadius": "8px"
-  },
-  {
-    "id": "jobright",
-    "name": "Jobright Analysis",
-    "category": "Tech & Lifestyle",
-    "description": "An analysis of Jobright's design language \u2014 an AI job-hunting platform built on an energetic spring-mint green against black and white, with pale-mint section bands carrying the page rhythm. Bold condensed Titillium Web display headings pai",
-    "designMdPath": "/design-md/jobright/DESIGN.md",
-    "color": {
-      "primary": "#00f0a0",
-      "primaryHover": "#00f0a0",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#f8f9fa",
-      "textPrimary": "#000000",
-      "textSecondary": "#86909c",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#e5e7eb",
-      "borderStrong": "#e5e8eb",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "Inter",
-      "h1": {
-        "fontSize": 36,
-        "lineHeight": 1.2,
-        "fontWeight": 700,
-        "letterSpacing": "-0.02em"
-      },
-      "h2": {
-        "fontSize": 28,
-        "lineHeight": 1.25,
-        "fontWeight": 700,
-        "letterSpacing": "-0.015em"
-      },
-      "h3": {
-        "fontSize": 22,
-        "lineHeight": 1.3,
-        "fontWeight": 600,
-        "letterSpacing": "-0.01em"
-      },
-      "h4": {
-        "fontSize": 18,
-        "lineHeight": 1.35,
-        "fontWeight": 600,
-        "letterSpacing": "-0.005em"
-      },
-      "h5": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": 16,
-        "lineHeight": 1,
-        "fontWeight": 600,
-        "letterSpacing": "0"
-      },
-      "body": {
-        "fontSize": 18,
-        "lineHeight": 1.6,
-        "fontWeight": 300,
-        "letterSpacing": "0"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 1.5,
-        "fontWeight": 500,
-        "letterSpacing": "0"
-      },
-      "xs": {
-        "fontSize": 13,
-        "lineHeight": 1.4,
-        "fontWeight": 500,
-        "letterSpacing": "0"
-      }
-    },
-    "borderRadius": "16px"
-  },
-  {
-    "id": "linear.app",
-    "name": "Linear",
-    "category": "Developer Tools",
-    "description": "A near-black product-focused marketing canvas built around #010102 (the deepest dark surface of any tool in this collection), light gray text (#f7f8f8), and the signature Linear lavender-blue (#5e6ad2) used as the single chromatic accent. T",
-    "designMdPath": "/design-md/linear.app/DESIGN.md",
-    "color": {
-      "primary": "#5e6ad2",
-      "primaryHover": "#828fff",
-      "primaryLight": "#5e6ad226",
-      "bgPrimary": "#010102",
-      "bgSecondary": "#0f1011",
-      "textPrimary": "#f7f8f8",
-      "textSecondary": "#d0d6e0",
-      "textMuted": "#8a8f98",
-      "borderSubtle": "#23252a",
-      "borderStrong": "#34343a",
-      "statusSuccess": "#27a644",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "Linear Display",
-      "h1": {
-        "fontSize": 80,
-        "lineHeight": 1.05,
-        "fontWeight": 600,
-        "letterSpacing": "-3.0px"
-      },
-      "h2": {
-        "fontSize": 56,
-        "lineHeight": 1.1,
-        "fontWeight": 600,
-        "letterSpacing": "-1.8px"
-      },
-      "h3": {
-        "fontSize": 40,
-        "lineHeight": 1.15,
-        "fontWeight": 600,
-        "letterSpacing": "-1.0px"
-      },
-      "h4": {
-        "fontSize": 22,
-        "lineHeight": 1.25,
-        "fontWeight": 500,
-        "letterSpacing": "-0.4px"
-      },
-      "h5": {
-        "fontSize": 20,
-        "lineHeight": 1.4,
-        "fontWeight": 400,
-        "letterSpacing": "-0.2px"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1.2,
-        "fontWeight": 500,
-        "letterSpacing": "0"
-      },
-      "body": {
-        "fontSize": 16,
-        "lineHeight": 1.5,
-        "fontWeight": 400,
-        "letterSpacing": "-0.05px"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 1.5,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "xs": {
-        "fontSize": 12,
-        "lineHeight": 1.4,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      }
-    },
-    "borderRadius": "8px"
-  },
-  {
-    "id": "mercury",
-    "name": "Mercury Analysis",
-    "category": "Fintech & Web3",
-    "description": "An analysis of Mercury's design language \u2014 a fintech system that moves between a deep ink-violet night world on the homepage and a pale, near-white light world on its product and pricing pages, held together by one confident indigo action p",
-    "designMdPath": "/design-md/mercury/DESIGN.md",
-    "color": {
-      "primary": "#5266eb",
-      "primaryHover": "#5266eb",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#fbfcfd",
-      "bgSecondary": "#ffffff",
-      "textPrimary": "#28253b",
-      "textSecondary": "#554e7b",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#f2f4f6",
-      "borderStrong": "#e5e8eb",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "arcadia",
-      "h1": {
-        "fontSize": 36,
-        "lineHeight": 1.2,
-        "fontWeight": 700,
-        "letterSpacing": "-0.02em"
-      },
-      "h2": {
-        "fontSize": 28,
-        "lineHeight": 1.25,
-        "fontWeight": 700,
-        "letterSpacing": "-0.015em"
-      },
-      "h3": {
-        "fontSize": 22,
-        "lineHeight": 1.3,
-        "fontWeight": 600,
-        "letterSpacing": "-0.01em"
-      },
-      "h4": {
-        "fontSize": 24,
-        "lineHeight": 1.2,
-        "fontWeight": 480,
-        "letterSpacing": "0.48px"
-      },
-      "h5": {
-        "fontSize": 24,
-        "lineHeight": 1.2,
-        "fontWeight": 480,
-        "letterSpacing": "0.48px"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1,
-        "fontWeight": 500,
-        "letterSpacing": "0.28px"
-      },
-      "body": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "sm": {
-        "fontSize": 13,
-        "lineHeight": 1.5,
-        "fontWeight": 400,
-        "letterSpacing": "0em"
-      },
-      "xs": {
-        "fontSize": 11,
-        "lineHeight": 1.4,
-        "fontWeight": 500,
-        "letterSpacing": "0.01em"
-      }
-    },
-    "borderRadius": "12px"
-  },
-  {
-    "id": "meta",
-    "name": "Meta",
-    "category": "Tech & Lifestyle",
-    "description": "Meta's design system spans hardware commerce (Quest VR, Ray-Ban Meta AI glasses) and brand surfaces with a confident product-merchandising voice. The system pairs a stark white canvas with full-bleed photographic product cards, a confident ",
-    "designMdPath": "/design-md/meta/DESIGN.md",
-    "color": {
-      "primary": "#0064e0",
-      "primaryHover": "#0457cb",
-      "primaryLight": "#0091ff",
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#f8f9fa",
-      "textPrimary": "#1c1e21",
-      "textSecondary": "#8b95a1",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#ced0d4",
-      "borderStrong": "#e5e8eb",
-      "statusSuccess": "#31a24c",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f7b928"
-    },
-    "typography": {
-      "fontFamily": "Optimistic VF",
-      "h1": {
-        "fontSize": 64,
-        "lineHeight": 1.16,
-        "fontWeight": 500,
-        "letterSpacing": "-0.02em"
-      },
-      "h2": {
-        "fontSize": 48,
-        "lineHeight": 1.17,
-        "fontWeight": 500,
-        "letterSpacing": "-0.015em"
-      },
-      "h3": {
-        "fontSize": 36,
-        "lineHeight": 1.28,
-        "fontWeight": 500,
-        "letterSpacing": "-0.01em"
-      },
-      "h4": {
-        "fontSize": 28,
-        "lineHeight": 1.21,
-        "fontWeight": 300,
-        "letterSpacing": "-0.005em"
-      },
-      "h5": {
-        "fontSize": 24,
-        "lineHeight": 1.25,
-        "fontWeight": 500,
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1.45,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "body": {
-        "fontSize": 15,
-        "lineHeight": 1.55,
-        "fontWeight": 400,
-        "letterSpacing": "-0.005em"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 1.43,
-        "fontWeight": 400,
-        "letterSpacing": "-0.14px"
-      },
-      "xs": {
-        "fontSize": 12,
-        "lineHeight": 1.33,
-        "fontWeight": 400,
-        "letterSpacing": "0.01em"
-      }
-    },
-    "borderRadius": "6px"
-  },
-  {
-    "id": "minimax",
-    "name": "MiniMax",
-    "category": "AI & LLM",
-    "description": "MiniMax presents itself as a premium AI infrastructure brand through a striking duality \u2014 bold black-pill CTAs and stark white canvas for marketing, paired with vibrant gradient product cards (orange-red, magenta-pink, purple, blue) that tu",
-    "designMdPath": "/design-md/minimax/DESIGN.md",
-    "color": {
-      "primary": "#0a0a0a",
-      "primaryHover": "#0a0a0a",
-      "primaryLight": "#181e25",
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#f7f8fa",
-      "textPrimary": "#0a0a0a",
-      "textSecondary": "#a8aab2",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#e5e7eb",
-      "borderStrong": "#e5e8eb",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "DM Sans",
-      "h1": {
-        "fontSize": 80,
-        "lineHeight": 1.1,
-        "fontWeight": 600,
-        "letterSpacing": "-2px"
-      },
-      "h2": {
-        "fontSize": 56,
-        "lineHeight": 1.1,
-        "fontWeight": 600,
-        "letterSpacing": "-1.5px"
-      },
-      "h3": {
-        "fontSize": 40,
-        "lineHeight": 1.2,
-        "fontWeight": 600,
-        "letterSpacing": "-1px"
-      },
-      "h4": {
-        "fontSize": 20,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "-0.005em"
-      },
-      "h5": {
-        "fontSize": 24,
-        "lineHeight": 1.3,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1.45,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "body": {
-        "fontSize": 15,
-        "lineHeight": 1.55,
-        "fontWeight": 400,
-        "letterSpacing": "-0.005em"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 1.5,
-        "fontWeight": 400,
-        "letterSpacing": "0em"
-      },
-      "xs": {
-        "fontSize": 13,
-        "lineHeight": 1.7,
-        "fontWeight": 400,
-        "letterSpacing": "0.01em"
-      }
-    },
-    "borderRadius": "8px"
-  },
-  {
-    "id": "mintlify",
-    "name": "Mintlify",
-    "category": "Developer Tools",
-    "description": "Mintlify presents documentation infrastructure with a dual-mode aesthetic \u2014 atmospheric sky-gradient marketing heroes (cloud illustration backdrops, soft cream-to-blue washes) paired with dense developer-grade documentation surfaces. The sy",
-    "designMdPath": "/design-md/mintlify/DESIGN.md",
-    "color": {
-      "primary": "#0a0a0a",
-      "primaryHover": "#0a0a0a",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#f7f7f7",
-      "textPrimary": "#0a0a0a",
-      "textSecondary": "#a8a8aa",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#e5e5e5",
-      "borderStrong": "#e5e8eb",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "Inter",
-      "h1": {
-        "fontSize": 72,
-        "lineHeight": 1.05,
-        "fontWeight": 600,
-        "letterSpacing": "-2px"
-      },
-      "h2": {
-        "fontSize": 56,
-        "lineHeight": 1.1,
-        "fontWeight": 600,
-        "letterSpacing": "-1.5px"
-      },
-      "h3": {
-        "fontSize": 22,
-        "lineHeight": 1.3,
-        "fontWeight": 600,
-        "letterSpacing": "-0.01em"
-      },
-      "h4": {
-        "fontSize": 18,
-        "lineHeight": 1.35,
-        "fontWeight": 600,
-        "letterSpacing": "-0.005em"
-      },
-      "h5": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1.45,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "body": {
-        "fontSize": 15,
-        "lineHeight": 1.55,
-        "fontWeight": 400,
-        "letterSpacing": "-0.005em"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 1.5,
-        "fontWeight": 400,
-        "letterSpacing": "0em"
-      },
-      "xs": {
-        "fontSize": 13,
-        "lineHeight": 1.4,
-        "fontWeight": 400,
-        "letterSpacing": "0.01em"
-      }
-    },
-    "borderRadius": "8px"
-  },
-  {
-    "id": "miro",
-    "name": "Miro",
-    "category": "Tech & Lifestyle",
-    "description": "Miro presents itself as the AI-powered visual workspace through a confident, almost playful brand voice \u2014 anchored by its signature canary yellow ({colors.brand-yellow}) wordmark over white canvas, broken open by colorful pastel feature tin",
-    "designMdPath": "/design-md/miro/DESIGN.md",
-    "color": {
-      "primary": "#1c1c1e",
-      "primaryHover": "#1c1c1e",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#f7f8fa",
-      "textPrimary": "#1c1c1e",
-      "textSecondary": "#a5a8b5",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#e0e2e8",
-      "borderStrong": "#c7cad5",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "Roobert PRO",
-      "h1": {
-        "fontSize": 80,
-        "lineHeight": 1.05,
-        "fontWeight": 500,
-        "letterSpacing": "-2px"
-      },
-      "h2": {
-        "fontSize": 60,
-        "lineHeight": 1.1,
-        "fontWeight": 500,
-        "letterSpacing": "-1.5px"
-      },
-      "h3": {
-        "fontSize": 22,
-        "lineHeight": 1.3,
-        "fontWeight": 600,
-        "letterSpacing": "-0.01em"
-      },
-      "h4": {
-        "fontSize": 18,
-        "lineHeight": 1.35,
-        "fontWeight": 600,
-        "letterSpacing": "-0.005em"
-      },
-      "h5": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1.45,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "body": {
-        "fontSize": 15,
-        "lineHeight": 1.55,
-        "fontWeight": 400,
-        "letterSpacing": "-0.005em"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 1.5,
-        "fontWeight": 400,
-        "letterSpacing": "0em"
-      },
-      "xs": {
-        "fontSize": 13,
-        "lineHeight": 1.4,
-        "fontWeight": 400,
-        "letterSpacing": "0.01em"
-      }
-    },
-    "borderRadius": "8px"
-  },
-  {
-    "id": "mistral.ai",
-    "name": "Mistral-AI",
-    "category": "AI & LLM",
-    "description": 'Mistral AI brands itself with a singular signature \u2014 atmospheric sunset gradients (mustard, orange, deep red) layered over photography of mountains, plus a horizontal \\"sunset stripe\\" bar that closes every page. The system pairs warm cream',
-    "designMdPath": "/design-md/mistral.ai/DESIGN.md",
-    "color": {
-      "primary": "#fa520f",
-      "primaryHover": "#cc3a05",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#fafafa",
-      "textPrimary": "#1f1f1f",
-      "textSecondary": "#a8a8a8",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#e5e5e5",
-      "borderStrong": "#c7c7c7",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "PP Editorial Old",
-      "h1": {
-        "fontSize": 84,
-        "lineHeight": 1.05,
-        "fontWeight": 400,
-        "letterSpacing": "-1.5px"
-      },
-      "h2": {
-        "fontSize": 64,
-        "lineHeight": 1.1,
-        "fontWeight": 400,
-        "letterSpacing": "-1px"
-      },
-      "h3": {
-        "fontSize": 22,
-        "lineHeight": 1.3,
-        "fontWeight": 600,
-        "letterSpacing": "-0.01em"
-      },
-      "h4": {
-        "fontSize": 18,
-        "lineHeight": 1.35,
-        "fontWeight": 600,
-        "letterSpacing": "-0.005em"
-      },
-      "h5": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1.45,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "body": {
-        "fontSize": 15,
-        "lineHeight": 1.55,
-        "fontWeight": 400,
-        "letterSpacing": "-0.005em"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 1.5,
-        "fontWeight": 400,
-        "letterSpacing": "0em"
-      },
-      "xs": {
-        "fontSize": 13,
-        "lineHeight": 1.4,
-        "fontWeight": 400,
-        "letterSpacing": "0.01em"
-      }
-    },
-    "borderRadius": "8px"
-  },
-  {
-    "id": "mongodb",
-    "name": "MongoDB",
-    "category": "Tech & Lifestyle",
-    "description": "MongoDB carries a strong dual-mode visual identity \u2014 dark deep-teal hero bands with bright MongoDB green ({colors.brand-green}) CTAs paired with stark white documentation surfaces. The signature green pill button is unmistakable across prod",
-    "designMdPath": "/design-md/mongodb/DESIGN.md",
-    "color": {
-      "primary": "#00ed64",
-      "primaryHover": "#00b545",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#f9fbfa",
-      "textPrimary": "#001e2b",
-      "textSecondary": "#a8b3bc",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#e1e5e8",
-      "borderStrong": "#c1ccd6",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "Euclid Circular A",
-      "h1": {
-        "fontSize": 72,
-        "lineHeight": 1.1,
-        "fontWeight": 500,
-        "letterSpacing": "-1.5px"
-      },
-      "h2": {
-        "fontSize": 56,
-        "lineHeight": 1.15,
-        "fontWeight": 500,
-        "letterSpacing": "-1px"
-      },
-      "h3": {
-        "fontSize": 22,
-        "lineHeight": 1.3,
-        "fontWeight": 600,
-        "letterSpacing": "-0.01em"
-      },
-      "h4": {
-        "fontSize": 18,
-        "lineHeight": 1.35,
-        "fontWeight": 600,
-        "letterSpacing": "-0.005em"
-      },
-      "h5": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1.45,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "body": {
-        "fontSize": 15,
-        "lineHeight": 1.55,
-        "fontWeight": 400,
-        "letterSpacing": "-0.005em"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 1.5,
-        "fontWeight": 400,
-        "letterSpacing": "0em"
-      },
-      "xs": {
-        "fontSize": 13,
-        "lineHeight": 1.4,
-        "fontWeight": 400,
-        "letterSpacing": "0.01em"
-      }
-    },
-    "borderRadius": "8px"
-  },
-  {
-    "id": "mydealz",
-    "name": "mydealz Analysis",
-    "category": "Tech & Lifestyle",
-    "description": "An analysis of mydealz's design language \u2014 a high-density German deals-community system built on a confident brand green, where a stacked white-card feed carries thousands of deals and every card wears the signature hot/cold temperature con",
-    "designMdPath": "/design-md/mydealz/DESIGN.md",
-    "color": {
-      "primary": "#30a83c",
-      "primaryHover": "#30a83c",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#f3f5f7",
-      "bgSecondary": "#ffffff",
-      "textPrimary": "#000000",
-      "textSecondary": "#a7a9ac",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#dfe1e4",
-      "borderStrong": "#e5e8eb",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "Averta CY",
-      "h1": {
-        "fontSize": 36,
-        "lineHeight": 1.2,
-        "fontWeight": 700,
-        "letterSpacing": "-0.02em"
-      },
-      "h2": {
-        "fontSize": 28,
-        "lineHeight": 1.25,
-        "fontWeight": 700,
-        "letterSpacing": "-0.015em"
-      },
-      "h3": {
-        "fontSize": 24,
-        "lineHeight": 1.2,
-        "fontWeight": 700,
-        "letterSpacing": "0"
-      },
-      "h4": {
-        "fontSize": 18,
-        "lineHeight": 1.4,
-        "fontWeight": 500,
-        "letterSpacing": "0"
-      },
-      "h5": {
-        "fontSize": 18,
-        "lineHeight": 1.4,
-        "fontWeight": 500,
-        "letterSpacing": "0"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1.45,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "body": {
-        "fontSize": 16,
-        "lineHeight": 1.5,
-        "fontWeight": 500,
-        "letterSpacing": "0"
-      },
-      "sm": {
-        "fontSize": 12,
-        "lineHeight": 1.3,
-        "fontWeight": 500,
-        "letterSpacing": "0"
-      },
-      "xs": {
-        "fontSize": 12,
-        "lineHeight": 1.3,
-        "fontWeight": 500,
-        "letterSpacing": "0"
-      }
-    },
-    "borderRadius": "8px"
-  },
-  {
-    "id": "nerdwallet",
-    "name": "NerdWallet Analysis",
-    "category": "Fintech & Web3",
-    "description": "An analysis of NerdWallet's design language \u2014 a personal-finance comparison platform built almost entirely from one deep green and a ladder of mints beneath it. Editorial pages open on a green gradient band, then drop to near-white where de",
-    "designMdPath": "/design-md/nerdwallet/DESIGN.md",
-    "color": {
-      "primary": "#008254",
-      "primaryHover": "#006642",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#f7f7f7",
-      "textPrimary": "#000000",
-      "textSecondary": "#64666a",
-      "textMuted": "#b1b3b5",
-      "borderSubtle": "#ebebec",
-      "borderStrong": "#d8d9da",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "Gotham",
-      "h1": {
-        "fontSize": 52,
-        "lineHeight": 1.15,
-        "fontWeight": 700,
-        "letterSpacing": "0"
-      },
-      "h2": {
-        "fontSize": 40,
-        "lineHeight": 1.2,
-        "fontWeight": 700,
-        "letterSpacing": "0"
-      },
-      "h3": {
-        "fontSize": 22,
-        "lineHeight": 1.3,
-        "fontWeight": 600,
-        "letterSpacing": "-0.01em"
-      },
-      "h4": {
-        "fontSize": 18,
-        "lineHeight": 1.35,
-        "fontWeight": 600,
-        "letterSpacing": "-0.005em"
-      },
-      "h5": {
-        "fontSize": 12,
-        "lineHeight": 1.2,
-        "fontWeight": 700,
-        "letterSpacing": "0"
-      },
-      "h6": {
-        "fontSize": 12,
-        "lineHeight": 1.2,
-        "fontWeight": 700,
-        "letterSpacing": "0"
-      },
-      "body": {
-        "fontSize": 18,
-        "lineHeight": 1.5,
-        "fontWeight": 300,
-        "letterSpacing": "0"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 1.5,
-        "fontWeight": 300,
-        "letterSpacing": "0"
-      },
-      "xs": {
-        "fontSize": 12,
-        "lineHeight": 1.4,
-        "fontWeight": 500,
-        "letterSpacing": "0"
-      }
-    },
-    "borderRadius": "6px"
-  },
-  {
-    "id": "nike",
-    "name": "Nike",
-    "category": "Tech & Lifestyle",
-    "description": "|",
-    "designMdPath": "/design-md/nike/DESIGN.md",
-    "color": {
-      "primary": "#111111",
-      "primaryHover": "#111111",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#f8f9fa",
-      "textPrimary": "#111111",
-      "textSecondary": "#8b95a1",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#cacacb",
-      "borderStrong": "#e5e8eb",
-      "statusSuccess": "#007d48",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": '"Pretendard Variable", Pretendard, system-ui, sans-serif',
-      "h1": {
-        "fontSize": 36,
-        "lineHeight": 1.2,
-        "fontWeight": 700,
-        "letterSpacing": "-0.02em"
-      },
-      "h2": {
-        "fontSize": 32,
-        "lineHeight": 1.2,
-        "fontWeight": 500,
-        "letterSpacing": "0"
-      },
-      "h3": {
-        "fontSize": 24,
-        "lineHeight": 1.2,
-        "fontWeight": 500,
-        "letterSpacing": "0"
-      },
-      "h4": {
-        "fontSize": 16,
-        "lineHeight": 1.75,
-        "fontWeight": 500,
-        "letterSpacing": "0"
-      },
-      "h5": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1.45,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "body": {
-        "fontSize": 15,
-        "lineHeight": 1.55,
-        "fontWeight": 400,
-        "letterSpacing": "-0.005em"
-      },
-      "sm": {
-        "fontSize": 13,
-        "lineHeight": 1.5,
-        "fontWeight": 400,
-        "letterSpacing": "0em"
-      },
-      "xs": {
-        "fontSize": 11,
-        "lineHeight": 1.4,
-        "fontWeight": 500,
-        "letterSpacing": "0.01em"
-      }
-    },
-    "borderRadius": "24px"
-  },
-  {
-    "id": "nintendo-2001",
-    "name": "Nintendo.com (2001) Analysis",
-    "category": "Tech & Lifestyle",
-    "description": `An analysis of Nintendo.com's 2001 design language \u2014 a brushed-periwinkle \\"console chrome\\" interface where every panel is a beveled metal plate, navigation glows amber over a halftone-dotted carbon bar, and bold outlined display type sits`,
-    "designMdPath": "/design-md/nintendo-2001/DESIGN.md",
-    "color": {
-      "primary": '#e60012"          # Nintendo Red \u2014 racetrack logo, alert',
-      "primaryHover": '#e60012"          # Nintendo Red \u2014 racetrack logo, alert',
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": '#7a8aba"           # Periwinkle metallic \u2014 primary interface body',
-      "bgSecondary": '#ffffff"          # White \u2014 content cards, list-row highlight',
-      "textPrimary": '#21242e"              # primary text on light',
-      "textSecondary": "#8b95a1",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": '#5a5f8c"         # blended bevel divider',
-      "borderStrong": "#e5e8eb",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "Arial",
-      "h1": {
-        "fontSize": 36,
-        "lineHeight": 1.2,
-        "fontWeight": 700,
-        "letterSpacing": "-0.02em"
-      },
-      "h2": {
-        "fontSize": 28,
-        "lineHeight": 1.25,
-        "fontWeight": 700,
-        "letterSpacing": "-0.015em"
-      },
-      "h3": {
-        "fontSize": 22,
-        "lineHeight": 1.3,
-        "fontWeight": 600,
-        "letterSpacing": "-0.01em"
-      },
-      "h4": {
-        "fontSize": 18,
-        "lineHeight": 1.35,
-        "fontWeight": 600,
-        "letterSpacing": "-0.005em"
-      },
-      "h5": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1.45,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "body": {
-        "fontSize": 12,
-        "lineHeight": 1.4,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "sm": {
-        "fontSize": 13,
-        "lineHeight": 1.5,
-        "fontWeight": 400,
-        "letterSpacing": "0em"
-      },
-      "xs": {
-        "fontSize": 10,
-        "lineHeight": 1.3,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      }
-    },
-    "borderRadius": "6px"
-  },
-  {
-    "id": "notion",
-    "name": "Notion",
-    "category": "Tech & Lifestyle",
-    "description": "Notion presents itself as the all-in-one workspace through a confident, illustration-rich brand voice \u2014 anchored by a deep navy hero band ({colors.brand-navy}) decorated with brand-colored sticky-note dots and mesh wire illustrations, a sig",
-    "designMdPath": "/design-md/notion/DESIGN.md",
-    "color": {
-      "primary": "#5645d4",
-      "primaryHover": "#3a2a99",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#f6f5f4",
-      "textPrimary": "#1a1a1a",
-      "textSecondary": "#bbb8b1",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#e5e3df",
-      "borderStrong": "#c8c4be",
-      "statusSuccess": "#1aae39",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#dd5b00"
-    },
-    "typography": {
-      "fontFamily": "Notion Sans",
-      "h1": {
-        "fontSize": 80,
-        "lineHeight": 1.05,
-        "fontWeight": 600,
-        "letterSpacing": "-2px"
-      },
-      "h2": {
-        "fontSize": 56,
-        "lineHeight": 1.1,
-        "fontWeight": 600,
-        "letterSpacing": "-1px"
-      },
-      "h3": {
-        "fontSize": 22,
-        "lineHeight": 1.3,
-        "fontWeight": 600,
-        "letterSpacing": "-0.01em"
-      },
-      "h4": {
-        "fontSize": 18,
-        "lineHeight": 1.35,
-        "fontWeight": 600,
-        "letterSpacing": "-0.005em"
-      },
-      "h5": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1.45,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "body": {
-        "fontSize": 15,
-        "lineHeight": 1.55,
-        "fontWeight": 400,
-        "letterSpacing": "-0.005em"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 1.5,
-        "fontWeight": 400,
-        "letterSpacing": "0em"
-      },
-      "xs": {
-        "fontSize": 13,
-        "lineHeight": 1.4,
-        "fontWeight": 400,
-        "letterSpacing": "0.01em"
-      }
-    },
-    "borderRadius": "8px"
-  },
-  {
-    "id": "nvidia",
-    "name": "NVIDIA",
-    "category": "Tech & Lifestyle",
-    "description": "|",
-    "designMdPath": "/design-md/nvidia/DESIGN.md",
-    "color": {
-      "primary": "#76b900",
-      "primaryHover": "#76b900",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#f8f9fa",
-      "textPrimary": "#000000",
-      "textSecondary": "#8b95a1",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#cccccc",
-      "borderStrong": "#5e5e5e",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#df6500"
-    },
-    "typography": {
-      "fontFamily": "NVIDIA-EMEA",
-      "h1": {
-        "fontSize": 48,
-        "lineHeight": 1.25,
-        "fontWeight": 700,
-        "letterSpacing": "0"
-      },
-      "h2": {
-        "fontSize": 36,
-        "lineHeight": 1.25,
-        "fontWeight": 700,
-        "letterSpacing": "0"
-      },
-      "h3": {
-        "fontSize": 22,
-        "lineHeight": 1.75,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "h4": {
-        "fontSize": 17,
-        "lineHeight": 1.47,
-        "fontWeight": 700,
-        "letterSpacing": "0"
-      },
-      "h5": {
-        "fontSize": 18,
-        "lineHeight": 1.4,
-        "fontWeight": 700,
-        "letterSpacing": "0"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1.45,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "body": {
-        "fontSize": 15,
-        "lineHeight": 1.55,
-        "fontWeight": 400,
-        "letterSpacing": "-0.005em"
-      },
-      "sm": {
-        "fontSize": 15,
-        "lineHeight": 1.67,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "xs": {
-        "fontSize": 11,
-        "lineHeight": 1.4,
-        "fontWeight": 500,
-        "letterSpacing": "0.01em"
-      }
-    },
-    "borderRadius": "2px"
-  },
-  {
-    "id": "ollama",
-    "name": "Ollama",
-    "category": "AI & LLM",
-    "description": "|",
-    "designMdPath": "/design-md/ollama/DESIGN.md",
-    "color": {
-      "primary": "#000000",
-      "primaryHover": "#000000",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#ffffff",
-      "textPrimary": "#000000",
-      "textSecondary": "#8b95a1",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#e5e5e5",
-      "borderStrong": "#d4d4d4",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "SF Pro Rounded",
-      "h1": {
-        "fontSize": 36,
-        "lineHeight": 1.11,
-        "fontWeight": 500,
-        "letterSpacing": "0"
-      },
-      "h2": {
-        "fontSize": 30,
-        "lineHeight": 1.2,
-        "fontWeight": 500,
-        "letterSpacing": "0"
-      },
-      "h3": {
-        "fontSize": 24,
-        "lineHeight": 1.33,
-        "fontWeight": 600,
-        "letterSpacing": "0"
-      },
-      "h4": {
-        "fontSize": 20,
-        "lineHeight": 1.4,
-        "fontWeight": 500,
-        "letterSpacing": "0"
-      },
-      "h5": {
-        "fontSize": 18,
-        "lineHeight": 1.56,
-        "fontWeight": 500,
-        "letterSpacing": "0"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1.45,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "body": {
-        "fontSize": 15,
-        "lineHeight": 1.55,
-        "fontWeight": 400,
-        "letterSpacing": "-0.005em"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 1.43,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "xs": {
-        "fontSize": 11,
-        "lineHeight": 1.4,
-        "fontWeight": 500,
-        "letterSpacing": "0.01em"
-      }
-    },
-    "borderRadius": "8px"
-  },
-  {
-    "id": "opencode.ai",
-    "name": "OpenCode",
-    "category": "AI & LLM",
-    "description": "|",
-    "designMdPath": "/design-md/opencode.ai/DESIGN.md",
-    "color": {
-      "primary": "#201d1d",
-      "primaryHover": "#201d1d",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#fdfcfc",
-      "bgSecondary": "#f1eeee",
-      "textPrimary": "#201d1d",
-      "textSecondary": "#8b95a1",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "rgba(15,0,0,0.12)",
-      "borderStrong": "#646262",
-      "statusSuccess": "#30d158",
-      "statusDanger": "#ff3b30",
-      "statusWarning": "#ff9f0a"
-    },
-    "typography": {
-      "fontFamily": "Berkeley Mono",
-      "h1": {
-        "fontSize": 38,
-        "lineHeight": 1.5,
-        "fontWeight": 700,
-        "letterSpacing": "0"
-      },
-      "h2": {
-        "fontSize": 28,
-        "lineHeight": 1.25,
-        "fontWeight": 700,
-        "letterSpacing": "-0.015em"
-      },
-      "h3": {
-        "fontSize": 22,
-        "lineHeight": 1.3,
-        "fontWeight": 600,
-        "letterSpacing": "-0.01em"
-      },
-      "h4": {
-        "fontSize": 16,
-        "lineHeight": 1.5,
-        "fontWeight": 700,
-        "letterSpacing": "0"
-      },
-      "h5": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1.45,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "body": {
-        "fontSize": 15,
-        "lineHeight": 1.55,
-        "fontWeight": 400,
-        "letterSpacing": "-0.005em"
-      },
-      "sm": {
-        "fontSize": 13,
-        "lineHeight": 1.5,
-        "fontWeight": 400,
-        "letterSpacing": "0em"
-      },
-      "xs": {
-        "fontSize": 11,
-        "lineHeight": 1.4,
-        "fontWeight": 500,
-        "letterSpacing": "0.01em"
-      }
-    },
-    "borderRadius": "4px"
-  },
-  {
-    "id": "oracle",
-    "name": "Oracle Analysis",
-    "category": "Tech & Lifestyle",
-    "description": "An analysis of Oracle's design language \u2014 an enterprise system built on a warm neutral ladder rather than a colour palette. Six numbered greys carry almost every surface, a single dark charcoal carries every action, and the famous red is he",
-    "designMdPath": "/design-md/oracle/DESIGN.md",
-    "color": {
-      "primary": "#312d2a",
-      "primaryHover": "#312d2a",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#fbf9f8",
-      "textPrimary": "#161513",
-      "textSecondary": "#8b95a1",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#e4e1dd",
-      "borderStrong": "#e5e8eb",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "Oracle Sans",
-      "h1": {
-        "fontSize": 36,
-        "lineHeight": 1.2,
-        "fontWeight": 700,
-        "letterSpacing": "-0.02em"
-      },
-      "h2": {
-        "fontSize": 28,
-        "lineHeight": 33.6,
-        "fontWeight": 800,
-        "letterSpacing": "0"
-      },
-      "h3": {
-        "fontSize": 24,
-        "lineHeight": 28.8,
-        "fontWeight": 800,
-        "letterSpacing": "0"
-      },
-      "h4": {
-        "fontSize": 20,
-        "lineHeight": 24,
-        "fontWeight": 800,
-        "letterSpacing": "0"
-      },
-      "h5": {
-        "fontSize": 24,
-        "lineHeight": 33.6,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 16.8,
-        "fontWeight": 500,
-        "letterSpacing": "0"
-      },
-      "body": {
-        "fontSize": 16,
-        "lineHeight": 22.4,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "sm": {
-        "fontSize": 12,
-        "lineHeight": 20,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "xs": {
-        "fontSize": 12,
-        "lineHeight": 20,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      }
-    },
-    "borderRadius": "8px"
-  },
-  {
-    "id": "oura",
-    "name": "Oura Analysis",
-    "category": "Tech & Lifestyle",
-    "description": "An analysis of Oura's design language \u2014 a warm-paper wellness system that pairs a high-contrast Editorial serif with a quiet grotesque sans, wraps every surface in a cream-and-earth palette drawn from mustard, clay and olive, and drives con",
-    "designMdPath": "/design-md/oura/DESIGN.md",
-    "color": {
-      "primary": "#2a72de",
-      "primaryHover": "#2a72de",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#f7f1e8",
-      "bgSecondary": "#ffffff",
-      "textPrimary": "#1c1b1a",
-      "textSecondary": "#8b95a1",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#e1dcd3",
-      "borderStrong": "#e5e8eb",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "AkkuratLL",
-      "h1": {
-        "fontSize": 36,
-        "lineHeight": 1.2,
-        "fontWeight": 700,
-        "letterSpacing": "-0.02em"
-      },
-      "h2": {
-        "fontSize": 80,
-        "lineHeight": 1.1,
-        "fontWeight": 300,
-        "letterSpacing": "0"
-      },
-      "h3": {
-        "fontSize": 22,
-        "lineHeight": 1.3,
-        "fontWeight": 600,
-        "letterSpacing": "-0.01em"
-      },
-      "h4": {
-        "fontSize": 24,
-        "lineHeight": 1.25,
-        "fontWeight": 100,
-        "letterSpacing": "0"
-      },
-      "h5": {
-        "fontSize": 24,
-        "lineHeight": 1.25,
-        "fontWeight": 100,
-        "letterSpacing": "0"
-      },
-      "h6": {
-        "fontSize": 16,
-        "lineHeight": 1,
-        "fontWeight": 600,
-        "letterSpacing": "0"
-      },
-      "body": {
-        "fontSize": 18,
-        "lineHeight": 1.5,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "sm": {
-        "fontSize": 16,
-        "lineHeight": 1.5,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "xs": {
-        "fontSize": 13,
-        "lineHeight": 1.4,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      }
-    },
-    "borderRadius": "12px"
-  },
-  {
-    "id": "pinterest",
-    "name": "Pinterest",
-    "category": "Tech & Lifestyle",
-    "description": "|",
-    "designMdPath": "/design-md/pinterest/DESIGN.md",
-    "color": {
-      "primary": "#e60023",
-      "primaryHover": "#e60023",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#f6f6f3",
-      "textPrimary": "#000000",
-      "textSecondary": "#8b95a1",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#dadad3",
-      "borderStrong": "#e5e8eb",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "Pin Sans",
-      "h1": {
-        "fontSize": 70,
-        "lineHeight": 1.1,
-        "fontWeight": 600,
-        "letterSpacing": "-1.2px"
-      },
-      "h2": {
-        "fontSize": 44,
-        "lineHeight": 1.15,
-        "fontWeight": 700,
-        "letterSpacing": "-0.8px"
-      },
-      "h3": {
-        "fontSize": 22,
-        "lineHeight": 1.25,
-        "fontWeight": 600,
-        "letterSpacing": "0"
-      },
-      "h4": {
-        "fontSize": 18,
-        "lineHeight": 1.3,
-        "fontWeight": 600,
-        "letterSpacing": "0"
-      },
-      "h5": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1.45,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "body": {
-        "fontSize": 15,
-        "lineHeight": 1.55,
-        "fontWeight": 400,
-        "letterSpacing": "-0.005em"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 1.4,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "xs": {
-        "fontSize": 11,
-        "lineHeight": 1.4,
-        "fontWeight": 500,
-        "letterSpacing": "0.01em"
-      }
-    },
-    "borderRadius": "16px"
-  },
-  {
-    "id": "playstation",
-    "name": "PlayStation",
-    "category": "Tech & Lifestyle",
-    "description": "|",
-    "designMdPath": "/design-md/playstation/DESIGN.md",
-    "color": {
-      "primary": "#0070d1",
-      "primaryHover": "#0070d1",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#f5f7fa",
-      "textPrimary": "#000000",
-      "textSecondary": "#8b95a1",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#f2f4f6",
-      "borderStrong": "#e5e8eb",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#c81b3a"
-    },
-    "typography": {
-      "fontFamily": "PlayStation SST",
-      "h1": {
-        "fontSize": 54,
-        "lineHeight": 1.25,
-        "fontWeight": 300,
-        "letterSpacing": "-0.1px"
-      },
-      "h2": {
-        "fontSize": 44,
-        "lineHeight": 1.25,
-        "fontWeight": 300,
-        "letterSpacing": "0.1px"
-      },
-      "h3": {
-        "fontSize": 35,
-        "lineHeight": 1.25,
-        "fontWeight": 300,
-        "letterSpacing": "0"
-      },
-      "h4": {
-        "fontSize": 18,
-        "lineHeight": 1,
-        "fontWeight": 600,
-        "letterSpacing": "0"
-      },
-      "h5": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1.45,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "body": {
-        "fontSize": 15,
-        "lineHeight": 1.55,
-        "fontWeight": 400,
-        "letterSpacing": "-0.005em"
-      },
-      "sm": {
-        "fontSize": 16,
-        "lineHeight": 1.5,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "xs": {
-        "fontSize": 11,
-        "lineHeight": 1.4,
-        "fontWeight": 500,
-        "letterSpacing": "0.01em"
-      }
-    },
-    "borderRadius": "8px"
-  },
-  {
-    "id": "posthog",
-    "name": "PostHog",
-    "category": "Tech & Lifestyle",
-    "description": "|",
-    "designMdPath": "/design-md/posthog/DESIGN.md",
-    "color": {
-      "primary": "#f7a501",
-      "primaryHover": "#f7a501",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#eeefe9",
-      "bgSecondary": "#ffffff",
-      "textPrimary": "#23251d",
-      "textSecondary": "#8b95a1",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#bfc1b7",
-      "borderStrong": "#e5e8eb",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "IBM Plex Sans Variable",
-      "h1": {
-        "fontSize": 36,
-        "lineHeight": 1.5,
-        "fontWeight": 700,
-        "letterSpacing": "0"
-      },
-      "h2": {
-        "fontSize": 24,
-        "lineHeight": 1.33,
-        "fontWeight": 800,
-        "letterSpacing": "-0.6px"
-      },
-      "h3": {
-        "fontSize": 21,
-        "lineHeight": 1.4,
-        "fontWeight": 700,
-        "letterSpacing": "-0.5px"
-      },
-      "h4": {
-        "fontSize": 20,
-        "lineHeight": 1.4,
-        "fontWeight": 700,
-        "letterSpacing": "0"
-      },
-      "h5": {
-        "fontSize": 18,
-        "lineHeight": 1.5,
-        "fontWeight": 700,
-        "letterSpacing": "0"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1.45,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "body": {
-        "fontSize": 15,
-        "lineHeight": 1.55,
-        "fontWeight": 400,
-        "letterSpacing": "-0.005em"
-      },
-      "sm": {
-        "fontSize": 15,
-        "lineHeight": 1.71,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "xs": {
-        "fontSize": 11,
-        "lineHeight": 1.4,
-        "fontWeight": 500,
-        "letterSpacing": "0.01em"
-      }
-    },
-    "borderRadius": "6px"
-  },
-  {
-    "id": "raycast",
-    "name": "Raycast",
-    "category": "Developer Tools",
-    "description": "|",
-    "designMdPath": "/design-md/raycast/DESIGN.md",
-    "color": {
-      "primary": "#ffffff",
-      "primaryHover": "#ffffff",
-      "primaryLight": "#ffffff26",
-      "bgPrimary": "#07080a",
-      "bgSecondary": "#0d0d0d",
-      "textPrimary": "#f4f4f6",
-      "textSecondary": "#9aa1b1",
-      "textMuted": "#5c6470",
-      "borderSubtle": "#242728",
-      "borderStrong": "rgba(255,255,255,0.16)",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "Inter",
-      "h1": {
-        "fontSize": 64,
-        "lineHeight": 1.1,
-        "fontWeight": 600,
-        "letterSpacing": "0"
-      },
-      "h2": {
-        "fontSize": 56,
-        "lineHeight": 1.17,
-        "fontWeight": 500,
-        "letterSpacing": "0.2px"
-      },
-      "h3": {
-        "fontSize": 22,
-        "lineHeight": 1.15,
-        "fontWeight": 500,
-        "letterSpacing": "0"
-      },
-      "h4": {
-        "fontSize": 20,
-        "lineHeight": 1.4,
-        "fontWeight": 500,
-        "letterSpacing": "0.2px"
-      },
-      "h5": {
-        "fontSize": 18,
-        "lineHeight": 1.4,
-        "fontWeight": 500,
-        "letterSpacing": "0.2px"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1.45,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "body": {
-        "fontSize": 18,
-        "lineHeight": 1.6,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 1.6,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "xs": {
-        "fontSize": 11,
-        "lineHeight": 1.4,
-        "fontWeight": 500,
-        "letterSpacing": "0.01em"
-      }
-    },
-    "borderRadius": "8px"
-  },
-  {
-    "id": "renault",
-    "name": "Renault",
-    "category": "Automotive & Luxury",
-    "description": "|",
-    "designMdPath": "/design-md/renault/DESIGN.md",
-    "color": {
-      "primary": "#ffed00",
-      "primaryHover": "#e6d200",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#ffffff",
-      "textPrimary": "#000000",
-      "textSecondary": "#8b95a1",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#f2f2f2",
-      "borderStrong": "#000000",
-      "statusSuccess": "#8dc572",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f0ad4e"
-    },
-    "typography": {
-      "fontFamily": "NouvelR",
-      "h1": {
-        "fontSize": 56,
-        "lineHeight": 0.95,
-        "fontWeight": 700,
-        "letterSpacing": "0"
-      },
-      "h2": {
-        "fontSize": 40,
-        "lineHeight": 0.95,
-        "fontWeight": 700,
-        "letterSpacing": "0"
-      },
-      "h3": {
-        "fontSize": 32,
-        "lineHeight": 0.95,
-        "fontWeight": 700,
-        "letterSpacing": "0"
-      },
-      "h4": {
-        "fontSize": 20,
-        "lineHeight": 0.95,
-        "fontWeight": 700,
-        "letterSpacing": "0"
-      },
-      "h5": {
-        "fontSize": 18,
-        "lineHeight": 1,
-        "fontWeight": 700,
-        "letterSpacing": "0"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1.45,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "body": {
-        "fontSize": 18,
-        "lineHeight": 1.5,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 1.57,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "xs": {
-        "fontSize": 12,
-        "lineHeight": 1.4,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      }
-    },
-    "borderRadius": "4px"
-  },
-  {
-    "id": "replicate",
-    "name": "Replicate",
-    "category": "AI & LLM",
-    "description": "|",
-    "designMdPath": "/design-md/replicate/DESIGN.md",
-    "color": {
-      "primary": "#ea2804",
-      "primaryHover": "#c01f00",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#f9f7f3",
-      "bgSecondary": "#ffffff",
-      "textPrimary": "#202020",
-      "textSecondary": "#8b95a1",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "rgba(32,32,32,0.12)",
-      "borderStrong": "#202020",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "rb-freigeist-neue",
-      "h1": {
-        "fontSize": 72,
-        "lineHeight": 1,
-        "fontWeight": 700,
-        "letterSpacing": "-1.8px"
-      },
-      "h2": {
-        "fontSize": 48,
-        "lineHeight": 1,
-        "fontWeight": 700,
-        "letterSpacing": "-1px"
-      },
-      "h3": {
-        "fontSize": 30,
-        "lineHeight": 1.2,
-        "fontWeight": 600,
-        "letterSpacing": "-0.5px"
-      },
-      "h4": {
-        "fontSize": 24,
-        "lineHeight": 1.33,
-        "fontWeight": 600,
-        "letterSpacing": "-0.35px"
-      },
-      "h5": {
-        "fontSize": 20,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "-0.3px"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1.45,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "body": {
-        "fontSize": 18,
-        "lineHeight": 1.56,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 1.43,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "xs": {
-        "fontSize": 12,
-        "lineHeight": 1.33,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      }
-    },
-    "borderRadius": "10px"
-  },
-  {
-    "id": "resend",
-    "name": "Resend",
-    "category": "Tech & Lifestyle",
-    "description": "|",
-    "designMdPath": "/design-md/resend/DESIGN.md",
-    "color": {
-      "primary": "#fcfdff",
-      "primaryHover": "#fcfdff",
-      "primaryLight": "#fcfdff26",
-      "bgPrimary": "#000000",
-      "bgSecondary": "#0a0a0c",
-      "textPrimary": "#fcfdff",
-      "textSecondary": "#9aa1b1",
-      "textMuted": "#5c6470",
-      "borderSubtle": "rgba(255,255,255,0.06)",
-      "borderStrong": "rgba(255,255,255,0.14)",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "Domaine Display",
-      "h1": {
-        "fontSize": 768,
-        "lineHeight": 1,
-        "fontWeight": 400,
-        "letterSpacing": "-0.768px"
-      },
-      "h2": {
-        "fontSize": 56,
-        "lineHeight": 1.2,
-        "fontWeight": 400,
-        "letterSpacing": "-2.8px"
-      },
-      "h3": {
-        "fontSize": 22,
-        "lineHeight": 1.3,
-        "fontWeight": 600,
-        "letterSpacing": "-0.01em"
-      },
-      "h4": {
-        "fontSize": 24,
-        "lineHeight": 1.5,
-        "fontWeight": 500,
-        "letterSpacing": "-0.4px"
-      },
-      "h5": {
-        "fontSize": 20,
-        "lineHeight": 1.3,
-        "fontWeight": 500,
-        "letterSpacing": "-0.3px"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1.45,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "body": {
-        "fontSize": 18,
-        "lineHeight": 1.5,
-        "fontWeight": 400,
-        "letterSpacing": "-0.005em"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 1.43,
-        "fontWeight": 400,
-        "letterSpacing": "0em"
-      },
-      "xs": {
-        "fontSize": 12,
-        "lineHeight": 1.5,
-        "fontWeight": 400,
-        "letterSpacing": "0.01em"
-      }
-    },
-    "borderRadius": "8px"
-  },
-  {
-    "id": "revolut",
-    "name": "Revolut",
-    "category": "Fintech & Web3",
-    "description": "|",
-    "designMdPath": "/design-md/revolut/DESIGN.md",
-    "color": {
-      "primary": "#494fdf",
-      "primaryHover": "#3a40c4",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#ffffff",
-      "textPrimary": "#191c1f",
-      "textSecondary": "#8b95a1",
-      "textMuted": "#c9c9cd",
-      "borderSubtle": "rgba(255,255,255,0.06)",
-      "borderStrong": "#191c1f",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "Aeonik Pro",
-      "h1": {
-        "fontSize": 80,
-        "lineHeight": 1,
-        "fontWeight": 500,
-        "letterSpacing": "-0.8px"
-      },
-      "h2": {
-        "fontSize": 48,
-        "lineHeight": 1.21,
-        "fontWeight": 500,
-        "letterSpacing": "-0.48px"
-      },
-      "h3": {
-        "fontSize": 40,
-        "lineHeight": 1.2,
-        "fontWeight": 500,
-        "letterSpacing": "-0.4px"
-      },
-      "h4": {
-        "fontSize": 24,
-        "lineHeight": 1.33,
-        "fontWeight": 500,
-        "letterSpacing": "0"
-      },
-      "h5": {
-        "fontSize": 20,
-        "lineHeight": 1.4,
-        "fontWeight": 500,
-        "letterSpacing": "0"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1.45,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "body": {
-        "fontSize": 18,
-        "lineHeight": 1.56,
-        "fontWeight": 400,
-        "letterSpacing": "-0.09px"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 1.43,
-        "fontWeight": 400,
-        "letterSpacing": "0em"
-      },
-      "xs": {
-        "fontSize": 13,
-        "lineHeight": 1.4,
-        "fontWeight": 400,
-        "letterSpacing": "0.01em"
-      }
-    },
-    "borderRadius": "12px"
-  },
-  {
-    "id": "sap",
-    "name": "SAP Analysis",
-    "category": "Tech & Lifestyle",
-    "description": "An analysis of SAP's design language \u2014 an enterprise system that keeps almost everything on white and spends its structure on two greys and one blue. The chrome is deliberately quiet, a 60px light-grey bar over a product tab rail, so the pa",
-    "designMdPath": "/design-md/sap/DESIGN.md",
-    "color": {
-      "primary": "#0057d2",
-      "primaryHover": "#0040b0",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#f8f9fa",
-      "textPrimary": "#000000",
-      "textSecondary": "#8b95a1",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#475e75",
-      "borderStrong": "#e5e8eb",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "72 Brand Variable",
-      "h1": {
-        "fontSize": 36,
-        "lineHeight": 1.2,
-        "fontWeight": 700,
-        "letterSpacing": "-0.02em"
-      },
-      "h2": {
-        "fontSize": 28,
-        "lineHeight": 1.25,
-        "fontWeight": 700,
-        "letterSpacing": "-0.015em"
-      },
-      "h3": {
-        "fontSize": 22,
-        "lineHeight": 1.3,
-        "fontWeight": 600,
-        "letterSpacing": "-0.01em"
-      },
-      "h4": {
-        "fontSize": 20,
-        "lineHeight": 22,
-        "fontWeight": 500,
-        "letterSpacing": "0"
-      },
-      "h5": {
-        "fontSize": 20,
-        "lineHeight": 22,
-        "fontWeight": 500,
-        "letterSpacing": "0"
-      },
-      "h6": {
-        "fontSize": 16,
-        "lineHeight": 17.6,
-        "fontWeight": 500,
-        "letterSpacing": "0"
-      },
-      "body": {
-        "fontSize": 18,
-        "lineHeight": 27,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 21,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "xs": {
-        "fontSize": 14,
-        "lineHeight": 21,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      }
-    },
-    "borderRadius": "8px"
-  },
-  {
-    "id": "sentry",
-    "name": "Sentri",
-    "category": "Developer Tools",
-    "description": "An inspired interpretation of Sentri's design language \u2014 a developer-tools brand built on a deep purple-violet midnight canvas, electric lime accents, and a slightly subversive illustrated personality. The system pairs a custom display sans",
-    "designMdPath": "/design-md/sentry/DESIGN.md",
-    "color": {
-      "primary": "#150f23",
-      "primaryHover": "#150f23",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#f8f9fa",
-      "textPrimary": "#1f1633",
-      "textSecondary": "#8b95a1",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#f2f4f6",
-      "borderStrong": "#e5e8eb",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "Rubik, -apple-system, system-ui, sans-serif",
-      "h1": {
-        "fontSize": 36,
-        "lineHeight": 1.2,
-        "fontWeight": 700,
-        "letterSpacing": "-0.02em"
-      },
-      "h2": {
-        "fontSize": 30,
-        "lineHeight": 1.2,
-        "fontWeight": 500,
-        "letterSpacing": "0"
-      },
-      "h3": {
-        "fontSize": 27,
-        "lineHeight": 1.25,
-        "fontWeight": 500,
-        "letterSpacing": "0"
-      },
-      "h4": {
-        "fontSize": 24,
-        "lineHeight": 1.25,
-        "fontWeight": 500,
-        "letterSpacing": "0"
-      },
-      "h5": {
-        "fontSize": 20,
-        "lineHeight": 1.25,
-        "fontWeight": 600,
-        "letterSpacing": "0"
-      },
-      "h6": {
-        "fontSize": 15,
-        "lineHeight": 1.4,
-        "fontWeight": 500,
-        "letterSpacing": "0"
-      },
-      "body": {
-        "fontSize": 16,
-        "lineHeight": 2,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 1.43,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "xs": {
-        "fontSize": 14,
-        "lineHeight": 1.43,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      }
-    },
-    "borderRadius": "8px"
-  },
-  {
-    "id": "shopify",
-    "name": "Shopifi",
-    "category": "Tech & Lifestyle",
-    "description": "An inspired interpretation of Shopifi's design language \u2014 a cinematic commerce platform that runs two parallel design tracks. The marketing-hero and product-narrative pages live on near-black canvases with full-bleed photography of merchant",
-    "designMdPath": "/design-md/shopify/DESIGN.md",
-    "color": {
-      "primary": "#000000",
-      "primaryHover": "#000000",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#f8f9fa",
-      "textPrimary": "#000000",
-      "textSecondary": "#8b95a1",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#f2f4f6",
-      "borderStrong": "#e5e8eb",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "NeueHaasGrotesk Display, Helvetica, Arial, sans-serif",
-      "h1": {
-        "fontSize": 70,
-        "lineHeight": 1,
-        "fontWeight": 330,
-        "letterSpacing": "0"
-      },
-      "h2": {
-        "fontSize": 55,
-        "lineHeight": 1.16,
-        "fontWeight": 330,
-        "letterSpacing": "0"
-      },
-      "h3": {
-        "fontSize": 48,
-        "lineHeight": 1.14,
-        "fontWeight": 330,
-        "letterSpacing": "0"
-      },
-      "h4": {
-        "fontSize": 20,
-        "lineHeight": 1.4,
-        "fontWeight": 500,
-        "letterSpacing": "0.3px"
-      },
-      "h5": {
-        "fontSize": 18,
-        "lineHeight": 1.25,
-        "fontWeight": 500,
-        "letterSpacing": "0.72px"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1.45,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "body": {
-        "fontSize": 18,
-        "lineHeight": 1.56,
-        "fontWeight": 550,
-        "letterSpacing": "0"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 1.49,
-        "fontWeight": 500,
-        "letterSpacing": "0.28px"
-      },
-      "xs": {
-        "fontSize": 14,
-        "lineHeight": 1.49,
-        "fontWeight": 500,
-        "letterSpacing": "0.28px"
-      }
-    },
-    "borderRadius": "8px"
-  },
-  {
-    "id": "slack",
-    "name": "Slacc",
-    "category": "Tech & Lifestyle",
-    "description": "An inspired interpretation of Slacc's design language \u2014 a workplace messaging brand built on a deep aubergine primary, with cream-lavender hero gradients, blue inline links, and pill CTAs. The system pairs a proprietary humanist sans for di",
-    "designMdPath": "/design-md/slack/DESIGN.md",
-    "color": {
-      "primary": "#4a154b",
-      "primaryHover": "#481a54",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#f8f9fa",
-      "textPrimary": "#1d1d1d",
-      "textSecondary": "#8b95a1",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#e6e6e6",
-      "borderStrong": "#000000",
-      "statusSuccess": "#007a5a",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "Salesforce-Avant-Garde, system-ui, -apple-system, BlinkMacSystemFont, sans-serif",
-      "h1": {
-        "fontSize": 58,
-        "lineHeight": 1.25,
-        "fontWeight": 600,
-        "letterSpacing": "-0.464px"
-      },
-      "h2": {
-        "fontSize": 50,
-        "lineHeight": 1.12,
-        "fontWeight": 700,
-        "letterSpacing": "-0.6px"
-      },
-      "h3": {
-        "fontSize": 32,
-        "lineHeight": 1.25,
-        "fontWeight": 700,
-        "letterSpacing": "-0.256px"
-      },
-      "h4": {
-        "fontSize": 22,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "0"
-      },
-      "h5": {
-        "fontSize": 18,
-        "lineHeight": 1.56,
-        "fontWeight": 600,
-        "letterSpacing": "-0.0216px"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1.45,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "body": {
-        "fontSize": 18,
-        "lineHeight": 1.55,
-        "fontWeight": 400,
-        "letterSpacing": "-0.0216px"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 1.43,
-        "fontWeight": 400,
-        "letterSpacing": "0.1px"
-      },
-      "xs": {
-        "fontSize": 14,
-        "lineHeight": 1.43,
-        "fontWeight": 400,
-        "letterSpacing": "0.1px"
-      }
-    },
-    "borderRadius": "8px"
-  },
-  {
-    "id": "spacex",
-    "name": "Spacex",
-    "category": "Automotive & Luxury",
-    "description": "An inspired interpretation of Spasex's design language \u2014 a mission-oriented aerospace brand built on pure black canvas, full-bleed photographic and video heroes of rockets and Mars landscapes, and uppercase D-DIN display type set in tight v",
-    "designMdPath": "/design-md/spacex/DESIGN.md",
-    "color": {
-      "primary": "#000000",
-      "primaryHover": "#000000",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#f8f9fa",
-      "textPrimary": "#000000",
-      "textSecondary": "#8b95a1",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#f2f4f6",
-      "borderStrong": "#e5e8eb",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "D-DIN-Bold, Arial Narrow, Arial, Verdana, sans-serif",
-      "h1": {
-        "fontSize": 60,
-        "lineHeight": 1.2,
-        "fontWeight": 700,
-        "letterSpacing": "1.2px"
-      },
-      "h2": {
-        "fontSize": 48,
-        "lineHeight": 1.25,
-        "fontWeight": 700,
-        "letterSpacing": "0.96px"
-      },
-      "h3": {
-        "fontSize": 22,
-        "lineHeight": 1.3,
-        "fontWeight": 600,
-        "letterSpacing": "-0.01em"
-      },
-      "h4": {
-        "fontSize": 18,
-        "lineHeight": 1.35,
-        "fontWeight": 600,
-        "letterSpacing": "-0.005em"
-      },
-      "h5": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1.45,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "body": {
-        "fontSize": 16,
-        "lineHeight": 1.7,
-        "fontWeight": 400,
-        "letterSpacing": "0.32px"
-      },
-      "sm": {
-        "fontSize": 13008,
-        "lineHeight": 1.5,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "xs": {
-        "fontSize": 13008,
-        "lineHeight": 1.5,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      }
-    },
-    "borderRadius": "16px"
-  },
-  {
-    "id": "stripe",
-    "name": "Stripi",
-    "category": "Fintech & Web3",
-    "description": "An inspired interpretation of Stripi's design language \u2014 a financial-infrastructure brand built on a deep navy ink, an electric indigo primary, and a recurring atmospheric gradient mesh that occupies the upper third of nearly every marketin",
-    "designMdPath": "/design-md/stripe/DESIGN.md",
-    "color": {
-      "primary": "#533afd",
-      "primaryHover": "#4434d4",
-      "primaryLight": "#665efd",
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#f6f9fc",
-      "textPrimary": "#0d253d",
-      "textSecondary": "#273951",
-      "textMuted": "#61718a",
-      "borderSubtle": "#e3e8ee",
-      "borderStrong": "#a8c3de",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#ea2261",
-      "statusWarning": "#9b6829"
-    },
-    "typography": {
-      "fontFamily": "sohne-var, 'SF Pro Display', system-ui, -apple-system, sans-serif",
-      "h1": {
-        "fontSize": 48,
-        "lineHeight": 1.15,
-        "fontWeight": 300,
-        "letterSpacing": "-0.96px"
-      },
-      "h2": {
-        "fontSize": 32,
-        "lineHeight": 1.1,
-        "fontWeight": 300,
-        "letterSpacing": "-0.64px"
-      },
-      "h3": {
-        "fontSize": 26,
-        "lineHeight": 1.12,
-        "fontWeight": 300,
-        "letterSpacing": "-0.26px"
-      },
-      "h4": {
-        "fontSize": 20,
-        "lineHeight": 1.4,
-        "fontWeight": 300,
-        "letterSpacing": "-0.2px"
-      },
-      "h5": {
-        "fontSize": 18,
-        "lineHeight": 1.4,
-        "fontWeight": 300,
-        "letterSpacing": "0"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1.45,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "body": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 300,
-        "letterSpacing": "0"
-      },
-      "sm": {
-        "fontSize": 13,
-        "lineHeight": 1.4,
-        "fontWeight": 400,
-        "letterSpacing": "-0.39px"
-      },
-      "xs": {
-        "fontSize": 13,
-        "lineHeight": 1.4,
-        "fontWeight": 400,
-        "letterSpacing": "-0.39px"
-      }
-    },
-    "borderRadius": "8px"
-  },
-  {
-    "id": "supabase",
-    "name": "Supabaze",
-    "category": "Tech & Lifestyle",
-    "description": "An inspired interpretation of Supabaze's design language \u2014 an open-source database platform built on a clean white-and-near-black system with a single signature emerald-green CTA, a custom humanist sans display tier, and dense product UI mo",
-    "designMdPath": "/design-md/supabase/DESIGN.md",
-    "color": {
-      "primary": "#3ecf8e",
-      "primaryHover": "#24b47e",
-      "primaryLight": "#4ade80",
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#fafafa",
-      "textPrimary": "#171717",
-      "textSecondary": "#212121",
-      "textMuted": "#9a9a9a",
-      "borderSubtle": "#dfdfdf",
-      "borderStrong": "#c7c7c7",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "Circular, 'Helvetica Neue', Helvetica, Arial, sans-serif",
-      "h1": {
-        "fontSize": 48,
-        "lineHeight": 1.1,
-        "fontWeight": 500,
-        "letterSpacing": "-1.44px"
-      },
-      "h2": {
-        "fontSize": 36,
-        "lineHeight": 1.15,
-        "fontWeight": 500,
-        "letterSpacing": "-0.72px"
-      },
-      "h3": {
-        "fontSize": 28,
-        "lineHeight": 1.2,
-        "fontWeight": 500,
-        "letterSpacing": "-0.42px"
-      },
-      "h4": {
-        "fontSize": 18,
-        "lineHeight": 1.4,
-        "fontWeight": 500,
-        "letterSpacing": "0"
-      },
-      "h5": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1.45,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "body": {
-        "fontSize": 18,
-        "lineHeight": 1.55,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "sm": {
-        "fontSize": 13,
-        "lineHeight": 1.45,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      },
-      "xs": {
-        "fontSize": 13,
-        "lineHeight": 1.45,
-        "fontWeight": 400,
-        "letterSpacing": "0"
-      }
-    },
-    "borderRadius": "8px"
-  },
-  {
-    "id": "superhuman",
-    "name": "Superhumon",
-    "category": "Developer Tools",
-    "description": "An inspired interpretation of Superhumon's design language \u2014 a fast-email productivity brand split between an editorial dark hero (deep indigo navy with violet-sky atmospheric backdrop and a portrait subject) and a quiet white content body ",
-    "designMdPath": "/design-md/superhuman/DESIGN.md",
-    "color": {
-      "primary": "#1b1938",
-      "primaryHover": "#0e0c1f",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#fafaf8",
-      "textPrimary": "#292827",
-      "textSecondary": "#8b95a1",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#e8e4dd",
-      "borderStrong": "#e5e8eb",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "'Super Sans VF', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif",
-      "h1": {
-        "fontSize": 48,
-        "lineHeight": 0.96,
-        "fontWeight": 460,
-        "letterSpacing": "-1.32px"
-      },
-      "h2": {
-        "fontSize": 28,
-        "lineHeight": 1.14,
-        "fontWeight": 540,
-        "letterSpacing": "-0.63px"
-      },
-      "h3": {
-        "fontSize": 22,
-        "lineHeight": 1.1,
-        "fontWeight": 460,
-        "letterSpacing": "-0.315px"
-      },
-      "h4": {
-        "fontSize": 18,
-        "lineHeight": 1.35,
-        "fontWeight": 600,
-        "letterSpacing": "-0.005em"
-      },
-      "h5": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1.45,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "body": {
-        "fontSize": 18,
-        "lineHeight": 1.5,
-        "fontWeight": 540,
-        "letterSpacing": "-0.135px"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 1.4,
-        "fontWeight": 460,
-        "letterSpacing": "0"
-      },
-      "xs": {
-        "fontSize": 14,
-        "lineHeight": 1.4,
-        "fontWeight": 460,
-        "letterSpacing": "0"
-      }
-    },
-    "borderRadius": "8px"
-  },
-  {
-    "id": "together.ai",
-    "name": "Together-AI",
-    "category": "AI & LLM",
-    "description": "An inspired interpretation of Together AI's design language \u2014 an AI infrastructure platform whose surface alternates between near-black hero bands (with a three-color orange-magenta-periwinkle gradient as the single piece of brand chrome) a",
-    "designMdPath": "/design-md/together.ai/DESIGN.md",
-    "color": {
-      "primary": "#000000",
-      "primaryHover": "#000000",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#f8f9fa",
-      "textPrimary": "#000000",
-      "textSecondary": "#8b95a1",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#959494",
-      "borderStrong": "#e5e8eb",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "The Future, Inter, Helvetica Neue, Arial, sans-serif",
-      "h1": {
-        "fontSize": 40,
-        "lineHeight": 48,
-        "fontWeight": 500,
-        "letterSpacing": "-0.8px"
-      },
-      "h2": {
-        "fontSize": 28,
-        "lineHeight": 32.2,
-        "fontWeight": 500,
-        "letterSpacing": "-0.42px"
-      },
-      "h3": {
-        "fontSize": 22,
-        "lineHeight": 25.3,
-        "fontWeight": 500,
-        "letterSpacing": "-0.22px"
-      },
-      "h4": {
-        "fontSize": 18,
-        "lineHeight": 1.35,
-        "fontWeight": 600,
-        "letterSpacing": "-0.005em"
-      },
-      "h5": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1.45,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "body": {
-        "fontSize": 18,
-        "lineHeight": 23.4,
-        "fontWeight": 400,
-        "letterSpacing": "-0.18px"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 19.6,
-        "fontWeight": 400,
-        "letterSpacing": "0em"
-      },
-      "xs": {
-        "fontSize": 14,
-        "lineHeight": 19.6,
-        "fontWeight": 400,
-        "letterSpacing": "0.01em"
-      }
-    },
-    "borderRadius": "8px"
-  },
-  {
-    "id": "uber",
-    "name": "Uber",
-    "category": "Tech & Lifestyle",
-    "description": "An inspired interpretation of Uber's design language \u2014 a transportation-and-delivery super-app brand whose web surface is a black-and-white duet, framed by a custom geometric display sans, accented by a single signature pill shape (radius 9",
-    "designMdPath": "/design-md/uber/DESIGN.md",
-    "color": {
-      "primary": "#000000",
-      "primaryHover": "#000000",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#efefef",
-      "textPrimary": "#000000",
-      "textSecondary": "#8b95a1",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#f2f4f6",
-      "borderStrong": "#e5e8eb",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "UberMove, UberMoveText, system-ui, Helvetica Neue, Arial, sans-serif",
-      "h1": {
-        "fontSize": 36,
-        "lineHeight": 44,
-        "fontWeight": 700,
-        "letterSpacing": "-0.02em"
-      },
-      "h2": {
-        "fontSize": 32,
-        "lineHeight": 40,
-        "fontWeight": 700,
-        "letterSpacing": "-0.015em"
-      },
-      "h3": {
-        "fontSize": 24,
-        "lineHeight": 32,
-        "fontWeight": 700,
-        "letterSpacing": "-0.01em"
-      },
-      "h4": {
-        "fontSize": 18,
-        "lineHeight": 1.35,
-        "fontWeight": 600,
-        "letterSpacing": "-0.005em"
-      },
-      "h5": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1.45,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "body": {
-        "fontSize": 18,
-        "lineHeight": 24,
-        "fontWeight": 500,
-        "letterSpacing": "-0.005em"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 20,
-        "fontWeight": 400,
-        "letterSpacing": "0em"
-      },
-      "xs": {
-        "fontSize": 12,
-        "lineHeight": 20,
-        "fontWeight": 400,
-        "letterSpacing": "0.01em"
-      }
-    },
-    "borderRadius": "8px"
-  },
-  {
-    "id": "vercel",
-    "name": "Vercel",
-    "category": "Developer Tools",
-    "description": "An inspired interpretation of Vercel's design language \u2014 a developer-platform brand whose surface is a stark black-and-ink duet on near-white canvas, broken at hero scale by a multi-color mesh gradient (cyan / blue / magenta / amber) that a",
-    "designMdPath": "/design-md/vercel/DESIGN.md",
-    "color": {
-      "primary": "#171717",
-      "primaryHover": "#171717",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#fafafa",
-      "textPrimary": "#171717",
-      "textSecondary": "#8b95a1",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#ebebeb",
-      "borderStrong": "#a1a1a1",
-      "statusSuccess": "#0070f3",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f5a623"
-    },
-    "typography": {
-      "fontFamily": "Geist, Inter, system-ui, -apple-system, sans-serif",
-      "h1": {
-        "fontSize": 48,
-        "lineHeight": 48,
-        "fontWeight": 600,
-        "letterSpacing": "-2.4px"
-      },
-      "h2": {
-        "fontSize": 32,
-        "lineHeight": 40,
-        "fontWeight": 600,
-        "letterSpacing": "-1.28px"
-      },
-      "h3": {
-        "fontSize": 24,
-        "lineHeight": 32,
-        "fontWeight": 600,
-        "letterSpacing": "-0.96px"
-      },
-      "h4": {
-        "fontSize": 18,
-        "lineHeight": 1.35,
-        "fontWeight": 600,
-        "letterSpacing": "-0.005em"
-      },
-      "h5": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1.45,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "body": {
-        "fontSize": 18,
-        "lineHeight": 28,
-        "fontWeight": 400,
-        "letterSpacing": "0px"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 20,
-        "fontWeight": 400,
-        "letterSpacing": "-0.28px"
-      },
-      "xs": {
-        "fontSize": 12,
-        "lineHeight": 16,
-        "fontWeight": 400,
-        "letterSpacing": "0.01em"
-      }
-    },
-    "borderRadius": "8px"
-  },
-  {
-    "id": "vodafone",
-    "name": "Vodafone",
-    "category": "Tech & Lifestyle",
-    "description": "An inspired interpretation of Vodafone's design language \u2014 a telecom super-brand whose web surface alternates between editorial photography hero bands with massive uppercase display headlines and clean white content bands, anchored by the c",
-    "designMdPath": "/design-md/vodafone/DESIGN.md",
-    "color": {
-      "primary": "#e60000",
-      "primaryHover": "#e60000",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#f2f2f2",
-      "textPrimary": "#25282b",
-      "textSecondary": "#8b95a1",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#f2f4f6",
-      "borderStrong": "#e5e8eb",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "Vodafone, Vodafone Rg, Helvetica Neue, Arial, sans-serif",
-      "h1": {
-        "fontSize": 90,
-        "lineHeight": 84,
-        "fontWeight": 800,
-        "letterSpacing": "-0.02em"
-      },
-      "h2": {
-        "fontSize": 48,
-        "lineHeight": 52,
-        "fontWeight": 300,
-        "letterSpacing": "-0.015em"
-      },
-      "h3": {
-        "fontSize": 40,
-        "lineHeight": 44,
-        "fontWeight": 300,
-        "letterSpacing": "-0.01em"
-      },
-      "h4": {
-        "fontSize": 18,
-        "lineHeight": 1.35,
-        "fontWeight": 600,
-        "letterSpacing": "-0.005em"
-      },
-      "h5": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1.45,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "body": {
-        "fontSize": 22,
-        "lineHeight": 24,
-        "fontWeight": 400,
-        "letterSpacing": "-0.005em"
-      },
-      "sm": {
-        "fontSize": 16,
-        "lineHeight": 20,
-        "fontWeight": 400,
-        "letterSpacing": "0em"
-      },
-      "xs": {
-        "fontSize": 14,
-        "lineHeight": 16,
-        "fontWeight": 400,
-        "letterSpacing": "0.01em"
-      }
-    },
-    "borderRadius": "6px"
-  },
-  {
-    "id": "voltagent",
-    "name": "Voltagent",
-    "category": "AI & LLM",
-    "description": "An inspired interpretation of Voltagent's design language \u2014 a developer-focused AI agent engineering platform whose surface is an unrelenting near-black canvas broken only by a single electric-green brand accent, code-editor mockups inside ",
-    "designMdPath": "/design-md/voltagent/DESIGN.md",
-    "color": {
-      "primary": "#00d992",
-      "primaryHover": "#10b981",
-      "primaryLight": "#2fd6a1",
-      "bgPrimary": "#101010",
-      "bgSecondary": "#1a1a1a",
-      "textPrimary": "#f2f2f2",
-      "textSecondary": "#9aa1b1",
-      "textMuted": "#5c6470",
-      "borderSubtle": "#3d3a39",
-      "borderStrong": "#3d414a",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif",
-      "h1": {
-        "fontSize": 60,
-        "lineHeight": 60,
-        "fontWeight": 400,
-        "letterSpacing": "-0.65px"
-      },
-      "h2": {
-        "fontSize": 36,
-        "lineHeight": 40,
-        "fontWeight": 400,
-        "letterSpacing": "-0.9px"
-      },
-      "h3": {
-        "fontSize": 24,
-        "lineHeight": 32,
-        "fontWeight": 700,
-        "letterSpacing": "-0.6px"
-      },
-      "h4": {
-        "fontSize": 18,
-        "lineHeight": 1.35,
-        "fontWeight": 600,
-        "letterSpacing": "-0.005em"
-      },
-      "h5": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1.45,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "body": {
-        "fontSize": 18,
-        "lineHeight": 28,
-        "fontWeight": 400,
-        "letterSpacing": "-0.005em"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 20,
-        "fontWeight": 400,
-        "letterSpacing": "0em"
-      },
-      "xs": {
-        "fontSize": 12,
-        "lineHeight": 16,
-        "fontWeight": 400,
-        "letterSpacing": "0.01em"
-      }
-    },
-    "borderRadius": "8px"
-  },
-  {
-    "id": "warp",
-    "name": "Warp",
-    "category": "Developer Tools",
-    "description": "An inspired interpretation of Warp's design language \u2014 an agentic terminal-and-development-environment brand whose surface is a warm near-charcoal canvas (a tint warmer than pure black), broken only by clean Inter typography, the occasional",
-    "designMdPath": "/design-md/warp/DESIGN.md",
-    "color": {
-      "primary": "#f7f5f0",
-      "primaryHover": "#f7f5f0",
-      "primaryLight": "#f7f5f026",
-      "bgPrimary": "#2b2622",
-      "bgSecondary": "#383330",
-      "textPrimary": "#f7f5f0",
-      "textSecondary": "#9aa1b1",
-      "textMuted": "#5c6470",
-      "borderSubtle": "#3f3a36",
-      "borderStrong": "#3d414a",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif",
-      "h1": {
-        "fontSize": 64,
-        "lineHeight": 70.4,
-        "fontWeight": 400,
-        "letterSpacing": "-1.6px"
-      },
-      "h2": {
-        "fontSize": 48,
-        "lineHeight": 52.8,
-        "fontWeight": 400,
-        "letterSpacing": "-1.2px"
-      },
-      "h3": {
-        "fontSize": 32,
-        "lineHeight": 40,
-        "fontWeight": 500,
-        "letterSpacing": "-0.8px"
-      },
-      "h4": {
-        "fontSize": 18,
-        "lineHeight": 1.35,
-        "fontWeight": 600,
-        "letterSpacing": "-0.005em"
-      },
-      "h5": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1.45,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "body": {
-        "fontSize": 18,
-        "lineHeight": 28,
-        "fontWeight": 400,
-        "letterSpacing": "-0.005em"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 20,
-        "fontWeight": 400,
-        "letterSpacing": "0em"
-      },
-      "xs": {
-        "fontSize": 12,
-        "lineHeight": 16,
-        "fontWeight": 400,
-        "letterSpacing": "0.01em"
-      }
-    },
-    "borderRadius": "4px"
-  },
-  {
-    "id": "webflow",
-    "name": "Webflow",
-    "category": "Developer Tools",
-    "description": "An inspired interpretation of Webflow's design language \u2014 a visual web development platform whose surface contrasts a deep near-black `#080808` primary against a generous white canvas, broken by a five-stop chromatic accent system (purple /",
-    "designMdPath": "/design-md/webflow/DESIGN.md",
-    "color": {
-      "primary": "#080808",
-      "primaryHover": "#080808",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#f8f9fa",
-      "textPrimary": "#080808",
-      "textSecondary": "#8b95a1",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#d8d8d8",
-      "borderStrong": "#e5e8eb",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "WF Visual Sans Variable, Inter, system-ui, sans-serif",
-      "h1": {
-        "fontSize": 56,
-        "lineHeight": 58.24,
-        "fontWeight": 600,
-        "letterSpacing": "-0.02em"
-      },
-      "h2": {
-        "fontSize": 448,
-        "lineHeight": 46.6,
-        "fontWeight": 600,
-        "letterSpacing": "-0.015em"
-      },
-      "h3": {
-        "fontSize": 32,
-        "lineHeight": 41.6,
-        "fontWeight": 500,
-        "letterSpacing": "-0.01em"
-      },
-      "h4": {
-        "fontSize": 18,
-        "lineHeight": 1.35,
-        "fontWeight": 600,
-        "letterSpacing": "-0.005em"
-      },
-      "h5": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1.45,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "body": {
-        "fontSize": 288,
-        "lineHeight": 46.08,
-        "fontWeight": 400,
-        "letterSpacing": "-0.288px"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 22.4,
-        "fontWeight": 400,
-        "letterSpacing": "0em"
-      },
-      "xs": {
-        "fontSize": 128,
-        "lineHeight": 15.36,
-        "fontWeight": 550,
-        "letterSpacing": "0.01em"
-      }
-    },
-    "borderRadius": "8px"
-  },
-  {
-    "id": "wired",
-    "name": "Wired",
-    "category": "Tech & Lifestyle",
-    "description": "An inspired interpretation of Wired's design language \u2014 a flagship technology-magazine brand whose surface is a strict editorial duet of stark black wordmark on white canvas, anchored by a tall narrow custom display serif for hero headlines",
-    "designMdPath": "/design-md/wired/DESIGN.md",
-    "color": {
-      "primary": "#000000",
-      "primaryHover": "#000000",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#f5f5f5",
-      "textPrimary": "#000000",
-      "textSecondary": "#8b95a1",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#e0e0e0",
-      "borderStrong": "#e5e8eb",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": 'WiredDisplay, "Times New Roman", Georgia, serif',
-      "h1": {
-        "fontSize": 48,
-        "lineHeight": 50.4,
-        "fontWeight": 400,
-        "letterSpacing": "-0.4px"
-      },
-      "h2": {
-        "fontSize": 48,
-        "lineHeight": 50.4,
-        "fontWeight": 400,
-        "letterSpacing": "-0.4px"
-      },
-      "h3": {
-        "fontSize": 32,
-        "lineHeight": 35.2,
-        "fontWeight": 400,
-        "letterSpacing": "-0.3px"
-      },
-      "h4": {
-        "fontSize": 18,
-        "lineHeight": 1.35,
-        "fontWeight": 600,
-        "letterSpacing": "-0.005em"
-      },
-      "h5": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1.45,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "body": {
-        "fontSize": 15,
-        "lineHeight": 1.55,
-        "fontWeight": 400,
-        "letterSpacing": "-0.005em"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 18,
-        "fontWeight": 400,
-        "letterSpacing": "0.4px"
-      },
-      "xs": {
-        "fontSize": 12,
-        "lineHeight": 16,
-        "fontWeight": 400,
-        "letterSpacing": "0.01em"
-      }
-    },
-    "borderRadius": "12px"
-  },
-  {
-    "id": "wise",
-    "name": "Wise",
-    "category": "Fintech & Web3",
-    "description": "An inspired interpretation of Wise's design language \u2014 a global money-transfer brand whose surface combines an unusually heavy near-black display sans (weight 900 at 64\u2013126 px) with a vivid lime-green brand accent, sage-tinted surface neutr",
-    "designMdPath": "/design-md/wise/DESIGN.md",
-    "color": {
-      "primary": "#9fe870",
-      "primaryHover": "#9fe870",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#e8ebe6",
-      "textPrimary": "#0e0f0c",
-      "textSecondary": "#8b95a1",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#f2f4f6",
-      "borderStrong": "#e5e8eb",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#ffd11a"
-    },
-    "typography": {
-      "fontFamily": "Wise Sans, Inter, system-ui, sans-serif",
-      "h1": {
-        "fontSize": 64,
-        "lineHeight": 54.4,
-        "fontWeight": 900,
-        "letterSpacing": "-0.02em"
-      },
-      "h2": {
-        "fontSize": 47,
-        "lineHeight": 70.5,
-        "fontWeight": 400,
-        "letterSpacing": "-0.108px"
-      },
-      "h3": {
-        "fontSize": 40,
-        "lineHeight": 34,
-        "fontWeight": 900,
-        "letterSpacing": "-0.01em"
-      },
-      "h4": {
-        "fontSize": 18,
-        "lineHeight": 1.35,
-        "fontWeight": 600,
-        "letterSpacing": "-0.005em"
-      },
-      "h5": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1.45,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "body": {
-        "fontSize": 20,
-        "lineHeight": 30,
-        "fontWeight": 400,
-        "letterSpacing": "-0.005em"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 20,
-        "fontWeight": 400,
-        "letterSpacing": "0em"
-      },
-      "xs": {
-        "fontSize": 12,
-        "lineHeight": 16,
-        "fontWeight": 400,
-        "letterSpacing": "0.01em"
-      }
-    },
-    "borderRadius": "12px"
-  },
-  {
-    "id": "x.ai",
-    "name": "xAI",
-    "category": "AI & LLM",
-    "description": "An inspired interpretation of xAI's design language \u2014 Elon Musk's frontier-AI company whose web surface is a strict near-black canvas broken only by white pill outlines, occasional warm sunset / dusk gradient accents, a custom geometric san",
-    "designMdPath": "/design-md/x.ai/DESIGN.md",
-    "color": {
-      "primary": "#ffffff",
-      "primaryHover": "#ffffff",
-      "primaryLight": "#ffffff26",
-      "bgPrimary": "#0a0a0a",
-      "bgSecondary": "#1a1c20",
-      "textPrimary": "#ffffff",
-      "textSecondary": "#9aa1b1",
-      "textMuted": "#5c6470",
-      "borderSubtle": "#212327",
-      "borderStrong": "#3d414a",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "universalSans, Inter, system-ui, -apple-system, sans-serif",
-      "h1": {
-        "fontSize": 96,
-        "lineHeight": 96,
-        "fontWeight": 400,
-        "letterSpacing": "-2.4px"
-      },
-      "h2": {
-        "fontSize": 72,
-        "lineHeight": 72,
-        "fontWeight": 400,
-        "letterSpacing": "-1.8px"
-      },
-      "h3": {
-        "fontSize": 48,
-        "lineHeight": 48,
-        "fontWeight": 400,
-        "letterSpacing": "-1.2px"
-      },
-      "h4": {
-        "fontSize": 18,
-        "lineHeight": 1.35,
-        "fontWeight": 600,
-        "letterSpacing": "-0.005em"
-      },
-      "h5": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1.45,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "body": {
-        "fontSize": 18,
-        "lineHeight": 28,
-        "fontWeight": 400,
-        "letterSpacing": "-0.005em"
-      },
-      "sm": {
-        "fontSize": 14,
-        "lineHeight": 20,
-        "fontWeight": 400,
-        "letterSpacing": "0em"
-      },
-      "xs": {
-        "fontSize": 11,
-        "lineHeight": 1.4,
-        "fontWeight": 500,
-        "letterSpacing": "0.01em"
-      }
-    },
-    "borderRadius": "8px"
-  },
-  {
-    "id": "zapier",
-    "name": "Zapier",
-    "category": "Tech & Lifestyle",
-    "description": "An inspired interpretation of Zapier's design language \u2014 a workflow-automation platform whose surface combines warm-cream neutrals (`#fffefb` canvas, `#f8f4f0` soft cream) with deep coffee ink (`#201515`) and a single saturated orange CTA a",
-    "designMdPath": "/design-md/zapier/DESIGN.md",
-    "color": {
-      "primary": "#ff4f00",
-      "primaryHover": "#ff4f00",
-      "primaryLight": "#e8f3ff",
-      "bgPrimary": "#fffefb",
-      "bgSecondary": "#f8f4f0",
-      "textPrimary": "#201515",
-      "textSecondary": "#8b95a1",
-      "textMuted": "#b0b8c1",
-      "borderSubtle": "#f2f4f6",
-      "borderStrong": "#e5e8eb",
-      "statusSuccess": "#10b981",
-      "statusDanger": "#f43f5e",
-      "statusWarning": "#f59e0b"
-    },
-    "typography": {
-      "fontFamily": "Degular Display, Inter, system-ui, -apple-system, sans-serif",
-      "h1": {
-        "fontSize": 56,
-        "lineHeight": 56,
-        "fontWeight": 500,
-        "letterSpacing": "-0.02em"
-      },
-      "h2": {
-        "fontSize": 48,
-        "lineHeight": 48,
-        "fontWeight": 500,
-        "letterSpacing": "-0.015em"
-      },
-      "h3": {
-        "fontSize": 32,
-        "lineHeight": 36,
-        "fontWeight": 500,
-        "letterSpacing": "1px"
-      },
-      "h4": {
-        "fontSize": 18,
-        "lineHeight": 1.35,
-        "fontWeight": 600,
-        "letterSpacing": "-0.005em"
-      },
-      "h5": {
-        "fontSize": 16,
-        "lineHeight": 1.4,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": 14,
-        "lineHeight": 1.45,
-        "fontWeight": 600,
-        "letterSpacing": "0em"
-      },
-      "body": {
-        "fontSize": 20,
-        "lineHeight": 30,
-        "fontWeight": 400,
-        "letterSpacing": "-0.2px"
-      },
-      "sm": {
-        "fontSize": 16,
-        "lineHeight": 24,
-        "fontWeight": 400,
-        "letterSpacing": "0em"
-      },
-      "xs": {
-        "fontSize": 14,
-        "lineHeight": 21,
-        "fontWeight": 400,
-        "letterSpacing": "0.01em"
-      }
-    },
-    "borderRadius": "12px"
-  }
-];
-var AWESOME_CATEGORIES = [
-  "All",
-  "AI & LLM",
-  "Developer Tools",
-  "Fintech & Web3",
-  "Tech & Lifestyle",
-  "Automotive & Luxury"
-];
-
 // lib/data/themeEditorDefaults.ts
 var DEFAULT_BRAND_CONFIG = {
   name: "AtomDesignToken",
@@ -20938,6 +15006,2319 @@ var FONT_FAMILY_PRESETS = [
   }
 ];
 
+// lib/data/themeData.ts
+var INITIAL_STUDIO_THEMES = atomTokens.theme.toStudioThemes();
+function resolveThemeColors(theme, paletteVariables) {
+  if (!paletteVariables || !theme.paletteBindings) {
+    return theme.colors;
+  }
+  const lookup = /* @__PURE__ */ new Map();
+  for (const p of paletteVariables) {
+    lookup.set(p.id, p.value);
+  }
+  const pb = theme.paletteBindings;
+  return {
+    primary: pb.primary && lookup.get(pb.primary) || theme.colors.primary,
+    primaryHover: pb.primaryHover && lookup.get(pb.primaryHover) || theme.colors.primaryHover,
+    primaryLight: pb.primaryLight && lookup.get(pb.primaryLight) || theme.colors.primaryLight,
+    secondary: pb.secondary && lookup.get(pb.secondary) || theme.colors.secondary || (theme.mode === "dark" ? "#334155" : "#e2e8f0"),
+    secondaryHover: pb.secondaryHover && lookup.get(pb.secondaryHover) || theme.colors.secondaryHover || (theme.mode === "dark" ? "#475569" : "#cbd5e1"),
+    secondaryLight: pb.secondaryLight && lookup.get(pb.secondaryLight) || theme.colors.secondaryLight || (theme.mode === "dark" ? "#1e293b" : "#f8fafc"),
+    bgPrimary: pb.bgPrimary && lookup.get(pb.bgPrimary) || theme.colors.bgPrimary,
+    bgSecondary: pb.bgSecondary && lookup.get(pb.bgSecondary) || theme.colors.bgSecondary,
+    textPrimary: pb.textPrimary && lookup.get(pb.textPrimary) || theme.colors.textPrimary,
+    textSecondary: pb.textSecondary && lookup.get(pb.textSecondary) || theme.colors.textSecondary,
+    textMuted: pb.textMuted && lookup.get(pb.textMuted) || theme.colors.textMuted,
+    borderSubtle: pb.borderSubtle && lookup.get(pb.borderSubtle) || theme.colors.borderSubtle,
+    borderStrong: pb.borderStrong && lookup.get(pb.borderStrong) || theme.colors.borderStrong,
+    statusSuccess: pb.statusSuccess && lookup.get(pb.statusSuccess) || theme.colors.statusSuccess,
+    statusDanger: pb.statusDanger && lookup.get(pb.statusDanger) || theme.colors.statusDanger,
+    statusWarning: pb.statusWarning && lookup.get(pb.statusWarning) || theme.colors.statusWarning
+  };
+}
+function studioThemeToThemeConfig(st, palettes) {
+  const resolvedColors = palettes ? resolveThemeColors(st, palettes) : st.colors;
+  const fontSansToken = palettes?.find((p) => p.id === "--atom-font-sans")?.value;
+  return {
+    color: { ...resolvedColors },
+    borderRadius: st.borderRadius,
+    typography: {
+      ...DEFAULT_THEME_CONFIG.typography,
+      fontFamily: fontSansToken || st.fontFamily || DEFAULT_THEME_CONFIG.typography.fontFamily
+    },
+    buttonSpacing: {
+      paddingY: "8px",
+      paddingX: "16px"
+    }
+  };
+}
+var Button = React34__default.default.forwardRef(
+  ({
+    variant = "primary",
+    variable,
+    status = "default",
+    componentType,
+    size = "md",
+    loading = false,
+    isIconOnly = false,
+    paddingX,
+    paddingY,
+    disabled,
+    className = "",
+    style,
+    children,
+    ...props
+  }, ref) => {
+    const activeVariable = variable || (variant === "danger" ? "destructive" : variant);
+    const normalizedVariant = activeVariable === "danger" ? "destructive" : activeVariable;
+    const variantClass = normalizedVariant === "primary" ? "atom-btn-primary" : `atom-btn-${normalizedVariant}`;
+    const dangerClass = activeVariable === "danger" || activeVariable === "destructive" ? "atom-btn-danger" : "";
+    const variableClass = `atom-button--${activeVariable}`;
+    const typeClass = componentType ? `atom-btn--type-${componentType}` : "";
+    const statusClass = status && status !== "default" ? `atom-status--${status}` : "";
+    const sizeClass = size === "sm" ? "text-xs px-2.5 py-1.5" : size === "lg" ? "text-base px-5 py-3" : "";
+    const iconClass = isIconOnly ? "p-2 aspect-square inline-flex items-center justify-center" : "";
+    const isActuallyDisabled = disabled || status === "disabled" || loading || status === "loading";
+    const isActuallyLoading = loading || status === "loading";
+    const customStyle = {
+      ...style,
+      ...paddingX ? { paddingLeft: paddingX, paddingRight: paddingX } : {},
+      ...paddingY ? { paddingTop: paddingY, paddingBottom: paddingY } : {}
+    };
+    const alignClass = className.includes("justify-start") || className.includes("text-left") ? "atom-btn--left" : className.includes("justify-between") ? "atom-btn--between" : "";
+    return /* @__PURE__ */ React34__default.default.createElement(
+      "button",
+      {
+        ref,
+        "data-component": "button",
+        "data-variable": activeVariable,
+        "data-status": status,
+        "data-type": componentType,
+        disabled: isActuallyDisabled,
+        "aria-disabled": isActuallyDisabled,
+        "aria-busy": isActuallyLoading,
+        className: `atom-btn ${typeClass} ${variantClass} ${dangerClass} ${variableClass} ${statusClass} ${sizeClass} ${iconClass} ${alignClass} ${className}`,
+        style: customStyle,
+        ...props
+      },
+      isActuallyLoading && /* @__PURE__ */ React34__default.default.createElement("svg", { className: "animate-spin -ml-1 mr-2 h-4 w-4 shrink-0", fill: "none", viewBox: "0 0 24 24" }, /* @__PURE__ */ React34__default.default.createElement("circle", { className: "opacity-25", cx: "12", cy: "12", r: "10", stroke: "currentColor", strokeWidth: "4" }), /* @__PURE__ */ React34__default.default.createElement("path", { className: "opacity-75", fill: "currentColor", d: "M4 12a8 8 0 018-8v8H4z" })),
+      children
+    );
+  }
+);
+Button.displayName = "Button";
+var Input = React34__default.default.forwardRef(
+  ({ label, error, helperText, variable = "standard", status = "default", componentType, leftIcon, rightIcon, className = "", id, disabled, style, ...props }, ref) => {
+    const inputId = id || React34__default.default.useId();
+    const isActuallyDisabled = disabled || status === "disabled" || status === "loading";
+    const statusClass = status && status !== "default" ? `atom-status--${status}` : "";
+    const plMatch = className.match(/\bpl-([0-9]+)\b/);
+    const prMatch = className.match(/\bpr-([0-9]+)\b/);
+    const computedPaddingLeft = leftIcon ? "2.25rem" : plMatch ? `${Number(plMatch[1]) * 0.25}rem` : void 0;
+    const computedPaddingRight = rightIcon ? "2.25rem" : prMatch ? `${Number(prMatch[1]) * 0.25}rem` : void 0;
+    return /* @__PURE__ */ React34__default.default.createElement("div", { className: "w-full flex flex-col gap-1.5" }, label && /* @__PURE__ */ React34__default.default.createElement("label", { htmlFor: inputId, className: "text-sm font-medium text-[var(--atom-text-primary)]" }, label), /* @__PURE__ */ React34__default.default.createElement("div", { className: "relative w-full" }, leftIcon && /* @__PURE__ */ React34__default.default.createElement("div", { className: "absolute left-2.5 top-1/2 -translate-y-1/2 text-(--text-muted) pointer-events-none z-10 flex items-center justify-center" }, leftIcon), /* @__PURE__ */ React34__default.default.createElement(
+      "input",
+      {
+        ref,
+        id: inputId,
+        "data-component": "input",
+        "data-variable": variable,
+        "data-status": status,
+        "data-type": componentType,
+        disabled: isActuallyDisabled,
+        "aria-disabled": isActuallyDisabled,
+        "aria-invalid": !!error || variable === "error",
+        style: {
+          ...computedPaddingLeft ? { paddingLeft: computedPaddingLeft } : {},
+          ...computedPaddingRight ? { paddingRight: computedPaddingRight } : {},
+          ...style
+        },
+        className: `atom-input ${error ? "atom-input-error" : ""} atom-input--${variable} ${statusClass} ${leftIcon ? "!pl-9" : ""} ${className}`,
+        ...props
+      }
+    ), rightIcon && /* @__PURE__ */ React34__default.default.createElement("div", { className: "absolute right-2.5 top-1/2 -translate-y-1/2 text-(--text-muted) z-10 flex items-center justify-center" }, rightIcon)), error ? /* @__PURE__ */ React34__default.default.createElement("span", { className: "text-xs text-[var(--atom-destructive,#dc2626)]" }, error) : helperText ? /* @__PURE__ */ React34__default.default.createElement("span", { className: "text-xs text-[var(--atom-text-secondary,#8b95a1)]" }, helperText) : null);
+  }
+);
+Input.displayName = "Input";
+var Card = React34__default.default.forwardRef(
+  ({ interactive = false, variable = "elevated", className = "", children, ...props }, ref) => {
+    return /* @__PURE__ */ React34__default.default.createElement(
+      "div",
+      {
+        ref,
+        "data-component": "card",
+        "data-variable": variable,
+        className: `atom-card ${interactive ? "atom-card-interactive cursor-pointer" : ""} atom-card--${variable} ${className}`,
+        ...props
+      },
+      children
+    );
+  }
+);
+Card.displayName = "Card";
+var Badge = React34__default.default.forwardRef(
+  ({ variant = "neutral", variable, status = "default", componentType, className = "", children, ...props }, ref) => {
+    const activeVariable = variable || variant;
+    const statusClass = status && status !== "default" ? `atom-status--${status}` : "";
+    return /* @__PURE__ */ React34__default.default.createElement(
+      "span",
+      {
+        ref,
+        "data-component": "badge",
+        "data-variable": activeVariable,
+        "data-status": status,
+        "data-type": componentType,
+        className: `atom-badge atom-badge-${variant} atom-badge--${activeVariable} ${statusClass} ${className}`,
+        ...props
+      },
+      children
+    );
+  }
+);
+Badge.displayName = "Badge";
+var Modal = ({ isOpen, onClose, title, children }) => {
+  React34.useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") onClose();
+    };
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+      window.addEventListener("keydown", handleKeyDown);
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOpen, onClose]);
+  if (!isOpen) return null;
+  return /* @__PURE__ */ React34__default.default.createElement(
+    "div",
+    {
+      role: "dialog",
+      "aria-modal": "true",
+      className: "fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm",
+      onClick: onClose
+    },
+    /* @__PURE__ */ React34__default.default.createElement(
+      "div",
+      {
+        className: "atom-card w-full max-w-lg p-6 bg-[var(--atom-bg-surface)] rounded-[var(--atom-radius-lg)] shadow-2xl relative animate-in fade-in zoom-in-95 duration-150",
+        onClick: (e) => e.stopPropagation()
+      },
+      title && /* @__PURE__ */ React34__default.default.createElement("div", { className: "flex items-center justify-between pb-4 border-b border-[var(--atom-border-subtle)]" }, /* @__PURE__ */ React34__default.default.createElement("h3", { className: "text-lg font-bold text-[var(--atom-text-primary)]" }, title), /* @__PURE__ */ React34__default.default.createElement(
+        Button,
+        {
+          variant: "ghost",
+          size: "sm",
+          isIconOnly: true,
+          onClick: onClose,
+          "aria-label": "\uB2EB\uAE30",
+          className: "text-[var(--atom-text-secondary)] hover:text-[var(--atom-text-primary)] text-base leading-none"
+        },
+        "\u2715"
+      )),
+      /* @__PURE__ */ React34__default.default.createElement("div", { className: "py-4" }, children)
+    )
+  );
+};
+var Calendar = ({ selected, onSelect, className = "" }) => {
+  const [currentDate, setCurrentDate] = React34.useState(selected || /* @__PURE__ */ new Date());
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth();
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const handlePrevMonth = () => setCurrentDate(new Date(year, month - 1, 1));
+  const handleNextMonth = () => setCurrentDate(new Date(year, month + 1, 1));
+  const days = [];
+  for (let i = 0; i < firstDay; i++) {
+    days.push(null);
+  }
+  for (let i = 1; i <= daysInMonth; i++) {
+    days.push(new Date(year, month, i));
+  }
+  const isSelected = (d) => {
+    if (!d || !selected) return false;
+    return d.getFullYear() === selected.getFullYear() && d.getMonth() === selected.getMonth() && d.getDate() === selected.getDate();
+  };
+  return /* @__PURE__ */ React34__default.default.createElement("div", { className: `atom-calendar ${className}` }, /* @__PURE__ */ React34__default.default.createElement("div", { className: "atom-calendar-header" }, /* @__PURE__ */ React34__default.default.createElement("button", { type: "button", onClick: handlePrevMonth, className: "atom-calendar-nav-btn", "aria-label": "\uC774\uC804 \uB2EC" }, "<"), /* @__PURE__ */ React34__default.default.createElement("span", { className: "atom-calendar-title" }, year, "\uB144 ", month + 1, "\uC6D4"), /* @__PURE__ */ React34__default.default.createElement("button", { type: "button", onClick: handleNextMonth, className: "atom-calendar-nav-btn", "aria-label": "\uB2E4\uC74C \uB2EC" }, ">")), /* @__PURE__ */ React34__default.default.createElement("div", { className: "atom-calendar-grid" }, ["\uC77C", "\uC6D4", "\uD654", "\uC218", "\uBAA9", "\uAE08", "\uD1A0"].map((w) => /* @__PURE__ */ React34__default.default.createElement("div", { key: w, className: "atom-calendar-weekday" }, w)), days.map(
+    (d, idx) => d ? /* @__PURE__ */ React34__default.default.createElement(
+      "button",
+      {
+        key: idx,
+        type: "button",
+        onClick: () => onSelect?.(d),
+        className: `atom-calendar-day ${isSelected(d) ? "atom-calendar-day-selected" : ""}`
+      },
+      d.getDate()
+    ) : /* @__PURE__ */ React34__default.default.createElement("div", { key: idx })
+  )));
+};
+var Select = ({
+  options,
+  value,
+  onChange,
+  placeholder = "\uC120\uD0DD\uD558\uC138\uC694",
+  className = ""
+}) => {
+  const [isOpen, setIsOpen] = React34.useState(false);
+  const containerRef = React34.useRef(null);
+  const selectedOption = options.find((opt) => opt.value === value);
+  React34.useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+  return /* @__PURE__ */ React34__default.default.createElement("div", { ref: containerRef, className: `atom-select ${className}` }, /* @__PURE__ */ React34__default.default.createElement(
+    "button",
+    {
+      type: "button",
+      className: "atom-select-trigger",
+      onClick: () => setIsOpen(!isOpen),
+      "aria-haspopup": "listbox",
+      "aria-expanded": isOpen
+    },
+    /* @__PURE__ */ React34__default.default.createElement("span", null, selectedOption ? selectedOption.label : placeholder),
+    /* @__PURE__ */ React34__default.default.createElement("span", { className: "atom-select-arrow", style: { transform: isOpen ? "rotate(180deg)" : "none" } }, "\u25BC")
+  ), isOpen && /* @__PURE__ */ React34__default.default.createElement("ul", { className: "atom-select-menu", role: "listbox" }, options.map((opt) => /* @__PURE__ */ React34__default.default.createElement(
+    "li",
+    {
+      key: opt.value,
+      className: "atom-select-option",
+      role: "option",
+      "aria-selected": opt.value === value,
+      onClick: () => {
+        onChange?.(opt.value);
+        setIsOpen(false);
+      }
+    },
+    opt.label
+  ))));
+};
+var NativeSelect = React34__default.default.forwardRef(
+  ({ className = "", children, ...props }, ref) => {
+    return /* @__PURE__ */ React34__default.default.createElement(
+      "select",
+      {
+        ref,
+        className: ["w-full text-xs p-2 rounded-(--radius-sm) border border-(--border-subtle) bg-(--bg-primary) text-(--text-primary) cursor-pointer focus:outline-none focus:border-(--accent-primary) focus:ring-1 focus:ring-(--accent-primary) transition", className].filter(Boolean).join(" "),
+        ...props
+      },
+      children
+    );
+  }
+);
+NativeSelect.displayName = "NativeSelect";
+var Accordion = ({ items, type = "single", className = "" }) => {
+  const [openIds, setOpenIds] = React34.useState([]);
+  const toggle = (id) => {
+    if (type === "single") {
+      setOpenIds(openIds.includes(id) ? [] : [id]);
+    } else {
+      setOpenIds(openIds.includes(id) ? openIds.filter((item) => item !== id) : [...openIds, id]);
+    }
+  };
+  return /* @__PURE__ */ React34__default.default.createElement("div", { className: `atom-accordion ${className}` }, items.map((item) => {
+    const isOpen = openIds.includes(item.id);
+    return /* @__PURE__ */ React34__default.default.createElement("div", { key: item.id, className: "atom-accordion-item" }, /* @__PURE__ */ React34__default.default.createElement(
+      "button",
+      {
+        type: "button",
+        className: "atom-accordion-trigger",
+        onClick: () => toggle(item.id),
+        "aria-expanded": isOpen
+      },
+      /* @__PURE__ */ React34__default.default.createElement("span", null, item.title),
+      /* @__PURE__ */ React34__default.default.createElement("span", { className: "atom-accordion-icon", style: { transform: isOpen ? "rotate(180deg)" : "none" } }, "\u25BE")
+    ), isOpen && /* @__PURE__ */ React34__default.default.createElement("div", { className: "atom-accordion-content" }, item.content));
+  }));
+};
+var Tooltip = ({ content, children, position = "top", className = "" }) => {
+  const [isVisible, setIsVisible] = React34.useState(false);
+  return /* @__PURE__ */ React34__default.default.createElement(
+    "div",
+    {
+      className: `atom-tooltip-wrapper ${className}`,
+      onMouseEnter: () => setIsVisible(true),
+      onMouseLeave: () => setIsVisible(false),
+      onFocus: () => setIsVisible(true),
+      onBlur: () => setIsVisible(false)
+    },
+    children,
+    isVisible && /* @__PURE__ */ React34__default.default.createElement("div", { className: `atom-tooltip-bubble atom-tooltip-${position}`, role: "tooltip" }, content)
+  );
+};
+var Pagination = ({
+  currentPage,
+  totalPages,
+  onPageChange,
+  className = ""
+}) => {
+  const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+  return /* @__PURE__ */ React34__default.default.createElement("nav", { className: `atom-pagination ${className}`, "aria-label": "\uD398\uC774\uC9C0 \uB124\uBE44\uAC8C\uC774\uC158" }, /* @__PURE__ */ React34__default.default.createElement(
+    "button",
+    {
+      type: "button",
+      disabled: currentPage <= 1,
+      onClick: () => onPageChange?.(currentPage - 1),
+      className: "atom-pagination-btn"
+    },
+    "< \uC774\uC804"
+  ), pages.map((p) => /* @__PURE__ */ React34__default.default.createElement(
+    "button",
+    {
+      key: p,
+      type: "button",
+      onClick: () => onPageChange?.(p),
+      className: `atom-pagination-btn ${p === currentPage ? "atom-pagination-active" : ""}`,
+      "aria-current": p === currentPage ? "page" : void 0
+    },
+    p
+  )), /* @__PURE__ */ React34__default.default.createElement(
+    "button",
+    {
+      type: "button",
+      disabled: currentPage >= totalPages,
+      onClick: () => onPageChange?.(currentPage + 1),
+      className: "atom-pagination-btn"
+    },
+    "\uB2E4\uC74C >"
+  ));
+};
+var RadioGroup = ({
+  name = "atom-radio-group",
+  value,
+  options,
+  onChange,
+  className = ""
+}) => {
+  return /* @__PURE__ */ React34__default.default.createElement("div", { className: `atom-radio-group ${className}`, role: "radiogroup" }, options.map((opt) => /* @__PURE__ */ React34__default.default.createElement("label", { key: opt.value, className: "atom-radio-label" }, /* @__PURE__ */ React34__default.default.createElement(
+    "input",
+    {
+      type: "radio",
+      name,
+      value: opt.value,
+      checked: value === opt.value,
+      onChange: () => onChange?.(opt.value),
+      className: "atom-radio"
+    }
+  ), /* @__PURE__ */ React34__default.default.createElement("div", { className: "flex flex-col" }, /* @__PURE__ */ React34__default.default.createElement("span", { className: "font-semibold" }, opt.label), opt.description && /* @__PURE__ */ React34__default.default.createElement("span", { className: "text-xs text-(--text-secondary)" }, opt.description)))));
+};
+var Slider = ({
+  value,
+  min = 0,
+  max = 100,
+  step = 1,
+  onChange,
+  className = ""
+}) => {
+  return /* @__PURE__ */ React34__default.default.createElement("div", { className: `atom-slider ${className}` }, /* @__PURE__ */ React34__default.default.createElement(
+    "input",
+    {
+      type: "range",
+      min,
+      max,
+      step,
+      value,
+      onChange: (e) => onChange?.(Number(e.target.value)),
+      className: "atom-slider-input"
+    }
+  ));
+};
+var Avatar = ({
+  src,
+  alt = "Avatar",
+  fallback,
+  size = "md",
+  status,
+  className = ""
+}) => {
+  const [hasError, setHasError] = React34.useState(!src);
+  return /* @__PURE__ */ React34__default.default.createElement("div", { className: `atom-avatar atom-avatar-${size} ${className}` }, src && !hasError ? /* @__PURE__ */ React34__default.default.createElement("img", { src, alt, onError: () => setHasError(true), className: "atom-avatar-img" }) : /* @__PURE__ */ React34__default.default.createElement("span", { className: "atom-avatar-fallback" }, fallback || alt.slice(0, 2).toUpperCase()), status && /* @__PURE__ */ React34__default.default.createElement("span", { className: `atom-avatar-status atom-avatar-status-${status}` }));
+};
+var Progress = ({
+  value,
+  max = 100,
+  variant = "primary",
+  className = ""
+}) => {
+  const percent = Math.min(100, Math.max(0, value / max * 100));
+  return /* @__PURE__ */ React34__default.default.createElement(
+    "div",
+    {
+      className: `atom-progress ${className}`,
+      role: "progressbar",
+      "aria-valuenow": value,
+      "aria-valuemin": 0,
+      "aria-valuemax": max
+    },
+    /* @__PURE__ */ React34__default.default.createElement(
+      "div",
+      {
+        className: `atom-progress-bar atom-progress-${variant}`,
+        style: { width: `${percent}%` }
+      }
+    )
+  );
+};
+var Skeleton = ({
+  width = "100%",
+  height = "1rem",
+  circle = false,
+  className = ""
+}) => {
+  return /* @__PURE__ */ React34__default.default.createElement(
+    "div",
+    {
+      className: `atom-skeleton ${circle ? "!rounded-full" : ""} ${className}`,
+      style: {
+        width: typeof width === "number" ? `${width}px` : width,
+        height: typeof height === "number" ? `${height}px` : height
+      }
+    }
+  );
+};
+var Breadcrumb = ({
+  items,
+  separator = "/",
+  className = ""
+}) => {
+  return /* @__PURE__ */ React34__default.default.createElement("nav", { className: `atom-breadcrumb ${className}`, "aria-label": "Breadcrumb" }, /* @__PURE__ */ React34__default.default.createElement("ol", { className: "atom-breadcrumb-list" }, items.map((item, idx) => {
+    const isLast = idx === items.length - 1;
+    return /* @__PURE__ */ React34__default.default.createElement(React34__default.default.Fragment, { key: idx }, /* @__PURE__ */ React34__default.default.createElement("li", { className: `atom-breadcrumb-item ${isLast ? "atom-breadcrumb-current" : ""}` }, isLast || !item.href ? /* @__PURE__ */ React34__default.default.createElement("span", { "aria-current": isLast ? "page" : void 0 }, item.label) : /* @__PURE__ */ React34__default.default.createElement("a", { href: item.href }, item.label)), !isLast && /* @__PURE__ */ React34__default.default.createElement("li", { className: "atom-breadcrumb-separator" }, separator));
+  })));
+};
+var Separator = ({
+  orientation = "horizontal",
+  label,
+  className = ""
+}) => {
+  if (label && orientation === "horizontal") {
+    return /* @__PURE__ */ React34__default.default.createElement("div", { className: `atom-separator-with-label ${className}` }, /* @__PURE__ */ React34__default.default.createElement("span", null, label));
+  }
+  return /* @__PURE__ */ React34__default.default.createElement(
+    "div",
+    {
+      role: "separator",
+      "aria-orientation": orientation,
+      className: `atom-separator atom-separator-${orientation} ${className}`
+    }
+  );
+};
+var Textarea = React34__default.default.forwardRef(
+  ({ maxLength, label, value, className = "", ...props }, ref) => {
+    const currentLength = typeof value === "string" ? value.length : 0;
+    return /* @__PURE__ */ React34__default.default.createElement("div", { className: "atom-textarea-group" }, label && /* @__PURE__ */ React34__default.default.createElement("label", { className: "text-xs font-semibold text-(--text-secondary) dark:text-(--text-muted)" }, label), /* @__PURE__ */ React34__default.default.createElement("textarea", { ref, value, maxLength, className: `atom-textarea ${className}`, ...props }), maxLength && /* @__PURE__ */ React34__default.default.createElement("div", { className: "atom-textarea-counter" }, currentLength, " / ", maxLength, "\uC790"));
+  }
+);
+Textarea.displayName = "Textarea";
+var Tree = ({
+  data,
+  selectedId,
+  onSelect,
+  defaultExpandedIds = [],
+  className = ""
+}) => {
+  const [expandedIds, setExpandedIds] = React34.useState(defaultExpandedIds);
+  const [internalSelectedId, setInternalSelectedId] = React34.useState(selectedId);
+  const activeSelectedId = selectedId !== void 0 ? selectedId : internalSelectedId;
+  const toggleExpand = (id, e) => {
+    e.stopPropagation();
+    setExpandedIds(
+      (prev) => prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+    );
+  };
+  const handleSelect = (node) => {
+    if (node.disabled) return;
+    setInternalSelectedId(node.id);
+    if (onSelect) {
+      onSelect(node);
+    }
+  };
+  const renderNodes = (nodes) => {
+    return /* @__PURE__ */ React34__default.default.createElement("ul", { className: "atom-tree-list", role: "group" }, nodes.map((node) => {
+      const hasChildren = Boolean(node.children && node.children.length > 0);
+      const isExpanded = expandedIds.includes(node.id);
+      const isSelected = activeSelectedId === node.id;
+      return /* @__PURE__ */ React34__default.default.createElement(
+        "li",
+        {
+          key: node.id,
+          className: "atom-tree-item",
+          role: "treeitem",
+          "aria-expanded": hasChildren ? isExpanded : void 0,
+          "aria-selected": isSelected,
+          "aria-disabled": node.disabled
+        },
+        /* @__PURE__ */ React34__default.default.createElement(
+          "div",
+          {
+            className: `atom-tree-node ${isSelected ? "is-selected" : ""} ${node.disabled ? "is-disabled" : ""}`,
+            onClick: () => {
+              if (hasChildren && !isExpanded) {
+                setExpandedIds((prev) => [...prev, node.id]);
+              }
+              handleSelect(node);
+            },
+            tabIndex: node.disabled ? -1 : 0,
+            onKeyDown: (e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                if (hasChildren) {
+                  setExpandedIds(
+                    (prev) => prev.includes(node.id) ? prev.filter((item) => item !== node.id) : [...prev, node.id]
+                  );
+                }
+                handleSelect(node);
+              }
+            }
+          },
+          hasChildren ? /* @__PURE__ */ React34__default.default.createElement(
+            "button",
+            {
+              type: "button",
+              className: `atom-tree-toggle ${isExpanded ? "is-expanded" : ""}`,
+              onClick: (e) => toggleExpand(node.id, e),
+              "aria-label": isExpanded ? "\uC811\uAE30" : "\uD3BC\uCE58\uAE30",
+              tabIndex: -1
+            },
+            "\u25B6"
+          ) : /* @__PURE__ */ React34__default.default.createElement("span", { className: "atom-tree-toggle-spacer", "aria-hidden": "true" }),
+          node.icon && /* @__PURE__ */ React34__default.default.createElement("span", { className: "atom-tree-icon" }, node.icon),
+          /* @__PURE__ */ React34__default.default.createElement("span", { className: "atom-tree-label" }, node.label)
+        ),
+        hasChildren && isExpanded && /* @__PURE__ */ React34__default.default.createElement("div", { className: "atom-tree-children" }, renderNodes(node.children))
+      );
+    }));
+  };
+  return /* @__PURE__ */ React34__default.default.createElement("div", { className: `atom-tree ${className}`, role: "tree" }, renderNodes(data));
+};
+var Table = React34__default.default.forwardRef(
+  ({ className = "", children, ...props }, ref) => /* @__PURE__ */ React34__default.default.createElement("div", { className: "w-full overflow-auto rounded-(--radius) border border-(--border-subtle)" }, /* @__PURE__ */ React34__default.default.createElement(
+    "table",
+    {
+      ref,
+      className: `w-full caption-bottom text-sm text-left ${className}`,
+      ...props
+    },
+    children
+  ))
+);
+Table.displayName = "Table";
+var TableHeader = React34__default.default.forwardRef(({ className = "", children, ...props }, ref) => /* @__PURE__ */ React34__default.default.createElement(
+  "thead",
+  {
+    ref,
+    className: `bg-(--bg-secondary)/60 border-b border-(--border-subtle) font-semibold text-(--text-secondary) ${className}`,
+    ...props
+  },
+  children
+));
+TableHeader.displayName = "TableHeader";
+var TableBody = React34__default.default.forwardRef(({ className = "", children, ...props }, ref) => /* @__PURE__ */ React34__default.default.createElement(
+  "tbody",
+  {
+    ref,
+    className: `divide-y divide-(--border-subtle) bg-(--bg-primary) ${className}`,
+    ...props
+  },
+  children
+));
+TableBody.displayName = "TableBody";
+var TableRow = React34__default.default.forwardRef(({ className = "", children, ...props }, ref) => /* @__PURE__ */ React34__default.default.createElement(
+  "tr",
+  {
+    ref,
+    className: `hover:bg-(--bg-secondary)/40 transition-colors ${className}`,
+    ...props
+  },
+  children
+));
+TableRow.displayName = "TableRow";
+var TableHead = React34__default.default.forwardRef(({ className = "", children, ...props }, ref) => /* @__PURE__ */ React34__default.default.createElement(
+  "th",
+  {
+    ref,
+    className: `p-3 text-left font-medium text-(--text-secondary) ${className}`,
+    ...props
+  },
+  children
+));
+TableHead.displayName = "TableHead";
+var TableCell = React34__default.default.forwardRef(({ className = "", children, ...props }, ref) => /* @__PURE__ */ React34__default.default.createElement(
+  "td",
+  {
+    ref,
+    className: `p-3 text-(--text-primary) align-middle ${className}`,
+    ...props
+  },
+  children
+));
+TableCell.displayName = "TableCell";
+var TabsList = React34__default.default.forwardRef(
+  ({ className = "", children, ...props }, ref) => /* @__PURE__ */ React34__default.default.createElement(
+    "div",
+    {
+      ref,
+      className: `inline-flex items-center p-1 rounded-(--radius) bg-(--bg-secondary) text-sm border border-(--border-subtle) ${className}`,
+      ...props
+    },
+    children
+  )
+);
+TabsList.displayName = "TabsList";
+var TabsTrigger = React34__default.default.forwardRef(
+  ({ active = false, className = "", children, ...props }, ref) => /* @__PURE__ */ React34__default.default.createElement(
+    "button",
+    {
+      ref,
+      type: "button",
+      className: `px-3 py-1.5 rounded-(--radius-sm) font-medium text-sm transition-colors ${active ? "bg-(--bg-primary) text-(--text-primary) shadow-xs font-semibold" : "text-(--text-secondary) hover:text-(--text-primary)"} ${className}`,
+      ...props
+    },
+    children
+  )
+);
+TabsTrigger.displayName = "TabsTrigger";
+var TabsContent = React34__default.default.forwardRef(
+  ({ active = false, className = "", children, ...props }, ref) => {
+    if (!active) return null;
+    return /* @__PURE__ */ React34__default.default.createElement(
+      "div",
+      {
+        ref,
+        className: `p-4 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) text-sm leading-relaxed ${className}`,
+        ...props
+      },
+      children
+    );
+  }
+);
+TabsContent.displayName = "TabsContent";
+var Switch = ({
+  checked,
+  onCheckedChange,
+  disabled = false,
+  className = "",
+  id
+}) => {
+  return /* @__PURE__ */ React34__default.default.createElement(
+    "button",
+    {
+      id,
+      type: "button",
+      role: "switch",
+      "aria-checked": checked,
+      disabled,
+      onClick: () => onCheckedChange?.(!checked),
+      className: `relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed ${checked ? "bg-(--accent-primary)" : "bg-(--bg-secondary) border-(--border-subtle)"} ${className}`
+    },
+    /* @__PURE__ */ React34__default.default.createElement(
+      "span",
+      {
+        className: `pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow-xs ring-0 transition duration-200 ease-in-out ${checked ? "translate-x-4" : "translate-x-0"}`
+      }
+    )
+  );
+};
+var SIZE_MAP = {
+  sm: "max-w-(--atom-container-sm,640px)",
+  md: "max-w-(--atom-container-md,768px)",
+  lg: "max-w-(--atom-container-lg,1024px)",
+  xl: "max-w-(--atom-container-xl,1280px)",
+  "2xl": "max-w-(--atom-container-2xl,1536px)",
+  full: "max-w-full"
+};
+var Container = ({
+  size = "xl",
+  gutters = true,
+  center = true,
+  as: Component = "div",
+  className = "",
+  children,
+  ...props
+}) => {
+  const sizeClass = SIZE_MAP[size] || SIZE_MAP.xl;
+  const gutterClass = gutters ? "px-[var(--atom-layout-gutter,16px)] sm:px-[var(--atom-layout-gutter-lg,24px)]" : "";
+  const centerClass = center ? "mx-auto" : "";
+  return /* @__PURE__ */ React34__default.default.createElement(
+    Component,
+    {
+      className: `w-full ${sizeClass} ${gutterClass} ${centerClass} ${className}`.trim(),
+      ...props
+    },
+    children
+  );
+};
+Container.displayName = "Container";
+var SIDEBAR_WIDTH_MAP = {
+  sm: "w-48 lg:w-56",
+  md: "w-60 lg:w-64",
+  lg: "w-72 lg:w-80"
+};
+var STACK_GAP_MAP = {
+  "1": "gap-[var(--atom-space-1,4px)]",
+  "2": "gap-[var(--atom-space-2,8px)]",
+  "3": "gap-[var(--atom-space-3,12px)]",
+  "4": "gap-[var(--atom-space-4,16px)]",
+  "6": "gap-[var(--atom-space-6,24px)]",
+  "8": "gap-[var(--atom-space-8,32px)]",
+  "12": "gap-[var(--atom-space-12,48px)]"
+};
+var STACK_ALIGN_MAP = {
+  start: "items-start",
+  center: "items-center",
+  end: "items-end",
+  stretch: "items-stretch"
+};
+var STACK_JUSTIFY_MAP = {
+  start: "justify-start",
+  center: "justify-center",
+  end: "justify-end",
+  between: "justify-between",
+  around: "justify-around"
+};
+var GRID_COLS_MAP = {
+  1: "grid-cols-1",
+  2: "grid-cols-1 sm:grid-cols-2",
+  3: "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3",
+  4: "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4",
+  6: "grid-cols-2 sm:grid-cols-3 lg:grid-cols-6",
+  12: "grid-cols-12"
+};
+var SECTION_SPACING_MAP = {
+  none: "",
+  sm: "py-[var(--atom-space-4,16px)] sm:py-[var(--atom-space-6,24px)]",
+  md: "py-[var(--atom-space-8,32px)] sm:py-[var(--atom-space-12,48px)]",
+  lg: "py-[var(--atom-space-12,48px)] sm:py-[var(--atom-space-16,64px)]"
+};
+var LayoutHeader = ({
+  sticky = true,
+  className = "",
+  children,
+  ...props
+}) => /* @__PURE__ */ React34__default.default.createElement(
+  "header",
+  {
+    className: `${sticky ? "sticky top-0 z-40 backdrop-blur-md bg-(--bg-primary)/90" : ""} border-b border-(--border-subtle) transition-colors ${className}`.trim(),
+    ...props
+  },
+  children
+);
+var LayoutSidebar = ({
+  width = "md",
+  className = "",
+  children,
+  ...props
+}) => /* @__PURE__ */ React34__default.default.createElement(
+  "aside",
+  {
+    className: `shrink-0 border-r border-(--border-subtle) bg-(--bg-primary) transition-colors ${SIDEBAR_WIDTH_MAP[width]} ${className}`.trim(),
+    ...props
+  },
+  children
+);
+var LayoutContent = ({
+  className = "",
+  children,
+  ...props
+}) => /* @__PURE__ */ React34__default.default.createElement("main", { className: `flex-1 w-full transition-colors ${className}`.trim(), ...props }, children);
+var LayoutFooter = ({
+  className = "",
+  children,
+  ...props
+}) => /* @__PURE__ */ React34__default.default.createElement(
+  "footer",
+  {
+    className: `border-t border-(--border-subtle) bg-(--bg-primary) transition-colors ${className}`.trim(),
+    ...props
+  },
+  children
+);
+var Stack = ({
+  direction = "vertical",
+  gap = "4",
+  align = "stretch",
+  justify = "start",
+  wrap = false,
+  className = "",
+  children,
+  ...props
+}) => {
+  const dirClass = direction === "horizontal" ? "flex flex-row" : "flex flex-col";
+  const gapClass = STACK_GAP_MAP[gap] || STACK_GAP_MAP["4"];
+  const alignClass = STACK_ALIGN_MAP[align] || "";
+  const justifyClass = STACK_JUSTIFY_MAP[justify] || "";
+  const wrapClass = wrap ? "flex-wrap" : "flex-nowrap";
+  return /* @__PURE__ */ React34__default.default.createElement(
+    "div",
+    {
+      className: `${dirClass} ${gapClass} ${alignClass} ${justifyClass} ${wrapClass} ${className}`.trim(),
+      ...props
+    },
+    children
+  );
+};
+var Grid = ({
+  cols = 3,
+  gap = "4",
+  className = "",
+  children,
+  ...props
+}) => {
+  const colsClass = GRID_COLS_MAP[cols] || GRID_COLS_MAP[3];
+  const gapClass = STACK_GAP_MAP[gap] || STACK_GAP_MAP["4"];
+  return /* @__PURE__ */ React34__default.default.createElement("div", { className: `grid ${colsClass} ${gapClass} ${className}`.trim(), ...props }, children);
+};
+var Section = ({
+  spacing = "md",
+  className = "",
+  children,
+  ...props
+}) => {
+  const spacingClass = SECTION_SPACING_MAP[spacing];
+  return /* @__PURE__ */ React34__default.default.createElement("section", { className: `w-full ${spacingClass} ${className}`.trim(), ...props }, children);
+};
+var Layout = ({ as: Component = "div", className = "", children, ...props }) => {
+  return /* @__PURE__ */ React34__default.default.createElement(
+    Component,
+    {
+      className: `min-h-screen bg-(--bg-primary) text-(--text-primary) flex flex-col font-sans transition-colors ${className}`.trim(),
+      ...props
+    },
+    children
+  );
+};
+Layout.Header = LayoutHeader;
+Layout.Sidebar = LayoutSidebar;
+Layout.Content = LayoutContent;
+Layout.Footer = LayoutFooter;
+Layout.Stack = Stack;
+Layout.Grid = Grid;
+Layout.Section = Section;
+Layout.displayName = "Layout";
+var Navbar = React34__default.default.forwardRef(
+  ({
+    sticky = false,
+    bordered = true,
+    blur = true,
+    variable = "default",
+    innerClassName = "h-14",
+    className = "",
+    mobileMenu,
+    children,
+    ...props
+  }, ref) => {
+    return /* @__PURE__ */ React34__default.default.createElement(
+      "header",
+      {
+        ref,
+        "data-component": "navbar",
+        "data-variable": variable,
+        className: `atom-navbar atom-navbar--${variable} ${sticky ? "sticky top-0 z-40" : "relative"} ${bordered ? "border-b border-(--border-subtle)" : ""} ${blur ? "backdrop-blur-md bg-(--bg-primary)/95" : "bg-(--bg-primary)"} w-full transition-colors ${className}`,
+        ...props
+      },
+      /* @__PURE__ */ React34__default.default.createElement("div", { className: `max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between gap-4 ${innerClassName}` }, children),
+      mobileMenu
+    );
+  }
+);
+Navbar.displayName = "Navbar";
+var NavbarBrand = React34__default.default.forwardRef(
+  ({ href, className = "", children, ...props }, ref) => {
+    const content = /* @__PURE__ */ React34__default.default.createElement(
+      "div",
+      {
+        ref,
+        className: `flex items-center gap-2.5 font-bold text-base text-(--text-primary) tracking-tight select-none cursor-pointer ${className}`,
+        ...props
+      },
+      children
+    );
+    if (href) {
+      return /* @__PURE__ */ React34__default.default.createElement("a", { href, className: "no-underline" }, content);
+    }
+    return content;
+  }
+);
+NavbarBrand.displayName = "NavbarBrand";
+var NavbarNav = React34__default.default.forwardRef(
+  ({ className = "", children, ...props }, ref) => {
+    return /* @__PURE__ */ React34__default.default.createElement(
+      "div",
+      {
+        ref,
+        className: `hidden md:flex items-center gap-1 text-sm font-medium ${className}`,
+        ...props
+      },
+      children
+    );
+  }
+);
+NavbarNav.displayName = "NavbarNav";
+var NavbarLink = React34__default.default.forwardRef(
+  ({ active = false, className = "", children, ...props }, ref) => {
+    return /* @__PURE__ */ React34__default.default.createElement(
+      "a",
+      {
+        ref,
+        className: `px-3 py-1.5 rounded-(--radius-sm) transition-colors text-sm font-medium ${active ? "text-(--atom-color-primary,var(--accent-primary)) font-semibold bg-(--atom-color-primary-subtle,rgba(49,130,246,0.1))" : "text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary)"} ${className}`,
+        ...props
+      },
+      children
+    );
+  }
+);
+NavbarLink.displayName = "NavbarLink";
+var NavbarActions = React34__default.default.forwardRef(
+  ({ className = "", children, ...props }, ref) => {
+    return /* @__PURE__ */ React34__default.default.createElement(
+      "div",
+      {
+        ref,
+        className: `flex items-center gap-2 sm:gap-3 ${className}`,
+        ...props
+      },
+      children
+    );
+  }
+);
+NavbarActions.displayName = "NavbarActions";
+var NavbarToggle = React34__default.default.forwardRef(
+  ({ isOpen = false, onToggle, className = "", ...props }, ref) => {
+    return /* @__PURE__ */ React34__default.default.createElement(
+      "button",
+      {
+        ref,
+        type: "button",
+        onClick: onToggle,
+        "aria-label": "Toggle navigation menu",
+        className: `md:hidden p-2 rounded-(--radius-sm) text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary) transition ${className}`,
+        ...props
+      },
+      /* @__PURE__ */ React34__default.default.createElement(
+        "svg",
+        {
+          className: "w-5 h-5",
+          fill: "none",
+          stroke: "currentColor",
+          viewBox: "0 0 24 24"
+        },
+        isOpen ? /* @__PURE__ */ React34__default.default.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "2", d: "M6 18L18 6M6 6l12 12" }) : /* @__PURE__ */ React34__default.default.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "2", d: "M4 6h16M4 12h16M4 18h16" })
+      )
+    );
+  }
+);
+NavbarToggle.displayName = "NavbarToggle";
+var NavbarMobileMenu = ({
+  isOpen,
+  className = "",
+  children,
+  ...props
+}) => {
+  if (!isOpen) return null;
+  return /* @__PURE__ */ React34__default.default.createElement(
+    "div",
+    {
+      "data-component": "navbar-mobile-menu",
+      className: `md:hidden border-b border-(--border-subtle) bg-(--bg-primary) px-4 py-3 space-y-3 shadow-lg ${className}`,
+      ...props
+    },
+    children
+  );
+};
+NavbarMobileMenu.displayName = "NavbarMobileMenu";
+var Sidebar = React34__default.default.forwardRef(
+  ({
+    collapsed = false,
+    variable = "default",
+    variant,
+    size = "md",
+    width = "260px",
+    collapsedWidth = "72px",
+    className = "",
+    style,
+    children,
+    ...props
+  }, ref) => {
+    const currentWidth = collapsed ? collapsedWidth : width;
+    const activeVar = variant || variable;
+    return /* @__PURE__ */ React34__default.default.createElement(
+      "aside",
+      {
+        ref,
+        "data-component": "sidebar",
+        "data-variable": activeVar,
+        "data-collapsed": collapsed,
+        style: { width: currentWidth, ...style },
+        className: `atom-sidebar atom-sidebar--${activeVar} shrink-0 bg-(--bg-secondary)/40 border-r border-(--border-subtle) flex flex-col h-full transition-[width] duration-200 select-none ${className}`,
+        ...props
+      },
+      children
+    );
+  }
+);
+Sidebar.displayName = "Sidebar";
+var SidebarHeader = React34__default.default.forwardRef(
+  ({ className = "", children, ...props }, ref) => {
+    return /* @__PURE__ */ React34__default.default.createElement(
+      "div",
+      {
+        ref,
+        className: `h-16 px-4 shrink-0 flex items-center justify-between border-b border-(--border-subtle)/70 ${className}`,
+        ...props
+      },
+      children
+    );
+  }
+);
+SidebarHeader.displayName = "SidebarHeader";
+var SidebarContent = React34__default.default.forwardRef(
+  ({ className = "", children, ...props }, ref) => {
+    return /* @__PURE__ */ React34__default.default.createElement(
+      "div",
+      {
+        ref,
+        className: `flex-1 overflow-y-auto px-3 py-4 space-y-6 ${className}`,
+        ...props
+      },
+      children
+    );
+  }
+);
+SidebarContent.displayName = "SidebarContent";
+var SidebarGroup = React34__default.default.forwardRef(
+  ({ label, collapsible = false, defaultOpen = true, className = "", children, ...props }, ref) => {
+    const [isOpen, setIsOpen] = React34__default.default.useState(defaultOpen);
+    return /* @__PURE__ */ React34__default.default.createElement("div", { ref, "data-component": "sidebar-group", className: `space-y-1 ${className}`, ...props }, label && /* @__PURE__ */ React34__default.default.createElement(
+      "div",
+      {
+        onClick: collapsible ? () => setIsOpen(!isOpen) : void 0,
+        className: `px-3 py-1.5 text-[11px] font-mono font-bold uppercase tracking-wider text-(--text-muted) truncate flex items-center justify-between ${collapsible ? "cursor-pointer select-none hover:text-(--text-primary)" : ""}`
+      },
+      /* @__PURE__ */ React34__default.default.createElement("span", null, label),
+      collapsible && /* @__PURE__ */ React34__default.default.createElement(
+        "svg",
+        {
+          className: `w-3.5 h-3.5 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`,
+          fill: "none",
+          viewBox: "0 0 24 24",
+          stroke: "currentColor",
+          strokeWidth: 2
+        },
+        /* @__PURE__ */ React34__default.default.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", d: "M9 5l7 7-7 7" })
+      )
+    ), (!collapsible || isOpen) && children);
+  }
+);
+SidebarGroup.displayName = "SidebarGroup";
+var SidebarGroupLabel = React34__default.default.forwardRef(
+  ({ className = "", children, ...props }, ref) => {
+    return /* @__PURE__ */ React34__default.default.createElement(
+      "div",
+      {
+        ref,
+        className: `px-3 py-1.5 text-[11px] font-mono font-bold uppercase tracking-wider text-(--text-muted) truncate ${className}`,
+        ...props
+      },
+      children
+    );
+  }
+);
+SidebarGroupLabel.displayName = "SidebarGroupLabel";
+var SidebarMenu = React34__default.default.forwardRef(
+  ({ className = "", children, ...props }, ref) => {
+    return /* @__PURE__ */ React34__default.default.createElement("ul", { ref, className: `space-y-0.5 list-none m-0 p-0 ${className}`, ...props }, children);
+  }
+);
+SidebarMenu.displayName = "SidebarMenu";
+var SidebarMenuItem = React34__default.default.forwardRef(
+  ({ active = false, icon, badge, label, className = "", children, ...props }, ref) => {
+    return /* @__PURE__ */ React34__default.default.createElement("li", { ref, "data-active": active, className: `list-none ${className}`, ...props }, children ? children : /* @__PURE__ */ React34__default.default.createElement(
+      "div",
+      {
+        className: `flex items-center justify-between px-3 py-2 rounded-(--radius-sm) text-xs sm:text-sm font-medium transition cursor-pointer select-none ${active ? "bg-(--accent-primary) text-(--bg-primary) font-semibold shadow-xs" : "text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary)"}`
+      },
+      /* @__PURE__ */ React34__default.default.createElement("div", { className: "flex items-center gap-2.5 min-w-0" }, icon && /* @__PURE__ */ React34__default.default.createElement("span", { className: "shrink-0 w-4 h-4 flex items-center justify-center" }, icon), /* @__PURE__ */ React34__default.default.createElement("span", { className: "truncate" }, label)),
+      badge && /* @__PURE__ */ React34__default.default.createElement("span", { className: "shrink-0 ml-2" }, badge)
+    ));
+  }
+);
+SidebarMenuItem.displayName = "SidebarMenuItem";
+var SidebarMenuButton = React34__default.default.forwardRef(
+  ({
+    active = false,
+    icon,
+    badge,
+    collapsed = false,
+    className = "",
+    children,
+    ...props
+  }, ref) => {
+    return /* @__PURE__ */ React34__default.default.createElement(
+      "button",
+      {
+        ref,
+        type: "button",
+        "aria-current": active ? "page" : void 0,
+        title: collapsed && typeof children === "string" ? children : void 0,
+        className: `w-full flex items-center gap-3 px-3 py-2 rounded-(--radius-sm) text-xs sm:text-sm font-medium transition cursor-pointer ${collapsed ? "justify-center px-2" : "justify-between"} ${active ? "bg-(--atom-color-primary,var(--accent-primary)) text-white font-semibold shadow-xs" : "text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-primary)"} ${className}`,
+        ...props
+      },
+      /* @__PURE__ */ React34__default.default.createElement("div", { className: "flex items-center gap-2.5 min-w-0" }, icon && /* @__PURE__ */ React34__default.default.createElement("span", { className: "shrink-0 w-4 h-4 flex items-center justify-center" }, icon), !collapsed && /* @__PURE__ */ React34__default.default.createElement("span", { className: "truncate" }, children)),
+      !collapsed && badge && /* @__PURE__ */ React34__default.default.createElement("span", { className: "shrink-0" }, badge)
+    );
+  }
+);
+SidebarMenuButton.displayName = "SidebarMenuButton";
+var SidebarFooter = React34__default.default.forwardRef(
+  ({ className = "", children, ...props }, ref) => {
+    return /* @__PURE__ */ React34__default.default.createElement(
+      "div",
+      {
+        ref,
+        className: `p-3 shrink-0 border-t border-(--border-subtle)/70 ${className}`,
+        ...props
+      },
+      children
+    );
+  }
+);
+SidebarFooter.displayName = "SidebarFooter";
+var SidebarToggle = React34__default.default.forwardRef(
+  ({ collapsed = false, onToggle, className = "", ...props }, ref) => {
+    return /* @__PURE__ */ React34__default.default.createElement(
+      "button",
+      {
+        ref,
+        type: "button",
+        onClick: onToggle,
+        "aria-label": collapsed ? "\uC0AC\uC774\uB4DC\uBC14 \uD3BC\uCE58\uAE30" : "\uC0AC\uC774\uB4DC\uBC14 \uC811\uAE30",
+        className: `p-1.5 rounded-(--radius-sm) text-(--text-muted) hover:text-(--text-primary) hover:bg-(--bg-secondary) transition ${className}`,
+        ...props
+      },
+      /* @__PURE__ */ React34__default.default.createElement(
+        "svg",
+        {
+          className: `w-4 h-4 transition-transform duration-200 ${collapsed ? "rotate-180" : ""}`,
+          fill: "none",
+          stroke: "currentColor",
+          viewBox: "0 0 24 24"
+        },
+        /* @__PURE__ */ React34__default.default.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "2", d: "M11 19l-7-7 7-7m8 14l-7-7 7-7" })
+      )
+    );
+  }
+);
+SidebarToggle.displayName = "SidebarToggle";
+var SidebarSubMenu = ({
+  label,
+  icon,
+  badge,
+  defaultOpen = false,
+  className = "",
+  children,
+  ...props
+}) => {
+  const [isOpen, setIsOpen] = React34__default.default.useState(defaultOpen);
+  return /* @__PURE__ */ React34__default.default.createElement("div", { "data-component": "sidebar-sub-menu", className: `space-y-0.5 ${className}`, ...props }, /* @__PURE__ */ React34__default.default.createElement(
+    "button",
+    {
+      type: "button",
+      onClick: () => setIsOpen(!isOpen),
+      "aria-expanded": isOpen,
+      className: "w-full flex items-center justify-between px-3 py-2 rounded-(--radius-sm) text-xs sm:text-sm font-medium text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary) transition cursor-pointer select-none"
+    },
+    /* @__PURE__ */ React34__default.default.createElement("div", { className: "flex items-center gap-2.5 min-w-0" }, icon && /* @__PURE__ */ React34__default.default.createElement("span", { className: "shrink-0 w-4 h-4 flex items-center justify-center" }, icon), /* @__PURE__ */ React34__default.default.createElement("span", { className: "truncate" }, label)),
+    /* @__PURE__ */ React34__default.default.createElement("div", { className: "flex items-center gap-1.5 shrink-0 ml-2" }, badge && /* @__PURE__ */ React34__default.default.createElement("span", null, badge), /* @__PURE__ */ React34__default.default.createElement(
+      "svg",
+      {
+        className: `w-3.5 h-3.5 transition-transform duration-200 text-(--text-muted) ${isOpen ? "rotate-90" : ""}`,
+        fill: "none",
+        viewBox: "0 0 24 24",
+        stroke: "currentColor",
+        strokeWidth: 2
+      },
+      /* @__PURE__ */ React34__default.default.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", d: "M9 5l7 7-7 7" })
+    ))
+  ), isOpen && /* @__PURE__ */ React34__default.default.createElement("div", { className: "pl-6 pr-1 py-0.5 space-y-0.5 border-l border-(--border-subtle) ml-4" }, children));
+};
+SidebarSubMenu.displayName = "SidebarSubMenu";
+var SideMenu = Sidebar;
+var SideMenuGroup = SidebarGroup;
+var SideMenuItem = SidebarMenuItem;
+var SideSubMenu = SidebarSubMenu;
+var Checkbox = React34__default.default.forwardRef(
+  ({ label, description, error, className = "", id, disabled, checked, onChange, ...props }, ref) => {
+    const generatedId = React34__default.default.useId();
+    const checkboxId = id || generatedId;
+    return /* @__PURE__ */ React34__default.default.createElement("div", { className: "flex items-start gap-2.5 select-none" }, /* @__PURE__ */ React34__default.default.createElement("div", { className: "relative flex items-center justify-center mt-0.5" }, /* @__PURE__ */ React34__default.default.createElement(
+      "input",
+      {
+        ref,
+        id: checkboxId,
+        type: "checkbox",
+        checked,
+        onChange,
+        disabled,
+        "data-component": "checkbox",
+        className: ["peer appearance-none w-4 h-4 rounded-(--radius-sm) border border-(--border-strong) bg-(--bg-primary) checked:bg-(--accent-primary) checked:border-(--accent-primary) focus:outline-none focus:ring-2 focus:ring-(--accent-primary)/30 transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed", className].filter(Boolean).join(" "),
+        ...props
+      }
+    ), /* @__PURE__ */ React34__default.default.createElement(
+      "svg",
+      {
+        className: "pointer-events-none absolute w-2.5 h-2.5 text-white opacity-0 peer-checked:opacity-100 transition-opacity",
+        fill: "none",
+        viewBox: "0 0 24 24",
+        stroke: "currentColor",
+        strokeWidth: 3
+      },
+      /* @__PURE__ */ React34__default.default.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", d: "M4.5 12.75l6 6 9-13.5" })
+    )), (label || description || error) && /* @__PURE__ */ React34__default.default.createElement("div", { className: "flex flex-col gap-0.5 leading-none" }, label && /* @__PURE__ */ React34__default.default.createElement(
+      "label",
+      {
+        htmlFor: checkboxId,
+        className: ["text-xs font-medium cursor-pointer", disabled ? "text-(--text-muted) cursor-not-allowed" : "text-(--text-primary)"].join(" ")
+      },
+      label
+    ), description && /* @__PURE__ */ React34__default.default.createElement("span", { className: "text-[11px] text-(--text-secondary)" }, description), error && /* @__PURE__ */ React34__default.default.createElement("span", { className: "text-[11px] text-(--atom-color-destructive)" }, error)));
+  }
+);
+Checkbox.displayName = "Checkbox";
+var NavContext = React34__default.default.createContext({
+  variant: "default",
+  size: "md",
+  orientation: "horizontal"
+});
+var Nav = React34__default.default.forwardRef(
+  ({
+    variant = "default",
+    size = "md",
+    orientation = "horizontal",
+    fluid = false,
+    className = "",
+    children,
+    ...props
+  }, ref) => {
+    const isPills = variant === "pills";
+    const isSegmented = variant === "segmented";
+    const isTabs = variant === "tabs";
+    const containerStyle = isSegmented ? "p-1 rounded-(--radius) bg-(--bg-secondary)/80 border border-(--border-subtle)" : isPills ? "p-1.5 rounded-(--radius) bg-(--bg-secondary)/60 border border-(--border-subtle) flex-wrap" : isTabs ? "border-b border-(--border-subtle) gap-6" : "gap-1";
+    const orientationStyle = orientation === "vertical" ? "flex-col" : "flex-row items-center";
+    return /* @__PURE__ */ React34__default.default.createElement(NavContext.Provider, { value: { variant, size, orientation } }, /* @__PURE__ */ React34__default.default.createElement(
+      "nav",
+      {
+        ref,
+        "data-component": "nav",
+        "data-variant": variant,
+        "data-orientation": orientation,
+        className: `atom-nav atom-nav--${variant} flex ${orientationStyle} ${containerStyle} ${fluid ? "w-full" : ""} ${className}`,
+        ...props
+      },
+      children
+    ));
+  }
+);
+Nav.displayName = "Nav";
+var NavItem = React34__default.default.forwardRef(
+  ({ active = false, className = "", children, ...props }, ref) => {
+    return /* @__PURE__ */ React34__default.default.createElement(
+      "li",
+      {
+        ref,
+        "data-component": "nav-item",
+        className: `list-none inline-flex items-center relative ${className}`,
+        ...props
+      },
+      children
+    );
+  }
+);
+NavItem.displayName = "NavItem";
+var NavLink = React34__default.default.forwardRef(
+  ({
+    active = false,
+    disabled = false,
+    icon,
+    badge,
+    variant: overrideVariant,
+    size: overrideSize,
+    asButton = false,
+    className = "",
+    children,
+    ...props
+  }, ref) => {
+    const context = React34__default.default.useContext(NavContext);
+    const variant = overrideVariant || context.variant;
+    const size = overrideSize || context.size;
+    const sizeClasses = size === "sm" ? "text-xs px-2.5 py-1" : size === "lg" ? "text-base px-4 py-2.5" : "text-sm px-3 py-1.5";
+    let variantClasses = "";
+    if (variant === "pills" || variant === "segmented") {
+      variantClasses = active ? "bg-(--accent-primary) text-(--bg-primary) font-semibold shadow-xs" : "text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary)";
+    } else if (variant === "tabs") {
+      variantClasses = active ? "text-(--accent-primary) font-bold border-b-2 border-(--accent-primary) -mb-[1px]" : "text-(--text-secondary) hover:text-(--text-primary) border-b-2 border-transparent -mb-[1px]";
+    } else {
+      variantClasses = active ? "text-(--text-primary) font-semibold bg-(--bg-secondary)" : "text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary)/60";
+    }
+    const baseClasses = `inline-flex items-center gap-1.5 rounded-(--radius-sm) font-medium transition cursor-pointer select-none no-underline ${sizeClasses} ${variantClasses} ${disabled ? "opacity-50 pointer-events-none cursor-not-allowed" : ""} ${className}`;
+    if (asButton) {
+      return /* @__PURE__ */ React34__default.default.createElement(
+        "button",
+        {
+          ref,
+          type: "button",
+          disabled,
+          "aria-current": active ? "page" : void 0,
+          "data-component": "nav-link",
+          className: baseClasses,
+          ...props
+        },
+        icon && /* @__PURE__ */ React34__default.default.createElement("span", { className: "shrink-0" }, icon),
+        /* @__PURE__ */ React34__default.default.createElement("span", null, children),
+        badge && /* @__PURE__ */ React34__default.default.createElement("span", { className: "shrink-0 ml-1" }, badge)
+      );
+    }
+    return /* @__PURE__ */ React34__default.default.createElement(
+      "a",
+      {
+        ref,
+        "aria-current": active ? "page" : void 0,
+        "data-component": "nav-link",
+        className: baseClasses,
+        ...props
+      },
+      icon && /* @__PURE__ */ React34__default.default.createElement("span", { className: "shrink-0" }, icon),
+      /* @__PURE__ */ React34__default.default.createElement("span", null, children),
+      badge && /* @__PURE__ */ React34__default.default.createElement("span", { className: "shrink-0 ml-1" }, badge)
+    );
+  }
+);
+NavLink.displayName = "NavLink";
+var NavDropdown = ({
+  label,
+  active = false,
+  children,
+  className = "",
+  triggerClassName = "",
+  align = "left",
+  icon
+}) => {
+  const [isOpen, setIsOpen] = React34.useState(false);
+  const containerRef = React34.useRef(null);
+  const timeoutRef = React34.useRef(null);
+  const handleMouseEnter = () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    setIsOpen(true);
+  };
+  const handleMouseLeave = () => {
+    timeoutRef.current = setTimeout(() => {
+      setIsOpen(false);
+    }, 150);
+  };
+  React34.useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+  return /* @__PURE__ */ React34__default.default.createElement(
+    "div",
+    {
+      ref: containerRef,
+      onMouseEnter: handleMouseEnter,
+      onMouseLeave: handleMouseLeave,
+      "data-component": "nav-dropdown",
+      className: `relative inline-block ${className}`
+    },
+    /* @__PURE__ */ React34__default.default.createElement(
+      "button",
+      {
+        type: "button",
+        onClick: () => setIsOpen(!isOpen),
+        "aria-haspopup": "true",
+        "aria-expanded": isOpen,
+        "aria-current": active ? "page" : void 0,
+        className: `inline-flex items-center gap-1.5 px-3 py-1.5 rounded-(--radius-sm) text-sm font-medium transition cursor-pointer select-none ${active || isOpen ? "text-(--text-primary) font-semibold bg-(--bg-secondary)" : "text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary)/60"} ${triggerClassName}`
+      },
+      icon && /* @__PURE__ */ React34__default.default.createElement("span", { className: "shrink-0" }, icon),
+      /* @__PURE__ */ React34__default.default.createElement("span", null, label),
+      /* @__PURE__ */ React34__default.default.createElement(
+        "svg",
+        {
+          className: `w-3.5 h-3.5 transition-transform duration-200 ${isOpen ? "rotate-180" : "opacity-60"}`,
+          fill: "none",
+          viewBox: "0 0 24 24",
+          stroke: "currentColor",
+          strokeWidth: 2
+        },
+        /* @__PURE__ */ React34__default.default.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", d: "M19 9l-7 7-7-7" })
+      )
+    ),
+    isOpen && /* @__PURE__ */ React34__default.default.createElement(
+      "div",
+      {
+        role: "menu",
+        className: `absolute top-full mt-1.5 ${align === "right" ? "right-0" : "left-0"} w-72 p-2 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) shadow-xl z-50 flex flex-col gap-1 animate-in fade-in zoom-in-95 duration-150`
+      },
+      children
+    )
+  );
+};
+var NavDropdownItem = React34__default.default.forwardRef(
+  ({
+    active = false,
+    icon,
+    title,
+    description,
+    badge,
+    asButton = false,
+    as,
+    className = "",
+    ...props
+  }, ref) => {
+    const itemContent = /* @__PURE__ */ React34__default.default.createElement(React34__default.default.Fragment, null, icon && /* @__PURE__ */ React34__default.default.createElement("span", { className: "shrink-0 w-4 h-4 text-(--accent-primary) mt-0.5" }, icon), /* @__PURE__ */ React34__default.default.createElement("div", { className: "flex-1 min-w-0" }, /* @__PURE__ */ React34__default.default.createElement("div", { className: "flex items-center justify-between gap-2" }, /* @__PURE__ */ React34__default.default.createElement("span", { className: `text-xs font-semibold ${active ? "text-(--accent-primary)" : "text-(--text-primary)"}` }, title), badge && /* @__PURE__ */ React34__default.default.createElement("span", { className: "shrink-0" }, badge)), description && /* @__PURE__ */ React34__default.default.createElement("p", { className: "text-[11px] text-(--text-secondary) truncate mt-0.5 leading-snug" }, description)));
+    const baseClass = `w-full flex items-start gap-2.5 p-2 rounded-(--radius-sm) transition text-left cursor-pointer no-underline ${active ? "bg-(--accent-primary)/10 text-(--accent-primary)" : "hover:bg-(--bg-secondary) text-(--text-primary)"} ${className}`;
+    if (asButton || as === "button") {
+      return /* @__PURE__ */ React34__default.default.createElement(
+        "button",
+        {
+          ref,
+          type: "button",
+          role: "menuitem",
+          className: baseClass,
+          ...props
+        },
+        itemContent
+      );
+    }
+    if (as === "div" || !props.href && as !== "a") {
+      return /* @__PURE__ */ React34__default.default.createElement(
+        "div",
+        {
+          ref,
+          role: "menuitem",
+          className: baseClass,
+          ...props
+        },
+        itemContent
+      );
+    }
+    return /* @__PURE__ */ React34__default.default.createElement(
+      "a",
+      {
+        ref,
+        role: "menuitem",
+        className: baseClass,
+        ...props
+      },
+      itemContent
+    );
+  }
+);
+NavDropdownItem.displayName = "NavDropdownItem";
+var Chart = ({
+  data = [],
+  type = "line",
+  variant = "primary",
+  height = 200,
+  showGrid = true,
+  showPoints = true,
+  showLabels = true,
+  showTooltip = true,
+  strokeColor,
+  fillColor,
+  gridColor,
+  loading = false,
+  disabled = false,
+  componentType,
+  value,
+  className = "",
+  style,
+  ...rest
+}) => {
+  const gradientId = React34.useId();
+  const [hoveredIndex, setHoveredIndex] = React34.useState(null);
+  const variantColorMap = {
+    primary: { stroke: "var(--accent-primary)", fill: "var(--accent-primary)" },
+    secondary: { stroke: "var(--text-secondary)", fill: "var(--text-secondary)" },
+    success: { stroke: "var(--atom-color-success)", fill: "var(--atom-color-success)" },
+    danger: { stroke: "var(--atom-color-destructive)", fill: "var(--atom-color-destructive)" },
+    warning: { stroke: "var(--atom-color-warning)", fill: "var(--atom-color-warning)" }
+  };
+  const activeStroke = strokeColor || variantColorMap[variant]?.stroke || "var(--accent-primary)";
+  const activeFill = fillColor || variantColorMap[variant]?.fill || "var(--accent-primary)";
+  const activeGrid = gridColor || "var(--border-subtle)";
+  if (loading) {
+    return /* @__PURE__ */ React34__default.default.createElement(
+      "div",
+      {
+        className: `w-full flex flex-col items-center justify-center p-6 rounded-(--radius) bg-(--bg-secondary)/40 border border-(--border-subtle) animate-pulse ${className}`,
+        style: { height, ...style },
+        ...rest
+      },
+      /* @__PURE__ */ React34__default.default.createElement("div", { className: "w-8 h-8 rounded-full border-2 border-(--border-subtle) border-t-(--accent-primary) animate-spin mb-2" }),
+      /* @__PURE__ */ React34__default.default.createElement("span", { className: "text-xs font-mono text-(--text-muted)" }, "Loading chart...")
+    );
+  }
+  if (!data || data.length === 0) {
+    return /* @__PURE__ */ React34__default.default.createElement(
+      "div",
+      {
+        className: `w-full flex items-center justify-center p-6 rounded-(--radius) bg-(--bg-secondary)/30 border border-(--border-subtle) text-xs text-(--text-muted) ${className}`,
+        style: { height, ...style },
+        ...rest
+      },
+      "No chart data available"
+    );
+  }
+  const values = data.map((d) => d.value);
+  const rawMin = Math.min(...values);
+  const rawMax = Math.max(...values);
+  const minVal = rawMin === rawMax ? rawMin > 0 ? 0 : rawMin - 10 : rawMin * 0.95;
+  const maxVal = rawMin === rawMax ? rawMax > 0 ? rawMax * 1.5 : 10 : rawMax * 1.05;
+  const valRange = maxVal - minVal || 1;
+  const svgWidth = 600;
+  const svgHeight = height;
+  const paddingLeft = 36;
+  const paddingRight = 24;
+  const paddingTop = 20;
+  const paddingBottom = showLabels ? 30 : 16;
+  const chartInnerWidth = svgWidth - paddingLeft - paddingRight;
+  const chartInnerHeight = svgHeight - paddingTop - paddingBottom;
+  const getX = (index) => {
+    if (data.length <= 1) return paddingLeft + chartInnerWidth / 2;
+    return paddingLeft + index / (data.length - 1) * chartInnerWidth;
+  };
+  const getY = (val) => {
+    return paddingTop + chartInnerHeight - (val - minVal) / valRange * chartInnerHeight;
+  };
+  const linePoints = data.map((d, i) => `${i === 0 ? "M" : "L"} ${getX(i)} ${getY(d.value)}`).join(" ");
+  const areaPath = `${linePoints} L ${getX(data.length - 1)} ${paddingTop + chartInnerHeight} L ${getX(0)} ${paddingTop + chartInnerHeight} Z`;
+  const gridLevels = [0, 0.33, 0.66, 1];
+  const hoveredItem = hoveredIndex !== null && data[hoveredIndex] ? data[hoveredIndex] : null;
+  return /* @__PURE__ */ React34__default.default.createElement(
+    "div",
+    {
+      className: `relative w-full rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) p-2 overflow-hidden transition-all ${disabled ? "opacity-40 pointer-events-none" : ""} ${className}`,
+      style,
+      role: "graphics-document",
+      "aria-label": "Interactive Data Chart",
+      "data-component": "chart",
+      "data-type": componentType,
+      "data-value": value,
+      ...rest
+    },
+    /* @__PURE__ */ React34__default.default.createElement(
+      "svg",
+      {
+        viewBox: `0 0 ${svgWidth} ${svgHeight}`,
+        className: "w-full h-auto overflow-visible select-none",
+        style: { maxHeight: height }
+      },
+      /* @__PURE__ */ React34__default.default.createElement("defs", null, /* @__PURE__ */ React34__default.default.createElement("linearGradient", { id: `chart-grad-${gradientId}`, x1: "0", y1: "0", x2: "0", y2: "1" }, /* @__PURE__ */ React34__default.default.createElement("stop", { offset: "0%", stopColor: activeFill, stopOpacity: "0.32" }), /* @__PURE__ */ React34__default.default.createElement("stop", { offset: "100%", stopColor: activeFill, stopOpacity: "0.0" }))),
+      showGrid && gridLevels.map((lvl, idx) => {
+        const y = paddingTop + chartInnerHeight * (1 - lvl);
+        const gridVal = minVal + valRange * lvl;
+        return /* @__PURE__ */ React34__default.default.createElement("g", { key: idx }, /* @__PURE__ */ React34__default.default.createElement(
+          "line",
+          {
+            x1: paddingLeft,
+            y1: y,
+            x2: svgWidth - paddingRight,
+            y2: y,
+            stroke: activeGrid,
+            strokeDasharray: "4 4",
+            strokeWidth: "1",
+            opacity: "0.75"
+          }
+        ), /* @__PURE__ */ React34__default.default.createElement(
+          "text",
+          {
+            x: paddingLeft - 8,
+            y: y + 3,
+            textAnchor: "end",
+            fontSize: "9",
+            fill: "var(--text-muted)",
+            fontFamily: "monospace"
+          },
+          Math.round(gridVal)
+        ));
+      }),
+      type === "bar" && data.map((d, i) => {
+        const barW = Math.max(12, chartInnerWidth / data.length * 0.55);
+        const x = getX(i) - barW / 2;
+        const y = getY(d.value);
+        const barH = paddingTop + chartInnerHeight - y;
+        const isHovered = hoveredIndex === i;
+        return /* @__PURE__ */ React34__default.default.createElement("g", { key: i }, /* @__PURE__ */ React34__default.default.createElement(
+          "rect",
+          {
+            x,
+            y,
+            width: barW,
+            height: Math.max(2, barH),
+            rx: "3",
+            fill: isHovered ? activeStroke : activeFill,
+            opacity: isHovered ? 1 : 0.85,
+            className: "transition-all duration-150 cursor-pointer",
+            onMouseEnter: () => setHoveredIndex(i),
+            onMouseLeave: () => setHoveredIndex(null)
+          }
+        ));
+      }),
+      type === "area" && /* @__PURE__ */ React34__default.default.createElement("path", { d: areaPath, fill: `url(#chart-grad-${gradientId})` }),
+      (type === "line" || type === "area") && /* @__PURE__ */ React34__default.default.createElement(
+        "path",
+        {
+          d: linePoints,
+          fill: "none",
+          stroke: activeStroke,
+          strokeWidth: "2.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      (type === "line" || type === "area") && data.map((d, i) => {
+        const cx = getX(i);
+        const cy = getY(d.value);
+        const isHovered = hoveredIndex === i;
+        return /* @__PURE__ */ React34__default.default.createElement("g", { key: i, className: "cursor-pointer", onMouseEnter: () => setHoveredIndex(i), onMouseLeave: () => setHoveredIndex(null) }, /* @__PURE__ */ React34__default.default.createElement("circle", { cx, cy, r: "14", fill: "transparent" }), showPoints && /* @__PURE__ */ React34__default.default.createElement(
+          "circle",
+          {
+            cx,
+            cy,
+            r: isHovered ? 5.5 : 3.5,
+            fill: "var(--bg-primary)",
+            stroke: activeStroke,
+            strokeWidth: isHovered ? "2.5" : "2",
+            className: "transition-all duration-150 shadow-xs"
+          }
+        ));
+      }),
+      showLabels && data.map((d, i) => {
+        const x = getX(i);
+        const y = svgHeight - 8;
+        const isHovered = hoveredIndex === i;
+        return /* @__PURE__ */ React34__default.default.createElement(
+          "text",
+          {
+            key: i,
+            x,
+            y,
+            textAnchor: "middle",
+            fontSize: "10",
+            fill: isHovered ? "var(--text-primary)" : "var(--text-muted)",
+            fontWeight: isHovered ? "bold" : "normal",
+            className: "transition-colors select-none"
+          },
+          d.label
+        );
+      })
+    ),
+    showTooltip && hoveredItem && hoveredIndex !== null && /* @__PURE__ */ React34__default.default.createElement(
+      "div",
+      {
+        className: "absolute z-10 px-2.5 py-1.5 rounded-(--radius-sm) bg-(--bg-primary) border border-(--border-strong) text-[11px] shadow-lg pointer-events-none transform -translate-x-1/2 -translate-y-full transition-all duration-75",
+        style: {
+          left: `${getX(hoveredIndex) / svgWidth * 100}%`,
+          top: `${getY(hoveredItem.value) / svgHeight * 100 - 8}%`
+        }
+      },
+      /* @__PURE__ */ React34__default.default.createElement("div", { className: "font-semibold text-(--text-primary)" }, hoveredItem.label),
+      /* @__PURE__ */ React34__default.default.createElement("div", { className: "font-mono font-bold", style: { color: activeStroke } }, hoveredItem.value.toLocaleString())
+    )
+  );
+};
+var Offcanvas = ({
+  isOpen,
+  onClose,
+  title,
+  description,
+  placement = "right",
+  size = "md",
+  showCloseButton = true,
+  closeOnBackdrop = true,
+  closeOnEscape = true,
+  children,
+  footer,
+  className = "",
+  backdropClassName = "",
+  inline = false,
+  componentType,
+  value,
+  style
+}) => {
+  const handleKeyDown = React34.useCallback(
+    (e) => {
+      if (closeOnEscape && e.key === "Escape") {
+        onClose();
+      }
+    },
+    [closeOnEscape, onClose]
+  );
+  React34.useEffect(() => {
+    if (inline) return;
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+      window.addEventListener("keydown", handleKeyDown);
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOpen, inline, handleKeyDown]);
+  const sizeClasses = {
+    right: {
+      sm: "w-72 max-w-[85vw]",
+      md: "w-96 max-w-[90vw]",
+      lg: "w-[480px] max-w-[95vw]",
+      full: "w-full"
+    },
+    left: {
+      sm: "w-72 max-w-[85vw]",
+      md: "w-96 max-w-[90vw]",
+      lg: "w-[480px] max-w-[95vw]",
+      full: "w-full"
+    },
+    top: {
+      sm: "h-48 max-h-[70vh]",
+      md: "h-72 max-h-[80vh]",
+      lg: "h-96 max-h-[90vh]",
+      full: "h-full"
+    },
+    bottom: {
+      sm: "h-48 max-h-[70vh]",
+      md: "h-72 max-h-[80vh]",
+      lg: "h-96 max-h-[90vh]",
+      full: "h-full"
+    }
+  };
+  const placementClasses = {
+    right: "inset-y-0 right-0 border-l animate-in slide-in-from-right duration-250",
+    left: "inset-y-0 left-0 border-r animate-in slide-in-from-left duration-250",
+    top: "inset-x-0 top-0 border-b animate-in slide-in-from-top duration-250",
+    bottom: "inset-x-0 bottom-0 border-t animate-in slide-in-from-bottom duration-250"
+  };
+  if (inline) {
+    return /* @__PURE__ */ React34__default.default.createElement(
+      "div",
+      {
+        className: `w-full max-w-md rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) shadow-lg overflow-hidden flex flex-col transition-all ${className}`,
+        style,
+        "data-component": "offcanvas",
+        "data-type": componentType,
+        "data-value": value
+      },
+      (title || showCloseButton) && /* @__PURE__ */ React34__default.default.createElement("div", { className: "p-4 border-b border-(--border-subtle) flex items-start justify-between gap-3 bg-(--bg-secondary)/30" }, /* @__PURE__ */ React34__default.default.createElement("div", { className: "min-w-0 flex-1" }, title && /* @__PURE__ */ React34__default.default.createElement("h3", { className: "font-bold text-sm text-(--text-primary) truncate" }, title), description && /* @__PURE__ */ React34__default.default.createElement("p", { className: "text-xs text-(--text-secondary) mt-0.5 leading-relaxed" }, description)), showCloseButton && /* @__PURE__ */ React34__default.default.createElement(
+        Button,
+        {
+          variant: "ghost",
+          size: "sm",
+          isIconOnly: true,
+          onClick: onClose,
+          className: "p-1 h-auto text-(--text-muted) hover:text-(--text-primary) shrink-0",
+          "aria-label": "\uB2EB\uAE30"
+        },
+        /* @__PURE__ */ React34__default.default.createElement(lucideReact.X, { className: "w-4 h-4" })
+      )),
+      /* @__PURE__ */ React34__default.default.createElement("div", { className: "p-4 flex-1 overflow-y-auto text-xs text-(--text-secondary) space-y-3" }, children),
+      footer && /* @__PURE__ */ React34__default.default.createElement("div", { className: "p-3.5 border-t border-(--border-subtle) bg-(--bg-secondary)/40 flex items-center justify-end gap-2" }, footer)
+    );
+  }
+  if (!isOpen) return null;
+  return /* @__PURE__ */ React34__default.default.createElement(
+    "div",
+    {
+      role: "dialog",
+      "aria-modal": "true",
+      className: "fixed inset-0 z-50 flex overflow-hidden"
+    },
+    /* @__PURE__ */ React34__default.default.createElement(
+      "div",
+      {
+        className: `fixed inset-0 bg-black/40 backdrop-blur-xs transition-opacity animate-in fade-in duration-200 ${backdropClassName}`,
+        onClick: closeOnBackdrop ? onClose : void 0,
+        "aria-hidden": "true"
+      }
+    ),
+    /* @__PURE__ */ React34__default.default.createElement(
+      "div",
+      {
+        className: `fixed z-50 flex flex-col bg-(--bg-primary) border-(--border-subtle) shadow-2xl overflow-hidden ${placementClasses[placement]} ${sizeClasses[placement][size]} ${className}`,
+        style,
+        "data-component": "offcanvas",
+        "data-type": componentType,
+        "data-value": value
+      },
+      (title || showCloseButton) && /* @__PURE__ */ React34__default.default.createElement("div", { className: "p-4 sm:p-5 border-b border-(--border-subtle) flex items-start justify-between gap-3 shrink-0" }, /* @__PURE__ */ React34__default.default.createElement("div", { className: "min-w-0 flex-1" }, title && /* @__PURE__ */ React34__default.default.createElement("h3", { className: "font-bold text-sm sm:text-base text-(--text-primary) tracking-tight" }, title), description && /* @__PURE__ */ React34__default.default.createElement("p", { className: "text-xs text-(--text-secondary) mt-1 leading-relaxed" }, description)), showCloseButton && /* @__PURE__ */ React34__default.default.createElement(
+        Button,
+        {
+          variant: "ghost",
+          size: "sm",
+          isIconOnly: true,
+          onClick: onClose,
+          className: "p-1.5 h-auto text-(--text-muted) hover:text-(--text-primary) shrink-0 rounded-(--radius-sm)",
+          "aria-label": "\uB2EB\uAE30"
+        },
+        /* @__PURE__ */ React34__default.default.createElement(lucideReact.X, { className: "w-4 h-4" })
+      )),
+      /* @__PURE__ */ React34__default.default.createElement("div", { className: "flex-1 overflow-y-auto p-4 sm:p-5 space-y-4 text-xs sm:text-sm text-(--text-secondary)" }, children),
+      footer && /* @__PURE__ */ React34__default.default.createElement("div", { className: "p-4 border-t border-(--border-subtle) bg-(--bg-secondary)/30 flex items-center justify-end gap-2 shrink-0" }, footer)
+    )
+  );
+};
+var OffcanvasHeader = ({
+  className = "",
+  children,
+  ...props
+}) => /* @__PURE__ */ React34__default.default.createElement("div", { className: `p-4 border-b border-(--border-subtle) flex items-center justify-between ${className}`, ...props }, children);
+var OffcanvasBody = ({
+  className = "",
+  children,
+  ...props
+}) => /* @__PURE__ */ React34__default.default.createElement("div", { className: `flex-1 overflow-y-auto p-4 ${className}`, ...props }, children);
+var OffcanvasFooter = ({
+  className = "",
+  children,
+  ...props
+}) => /* @__PURE__ */ React34__default.default.createElement("div", { className: `p-4 border-t border-(--border-subtle) bg-(--bg-secondary)/30 flex items-center justify-end gap-2 ${className}`, ...props }, children);
+var defaultIcons = {
+  info: /* @__PURE__ */ React34__default.default.createElement(lucideReact.Info, { className: "w-5 h-5 text-(--accent-primary) shrink-0" }),
+  success: /* @__PURE__ */ React34__default.default.createElement(lucideReact.CheckCircle2, { className: "w-5 h-5 text-(--atom-color-success,var(--accent-primary)) shrink-0" }),
+  warning: /* @__PURE__ */ React34__default.default.createElement(lucideReact.AlertTriangle, { className: "w-5 h-5 text-(--atom-color-warning,#f59e0b) shrink-0" }),
+  danger: /* @__PURE__ */ React34__default.default.createElement(lucideReact.AlertCircle, { className: "w-5 h-5 text-(--atom-color-destructive,#ef4444) shrink-0" }),
+  action: /* @__PURE__ */ React34__default.default.createElement(lucideReact.Info, { className: "w-5 h-5 text-(--accent-primary) shrink-0" })
+};
+var Toast = ({
+  variant = "info",
+  title,
+  description,
+  children,
+  icon,
+  action,
+  onClose,
+  showCloseButton = true,
+  duration = 0,
+  isOpen = true,
+  inline = false,
+  componentType,
+  value,
+  status = "default",
+  className = "",
+  style,
+  ...props
+}) => {
+  const [visible, setVisible] = React34.useState(isOpen);
+  React34.useEffect(() => {
+    setVisible(isOpen);
+  }, [isOpen]);
+  React34.useEffect(() => {
+    if (visible && duration > 0 && onClose) {
+      const timer = setTimeout(() => {
+        setVisible(false);
+        onClose();
+      }, duration);
+      return () => clearTimeout(timer);
+    }
+  }, [visible, duration, onClose]);
+  if (!visible) return null;
+  const resolvedIcon = icon !== void 0 ? icon : defaultIcons[variant] || defaultIcons.info;
+  const statusClass = status && status !== "default" ? `atom-status--${status}` : "";
+  const content = /* @__PURE__ */ React34__default.default.createElement(
+    "div",
+    {
+      role: "status",
+      "aria-live": "polite",
+      "data-component": "toast",
+      "data-variant": variant,
+      "data-status": status,
+      "data-type": componentType,
+      "data-value": value || variant,
+      className: `atom-toast atom-toast--${variant} ${statusClass} flex items-start gap-3 p-4 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) shadow-lg text-(--text-primary) transition-all duration-200 select-none ${className}`,
+      style,
+      ...props
+    },
+    resolvedIcon && /* @__PURE__ */ React34__default.default.createElement("div", { className: "mt-0.5" }, resolvedIcon),
+    /* @__PURE__ */ React34__default.default.createElement("div", { className: "flex-1 min-w-0 pr-1" }, title && /* @__PURE__ */ React34__default.default.createElement("div", { className: "font-semibold text-sm leading-tight text-inherit" }, title), (description || children) && /* @__PURE__ */ React34__default.default.createElement("div", { className: `text-xs text-inherit opacity-85 leading-relaxed ${title ? "mt-1" : ""}` }, description || children)),
+    action && /* @__PURE__ */ React34__default.default.createElement("div", { className: "shrink-0 pl-1" }, React34__default.default.isValidElement(action) ? action : /* @__PURE__ */ React34__default.default.createElement(
+      Button,
+      {
+        variant: "outline",
+        size: "sm",
+        onClick: action.onClick,
+        className: "text-xs font-medium px-2 py-1 h-auto"
+      },
+      action.label
+    )),
+    showCloseButton && onClose && /* @__PURE__ */ React34__default.default.createElement("div", { className: "shrink-0 -mr-1 -mt-1" }, /* @__PURE__ */ React34__default.default.createElement(
+      Button,
+      {
+        variant: "ghost",
+        size: "sm",
+        onClick: () => {
+          setVisible(false);
+          onClose();
+        },
+        "aria-label": "\uC54C\uB9BC \uB2EB\uAE30",
+        className: "p-1 h-auto w-auto text-inherit opacity-70 hover:opacity-100"
+      },
+      /* @__PURE__ */ React34__default.default.createElement(lucideReact.X, { className: "w-4 h-4" })
+    ))
+  );
+  if (inline) {
+    return /* @__PURE__ */ React34__default.default.createElement("div", { className: "w-full" }, content);
+  }
+  return content;
+};
+Toast.displayName = "Toast";
+var isColorValue = (val) => {
+  if (!val) return false;
+  return val.startsWith("#") || val.startsWith("rgb") || val.startsWith("hsl") || val.includes("--atom-palette-") || val.includes("--atom-color-");
+};
+var TokenSelect = ({
+  options = [],
+  value = "",
+  onChange,
+  placeholder = "\uD1A0\uD070 \uAC80\uC0C9 \uBC0F \uC120\uD0DD...",
+  label,
+  size = "md",
+  variant = "outlined",
+  disabled = false,
+  className = "",
+  showColorSwatch = true,
+  showVarId = true,
+  showValueBadge = true,
+  id,
+  "aria-label": ariaLabel
+}) => {
+  const [isOpen, setIsOpen] = React34.useState(false);
+  const [searchQuery, setSearchQuery] = React34.useState("");
+  const [selectedFamily, setSelectedFamily] = React34.useState("all");
+  const containerRef = React34.useRef(null);
+  const searchInputRef = React34.useRef(null);
+  const selectedOption = React34.useMemo(() => {
+    return options.find((opt) => opt.id === value || opt.value === value);
+  }, [options, value]);
+  const uniqueFamilies = React34.useMemo(() => {
+    const families = /* @__PURE__ */ new Set();
+    options.forEach((opt) => {
+      if (opt.family) families.add(opt.family);
+      else if (opt.category) families.add(opt.category);
+    });
+    return Array.from(families);
+  }, [options]);
+  const filteredOptions = React34.useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
+    return options.filter((opt) => {
+      if (selectedFamily !== "all") {
+        const matchesFamily = opt.family === selectedFamily || opt.category === selectedFamily;
+        if (!matchesFamily) return false;
+      }
+      if (!q) return true;
+      const matchName = opt.name.toLowerCase().includes(q);
+      const matchId = opt.id.toLowerCase().includes(q);
+      const matchVal = opt.value.toLowerCase().includes(q);
+      const matchFamily = opt.family?.toLowerCase().includes(q);
+      return matchName || matchId || matchVal || matchFamily;
+    });
+  }, [options, searchQuery, selectedFamily]);
+  React34.useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
+        setIsOpen(false);
+      }
+    };
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
+  React34.useEffect(() => {
+    if (isOpen) {
+      setTimeout(() => {
+        searchInputRef.current?.focus();
+      }, 50);
+    } else {
+      setSearchQuery("");
+      setSelectedFamily("all");
+    }
+  }, [isOpen]);
+  const handleKeyDown = (e) => {
+    if (e.key === "Escape") {
+      setIsOpen(false);
+    } else if (e.key === "Enter" && isOpen && filteredOptions.length > 0) {
+      const topMatch = filteredOptions[0];
+      onChange?.(topMatch.id, topMatch);
+      setIsOpen(false);
+    }
+  };
+  const sizeClasses = {
+    sm: "h-7 text-xs px-2 py-1",
+    md: "h-8 text-xs px-2.5 py-1.5",
+    lg: "h-10 text-sm px-3 py-2"
+  }[size];
+  const variantClasses = {
+    outlined: "border border-(--border-subtle) bg-(--bg-primary) hover:border-(--border-strong)",
+    filled: "border border-transparent bg-(--bg-secondary)/80 hover:bg-(--bg-secondary)",
+    subtle: "border border-transparent bg-transparent hover:bg-(--bg-secondary)/60"
+  }[variant];
+  const displayColor = selectedOption && isColorValue(selectedOption.value) ? selectedOption.value : null;
+  return /* @__PURE__ */ React34__default.default.createElement(
+    "div",
+    {
+      ref: containerRef,
+      className: `relative w-full flex flex-col gap-1 ${className}`,
+      onKeyDown: handleKeyDown
+    },
+    label && /* @__PURE__ */ React34__default.default.createElement(
+      "label",
+      {
+        htmlFor: id,
+        className: "text-[11px] font-medium text-(--text-secondary) block select-none"
+      },
+      label
+    ),
+    /* @__PURE__ */ React34__default.default.createElement(
+      "div",
+      {
+        role: "combobox",
+        "aria-expanded": isOpen,
+        "aria-haspopup": "listbox",
+        "aria-label": ariaLabel || label || placeholder,
+        tabIndex: disabled ? -1 : 0,
+        onClick: () => !disabled && setIsOpen(!isOpen),
+        className: `w-full flex items-center justify-between gap-2 rounded-(--radius-sm) cursor-pointer select-none transition-all outline-none focus-visible:ring-1 focus-visible:ring-(--accent-primary) ${sizeClasses} ${variantClasses} ${disabled ? "opacity-50 cursor-not-allowed pointer-events-none" : ""} ${isOpen ? "ring-1 ring-(--accent-primary) border-(--accent-primary)" : ""}`
+      },
+      /* @__PURE__ */ React34__default.default.createElement("div", { className: "flex items-center gap-2 min-w-0 flex-1" }, showColorSwatch && displayColor && /* @__PURE__ */ React34__default.default.createElement(
+        "span",
+        {
+          style: { backgroundColor: displayColor },
+          className: "w-4 h-4 rounded-xs border border-(--border-subtle) shrink-0 shadow-2xs",
+          title: displayColor
+        }
+      ), /* @__PURE__ */ React34__default.default.createElement("span", { className: "truncate font-medium text-(--text-primary)" }, selectedOption ? selectedOption.name : placeholder), showValueBadge && selectedOption && /* @__PURE__ */ React34__default.default.createElement("span", { className: "text-[10px] font-mono px-1 py-0.2 rounded bg-(--bg-secondary) text-(--text-secondary) shrink-0 border border-(--border-subtle)/50" }, selectedOption.value)),
+      /* @__PURE__ */ React34__default.default.createElement(
+        lucideReact.ChevronDown,
+        {
+          className: `w-3.5 h-3.5 text-(--text-muted) shrink-0 transition-transform duration-200 ${isOpen ? "rotate-180 text-(--accent-primary)" : ""}`
+        }
+      )
+    ),
+    isOpen && /* @__PURE__ */ React34__default.default.createElement(
+      "div",
+      {
+        role: "listbox",
+        className: "absolute top-full left-0 right-0 z-50 mt-1 min-w-[280px] max-w-[420px] rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) shadow-xl overflow-hidden animate-in fade-in zoom-in-95 duration-100 flex flex-col",
+        style: { maxHeight: "340px" }
+      },
+      /* @__PURE__ */ React34__default.default.createElement("div", { className: "p-2 border-b border-(--border-subtle) bg-(--bg-secondary)/40 flex items-center gap-1.5 shrink-0" }, /* @__PURE__ */ React34__default.default.createElement("div", { className: "relative flex-1" }, /* @__PURE__ */ React34__default.default.createElement(
+        Input,
+        {
+          ref: searchInputRef,
+          value: searchQuery,
+          onChange: (e) => setSearchQuery(e.target.value),
+          placeholder: "\uD1A0\uD070\uBA85, var ID, HEX \uAC80\uC0C9...",
+          leftIcon: /* @__PURE__ */ React34__default.default.createElement(lucideReact.Search, { className: "w-3.5 h-3.5 text-(--text-muted)" }),
+          className: "h-7 text-xs bg-(--bg-primary)"
+        }
+      ), searchQuery && /* @__PURE__ */ React34__default.default.createElement(
+        "div",
+        {
+          role: "button",
+          tabIndex: 0,
+          onClick: () => setSearchQuery(""),
+          className: "absolute right-2 top-1/2 -translate-y-1/2 text-(--text-muted) hover:text-(--text-primary) cursor-pointer",
+          title: "\uAC80\uC0C9\uC5B4 \uC9C0\uC6B0\uAE30"
+        },
+        /* @__PURE__ */ React34__default.default.createElement(lucideReact.X, { className: "w-3 h-3" })
+      ))),
+      uniqueFamilies.length > 1 && /* @__PURE__ */ React34__default.default.createElement("div", { className: "px-2 py-1.5 border-b border-(--border-subtle)/60 bg-(--bg-secondary)/20 flex items-center gap-1 overflow-x-auto shrink-0 scrollbar-none" }, /* @__PURE__ */ React34__default.default.createElement(
+        "span",
+        {
+          role: "button",
+          tabIndex: 0,
+          onClick: () => setSelectedFamily("all"),
+          className: `text-[10px] font-mono px-2 py-0.5 rounded cursor-pointer transition shrink-0 ${selectedFamily === "all" ? "bg-(--accent-primary) text-white font-semibold" : "bg-(--bg-primary) text-(--text-secondary) hover:text-(--text-primary) border border-(--border-subtle)"}`
+        },
+        "\uC804\uCCB4 (",
+        options.length,
+        ")"
+      ), uniqueFamilies.map((fam) => {
+        const count = options.filter(
+          (o) => o.family === fam || o.category === fam
+        ).length;
+        return /* @__PURE__ */ React34__default.default.createElement(
+          "span",
+          {
+            key: fam,
+            role: "button",
+            tabIndex: 0,
+            onClick: () => setSelectedFamily(fam),
+            className: `text-[10px] font-mono px-2 py-0.5 rounded cursor-pointer transition shrink-0 capitalize ${selectedFamily === fam ? "bg-(--accent-primary) text-white font-semibold" : "bg-(--bg-primary) text-(--text-secondary) hover:text-(--text-primary) border border-(--border-subtle)"}`
+          },
+          fam,
+          " (",
+          count,
+          ")"
+        );
+      })),
+      /* @__PURE__ */ React34__default.default.createElement("div", { className: "overflow-y-auto flex-1 divide-y divide-(--border-subtle)/30" }, filteredOptions.length === 0 ? /* @__PURE__ */ React34__default.default.createElement("div", { className: "p-4 text-center text-xs text-(--text-muted) flex flex-col items-center justify-center gap-1" }, /* @__PURE__ */ React34__default.default.createElement(lucideReact.Search, { className: "w-4 h-4 opacity-40 mb-1" }), /* @__PURE__ */ React34__default.default.createElement("span", null, "\uC77C\uCE58\uD558\uB294 \uB514\uC790\uC778 \uD1A0\uD070\uC774 \uC5C6\uC2B5\uB2C8\uB2E4."), /* @__PURE__ */ React34__default.default.createElement("span", { className: "text-[10px] opacity-70" }, "\uB2E4\uB978 \uD0A4\uC6CC\uB4DC\uB098 \uC0C9\uC0C1\uAC12(HEX)\uC73C\uB85C \uAC80\uC0C9\uD574 \uBCF4\uC138\uC694.")) : filteredOptions.map((opt) => {
+        const isSelected = opt.id === value || opt.value === value;
+        const isColor = isColorValue(opt.value);
+        return /* @__PURE__ */ React34__default.default.createElement(
+          "div",
+          {
+            key: opt.id,
+            role: "option",
+            "aria-selected": isSelected,
+            onClick: () => {
+              onChange?.(opt.id, opt);
+              setIsOpen(false);
+            },
+            className: `px-2.5 py-1.5 flex items-center justify-between gap-2 cursor-pointer transition text-xs select-none ${isSelected ? "bg-(--accent-primary)/10 border-l-2 border-(--accent-primary)" : "hover:bg-(--bg-secondary)/70"}`
+          },
+          /* @__PURE__ */ React34__default.default.createElement("div", { className: "flex items-center gap-2 min-w-0 flex-1" }, /* @__PURE__ */ React34__default.default.createElement("span", { className: "w-3.5 h-3.5 flex items-center justify-center shrink-0" }, isSelected ? /* @__PURE__ */ React34__default.default.createElement(lucideReact.Check, { className: "w-3.5 h-3.5 text-(--accent-primary)" }) : null), showColorSwatch && isColor && /* @__PURE__ */ React34__default.default.createElement(
+            "span",
+            {
+              style: { backgroundColor: opt.value },
+              className: "w-4 h-4 rounded-xs border border-(--border-subtle) shrink-0 shadow-2xs"
+            }
+          ), /* @__PURE__ */ React34__default.default.createElement("div", { className: "flex flex-col min-w-0" }, /* @__PURE__ */ React34__default.default.createElement(
+            "span",
+            {
+              className: `truncate text-xs ${isSelected ? "font-bold text-(--accent-primary)" : "font-medium text-(--text-primary)"}`
+            },
+            opt.name
+          ), showVarId && /* @__PURE__ */ React34__default.default.createElement("span", { className: "text-[10px] font-mono text-(--text-muted) truncate" }, "var(", opt.id, ")"))),
+          /* @__PURE__ */ React34__default.default.createElement("div", { className: "shrink-0 flex items-center gap-1" }, opt.family && /* @__PURE__ */ React34__default.default.createElement("span", { className: "text-[9px] font-mono px-1 py-0.2 rounded bg-(--bg-secondary)/60 text-(--text-muted) uppercase" }, opt.family), /* @__PURE__ */ React34__default.default.createElement("span", { className: "text-[10px] font-mono px-1.5 py-0.5 rounded bg-(--bg-secondary) text-(--text-secondary) border border-(--border-subtle)/50" }, opt.value))
+        );
+      })),
+      /* @__PURE__ */ React34__default.default.createElement("div", { className: "px-2.5 py-1 bg-(--bg-secondary)/30 border-t border-(--border-subtle) text-[10px] font-mono text-(--text-muted) flex items-center justify-between shrink-0" }, /* @__PURE__ */ React34__default.default.createElement("span", null, "\uCD1D ", filteredOptions.length, "\uAC1C \uD1A0\uD070"), /* @__PURE__ */ React34__default.default.createElement("span", { className: "flex items-center gap-1" }, /* @__PURE__ */ React34__default.default.createElement(lucideReact.Sparkles, { className: "w-2.5 h-2.5 text-(--accent-primary)" }), "W3C DTCG"))
+    )
+  );
+};
+var TONE_TOKEN_MAP = {
+  info: {
+    color: "var(--accent-primary, var(--atom-color-primary, var(--accent-primary)))",
+    bgVar: "var(--atom-color-primary-subtle, rgba(49, 130, 246, 0.08))",
+    borderVar: "var(--accent-primary, var(--atom-color-primary, var(--accent-primary)))"
+  },
+  success: {
+    color: "var(--atom-color-success, #10b981)",
+    bgVar: "var(--atom-color-success-subtle, rgba(16, 185, 129, 0.08))",
+    borderVar: "var(--atom-color-success, #10b981)"
+  },
+  warning: {
+    color: "var(--atom-color-warning, #f59e0b)",
+    bgVar: "var(--atom-color-warning-subtle, rgba(245, 158, 11, 0.08))",
+    borderVar: "var(--atom-color-warning, #f59e0b)"
+  },
+  destructive: {
+    color: "var(--atom-color-destructive, var(--atom-color-danger, #ef4444))",
+    bgVar: "var(--atom-color-danger-subtle, rgba(239, 68, 68, 0.08))",
+    borderVar: "var(--atom-color-destructive, var(--atom-color-danger, #ef4444))"
+  },
+  neutral: {
+    color: "var(--text-primary)",
+    bgVar: "var(--bg-secondary)",
+    borderVar: "var(--border-strong)"
+  }
+};
+var DEFAULT_ICONS = {
+  info: /* @__PURE__ */ React34__default.default.createElement(lucideReact.Info, { className: "w-4 h-4 shrink-0" }),
+  success: /* @__PURE__ */ React34__default.default.createElement(lucideReact.CheckCircle2, { className: "w-4 h-4 shrink-0" }),
+  warning: /* @__PURE__ */ React34__default.default.createElement(lucideReact.AlertTriangle, { className: "w-4 h-4 shrink-0" }),
+  destructive: /* @__PURE__ */ React34__default.default.createElement(lucideReact.AlertCircle, { className: "w-4 h-4 shrink-0" }),
+  neutral: /* @__PURE__ */ React34__default.default.createElement(lucideReact.Bell, { className: "w-4 h-4 shrink-0" })
+};
+var Alert = React34__default.default.forwardRef(
+  ({
+    componentType = "soft",
+    variant = "info",
+    variable,
+    status = "default",
+    title,
+    description,
+    icon,
+    action,
+    onClose,
+    children,
+    className = "",
+    style,
+    ...props
+  }, ref) => {
+    const rawTone = (variable || variant || "info").toLowerCase();
+    const activeTone = rawTone === "danger" || rawTone === "error" ? "destructive" : rawTone;
+    const toneMeta = TONE_TOKEN_MAP[activeTone] || TONE_TOKEN_MAP.info;
+    const resolvedIcon = icon !== void 0 ? icon : DEFAULT_ICONS[activeTone] || DEFAULT_ICONS.info;
+    const typeKey = (componentType || "soft").toLowerCase();
+    const isSolid = typeKey.includes("solid");
+    const isOutlined = typeKey.includes("outline");
+    const isAccentBorder = typeKey.includes("accent");
+    const computedTypeStyle = isSolid ? {
+      backgroundColor: toneMeta.color,
+      borderColor: toneMeta.color,
+      color: activeTone === "neutral" ? "var(--bg-primary)" : "#ffffff"
+    } : isOutlined ? {
+      backgroundColor: "var(--bg-primary)",
+      borderColor: toneMeta.borderVar,
+      color: "var(--text-primary)"
+    } : isAccentBorder ? {
+      backgroundColor: "var(--bg-secondary)",
+      borderColor: "var(--border-subtle)",
+      borderLeftWidth: "4px",
+      borderLeftColor: toneMeta.borderVar,
+      color: "var(--text-primary)"
+    } : {
+      backgroundColor: `color-mix(in srgb, ${toneMeta.color} 10%, var(--bg-primary))`,
+      borderColor: `color-mix(in srgb, ${toneMeta.color} 28%, transparent)`,
+      color: "var(--text-primary)"
+    };
+    const statusClass = status && status !== "default" ? `atom-status--${status}` : "";
+    const iconColor = isSolid ? activeTone === "neutral" ? "var(--bg-primary)" : "#ffffff" : toneMeta.color;
+    return /* @__PURE__ */ React34__default.default.createElement(
+      "div",
+      {
+        ref,
+        role: "alert",
+        "data-component": "alert",
+        "data-type": componentType,
+        "data-variable": activeTone,
+        "data-status": status,
+        className: `atom-alert atom-alert--${activeTone} atom-alert--type-${typeKey} ${statusClass} w-full rounded-(--radius) border p-4 flex items-start justify-between gap-3 transition-all ${className}`.trim(),
+        style: {
+          ...computedTypeStyle,
+          ...style
+        },
+        ...props
+      },
+      /* @__PURE__ */ React34__default.default.createElement("div", { className: "flex items-start gap-2.5 min-w-0 flex-1" }, resolvedIcon && /* @__PURE__ */ React34__default.default.createElement("span", { className: "mt-0.5 shrink-0", style: { color: iconColor } }, resolvedIcon), /* @__PURE__ */ React34__default.default.createElement("div", { className: "min-w-0 flex-1 space-y-1" }, title && /* @__PURE__ */ React34__default.default.createElement("div", { className: "font-bold text-sm leading-snug text-inherit" }, title), (description || children) && /* @__PURE__ */ React34__default.default.createElement("div", { className: "text-xs leading-relaxed opacity-90 text-inherit" }, description || children), action && /* @__PURE__ */ React34__default.default.createElement("div", { className: "pt-1.5" }, action))),
+      onClose && /* @__PURE__ */ React34__default.default.createElement(
+        Button,
+        {
+          variant: "ghost",
+          size: "sm",
+          isIconOnly: true,
+          onClick: onClose,
+          "aria-label": "\uB2EB\uAE30",
+          className: "h-6 w-6 p-0 shrink-0 text-inherit opacity-70 hover:opacity-100"
+        },
+        /* @__PURE__ */ React34__default.default.createElement(lucideReact.X, { className: "w-3.5 h-3.5" })
+      )
+    );
+  }
+);
+Alert.displayName = "Alert";
+
 // lib/services/themeEngine.ts
 var STYLE_ELEMENT_ID = "atom-theme-live-engine-style";
 var FONT_IMPORT_MAP = {
@@ -20972,8 +17353,15 @@ function injectWebfontLink(cdnUrl, linkId = "atom-custom-webfont-cdn") {
 }
 function generateThemeCSS(theme) {
   const { color, typography, borderRadius } = theme;
-  const safePrimary = color.primary && !color.primary.includes("var(--accent-primary)") && !color.primary.includes("var(--atom-color-primary)") ? color.primary : "var(--accent-primary)";
-  const safePrimaryHover = color.primaryHover && !color.primaryHover.includes("var(--accent-hover)") && !color.primaryHover.includes("var(--accent-primary-hover)") ? color.primaryHover : "var(--accent-primary-hover)";
+  const hasCustomPrimary = !!color.primary && !color.primary.includes("var(--accent-primary)") && !color.primary.includes("var(--atom-color-primary)");
+  const hasCustomPrimaryHover = !!color.primaryHover && !color.primaryHover.includes("var(--accent-hover)") && !color.primaryHover.includes("var(--accent-primary-hover)");
+  const safePrimary = hasCustomPrimary ? color.primary : "var(--accent-primary)";
+  const safePrimaryHover = hasCustomPrimaryHover ? color.primaryHover : "var(--accent-primary-hover)";
+  const primaryDecls = hasCustomPrimary ? `--accent-primary: ${color.primary};
+  --atom-color-primary: ${color.primary};` : "";
+  const primaryHoverDecls = hasCustomPrimaryHover ? `--accent-hover: ${color.primaryHover};
+  --accent-primary-hover: ${color.primaryHover};
+  --atom-color-primary-hover: ${color.primaryHover};` : "";
   const isDark = isDarkColor(color.bgPrimary);
   let fontImportCSS = "";
   for (const [fontKey, importRule] of Object.entries(FONT_IMPORT_MAP)) {
@@ -20991,8 +17379,8 @@ ${fontImportCSS}/* [AtomDesignToken] Live Injected Theme Variables */
   --atom-font-sans: ${typography.fontFamily};
 
   /* Semantic Colors */
-  --accent-primary: ${safePrimary};
-  --accent-hover: ${safePrimaryHover};
+  ${primaryDecls}
+  ${primaryHoverDecls}
   --accent-light: ${color.primaryLight};
   --bg-primary: ${color.bgPrimary};
   --bg-secondary: ${color.bgSecondary};
@@ -21019,8 +17407,6 @@ ${fontImportCSS}/* [AtomDesignToken] Live Injected Theme Variables */
   --atom-nav-default-activeText: ${color.textPrimary};
 
   /* Atom System Specific Variables */
-  --atom-color-primary: ${safePrimary};
-  --atom-color-primary-hover: ${safePrimaryHover};
   --atom-color-primary-subtle: ${color.primaryLight};
   --atom-color-secondary: ${color.secondary || (isDark ? "#334155" : "#e2e8f0")};
   --atom-color-secondary-hover: ${color.secondaryHover || (isDark ? "#475569" : "#cbd5e1")};
@@ -21387,6 +17773,430 @@ function exportToTokensJson(theme) {
   };
   return JSON.stringify(dtcgTokens, null, 2);
 }
+
+// components/ui/ThemeSwitcher.tsx
+var OVERRIDES_STORAGE_KEY = "atom-floating-token-overrides";
+var ICON_STYLE_ID = "atom-floating-icon-overrides";
+var STUDIO_FONT_OPTIONS = [
+  {
+    label: "Spoqa Han Sans Neo (\uAE30\uBCF8)",
+    value: "'Spoqa Han Sans Neo', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif",
+    cdnUrl: "https://spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css"
+  },
+  {
+    label: "Pretendard",
+    value: "'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif",
+    cdnUrl: "https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
+  },
+  {
+    label: "Inter",
+    value: "'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif",
+    cdnUrl: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+  },
+  {
+    label: "Noto Sans KR",
+    value: "'Noto Sans KR', -apple-system, BlinkMacSystemFont, system-ui, sans-serif",
+    cdnUrl: "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+  },
+  {
+    label: "JetBrains Mono",
+    value: "'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace",
+    cdnUrl: "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap"
+  }
+];
+function applyTokenOverridesToRoot(overrides) {
+  if (typeof document === "undefined") return;
+  const root = document.documentElement;
+  if (overrides.radius) {
+    root.style.setProperty("--radius", overrides.radius);
+    root.style.setProperty("--atom-radius-md", overrides.radius);
+    root.style.setProperty("--atom-radius-lg", overrides.radius);
+  }
+  if (overrides.spacing) {
+    root.style.setProperty("--atom-layout-gutter", overrides.spacing);
+    root.style.setProperty("--atom-space-4", overrides.spacing);
+  }
+  if (overrides.fontFamily) {
+    root.style.setProperty("--font-sans", overrides.fontFamily);
+    root.style.setProperty("--atom-font-sans", overrides.fontFamily);
+    if (overrides.fontCdnUrl) injectWebfontLink(overrides.fontCdnUrl);
+  }
+  if (overrides.fontSize) {
+    root.style.fontSize = overrides.fontSize;
+    root.style.setProperty("--atom-typography-base", overrides.fontSize);
+  } else {
+    root.style.removeProperty("font-size");
+  }
+  let iconStyleEl = document.getElementById(ICON_STYLE_ID);
+  if (overrides.iconSize || overrides.iconStroke || overrides.iconColor) {
+    if (!iconStyleEl) {
+      iconStyleEl = document.createElement("style");
+      iconStyleEl.id = ICON_STYLE_ID;
+      document.head.appendChild(iconStyleEl);
+    }
+    const rules = [];
+    if (overrides.iconSize) {
+      rules.push(`width: ${overrides.iconSize} !important; height: ${overrides.iconSize} !important;`);
+    }
+    if (overrides.iconStroke) {
+      rules.push(`stroke-width: ${overrides.iconStroke} !important;`);
+    }
+    if (overrides.iconColor) {
+      rules.push(`color: ${overrides.iconColor} !important;`);
+    }
+    iconStyleEl.textContent = `svg.lucide { ${rules.join(" ")} }`;
+  } else if (iconStyleEl) {
+    iconStyleEl.remove();
+  }
+}
+function applyStudioThemeToRoot(theme) {
+  if (typeof document === "undefined") return;
+  const legacyStyle = document.getElementById("atom-theme-live-engine-style");
+  if (legacyStyle) legacyStyle.remove();
+  const root = document.documentElement;
+  root.setAttribute("data-atom-theme", theme.id);
+  root.style.colorScheme = theme.mode;
+  const c = theme.colors;
+  const fallbackSecondary = c.secondary || c.bgSecondary;
+  const fallbackSecondaryHover = c.secondaryHover || c.borderStrong;
+  const entries = [
+    ["--atom-color-primary", c.primary],
+    ["--atom-primary", c.primary],
+    ["--accent-primary", c.primary],
+    ["--atom-color-primary-hover", c.primaryHover],
+    ["--accent-primary-hover", c.primaryHover],
+    ["--atom-color-primary-subtle", c.primaryLight],
+    ["--atom-color-secondary", fallbackSecondary],
+    ["--atom-color-secondary-hover", fallbackSecondaryHover],
+    ["--atom-color-secondary-subtle", c.secondaryLight || c.bgSecondary],
+    ["--atom-bg-primary", c.bgPrimary],
+    ["--bg-primary", c.bgPrimary],
+    ["--atom-bg-secondary", c.bgSecondary],
+    ["--atom-bg-surface", c.bgSecondary],
+    ["--atom-bg-muted", c.bgSecondary],
+    ["--bg-secondary", c.bgSecondary],
+    ["--atom-text-primary", c.textPrimary],
+    ["--text-primary", c.textPrimary],
+    ["--atom-text-secondary", c.textSecondary],
+    ["--text-secondary", c.textSecondary],
+    ["--atom-text-muted", c.textMuted],
+    ["--text-muted", c.textMuted],
+    ["--atom-border-subtle", c.borderSubtle],
+    ["--border-subtle", c.borderSubtle],
+    ["--atom-border-strong", c.borderStrong],
+    ["--border-strong", c.borderStrong],
+    ["--atom-color-success", c.statusSuccess],
+    ["--atom-color-destructive", c.statusDanger],
+    ["--atom-color-warning", c.statusWarning],
+    ["--radius", theme.borderRadius]
+  ];
+  for (const [prop, value] of entries) {
+    if (value) root.style.setProperty(prop, value);
+  }
+}
+var ThemeSwitcher = ({
+  variant = "dropdown",
+  size = "md",
+  themes: themesProp,
+  value,
+  defaultThemeId,
+  persistKey = "atom-active-theme",
+  label,
+  showModeBadge = true,
+  allowInProduction = false,
+  className = "",
+  onThemeChange
+}) => {
+  const [isLocalHost, setIsLocalHost] = React34.useState(false);
+  const [floatingTab, setFloatingTab] = React34.useState("theme");
+  const [overrides, setOverrides] = React34.useState(() => {
+    if (typeof window === "undefined") return {};
+    try {
+      const raw = window.localStorage.getItem(OVERRIDES_STORAGE_KEY);
+      return raw ? JSON.parse(raw) : {};
+    } catch {
+      return {};
+    }
+  });
+  React34.useEffect(() => {
+    if (typeof window === "undefined") return;
+    const h = window.location.hostname;
+    const isDev = process.env.NODE_ENV === "development";
+    const isLocal = h === "localhost" || h === "127.0.0.1" || h.endsWith(".local") || h.startsWith("192.168.") || h.startsWith("10.");
+    setIsLocalHost(isDev || isLocal);
+  }, []);
+  const availableThemes = React34.useMemo(
+    () => themesProp && themesProp.length > 0 ? themesProp : INITIAL_STUDIO_THEMES,
+    [themesProp]
+  );
+  const radiusTokens = React34.useMemo(
+    () => INITIAL_PALETTE_VARIABLES.filter((p) => p.category === "radius"),
+    []
+  );
+  const spacingTokens = React34.useMemo(
+    () => INITIAL_PALETTE_VARIABLES.filter(
+      (p) => p.category === "spacing" && ["8px", "12px", "16px", "20px", "24px", "32px"].includes(p.value)
+    ),
+    []
+  );
+  const ssotThemeId = atomTokens.theme.activeThemeId || availableThemes[0]?.id || "ocean-blue";
+  const initialId = React34.useMemo(() => {
+    const fallback = defaultThemeId || ssotThemeId;
+    if (typeof window !== "undefined" && persistKey) {
+      const saved = window.localStorage.getItem(persistKey);
+      const savedSsot = window.localStorage.getItem(`${persistKey}:ssot`);
+      if (saved && savedSsot === ssotThemeId && availableThemes.some((t) => t.id === saved)) {
+        return saved;
+      }
+    }
+    return fallback;
+  }, [availableThemes, defaultThemeId, persistKey, ssotThemeId]);
+  const [selectedId, setSelectedId] = React34.useState(initialId);
+  const [floatingOpen, setFloatingOpen] = React34.useState(false);
+  const activeThemeId = value ?? selectedId;
+  const currentTheme = React34.useMemo(
+    () => availableThemes.find((t) => t.id === activeThemeId) || availableThemes[0],
+    [availableThemes, activeThemeId]
+  );
+  const updateOverrides = React34.useCallback((patch) => {
+    setOverrides((prev) => {
+      const next = { ...prev, ...patch };
+      applyTokenOverridesToRoot(next);
+      if (typeof window !== "undefined") {
+        window.localStorage.setItem(OVERRIDES_STORAGE_KEY, JSON.stringify(next));
+      }
+      return next;
+    });
+  }, []);
+  const resetOverrides = React34.useCallback(() => {
+    setOverrides({});
+    if (typeof window !== "undefined") {
+      window.localStorage.removeItem(OVERRIDES_STORAGE_KEY);
+    }
+    if (currentTheme) {
+      applyStudioThemeToRoot(currentTheme);
+      applyTokenOverridesToRoot({});
+    }
+  }, [currentTheme]);
+  const selectTheme = React34.useCallback(
+    (nextId) => {
+      const target = availableThemes.find((t) => t.id === nextId);
+      if (!target) return;
+      setSelectedId(target.id);
+      setOverrides({});
+      if (typeof window !== "undefined") {
+        window.localStorage.removeItem(OVERRIDES_STORAGE_KEY);
+        if (persistKey) {
+          window.localStorage.setItem(persistKey, target.id);
+          window.localStorage.setItem(`${persistKey}:ssot`, ssotThemeId);
+        }
+      }
+      applyStudioThemeToRoot(target);
+      applyTokenOverridesToRoot({});
+      onThemeChange?.(target);
+    },
+    [availableThemes, onThemeChange, persistKey, ssotThemeId]
+  );
+  React34.useEffect(() => {
+    if (currentTheme) {
+      applyStudioThemeToRoot(currentTheme);
+      applyTokenOverridesToRoot(overrides);
+    }
+  }, [currentTheme, overrides]);
+  if (availableThemes.length === 0) return null;
+  if (variant === "floating") {
+    if (!allowInProduction && !isLocalHost) return null;
+    return /* @__PURE__ */ React34__default.default.createElement(
+      "div",
+      {
+        "data-component": "theme-switcher",
+        "data-variable": "floating",
+        style: { zIndex: 9999 },
+        className: `fixed bottom-5 right-5 flex flex-col items-end gap-2 ${className}`
+      },
+      floatingOpen && /* @__PURE__ */ React34__default.default.createElement(Card, { className: "w-80 p-3.5 shadow-xl border border-(--border-strong) bg-(--bg-primary) space-y-3" }, /* @__PURE__ */ React34__default.default.createElement("div", { className: "flex items-center justify-between pb-2 border-b border-(--border-subtle)" }, /* @__PURE__ */ React34__default.default.createElement("span", { className: "text-xs font-bold text-(--text-primary) flex items-center gap-1.5" }, /* @__PURE__ */ React34__default.default.createElement(lucideReact.Palette, { className: "w-3.5 h-3.5 text-(--accent-primary)" }), /* @__PURE__ */ React34__default.default.createElement("span", null, label || "AtomSystem Studio Bar")), /* @__PURE__ */ React34__default.default.createElement("div", { className: "flex items-center gap-1" }, /* @__PURE__ */ React34__default.default.createElement(
+        Button,
+        {
+          variant: "ghost",
+          size: "sm",
+          isIconOnly: true,
+          onClick: resetOverrides,
+          title: "\uD1A0\uD070 \uCD08\uAE30\uD654"
+        },
+        /* @__PURE__ */ React34__default.default.createElement(lucideReact.RotateCcw, { className: "w-3.5 h-3.5" })
+      ), /* @__PURE__ */ React34__default.default.createElement(
+        Button,
+        {
+          variant: "ghost",
+          size: "sm",
+          isIconOnly: true,
+          onClick: () => setFloatingOpen(false),
+          title: "\uB2EB\uAE30"
+        },
+        /* @__PURE__ */ React34__default.default.createElement(lucideReact.X, { className: "w-3.5 h-3.5" })
+      ))), /* @__PURE__ */ React34__default.default.createElement(TabsList, { className: "w-full grid grid-cols-4 gap-0.5 p-0.5 text-[11px]" }, /* @__PURE__ */ React34__default.default.createElement(TabsTrigger, { active: floatingTab === "theme", onClick: () => setFloatingTab("theme"), className: "px-1.5 py-1 text-[11px]" }, "\uD14C\uB9C8"), /* @__PURE__ */ React34__default.default.createElement(TabsTrigger, { active: floatingTab === "space", onClick: () => setFloatingTab("space"), className: "px-1.5 py-1 text-[11px]" }, "\uAC04\uACA9"), /* @__PURE__ */ React34__default.default.createElement(TabsTrigger, { active: floatingTab === "font", onClick: () => setFloatingTab("font"), className: "px-1.5 py-1 text-[11px]" }, "\uAE00\uC528"), /* @__PURE__ */ React34__default.default.createElement(TabsTrigger, { active: floatingTab === "icon", onClick: () => setFloatingTab("icon"), className: "px-1.5 py-1 text-[11px]" }, "\uC544\uC774\uCF58")), /* @__PURE__ */ React34__default.default.createElement(TabsContent, { active: floatingTab === "theme", className: "p-2 border-0 bg-transparent" }, /* @__PURE__ */ React34__default.default.createElement("div", { className: "flex flex-col gap-1.5 max-h-64 overflow-y-auto" }, availableThemes.map((theme) => {
+        const isActive = theme.id === currentTheme?.id;
+        return /* @__PURE__ */ React34__default.default.createElement(
+          Button,
+          {
+            key: theme.id,
+            variant: isActive ? "primary" : "ghost",
+            size: "sm",
+            onClick: () => selectTheme(theme.id),
+            className: "w-full justify-between px-2.5 py-2 h-auto"
+          },
+          /* @__PURE__ */ React34__default.default.createElement("span", { className: "flex items-center gap-2 min-w-0" }, /* @__PURE__ */ React34__default.default.createElement(
+            "span",
+            {
+              className: "w-3 h-3 rounded-full border border-(--border-strong) shrink-0",
+              style: { backgroundColor: theme.brandColor || theme.colors.primary },
+              "aria-hidden": "true"
+            }
+          ), /* @__PURE__ */ React34__default.default.createElement("span", { className: "truncate text-xs" }, theme.name)),
+          /* @__PURE__ */ React34__default.default.createElement("span", { className: "text-[11px] opacity-80 shrink-0" }, isActive ? "\u2713" : theme.mode)
+        );
+      }))), /* @__PURE__ */ React34__default.default.createElement(TabsContent, { active: floatingTab === "space", className: "p-2 border-0 bg-transparent space-y-3" }, /* @__PURE__ */ React34__default.default.createElement("div", { className: "space-y-1" }, /* @__PURE__ */ React34__default.default.createElement("div", { className: "text-[11px] font-semibold text-(--text-secondary) flex items-center gap-1" }, /* @__PURE__ */ React34__default.default.createElement(lucideReact.Maximize2, { className: "w-3 h-3" }), /* @__PURE__ */ React34__default.default.createElement("span", null, "\uBAA8\uC11C\uB9AC \uACE1\uB960 (--radius)")), /* @__PURE__ */ React34__default.default.createElement(
+        NativeSelect,
+        {
+          value: overrides.radius || currentTheme?.borderRadius || "8px",
+          onChange: (e) => updateOverrides({ radius: e.target.value }),
+          className: "h-8 text-xs"
+        },
+        radiusTokens.map((r) => /* @__PURE__ */ React34__default.default.createElement("option", { key: r.id, value: r.value }, r.name))
+      )), /* @__PURE__ */ React34__default.default.createElement("div", { className: "space-y-1" }, /* @__PURE__ */ React34__default.default.createElement("div", { className: "text-[11px] font-semibold text-(--text-secondary)" }, "\uB808\uC774\uC544\uC6C3 \uAC04\uACA9 (--atom-layout-gutter)"), /* @__PURE__ */ React34__default.default.createElement(
+        NativeSelect,
+        {
+          value: overrides.spacing || "16px",
+          onChange: (e) => updateOverrides({ spacing: e.target.value }),
+          className: "h-8 text-xs"
+        },
+        spacingTokens.map((s) => /* @__PURE__ */ React34__default.default.createElement("option", { key: s.id, value: s.value }, s.name))
+      ))), /* @__PURE__ */ React34__default.default.createElement(TabsContent, { active: floatingTab === "font", className: "p-2 border-0 bg-transparent space-y-3" }, /* @__PURE__ */ React34__default.default.createElement("div", { className: "space-y-1" }, /* @__PURE__ */ React34__default.default.createElement("div", { className: "text-[11px] font-semibold text-(--text-secondary) flex items-center gap-1" }, /* @__PURE__ */ React34__default.default.createElement(lucideReact.Type, { className: "w-3 h-3" }), /* @__PURE__ */ React34__default.default.createElement("span", null, "\uD3F0\uD2B8 \uD328\uBC00\uB9AC (--font-sans)")), /* @__PURE__ */ React34__default.default.createElement(
+        NativeSelect,
+        {
+          value: overrides.fontFamily || STUDIO_FONT_OPTIONS[0].value,
+          onChange: (e) => {
+            const found = STUDIO_FONT_OPTIONS.find((f) => f.value === e.target.value);
+            updateOverrides({ fontFamily: e.target.value, fontCdnUrl: found?.cdnUrl });
+          },
+          className: "h-8 text-xs"
+        },
+        STUDIO_FONT_OPTIONS.map((f) => /* @__PURE__ */ React34__default.default.createElement("option", { key: f.label, value: f.value }, f.label))
+      )), /* @__PURE__ */ React34__default.default.createElement("div", { className: "space-y-1" }, /* @__PURE__ */ React34__default.default.createElement("div", { className: "text-[11px] font-semibold text-(--text-secondary)" }, "\uAE30\uBCF8 \uAE00\uC790 \uD06C\uAE30 (--atom-typography-base)"), /* @__PURE__ */ React34__default.default.createElement(
+        NativeSelect,
+        {
+          value: overrides.fontSize || "16px",
+          onChange: (e) => updateOverrides({ fontSize: e.target.value }),
+          className: "h-8 text-xs"
+        },
+        ["14px", "15px", "16px", "17px", "18px"].map((sz) => /* @__PURE__ */ React34__default.default.createElement("option", { key: sz, value: sz }, sz))
+      ))), /* @__PURE__ */ React34__default.default.createElement(TabsContent, { active: floatingTab === "icon", className: "p-2 border-0 bg-transparent space-y-3" }, /* @__PURE__ */ React34__default.default.createElement("div", { className: "space-y-1" }, /* @__PURE__ */ React34__default.default.createElement("div", { className: "text-[11px] font-semibold text-(--text-secondary) flex items-center gap-1" }, /* @__PURE__ */ React34__default.default.createElement(lucideReact.Sparkles, { className: "w-3 h-3" }), /* @__PURE__ */ React34__default.default.createElement("span", null, "\uC544\uC774\uCF58 \uD06C\uAE30 (--atom-icon-size)")), /* @__PURE__ */ React34__default.default.createElement(
+        NativeSelect,
+        {
+          value: overrides.iconSize || "",
+          onChange: (e) => updateOverrides({ iconSize: e.target.value || void 0 }),
+          className: "h-8 text-xs"
+        },
+        /* @__PURE__ */ React34__default.default.createElement("option", { value: "" }, "\uAE30\uBCF8\uAC12 (\uCEF4\uD3EC\uB10C\uD2B8\uBCC4 \uADDC\uACA9)"),
+        /* @__PURE__ */ React34__default.default.createElement("option", { value: "14px" }, "Small (14px)"),
+        /* @__PURE__ */ React34__default.default.createElement("option", { value: "16px" }, "Medium (16px)"),
+        /* @__PURE__ */ React34__default.default.createElement("option", { value: "18px" }, "Large (18px)"),
+        /* @__PURE__ */ React34__default.default.createElement("option", { value: "20px" }, "XLarge (20px)")
+      )), /* @__PURE__ */ React34__default.default.createElement("div", { className: "space-y-1" }, /* @__PURE__ */ React34__default.default.createElement("div", { className: "text-[11px] font-semibold text-(--text-secondary)" }, "\uC120 \uB450\uAED8 (--atom-icon-stroke)"), /* @__PURE__ */ React34__default.default.createElement(
+        NativeSelect,
+        {
+          value: overrides.iconStroke || "",
+          onChange: (e) => updateOverrides({ iconStroke: e.target.value || void 0 }),
+          className: "h-8 text-xs"
+        },
+        /* @__PURE__ */ React34__default.default.createElement("option", { value: "" }, "\uAE30\uBCF8\uAC12 (2)"),
+        /* @__PURE__ */ React34__default.default.createElement("option", { value: "1.5" }, "Thin (1.5)"),
+        /* @__PURE__ */ React34__default.default.createElement("option", { value: "1.75" }, "Regular (1.75)"),
+        /* @__PURE__ */ React34__default.default.createElement("option", { value: "2" }, "Medium (2)"),
+        /* @__PURE__ */ React34__default.default.createElement("option", { value: "2.5" }, "Bold (2.5)")
+      )), /* @__PURE__ */ React34__default.default.createElement("div", { className: "space-y-1" }, /* @__PURE__ */ React34__default.default.createElement("div", { className: "text-[11px] font-semibold text-(--text-secondary)" }, "\uC544\uC774\uCF58 \uC0C9\uC0C1 (--atom-icon-color)"), /* @__PURE__ */ React34__default.default.createElement(
+        NativeSelect,
+        {
+          value: overrides.iconColor || "",
+          onChange: (e) => updateOverrides({ iconColor: e.target.value || void 0 }),
+          className: "h-8 text-xs"
+        },
+        /* @__PURE__ */ React34__default.default.createElement("option", { value: "" }, "\uAE30\uBCF8\uAC12 (\uC0C1\uC18D)"),
+        /* @__PURE__ */ React34__default.default.createElement("option", { value: "var(--accent-primary)" }, "\uBE0C\uB79C\uB4DC \uAC15\uC870\uC0C9 (--accent-primary)"),
+        /* @__PURE__ */ React34__default.default.createElement("option", { value: "var(--text-primary)" }, "\uAE30\uBCF8 \uD14D\uC2A4\uD2B8 (--text-primary)"),
+        /* @__PURE__ */ React34__default.default.createElement("option", { value: "var(--text-secondary)" }, "\uBCF4\uC870 \uD14D\uC2A4\uD2B8 (--text-secondary)")
+      )))),
+      /* @__PURE__ */ React34__default.default.createElement(
+        Button,
+        {
+          variant: "primary",
+          size: size === "lg" ? "lg" : "md",
+          onClick: () => setFloatingOpen((prev) => !prev),
+          className: "rounded-full shadow-lg gap-2"
+        },
+        /* @__PURE__ */ React34__default.default.createElement(lucideReact.Palette, { className: "w-4 h-4" }),
+        /* @__PURE__ */ React34__default.default.createElement("span", { className: "text-xs font-semibold" }, currentTheme?.name || "Theme")
+      )
+    );
+  }
+  if (variant === "pills") {
+    const btnSize = size === "lg" ? "md" : "sm";
+    return /* @__PURE__ */ React34__default.default.createElement(
+      "div",
+      {
+        "data-component": "theme-switcher",
+        "data-variable": "pills",
+        className: `flex flex-wrap items-center gap-2 ${className}`
+      },
+      label && /* @__PURE__ */ React34__default.default.createElement("span", { className: "text-xs font-medium text-(--text-secondary) mr-1" }, label),
+      availableThemes.map((theme) => {
+        const isActive = theme.id === currentTheme?.id;
+        return /* @__PURE__ */ React34__default.default.createElement(
+          Button,
+          {
+            key: theme.id,
+            variant: isActive ? "primary" : "outline",
+            size: btnSize,
+            onClick: () => selectTheme(theme.id),
+            className: "gap-1.5"
+          },
+          /* @__PURE__ */ React34__default.default.createElement(
+            "span",
+            {
+              className: "w-2.5 h-2.5 rounded-full border border-(--border-strong) shrink-0",
+              style: { backgroundColor: theme.brandColor || theme.colors.primary },
+              "aria-hidden": "true"
+            }
+          ),
+          /* @__PURE__ */ React34__default.default.createElement("span", null, theme.name),
+          isActive && /* @__PURE__ */ React34__default.default.createElement(lucideReact.Check, { className: "w-3 h-3" })
+        );
+      })
+    );
+  }
+  const selectSizeClass = size === "sm" ? "h-8 text-xs" : size === "lg" ? "h-11 text-sm" : "h-9 text-xs sm:text-sm";
+  return /* @__PURE__ */ React34__default.default.createElement(
+    "div",
+    {
+      "data-component": "theme-switcher",
+      "data-variable": variant,
+      className: `inline-flex items-center gap-2 ${className}`
+    },
+    label && /* @__PURE__ */ React34__default.default.createElement("span", { className: "text-xs font-medium text-(--text-secondary) whitespace-nowrap" }, label),
+    /* @__PURE__ */ React34__default.default.createElement("div", { className: "inline-flex items-center gap-1.5" }, /* @__PURE__ */ React34__default.default.createElement(lucideReact.Palette, { className: "w-4 h-4 text-(--accent-primary) shrink-0", "aria-hidden": "true" }), /* @__PURE__ */ React34__default.default.createElement(
+      NativeSelect,
+      {
+        value: currentTheme?.id || "",
+        onChange: (e) => selectTheme(e.target.value),
+        "aria-label": label || "Select theme",
+        className: `w-auto min-w-[160px] ${selectSizeClass}`
+      },
+      availableThemes.map((theme) => /* @__PURE__ */ React34__default.default.createElement("option", { key: theme.id, value: theme.id }, theme.name, " (", theme.mode, ")"))
+    )),
+    variant === "dropdown" && showModeBadge && currentTheme && /* @__PURE__ */ React34__default.default.createElement(Badge, { variant: "neutral", className: "inline-flex items-center gap-1 shrink-0" }, currentTheme.mode === "dark" ? /* @__PURE__ */ React34__default.default.createElement(lucideReact.Moon, { className: "w-3 h-3" }) : /* @__PURE__ */ React34__default.default.createElement(lucideReact.Sun, { className: "w-3 h-3" }), /* @__PURE__ */ React34__default.default.createElement("span", null, currentTheme.mode))
+  );
+};
+ThemeSwitcher.displayName = "ThemeSwitcher";
 
 // lib/services/studioEngine.ts
 var STUDIO_CUSTOM_STYLES_START = "/* === Studio Registered Component Styles Start === */";
@@ -22141,863 +18951,6 @@ function scanAndRefactorDirectory(rootDir, options = {}) {
   walk(rootDir);
   return report;
 }
-var Button = React34__default.default.forwardRef(
-  ({
-    variant = "primary",
-    variable,
-    status = "default",
-    componentType,
-    size = "md",
-    loading = false,
-    isIconOnly = false,
-    paddingX,
-    paddingY,
-    disabled,
-    className = "",
-    style,
-    children,
-    ...props
-  }, ref) => {
-    const activeVariable = variable || (variant === "danger" ? "destructive" : variant);
-    const normalizedVariant = activeVariable === "danger" ? "destructive" : activeVariable;
-    const variantClass = normalizedVariant === "primary" ? "atom-btn-primary" : `atom-btn-${normalizedVariant}`;
-    const dangerClass = activeVariable === "danger" || activeVariable === "destructive" ? "atom-btn-danger" : "";
-    const variableClass = `atom-button--${activeVariable}`;
-    const typeClass = componentType ? `atom-btn--type-${componentType}` : "";
-    const statusClass = status && status !== "default" ? `atom-status--${status}` : "";
-    const sizeClass = size === "sm" ? "text-xs px-2.5 py-1.5" : size === "lg" ? "text-base px-5 py-3" : "";
-    const iconClass = isIconOnly ? "p-2 aspect-square inline-flex items-center justify-center" : "";
-    const isActuallyDisabled = disabled || status === "disabled" || loading || status === "loading";
-    const isActuallyLoading = loading || status === "loading";
-    const customStyle = {
-      ...style,
-      ...paddingX ? { paddingLeft: paddingX, paddingRight: paddingX } : {},
-      ...paddingY ? { paddingTop: paddingY, paddingBottom: paddingY } : {}
-    };
-    const alignClass = className.includes("justify-start") || className.includes("text-left") ? "atom-btn--left" : className.includes("justify-between") ? "atom-btn--between" : "";
-    return /* @__PURE__ */ React34__default.default.createElement(
-      "button",
-      {
-        ref,
-        "data-component": "button",
-        "data-variable": activeVariable,
-        "data-status": status,
-        "data-type": componentType,
-        disabled: isActuallyDisabled,
-        "aria-disabled": isActuallyDisabled,
-        "aria-busy": isActuallyLoading,
-        className: `atom-btn ${typeClass} ${variantClass} ${dangerClass} ${variableClass} ${statusClass} ${sizeClass} ${iconClass} ${alignClass} ${className}`,
-        style: customStyle,
-        ...props
-      },
-      isActuallyLoading && /* @__PURE__ */ React34__default.default.createElement("svg", { className: "animate-spin -ml-1 mr-2 h-4 w-4 shrink-0", fill: "none", viewBox: "0 0 24 24" }, /* @__PURE__ */ React34__default.default.createElement("circle", { className: "opacity-25", cx: "12", cy: "12", r: "10", stroke: "currentColor", strokeWidth: "4" }), /* @__PURE__ */ React34__default.default.createElement("path", { className: "opacity-75", fill: "currentColor", d: "M4 12a8 8 0 018-8v8H4z" })),
-      children
-    );
-  }
-);
-Button.displayName = "Button";
-var Input = React34__default.default.forwardRef(
-  ({ label, error, helperText, variable = "standard", status = "default", componentType, leftIcon, rightIcon, className = "", id, disabled, style, ...props }, ref) => {
-    const inputId = id || React34__default.default.useId();
-    const isActuallyDisabled = disabled || status === "disabled" || status === "loading";
-    const statusClass = status && status !== "default" ? `atom-status--${status}` : "";
-    const plMatch = className.match(/\bpl-([0-9]+)\b/);
-    const prMatch = className.match(/\bpr-([0-9]+)\b/);
-    const computedPaddingLeft = leftIcon ? "2.25rem" : plMatch ? `${Number(plMatch[1]) * 0.25}rem` : void 0;
-    const computedPaddingRight = rightIcon ? "2.25rem" : prMatch ? `${Number(prMatch[1]) * 0.25}rem` : void 0;
-    return /* @__PURE__ */ React34__default.default.createElement("div", { className: "w-full flex flex-col gap-1.5" }, label && /* @__PURE__ */ React34__default.default.createElement("label", { htmlFor: inputId, className: "text-sm font-medium text-[var(--atom-text-primary)]" }, label), /* @__PURE__ */ React34__default.default.createElement("div", { className: "relative w-full" }, leftIcon && /* @__PURE__ */ React34__default.default.createElement("div", { className: "absolute left-2.5 top-1/2 -translate-y-1/2 text-(--text-muted) pointer-events-none z-10 flex items-center justify-center" }, leftIcon), /* @__PURE__ */ React34__default.default.createElement(
-      "input",
-      {
-        ref,
-        id: inputId,
-        "data-component": "input",
-        "data-variable": variable,
-        "data-status": status,
-        "data-type": componentType,
-        disabled: isActuallyDisabled,
-        "aria-disabled": isActuallyDisabled,
-        "aria-invalid": !!error || variable === "error",
-        style: {
-          ...computedPaddingLeft ? { paddingLeft: computedPaddingLeft } : {},
-          ...computedPaddingRight ? { paddingRight: computedPaddingRight } : {},
-          ...style
-        },
-        className: `atom-input ${error ? "atom-input-error" : ""} atom-input--${variable} ${statusClass} ${leftIcon ? "!pl-9" : ""} ${className}`,
-        ...props
-      }
-    ), rightIcon && /* @__PURE__ */ React34__default.default.createElement("div", { className: "absolute right-2.5 top-1/2 -translate-y-1/2 text-(--text-muted) z-10 flex items-center justify-center" }, rightIcon)), error ? /* @__PURE__ */ React34__default.default.createElement("span", { className: "text-xs text-[var(--atom-destructive,#dc2626)]" }, error) : helperText ? /* @__PURE__ */ React34__default.default.createElement("span", { className: "text-xs text-[var(--atom-text-secondary,#8b95a1)]" }, helperText) : null);
-  }
-);
-Input.displayName = "Input";
-var Card = React34__default.default.forwardRef(
-  ({ interactive = false, variable = "elevated", className = "", children, ...props }, ref) => {
-    return /* @__PURE__ */ React34__default.default.createElement(
-      "div",
-      {
-        ref,
-        "data-component": "card",
-        "data-variable": variable,
-        className: `atom-card ${interactive ? "atom-card-interactive cursor-pointer" : ""} atom-card--${variable} ${className}`,
-        ...props
-      },
-      children
-    );
-  }
-);
-Card.displayName = "Card";
-var Badge = React34__default.default.forwardRef(
-  ({ variant = "neutral", variable, status = "default", componentType, className = "", children, ...props }, ref) => {
-    const activeVariable = variable || variant;
-    const statusClass = status && status !== "default" ? `atom-status--${status}` : "";
-    return /* @__PURE__ */ React34__default.default.createElement(
-      "span",
-      {
-        ref,
-        "data-component": "badge",
-        "data-variable": activeVariable,
-        "data-status": status,
-        "data-type": componentType,
-        className: `atom-badge atom-badge-${variant} atom-badge--${activeVariable} ${statusClass} ${className}`,
-        ...props
-      },
-      children
-    );
-  }
-);
-Badge.displayName = "Badge";
-var NativeSelect = React34__default.default.forwardRef(
-  ({ className = "", children, ...props }, ref) => {
-    return /* @__PURE__ */ React34__default.default.createElement(
-      "select",
-      {
-        ref,
-        className: ["w-full text-xs p-2 rounded-(--radius-sm) border border-(--border-subtle) bg-(--bg-primary) text-(--text-primary) cursor-pointer focus:outline-none focus:border-(--accent-primary) focus:ring-1 focus:ring-(--accent-primary) transition", className].filter(Boolean).join(" "),
-        ...props
-      },
-      children
-    );
-  }
-);
-NativeSelect.displayName = "NativeSelect";
-var Textarea = React34__default.default.forwardRef(
-  ({ maxLength, label, value, className = "", ...props }, ref) => {
-    const currentLength = typeof value === "string" ? value.length : 0;
-    return /* @__PURE__ */ React34__default.default.createElement("div", { className: "atom-textarea-group" }, label && /* @__PURE__ */ React34__default.default.createElement("label", { className: "text-xs font-semibold text-(--text-secondary) dark:text-(--text-muted)" }, label), /* @__PURE__ */ React34__default.default.createElement("textarea", { ref, value, maxLength, className: `atom-textarea ${className}`, ...props }), maxLength && /* @__PURE__ */ React34__default.default.createElement("div", { className: "atom-textarea-counter" }, currentLength, " / ", maxLength, "\uC790"));
-  }
-);
-Textarea.displayName = "Textarea";
-var Table = React34__default.default.forwardRef(
-  ({ className = "", children, ...props }, ref) => /* @__PURE__ */ React34__default.default.createElement("div", { className: "w-full overflow-auto rounded-(--radius) border border-(--border-subtle)" }, /* @__PURE__ */ React34__default.default.createElement(
-    "table",
-    {
-      ref,
-      className: `w-full caption-bottom text-sm text-left ${className}`,
-      ...props
-    },
-    children
-  ))
-);
-Table.displayName = "Table";
-var TableHeader = React34__default.default.forwardRef(({ className = "", children, ...props }, ref) => /* @__PURE__ */ React34__default.default.createElement(
-  "thead",
-  {
-    ref,
-    className: `bg-(--bg-secondary)/60 border-b border-(--border-subtle) font-semibold text-(--text-secondary) ${className}`,
-    ...props
-  },
-  children
-));
-TableHeader.displayName = "TableHeader";
-var TableBody = React34__default.default.forwardRef(({ className = "", children, ...props }, ref) => /* @__PURE__ */ React34__default.default.createElement(
-  "tbody",
-  {
-    ref,
-    className: `divide-y divide-(--border-subtle) bg-(--bg-primary) ${className}`,
-    ...props
-  },
-  children
-));
-TableBody.displayName = "TableBody";
-var TableRow = React34__default.default.forwardRef(({ className = "", children, ...props }, ref) => /* @__PURE__ */ React34__default.default.createElement(
-  "tr",
-  {
-    ref,
-    className: `hover:bg-(--bg-secondary)/40 transition-colors ${className}`,
-    ...props
-  },
-  children
-));
-TableRow.displayName = "TableRow";
-var TableHead = React34__default.default.forwardRef(({ className = "", children, ...props }, ref) => /* @__PURE__ */ React34__default.default.createElement(
-  "th",
-  {
-    ref,
-    className: `p-3 text-left font-medium text-(--text-secondary) ${className}`,
-    ...props
-  },
-  children
-));
-TableHead.displayName = "TableHead";
-var TableCell = React34__default.default.forwardRef(({ className = "", children, ...props }, ref) => /* @__PURE__ */ React34__default.default.createElement(
-  "td",
-  {
-    ref,
-    className: `p-3 text-(--text-primary) align-middle ${className}`,
-    ...props
-  },
-  children
-));
-TableCell.displayName = "TableCell";
-var TabsList = React34__default.default.forwardRef(
-  ({ className = "", children, ...props }, ref) => /* @__PURE__ */ React34__default.default.createElement(
-    "div",
-    {
-      ref,
-      className: `inline-flex items-center p-1 rounded-(--radius) bg-(--bg-secondary) text-sm border border-(--border-subtle) ${className}`,
-      ...props
-    },
-    children
-  )
-);
-TabsList.displayName = "TabsList";
-var TabsTrigger = React34__default.default.forwardRef(
-  ({ active = false, className = "", children, ...props }, ref) => /* @__PURE__ */ React34__default.default.createElement(
-    "button",
-    {
-      ref,
-      type: "button",
-      className: `px-3 py-1.5 rounded-(--radius-sm) font-medium text-sm transition-colors ${active ? "bg-(--bg-primary) text-(--text-primary) shadow-xs font-semibold" : "text-(--text-secondary) hover:text-(--text-primary)"} ${className}`,
-      ...props
-    },
-    children
-  )
-);
-TabsTrigger.displayName = "TabsTrigger";
-var TabsContent = React34__default.default.forwardRef(
-  ({ active = false, className = "", children, ...props }, ref) => {
-    if (!active) return null;
-    return /* @__PURE__ */ React34__default.default.createElement(
-      "div",
-      {
-        ref,
-        className: `p-4 rounded-(--radius) bg-(--bg-primary) border border-(--border-subtle) text-sm leading-relaxed ${className}`,
-        ...props
-      },
-      children
-    );
-  }
-);
-TabsContent.displayName = "TabsContent";
-var Navbar = React34__default.default.forwardRef(
-  ({
-    sticky = false,
-    bordered = true,
-    blur = true,
-    variable = "default",
-    innerClassName = "h-14",
-    className = "",
-    mobileMenu,
-    children,
-    ...props
-  }, ref) => {
-    return /* @__PURE__ */ React34__default.default.createElement(
-      "header",
-      {
-        ref,
-        "data-component": "navbar",
-        "data-variable": variable,
-        className: `atom-navbar atom-navbar--${variable} ${sticky ? "sticky top-0 z-40" : "relative"} ${bordered ? "border-b border-(--border-subtle)" : ""} ${blur ? "backdrop-blur-md bg-(--bg-primary)/95" : "bg-(--bg-primary)"} w-full transition-colors ${className}`,
-        ...props
-      },
-      /* @__PURE__ */ React34__default.default.createElement("div", { className: `max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between gap-4 ${innerClassName}` }, children),
-      mobileMenu
-    );
-  }
-);
-Navbar.displayName = "Navbar";
-var NavbarBrand = React34__default.default.forwardRef(
-  ({ href, className = "", children, ...props }, ref) => {
-    const content = /* @__PURE__ */ React34__default.default.createElement(
-      "div",
-      {
-        ref,
-        className: `flex items-center gap-2.5 font-bold text-base text-(--text-primary) tracking-tight select-none cursor-pointer ${className}`,
-        ...props
-      },
-      children
-    );
-    if (href) {
-      return /* @__PURE__ */ React34__default.default.createElement("a", { href, className: "no-underline" }, content);
-    }
-    return content;
-  }
-);
-NavbarBrand.displayName = "NavbarBrand";
-var NavbarNav = React34__default.default.forwardRef(
-  ({ className = "", children, ...props }, ref) => {
-    return /* @__PURE__ */ React34__default.default.createElement(
-      "div",
-      {
-        ref,
-        className: `hidden md:flex items-center gap-1 text-sm font-medium ${className}`,
-        ...props
-      },
-      children
-    );
-  }
-);
-NavbarNav.displayName = "NavbarNav";
-var NavbarLink = React34__default.default.forwardRef(
-  ({ active = false, className = "", children, ...props }, ref) => {
-    return /* @__PURE__ */ React34__default.default.createElement(
-      "a",
-      {
-        ref,
-        className: `px-3 py-1.5 rounded-(--radius-sm) transition-colors text-sm font-medium ${active ? "text-(--atom-color-primary,var(--accent-primary)) font-semibold bg-(--atom-color-primary-subtle,rgba(49,130,246,0.1))" : "text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary)"} ${className}`,
-        ...props
-      },
-      children
-    );
-  }
-);
-NavbarLink.displayName = "NavbarLink";
-var NavbarActions = React34__default.default.forwardRef(
-  ({ className = "", children, ...props }, ref) => {
-    return /* @__PURE__ */ React34__default.default.createElement(
-      "div",
-      {
-        ref,
-        className: `flex items-center gap-2 sm:gap-3 ${className}`,
-        ...props
-      },
-      children
-    );
-  }
-);
-NavbarActions.displayName = "NavbarActions";
-var NavbarToggle = React34__default.default.forwardRef(
-  ({ isOpen = false, onToggle, className = "", ...props }, ref) => {
-    return /* @__PURE__ */ React34__default.default.createElement(
-      "button",
-      {
-        ref,
-        type: "button",
-        onClick: onToggle,
-        "aria-label": "Toggle navigation menu",
-        className: `md:hidden p-2 rounded-(--radius-sm) text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary) transition ${className}`,
-        ...props
-      },
-      /* @__PURE__ */ React34__default.default.createElement(
-        "svg",
-        {
-          className: "w-5 h-5",
-          fill: "none",
-          stroke: "currentColor",
-          viewBox: "0 0 24 24"
-        },
-        isOpen ? /* @__PURE__ */ React34__default.default.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "2", d: "M6 18L18 6M6 6l12 12" }) : /* @__PURE__ */ React34__default.default.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "2", d: "M4 6h16M4 12h16M4 18h16" })
-      )
-    );
-  }
-);
-NavbarToggle.displayName = "NavbarToggle";
-var Sidebar = React34__default.default.forwardRef(
-  ({
-    collapsed = false,
-    variable = "default",
-    variant,
-    size = "md",
-    width = "260px",
-    collapsedWidth = "72px",
-    className = "",
-    style,
-    children,
-    ...props
-  }, ref) => {
-    const currentWidth = collapsed ? collapsedWidth : width;
-    const activeVar = variant || variable;
-    return /* @__PURE__ */ React34__default.default.createElement(
-      "aside",
-      {
-        ref,
-        "data-component": "sidebar",
-        "data-variable": activeVar,
-        "data-collapsed": collapsed,
-        style: { width: currentWidth, ...style },
-        className: `atom-sidebar atom-sidebar--${activeVar} shrink-0 bg-(--bg-secondary)/40 border-r border-(--border-subtle) flex flex-col h-full transition-[width] duration-200 select-none ${className}`,
-        ...props
-      },
-      children
-    );
-  }
-);
-Sidebar.displayName = "Sidebar";
-var SidebarHeader = React34__default.default.forwardRef(
-  ({ className = "", children, ...props }, ref) => {
-    return /* @__PURE__ */ React34__default.default.createElement(
-      "div",
-      {
-        ref,
-        className: `h-16 px-4 shrink-0 flex items-center justify-between border-b border-(--border-subtle)/70 ${className}`,
-        ...props
-      },
-      children
-    );
-  }
-);
-SidebarHeader.displayName = "SidebarHeader";
-var SidebarContent = React34__default.default.forwardRef(
-  ({ className = "", children, ...props }, ref) => {
-    return /* @__PURE__ */ React34__default.default.createElement(
-      "div",
-      {
-        ref,
-        className: `flex-1 overflow-y-auto px-3 py-4 space-y-6 ${className}`,
-        ...props
-      },
-      children
-    );
-  }
-);
-SidebarContent.displayName = "SidebarContent";
-var SidebarGroup = React34__default.default.forwardRef(
-  ({ label, collapsible = false, defaultOpen = true, className = "", children, ...props }, ref) => {
-    const [isOpen, setIsOpen] = React34__default.default.useState(defaultOpen);
-    return /* @__PURE__ */ React34__default.default.createElement("div", { ref, "data-component": "sidebar-group", className: `space-y-1 ${className}`, ...props }, label && /* @__PURE__ */ React34__default.default.createElement(
-      "div",
-      {
-        onClick: collapsible ? () => setIsOpen(!isOpen) : void 0,
-        className: `px-3 py-1.5 text-[11px] font-mono font-bold uppercase tracking-wider text-(--text-muted) truncate flex items-center justify-between ${collapsible ? "cursor-pointer select-none hover:text-(--text-primary)" : ""}`
-      },
-      /* @__PURE__ */ React34__default.default.createElement("span", null, label),
-      collapsible && /* @__PURE__ */ React34__default.default.createElement(
-        "svg",
-        {
-          className: `w-3.5 h-3.5 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`,
-          fill: "none",
-          viewBox: "0 0 24 24",
-          stroke: "currentColor",
-          strokeWidth: 2
-        },
-        /* @__PURE__ */ React34__default.default.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", d: "M9 5l7 7-7 7" })
-      )
-    ), (!collapsible || isOpen) && children);
-  }
-);
-SidebarGroup.displayName = "SidebarGroup";
-var SidebarGroupLabel = React34__default.default.forwardRef(
-  ({ className = "", children, ...props }, ref) => {
-    return /* @__PURE__ */ React34__default.default.createElement(
-      "div",
-      {
-        ref,
-        className: `px-3 py-1.5 text-[11px] font-mono font-bold uppercase tracking-wider text-(--text-muted) truncate ${className}`,
-        ...props
-      },
-      children
-    );
-  }
-);
-SidebarGroupLabel.displayName = "SidebarGroupLabel";
-var SidebarMenu = React34__default.default.forwardRef(
-  ({ className = "", children, ...props }, ref) => {
-    return /* @__PURE__ */ React34__default.default.createElement("ul", { ref, className: `space-y-0.5 list-none m-0 p-0 ${className}`, ...props }, children);
-  }
-);
-SidebarMenu.displayName = "SidebarMenu";
-var SidebarMenuItem = React34__default.default.forwardRef(
-  ({ active = false, icon, badge, label, className = "", children, ...props }, ref) => {
-    return /* @__PURE__ */ React34__default.default.createElement("li", { ref, "data-active": active, className: `list-none ${className}`, ...props }, children ? children : /* @__PURE__ */ React34__default.default.createElement(
-      "div",
-      {
-        className: `flex items-center justify-between px-3 py-2 rounded-(--radius-sm) text-xs sm:text-sm font-medium transition cursor-pointer select-none ${active ? "bg-(--accent-primary) text-(--bg-primary) font-semibold shadow-xs" : "text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary)"}`
-      },
-      /* @__PURE__ */ React34__default.default.createElement("div", { className: "flex items-center gap-2.5 min-w-0" }, icon && /* @__PURE__ */ React34__default.default.createElement("span", { className: "shrink-0 w-4 h-4 flex items-center justify-center" }, icon), /* @__PURE__ */ React34__default.default.createElement("span", { className: "truncate" }, label)),
-      badge && /* @__PURE__ */ React34__default.default.createElement("span", { className: "shrink-0 ml-2" }, badge)
-    ));
-  }
-);
-SidebarMenuItem.displayName = "SidebarMenuItem";
-var SidebarMenuButton = React34__default.default.forwardRef(
-  ({
-    active = false,
-    icon,
-    badge,
-    collapsed = false,
-    className = "",
-    children,
-    ...props
-  }, ref) => {
-    return /* @__PURE__ */ React34__default.default.createElement(
-      "button",
-      {
-        ref,
-        type: "button",
-        "aria-current": active ? "page" : void 0,
-        title: collapsed && typeof children === "string" ? children : void 0,
-        className: `w-full flex items-center gap-3 px-3 py-2 rounded-(--radius-sm) text-xs sm:text-sm font-medium transition cursor-pointer ${collapsed ? "justify-center px-2" : "justify-between"} ${active ? "bg-(--atom-color-primary,var(--accent-primary)) text-white font-semibold shadow-xs" : "text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-primary)"} ${className}`,
-        ...props
-      },
-      /* @__PURE__ */ React34__default.default.createElement("div", { className: "flex items-center gap-2.5 min-w-0" }, icon && /* @__PURE__ */ React34__default.default.createElement("span", { className: "shrink-0 w-4 h-4 flex items-center justify-center" }, icon), !collapsed && /* @__PURE__ */ React34__default.default.createElement("span", { className: "truncate" }, children)),
-      !collapsed && badge && /* @__PURE__ */ React34__default.default.createElement("span", { className: "shrink-0" }, badge)
-    );
-  }
-);
-SidebarMenuButton.displayName = "SidebarMenuButton";
-var SidebarFooter = React34__default.default.forwardRef(
-  ({ className = "", children, ...props }, ref) => {
-    return /* @__PURE__ */ React34__default.default.createElement(
-      "div",
-      {
-        ref,
-        className: `p-3 shrink-0 border-t border-(--border-subtle)/70 ${className}`,
-        ...props
-      },
-      children
-    );
-  }
-);
-SidebarFooter.displayName = "SidebarFooter";
-var SidebarToggle = React34__default.default.forwardRef(
-  ({ collapsed = false, onToggle, className = "", ...props }, ref) => {
-    return /* @__PURE__ */ React34__default.default.createElement(
-      "button",
-      {
-        ref,
-        type: "button",
-        onClick: onToggle,
-        "aria-label": collapsed ? "\uC0AC\uC774\uB4DC\uBC14 \uD3BC\uCE58\uAE30" : "\uC0AC\uC774\uB4DC\uBC14 \uC811\uAE30",
-        className: `p-1.5 rounded-(--radius-sm) text-(--text-muted) hover:text-(--text-primary) hover:bg-(--bg-secondary) transition ${className}`,
-        ...props
-      },
-      /* @__PURE__ */ React34__default.default.createElement(
-        "svg",
-        {
-          className: `w-4 h-4 transition-transform duration-200 ${collapsed ? "rotate-180" : ""}`,
-          fill: "none",
-          stroke: "currentColor",
-          viewBox: "0 0 24 24"
-        },
-        /* @__PURE__ */ React34__default.default.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "2", d: "M11 19l-7-7 7-7m8 14l-7-7 7-7" })
-      )
-    );
-  }
-);
-SidebarToggle.displayName = "SidebarToggle";
-var Checkbox = React34__default.default.forwardRef(
-  ({ label, description, error, className = "", id, disabled, checked, onChange, ...props }, ref) => {
-    const generatedId = React34__default.default.useId();
-    const checkboxId = id || generatedId;
-    return /* @__PURE__ */ React34__default.default.createElement("div", { className: "flex items-start gap-2.5 select-none" }, /* @__PURE__ */ React34__default.default.createElement("div", { className: "relative flex items-center justify-center mt-0.5" }, /* @__PURE__ */ React34__default.default.createElement(
-      "input",
-      {
-        ref,
-        id: checkboxId,
-        type: "checkbox",
-        checked,
-        onChange,
-        disabled,
-        "data-component": "checkbox",
-        className: ["peer appearance-none w-4 h-4 rounded-(--radius-sm) border border-(--border-strong) bg-(--bg-primary) checked:bg-(--accent-primary) checked:border-(--accent-primary) focus:outline-none focus:ring-2 focus:ring-(--accent-primary)/30 transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed", className].filter(Boolean).join(" "),
-        ...props
-      }
-    ), /* @__PURE__ */ React34__default.default.createElement(
-      "svg",
-      {
-        className: "pointer-events-none absolute w-2.5 h-2.5 text-white opacity-0 peer-checked:opacity-100 transition-opacity",
-        fill: "none",
-        viewBox: "0 0 24 24",
-        stroke: "currentColor",
-        strokeWidth: 3
-      },
-      /* @__PURE__ */ React34__default.default.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", d: "M4.5 12.75l6 6 9-13.5" })
-    )), (label || description || error) && /* @__PURE__ */ React34__default.default.createElement("div", { className: "flex flex-col gap-0.5 leading-none" }, label && /* @__PURE__ */ React34__default.default.createElement(
-      "label",
-      {
-        htmlFor: checkboxId,
-        className: ["text-xs font-medium cursor-pointer", disabled ? "text-(--text-muted) cursor-not-allowed" : "text-(--text-primary)"].join(" ")
-      },
-      label
-    ), description && /* @__PURE__ */ React34__default.default.createElement("span", { className: "text-[11px] text-(--text-secondary)" }, description), error && /* @__PURE__ */ React34__default.default.createElement("span", { className: "text-[11px] text-(--atom-color-destructive)" }, error)));
-  }
-);
-Checkbox.displayName = "Checkbox";
-var NavContext = React34__default.default.createContext({
-  variant: "default",
-  size: "md",
-  orientation: "horizontal"
-});
-var Nav = React34__default.default.forwardRef(
-  ({
-    variant = "default",
-    size = "md",
-    orientation = "horizontal",
-    fluid = false,
-    className = "",
-    children,
-    ...props
-  }, ref) => {
-    const isPills = variant === "pills";
-    const isSegmented = variant === "segmented";
-    const isTabs = variant === "tabs";
-    const containerStyle = isSegmented ? "p-1 rounded-(--radius) bg-(--bg-secondary)/80 border border-(--border-subtle)" : isPills ? "p-1.5 rounded-(--radius) bg-(--bg-secondary)/60 border border-(--border-subtle) flex-wrap" : isTabs ? "border-b border-(--border-subtle) gap-6" : "gap-1";
-    const orientationStyle = orientation === "vertical" ? "flex-col" : "flex-row items-center";
-    return /* @__PURE__ */ React34__default.default.createElement(NavContext.Provider, { value: { variant, size, orientation } }, /* @__PURE__ */ React34__default.default.createElement(
-      "nav",
-      {
-        ref,
-        "data-component": "nav",
-        "data-variant": variant,
-        "data-orientation": orientation,
-        className: `atom-nav atom-nav--${variant} flex ${orientationStyle} ${containerStyle} ${fluid ? "w-full" : ""} ${className}`,
-        ...props
-      },
-      children
-    ));
-  }
-);
-Nav.displayName = "Nav";
-var NavItem = React34__default.default.forwardRef(
-  ({ active = false, className = "", children, ...props }, ref) => {
-    return /* @__PURE__ */ React34__default.default.createElement(
-      "li",
-      {
-        ref,
-        "data-component": "nav-item",
-        className: `list-none inline-flex items-center relative ${className}`,
-        ...props
-      },
-      children
-    );
-  }
-);
-NavItem.displayName = "NavItem";
-var NavLink = React34__default.default.forwardRef(
-  ({
-    active = false,
-    disabled = false,
-    icon,
-    badge,
-    variant: overrideVariant,
-    size: overrideSize,
-    asButton = false,
-    className = "",
-    children,
-    ...props
-  }, ref) => {
-    const context = React34__default.default.useContext(NavContext);
-    const variant = overrideVariant || context.variant;
-    const size = overrideSize || context.size;
-    const sizeClasses = size === "sm" ? "text-xs px-2.5 py-1" : size === "lg" ? "text-base px-4 py-2.5" : "text-sm px-3 py-1.5";
-    let variantClasses = "";
-    if (variant === "pills" || variant === "segmented") {
-      variantClasses = active ? "bg-(--accent-primary) text-(--bg-primary) font-semibold shadow-xs" : "text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary)";
-    } else if (variant === "tabs") {
-      variantClasses = active ? "text-(--accent-primary) font-bold border-b-2 border-(--accent-primary) -mb-[1px]" : "text-(--text-secondary) hover:text-(--text-primary) border-b-2 border-transparent -mb-[1px]";
-    } else {
-      variantClasses = active ? "text-(--text-primary) font-semibold bg-(--bg-secondary)" : "text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-secondary)/60";
-    }
-    const baseClasses = `inline-flex items-center gap-1.5 rounded-(--radius-sm) font-medium transition cursor-pointer select-none no-underline ${sizeClasses} ${variantClasses} ${disabled ? "opacity-50 pointer-events-none cursor-not-allowed" : ""} ${className}`;
-    if (asButton) {
-      return /* @__PURE__ */ React34__default.default.createElement(
-        "button",
-        {
-          ref,
-          type: "button",
-          disabled,
-          "aria-current": active ? "page" : void 0,
-          "data-component": "nav-link",
-          className: baseClasses,
-          ...props
-        },
-        icon && /* @__PURE__ */ React34__default.default.createElement("span", { className: "shrink-0" }, icon),
-        /* @__PURE__ */ React34__default.default.createElement("span", null, children),
-        badge && /* @__PURE__ */ React34__default.default.createElement("span", { className: "shrink-0 ml-1" }, badge)
-      );
-    }
-    return /* @__PURE__ */ React34__default.default.createElement(
-      "a",
-      {
-        ref,
-        "aria-current": active ? "page" : void 0,
-        "data-component": "nav-link",
-        className: baseClasses,
-        ...props
-      },
-      icon && /* @__PURE__ */ React34__default.default.createElement("span", { className: "shrink-0" }, icon),
-      /* @__PURE__ */ React34__default.default.createElement("span", null, children),
-      badge && /* @__PURE__ */ React34__default.default.createElement("span", { className: "shrink-0 ml-1" }, badge)
-    );
-  }
-);
-NavLink.displayName = "NavLink";
-var NavDropdownItem = React34__default.default.forwardRef(
-  ({
-    active = false,
-    icon,
-    title,
-    description,
-    badge,
-    asButton = false,
-    as,
-    className = "",
-    ...props
-  }, ref) => {
-    const itemContent = /* @__PURE__ */ React34__default.default.createElement(React34__default.default.Fragment, null, icon && /* @__PURE__ */ React34__default.default.createElement("span", { className: "shrink-0 w-4 h-4 text-(--accent-primary) mt-0.5" }, icon), /* @__PURE__ */ React34__default.default.createElement("div", { className: "flex-1 min-w-0" }, /* @__PURE__ */ React34__default.default.createElement("div", { className: "flex items-center justify-between gap-2" }, /* @__PURE__ */ React34__default.default.createElement("span", { className: `text-xs font-semibold ${active ? "text-(--accent-primary)" : "text-(--text-primary)"}` }, title), badge && /* @__PURE__ */ React34__default.default.createElement("span", { className: "shrink-0" }, badge)), description && /* @__PURE__ */ React34__default.default.createElement("p", { className: "text-[11px] text-(--text-secondary) truncate mt-0.5 leading-snug" }, description)));
-    const baseClass = `w-full flex items-start gap-2.5 p-2 rounded-(--radius-sm) transition text-left cursor-pointer no-underline ${active ? "bg-(--accent-primary)/10 text-(--accent-primary)" : "hover:bg-(--bg-secondary) text-(--text-primary)"} ${className}`;
-    if (asButton || as === "button") {
-      return /* @__PURE__ */ React34__default.default.createElement(
-        "button",
-        {
-          ref,
-          type: "button",
-          role: "menuitem",
-          className: baseClass,
-          ...props
-        },
-        itemContent
-      );
-    }
-    if (as === "div" || !props.href && as !== "a") {
-      return /* @__PURE__ */ React34__default.default.createElement(
-        "div",
-        {
-          ref,
-          role: "menuitem",
-          className: baseClass,
-          ...props
-        },
-        itemContent
-      );
-    }
-    return /* @__PURE__ */ React34__default.default.createElement(
-      "a",
-      {
-        ref,
-        role: "menuitem",
-        className: baseClass,
-        ...props
-      },
-      itemContent
-    );
-  }
-);
-NavDropdownItem.displayName = "NavDropdownItem";
-var TONE_TOKEN_MAP = {
-  info: {
-    color: "var(--accent-primary, var(--atom-color-primary, var(--accent-primary)))",
-    bgVar: "var(--atom-color-primary-subtle, rgba(49, 130, 246, 0.08))",
-    borderVar: "var(--accent-primary, var(--atom-color-primary, var(--accent-primary)))"
-  },
-  success: {
-    color: "var(--atom-color-success, #10b981)",
-    bgVar: "var(--atom-color-success-subtle, rgba(16, 185, 129, 0.08))",
-    borderVar: "var(--atom-color-success, #10b981)"
-  },
-  warning: {
-    color: "var(--atom-color-warning, #f59e0b)",
-    bgVar: "var(--atom-color-warning-subtle, rgba(245, 158, 11, 0.08))",
-    borderVar: "var(--atom-color-warning, #f59e0b)"
-  },
-  destructive: {
-    color: "var(--atom-color-destructive, var(--atom-color-danger, #ef4444))",
-    bgVar: "var(--atom-color-danger-subtle, rgba(239, 68, 68, 0.08))",
-    borderVar: "var(--atom-color-destructive, var(--atom-color-danger, #ef4444))"
-  },
-  neutral: {
-    color: "var(--text-primary)",
-    bgVar: "var(--bg-secondary)",
-    borderVar: "var(--border-strong)"
-  }
-};
-var DEFAULT_ICONS = {
-  info: /* @__PURE__ */ React34__default.default.createElement(lucideReact.Info, { className: "w-4 h-4 shrink-0" }),
-  success: /* @__PURE__ */ React34__default.default.createElement(lucideReact.CheckCircle2, { className: "w-4 h-4 shrink-0" }),
-  warning: /* @__PURE__ */ React34__default.default.createElement(lucideReact.AlertTriangle, { className: "w-4 h-4 shrink-0" }),
-  destructive: /* @__PURE__ */ React34__default.default.createElement(lucideReact.AlertCircle, { className: "w-4 h-4 shrink-0" }),
-  neutral: /* @__PURE__ */ React34__default.default.createElement(lucideReact.Bell, { className: "w-4 h-4 shrink-0" })
-};
-var Alert = React34__default.default.forwardRef(
-  ({
-    componentType = "soft",
-    variant = "info",
-    variable,
-    status = "default",
-    title,
-    description,
-    icon,
-    action,
-    onClose,
-    children,
-    className = "",
-    style,
-    ...props
-  }, ref) => {
-    const rawTone = (variable || variant || "info").toLowerCase();
-    const activeTone = rawTone === "danger" || rawTone === "error" ? "destructive" : rawTone;
-    const toneMeta = TONE_TOKEN_MAP[activeTone] || TONE_TOKEN_MAP.info;
-    const resolvedIcon = icon !== void 0 ? icon : DEFAULT_ICONS[activeTone] || DEFAULT_ICONS.info;
-    const typeKey = (componentType || "soft").toLowerCase();
-    const isSolid = typeKey.includes("solid");
-    const isOutlined = typeKey.includes("outline");
-    const isAccentBorder = typeKey.includes("accent");
-    const computedTypeStyle = isSolid ? {
-      backgroundColor: toneMeta.color,
-      borderColor: toneMeta.color,
-      color: activeTone === "neutral" ? "var(--bg-primary)" : "#ffffff"
-    } : isOutlined ? {
-      backgroundColor: "var(--bg-primary)",
-      borderColor: toneMeta.borderVar,
-      color: "var(--text-primary)"
-    } : isAccentBorder ? {
-      backgroundColor: "var(--bg-secondary)",
-      borderColor: "var(--border-subtle)",
-      borderLeftWidth: "4px",
-      borderLeftColor: toneMeta.borderVar,
-      color: "var(--text-primary)"
-    } : {
-      backgroundColor: `color-mix(in srgb, ${toneMeta.color} 10%, var(--bg-primary))`,
-      borderColor: `color-mix(in srgb, ${toneMeta.color} 28%, transparent)`,
-      color: "var(--text-primary)"
-    };
-    const statusClass = status && status !== "default" ? `atom-status--${status}` : "";
-    const iconColor = isSolid ? activeTone === "neutral" ? "var(--bg-primary)" : "#ffffff" : toneMeta.color;
-    return /* @__PURE__ */ React34__default.default.createElement(
-      "div",
-      {
-        ref,
-        role: "alert",
-        "data-component": "alert",
-        "data-type": componentType,
-        "data-variable": activeTone,
-        "data-status": status,
-        className: `atom-alert atom-alert--${activeTone} atom-alert--type-${typeKey} ${statusClass} w-full rounded-(--radius) border p-4 flex items-start justify-between gap-3 transition-all ${className}`.trim(),
-        style: {
-          ...computedTypeStyle,
-          ...style
-        },
-        ...props
-      },
-      /* @__PURE__ */ React34__default.default.createElement("div", { className: "flex items-start gap-2.5 min-w-0 flex-1" }, resolvedIcon && /* @__PURE__ */ React34__default.default.createElement("span", { className: "mt-0.5 shrink-0", style: { color: iconColor } }, resolvedIcon), /* @__PURE__ */ React34__default.default.createElement("div", { className: "min-w-0 flex-1 space-y-1" }, title && /* @__PURE__ */ React34__default.default.createElement("div", { className: "font-bold text-sm leading-snug text-inherit" }, title), (description || children) && /* @__PURE__ */ React34__default.default.createElement("div", { className: "text-xs leading-relaxed opacity-90 text-inherit" }, description || children), action && /* @__PURE__ */ React34__default.default.createElement("div", { className: "pt-1.5" }, action))),
-      onClose && /* @__PURE__ */ React34__default.default.createElement(
-        Button,
-        {
-          variant: "ghost",
-          size: "sm",
-          isIconOnly: true,
-          onClick: onClose,
-          "aria-label": "\uB2EB\uAE30",
-          className: "h-6 w-6 p-0 shrink-0 text-inherit opacity-70 hover:opacity-100"
-        },
-        /* @__PURE__ */ React34__default.default.createElement(lucideReact.X, { className: "w-3.5 h-3.5" })
-      )
-    );
-  }
-);
-Alert.displayName = "Alert";
-
-// lib/data/themeData.ts
-atomTokens.theme.toStudioThemes();
 var INITIAL_METRICS = [
   { id: "arr", label: "\uC5F0\uAC04 \uBC18\uBCF5 \uB9E4\uCD9C (ARR)", value: "\u20A9124.8M", change: "+14.2%", isPositive: true, icon: "dollar" },
   { id: "users", label: "\uD65C\uC131 \uAD6C\uB3C5 \uACE0\uAC1D (Active)", value: "1,429\uBA85", change: "+8.6%", isPositive: true, icon: "users" },
@@ -23110,37 +19063,109 @@ exports.ATOM_STUDIO_REGISTRY_PATH = ATOM_STUDIO_REGISTRY_PATH;
 exports.ATOM_TOKENS_PATH = ATOM_TOKENS_PATH;
 exports.ATOM_UI_CSS_PATH = ATOM_UI_CSS_PATH;
 exports.ATOM_VERSION = ATOM_VERSION;
-exports.AWESOME_CATEGORIES = AWESOME_CATEGORIES;
-exports.AWESOME_DESIGN_MD_THEMES = AWESOME_DESIGN_MD_THEMES;
+exports.Accordion = Accordion;
+exports.Alert = Alert;
 exports.AtomTokenSystem = AtomTokenSystem;
+exports.Avatar = Avatar;
 exports.BASE_COLOR_TOKENS = BASE_COLOR_TOKENS;
 exports.BRAND_PRESETS = BRAND_PRESETS;
+exports.Badge = Badge;
+exports.Breadcrumb = Breadcrumb;
+exports.Button = Button;
 exports.COLOR_PRESETS = COLOR_PRESETS;
 exports.COMPONENT_STATUS_PRESETS = COMPONENT_STATUS_PRESETS;
+exports.Calendar = Calendar;
+exports.Card = Card;
+exports.Chart = Chart;
+exports.Checkbox = Checkbox;
 exports.ComponentTokenLayer = ComponentTokenLayer;
+exports.Container = Container;
 exports.DEFAULT_BRAND_CONFIG = DEFAULT_BRAND_CONFIG;
 exports.DEFAULT_COMPONENT_TYPES = DEFAULT_COMPONENT_TYPES;
 exports.DEFAULT_THEME_CONFIG = DEFAULT_THEME_CONFIG;
 exports.EnterpriseDashboardUseCase = EnterpriseDashboardUseCase;
 exports.FONT_FAMILY_PRESETS = FONT_FAMILY_PRESETS;
 exports.GALLERY_COMPONENTS = GALLERY_COMPONENTS;
+exports.Grid = Grid;
 exports.INITIAL_PALETTE_VARIABLES = INITIAL_PALETTE_VARIABLES;
 exports.INITIAL_SEMANTIC_STATUS_TOKENS = INITIAL_SEMANTIC_STATUS_TOKENS;
 exports.INITIAL_STUDIO_COMPONENTS = INITIAL_STUDIO_COMPONENTS;
+exports.INITIAL_STUDIO_THEMES = INITIAL_STUDIO_THEMES;
+exports.Input = Input;
 exports.LAYOUT_TOKENS = LAYOUT_TOKENS;
+exports.Layout = Layout;
+exports.Modal = Modal;
+exports.NativeSelect = NativeSelect;
+exports.Nav = Nav;
+exports.NavDropdown = NavDropdown;
+exports.NavDropdownItem = NavDropdownItem;
+exports.NavItem = NavItem;
+exports.NavLink = NavLink;
+exports.Navbar = Navbar;
+exports.NavbarActions = NavbarActions;
+exports.NavbarBrand = NavbarBrand;
+exports.NavbarLink = NavbarLink;
+exports.NavbarMobileMenu = NavbarMobileMenu;
+exports.NavbarNav = NavbarNav;
+exports.NavbarToggle = NavbarToggle;
+exports.Offcanvas = Offcanvas;
+exports.OffcanvasBody = OffcanvasBody;
+exports.OffcanvasFooter = OffcanvasFooter;
+exports.OffcanvasHeader = OffcanvasHeader;
 exports.PATTERNS_COLLECTION = PATTERNS_COLLECTION;
+exports.Pagination = Pagination;
 exports.PaletteTokenLayer = PaletteTokenLayer;
+exports.Progress = Progress;
 exports.RADIUS_TOKENS = RADIUS_TOKENS;
+exports.RadioGroup = RadioGroup;
 exports.SEMANTIC_VARIABLE_DICTIONARY = SEMANTIC_VARIABLE_DICTIONARY;
 exports.SHADOW_TOKENS = SHADOW_TOKENS;
 exports.SPACING_TOKENS = SPACING_TOKENS;
 exports.STUDIO_CUSTOM_STYLES_END = STUDIO_CUSTOM_STYLES_END;
 exports.STUDIO_CUSTOM_STYLES_START = STUDIO_CUSTOM_STYLES_START;
+exports.Section = Section;
+exports.Select = Select;
+exports.Separator = Separator;
+exports.SideMenu = SideMenu;
+exports.SideMenuGroup = SideMenuGroup;
+exports.SideMenuItem = SideMenuItem;
+exports.SideSubMenu = SideSubMenu;
+exports.Sidebar = Sidebar;
+exports.SidebarContent = SidebarContent;
+exports.SidebarFooter = SidebarFooter;
+exports.SidebarGroup = SidebarGroup;
+exports.SidebarGroupLabel = SidebarGroupLabel;
+exports.SidebarHeader = SidebarHeader;
+exports.SidebarMenu = SidebarMenu;
+exports.SidebarMenuButton = SidebarMenuButton;
+exports.SidebarMenuItem = SidebarMenuItem;
+exports.SidebarSubMenu = SidebarSubMenu;
+exports.SidebarToggle = SidebarToggle;
+exports.Skeleton = Skeleton;
+exports.Slider = Slider;
+exports.Stack = Stack;
+exports.Switch = Switch;
 exports.TOKEN_REPLACEMENTS = TOKEN_REPLACEMENTS;
 exports.TYPOGRAPHY_TOKENS = TYPOGRAPHY_TOKENS;
+exports.Table = Table;
+exports.TableBody = TableBody;
+exports.TableCell = TableCell;
+exports.TableHead = TableHead;
+exports.TableHeader = TableHeader;
+exports.TableRow = TableRow;
+exports.TabsContent = TabsContent;
+exports.TabsList = TabsList;
+exports.TabsTrigger = TabsTrigger;
+exports.Textarea = Textarea;
+exports.ThemeSwitcher = ThemeSwitcher;
 exports.ThemeTokenLayer = ThemeTokenLayer;
+exports.Toast = Toast;
 exports.TokenReferenceResolver = TokenReferenceResolver;
+exports.TokenSelect = TokenSelect;
+exports.Tooltip = Tooltip;
+exports.Tree = Tree;
 exports.UNIFIED_TOKENS_DOCUMENT = UNIFIED_TOKENS_DOCUMENT;
+exports.applyStudioThemeToRoot = applyStudioThemeToRoot;
 exports.applyThemeToDOM = applyThemeToDOM;
 exports.atomTokens = atomTokens;
 exports.buildAiComponentSubmissionPrompt = buildAiComponentSubmissionPrompt;
@@ -23160,9 +19185,11 @@ exports.isDarkColor = isDarkColor;
 exports.isUnifiedTokensDocument = isUnifiedTokensDocument;
 exports.paletteTokens = paletteTokens;
 exports.resolveStudioComponentId = resolveStudioComponentId;
+exports.resolveThemeColors = resolveThemeColors;
 exports.resolveTypeSpec = resolveTypeSpec;
 exports.resolveVariableRole = resolveVariableRole;
 exports.scanAndRefactorDirectory = scanAndRefactorDirectory;
+exports.studioThemeToThemeConfig = studioThemeToThemeConfig;
 exports.themeTokens = themeTokens;
 exports.tokenResolver = tokenResolver;
 //# sourceMappingURL=index.cjs.map

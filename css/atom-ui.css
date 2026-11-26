@@ -1217,6 +1217,15 @@
   --atom-sheet-side-detail-padding: var(--atom-space-5);
 }
 
+[data-component="theme-switcher"][data-variable="default"],
+.atom-theme-switcher--default {
+  --atom-theme-switcher-default-background: var(--atom-bg-primary);
+  --atom-theme-switcher-default-textColor: var(--atom-text-primary);
+  --atom-theme-switcher-default-borderColor: var(--atom-border-subtle);
+  --atom-theme-switcher-default-borderRadius: var(--atom-radius-md);
+  --atom-theme-switcher-default-padding: var(--atom-space-4);
+}
+
 /* === Universal Component Classes === */
 
 /* Container & Layout */
@@ -2930,5 +2939,18 @@
   border-width: 1px;
   border-radius: var(--atom-sheet-side-detail-borderRadius, var(--atom-radius-lg));
   padding: var(--atom-sheet-side-detail-padding, var(--atom-space-5));
+}
+
+/* Component: theme-switcher */
+.atom-theme-switcher.atom-theme-switcher--default,
+.atom-theme-switcher[data-variable="default"],
+[data-component="theme-switcher"][data-variable="default"] {
+  background-color: var(--atom-theme-switcher-default-background, var(--atom-palette-white));
+  color: var(--atom-theme-switcher-default-textColor, var(--atom-palette-gray-900));
+  border-color: var(--atom-theme-switcher-default-borderColor, var(--atom-palette-gray-200));
+  border-style: solid;
+  border-width: 1px;
+  border-radius: var(--atom-theme-switcher-default-borderRadius, var(--atom-radius-md));
+  padding: var(--atom-theme-switcher-default-padding, var(--atom-space-4));
 }
 /* === Studio Registered Component Styles End === */
