@@ -701,6 +701,140 @@
     }
     return { componentId, variableId, propKey, tokenId, updatedCount };
   }
+  function rgbaToHex(c) {
+    const toHex = (n) => Math.round(Math.max(0, Math.min(1, n)) * 255).toString(16).padStart(2, "0");
+    const hex = `#${toHex(c.r)}${toHex(c.g)}${toHex(c.b)}`;
+    if (c.a !== void 0 && c.a < 0.999) {
+      return `${hex}${toHex(c.a)}`;
+    }
+    return hex;
+  }
+  function figmaPrimNameToTokenId(name) {
+    if (name === "color/neutral/white") return { id: "--atom-palette-white", category: "color" };
+    if (name === "color/neutral/black") return { id: "--atom-palette-black", category: "color" };
+    if (name.startsWith("color/")) {
+      return {
+        id: `--atom-palette-${name.slice("color/".length).replace(/\//g, "-")}`,
+        category: "color"
+      };
+    }
+    if (name.startsWith("spacing/")) {
+      const key = name.slice("spacing/".length).replace(/\//g, "-");
+      return {
+        id: /^\d+$/.test(key) ? `--atom-space-${key}` : `--atom-${key}`,
+        category: "spacing"
+      };
+    }
+    if (name.startsWith("radius/")) {
+      return {
+        id: `--atom-radius-${name.slice("radius/".length).replace(/\//g, "-")}`,
+        category: "radius"
+      };
+    }
+    if (name.startsWith("typography/weight/")) {
+      return {
+        id: `--atom-font-weight-${name.slice("typography/weight/".length).replace(/\//g, "-")}`,
+        category: "typography"
+      };
+    }
+    if (name.startsWith("typography/size/")) {
+      return {
+        id: `--atom-typography-${name.slice("typography/size/".length).replace(/\//g, "-")}`,
+        category: "typography"
+      };
+    }
+    return null;
+  }
+  async function exportFigmaVariables() {
+    const collections = figma.variables.getLocalVariableCollections();
+    const localVars = figma.variables.getLocalVariables();
+    const varById = {};
+    for (const v of localVars) {
+      varById[v.id] = v;
+    }
+    const primCol = collections.find((c) => c.name === "1. AtomSystem Primitives") || collections[0];
+    const semCol = collections.find((c) => c.name === "2. AtomSystem Semantic");
+    const paletteUpdates = [];
+    const dtcgPalette = {};
+    if (primCol) {
+      const modeId = primCol.modes[0]?.modeId;
+      const primVars = localVars.filter((v) => v.variableCollectionId === primCol.id);
+      for (const v of primVars) {
+        const mapped = figmaPrimNameToTokenId(v.name);
+        if (!mapped || !modeId) continue;
+        const raw = v.valuesByMode[modeId];
+        let cssVal = "";
+        if (v.resolvedType === "COLOR" && raw && typeof raw === "object" && "r" in raw) {
+          cssVal = rgbaToHex(raw);
+        } else if (v.resolvedType === "FLOAT" && typeof raw === "number") {
+          cssVal = v.name.startsWith("typography/weight/") ? String(raw) : `${raw}px`;
+        }
+        if (!cssVal) continue;
+        paletteUpdates.push({
+          id: mapped.id,
+          name: v.description || v.name,
+          category: mapped.category,
+          value: cssVal,
+          description: v.description || void 0
+        });
+        dtcgPalette[mapped.id] = {
+          $type: mapped.category === "color" ? "color" : "dimension",
+          $value: cssVal,
+          ...v.description ? { $description: v.description } : {}
+        };
+      }
+    }
+    const semanticUpdates = {};
+    const modeOverridesByName = {};
+    if (semCol) {
+      const semVars = localVars.filter((v) => v.variableCollectionId === semCol.id);
+      const defaultModeId = semCol.modes[0]?.modeId;
+      for (const v of semVars) {
+        const parts = v.name.split("/");
+        if (parts[0] !== "color" || parts.length < 3) continue;
+        const key = parts[1];
+        const state = parts[2];
+        for (const mode of semCol.modes) {
+          const raw = v.valuesByMode[mode.modeId];
+          let resolvedPalId = "";
+          if (raw && typeof raw === "object" && "type" in raw && raw.type === "VARIABLE_ALIAS") {
+            const targetVar = varById[raw.id];
+            if (targetVar) {
+              const mappedTarget = figmaPrimNameToTokenId(targetVar.name);
+              if (mappedTarget) resolvedPalId = mappedTarget.id;
+            }
+          } else if (raw && typeof raw === "object" && "r" in raw) {
+            resolvedPalId = rgbaToHex(raw);
+          }
+          if (!resolvedPalId) continue;
+          if (mode.modeId === defaultModeId && (state === "default" || state === "hover" || state === "subtle")) {
+            semanticUpdates[key] = semanticUpdates[key] || {};
+            semanticUpdates[key][state] = resolvedPalId;
+          }
+          if (state === "default") {
+            modeOverridesByName[mode.name] = modeOverridesByName[mode.name] || {};
+            modeOverridesByName[mode.name][key] = resolvedPalId;
+          }
+        }
+      }
+    }
+    return {
+      paletteCount: paletteUpdates.length,
+      semanticCount: Object.keys(semanticUpdates).length,
+      modesCount: semCol ? semCol.modes.length : primCol ? 1 : 0,
+      paletteUpdates,
+      semanticUpdates,
+      modeOverridesByName,
+      dtcgDocument: {
+        $schema: "https://design-tokens.github.io/community-group/format/",
+        exportedFrom: "AtomSystem Studio for Figma",
+        exportedAt: (/* @__PURE__ */ new Date()).toISOString(),
+        palette: dtcgPalette,
+        semantic: semanticUpdates,
+        themes: modeOverridesByName
+      }
+    };
+  }
   figma.ui.onmessage = async (msg) => {
     try {
       if (msg.type === "SYNC_ALL_TOKENS") {
@@ -727,6 +861,13 @@
         const result = await renderCapturedComponents(msg.payload);
         figma.ui.postMessage({ type: "GENERATE_COMPONENTS_SUCCESS", payload: result });
         figma.notify(`\u{1F680} Studio \uC2E4\uC81C DOM \uAE30\uBC18 ${result.setsCount}\uAC1C \uCEF4\uD3EC\uB10C\uD2B8 (${result.variantCount}\uAC1C \uBCC0\uD615) \uC0DD\uC131 \uC644\uB8CC!`);
+      } else if (msg.type === "EXPORT_FIGMA_VARIABLES") {
+        const result = await exportFigmaVariables();
+        figma.ui.postMessage({
+          type: "EXPORT_FIGMA_VARIABLES_RESULT",
+          payload: { ...result, pushToStudio: !!msg.payload?.pushToStudio, downloadJson: !!msg.payload?.downloadJson }
+        });
+        figma.notify(`\u{1F4E4} Figma Variables \uCD94\uCD9C \uC644\uB8CC (${result.paletteCount}\uAC1C \uD314\uB808\uD2B8 \xB7 ${result.semanticCount}\uAC1C \uC2DC\uB9E8\uD2F1)`);
       } else if (msg.type === "INSPECT_SELECTION") {
         const selection = figma.currentPage.selection;
         if (selection.length === 0) {

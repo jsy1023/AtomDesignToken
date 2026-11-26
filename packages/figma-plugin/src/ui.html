@@ -453,6 +453,10 @@
         <button class="btn full" id="btnPullStudio">⬇ Local Studio에서 불러오기 (Pull)</button>
         <button class="btn secondary full" id="btnPushStudio" disabled>⬆ Local Studio로 저장하기 (Push)</button>
       </div>
+      <div style="display:flex; gap:6px; margin-top:4px;">
+        <button class="btn full" id="btnExportVarsToStudio" style="background:#059669;">🔄 Figma Variables ➔ Studio 역동기화</button>
+        <button class="btn secondary full" id="btnDownloadFigmaJson">📥 tokens.json 다운로드</button>
+      </div>
     </div>
 
     <div class="section-card">
@@ -550,9 +554,14 @@
         : ['http://localhost:3000', 'http://localhost:4000'];
 
       let lastErr = null;
+      const mergedHeaders = Object.assign(
+        { 'X-Atom-Client': 'figma-plugin' },
+        (options && options.headers) || {}
+      );
+      const reqOptions = Object.assign({}, options || {}, { headers: mergedHeaders });
       for (const base of candidates) {
         try {
-          const res = await fetch(`${base}${path}`, options);
+          const res = await fetch(`${base}${path}`, reqOptions);
           if (res.ok) {
             studioBaseUrl = base;
             return res;
@@ -595,7 +604,7 @@
       try {
         const res = await fetch(`${studioBaseUrl}/api/studio/save`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'application/json', 'X-Atom-Client': 'figma-plugin' },
           body: JSON.stringify({ registry: studioRegistry })
         });
         if (!res.ok) throw new Error('Save 실패 (' + res.status + ')');
@@ -1547,6 +1556,66 @@
       parent.postMessage({ pluginMessage: { type: 'INSPECT_SELECTION' } }, '*');
     };
 
+    document.getElementById('btnExportVarsToStudio').onclick = () => {
+      log('📤 피그마 로컬 Variables 추출 및 Studio 역동기화 시작...');
+      parent.postMessage({
+        pluginMessage: { type: 'EXPORT_FIGMA_VARIABLES', payload: { pushToStudio: true } }
+      }, '*');
+    };
+
+    document.getElementById('btnDownloadFigmaJson').onclick = () => {
+      log('📥 피그마 로컬 Variables W3C DTCG JSON 내보내기 중...');
+      parent.postMessage({
+        pluginMessage: { type: 'EXPORT_FIGMA_VARIABLES', payload: { downloadJson: true } }
+      }, '*');
+    };
+
+    function applyExportedVariablesToRegistry(data) {
+      if (!studioRegistry) {
+        studioRegistry = {
+          version: '0.15.1',
+          updatedAt: new Date().toISOString(),
+          activeThemeId: 'ocean-blue',
+          paletteVariables: [],
+          statusTokens: [],
+          components: [],
+          themes: []
+        };
+      }
+
+      (data.paletteUpdates || []).forEach(up => {
+        const existing = (studioRegistry.paletteVariables || []).find(p => p.id === up.id);
+        if (existing) {
+          existing.value = up.value;
+        } else {
+          studioRegistry.paletteVariables.push({
+            id: up.id,
+            name: up.name || up.id,
+            category: up.category,
+            value: up.value
+          });
+        }
+      });
+
+      Object.entries(data.semanticUpdates || {}).forEach(([key, states]) => {
+        const st = (studioRegistry.statusTokens || []).find(s => s.key === key);
+        if (st) {
+          if (states.default && states.default.startsWith('--atom-')) st.paletteId = states.default;
+          if (states.hover && states.hover.startsWith('--atom-')) st.hoverPaletteId = states.hover;
+          if (states.subtle && states.subtle.startsWith('--atom-')) st.subtlePaletteId = states.subtle;
+        }
+      });
+
+      Object.entries(data.modeOverridesByName || {}).forEach(([modeName, overrides]) => {
+        const th = (studioRegistry.themes || []).find(t => t.name === modeName);
+        if (th) {
+          th.semanticOverrides = Object.assign({}, th.semanticOverrides || {}, overrides);
+        }
+      });
+
+      initAllViews();
+    }
+
     function initAllViews() {
       renderTokensTab();
       initComponentsTab();
@@ -1573,6 +1642,22 @@
         log(`🎉 피그마 캔버스 생성 완료: ${msg.payload.setsCount}개 컴포넌트 세트 (${msg.payload.variantCount}개 Variant)`);
       } else if (msg.type === 'APPLY_TOKEN_SUCCESS') {
         log(`🎯 ${msg.payload.appliedCount}개 레이어에 [${msg.payload.tokenId}] 토큰 바인딩 적용 완료`);
+      } else if (msg.type === 'EXPORT_FIGMA_VARIABLES_RESULT') {
+        const p = msg.payload;
+        applyExportedVariablesToRegistry(p);
+        log(`📤 Figma Variables 추출 완료: 팔레트 ${p.paletteCount}개, 시맨틱 ${p.semanticCount}개 (${p.modesCount}개 모드)`);
+        if (p.downloadJson && p.dtcgDocument) {
+          const blob = new Blob([JSON.stringify(p.dtcgDocument, null, 2)], { type: 'application/json' });
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = 'tokens.figma.json';
+          a.click();
+          URL.revokeObjectURL(a.href);
+          log('📥 tokens.figma.json 다운로드 완료!');
+        }
+        if (p.pushToStudio) {
+          pushToLocalStudio();
+        }
       } else if (msg.type === 'INSPECT_SELECTION_RESULT') {
         if (!msg.payload) return;
         const jsonStr = JSON.stringify(msg.payload, null, 2);
