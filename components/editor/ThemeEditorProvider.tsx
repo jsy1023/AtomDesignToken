@@ -36,6 +36,8 @@ interface ThemeEditorContextValue {
   updateSelectedIcon: (iconName: string) => void;
   applyColorPreset: (preset: ColorPreset) => void;
   applyFullTheme: (newTheme: ThemeConfig) => void;
+  toggleColorMode: () => void;
+  colorMode: 'light' | 'dark';
   resetTheme: () => void;
   brandConfig: BrandConfig;
   updateBrandConfig: (newConfig: Partial<BrandConfig>) => void;
@@ -136,6 +138,20 @@ export function ThemeEditorProvider({ children }: { children: React.ReactNode })
     } catch {
       // ignore parse error
     }
+
+    const handleStorage = (e: StorageEvent) => {
+      if (e.key === STORAGE_KEY && e.newValue) {
+        try {
+          const synced = JSON.parse(e.newValue);
+          setTheme(synced);
+          applyThemeToDOM(synced);
+        } catch {
+          // ignore
+        }
+      }
+    };
+    window.addEventListener('storage', handleStorage);
+    return () => window.removeEventListener('storage', handleStorage);
   }, []);
 
   // SSOT(tokens/tokens.json)의 brand 값을 우선 사용 (구형 localStorage 덮어쓰기 방지)
@@ -310,6 +326,37 @@ export function ThemeEditorProvider({ children }: { children: React.ReactNode })
     persistAndApply(DEFAULT_THEME_CONFIG);
   }, [persistAndApply]);
 
+  const colorMode: 'light' | 'dark' = isDarkColor(theme.color.bgPrimary) ? 'dark' : 'light';
+
+  const toggleColorMode = useCallback(() => {
+    setTheme((prev) => {
+      const currentlyDark = isDarkColor(prev.color.bgPrimary);
+      const nextSurface = currentlyDark
+        ? DEFAULT_THEME_CONFIG.color
+        : {
+            ...prev.color,
+            bgPrimary: '#0a0a0a',
+            bgSecondary: '#141414',
+            textPrimary: '#ededed',
+            textSecondary: '#a0a0a0',
+            textMuted: '#71717a',
+            borderSubtle: '#222222',
+            borderStrong: '#333333',
+          };
+      const next: ThemeConfig = {
+        ...prev,
+        color: {
+          ...nextSurface,
+          primary: prev.color.primary,
+          primaryHover: prev.color.primaryHover,
+          primaryLight: prev.color.primaryLight,
+        },
+      };
+      persistAndApply(next);
+      return next;
+    });
+  }, [persistAndApply]);
+
   const isDirty = JSON.stringify(theme) !== JSON.stringify(DEFAULT_THEME_CONFIG);
 
   return (
@@ -329,6 +376,8 @@ export function ThemeEditorProvider({ children }: { children: React.ReactNode })
         updateSelectedIcon,
         applyColorPreset,
         applyFullTheme,
+        toggleColorMode,
+        colorMode,
         resetTheme,
         brandConfig,
         updateBrandConfig,

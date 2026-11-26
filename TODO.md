@@ -127,14 +127,14 @@
 ## 🚀 향후 작업 계획 (Next Steps & Backlog)
 
 ### Phase 1: 디자인 토큰 전역 동기화 (우선순위: 높음)
-- [ ] **메인 ↔ 패턴 ↔ 컴포넌트 간 토큰 상태 공유**
+- [x] **메인 ↔ 패턴 ↔ 컴포넌트 간 토큰 상태 공유**
   - 메인 페이지에서 조정한 토큰(Primary 컬러, Radius 등)을 LocalStorage 또는 Context로 저장하여 모든 페이지에 실시간 반영
-- [ ] **다크/라이트 테마 토글 보강**
+- [x] **다크/라이트 테마 토글 보강**
 
 ### Phase 2: UX 패턴 & 컴포넌트 고도화 (우선순위: 보통)
-- [ ] **인터랙티브 패턴 프리뷰 확장**
-- [ ] **추가 컴포넌트 보강** (DatePicker, Slider 등)
-- [ ] **토큰 Export / 다운로드 기능** (`tokens.json`, `atom-ui.css`, `tailwind.config.ts`)
+- [x] **인터랙티브 패턴 프리뷰 확장**
+- [x] **추가 컴포넌트 보강** (DatePicker, Slider 등)
+- [x] **토큰 Export / 다운로드 기능** (`tokens.json`, `atom-ui.css`, `tailwind.config.ts`)
 
 ### Phase 3: 테스트 및 안정화 (우선순위: 보통)
 - [ ] **E2E 테스트 검증 (`npm run test:e2e`)**

@@ -8,6 +8,8 @@ import {
   Check,
   Copy,
   Star,
+  Sun,
+  Moon,
 } from 'lucide-react';
 import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';
 import { NAVIGATION_DEPTH, NavGroup } from '@/lib/data/navigation';
@@ -34,11 +36,11 @@ interface HeaderProps {
 
 export function Header({ brandColor, rightExtra }: HeaderProps) {
   const pathname = usePathname();
-  const { theme, brandConfig } = useThemeEditor();
+  const { theme, brandConfig, colorMode, toggleColorMode } = useThemeEditor();
   const brandName = brandConfig?.name || 'AtomDesignToken';
   const customLogoUrl = brandConfig?.logoUrl;
   const { locale, setLocale, t, dictionary } = useI18n();
-  const activeBrandColor = brandColor || theme?.color?.primary || '#18181b';
+  const activeBrandColor = brandColor || theme?.color?.primary || 'var(--accent-primary)';
   const [copiedCli, setCopiedCli] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [starCount, setStarCount] = useState<number | null>(null);
@@ -281,6 +283,20 @@ export function Header({ brandColor, rightExtra }: HeaderProps) {
           ))}
         </div>
 
+        {/* Dark / Light Mode Toggle */}
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          isIconOnly
+          onClick={toggleColorMode}
+          aria-label="Toggle color mode"
+          title={colorMode === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+          className="h-7 w-7 p-0 text-(--text-secondary) hover:text-(--text-primary)"
+        >
+          {colorMode === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+        </Button>
+
         {/* GitHub Star Link */}
         <a
           href="https://github.com/jsy1023/AtomDesignToken"
@@ -289,7 +305,7 @@ export function Header({ brandColor, rightExtra }: HeaderProps) {
           className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border border-(--border-subtle) bg-(--bg-secondary) hover:bg-(--bg-primary) text-sm font-medium text-(--text-secondary) hover:text-(--text-primary) transition-colors group"
           title="GitHub에서 Star 누르기"
         >
-          <Star className="w-4 h-4 text-(--atom-color-warning) fill-amber-500 group-hover:scale-110 transition-transform" />
+          <Star className="w-4 h-4 text-(--atom-color-warning) fill-(--atom-color-warning) group-hover:scale-110 transition-transform" />
           <span className="hidden sm:inline">Star</span>
           <span className="font-mono text-xs px-1.5 py-0.2 rounded bg-(--bg-primary) border border-(--border-subtle) text-(--text-primary) font-semibold">
             {starCount !== null ? starCount : '★'}

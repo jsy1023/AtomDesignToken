@@ -44,16 +44,22 @@ export function injectWebfontLink(cdnUrl?: string, linkId: string = 'atom-custom
  */
 export function generateThemeCSS(theme: ThemeConfig): string {
   const { color, typography, borderRadius } = theme;
-  const safePrimary =
-    color.primary && !color.primary.includes('var(--accent-primary)') && !color.primary.includes('var(--atom-color-primary)')
-      ? color.primary
-      : 'var(--accent-primary)';
-  const safePrimaryHover =
-    color.primaryHover &&
+  const hasCustomPrimary =
+    !!color.primary &&
+    !color.primary.includes('var(--accent-primary)') &&
+    !color.primary.includes('var(--atom-color-primary)');
+  const hasCustomPrimaryHover =
+    !!color.primaryHover &&
     !color.primaryHover.includes('var(--accent-hover)') &&
-    !color.primaryHover.includes('var(--accent-primary-hover)')
-      ? color.primaryHover
-      : 'var(--accent-primary-hover)';
+    !color.primaryHover.includes('var(--accent-primary-hover)');
+  const safePrimary = hasCustomPrimary ? color.primary : 'var(--accent-primary)';
+  const safePrimaryHover = hasCustomPrimaryHover ? color.primaryHover : 'var(--accent-primary-hover)';
+  const primaryDecls = hasCustomPrimary
+    ? `--accent-primary: ${color.primary};\n  --atom-color-primary: ${color.primary};`
+    : '';
+  const primaryHoverDecls = hasCustomPrimaryHover
+    ? `--accent-hover: ${color.primaryHover};\n  --accent-primary-hover: ${color.primaryHover};\n  --atom-color-primary-hover: ${color.primaryHover};`
+    : '';
   const isDark = isDarkColor(color.bgPrimary);
 
   // Detect font import if Google font selected
@@ -73,8 +79,8 @@ ${fontImportCSS}/* [AtomDesignToken] Live Injected Theme Variables */
   --atom-font-sans: ${typography.fontFamily};
 
   /* Semantic Colors */
-  --accent-primary: ${safePrimary};
-  --accent-hover: ${safePrimaryHover};
+  ${primaryDecls}
+  ${primaryHoverDecls}
   --accent-light: ${color.primaryLight};
   --bg-primary: ${color.bgPrimary};
   --bg-secondary: ${color.bgSecondary};
@@ -101,8 +107,6 @@ ${fontImportCSS}/* [AtomDesignToken] Live Injected Theme Variables */
   --atom-nav-default-activeText: ${color.textPrimary};
 
   /* Atom System Specific Variables */
-  --atom-color-primary: ${safePrimary};
-  --atom-color-primary-hover: ${safePrimaryHover};
   --atom-color-primary-subtle: ${color.primaryLight};
   --atom-color-secondary: ${color.secondary || (isDark ? '#334155' : '#e2e8f0')};
   --atom-color-secondary-hover: ${color.secondaryHover || (isDark ? '#475569' : '#cbd5e1')};

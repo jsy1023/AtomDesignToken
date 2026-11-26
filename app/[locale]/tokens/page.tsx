@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 
 import { useThemeEditor } from '@/components/editor/ThemeEditorProvider';
+import { exportToCSS, exportToTailwind } from '@/lib/services/themeEngine';
 import {
   atomTokens,
   TokenCategory,
@@ -41,7 +42,7 @@ import { Button, Input, Badge, NativeSelect, Table, TableHeader, TableBody, Tabl
 type TokenJsonLayerSlice = 'all' | 'palette' | 'theme' | 'components';
 
 export default function TokensPage() {
-  const { theme, updateColor, updateBorderRadius } = useThemeEditor();
+  const { theme, updateColor, updateBorderRadius, resetTheme, isDirty } = useThemeEditor();
   const { t } = useI18n();
   const [activeCategory, setActiveCategory] = useState<TokenCategory | 'json'>('color');
   const [jsonLayer, setJsonLayer] = useState<TokenJsonLayerSlice>('all');
@@ -49,15 +50,29 @@ export default function TokensPage() {
   const [copiedJson, setCopiedJson] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
-  const tokenJsonData = atomTokens.document;
+  // Live Token Customizer State linked to ThemeEditor across all pages
+  const liveBrandColor = theme?.color?.primary || 'var(--accent-primary)';
+  const liveRadius = theme?.borderRadius || '16px';
+
+  // Reflect live custom brand / radius / surface overrides inside exported tokens.json
+  const tokenJsonData = React.useMemo(() => {
+    const cloned = JSON.parse(JSON.stringify(atomTokens.document));
+    if (isDirty) {
+      cloned.customOverrides = {
+        primary: liveBrandColor,
+        bgPrimary: theme?.color?.bgPrimary,
+        bgSecondary: theme?.color?.bgSecondary,
+        textPrimary: theme?.color?.textPrimary,
+        borderRadius: liveRadius,
+      };
+    }
+    return cloned;
+  }, [isDirty, liveBrandColor, liveRadius, theme?.color?.bgPrimary, theme?.color?.bgSecondary, theme?.color?.textPrimary]);
+
   const displayedJsonText =
     jsonLayer === 'all'
       ? JSON.stringify(tokenJsonData, null, 2)
       : JSON.stringify({ [jsonLayer]: tokenJsonData[jsonLayer] }, null, 2);
-
-  // Live Token Customizer State linked to ThemeEditor
-  const liveBrandColor = theme?.color?.primary || 'var(--accent-primary)';
-  const liveRadius = theme?.borderRadius || '16px';
 
   const handleCopy = (variable: string) => {
     navigator.clipboard.writeText(variable);
@@ -71,16 +86,30 @@ export default function TokensPage() {
     setTimeout(() => setCopiedJson(false), 2000);
   };
 
-  const handleDownloadJson = () => {
-    const blob = new Blob([displayedJsonText], {
-      type: 'application/json',
-    });
+  const triggerDownload = (content: string, filename: string, mimeType: string) => {
+    const blob = new Blob([content], { type: mimeType });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = jsonLayer === 'all' ? 'tokens.json' : `tokens.${jsonLayer}.json`;
+    a.download = filename;
     a.click();
     URL.revokeObjectURL(url);
+  };
+
+  const handleDownloadJson = () => {
+    triggerDownload(
+      displayedJsonText,
+      jsonLayer === 'all' ? 'tokens.json' : `tokens.${jsonLayer}.json`,
+      'application/json'
+    );
+  };
+
+  const handleDownloadCss = () => {
+    triggerDownload(exportToCSS(theme), 'atom-ui.custom.css', 'text/css');
+  };
+
+  const handleDownloadTailwind = () => {
+    triggerDownload(exportToTailwind(theme), 'tailwind.config.ts', 'text/typescript');
   };
 
   // Color tokens mapped with current live brand color
@@ -707,7 +736,17 @@ export default function TokensPage() {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
+                  {isDirty && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={resetTheme}
+                      className="text-xs font-medium text-(--text-secondary)"
+                    >
+                      초기화
+                    </Button>
+                  )}
                   <Button
                     variant="outline"
                     size="sm"
@@ -720,6 +759,26 @@ export default function TokensPage() {
                       <Copy className="w-3.5 h-3.5" />
                     )}
                     <span>{copiedJson ? t('common.copied') : t('tokens.jsonCopy')}</span>
+                  </Button>
+
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleDownloadCss}
+                    className="inline-flex items-center gap-1 text-xs font-semibold"
+                  >
+                    <Download className="w-3.5 h-3.5" />
+                    <span>atom-ui.css</span>
+                  </Button>
+
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleDownloadTailwind}
+                    className="inline-flex items-center gap-1 text-xs font-semibold"
+                  >
+                    <Download className="w-3.5 h-3.5" />
+                    <span>tailwind.config.ts</span>
                   </Button>
 
                   <Button
