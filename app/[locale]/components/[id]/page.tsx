@@ -48,7 +48,7 @@ function resolveComponentDoc(id: string): GalleryComponent | undefined {
       callout: {
         type: 'tip',
         title: '로컬 스튜디오 SSOT 자동 연동 컴포넌트',
-        text: `이 문서는 tokens/studio.registry.json 및 ${
+        text: `이 문서는 tokens/tokens.json 및 ${
           studioDef.sourceFile || `components/ui/${pascal}.tsx`
         } 정의와 실시간 동기화됩니다.`,
       },

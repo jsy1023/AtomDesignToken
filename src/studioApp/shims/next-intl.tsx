@@ -1,17 +1,20 @@
 import React, { createContext, useContext, useState } from 'react';
 import koMessages from '../../../messages/ko.json';
 import enMessages from '../../../messages/en.json';
+import jaMessages from '../../../messages/ja.json';
 
 type Messages = Record<string, unknown>;
+export type StudioLocale = 'ko' | 'en' | 'ja';
 
-const MESSAGES_BY_LOCALE: Record<string, Messages> = {
+const MESSAGES_BY_LOCALE: Record<StudioLocale, Messages> = {
   ko: koMessages as Messages,
   en: enMessages as Messages,
+  ja: jaMessages as Messages,
 };
 
 interface LocaleContextValue {
-  locale: string;
-  setLocale: (locale: 'ko' | 'en') => void;
+  locale: StudioLocale;
+  setLocale: (locale: StudioLocale) => void;
 }
 
 const LocaleContext = createContext<LocaleContextValue>({
@@ -20,17 +23,17 @@ const LocaleContext = createContext<LocaleContextValue>({
 });
 
 export function StudioLocaleProvider({ children }: { children: React.ReactNode }) {
-  const [locale, setLocaleState] = useState<'ko' | 'en'>(() => {
+  const [locale, setLocaleState] = useState<StudioLocale>(() => {
     try {
       const saved = localStorage.getItem('atomsystem_studio_locale');
-      if (saved === 'en' || saved === 'ko') return saved;
+      if (saved === 'en' || saved === 'ko' || saved === 'ja') return saved;
     } catch {
       // ignore
     }
     return 'ko';
   });
 
-  const setLocale = (next: 'ko' | 'en') => {
+  const setLocale = (next: StudioLocale) => {
     setLocaleState(next);
     try {
       localStorage.setItem('atomsystem_studio_locale', next);
@@ -50,7 +53,7 @@ export function useStudioLocaleControl() {
   return useContext(LocaleContext);
 }
 
-export function useLocale(): string {
+export function useLocale(): StudioLocale {
   return useContext(LocaleContext).locale;
 }
 

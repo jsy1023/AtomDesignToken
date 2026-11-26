@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const targetDirs = ['app', 'components'];
+const targetDirs = ['app', 'components', 'src/studioApp'];
 const excludePaths = [
   'components/ui',
   'components/common/icons',

@@ -86,12 +86,12 @@ AI 어시스턴트는 화면을 구축할 때 **임의의 원시 HTML 인터랙�
 > **Component-First 원칙**: 필요한 UI 컴포넌트가 `@/components/ui`에 존재하지 않을 경우, 절대로 화면 페이지 내에 인라인으로 날림 태그를 구현하지 마십시오. 먼저 `components/ui/`에 원자 컴포넌트를 신설하고 `components/ui/index.ts`에 export한 뒤 페이지에서 import하여 사용하십시오.
 
 ### 🤖 AI 컴포넌트 표준 제출 & 스튜디오 자동 반영 프로토콜 (SSOT Registry)
-로컬 스튜디오(`tokens/studio.registry.json`)가 프로젝트 전체 컴포넌트·토큰의 단일 기준(SSOT)입니다. 새로운 컴포넌트를 요청받으면 아래 표준 양식과 CLI/API를 통해 스튜디오 및 프로젝트 전체에 자동 반영하십시오:
+통합 토큰·컴포넌트 문서(`tokens/tokens.json`)가 프로젝트 전체 컴포넌트·토큰의 단일 기준(SSOT)입니다. 새로운 컴포넌트를 요청받으면 아래 표준 양식과 CLI/API를 통해 스튜디오 및 프로젝트 전체에 자동 반영하십시오:
 1. **양식 확인**: `npx atomsystem schema` (표준 JSON 스펙) 또는 `npx atomsystem schema --prompt` 실행
 2. **제출 및 자동 생성**:
    - CLI 제출: `npx atomsystem submit <component>.atom.json`
-   - 또는 스튜디오 API 제출: `POST /api/studio/components` (혹은 `/studio` 좌측 상단 `+ AI 제출` 모달 사용)
-   - 자동으로 `components/ui/<PascalName>.tsx`, `components/ui/index.ts`, `tokens/studio.registry.json`, `tokens/tokens.json`, `css/atom-ui.css`가 일괄 갱신되어 `/studio`와 `/components/<id>` 문서에 즉시 동기화됩니다.
+   - 또는 로컬 스튜디오 API 제출: `npx atomsystem studio` 실행 후 `POST http://localhost:4000/api/studio/components` (혹은 스튜디오 좌측 상단 `+ AI 제출` 모달 사용)
+   - 자동으로 `components/ui/<PascalName>.tsx`, `components/ui/index.ts`, `tokens/tokens.json`, `css/atom-ui.css`가 일괄 갱신되어 로컬 스튜디오와 `/components/<id>` 문서에 즉시 동기화됩니다.
 3. **기존/수동 컴포넌트 동기화**: `npx atomsystem sync` (또는 `npx atomsystem studio` 실행)로 `components/ui/` 디렉토리를 스캔하여 레지스트리와 CSS를 최신화합니다.
 
 ---

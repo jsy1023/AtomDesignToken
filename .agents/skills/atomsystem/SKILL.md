@@ -20,12 +20,12 @@ description: AI Agent가 디자인 가이드 Markdown(토스, 당근, 커스텀 
    - `palette`: 기본 원천 색상 및 척도
    - `white` / `dark`: 테마별 시멘틱 토큰 (`primary`, `bg-surface`, `text-primary`, `border-default` 등)
 
-### 단계 2: 토큰 빌드 (Style Dictionary)
-토큰 수정 후 즉시 빌드 스크립트를 실행하여 전역 CSS 변수와 TS 타입을 업데이트합니다.
+### 단계 2: 토큰 컴파일 (Zero-Runtime CSS)
+토큰 수정 후 즉시 CLI 컴파일러를 실행하여 전역 CSS 변수를 업데이트합니다.
 ```bash
-node build/build-tokens.js
+npx atomsystem build:tokens
 ```
-- 생성 파일: `build/css/_variables.css`, `build/typescript/theme.ts`
+- 생성/갱신 파일: `css/atom-ui.css`
 
 ### 단계 3: 대상 환경(Framework) 파악 & 컴포넌트/스타일 생성
 사용자의 프로젝트 환경에 맞춰 **절대적 접근성(Zero Dependency / Framework-Agnostic)** 원칙에 따라 UI를 제공합니다:
@@ -105,8 +105,8 @@ export function TransferCard() {
 ---
 
 ## 🛠 주요 명령어 및 Semantic Triggers
-- `"토스 스타일로 디자인해줘"` → `presets/toss.md` 로드 → `tokens/tokens.json` 갱신 → `node build/build-tokens.js` 실행 → 요청 화면 생성
-- `"당근 스타일로 디자인해줘"` → `presets/daangn.md` 로드 → `tokens/tokens.json` 갱신 → `node build/build-tokens.js` 실행 → 요청 화면 생성
+- `"토스 스타일로 디자인해줘"` → `presets/toss.md` 로드 → `tokens/tokens.json` 갱신 → `npx atomsystem build:tokens` 실행 → 요청 화면 생성
+- `"당근 스타일로 디자인해줘"` → `presets/daangn.md` 로드 → `tokens/tokens.json` 갱신 → `npx atomsystem build:tokens` 실행 → 요청 화면 생성
 - `"내가 준 [가이드.md] 기반으로 디자인해줘"` → 가이드 파싱 → 토큰 반영 및 빌드 → 컴포넌트 생성
 
 ---
@@ -115,7 +115,7 @@ export function TransferCard() {
 1. **표준 명세(JSON) 조회**: `npx atomsystem schema` (`--prompt` 옵션으로 AI 프롬프트 출력)
 2. **스튜디오 제출 & 프로젝트 자동 반영**:
    - CLI: `npx atomsystem submit <component>.atom.json`
-   - 로컬 스튜디오 Web/API: `POST /api/studio/components` (`npx atomsystem studio` 또는 `/studio` `+ AI 제출` 버튼)
-   - 자동으로 `components/ui/<PascalName>.tsx`, `components/ui/index.ts`, `tokens/studio.registry.json`, `tokens/token.json`, `css/atom-ui.css`가 갱신됩니다.
+   - 로컬 스튜디오 Web/API: `npx atomsystem studio` 실행 후 `POST http://localhost:4000/api/studio/components` (`+ AI 제출` 버튼)
+   - 자동으로 `components/ui/<PascalName>.tsx`, `components/ui/index.ts`, `tokens/tokens.json`, `css/atom-ui.css`가 갱신됩니다.
 3. **기존 컴포넌트 자동 스캔**: `npx atomsystem sync` 실행 시 `components/ui/*.tsx` 및 `*.atom.json`을 탐지해 레지스트리와 CSS를 동기화합니다.
 - `"jQuery 환경인데 버튼이랑 모달 만들어줘"` → Universal `atom-ui.css` 기반 HTML & jQuery 스크립트 작성

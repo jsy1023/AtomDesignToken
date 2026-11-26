@@ -39,10 +39,10 @@ export function Header() {
         <Button
           variant="ghost"
           size="sm"
-          onClick={() => setLocale(locale === 'ko' ? 'en' : 'ko')}
+          onClick={() => setLocale(locale === 'ko' ? 'en' : locale === 'en' ? 'ja' : 'ko')}
           className="text-xs font-mono"
         >
-          {locale === 'ko' ? 'KO' : 'EN'}
+          {locale.toUpperCase()}
         </Button>
         <Button
           variant="ghost"
