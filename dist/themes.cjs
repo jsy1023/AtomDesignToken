@@ -5938,7 +5938,7 @@ var tokens_default = {
   registrySchema: "https://system.atomground.com/schemas/studio-registry.schema.json",
   name: "AtomDesignToken System",
   version: "0.14.2",
-  updatedAt: "2026-11-26T07:07:07.618Z",
+  updatedAt: "2026-11-26T07:10:12.437Z",
   palette: {
     color: {
       blue: {

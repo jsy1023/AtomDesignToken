@@ -3407,7 +3407,7 @@ var tokens_default = {
   registrySchema: "https://system.atomground.com/schemas/studio-registry.schema.json",
   name: "AtomDesignToken System",
   version: "0.14.2",
-  updatedAt: "2026-11-26T07:07:07.618Z",
+  updatedAt: "2026-11-26T07:10:12.437Z",
   palette: {
     color: {
       blue: {
@@ -12200,5 +12200,5 @@ function studioThemeToThemeConfig(st, palettes) {
 }
 
 export { AI_COMPONENT_SUBMISSION_TEMPLATE, AtomTokenSystem, COLOR_PRESETS, COMPONENT_STATUS_PRESETS, ComponentTokenLayer, DEFAULT_BRAND_CONFIG, DEFAULT_COMPONENT_TYPES, DEFAULT_THEME_CONFIG, FONT_FAMILY_PRESETS, INITIAL_PALETTE_VARIABLES, INITIAL_SEMANTIC_STATUS_TOKENS, INITIAL_STUDIO_COMPONENTS, INITIAL_STUDIO_THEMES, PaletteTokenLayer, SEMANTIC_VARIABLE_DICTIONARY, ThemeTokenLayer, TokenReferenceResolver, UNIFIED_TOKENS_DOCUMENT, atomTokens, buildAiComponentSubmissionPrompt, componentTokens, getComponentStatusProperties, getComponentTypes, isUnifiedTokensDocument, paletteTokens, resolveStudioComponentId, resolveThemeColors, resolveTypeSpec, resolveVariableRole, studioThemeToThemeConfig, themeTokens, tokenResolver };
-//# sourceMappingURL=chunk-TZQJ7SHU.js.map
-//# sourceMappingURL=chunk-TZQJ7SHU.js.map
+//# sourceMappingURL=chunk-NPYZNBUR.js.map
+//# sourceMappingURL=chunk-NPYZNBUR.js.map
