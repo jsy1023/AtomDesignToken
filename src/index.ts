@@ -7,10 +7,13 @@
 export * from '../lib/data/tokens';
 export * from '../lib/data/components';
 export * from '../lib/data/patterns';
-export * from '../lib/data/awesomeThemes';
+export * from '../lib/data/themeData';
 export * from '../lib/data/themeEditorDefaults';
 export * from '../lib/data/studioData';
 export * from '../lib/tokens';
+
+// 2. Atomic UI Components (35 Zero-Raw-HTML Primitives)
+export * from '../components/ui';
 
 // 2. Theme / Studio Engines & Utilities
 export * from '../lib/services/themeEngine';
