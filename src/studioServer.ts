@@ -15,10 +15,50 @@ import {
   submitComponentSpec,
 } from '../lib/services/studioRegistryServer';
 
+const MAX_BODY_BYTES = 10 * 1024 * 1024; // 10MB guard
+const LOCAL_ORIGIN_RE = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i;
+
+function isAllowedOrigin(origin: string | undefined, allowFigmaNull = false): boolean {
+  if (!origin) return true; // Same-origin non-CORS or local CLI/Node request
+  if (LOCAL_ORIGIN_RE.test(origin)) return true;
+  if (allowFigmaNull && origin === 'null') return true;
+  return false;
+}
+
+function applyCorsHeaders(
+  req: http.IncomingMessage,
+  res: http.ServerResponse,
+  allowFigmaNull = false
+): boolean {
+  const origin = req.headers.origin;
+  const secFetchSite = req.headers['sec-fetch-site'];
+
+  if (origin) {
+    if (!isAllowedOrigin(origin, allowFigmaNull)) {
+      return false;
+    }
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Vary', 'Origin');
+  } else if (secFetchSite === 'cross-site') {
+    return false;
+  }
+
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-Atom-Client');
+  return true;
+}
+
 function readRequestBody(req: http.IncomingMessage): Promise<string> {
   return new Promise((resolve, reject) => {
     let body = '';
-    req.on('data', (chunk) => {
+    let bytes = 0;
+    req.on('data', (chunk: Buffer | string) => {
+      bytes += typeof chunk === 'string' ? Buffer.byteLength(chunk) : chunk.length;
+      if (bytes > MAX_BODY_BYTES) {
+        req.destroy();
+        reject(new Error('Payload too large'));
+        return;
+      }
       body += chunk;
     });
     req.on('end', () => resolve(body));
@@ -43,8 +83,9 @@ function getStudioDistDir(): string {
   }
 }
 
-export function startLocalTokenStudio(options: { port?: number; cwd?: string } = {}) {
-  const port = options.port || 4000;
+export function startLocalTokenStudio(options: { port?: number; host?: string; cwd?: string } = {}) {
+  const port = options.port ?? 4000;
+  const host = options.host || '127.0.0.1';
   const cwd = options.cwd || process.cwd();
 
   const tokenJsonPath = path.join(cwd, 'tokens', 'tokens.json');
@@ -52,17 +93,24 @@ export function startLocalTokenStudio(options: { port?: number; cwd?: string } =
   const registryPath = path.join(cwd, 'tokens', 'tokens.json');
 
   const server = http.createServer(async (req, res) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    const url = new URL(req.url || '/', `http://localhost:${port}`);
+    const isCodeWriteEndpoint =
+      url.pathname === '/api/studio/components' || url.pathname === '/api/studio/import';
+    const allowFigmaNull = !isCodeWriteEndpoint;
 
-    if (req.method === 'OPTIONS') {
-      res.writeHead(200);
-      res.end();
+    if (!applyCorsHeaders(req, res, allowFigmaNull)) {
+      sendJson(res, 403, {
+        success: false,
+        error: 'Forbidden: Cross-origin access to Local Studio is restricted to localhost.',
+      });
       return;
     }
 
-    const url = new URL(req.url || '/', `http://localhost:${port}`);
+    if (req.method === 'OPTIONS') {
+      res.writeHead(204);
+      res.end();
+      return;
+    }
 
     // 1. SSOT Studio Registry API
     if (url.pathname === '/api/studio/registry' && req.method === 'GET') {
@@ -266,9 +314,9 @@ export function startLocalTokenStudio(options: { port?: number; cwd?: string } =
     res.end('Not Found');
   });
 
-  server.listen(port, () => {
+  server.listen(port, host, () => {
     console.log(`\n🎨 AtomSystem Local SSOT Studio running at:`);
-    console.log(`   👉 http://localhost:${port}\n`);
+    console.log(`   👉 http://localhost:${port} (bound to ${host})\n`);
     console.log(`   Registry SSOT : ${path.relative(cwd, registryPath)}`);
     console.log(`   Tokens file   : ${path.relative(cwd, tokenJsonPath)}`);
     console.log(`   Compiled CSS  : ${path.relative(cwd, cssPath)}`);
@@ -512,17 +560,34 @@ function getStudioHtml(): string {
       renderComponentDetail();
     }
 
+    function esc(v) {
+      return String(v == null ? '' : v)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
     function renderComponentList() {
       if (!registryState) return;
       const q = (document.getElementById('comp-search').value || '').toLowerCase();
       const listEl = document.getElementById('comp-list');
+      listEl.innerHTML = '';
       const items = registryState.components.filter((c) => c.name.toLowerCase().includes(q) || c.id.toLowerCase().includes(q));
-      listEl.innerHTML = items.map((c) =>
-        '<button class="comp-item ' + (c.id === selectedCompId ? 'active' : '') + '" onclick="selectComponent(\\'' + c.id + '\\')">' +
-          '<span>' + c.name + '</span>' +
-          '<span class="meta-mono">' + (c.types ? c.types.length + 'T / ' : '') + c.variables.length + 'V</span>' +
-        '</button>'
-      ).join('');
+      items.forEach((c) => {
+        const btn = document.createElement('button');
+        btn.className = 'comp-item ' + (c.id === selectedCompId ? 'active' : '');
+        btn.onclick = () => selectComponent(c.id);
+        const nameSpan = document.createElement('span');
+        nameSpan.textContent = c.name;
+        const metaSpan = document.createElement('span');
+        metaSpan.className = 'meta-mono';
+        metaSpan.textContent = (c.types ? c.types.length + 'T / ' : '') + c.variables.length + 'V';
+        btn.appendChild(nameSpan);
+        btn.appendChild(metaSpan);
+        listEl.appendChild(btn);
+      });
     }
 
     function selectComponent(id) {
@@ -537,20 +602,20 @@ function getStudioHtml(): string {
       const container = document.getElementById('comp-detail');
       if (!comp) return;
       const typesHtml = (comp.types || []).map((t) =>
-        '<div class="spec-card"><div class="spec-title">' + t.name + '</div><div class="meta-mono">type="' + t.id + '"</div><p class="spec-sub" style="margin-top:6px;">' + (t.whenToUse || t.description || '') + '</p></div>'
+        '<div class="spec-card"><div class="spec-title">' + esc(t.name) + '</div><div class="meta-mono">type="' + esc(t.id) + '"</div><p class="spec-sub" style="margin-top:6px;">' + esc(t.whenToUse || t.description || '') + '</p></div>'
       ).join('') || '<div class="meta-mono">기본 Standard Type 사용</div>';
 
       const varsHtml = (comp.variables || []).map((v) =>
-        '<div class="spec-card"><div class="spec-title">' + v.name + '</div><div class="meta-mono">variable="' + v.id + '"</div><div class="meta-mono" style="margin-top:6px;">' +
-          Object.entries(v.tokenBindings || {}).slice(0, 4).map(([k, val]) => k + ': ' + val).join('<br>') +
+        '<div class="spec-card"><div class="spec-title">' + esc(v.name) + '</div><div class="meta-mono">variable="' + esc(v.id) + '"</div><div class="meta-mono" style="margin-top:6px;">' +
+          Object.entries(v.tokenBindings || {}).slice(0, 4).map(([k, val]) => esc(k) + ': ' + esc(val)).join('<br>') +
         '</div></div>'
       ).join('');
 
       container.innerHTML =
         '<div style="display:flex; justify-content:space-between; align-items:start; gap:12px; border-bottom:1px solid var(--border); padding-bottom:12px;">' +
-          '<div><h2 style="font-size:18px; font-weight:800;">' + comp.name + '</h2><p class="desc">' + comp.description + '</p>' +
-          (comp.sourceFile ? '<div class="meta-mono" style="margin-top:4px;">📄 ' + comp.sourceFile + '</div>' : '') + '</div>' +
-          '<span class="badge">' + comp.category + '</span>' +
+          '<div><h2 style="font-size:18px; font-weight:800;">' + esc(comp.name) + '</h2><p class="desc">' + esc(comp.description) + '</p>' +
+          (comp.sourceFile ? '<div class="meta-mono" style="margin-top:4px;">📄 ' + esc(comp.sourceFile) + '</div>' : '') + '</div>' +
+          '<span class="badge">' + esc(comp.category) + '</span>' +
         '</div>' +
         '<h3 style="font-size:13px; margin-top:16px;">1. Types (' + ((comp.types || []).length) + ')</h3>' +
         '<div class="cards">' + typesHtml + '</div>' +

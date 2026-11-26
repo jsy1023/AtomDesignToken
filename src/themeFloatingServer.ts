@@ -6,9 +6,13 @@ import { compileTokensToCss } from './tokenCompiler';
 
 export interface FloatingThemeServerOptions {
   port?: number;
+  host?: string;
   cwd?: string;
   openBrowser?: boolean;
 }
+
+const LOCAL_ORIGIN_RE = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i;
+const MAX_BODY_BYTES = 1024 * 1024; // 1MB guard
 
 interface ThemeSummary {
   id: string;
@@ -136,7 +140,13 @@ function getFloatingInjectScript(port: number): string {
       var item = document.createElement('button');
       item.type = 'button';
       item.style.cssText = 'width:100%;display:flex;align-items:center;justify-content:space-between;padding:7px 9px;margin:2px 0;border-radius:8px;border:1px solid transparent;background:' + (th.id===activeId?'rgba(59,130,246,.15)':'transparent') + ';color:inherit;font-size:12px;cursor:pointer;text-align:left;';
-      item.innerHTML = '<span>' + th.name + '</span><span style="opacity:.7;font-size:11px">' + (th.id===activeId?'✓':th.mode) + '</span>';
+      var nameSpan = document.createElement('span');
+      nameSpan.textContent = th.name;
+      var modeSpan = document.createElement('span');
+      modeSpan.style.cssText = 'opacity:.7;font-size:11px';
+      modeSpan.textContent = th.id===activeId ? '✓' : th.mode;
+      item.appendChild(nameSpan);
+      item.appendChild(modeSpan);
       item.onclick = function(){
         applyCss(th);
         btn.textContent = '🎨 ' + th.name;
@@ -276,17 +286,31 @@ function getFloatingWidgetHtml(): string {
       for (const th of themes) {
         const btn = document.createElement('button');
         btn.className = 'theme-item' + (th.id === activeId ? ' active' : '');
-        btn.innerHTML =
-          '<div class="theme-left">' +
-            '<div class="swatch" style="background:' + th.bgPrimary + '">' +
-              '<div class="swatch-dot" style="background:' + th.brandColor + '"></div>' +
-            '</div>' +
-            '<div>' +
-              '<div class="theme-name">' + th.name + '</div>' +
-              '<div class="theme-desc">' + (th.description || th.id) + '</div>' +
-            '</div>' +
-          '</div>' +
-          '<span class="theme-meta">' + (th.id === activeId ? '✓ Active' : th.mode) + '</span>';
+        const left = document.createElement('div');
+        left.className = 'theme-left';
+        const swatch = document.createElement('div');
+        swatch.className = 'swatch';
+        swatch.style.backgroundColor = th.bgPrimary || '';
+        const dot = document.createElement('div');
+        dot.className = 'swatch-dot';
+        dot.style.backgroundColor = th.brandColor || '';
+        swatch.appendChild(dot);
+        const textWrap = document.createElement('div');
+        const nameEl = document.createElement('div');
+        nameEl.className = 'theme-name';
+        nameEl.textContent = th.name;
+        const descEl = document.createElement('div');
+        descEl.className = 'theme-desc';
+        descEl.textContent = th.description || th.id;
+        textWrap.appendChild(nameEl);
+        textWrap.appendChild(descEl);
+        left.appendChild(swatch);
+        left.appendChild(textWrap);
+        const meta = document.createElement('span');
+        meta.className = 'theme-meta';
+        meta.textContent = th.id === activeId ? '✓ Active' : th.mode;
+        btn.appendChild(left);
+        btn.appendChild(meta);
         btn.onclick = async () => {
           const status = document.getElementById('status-text');
           status.textContent = '적용 중...';
@@ -316,11 +340,27 @@ function getFloatingWidgetHtml(): string {
 
 export function startFloatingThemeServer(options: FloatingThemeServerOptions = {}): http.Server {
   const port = options.port ?? 4010;
+  const host = options.host ?? '127.0.0.1';
   const cwd = options.cwd ?? process.cwd();
   const tokenJsonPath = path.join(cwd, 'tokens', 'tokens.json');
 
   const server = http.createServer((req, res) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
+    const origin = req.headers.origin;
+    const secFetchSite = req.headers['sec-fetch-site'];
+    if (origin) {
+      if (!LOCAL_ORIGIN_RE.test(origin)) {
+        res.writeHead(403, { 'Content-Type': 'application/json; charset=utf-8' });
+        res.end(JSON.stringify({ success: false, error: 'Forbidden: Localhost origins only.' }));
+        return;
+      }
+      res.setHeader('Access-Control-Allow-Origin', origin);
+      res.setHeader('Vary', 'Origin');
+    } else if (secFetchSite === 'cross-site') {
+      res.writeHead(403, { 'Content-Type': 'application/json; charset=utf-8' });
+      res.end(JSON.stringify({ success: false, error: 'Forbidden: Cross-site access denied.' }));
+      return;
+    }
+
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     if (req.method === 'OPTIONS') {
@@ -351,7 +391,13 @@ export function startFloatingThemeServer(options: FloatingThemeServerOptions = {
 
     if (req.method === 'POST' && url.pathname === '/api/theme') {
       let body = '';
-      req.on('data', (chunk) => {
+      let bytes = 0;
+      req.on('data', (chunk: Buffer | string) => {
+        bytes += typeof chunk === 'string' ? Buffer.byteLength(chunk) : chunk.length;
+        if (bytes > MAX_BODY_BYTES) {
+          req.destroy();
+          return;
+        }
         body += chunk;
       });
       req.on('end', () => {
@@ -372,10 +418,10 @@ export function startFloatingThemeServer(options: FloatingThemeServerOptions = {
     res.end(getFloatingWidgetHtml());
   });
 
-  server.listen(port, () => {
+  server.listen(port, host, () => {
     const url = `http://localhost:${port}`;
     console.log(`\n🎨 AtomSystem Floating Theme Menu running at:`);
-    console.log(`   👉 ${url}\n`);
+    console.log(`   👉 ${url} (bound to ${host})\n`);
     console.log(`   Tokens file : ${path.relative(cwd, tokenJsonPath)}`);
     console.log(`   Target CSS  : css/atom-ui.css`);
     console.log(`\nPress Ctrl+C to stop the floating theme menu.\n`);

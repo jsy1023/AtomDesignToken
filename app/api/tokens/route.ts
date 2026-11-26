@@ -29,23 +29,44 @@ export async function GET() {
   }
 }
 
-export async function OPTIONS() {
+const LOCAL_ORIGIN_RE = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i;
+
+function getCorsHeaders(origin: string | null, allowNull = false): Record<string, string> {
+  const headers: Record<string, string> = {
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, X-Atom-Client',
+  };
+  if (origin && (LOCAL_ORIGIN_RE.test(origin) || (allowNull && origin === 'null'))) {
+    headers['Access-Control-Allow-Origin'] = origin;
+    headers['Vary'] = 'Origin';
+  }
+  return headers;
+}
+
+export async function OPTIONS(req: NextRequest) {
+  const origin = req.headers.get('origin');
+  if (origin && !LOCAL_ORIGIN_RE.test(origin) && origin !== 'null') {
+    return NextResponse.json({ error: 'Forbidden origin' }, { status: 403 });
+  }
   return new NextResponse(null, {
     status: 204,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type',
-    },
+    headers: getCorsHeaders(origin, true),
   });
 }
 
 export async function POST(req: NextRequest) {
-  // Security Guard: Restrict file modification to local development environments only
+  // Security Guard: Restrict file modification to local development environments & local origins only
   const host = req.headers.get('host') || '';
-  const isLocal = host.includes('localhost') || host.includes('127.0.0.1') || process.env.NODE_ENV === 'development';
+  const origin = req.headers.get('origin');
+  const secFetchSite = req.headers.get('sec-fetch-site');
+  const isLocalHost =
+    (host.startsWith('localhost') || host.startsWith('127.0.0.1')) &&
+    process.env.NODE_ENV !== 'production';
+  const isAllowedOrigin = !origin
+    ? secFetchSite !== 'cross-site'
+    : LOCAL_ORIGIN_RE.test(origin) || origin === 'null';
 
-  if (!isLocal) {
+  if (!isLocalHost || !isAllowedOrigin) {
     return NextResponse.json({
       error: 'Forbidden: Studio token modification is only available in local development environments (npx atomsystem studio).',
     }, { status: 403 });
